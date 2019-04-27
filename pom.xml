@@ -8,6 +8,9 @@
   <!-- modules -->
   <modules>
   	<module>capitalismx-example</module>
+      <module>capitalismx-game</module>
+      <module>capitalismx-ui</module>
+      <module>capitalismx-utils</module>
   </modules>
   
   <dependencies>
