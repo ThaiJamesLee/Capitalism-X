@@ -1,5 +1,8 @@
-package de.uni.mannheim.capitalismxhr.employee;
+package de.uni.mannheim.capitalismx.hr.employee;
 
+/**
+ * @author duly
+ */
 public interface Person {
 
     /**
