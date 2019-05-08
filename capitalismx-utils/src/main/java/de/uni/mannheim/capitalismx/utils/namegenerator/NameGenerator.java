@@ -76,20 +76,20 @@ public class NameGenerator {
             JsonElement jname = results.get(0).getAsJsonObject().get("name");
             JsonElement jgender = results.get(0).getAsJsonObject().get("gender");
 
-            String firstName = toName(jname.getAsJsonObject().get("first").toString());
+            String firstName = toName(jname.getAsJsonObject().get("first").getAsString());
 
-            String lastName = toName(jname.getAsJsonObject().get("last").toString());
+            String lastName = toName(jname.getAsJsonObject().get("last").getAsString());
 
-            String title = toName(jname.getAsJsonObject().get("title").toString());
+            String title = toName(jname.getAsJsonObject().get("title").getAsString());
 
-            String eMail = results.get(0).getAsJsonObject().get("email").toString();
+            String eMail = results.get(0).getAsJsonObject().get("email").getAsString();
 
             String gender = jgender.toString();
 
             JsonElement jLoc = results.get(0).getAsJsonObject().get("location");
 
-            String street = jLoc.getAsJsonObject().get("street").toString();
-            String city = jLoc.getAsJsonObject().get("city").toString();
+            String street = jLoc.getAsJsonObject().get("street").getAsString();
+            String city = toName(jLoc.getAsJsonObject().get("city").getAsString());
             int postcode = Integer.parseInt(jLoc.getAsJsonObject().get("postcode").toString());
 
             LocationData ld = new LocationData(postcode, street, city);
@@ -104,10 +104,8 @@ public class NameGenerator {
 
 
     public String toName(String name) {
-        //TODO does not work as intended yet
         String letter = name.substring(0, 1).toUpperCase();
         return letter + name.substring(1);
     }
-
 
 }
