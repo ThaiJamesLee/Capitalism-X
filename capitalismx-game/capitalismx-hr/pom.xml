@@ -11,5 +11,25 @@
 
     <artifactId>capitalismx-hr</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

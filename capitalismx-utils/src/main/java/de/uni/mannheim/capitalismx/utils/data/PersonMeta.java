@@ -1,6 +1,4 @@
-package de.uni.mannheim.capitalismx.utils.namegenerator;
-
-import de.uni.mannheim.capitalismx.utils.data.LocationData;
+package de.uni.mannheim.capitalismx.utils.data;
 
 /**
  * This class contains is a POJO holding meta data of a person.

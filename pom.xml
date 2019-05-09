@@ -18,59 +18,71 @@
         <slf4jVersion>1.6.1</slf4jVersion>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- testing -->
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>6.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.8.5</version>
+            </dependency>
+            <!-- logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4jVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4jVersion}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
   <dependencies>
-      <!-- logging -->
-      <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-          <version>${slf4jVersion}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-simple</artifactId>
-          <version>${slf4jVersion}</version>
-      </dependency>
 
-      <!-- apache -->
-      <dependency>
-          <groupId>org.apache.httpcomponents</groupId>
-          <artifactId>httpclient</artifactId>
-          <version>4.5.8</version>
-      </dependency>
-      <dependency>
-          <groupId>org.apache.httpcomponents</groupId>
-          <artifactId>httpcore</artifactId>
-          <version>4.4.11</version>
-      </dependency>
-      <dependency>
-          <groupId>org.apache.httpcomponents</groupId>
-          <artifactId>fluent-hc</artifactId>
-          <version>4.5.8</version>
-      </dependency>
 
-      <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-core</artifactId>
-          <version>2.9.8</version>
-      </dependency>
-      <dependency>
-          <groupId>com.google.code.gson</groupId>
-          <artifactId>gson</artifactId>
-          <version>2.8.5</version>
-      </dependency>
   </dependencies>
 
   <build>
   	<!-- plugins -->
   	<pluginManagement>
   		<plugins>
+
             <!-- json parsing -->
             <plugin>
                 <artifactId>json</artifactId>
                 <groupId>org.json</groupId>
                 <version>20180813</version>
             </plugin>
+            <!-- apache -->
+            <plugin>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.8</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>4.4.11</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>fluent-hc</artifactId>
+                <version>4.5.8</version>
+            </plugin>
 
+            <plugin>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.9.8</version>
+            </plugin>
         </plugins>
   	</pluginManagement>
   	<!-- plugins -->

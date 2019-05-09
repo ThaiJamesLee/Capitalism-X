@@ -6,11 +6,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.uni.mannheim.capitalismx.utils.data.LocationData;
+import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import javax.management.NotificationEmitter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -69,9 +69,7 @@ public class NameGenerator {
             JsonElement ele = parser.parse(jsonData);
             JsonObject jsonObject = ele.getAsJsonObject();
 
-            // logger.info(jsonObject.toString());
             JsonArray results = jsonObject.getAsJsonArray("results");
-            // logger.info(results.toString());
 
             JsonElement jname = results.get(0).getAsJsonObject().get("name");
             JsonElement jgender = results.get(0).getAsJsonObject().get("gender");

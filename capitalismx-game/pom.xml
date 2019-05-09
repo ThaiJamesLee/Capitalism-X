@@ -22,5 +22,21 @@
         <module>capitalismx-finance</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+            </plugin>
+        </plugins>
+
+    </build>
 
 </project>

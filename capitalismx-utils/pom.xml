@@ -12,28 +12,20 @@
     <artifactId>capitalismx-utils</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <!-- logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
-
-            <!-- json -->
-            <plugin>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-            </plugin>
-
-            <!-- logging -->
-            <plugin>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-            </plugin>
-
             <!-- apache -->
             <plugin>
                 <groupId>org.apache.httpcomponents</groupId>
