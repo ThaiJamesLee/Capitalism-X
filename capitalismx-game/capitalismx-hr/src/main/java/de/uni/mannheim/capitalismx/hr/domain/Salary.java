@@ -1,5 +1,9 @@
 package de.uni.mannheim.capitalismx.hr.domain;
 
+/**
+ * This class contains the salary and skill level ranges.
+ * @author duly
+ */
 public enum Salary {
 
     TIER_0 (0, 20, 38000, 45000),
@@ -14,6 +18,13 @@ public enum Salary {
     private int lowerSalary;
     private int upperSalary;
 
+    /**
+     *
+     * @param lowerLevel lower bound of skill level
+     * @param upperLevel upper bound of skill level
+     * @param lowerSalary lower bound of salary for this skill level range
+     * @param upperSalary upper bound of salary for this skill level range
+     */
     Salary(int lowerLevel, int upperLevel, int lowerSalary, int upperSalary) {
         this.lowerLevel = lowerLevel;
         this.upperLevel = upperLevel;

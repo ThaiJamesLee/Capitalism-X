@@ -24,7 +24,7 @@ public class NameGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(NameGenerator.class);
 
-    private NameGenerator() {}
+    public NameGenerator() {}
 
     /**
      * Makes a get request to https://randomuser.me/api/

@@ -18,6 +18,7 @@
         <slf4jVersion>1.6.1</slf4jVersion>
     </properties>
 
+
     <dependencyManagement>
         <dependencies>
             <!-- testing -->
@@ -44,11 +45,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-  <dependencies>
-
-
-  </dependencies>
 
   <build>
   	<!-- plugins -->
@@ -85,10 +81,6 @@
             </plugin>
         </plugins>
   	</pluginManagement>
-  	<!-- plugins -->
-  	<plugins>
-
-  	</plugins>
 
 
   </build>

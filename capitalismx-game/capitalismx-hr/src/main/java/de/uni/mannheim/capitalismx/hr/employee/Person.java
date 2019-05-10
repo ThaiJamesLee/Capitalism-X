@@ -17,4 +17,9 @@ public interface Person {
      */
     String getID();
 
+    /**
+     *
+     */
+    String getGender();
+
 }

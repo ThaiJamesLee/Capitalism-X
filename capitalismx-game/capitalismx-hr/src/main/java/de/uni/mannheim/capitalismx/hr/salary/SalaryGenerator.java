@@ -10,7 +10,7 @@ public class SalaryGenerator {
     public SalaryGenerator() { }
 
     /**
-     *
+     * Calculates a random salary that is in the predefined ranges.
      * @param skillLevel the skill level of an employee
      * @return Returns a salary based on the skill level
      */
