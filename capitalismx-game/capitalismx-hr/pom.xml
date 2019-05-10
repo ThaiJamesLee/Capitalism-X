@@ -17,18 +17,14 @@
             <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
 
-            <plugin>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-            </plugin>
         </plugins>
     </build>
 

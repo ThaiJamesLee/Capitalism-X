@@ -27,16 +27,18 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
 
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

@@ -8,6 +8,8 @@ public abstract class Employee implements Person {
     private int salary;
     private int skillLevel;
 
+    private int jobSatisfaction;
+
     private String id;
 
     private String firstName;
@@ -23,9 +25,13 @@ public abstract class Employee implements Person {
         this.skillLevel = skillLevel;
     }
 
-    public void setPosition() {
+    public void setPosition(String position) {
         this.position = position;
     }
+
+    public void setJobSatisfaction(int jobSatisfaction) { this.jobSatisfaction = jobSatisfaction; }
+
+    public int getJobSatisfaction() { return jobSatisfaction; }
 
     public String getPosition() {
         return position;

@@ -1,12 +1,16 @@
 package de.uni.mannheim.capitalismx.hr.salary;
 
+import de.uni.mannheim.capitalismx.hr.domain.Salary;
 import de.uni.mannheim.capitalismx.hr.exceptions.NoDefinedTierException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
 public class SalaryGeneratorTest {
 
+    private static final Logger logger = LoggerFactory.getLogger(SalaryGeneratorTest.class);
 
     @Test
     public void rangeTestTier0() {
@@ -31,7 +35,7 @@ public class SalaryGeneratorTest {
                 Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_1.getUpperSalary());
                 Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_1.getLowerLevel());
             } catch (NoDefinedTierException e) {
-
+                logger.error(e.getMessage());
             }
         }
     }
@@ -45,7 +49,7 @@ public class SalaryGeneratorTest {
                 Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_2.getUpperSalary());
                 Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_2.getLowerLevel());
             } catch (NoDefinedTierException e) {
-
+                logger.error(e.getMessage());
             }
         }
     }
@@ -59,7 +63,7 @@ public class SalaryGeneratorTest {
                 Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_3.getUpperSalary());
                 Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_3.getLowerLevel());
             } catch (NoDefinedTierException e) {
-
+                logger.error(e.getMessage());
             }
         }
     }
@@ -73,7 +77,7 @@ public class SalaryGeneratorTest {
                 Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_4.getUpperSalary());
                 Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_4.getLowerLevel());
             } catch (NoDefinedTierException e) {
-
+                logger.error(e.getMessage());
             }
         }
     }
@@ -89,7 +93,6 @@ public class SalaryGeneratorTest {
     public void smallInputTest() throws NoDefinedTierException {
         new SalaryGenerator().getSalary(-999);
         new SalaryGenerator().getSalary(-9);
-
     }
 
 

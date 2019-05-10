@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.hr.salary;
+package de.uni.mannheim.capitalismx.hr.domain;
 
 public enum Salary {
 

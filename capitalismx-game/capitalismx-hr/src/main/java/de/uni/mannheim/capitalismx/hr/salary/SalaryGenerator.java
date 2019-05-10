@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.salary;
 
+import de.uni.mannheim.capitalismx.hr.domain.Salary;
 import de.uni.mannheim.capitalismx.hr.exceptions.NoDefinedTierException;
 
 import java.security.SecureRandom;
