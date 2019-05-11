@@ -31,7 +31,7 @@ public class NameGenerator {
      * @return Returns a json String containing some fakedata
      * @throws IOException throws Exception if no connection, or URL not resolvable.
      */
-    private String getGeneratedUser() throws IOException {
+    public String getGeneratedUser() throws IOException {
         String userJson = "";
 
         URL urlForGetRequest = new URL("https://randomuser.me/api/");

@@ -46,6 +46,14 @@ public enum Benefit {
 
     private String name;
 
+    /**
+     *  Constructor
+     * @param type the BenefitType enum
+     * @param tier benefit tier, the higher, the better the benefit
+     * @param points the points for the benefit, usually also the higher the tier the higher the points
+     * @param monetaryImpact cost for company when enabling this benefit
+     * @param name name of the benefit as a string
+     */
     Benefit(BenefitTypes type, int tier, int points, int monetaryImpact, String name) {
         this.type = type;
         this.points = points;
