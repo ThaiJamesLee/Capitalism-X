@@ -7,9 +7,9 @@ public class LocationData {
 
     private String street;
     private String city;
-    private int postCode;
+    private String postCode;
 
-    public LocationData(int postCode, String street, String city) {
+    public LocationData(String postCode, String street, String city) {
         this.city = city;
         this.street = street;
         this.postCode = postCode;
@@ -23,7 +23,7 @@ public class LocationData {
         return city;
     }
 
-    public int getPostCode() {
+    public String getPostCode() {
         return postCode;
     }
 

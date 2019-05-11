@@ -21,7 +21,7 @@ public class SalaryGeneratorTest {
                 Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_0.getUpperSalary());
                 Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_0.getLowerLevel());
             } catch (NoDefinedTierException e) {
-
+                logger.error(e.getMessage());
             }
         }
     }

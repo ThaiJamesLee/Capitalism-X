@@ -7,10 +7,11 @@ import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
  */
 public abstract class Employee implements Person {
 
-    private int salary;
+    private double salary;
     private int skillLevel;
 
     private int jobSatisfaction;
+    private double qualityOfWork;
 
     private String id;
 
@@ -59,7 +60,7 @@ public abstract class Employee implements Person {
 
     public void setJobSatisfaction(int jobSatisfaction) { this.jobSatisfaction = jobSatisfaction; }
 
-    public void setSalary(int salary) { this.salary = salary; }
+    public void setSalary(double salary) { this.salary = salary; }
 
     public void setSkillLevel(int skillLevel) { this.skillLevel = skillLevel; }
 
@@ -72,6 +73,7 @@ public abstract class Employee implements Person {
     public void setGender(String gender) { this.gender = gender; }
 
     public void seteMail(String eMail) { this.eMail = eMail; }
+
 
     public String getFirstName() { return firstName; }
 
@@ -86,7 +88,6 @@ public abstract class Employee implements Person {
     }
 
     /**
-     *
      * @return Returns "firstname lastname"
      */
     public String getName(){
@@ -99,7 +100,7 @@ public abstract class Employee implements Person {
 
     public String getGender() { return gender; }
 
-    public int getSalary() { return salary; }
+    public double getSalary() { return salary; }
 
     public int getSkillLevel() { return skillLevel; }
 

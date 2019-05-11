@@ -10,45 +10,48 @@ import java.util.List;
  */
 public enum Benefit {
 
-    SALARY_BELOW_AVERAGE (BenefitTypes.SALARY, 0, 0, "Salary below average"),
-    SALARY_ON_AVERAGE (BenefitTypes.SALARY,2, 0, "Salary on average"),
-    SALARY_ABOVE_AVERAGE (BenefitTypes.SALARY,4, 0, "Salary above average"),
+    SALARY_BELOW_AVERAGE (BenefitTypes.SALARY, 0,0, 0, "Salary below average"),
+    SALARY_ON_AVERAGE (BenefitTypes.SALARY, 1, 2, 0, "Salary on average"),
+    SALARY_ABOVE_AVERAGE (BenefitTypes.SALARY,2,4, 0, "Salary above average"),
 
-    WTM_FIXED_MODEL(BenefitTypes.WORKING_TIME_MODEL, 0, 0, "Fixed Model"),
-    WTM_FLEXTIME_MODEL(BenefitTypes.WORKING_TIME_MODEL, 1, 0, "Flextime Model"),
-    WTM_TB(BenefitTypes.WORKING_TIME_MODEL, 2, 0, "Trust-based"),
-    WTM_TB_AND_HO_ONCE_A_WEEK (BenefitTypes.WORKING_TIME_MODEL, 3, 0, "Trust-based + Home Office once a week"),
-    WTM_TB_AND_ALWAYS_HO_ALLOWED (BenefitTypes.WORKING_TIME_MODEL, 4, 0, "Trust-based + Home Office always allowed"),
+    WTM_FIXED_MODEL(BenefitTypes.WORKING_TIME_MODEL, 0,0, 0, "Fixed Model"),
+    WTM_FLEXTIME_MODEL(BenefitTypes.WORKING_TIME_MODEL, 1,1, 0, "Flextime Model"),
+    WTM_TB(BenefitTypes.WORKING_TIME_MODEL, 2,2, 0, "Trust-based"),
+    WTM_TB_AND_HO_ONCE_A_WEEK (BenefitTypes.WORKING_TIME_MODEL,3, 3, 0, "Trust-based + Home Office once a week"),
+    WTM_TB_AND_ALWAYS_HO_ALLOWED (BenefitTypes.WORKING_TIME_MODEL, 4,4, 0, "Trust-based + Home Office always allowed"),
 
-    WT_TEN_HOURS (BenefitTypes.WORKTIME, 0, 0, "10 Hours"),
-    WT_EIGHT_HOURS (BenefitTypes.WORKTIME, 3, 0, "8 Hours"),
-    WT_SIX_HOURS (BenefitTypes.WORKTIME, 5, -1000, "6 Hours"),
+    WT_TEN_HOURS (BenefitTypes.WORKTIME, 0,0, 0, "10 Hours"),
+    WT_EIGHT_HOURS (BenefitTypes.WORKTIME, 1,3, 0, "8 Hours"),
+    WT_SIX_HOURS (BenefitTypes.WORKTIME, 2,5, -1000, "6 Hours"),
 
-    CC_NOT_OFFERED (BenefitTypes.COMPANY_CAR, 0, 0, "Not offered"),
-    CC_MEDIUM_SIZE (BenefitTypes.COMPANY_CAR, 2, -300, "Medium Size"),
-    CC_FULL_SIZE (BenefitTypes.COMPANY_CAR, 4, -600, "Full Size"),
+    CC_NOT_OFFERED (BenefitTypes.COMPANY_CAR, 0,0, 0, "Not offered"),
+    CC_MEDIUM_SIZE (BenefitTypes.COMPANY_CAR, 1,2, -300, "Medium Size"),
+    CC_FULL_SIZE (BenefitTypes.COMPANY_CAR, 2,4, -600, "Full Size"),
 
-    IT_AVERAGE (BenefitTypes.IT_EQUIPMENT, 0, 0, "Average IT Equipment"),
-    IT_HIGH_END (BenefitTypes.IT_EQUIPMENT, 2, -50, "High-End IT Equipment"),
+    IT_AVERAGE (BenefitTypes.IT_EQUIPMENT, 0,0, 0, "Average IT Equipment"),
+    IT_HIGH_END (BenefitTypes.IT_EQUIPMENT, 1,2, -50, "High-End IT Equipment"),
 
-    FOOD_AND_COFFEE_FREE (BenefitTypes.FOOD_AND_COFFEE, 4, -100, "Employee Payment"),
-    FOOD_AND_COFFEE_NOT_FREE (BenefitTypes.IT_EQUIPMENT, 0, 0, "Offered for free"),
+    FOOD_AND_COFFEE_FREE (BenefitTypes.FOOD_AND_COFFEE, 0,4, -100, "Employee Payment"),
+    FOOD_AND_COFFEE_NOT_FREE (BenefitTypes.IT_EQUIPMENT, 1,0, 0, "Offered for free"),
 
-    GYM_NOT_OFFERED (BenefitTypes.GYM_AND_SPORTS, 0, 0, "Not offered"),
-    GYM_SUBSIDIZED (BenefitTypes.GYM_AND_SPORTS, 2, -40, "Subsidized"),
-    GYM_FREE (BenefitTypes.GYM_AND_SPORTS, 4, -100, "Offered for free");
+    GYM_NOT_OFFERED (BenefitTypes.GYM_AND_SPORTS, 0,0, 0, "Not offered"),
+    GYM_SUBSIDIZED (BenefitTypes.GYM_AND_SPORTS, 1,2, -40, "Subsidized"),
+    GYM_FREE (BenefitTypes.GYM_AND_SPORTS, 2,4, -100, "Offered for free");
 
     private BenefitTypes type;
     private int points;
     private int monetaryImpact;
 
+    private int tier;
+
     private String name;
 
-    Benefit(BenefitTypes type, int points, int monetaryImpact, String name) {
+    Benefit(BenefitTypes type, int tier, int points, int monetaryImpact, String name) {
         this.type = type;
         this.points = points;
         this.monetaryImpact = monetaryImpact;
         this.name = name;
+        this.tier = tier;
     }
 
     public int getPoints() {
@@ -58,6 +61,8 @@ public enum Benefit {
     public int getMonetaryImpact() {
         return monetaryImpact;
     }
+
+    public int getTier() { return tier; }
 
     public BenefitTypes getType() {
         return type;

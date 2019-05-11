@@ -88,7 +88,7 @@ public class NameGenerator {
 
             String street = jLoc.getAsJsonObject().get("street").getAsString();
             String city = toName(jLoc.getAsJsonObject().get("city").getAsString());
-            int postcode = Integer.parseInt(jLoc.getAsJsonObject().get("postcode").toString());
+            String postcode = jLoc.getAsJsonObject().get("postcode").toString();
 
             LocationData ld = new LocationData(postcode, street, city);
 
