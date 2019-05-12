@@ -47,6 +47,9 @@ public class BenefitSettings {
     }
 
     public void setBenefits(Map<BenefitTypes, Benefit> benefits) {
+        if (benefits == null) {
+            throw new NullPointerException("Benefits can not be null!");
+        }
         this.benefits = benefits;
     }
 
@@ -55,6 +58,9 @@ public class BenefitSettings {
      * @param benefit and the benefit
      */
     public void changeBenefit( Benefit benefit) {
+        if (benefit == null) {
+            throw new NullPointerException("Benefit must be non Null object!");
+        }
         benefits.put(benefit.getType(), benefit);
     }
 }

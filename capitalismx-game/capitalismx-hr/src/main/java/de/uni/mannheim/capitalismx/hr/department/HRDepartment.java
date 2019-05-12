@@ -6,6 +6,9 @@ import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.JobSatisfaction;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.Team;
+import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -14,6 +17,8 @@ import java.util.*;
  * @author duly
  */
 public class HRDepartment {
+
+    private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
 
     private BenefitSettings benefitSettings;
 
@@ -52,7 +57,13 @@ public class HRDepartment {
      */
     public double getTotalJSS () {
         double og = getOriginalScale();
-        return new JobSatisfaction().getJobSatisfactionScore(og);
+        double totalJss = 0;
+        try {
+            totalJss = new JobSatisfaction().getJobSatisfactionScore(og);
+        } catch (UnsupportedValueException e) {
+            logger.error(e.getMessage());
+        }
+        return totalJss;
     }
 
     /**

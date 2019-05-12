@@ -1,7 +1,7 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
 import de.uni.mannheim.capitalismx.hr.employee.impl.Engineer;
-import de.uni.mannheim.capitalismx.hr.exceptions.NoDefinedTierException;
+import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
 import de.uni.mannheim.capitalismx.hr.salary.SalaryGenerator;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 import de.uni.mannheim.capitalismx.utils.namegenerator.NameGenerator;
