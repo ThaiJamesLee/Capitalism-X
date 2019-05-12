@@ -5,9 +5,11 @@ import de.uni.mannheim.capitalismx.hr.exceptions.NoDefinedTierException;
 
 import java.security.SecureRandom;
 
-public class SalaryGenerator {
 
-    public SalaryGenerator() { }
+/**
+ * @author duly
+ */
+public class SalaryGenerator {
 
     /**
      * Calculates a random salary that is in the predefined ranges.

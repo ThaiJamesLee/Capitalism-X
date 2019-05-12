@@ -1,5 +1,9 @@
 package de.uni.mannheim.capitalismx.hr.domain;
 
+/**
+ * See p. 25
+ * @author duly
+ */
 public enum BenefitTypes {
 
     SALARY ("Salary"),

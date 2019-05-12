@@ -1,8 +1,10 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
+import de.uni.mannheim.capitalismx.utils.data.LocationData;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 /**
+ * Generic Employee, every employee type must inherit from this class.
  * @author duly
  */
 public abstract class Employee implements Person {
@@ -10,20 +12,21 @@ public abstract class Employee implements Person {
     private double salary;
     private int skillLevel;
 
-    private int jobSatisfaction;
+    private double jobSatisfaction;
     private double qualityOfWork;
 
     private String id;
 
     private String firstName;
     private String lastName;
-
     private String title;
     private String gender;
 
     private String position;
 
     private String eMail;
+
+    private LocationData locationData;
 
     public Employee(PersonMeta metaData) {
         this.firstName = metaData.getFirstName();
@@ -58,7 +61,7 @@ public abstract class Employee implements Person {
         this.position = position;
     }
 
-    public void setJobSatisfaction(int jobSatisfaction) { this.jobSatisfaction = jobSatisfaction; }
+    public void setJobSatisfaction(double jobSatisfaction) { this.jobSatisfaction = jobSatisfaction; }
 
     public void setSalary(double salary) { this.salary = salary; }
 
@@ -74,6 +77,23 @@ public abstract class Employee implements Person {
 
     public void seteMail(String eMail) { this.eMail = eMail; }
 
+    public void setQualityOfWork(double qualityOfWork) {
+        this.qualityOfWork = qualityOfWork;
+    }
+
+    public void setLocationData(LocationData locationData) {
+        this.locationData = locationData;
+    }
+
+
+
+    public LocationData getLocationData() {
+        return locationData;
+    }
+
+    public double getQualityOfWork() {
+        return qualityOfWork;
+    }
 
     public String getFirstName() { return firstName; }
 
@@ -81,7 +101,7 @@ public abstract class Employee implements Person {
 
     public String getTitle() { return title; }
 
-    public int getJobSatisfaction() { return jobSatisfaction; }
+    public double getJobSatisfaction() { return jobSatisfaction; }
 
     public String getPosition() {
         return position;

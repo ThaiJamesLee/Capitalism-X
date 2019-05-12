@@ -14,6 +14,10 @@ public class BenefitSettings {
 
     private Map<BenefitTypes, Benefit> benefits;
 
+    public BenefitSettings () {
+        initBenefitSettings();
+    }
+
     public BenefitSettings (Map<BenefitTypes, Benefit> benefits) {
         this.benefits = benefits;
     }
@@ -38,4 +42,19 @@ public class BenefitSettings {
         //TODO load exsisting settings, if available
     }
 
+    public Map<BenefitTypes, Benefit> getBenefits() {
+        return benefits;
+    }
+
+    public void setBenefits(Map<BenefitTypes, Benefit> benefits) {
+        this.benefits = benefits;
+    }
+
+    /**
+     * Overwrite the benefit with the same benefit type with new benefit
+     * @param benefit and the benefit
+     */
+    public void changeBenefit( Benefit benefit) {
+        benefits.put(benefit.getType(), benefit);
+    }
 }

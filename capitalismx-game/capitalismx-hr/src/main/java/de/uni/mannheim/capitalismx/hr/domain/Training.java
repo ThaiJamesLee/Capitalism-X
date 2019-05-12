@@ -1,5 +1,9 @@
 package de.uni.mannheim.capitalismx.hr.domain;
 
+/**
+ * see p. 27
+ * @author duly
+ */
 public enum Training {
 
     COURSES (3000, 1, 1.01),

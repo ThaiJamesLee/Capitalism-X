@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.hr.domain;
 
 /**
  * This class contains the salary and skill level ranges.
+ * See p. 23
  * @author duly
  */
 public enum Salary {

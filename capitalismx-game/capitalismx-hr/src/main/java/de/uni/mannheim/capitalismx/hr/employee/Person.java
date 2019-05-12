@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
 /**
+ * Interface with predefined must have function.
  * @author duly
  */
 public interface Person {
@@ -17,9 +18,8 @@ public interface Person {
      */
     String getID();
 
-    /**
-     *
-     */
     String getGender();
+    String getFirstName();
+    String getLastName();
 
 }
