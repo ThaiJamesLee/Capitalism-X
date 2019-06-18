@@ -4,9 +4,9 @@ public enum ComponentCategory {
 
     N_CPU ("Notebook CPU"),
     N_DISPLAYCASE ("Notebook Display Case"),
-    N_SOFTWARE ("Notebook Software"),,
-    N_STORAGE ("Notebook Storage"),,
-    N_POWERSUPPLY ("Notebook Power Supply"),,
+    N_SOFTWARE ("Notebook Software"),
+    N_STORAGE ("Notebook Storage"),
+    N_POWERSUPPLY ("Notebook Power Supply"),
 
     P_POWERSUPPLY ("Phone Power Supply"),
     P_DISPLAYCASE ("Phone Display Case"),
