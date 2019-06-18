@@ -71,10 +71,10 @@ public class UIManager {
 		Parent root;
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			root = loader.load(getClass().getResource("../fxml/mainmenu.fxml"));
+			root = loader.load(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"));
 			GameScene scene = new GameScene(new Scene(root), GameSceneType.MENU_MAIN, loader.getController());
 			sceneMenuMain = scene;
-			root = loader.load(getClass().getResource("../fxml/gamepage.fxml"));
+			root = loader.load(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
 			scene = new GameScene(new Scene(root), GameSceneType.GAME_PAGE, loader.getController());
 			sceneGamePage = scene;
 		} catch (IOException e) {
@@ -92,7 +92,7 @@ public class UIManager {
 			// GameModule, that is stored in the list
 			for (GameModuleType type : GameModuleType.values()) {
 				FXMLLoader loader = new FXMLLoader();
-				gameModules.add(new GameModule(loader.load(getClass().getResource("../fxml/" + type.fxmlFile)), type,
+				gameModules.add(new GameModule(loader.load(getClass().getClassLoader().getResource("fxml/" + type.fxmlFile)), type,
 						type.gridColStart, type.gridColSpan, type.gridRowStart, type.gridRowSpan,
 						loader.getController()));
 			}
