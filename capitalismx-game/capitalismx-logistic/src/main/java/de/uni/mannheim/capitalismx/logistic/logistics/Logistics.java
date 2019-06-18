@@ -83,7 +83,7 @@ public class Logistics {
     private ArrayList<ExternalPartner> generateExternalPartnerSelection(){
         ArrayList<ExternalPartner> externalPartnerSelection = new ArrayList<ExternalPartner>();
 
-        // generate six trucks according to table on page 49
+        // generate external partners
         externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100),
                 RandomNumberGenerator.getRandomDouble(1.1, 1.3), RandomNumberGenerator.getRandomDouble(0.7, 0.9)));
         externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70),
