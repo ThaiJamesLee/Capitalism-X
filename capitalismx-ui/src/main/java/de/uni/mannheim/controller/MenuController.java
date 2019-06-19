@@ -3,9 +3,13 @@ package de.uni.mannheim.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.fxml.Initializable;
-
-public class MenuController implements Initializable {
+/**
+ * Controller for the menu on the GamePage.
+ * 
+ * @author Jonathan
+ *
+ */
+public class MenuController extends UIController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

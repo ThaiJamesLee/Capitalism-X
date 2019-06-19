@@ -6,10 +6,15 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.application.Main;
 import de.uni.mannheim.components.GameSceneType;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
-public class MainMenuController implements Initializable {
+/**
+ * Controller for the main menu.
+ * 
+ * @author Jonathan
+ *
+ */
+public class MainMenuController extends UIController {
 
 	@FXML
 	private Button newGameButton;
@@ -19,8 +24,7 @@ public class MainMenuController implements Initializable {
 		newGameButton.setOnAction(e -> {
 			Main.getManager().switchToScene(GameSceneType.GAME_PAGE);
 		});
-		
+
 	}
-	
-	
+
 }
