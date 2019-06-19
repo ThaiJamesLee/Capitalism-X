@@ -218,7 +218,7 @@ public enum Component {
     }
 
     /* has to be calculated on the first January of every year, might be better to use it in the get Method*/
-    public void calculateBaseCost() {
+    public double calculateBaseCost() {
         /* Placeholder for Gamestate Game Year*/
         int gameYear = 2019;
         double tBPM = 0.0001 * Math.pow((gameYear - this.availabilityDate + 1), 5)
@@ -229,6 +229,7 @@ public enum Component {
                 + 142.7889;
         double tBCP = this.initialComponentPrice * (tBPM / 100);
         this.baseCost = tBCP * this.supplierCostMultiplicator;
+        return this.baseCost;
     }
 
     /* function placeholder for RandomNumberGenerator of utils @sdupper*/
