@@ -42,7 +42,7 @@ public enum GameModuleType {
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
 	// The contentType of the module.
-	private GameViewType contentType;
+	public GameViewType viewType;
 	// Starting column position in the grid.
 	public final int gridColStart;
 	// Number of columns spanned by the module in the grid.
@@ -56,17 +56,25 @@ public enum GameModuleType {
 	 * Create a new {@link GameModuleType} with default values for the actual
 	 * modules.
 	 * 
-	 * @param id          The unique id of the type.
-	 * @param fxmlFile    The name of the fxml-file defining this type.
-	 * @param contentType The contentType of this module.
-	 * @param colStart    Starting column position in the grid.
-	 * @param colSpan     Number of columns spanned by the module in the grid.
-	 * @param rowStart    Starting row position in the grid.
-	 * @param rowSpan     Number of rows spanned by the module in the grid.
+	 * @param id
+	 *            The unique id of the type.
+	 * @param fxmlFile
+	 *            The name of the fxml-file defining this type.
+	 * @param viewType
+	 *            The contentType of this module.
+	 * @param colStart
+	 *            Starting column position in the grid.
+	 * @param colSpan
+	 *            Number of columns spanned by the module in the grid.
+	 * @param rowStart
+	 *            Starting row position in the grid.
+	 * @param rowSpan
+	 *            Number of rows spanned by the module in the grid.
 	 */
-	private GameModuleType(int id, String fxmlFile, GameViewType contentType, int colStart, int colSpan,
-			int rowStart, int rowSpan) {
+	private GameModuleType(int id, String fxmlFile, GameViewType viewType, int colStart, int colSpan, int rowStart,
+			int rowSpan) {
 		this.id = id;
+		this.viewType = viewType;
 		this.fxmlFile = fxmlFile;
 		this.gridColStart = colStart;
 		this.gridColSpan = colSpan;

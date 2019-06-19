@@ -1,12 +1,10 @@
 package de.uni.mannheim.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.components.GameModule;
-import de.uni.mannheim.components.GameViewType;
+import de.uni.mannheim.components.GameView;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 
@@ -22,17 +20,11 @@ public class GamePageController extends GameController {
 	@FXML
 	private GridPane moduleGrid;
 
-	// List of the currently displayed Modules
-	private List<GameModule> currentActiveModules;
-
 	// The type of content that is currently being displayed.
-	private GameViewType currentActiveContentType = GameViewType.GAME_OVERVIEW;
+	private GameView currentActiveView;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		currentActiveModules = new ArrayList<GameModule>();
-
-		// load modules
 
 	}
 
@@ -40,13 +32,14 @@ public class GamePageController extends GameController {
 	public void update() {
 
 	}
-	
+
 	/**
-	 * Switches the displayed contentType by removing all {@link GameModule}s of that type.
-	 * @param contentType
+	 * Switches the displayed contentType by removing all {@link GameModule}s of
+	 * that type.
 	 */
-	public void switchContentType(GameViewType contentType) {
-		for(GameModule module : currentActiveModules) {
+	public void switchContentType() {
+		// TODO new view
+		for (GameModule module : currentActiveView.getModules()) {
 			moduleGrid.getChildren().remove(module.getRootElement());
 		}
 	}

@@ -1,6 +1,7 @@
 package de.uni.mannheim.components;
 
 import de.uni.mannheim.controller.GameController;
+import de.uni.mannheim.utils.GridPosition;
 import javafx.scene.Parent;
 
 /**
@@ -18,84 +19,63 @@ public class GameModule {
 	// The type of the module.
 	private GameModuleType type;
 
+	// The type of the view owning the module.
+	private GameViewType owningViewType;
+
 	// The controller of the module's FX-Components.
 	private GameController controller;
 
-	// Starting column position in the grid.
-	private int gridColStart;
-	// Number of columns spanned by the module in the grid.
-	private int gridColSpan;
-	// Starting row position in the grid.
-	private int gridRowStart;
-	// Number of rows spanned by the module in the grid.
-	private int gridRowSpan;
+	// The module's position on the grid.
+	private GridPosition gridPosition;
 
-	public Parent getRootElement() {
-		return rootElement;
-	}
-
-	public void setRootElement(Parent rootElement) {
-		this.rootElement = rootElement;
-	}
-
-	public int getGridColStart() {
-		return gridColStart;
-	}
-
-	public void setGridColStart(int gridColStart) {
-		this.gridColStart = gridColStart;
-	}
-
-	public int getGridColSpan() {
-		return gridColSpan;
-	}
-
-	public void setGridColSpan(int gridColSpan) {
-		this.gridColSpan = gridColSpan;
-	}
-
-	public int getGridRowStart() {
-		return gridRowStart;
-	}
-
-	public void setGridRowStart(int gridRowStart) {
-		this.gridRowStart = gridRowStart;
-	}
-
-	public int getGridRowSpan() {
-		return gridRowSpan;
-	}
-
-	public void setGridRowSpan(int gridRowSpan) {
-		this.gridRowSpan = gridRowSpan;
-	}
-
-	public GameModuleType getType() {
-		return type;
+	/**
+	 * Constructor for a {@link GameModule}.
+	 * 
+	 * @param root
+	 *            The root element of the module.
+	 * @param type
+	 *            The {@link GameModuleType} of the module.
+	 * @param viewType
+	 *            The {@link GameViewType} of the {@link GameView} owning the
+	 *            module.
+	 * @param gridPosition
+	 *            The {@link GridPosition} of the module.
+	 */
+	public GameModule(Parent root, GameModuleType type, GameViewType viewType, GridPosition gridPosition,
+			GameController controller) {
+		this.rootElement = root;
+		this.type = type;
+		this.owningViewType = viewType;
+		this.setGridPosition(gridPosition);
+		this.controller = controller;
 	}
 
 	public GameController getController() {
 		return controller;
 	}
 
-	/**
-	 * Constructor for a {@link GameModule}.
-	 * 
-	 * @param root     The root element of the module.
-	 * @param type     The {@link GameModuleType} of the module.
-	 * @param colStart The starting column position in the grid.
-	 * @param colSpan  Number of columns spanned by the module in the grid.
-	 * @param rowStart The starting column position in the grid.
-	 * @param rowSpan  Number of rows spanned by the module in the grid.
-	 */
-	public GameModule(Parent root, GameModuleType type, int colStart, int colSpan, int rowStart, int rowSpan,
-			GameController controller) {
-		this.rootElement = root;
-		this.gridColStart = colStart;
-		this.gridColSpan = colSpan;
-		this.gridRowStart = rowStart;
-		this.gridRowSpan = rowSpan;
-		this.controller = controller;
+	public GridPosition getGridPosition() {
+		return gridPosition;
+	}
+
+	public GameViewType getOwningViewType() {
+		return this.owningViewType;
+	}
+
+	public Parent getRootElement() {
+		return rootElement;
+	}
+
+	public GameModuleType getType() {
+		return type;
+	}
+
+	public void setGridPosition(GridPosition gridPosition) {
+		this.gridPosition = gridPosition;
+	}
+
+	public void setRootElement(Parent rootElement) {
+		this.rootElement = rootElement;
 	}
 
 }

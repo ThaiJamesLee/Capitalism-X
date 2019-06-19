@@ -8,6 +8,9 @@ import de.uni.mannheim.components.GameModule;
 import de.uni.mannheim.components.GameModuleType;
 import de.uni.mannheim.components.GameScene;
 import de.uni.mannheim.components.GameSceneType;
+import de.uni.mannheim.components.GameView;
+import de.uni.mannheim.components.GameViewType;
+import de.uni.mannheim.utils.GridPosition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,7 +20,7 @@ public class UIManager {
 
 	private GameScene sceneMenuMain;
 	private GameScene sceneGamePage;
-	private List<GameModule> gameModules;
+	private List<GameView> gameViews;
 
 	private Stage window;
 
@@ -30,13 +33,14 @@ public class UIManager {
 	}
 
 	/**
-	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
+	 * Constructor for the {@link UIManager}. Loads and saves all the
+	 * FXML-files.
 	 * 
-	 * @param stage The primary stage of the application.
+	 * @param stage
+	 *            The primary stage of the application.
 	 */
 	public UIManager(Stage stage) {
 		this.window = stage;
-		this.gameModules = new ArrayList<GameModule>();
 
 		// static loading of the scenes
 		loadScenes();
@@ -45,19 +49,20 @@ public class UIManager {
 		window.setScene(sceneMenuMain.getScene());
 
 		// load all the modules and save them in the gameModules-list
-		preloadModules();
+		preloadViewsAndModules();
 	}
 
 	/**
-	 * Get the requested {@link GameModule} from the list of modules in use.
+	 * Get the requested {@link GameView } from the list of views.
 	 * 
-	 * @param moduleType The type of the module.
-	 * @return The requested {@link GameModule} or null, if no module was found.
+	 * @param viewType
+	 *            The {@link GameViewType} of the view.
+	 * @return The requested {@link GameView} or null, if no view was found.
 	 */
-	public GameModule getGameModule(GameModuleType moduleType) {
-		for (GameModule module : gameModules) {
-			if (module.getType() == moduleType) {
-				return module;
+	public GameView getGameView(GameViewType viewType) {
+		for (GameView view : gameViews) {
+			if (view.getViewType() == viewType) {
+				return view;
 			}
 		}
 		// TODO error handling? Custom Exceptions?
@@ -84,32 +89,45 @@ public class UIManager {
 	}
 
 	/**
-	 * Preloads all the {@link GameModule}s and adds them to the list of modules.
+	 * Preloads all the {@link GameModule}s and adds them to the list of
+	 * modules.
 	 */
-	private void preloadModules() {
-	//	try {
-			// for each predefined GameModuleTypes load the fxml-file and create a new
-			// GameModule, that is stored in the list
+	private void preloadViewsAndModules() {
+		// init list of GameViews
+		gameViews = new ArrayList<GameView>();
+		// create a new GameView for each GameViewType
+		for (GameViewType viewType : GameViewType.values()) {
+			gameViews.add(new GameView(viewType));
+		}
+		try {
+			// for each predefined GameModuleTypes load the fxml-file and create
+			// a new GameModule, that is stored in the list
 			for (GameModuleType type : GameModuleType.values()) {
 				FXMLLoader loader = new FXMLLoader();
-				//gameModules.add(new GameModule(loader.load(getClass().getClassLoader().getResource("fxml/" + type.fxmlFile)), type,
-				//		type.gridColStart, type.gridColSpan, type.gridRowStart, type.gridRowSpan,
-				//		loader.getController()));
-	//		}
-	//	} catch (IOException e) {
+				// create new GridPosition from the type.
+				GridPosition position = new GridPosition(type.gridColStart, type.gridRowStart, type.gridColSpan,
+						type.gridRowSpan);
+				// create new GameModule from the type and add it its view.
+				GameModule module = new GameModule(
+						loader.load(getClass().getClassLoader().getResource("fxml/" + type.fxmlFile)), type,
+						type.viewType, position, loader.getController());
+				getGameView(type.viewType).addModule(module);
+			}
+		} catch (IOException e) {
 			// TODO handle error if module could not be loaded.
-		//		e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Switch to the specified scene.
 	 * 
-	 * @param sceneType The type of the {@link GameScene} to switch to.
+	 * @param sceneType
+	 *            The type of the {@link GameScene} to switch to.
 	 */
 	public void switchToScene(GameSceneType sceneType) {
-		// TODO static scene choice at the moment, maybe change that later if more
-		// scenes are needed
+		// TODO static scene choice at the moment, maybe change that later if
+		// more scenes are needed
 		switch (sceneType) {
 		case MENU_MAIN:
 			window.setScene(sceneMenuMain.getScene());
@@ -122,6 +140,5 @@ public class UIManager {
 			break;
 		}
 	}
-	
 
 }
