@@ -12,13 +12,35 @@
 	<artifactId>capitalismx-ui</artifactId>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx</artifactId>
-			<version>12</version>
-			<type>pom</type>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>12.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>12.0.1</version>
+        </dependency>
+           <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics </artifactId>
+        <version>12.0.1</version>
+        <classifier>win</classifier>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics </artifactId>
+        <version>12.0.1</version>
+        <classifier>linux</classifier>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics </artifactId>
+        <version>12.0.1</version>
+        <classifier>mac</classifier>
+    </dependency>
+    </dependencies>
 	
 	<build>
 
@@ -32,9 +54,22 @@
 		        <source>12</source>
 		        <target>12</target>
 		        <release>12</release>
-		        <mainClass>de.uni.mannheim.application.Main</mainClass>
+		        <mainClass>java/de/uni/mannheim/application/NewMain</mainClass>
     		</configuration>
 		</plugin>	
+		  <plugin>
+      <!-- Build an executable JAR -->
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jar-plugin</artifactId>
+      <version>3.1.0</version>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>de.uni.mannheim.application.NewMain</mainClass>
+          </manifest>
+        </archive>
+      </configuration>
+    </plugin>
   	
  	</plugins>
   	  	

@@ -22,7 +22,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../logo.png" />
+                  <Image url="@../img/logo.png" />
                </image>
             </ImageView>
             <Button fx:id="newGameButton" mnemonicParsing="false" text="New Game" GridPane.rowIndex="1" />

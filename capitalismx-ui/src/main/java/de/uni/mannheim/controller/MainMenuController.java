@@ -22,6 +22,7 @@ public class MainMenuController extends UIController {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		newGameButton.setOnAction(e -> {
+			System.out.println("Main Menu Button pressed!");
 			Main.getManager().switchToScene(GameSceneType.GAME_PAGE);
 		});
 

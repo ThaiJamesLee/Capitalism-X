@@ -87,18 +87,18 @@ public class UIManager {
 	 * Preloads all the {@link GameModule}s and adds them to the list of modules.
 	 */
 	private void preloadModules() {
-		try {
+	//	try {
 			// for each predefined GameModuleTypes load the fxml-file and create a new
 			// GameModule, that is stored in the list
 			for (GameModuleType type : GameModuleType.values()) {
 				FXMLLoader loader = new FXMLLoader();
-				gameModules.add(new GameModule(loader.load(getClass().getClassLoader().getResource("fxml/" + type.fxmlFile)), type,
-						type.gridColStart, type.gridColSpan, type.gridRowStart, type.gridRowSpan,
-						loader.getController()));
-			}
-		} catch (IOException e) {
+				//gameModules.add(new GameModule(loader.load(getClass().getClassLoader().getResource("fxml/" + type.fxmlFile)), type,
+				//		type.gridColStart, type.gridColSpan, type.gridRowStart, type.gridRowSpan,
+				//		loader.getController()));
+	//		}
+	//	} catch (IOException e) {
 			// TODO handle error if module could not be loaded.
-			e.printStackTrace();
+		//		e.printStackTrace();
 		}
 	}
 
