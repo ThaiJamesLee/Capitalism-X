@@ -1,28 +1,64 @@
 package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Product {
+    private ProductCategory productCategory;
     private ArrayList<Component> components = new ArrayList<Component>();
     private double totalProcurementQuality;
     private double totalProductQuality;
     private int numberProducedProducts;
-    private Date launchDate;
+    private LocalDate launchDate;
+    private double totalComponentCosts;
+    private double totalProductVariableCosts;
+    private double totalProductCosts;
 
 
+    public Product(ProductCategory productCategory, ArrayList<Component> components) {
+        this.productCategory = productCategory;
+        this.components = components;
+        this.totalComponentCosts = 0;
+        for(Component c : components) {
+            this.totalComponentCosts += c.getBaseCost();
+        }
+        /* placeholder for ecoCost */
+        int ecoCostPerProduct = 3000;
+        this.totalProductVariableCosts = this.totalComponentCosts + ecoCostPerProduct;
+    }
 
-    public void calculateTotalProcurementQuality() {
+    public ProductCategory getProductCategory() {
+        return this.productCategory;
+    }
+
+    public double getTotalProductVariableCosts() {
+        return totalProductVariableCosts;
+    }
+
+    public double calculateTotalProcurementQuality() {
         for(Component c : components) {
             this.totalProcurementQuality += (0.4 * c.getSupplierEcoIndex() + 0.6 * c.getSupplierQuality()) * c.getBaseUtility();
         }
+        return this.totalProcurementQuality;
     }
 
-    public void calculateTotalProductQuality(double productionTechnologyFactor, double totalEngineerProductivity, double researchAndDevelopmentFactor) {
+    public double calculateTotalProductQuality(double productionTechnologyFactor, double totalEngineerProductivity, double researchAndDevelopmentFactor) {
         /* the math.pow operation calculates the 10th root of totalEignineerProductivity*/
         this.totalProductQuality = this.totalProcurementQuality * productionTechnologyFactor * researchAndDevelopmentFactor * Math.pow(Math.E, Math.log(totalEngineerProductivity)/10);
+        return this.totalProductQuality;
     }
 
+    public double getTotalProductCosts() {
+        return totalProductCosts;
+    }
 
+    public void setLaunchDate(LocalDate launchDate) {
+        this.launchDate = launchDate;
+    }
+
+    public void setTotalProductCosts(double totalProductCosts) {
+        this.totalProductCosts = totalProductCosts;
+    }
 }

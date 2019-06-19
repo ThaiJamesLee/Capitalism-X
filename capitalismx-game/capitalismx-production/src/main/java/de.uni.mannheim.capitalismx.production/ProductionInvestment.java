@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.production;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class ProductionInvestment {
 
@@ -11,8 +12,8 @@ public class ProductionInvestment {
 
     private ProductionInvestmentLevel productionInvestmentLevel;
     /* placeholder for real gameDate*/
-    private Date gameDate;
-    private Date lastInvestmentDate;
+    private LocalDate gameDate;
+    private LocalDate lastInvestmentDate;
     private String name;
 
     /* level of investment; 5k, 10k, 15k, 20k respectively for the levels*/
@@ -51,7 +52,7 @@ public class ProductionInvestment {
      */
     public ProductionInvestmentLevel updateInvestment() {
         /* placeholder until we agreed on the gameDate class */
-        int yearsSinceLastInvestment = 1;
+        int yearsSinceLastInvestment = Period.between(gameDate, lastInvestmentDate).getYears();
         if(yearsSinceLastInvestment == 1) {
             switch(this.productionInvestmentLevel.getLevel()) {
                 case 5:
@@ -76,6 +77,7 @@ public class ProductionInvestment {
         if(this.name.equals("System Security") && this.productionInvestmentLevel.getLevel() < 3) {
             /* placeholder for the real event flag*/
             boolean systemSecurityEventFlag = true;
+            // companyImage--
         }
         return this.productionInvestmentLevel;
     }
@@ -84,7 +86,7 @@ public class ProductionInvestment {
         return this.name + ": " + this.productionInvestmentLevel.toString();
     }
 
-    public Date getLastInvestmentDate() {
+    public LocalDate getLastInvestmentDate() {
         return this.lastInvestmentDate;
     }
 
