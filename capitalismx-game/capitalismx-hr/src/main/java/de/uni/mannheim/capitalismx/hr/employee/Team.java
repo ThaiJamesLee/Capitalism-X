@@ -1,7 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
 import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
 
 import java.util.ArrayList;
 import java.util.List;

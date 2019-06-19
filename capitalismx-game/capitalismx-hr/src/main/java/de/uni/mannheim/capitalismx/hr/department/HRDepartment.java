@@ -20,6 +20,9 @@ public class HRDepartment {
 
     private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
 
+    // base cost for hiring and firing
+    private static final int BASE_COST = 5000;
+
     private BenefitSettings benefitSettings;
 
     private Map<EmployeeType, Team> teams;
@@ -31,12 +34,29 @@ public class HRDepartment {
     }
 
     /**
+     * See p.24
+     * @return Returns the actual hiring cost
+     */
+    public double getHiringCost() {
+        double jss = getTotalJSS()/100;
+        return BASE_COST + BASE_COST*(1-jss);
+    }
+
+    /**
+     * See p.24
+     * @return Returns the actual firing cost
+     */
+    public double getFiringCost() {
+        return BASE_COST;
+    }
+
+    /**
      * Iterates over all teams and get the skill level score of each employee.
      * Calculate the average skill level.
      *
      * @return the average skill level.
      */
-    public double getAverageSkillLevel () {
+    public double getAverageSkillLevel() {
         int totalEmployee = 0;
         double avgSkill = 0; // total sum of skill level
         for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
@@ -55,7 +75,7 @@ public class HRDepartment {
      * The report does not define the total job satisfaction score
      * @return total job satisfaction score
      */
-    public double getTotalJSS () {
+    public double getTotalJSS() {
         double og = getOriginalScale();
         double totalJss = 0;
         try {
@@ -70,7 +90,7 @@ public class HRDepartment {
      * The scale is between 0 - 27
      * @return Returns the sum of points of the current benefit settings.
      */
-    private double getOriginalScale () {
+    private double getOriginalScale() {
         double originalScale = 0;
         for (Map.Entry<BenefitTypes, Benefit> entry : benefitSettings.getBenefits().entrySet()) {
             originalScale += entry.getValue().getPoints();
