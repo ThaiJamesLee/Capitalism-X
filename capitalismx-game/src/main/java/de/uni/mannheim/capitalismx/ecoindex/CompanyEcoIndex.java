@@ -90,4 +90,27 @@ public class CompanyEcoIndex {
     private double calculateEcoCosts(Production production){
         return this.calculateEcoTax() - (production.getProductionTechnology().getRange() + component eL) * 1000;
     }
+
+    private void decreaseEcoIndex(int points){
+        int newPoints = this.ecoIndex.getPoints() - points;
+        if(newPoints < this.ecoIndex.getMin()){
+            if(this.ecoIndex.getIndex() > 3){
+                this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+            }else{
+                //TODO Game Over event
+
+            }
+        }
+        this.ecoIndex.setPoints(newPoints);
+    }
+
+    private void increaseEcoIndex(int points){
+        int newPoints = this.ecoIndex.getPoints() + points;
+        if(newPoints > this.ecoIndex.getMax()){
+            if(this.ecoIndex.getIndex() < 5){
+                this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() - 1];
+            }
+        }
+        this.ecoIndex.setPoints(newPoints);
+    }
 }
