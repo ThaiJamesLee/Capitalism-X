@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
+import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
+
 import java.util.ArrayList;
 
 /**

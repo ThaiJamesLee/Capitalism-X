@@ -40,11 +40,11 @@ public class BankingSystem {
     ArrayList<Loan> generateLoanSelection(double loanAmount){
         ArrayList<Loan> loanSelection = new ArrayList<Loan>();
         //short-term
-        loanSelection.add(new Loan(RandomNumberGenerator.getRandomDouble(0.06, 0.18), RandomNumberGenerator.getRandomInt(1, 12)), loanAmount);
+        loanSelection.add(new Loan(RandomNumberGenerator.getRandomDouble(0.06, 0.18), RandomNumberGenerator.getRandomInt(1, 12), loanAmount);
         //medium-term
-        loanSelection.add(new Loan(RandomNumberGenerator.getRandomDouble(0.03, 0.06), RandomNumberGenerator.getRandomInt(1, 5) * 12), loanAmount);
+        loanSelection.add(new Loan(RandomNumberGenerator.getRandomDouble(0.03, 0.06), RandomNumberGenerator.getRandomInt(1, 5) * 12, loanAmount);
         //long-term
-        loanSelection.add(new Loan(RandomNumberGenerator.getRandomDouble(0.01, 0.03), RandomNumberGenerator.getRandomInt(10, 15) * 12), loanAmount);
+        loanSelection.add(new Loan(RandomNumberGenerator.getRandomDouble(0.01, 0.03), RandomNumberGenerator.getRandomInt(10, 15) * 12, loanAmount);
         return loanSelection;
     }
 
