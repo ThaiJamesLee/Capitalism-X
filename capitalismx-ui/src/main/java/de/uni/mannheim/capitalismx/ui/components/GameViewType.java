@@ -1,4 +1,4 @@
-package de.uni.mannheim.components;
+package de.uni.mannheim.capitalismx.ui.components;
 
 /**
  * Determines which view is currently present on the GamePage.

@@ -1,4 +1,4 @@
-package de.uni.mannheim.application;
+package de.uni.mannheim.capitalismx.ui.application;
 
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
@@ -24,6 +24,7 @@ public class Main extends Application {
 		try {
 
 			manager = new UIManager(primaryStage);
+			manager.init();
 
 			// set Stage boundaries to visible bounds of the main screen TODO adjust and
 			// move somewhere else

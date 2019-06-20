@@ -1,4 +1,4 @@
-package de.uni.mannheim.controller;
+package de.uni.mannheim.capitalismx.ui.controller;
 
 /**
  * Abstract class that defines methods an ingame controller should implement. All
@@ -14,6 +14,8 @@ public abstract class GameController extends UIController {
 	 * Requests the controller to update its components independently.
 	 */
 	public abstract void update();
+	
+	
 
 
 }

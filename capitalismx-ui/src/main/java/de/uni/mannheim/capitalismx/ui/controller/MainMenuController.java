@@ -1,10 +1,10 @@
-package de.uni.mannheim.controller;
+package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.application.Main;
-import de.uni.mannheim.components.GameSceneType;
+import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -27,5 +27,6 @@ public class MainMenuController extends UIController {
 		});
 
 	}
+
 
 }

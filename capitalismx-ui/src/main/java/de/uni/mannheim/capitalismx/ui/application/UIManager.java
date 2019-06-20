@@ -1,16 +1,16 @@
-package de.uni.mannheim.application;
+package de.uni.mannheim.capitalismx.ui.application;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uni.mannheim.components.GameModule;
-import de.uni.mannheim.components.GameModuleType;
-import de.uni.mannheim.components.GameScene;
-import de.uni.mannheim.components.GameSceneType;
-import de.uni.mannheim.components.GameView;
-import de.uni.mannheim.components.GameViewType;
-import de.uni.mannheim.utils.GridPosition;
+import de.uni.mannheim.capitalismx.ui.components.GameModule;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.components.GameScene;
+import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
+import de.uni.mannheim.capitalismx.ui.components.GameView;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -50,6 +50,11 @@ public class UIManager {
 
 		// load all the modules and save them in the gameModules-list
 		preloadViewsAndModules();
+		
+	}
+	
+	public void init() {
+		sceneGamePage.getController().init();
 	}
 
 	/**
@@ -75,11 +80,12 @@ public class UIManager {
 	private void loadScenes() {
 		Parent root;
 		try {
-			FXMLLoader loader = new FXMLLoader();
-			root = loader.load(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"));
+			root = loader.load();
 			GameScene scene = new GameScene(new Scene(root), GameSceneType.MENU_MAIN, loader.getController());
 			sceneMenuMain = scene;
-			root = loader.load(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
+			root = loader.load();
 			scene = new GameScene(new Scene(root), GameSceneType.GAME_PAGE, loader.getController());
 			sceneGamePage = scene;
 		} catch (IOException e) {
@@ -103,13 +109,13 @@ public class UIManager {
 			// for each predefined GameModuleTypes load the fxml-file and create
 			// a new GameModule, that is stored in the list
 			for (GameModuleType type : GameModuleType.values()) {
-				FXMLLoader loader = new FXMLLoader();
+				FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/" + type.fxmlFile));
 				// create new GridPosition from the type.
 				GridPosition position = new GridPosition(type.gridColStart, type.gridRowStart, type.gridColSpan,
 						type.gridRowSpan);
 				// create new GameModule from the type and add it its view.
 				GameModule module = new GameModule(
-						loader.load(getClass().getClassLoader().getResource("fxml/" + type.fxmlFile)), type,
+						loader.load(), type,
 						type.viewType, position, loader.getController());
 				getGameView(type.viewType).addModule(module);
 			}

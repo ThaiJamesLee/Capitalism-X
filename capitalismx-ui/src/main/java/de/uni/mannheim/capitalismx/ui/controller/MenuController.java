@@ -1,4 +1,4 @@
-package de.uni.mannheim.controller;
+package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,5 +16,6 @@ public class MenuController extends UIController {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

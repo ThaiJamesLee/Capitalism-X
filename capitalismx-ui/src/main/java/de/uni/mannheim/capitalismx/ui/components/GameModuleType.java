@@ -1,4 +1,4 @@
-package de.uni.mannheim.components;
+package de.uni.mannheim.capitalismx.ui.components;
 
 /**
  * The type of a {@link GameModule} specifies the fxml-File and it's default
@@ -11,31 +11,32 @@ public enum GameModuleType {
 
 	// TODO remove all the placeholder module types!
 	// The default type. Probably means something went wrong.
-	UNKNOWN(0, "", GameViewType.GAME_OVERVIEW, 0, 0, 0, 0),
+//	UNKNOWN(0, "", GameViewType.GAME_OVERVIEW, 0, 0, 0, 0),
 
 	// The modules for the overview. (1-10)
-	OVERVIEW_PLACEHOLDER(1, "m_overview_placeholder.fxml", GameViewType.GAME_OVERVIEW, 0, 1, 0, 1),
+//	OVERVIEW_PLACEHOLDER(1, "m_overview_placeholder.fxml", GameViewType.GAME_OVERVIEW, 0, 1, 0, 1),
 
 	// The modules for HR. (11-20)
-	HR_PLACEHOLDER(11, "m_hr_placeholder.fxml", GameViewType.GAME_HR, 0, 1, 0, 1),
+	HR_EMPLOYEE_LIST(11, "module_employee_list.fxml", GameViewType.GAME_HR, 0, 3, 0, 5)
 
 	// The modules for Logistics. (21-30)
-	LOGISTIC_PLACEHOLDER(21, "m_logistic_placeholder.fxml", GameViewType.GAME_LOGISTIC, 0, 1, 0, 1),
+//	LOGISTIC_PLACEHOLDER(21, "m_logistic_placeholder.fxml", GameViewType.GAME_LOGISTIC, 0, 1, 0, 1),
 
 	// The modules for Production. (31-40)
-	PRODUCTION_PLACEHOLDER(31, "m_production_placeholder.fxml", GameViewType.GAME_PRODUCTION, 0, 1, 0, 1),
+//	PRODUCTION_PLACEHOLDER(31, "m_production_placeholder.fxml", GameViewType.GAME_PRODUCTION, 0, 1, 0, 1),
 
 	// The modules for Procurement. (41-50)
-	PROCUREMENT_PLACEHOLDER(41, "m_procurement_placeholder.fxml", GameViewType.GAME_PROCUREMENT, 0, 1, 0, 1),
+//	PROCUREMENT_PLACEHOLDER(41, "m_procurement_placeholder.fxml", GameViewType.GAME_PROCUREMENT, 0, 1, 0, 1),
 
 	// The modules for the warehouse. (51-60)
-	WAREHOUSE_PLACEHOLDER(51, "m_warehouse_placeholder.fxml", GameViewType.GAME_WAREHOUSE, 0, 1, 0, 1),
+//	WAREHOUSE_PLACEHOLDER(51, "m_warehouse_placeholder.fxml", GameViewType.GAME_WAREHOUSE, 0, 1, 0, 1),
 
 	// The modules for HR. (61-70)
-	FINANCES_PLACEHOLDER(61, "m_finances_placeholder.fxml", GameViewType.GAME_FINANCES, 0, 1, 0, 1),
+//	FINANCES_PLACEHOLDER(61, "m_finances_placeholder.fxml", GameViewType.GAME_FINANCES, 0, 1, 0, 1),
 
 	// The modules for HR. (71-80)
-	MARKETING_PLACEHOLDER(71, "m_marketing_placeholder.fxml", GameViewType.GAME_MARKETING, 0, 1, 0, 1);
+//	MARKETING_PLACEHOLDER(71, "m_marketing_placeholder.fxml", GameViewType.GAME_MARKETING, 0, 1, 0, 1)
+	;
 
 	// The unique id of the type.
 	public final int id;

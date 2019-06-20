@@ -1,4 +1,4 @@
-package de.uni.mannheim.utils;
+package de.uni.mannheim.capitalismx.ui.utils;
 
 /**
  * Determines the position of a UI-Element on the grid of the GamePage.

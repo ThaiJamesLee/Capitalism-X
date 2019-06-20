@@ -1,4 +1,4 @@
-package de.uni.mannheim.components;
+package de.uni.mannheim.capitalismx.ui.components;
 
 import java.util.ArrayList;
 import java.util.List;
