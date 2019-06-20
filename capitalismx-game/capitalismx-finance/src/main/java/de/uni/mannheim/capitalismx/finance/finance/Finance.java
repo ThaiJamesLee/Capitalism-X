@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
+import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 
 import java.util.ArrayList;
 
@@ -9,6 +10,9 @@ import java.util.ArrayList;
  * @author sdupper
  */
 public class Finance {
+
+    private static Finance instance;
+
     private double netWorth;
     private double cash;
     private double assets;
@@ -30,19 +34,29 @@ public class Finance {
     private double totalMarketingCosts;
     private double totalSupportCosts;
     private double totalExpenses;
+    private double decreaseNopatFactor;
 
     private ArrayList<Warehouse> warehousesSold;
     private ArrayList<Truck> trucksSold;
     private ArrayList<Machine> machinesSold;
+    private ArrayList<Double> nopatLast5Years;
 
     private BankingSystem bankingSystem;
     private ArrayList<Investment> investments;
 
 
-    public Finance(){
+    private Finance(){
         this.taxRate = 0.2;
         this.bankingSystem = new BankingSystem();
         this.investments = new ArrayList<Investment>();
+        this.decreaseNopatFactor = 0.0;
+    }
+
+    public static synchronized Finance getInstance() {
+        if(Finance.instance == null) {
+            Finance.instance = new Finance();
+        }
+        return Finance.instance;
     }
 
     // liabilities = loanAmount
@@ -132,9 +146,9 @@ public class Finance {
     }
 
     // corrected formula in documentation
-    private double calculateNopat(){
+    private double calculateNopat(Logistics logistics){
         //this.nopat = this.ebit - this.incomeTax;
-        this.nopat = this.calculateEbit() - this.calculateIncomeTax();
+        this.nopat = (this.calculateEbit(logistics) - this.calculateIncomeTax()) * (1 - this.decreaseNopatFactor);
         return this.nopat;
     }
 
@@ -278,5 +292,47 @@ public class Finance {
             this.totalInvestmentAmount += investment.getAmount();
         }
         return this.totalInvestmentAmount;
+    }
+
+    public boolean checkIncreasingNopat(){
+        for(int i = 0; i < this.nopatLast5Years.size() - 1; i++){
+            if(this.nopatLast5Years.get(i + 1) < this.nopatLast5Years.get(i) * 1.30){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void decreaseCash(double amount){
+        this.cash -= amount;
+    }
+
+    private void increaseCash(double amount){
+        this.cash += amount;
+    }
+
+    //TODO decide on suitable consequences of acquisition, e.g., increase assets
+    public void acquireCompany(){
+        this.increaseCash(10000);
+        this.decreaseCash(this.calculateNopat() * 0.70);
+    }
+
+    private void decreaseNopatRelPermanently(double decreaseNopatFactor){
+        if(this.calculateNetWorth() > 1000000){
+            this.decreaseNopatFactor = decreaseNopatFactor;
+        }
+    }
+
+    private void increaseTaxRate(double amount){
+        this.taxRate += amount;
+    }
+
+    //TODO only for one year?
+    private void decreaseTaxRate(double amount){
+        this.taxRate -= amount;
+    }
+
+    private void nopatFine(double amount, Logistics logistics){
+        this.decreaseCash(this.calculateNopat());
     }
 }
