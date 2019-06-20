@@ -9,10 +9,11 @@ public class Machinery {
         this.productionTechnology = productionTechnology;
         this.machineryPrice = 10000;
         this.levelPerPrice = 20000;
-        // this.lastInvestmentDate = gameDate
+        // TODO this.lastInvestmentDate = gameDate
     }
 
     private ProductionTechnology productionTechnology;
+    /* TODO machinerycapacity not defined*/
     private double machineryCapacity;
     private double machineryPrice;
     private double levelPerPrice;
@@ -91,7 +92,7 @@ public class Machinery {
             default: // Do nothing
                 break;
         }
-        // this.lastInvestmentDate = gameDate
+        // TODO this.lastInvestmentDate = gameDate
         return 2000;
     }
 
@@ -117,7 +118,7 @@ public class Machinery {
             default: // Do nothing
                 break;
         }
-        // this.lastInvestmentDate = gameDate
+        // TODO this.lastInvestmentDate = gameDate
         return 5000;
     }
 

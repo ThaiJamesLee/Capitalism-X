@@ -42,7 +42,7 @@ public class ProductionInvestment {
                     break;
             }
         } else {
-            // throw not enough production engineers exception
+            // TODO throw not enough production engineers exception
         }
         return this;
     }
@@ -51,7 +51,6 @@ public class ProductionInvestment {
        rather use - 2 for 1 year, -3 for 2 years, -4 for 5 years
      */
     public ProductionInvestment updateInvestment() {
-        /* placeholder until we agreed on the gameDate class */
         int yearsSinceLastInvestment = Period.between(gameDate, lastInvestmentDate).getYears();
         if(yearsSinceLastInvestment == 1) {
             switch(this.productionInvestmentLevel.getLevel()) {
@@ -73,11 +72,6 @@ public class ProductionInvestment {
             }
         } else if(yearsSinceLastInvestment > 5) {
             this.productionInvestmentLevel = ProductionInvestmentLevel.NO_INVESTMENT;
-        }
-        if(this.name.equals("System Security") && this.productionInvestmentLevel.getLevel() < 3) {
-            /* placeholder for the real event flag*/
-            boolean systemSecurityEventFlag = true;
-            // companyImage--
         }
         return this;
     }

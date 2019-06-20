@@ -25,6 +25,7 @@ public class Production {
     private double manufactureEfficiency;
     private double productionProcessProductivity;
     private double normalizedProductionProcessProductivity;
+    private double averageProductBaseQuality;
 
     private Production() {
         this.numberUnitsProducedPerMonth = 0;
@@ -56,8 +57,8 @@ public class Production {
         for(Machinery machinery : this.machines) {
             this.productionFixCosts += machinery.getPurchasePrice() + machinery.calculateMachineryDepreciation();
         }
-        /* placeholder for facility rent*/
-        int facilityRent = 30000;
+        /* TODO placeholder for facility rent -> are they talking about the warehouses? */
+        int facilityRent = 2000;
         this.productionFixCosts += facilityRent;
         return this.productionFixCosts;
     }
@@ -109,55 +110,47 @@ public class Production {
 
     public double launchProduct(Product product, int quantity, int freeStorage) {
         int totalMachineCapacity = 0;
-        // TO DO getTotalWareHouseCapacity;
-        int amountOfProductsInStock = 0;
-        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
-            amountOfProductsInStock += entry.getValue();
-        }
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
         }
         if(totalMachineCapacity <= quantity && freeStorage <= quantity) {
-            // variable or total????????
             double variableProductCosts = 0;
             for (HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
-                if (entry.getKey().getProductCategory() == product.getProductCategory()) {
-                    this.inventory.remove(entry.getKey());
-                }
+                this.inventory.put(product, quantity);
             }
-            this.inventory.put(product, quantity);
-            /* LocalDate.now() placeholder for gameDate */
+            /* LocalDate.now() placeholder for gameDate TODO*/
             LocalDate gameDate = LocalDate.now();
             product.setLaunchDate(gameDate);
             this.numberUnitsProducedPerMonth += quantity;
             variableProductCosts = product.calculateTotalVariableCosts() * quantity;
             return variableProductCosts;
         } else {
-            // throw error message "Your machinery capacity is not sufficient. Either produce a smaller amount or buy new machinery."
+            // TODO throw error message "Your machinery capacity is not sufficient. Either produce a smaller amount or buy new machinery."
             return -1;
         }
     }
 
     public double produceProduct(Product product, int quantity, int freeStorage) {
         int totalMachineCapacity = 0;
-        // TO DO getAvailableWareHouseCapacity;
-        int amountOfProductsInStock = 0;
-        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
-            amountOfProductsInStock += entry.getValue();
-        }
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
         }
         if(totalMachineCapacity <= quantity && freeStorage <= quantity) {
-            // variable or total????????
             double variableProductCosts = 0;
-            /* LocalDate.now() placeholder for gameDate */
-            LocalDate gameDate = LocalDate.now();
+            int newQuantity = quantity;
+            for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+                if(product == entry.getKey()) {
+                    newQuantity += entry.getValue();
+                }
+            }
+            this.inventory.put(product, newQuantity);
+            /* LocalDate.now() placeholder for gameDate */ // NEEDED? TODO
+            //LocalDate gameDate = LocalDate.now();
             this.numberUnitsProducedPerMonth += quantity;
             variableProductCosts = product.calculateTotalVariableCosts() * quantity;
             return variableProductCosts;
         } else {
-            // throw error message "Your machinery capacity is not sufficient. Either produce a smaller amount or buy new machinery."
+            // TODO throw error message "Your machinery capacity is not sufficient. Either produce a smaller amount or buy new machinery."
             return -1;
         }
     }
@@ -172,11 +165,21 @@ public class Production {
     }
 
     public void setProductSalesPrice(Product product, double salesPrice) {
-        /* check for DecimalFormat ##,###.00 in GUI */
+        /* TODO check for DecimalFormat ##,###.00 in GUI */
         if(salesPrice > 0 && salesPrice < 100000) {
             product.setSalesPrice(salesPrice);
         } else {
-            // throw error "salesPrice has to between 0.01 and 99,999.99"
+            // TODO throw error "salesPrice has to between 0.01 and 99,999.99"
+        }
+    }
+
+    public double calculateProfitMargin(Product product) {
+        return product.calculateProfitMargin();
+    }
+
+    public void calculateAllProductsProfitMargin() {
+        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+            entry.getKey().calculateProfitMargin();
         }
     }
 
@@ -217,7 +220,7 @@ public class Production {
         return this.productionTechnologyFactor;
     }
 
-    public int calculateProductionTechnology() {
+    public ProductionTechnology calculateProductionTechnology() {
         this.productionTechnology = ProductionTechnology.DEPRECIATED;
         double averageProductionTechnologyRange = 0;
         for(Machinery machinery : this.machines) {
@@ -242,7 +245,7 @@ public class Production {
                 break;
             default: // Do nothing
         }
-        return this.productionTechnology.getRange();
+        return this.productionTechnology;
     }
 
     public double calculateResearchAndDevelopmentFactor() {
@@ -256,7 +259,7 @@ public class Production {
     }
 
     public double calculateTotalEngineerQualityOfWork() {
-        /* placeholder for the quality of work of the engineering team*/
+        /* TODO placeholder for the quality of work of the engineering team*/
         this.totalEngineerQualityOfWork = 0.7;
         return this.totalEngineerQualityOfWork;
     }
@@ -286,7 +289,7 @@ public class Production {
     }
 
     public double calculateProductionProcessProductivity() {
-        this.productionProcessProductivity = (this.calculateProductionTechnology() + Math.pow(Math.E, Math.log(this.calculateTotalEngineerProductivity())/10)) * this.manufactureEfficiency;
+        this.productionProcessProductivity = (this.calculateProductionTechnology().getRange() + Math.pow(Math.E, Math.log(this.calculateTotalEngineerProductivity())/10)) * this.manufactureEfficiency;
         return this.productionProcessProductivity;
     }
 
@@ -322,5 +325,31 @@ public class Production {
 
     public void clearInventory() {
         this.inventory.clear();
+    }
+
+    public double calculateAverageProductBaseQuality() {
+        this.averageProductBaseQuality = 0;
+        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+            this.averageProductBaseQuality += entry.getKey().calculateAverageBaseQuality();
+        }
+        return this.averageProductBaseQuality / this.inventory.size();
+    }
+
+    /* TODO duration 1 month, winter month*/
+    public void decreaseTotalEngineerQualityOfWorkRel(double decrease) {
+        this.totalEngineerQualityOfWork *= (1 - decrease);
+    }
+
+    /* TODO only after year 2000 and for 3 months, used processAutomationFactor as processAutomation is on a Likert scale from 1 to 5*/
+    public void decreaseProcessAutomationRel(double decrease) {
+        this.processAutomationFactor *= (1 - decrease);
+    }
+
+    public boolean checkBaseQualityAboveThreshold() {
+        return calculateAverageProductBaseQuality() >= 80;
+    }
+
+    public boolean checkProductionTechnologyBelowThreshold() {
+        return this.calculateProductionTechnology().getRange() < 2;
     }
 }
