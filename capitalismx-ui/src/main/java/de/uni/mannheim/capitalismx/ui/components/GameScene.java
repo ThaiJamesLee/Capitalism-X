@@ -1,7 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.components;
 
 import de.uni.mannheim.capitalismx.ui.controller.GameController;
-import de.uni.mannheim.capitalismx.ui.controller.UIController;
 import javafx.scene.Scene;
 
 /**
@@ -18,7 +17,7 @@ public class GameScene {
 	// The type of scene
 	private GameSceneType sceneType;
 	// The controller of the scene
-	private UIController controller;
+	private GameController controller;
 
 	public Scene getScene() {
 		return scene;
@@ -36,7 +35,7 @@ public class GameScene {
 		this.sceneType = sceneType;
 	}
 
-	public UIController getController() {
+	public GameController getController() {
 		return controller;
 	}
 
@@ -47,7 +46,7 @@ public class GameScene {
 	 * @param type       The type of scene.
 	 * @param controller The controller of the fxml-element.
 	 */
-	public GameScene(Scene scene, GameSceneType type, UIController controller) {
+	public GameScene(Scene scene, GameSceneType type, GameController controller) {
 		this.scene = scene;
 		this.sceneType = type;
 		this.controller = controller;

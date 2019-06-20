@@ -14,7 +14,7 @@ import javafx.scene.control.Button;
  * @author Jonathan
  *
  */
-public class MainMenuController extends UIController {
+public class MainMenuController extends GameController {
 
 	@FXML
 	private Button newGameButton;
@@ -26,6 +26,12 @@ public class MainMenuController extends UIController {
 			Main.getManager().switchToScene(GameSceneType.GAME_PAGE);
 		});
 
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -33,8 +33,9 @@ public class GamePageController extends GameController {
 
 	@Override
 	public void update() {
-		this.currentActiveView = Main.getManager().getGameView(GameViewType.GAME_OVERVIEW);
-		switchView(GameViewType.GAME_HR);
+		if(this.currentActiveView == null) {
+			switchView(GameViewType.GAME_HR);
+		}
 		
 	}
 	
@@ -46,9 +47,11 @@ public class GamePageController extends GameController {
 	 * that type.
 	 */
 	public void switchView(GameViewType viewType) {
-		// remove all modules of current view
-		for (GameModule module : currentActiveView.getModules()) {
-			moduleGrid.getChildren().remove(module.getRootElement());
+		if(currentActiveView != null) {
+			// remove all modules of current view
+			for (GameModule module : currentActiveView.getModules()) {
+				moduleGrid.getChildren().remove(module.getRootElement());
+			}
 		}
 		//change current view and add modules
 		currentActiveView = Main.getManager().getGameView(viewType);

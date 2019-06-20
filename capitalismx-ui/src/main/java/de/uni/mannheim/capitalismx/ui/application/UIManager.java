@@ -54,7 +54,7 @@ public class UIManager {
 	}
 	
 	public void init() {
-		sceneGamePage.getController().init();
+		sceneGamePage.getController().update();
 	}
 
 	/**
