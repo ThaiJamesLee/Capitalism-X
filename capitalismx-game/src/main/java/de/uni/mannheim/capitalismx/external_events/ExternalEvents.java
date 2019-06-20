@@ -172,13 +172,13 @@ public class ExternalEvents {
     }
 
     private void checkEventHurricanesTornadoesEarthquakes(){
-        if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold2()){
+        if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold2() && Warehousing.getInstance().checkWarehouseCapacityThreshold()){
             Warehousing.getInstance().decreaseCapacity(2000);
             externalEvents.add(ExternalEvent.EVENT_13);
         }
     }
 
-    private void checkEvenFireFlooding(){
+    private void checkEventFireFlooding(){
         if(Warehousing.getInstance().checkFreeStorageTheshold()){
             if(RandomNumberGenerator.getRandomInt(0, (1 / (Warehousing.getInstance().getDaysSinceFreeStorageThreshold() * 0.01)) - 1) == 0){
                 Warehousing.getInstance().decreaseStoredUnitsRel(0.30);
@@ -224,7 +224,7 @@ public class ExternalEvents {
         this.checkEventStrikes();
         this.checkEventFlu();
         this.checkEventHurricanesTornadoesEarthquakes();
-        this.checkEvenFireFlooding();
+        this.checkEventFireFlooding();
         this.checkEventProblemsWithCustoms();
         this.checkEventChangeOfPower();
         this.checkEventEcoActivists();
