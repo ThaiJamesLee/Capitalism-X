@@ -9,6 +9,9 @@ import java.util.Map;
  * @author sdupper
  */
 public class ExternalEvents {
+
+    private static ExternalEvents instance;
+
     private ArrayList<ExternalEvent> externalEvents;
 
     private enum ExternalEvent{
@@ -52,122 +55,136 @@ public class ExternalEvents {
         }
     }
 
-    private void checkEventProductionProblems(Production production){
-        if(production.checkProductionTechnologyBelowThreshold()){
+    private ExternalEvents(){
+
+    }
+
+    public static synchronized ExternalEvents getInstance() {
+        if(ExternalEvents.instance == null) {
+            ExternalEvents.instance = new ExternalEvents();
+        }
+        return ExternalEvents.instance;
+    }
+
+    private void checkEventProductionProblems(){
+        if(Production.getInstance().checkProductionTechnologyBelowThreshold()){
             externalEvents.add(ExternalEvent.EVENT_1);
         }
     }
 
-    private void checkEventNewTechnology(Production production, Customer customer){
-        if(production.checkBaseQualityAboveThreshold()){
-            customer.increaseCustomerSatisfactionRel(0.3);
+    private void checkEventNewTechnology(){
+        if(Production.getInstance().checkBaseQualityAboveThreshold()){
+            Customer.getInstance().increaseCustomerSatisfactionRel(0.3);
             externalEvents.add(ExternalEvent.EVENT_2);
         }
     }
 
-    private void checkEventCompanyAcquisition(Finance finance){
-        if(finance.checkIncreasingNopat()){
-            finance.acquireCompany();
+    private void checkEventCompanyAcquisition(){
+        if(Finance.getInstance().checkIncreasingNopat()){
+            Finance.getInstance().acquireCompany();
             externalEvents.add(ExternalEvent.EVENT_3);
         }
     }
 
-    private void checkEventCompanyOvertakesMarketShare(Finance finance){
+    private void checkEventCompanyOvertakesMarketShare(){
         if(RandomNumberGenerator.getRandomInt(0, 49) == 0){
-            finance.decreaseNopatRelPermanently(0.10);
+            Finance.getInstance().decreaseNopatRelPermanently(0.10);
             externalEvents.add(ExternalEvent.EVENT_4);
         }
     }
 
-    private void checkEventBrandReputationPlunges(Customer customer, Marketing marketing){
-        if(customer.checkCustomerSatisfactionBelowThreshold()){
-            marketing.decreaseCompanyImageRel(0.20);
+    private void checkEventBrandReputationPlunges(){
+        if(Customer.getInstance().checkCustomerSatisfactionBelowThreshold()){
+            Marketing.getInstance().decreaseCompanyImageRel(0.20);
             externalEvents.add(ExternalEvent.EVENT_5);
         }
     }
 
-    private void checkEventComputerVirusAttacks(Production production){
+    private void checkEventComputerVirusAttacks(){
         if(RandomNumberGenerator.getRandomInt(0, 19) == 0){
-            production.decreaseProcessAutomationRel(0.50);
+            Production.getInstance().decreaseProcessAutomationRel(0.50);
             externalEvents.add(ExternalEvent.EVENT_6);
         }
     }
 
-    private void checkEventTaxChanges(Finance finance){
+    private void checkEventTaxChanges(){
         if(RandomNumberGenerator.getRandomInt(0, 19) == 0){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
-                finance.increaseTaxRateRel(0.02);
+                Finance.getInstance().increaseTaxRateRel(0.02);
                 ExternalEvent.EVENT_7.setIncrease(true);
             }else{
-                finance.decreaseTaxRateRel(0.02);
+                Finance.getInstance().decreaseTaxRateRel(0.02);
                 ExternalEvent.EVENT_7.setIncrease(false);
             }
             externalEvents.add(ExternalEvent.EVENT_7);
         }
     }
 
-    private void checkEventStricterEcoLaws(CompanyEcoIndex companyEcoIndex, Finance finance){
-        if(companyEcoIndex.checkEcoIndexBelowThreshold()){
-            if(companyEcoIndex.checkGameOver()){
+    private void checkEventStricterEcoLaws(){
+        if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold()){
+            if(CompanyEcoIndex.getInstance().checkGameOver()){
                 //TODO End game
                 externalEvents.add(ExternalEvent.EVENT_19);
             }else{
-                finance.decreaseNopatRel(0.10);
+                Finance.getInstance().nopatFine(0.10);
                 externalEvents.add(ExternalEvent.EVENT_8);
             }
         }
     }
 
-    private void checkEventInflationChanges(Finance finance){
+    private void checkEventInflationChanges(){
         //TODO probability between 0 and 2
         if(RandomNumberGenerator.getRandomInt(0, 49) == 0){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
-                finance.increaseNopatRel(0.02);
+                Finance.getInstance().increaseNopatRel(0.02);
                 ExternalEvent.EVENT_9.setIncrease(true);
             }else{
-                finance.decreaseNopatRel(0.02);
+                Finance.decreaseNopatRel(0.02);
                 ExternalEvent.EVENT_9.setIncrease(false);
             }
             externalEvents.add(ExternalEvent.EVENT_9);
         }
     }
 
-    private void checkEventStealing(Marketing marketing, Finance finance, HRDepartment hrDepartment){
-        if(marketing.checkTotalJobSatisfactionBelowThreshold(0.50)){
+    private void checkEventStealing(){
+        if(Marketing.getInstance().checkTotalJobSatisfactionBelowThreshold(0.50)){
             int numberOfEmployees = 0;
-            for(Map.Entry<EmployeeType, Team> team : hrDepartment.getTeams().entrySet()){
+            for(Map.Entry<EmployeeType, Team> team : HRDepartment.getInstance().getTeams().entrySet()){
                 numberOfEmployees += team.getValue().size();
             }
-            finance.decreaseNopat(numberOfEmployees * 5000);
+            Finance.getInstance().decreaseNopat(numberOfEmployees * 5000);
             externalEvents.add(ExternalEvent.EVENT_10);
         }
     }
 
-    private void checkEventStrikes(Marketing marketing, Customer customer){
-        if(marketing.checkTotalJobSatisfactionBelowThreshold(0.10)){
-            customer.decresePeriodicDemandAmountRel(0.8);
+    private void checkEventStrikes(){
+        if(Marketing.getInstance().checkTotalJobSatisfactionBelowThreshold(0.10)){
+            Customer.getInstance().decresePeriodicDemandAmountRel(0.8);
             externalEvents.add(ExternalEvent.EVENT_11);
         }
     }
 
-    private void checkEventFlu(Production production){
+    private void checkEventFlu(){
         if(RandomNumberGenerator.getRandomInt(0, 9) == 0){
-            production.decreaseTotalEngineerQualityOfWorkRel(0.10);
+            Production.getInstance().decreaseTotalEngineerQualityOfWorkRel(0.10);
             externalEvents.add(ExternalEvent.EVENT_12);
         }
     }
 
-    private void checkEventHurricanesTornadoesEarthquakes(CompanyEcoIndex companyEcoIndex, Warehouse warehouse){
-        if(companyEcoIndex.checkEcoIndexBelowThreshold2()){
-            warehouse.decreaseCapacity(2000);
+    private void checkEventHurricanesTornadoesEarthquakes(){
+        if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold2()){
+            Warehousing.getInstance().decreaseCapacity(2000);
             externalEvents.add(ExternalEvent.EVENT_13);
         }
     }
 
-    private void checkEvenFireFlooding(Warehouse warehouse){
-        if(warehouse.checkFreeStorageTheshold()){
-            warehouse.decreaseStoredUnitsRel(0.30);
-            externalEvents.add(ExternalEvent.EVENT_14);
+    private void checkEvenFireFlooding(){
+        if(Warehousing.getInstance().checkFreeStorageTheshold()){
+            if(RandomNumberGenerator.getRandomInt(0, (1 / (Warehousing.getInstance().getDaysSinceFreeStorageThreshold() * 0.01)) - 1) == 0){
+                Warehousing.getInstance().decreaseStoredUnitsRel(0.30);
+                externalEvents.add(ExternalEvent.EVENT_14);
+            }
+
         }
     }
 
@@ -177,13 +194,13 @@ public class ExternalEvents {
     }
 
     //TODO
-    private void checkEventChangeOfPower(Finance finance){
+    private void checkEventChangeOfPower(){
         //if(RandomNumberGenerator.getRandomInt())
     }
 
-    private void checkEventEcoActivists(Logistics logistics){
-        if(logistics.checkEcoIndexFleetBelowThreshold()){
-            logistics.decreaseCapacityFleetRel(0.70);
+    private void checkEventEcoActivists(){
+        if(Logistics.getInstance().checkEcoIndexFleetBelowThreshold()){
+            Logistics.getInstance().decreaseCapacityFleetRel(0.70);
             externalEvents.add(ExternalEvent.EVENT_17);
         }
     }
@@ -193,25 +210,24 @@ public class ExternalEvents {
 
     }
 
-    public ArrayList<ExternalEvent> checkEvents(Production production, Customer customer, Finance finance, Marketing marketing, CompanyEcoIndex companyEcoIndex, HRDepartment hrDepartment,
-                                                Warehouse warehouse, Logistics logistics){
-        this.checkEventProductionProblems(production);
-        this.checkEventNewTechnology(production, customer);
-        this.checkEventCompanyAcquisition(finance);
-        this.checkEventCompanyOvertakesMarketShare(finance);
-        this.checkEventBrandReputationPlunges(customer, marketing);
-        this.checkEventComputerVirusAttacks(production);
-        this.checkEventTaxChanges(finance);
-        this.checkEventStricterEcoLaws(companyEcoIndex, finance);
-        this.checkEventInflationChanges(finance);
-        this.checkEventStealing(marketing, finance, hrDepartment);
-        this.checkEventStrikes(marketing, customer);
-        this.checkEventFlu(production);
-        this.checkEventHurricanesTornadoesEarthquakes(companyEcoIndex, warehouse);
-        this.checkEvenFireFlooding(warehouse);
+    public ArrayList<ExternalEvent> checkEvents(){
+        this.checkEventProductionProblems();
+        this.checkEventNewTechnology();
+        this.checkEventCompanyAcquisition();
+        this.checkEventCompanyOvertakesMarketShare();
+        this.checkEventBrandReputationPlunges();
+        this.checkEventComputerVirusAttacks();
+        this.checkEventTaxChanges();
+        this.checkEventStricterEcoLaws();
+        this.checkEventInflationChanges();
+        this.checkEventStealing();
+        this.checkEventStrikes();
+        this.checkEventFlu();
+        this.checkEventHurricanesTornadoesEarthquakes();
+        this.checkEvenFireFlooding();
         this.checkEventProblemsWithCustoms();
-        this.checkEventChangeOfPower(finance);
-        this.checkEventEcoActivists(logistics);
+        this.checkEventChangeOfPower();
+        this.checkEventEcoActivists();
         this.checkEventTensions();
         return this.externalEvents;
     }
