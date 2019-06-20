@@ -217,7 +217,7 @@ public enum Component {
         return this.baseCost;
     }
 
-    /* has to be calculated on the first January of every year, might be better to use it in the get Method*/
+    /* TODO has to be calculated on the first January of every year, might be better to use it in the get Method*/
     public double calculateBaseCost() {
         /* Placeholder for Gamestate Game Year*/
         int gameYear = 2019;
@@ -232,11 +232,11 @@ public enum Component {
         return this.baseCost;
     }
 
-    /* function placeholder for RandomNumberGenerator of utils @sdupper*/
+    /* TODO function placeholder for RandomNumberGenerator of utils @sdupper*/
     public static int getRandomInt(int min, int max){
         return (int)(Math.random() * (max - min + 1) + min);
     }
-    /* function placeholder for RandomNumberGenerator of utils @sdupper*/
+    /* TODO function placeholder for RandomNumberGenerator of utils @sdupper*/
     public static double getRandomDouble(double min, double max){
         return (Math.random() * (max - min) + min);
     }
