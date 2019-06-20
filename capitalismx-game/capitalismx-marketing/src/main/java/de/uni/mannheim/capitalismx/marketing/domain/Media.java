@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.marketing.domain;
-
+/**
+ * @author duly
+ */
 public enum Media {
 
     NEWSPAPER("Newspaper", 5000), TELEVISION("Television", 10000), ONLINE("Online", 100000), NONE("", 1000);

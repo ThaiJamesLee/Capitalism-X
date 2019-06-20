@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.marketing.domain;
-
+/**
+ * @author duly
+ */
 public enum PressRelease {
 
     PRIVACY_AND_SECURITY_EFFORTS("Privacy and security efforts", 200),

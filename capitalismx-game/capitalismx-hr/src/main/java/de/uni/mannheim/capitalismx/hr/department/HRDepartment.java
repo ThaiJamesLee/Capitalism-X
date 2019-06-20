@@ -27,10 +27,18 @@ public class HRDepartment {
 
     private Map<EmployeeType, Team> teams;
 
+    private static HRDepartment instance = null;
 
-    public HRDepartment () {
+    private HRDepartment () {
         this.benefitSettings = new BenefitSettings();
         this.teams = new EnumMap<>(EmployeeType.class);
+    }
+
+    public static HRDepartment getInstance() {
+        if (instance == null) {
+           instance = new HRDepartment();
+        }
+        return instance;
     }
 
     /**

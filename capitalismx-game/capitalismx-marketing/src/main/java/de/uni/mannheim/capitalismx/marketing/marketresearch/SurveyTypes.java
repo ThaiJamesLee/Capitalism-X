@@ -1,7 +1,9 @@
 package de.uni.mannheim.capitalismx.marketing.marketresearch;
 
 import de.uni.mannheim.capitalismx.utils.data.Range;
-
+/**
+ * @author duly
+ */
 public enum SurveyTypes {
 
     PERSONAL_INTERVIEWS("PInt", 1.5, 1, new Range(0, 0), 2, 2, 1, -2, 2, 0, -2, 2),

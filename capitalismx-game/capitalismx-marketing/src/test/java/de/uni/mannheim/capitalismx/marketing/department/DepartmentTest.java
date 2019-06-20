@@ -15,7 +15,7 @@ public class DepartmentTest {
 
     @BeforeMethod
     public void setup() {
-        department = new MarketingDepartment();
+        department = MarketingDepartment.getInstance();
 
     }
 

@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.marketing.marketresearch;
-
+/**
+ * @author duly
+ */
 public enum Reports {
 
     PRICE_SENSITIVE_REPORT("price sensitive report", 2500, 3200),

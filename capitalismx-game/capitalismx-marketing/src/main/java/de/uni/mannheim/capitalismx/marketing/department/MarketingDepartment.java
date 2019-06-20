@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.marketing.department;
 
+import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.domain.Action;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
@@ -12,6 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * p. 54 - 63
+ * @author duly
+ */
 public class MarketingDepartment {
 
     private static final Logger logger = LoggerFactory.getLogger(MarketingDepartment.class);
@@ -21,12 +26,18 @@ public class MarketingDepartment {
 
     private static final String[] CAMPAIGN_NAMES = {"CSR", "Support refugee projects", "Promote environmental friendly supplier", "Green marketing campaign", "Diversity campaign", "Promote products"};
 
+    // campaigns that the department issued
     private Map<String, List<Campaign>> issuedActions;
 
+    // press releases the company made
     private List<PressRelease> pressReleases;
 
+    // consultancy services the company used
+    private List<ConsultancyType> consultancies;
 
-    public MarketingDepartment() {
+    private static MarketingDepartment instance = null;
+
+    private MarketingDepartment() {
         init();
     }
 
@@ -38,6 +49,14 @@ public class MarketingDepartment {
         }
 
         pressReleases = new ArrayList<>();
+        consultancies = new ArrayList<>();
+    }
+
+    public static MarketingDepartment getInstance() {
+        if(instance == null) {
+            instance = new MarketingDepartment();
+        }
+        return instance;
     }
 
     /**
@@ -65,6 +84,10 @@ public class MarketingDepartment {
         } else {
             throw new NullPointerException("There exist not such a campaign!");
         }
+    }
+
+    public void useConsultantService(ConsultancyType con) {
+        consultancies.add(con);
     }
 
     public double getCompanyImageScore() {
@@ -184,13 +207,35 @@ public class MarketingDepartment {
         return cost;
     }
 
+    public double getTotalConsultancyCosts() {
+        double cost = 0.0;
+
+        for (ConsultancyType con : consultancies) {
+            cost += con.getCost();
+        }
+
+        return cost;
+    }
+
     public String[] getCampaignNames() {
         return CAMPAIGN_NAMES;
     }
 
+    /**
+     * Delete all campaigns that were issued.
+     */
     public void resetIssuedActions() {
         for (Map.Entry<String, List<Campaign>> entry: issuedActions.entrySet()) {
             entry.getValue().clear();
         }
     }
+
+    /**
+     *
+     * @return Returns all consultancies.
+     */
+    public ConsultancyType[] getConsultancies() {
+        return ConsultancyType.values();
+    }
+
 }
