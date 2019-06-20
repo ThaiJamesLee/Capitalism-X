@@ -70,15 +70,69 @@ public enum Campaign {
         return requirement;
     }
 
-    public List<Campaign> getCampaingsByName(String name) {
+    public static List<Campaign> getCampaignsByName(String name) {
         Campaign[] campaigns = Campaign.values();
         List<Campaign> filteredList = new ArrayList<>();
-        for(Campaign c : campaigns) {
-            if(c.getName().equals(name)) {
+        for (Campaign c : campaigns) {
+            if (c.getName().equals(name)) {
                 filteredList.add(c);
             }
         }
         return filteredList;
+    }
+
+    /**
+     *
+     * @return Returns a list of campaigns that have Marketing Campaigns as Action.
+     */
+    public static List<Campaign> getMarketingCampaigns() {
+        List<Campaign> marketing = new ArrayList<>();
+
+        for (Campaign c : Campaign.values()) {
+            if (c.getAction().equals(Action.MARKETING_CAMPAIGNS)) {
+                marketing.add(c);
+            }
+        }
+        return marketing;
+    }
+
+    /**
+     *
+     * @return Returns a list of campaigns that have Social Engagement as Action.
+     */
+    public static List<Campaign> getSocialEngagementCampaigns() {
+        List<Campaign> social = new ArrayList<>();
+
+        for (Campaign c : Campaign.values()) {
+            if (c.getAction().equals(Action.SOCIAL_ENGAGEMENT)) {
+                social.add(c);
+            }
+        }
+        return social;
+    }
+
+    public static Campaign getCampaignsByNameAndMedia(String name, Media media) {
+        Campaign[] campaigns = Campaign.values();
+        for (Campaign c : campaigns) {
+            if (c.getName().equals(name) && c.getMedia().equals(media)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public double getPointsByRequirement(double req) {
+
+        if (requirement[requirement.length-1] <= req) {
+            return points[requirement.length-1];
+        } else {
+            for (int i = 0; i < requirement.length; i++) {
+                if (requirement[i] == req) {
+                    return points[i];
+                }
+            }
+        }
+        return 0.0;
     }
 
 
