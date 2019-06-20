@@ -1,0 +1,8 @@
+
+.modulePane {
+	-fx-background-radius: 50px;
+	-fx-background-color: lightgrey;
+	-fx-border-color: darkgrey;
+	-fx-border-radius: 50px;
+}
+
