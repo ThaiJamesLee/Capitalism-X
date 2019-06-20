@@ -8,6 +8,8 @@ import java.util.ArrayList;
  * @author sdupper
  */
 public class Logistics {
+    private static Logistics instance;
+
     private InternalFleet internalFleet;
     private ExternalPartner externalPartner;
     private double shippingFee;
@@ -19,11 +21,18 @@ public class Logistics {
     //delivered products per day
     private int deliveredProducts;
 
-    public Logistics(){
+    private Logistics(){
         this.internalFleet = new InternalFleet();
         this.shippingFee = 15;
         this.deliveredProducts = 0;
         this.calculateAll();
+    }
+
+    public static synchronized Logistics getInstance() {
+        if(Logistics.instance == null) {
+            Logistics.instance = new Logistics();
+        }
+        return Logistics.instance;
     }
 
     private void calculateAll(){
