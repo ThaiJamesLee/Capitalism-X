@@ -42,16 +42,17 @@ public class Logistics {
         this.calculateTotalLogisticsCosts();
     }
 
-    private void calculateCostsLogistics(){
+    private double calculateCostsLogistics(){
         if(externalPartner == null){
             this.costLogistics = internalFleet.getTotalTruckCost();
         }else{
             this.costLogistics = internalFleet.getTotalTruckCost() + externalPartner.getContractualCost();
         }
+        return this.costLogistics;
     }
 
     //TODO what if no external partner hired
-    private void calculateLogisticsIndex(){
+    private double calculateLogisticsIndex(){
         if(externalPartner == null){
             this.logisticsIndex = -1.0;
         }
@@ -62,28 +63,32 @@ public class Logistics {
         } else{
             this.logisticsIndex = this.deliveredProducts * internalFleet.getInternalLogisticIndex();
         }
+        return this.logisticsIndex;
     }
 
-    private void calculateTotalDeliveryCosts(){
+    private double calculateTotalDeliveryCosts(){
         if(this.deliveredProducts <= internalFleet.getCapacityFleet()){
             this.totalDeliveryCosts = (Math.ceil(this.deliveredProducts / 1000.0) * internalFleet.getFixCostsDelivery()) + (this.deliveredProducts * internalFleet.getVariableCostsDelivery());
         } else{
             //TODO
-            this.totalDeliveryCosts = (internalFleet.getTrucks().size() * internalFleet.getFixCostsDelivery()) + (internalFleet.getTrucks().size() * 1000 * internalFleet.getVariableCostsDelivery()) + this.costsExternalDelivery;
+            this.totalDeliveryCosts = (internalFleet.getTrucks().size() * internalFleet.getFixCostsDelivery()) + (internalFleet.getTrucks().size() * 1000 * internalFleet.getVariableCostsDelivery()) + this.calculateCostsExternalDelivery();
         }
+        return this.totalDeliveryCosts;
     }
 
     //TODO possibility to select logistics approach (e.g., only external partner, although internal fleet exists)
-    private void calculateCostsExternalDelivery(){
+    private double calculateCostsExternalDelivery(){
         if(externalPartner != null){
             this.costsExternalDelivery = (this.deliveredProducts - internalFleet.getCapacityFleet()) * externalPartner.getVariableDeliveryCost();
         }else{
             this.costsExternalDelivery = (this.deliveredProducts - internalFleet.getCapacityFleet()) * this.shippingFee;
         }
+        return this.costsExternalDelivery;
     }
 
-    private void calculateTotalLogisticsCosts(){
-        this.totalLogisticsCosts = (this.costLogistics / 30) + this.totalDeliveryCosts;
+    private double calculateTotalLogisticsCosts(){
+        this.totalLogisticsCosts = (this.calculateCostsLogistics() / 30) + this.calculateTotalDeliveryCosts();
+        return this.totalLogisticsCosts;
     }
 
     /**
@@ -191,5 +196,13 @@ public class Logistics {
 
     public int getDeliveredProducts() {
         return this.deliveredProducts;
+    }
+
+    public boolean checkEcoIndexFleetBelowThreshold(){
+        return this.internalFleet.checkEcoIndexFleetBelowThreshold();
+    }
+
+    public void decreaseCapacityFleetRel(double amount){
+        this.internalFleet.decreaseCapacityFleetRel(amount);
     }
 }
