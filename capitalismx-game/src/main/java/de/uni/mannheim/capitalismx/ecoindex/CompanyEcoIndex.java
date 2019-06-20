@@ -3,6 +3,8 @@ package de.uni.mannheim.capitalismx.ecoindex;
 import java.util.ArrayList;
 
 public class CompanyEcoIndex {
+    private static CompanyEcoIndex instance;
+
     private EcoIndex ecoIndex;
     private final int ECO_FLAT_TAX = 10000;
 
@@ -45,8 +47,19 @@ public class CompanyEcoIndex {
         }
     }
 
-    private void checkMachinery(Proudction production){
-        ArrayList<Machinery> machines = production.getMachines();
+    private CompanyEcoIndex(){
+
+    }
+
+    public static synchronized CompanyEcoIndex getInstance() {
+        if(CompanyEcoIndex.instance == null) {
+            CompanyEcoIndex.instance = new CompanyEcoIndex();
+        }
+        return CompanyEcoIndex.instance;
+    }
+
+    private void checkMachinery(){
+        ArrayList<Machinery> machines = Production.getInstance().getMachines();
         for(Machinery machinery : machines){
             machinery.depreciateMachinery(false);
             if(machinery.getYearsSinceLastInvestment() > 5){
@@ -55,8 +68,8 @@ public class CompanyEcoIndex {
         }
     }
 
-    private void checkVehicles(Logistics logistics){
-        if(logistics.getInternalFleet().calculateExoIndexFleet() < 3){
+    private void checkVehicles(){
+        if(Logistics.getInstance().getInternalFleet().calculateExoIndexFleet() < 3){
             this.decreaseEcoIndex(1);
         }
     }
@@ -87,8 +100,8 @@ public class CompanyEcoIndex {
     }
 
     //TODO
-    private double calculateEcoCosts(Production production){
-        return this.calculateEcoTax() - (production.getProductionTechnology().getRange() + component eL) * 1000;
+    private double calculateEcoCosts(){
+        return this.calculateEcoTax() - (Production.getInstance().getProductionTechnology().getRange() + component eL) * 1000;
     }
 
     private void decreaseEcoIndex(int points){
