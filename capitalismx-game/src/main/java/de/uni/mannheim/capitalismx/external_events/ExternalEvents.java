@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.external_events;
 
+import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
 import java.util.ArrayList;
@@ -127,8 +128,12 @@ public class ExternalEvents {
                 //TODO End game
                 externalEvents.add(ExternalEvent.EVENT_19);
             }else{
-                Finance.getInstance().nopatFine(0.10);
-                externalEvents.add(ExternalEvent.EVENT_8);
+                //TODO use more suitable formula for probability
+                double probability = Math.pow(CompanyEcoIndex.getInstance().getEcoIndex().getIndex(), 0.31) - 1;
+                if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
+                    Finance.getInstance().nopatFine(0.10);
+                    externalEvents.add(ExternalEvent.EVENT_8);
+                }
             }
         }
     }
@@ -173,15 +178,19 @@ public class ExternalEvents {
     }
 
     private void checkEventHurricanesTornadoesEarthquakes(){
-        if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold2() && Warehousing.getInstance().checkWarehouseCapacityThreshold()){
-            Warehousing.getInstance().decreaseCapacity(2000);
-            externalEvents.add(ExternalEvent.EVENT_13);
+        if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold() && Warehousing.getInstance().checkWarehouseCapacityThreshold()){
+            double probability = 0.1 / CompanyEcoIndex.getInstance().getEcoIndex().getIndex();
+            if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
+                Warehousing.getInstance().decreaseCapacity(2000);
+                externalEvents.add(ExternalEvent.EVENT_13);
+            }
         }
     }
 
     private void checkEventFireFlooding(){
         if(Warehousing.getInstance().checkFreeStorageTheshold()){
-            if(RandomNumberGenerator.getRandomInt(0, (1 / (Warehousing.getInstance().getDaysSinceFreeStorageThreshold() * 0.01)) - 1) == 0){
+            double probability = Warehousing.getInstance().getDaysSinceFreeStorageThreshold() * 0.01;
+            if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
                 Warehousing.getInstance().decreaseStoredUnitsRel(0.30);
                 externalEvents.add(ExternalEvent.EVENT_14);
             }
