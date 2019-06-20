@@ -81,13 +81,14 @@ public class ExternalEvents {
 
     private void checkEventCompanyAcquisition(){
         if(Finance.getInstance().checkIncreasingNopat()){
+            //TODO ask user
             Finance.getInstance().acquireCompany();
             externalEvents.add(ExternalEvent.EVENT_3);
         }
     }
 
     private void checkEventCompanyOvertakesMarketShare(){
-        if(RandomNumberGenerator.getRandomInt(0, 49) == 0){
+        if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (Finance.getInstance().calculateNopat() > 1000000)){
             Finance.getInstance().decreaseNopatRelPermanently(0.10);
             externalEvents.add(ExternalEvent.EVENT_4);
         }
@@ -110,10 +111,10 @@ public class ExternalEvents {
     private void checkEventTaxChanges(){
         if(RandomNumberGenerator.getRandomInt(0, 19) == 0){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
-                Finance.getInstance().increaseTaxRateRel(0.02);
+                Finance.getInstance().increaseTaxRate(0.02);
                 ExternalEvent.EVENT_7.setIncrease(true);
             }else{
-                Finance.getInstance().decreaseTaxRateRel(0.02);
+                Finance.getInstance().decreaseTaxRate(0.02);
                 ExternalEvent.EVENT_7.setIncrease(false);
             }
             externalEvents.add(ExternalEvent.EVENT_7);
@@ -136,10 +137,10 @@ public class ExternalEvents {
         //TODO probability between 0 and 2
         if(RandomNumberGenerator.getRandomInt(0, 49) == 0){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
-                Finance.getInstance().increaseNopatRel(0.02);
+                Finance.getInstance().increaseNopatRelPermanently(0.02);
                 ExternalEvent.EVENT_9.setIncrease(true);
             }else{
-                Finance.decreaseNopatRel(0.02);
+                Finance.decreaseNopatRelPermanently(0.02);
                 ExternalEvent.EVENT_9.setIncrease(false);
             }
             externalEvents.add(ExternalEvent.EVENT_9);
@@ -152,7 +153,7 @@ public class ExternalEvents {
             for(Map.Entry<EmployeeType, Team> team : HRDepartment.getInstance().getTeams().entrySet()){
                 numberOfEmployees += team.getValue().size();
             }
-            Finance.getInstance().decreaseNopat(numberOfEmployees * 5000);
+            Finance.getInstance().decreaseNopatConstant(numberOfEmployees * 5000);
             externalEvents.add(ExternalEvent.EVENT_10);
         }
     }
