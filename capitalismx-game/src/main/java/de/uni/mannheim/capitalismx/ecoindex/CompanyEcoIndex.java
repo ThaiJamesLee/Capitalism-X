@@ -126,4 +126,25 @@ public class CompanyEcoIndex {
         }
         this.ecoIndex.setPoints(newPoints);
     }
+
+    //TODO unclear if points or index should be used according to documentation
+    public boolean checkEcoIndexBelowThreshold(){
+        if(this.ecoIndex.getPoints() < 40){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean checkGameOver(){
+        if(this.ecoIndex.getPoints() < 10){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public EcoIndex getEcoIndex() {
+        return this.ecoIndex;
+    }
 }
