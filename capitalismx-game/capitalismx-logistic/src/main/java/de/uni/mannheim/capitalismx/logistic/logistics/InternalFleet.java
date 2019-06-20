@@ -15,6 +15,7 @@ public class InternalFleet {
     private double fixCostsDelivery;
     private int variableCostsDelivery;
     private double totalTruckCost;
+    private double decreaseCapacityFactor;
 
     private ArrayList<Truck> trucks;
 
@@ -22,6 +23,7 @@ public class InternalFleet {
         this.trucks = new ArrayList<Truck>();
         this.variableCostsDelivery = 2;
         this.calculateAll();
+        this.decreaseCapacityFactor = 0.0;
     }
 
     private void calculateAll(){
@@ -33,44 +35,50 @@ public class InternalFleet {
         this.calculateTotalTruckCost();
     }
 
-    private void calculateCapacityFleet(){
-        this.capacityFleet = 1000 * trucks.size();
+    private double calculateCapacityFleet(){
+        this.capacityFleet = (int)((1000 * trucks.size()) * (1 - this.decreaseCapacityFactor));
+        return this.capacityFleet;
     }
 
-    private void calculateEcoIndexFleet(){
+    private double calculateEcoIndexFleet(){
         double ecoIndexSum = 0;
         for(Truck t:trucks){
             ecoIndexSum += t.getEcoIndexTruck();
         }
         this.ecoIndexFleet = ecoIndexSum / trucks.size();
+        return this.ecoIndexFleet;
     }
 
-    private void calculateQualityIndexFleet(){
+    private double calculateQualityIndexFleet(){
         double qualityIndexSum = 0;
         for(Truck t:trucks){
             qualityIndexSum += t.getQualityIndexTruck();
         }
         this.qualityIndexFleet = qualityIndexSum / trucks.size();
+        return this.qualityIndexFleet;
     }
 
-    private void calculateInternalLogisticIndex(){
-        this.internalLogisticIndex = (ecoIndexFleet * 0.2) + (qualityIndexFleet * 0.8);
+    private double calculateInternalLogisticIndex(){
+        this.internalLogisticIndex = (this.calculateEcoIndexFleet() * 0.2) + (this.calculateQualityIndexFleet() * 0.8);
+        return this.internalLogisticIndex;
     }
 
-    private void calculateFixCostsDelivery(){
+    private double calculateFixCostsDelivery(){
         double fixCostsDeliverySum = 0;
         for(Truck t:trucks){
             fixCostsDeliverySum += t.getFixCostsDelivery();
         }
         this.fixCostsDelivery = fixCostsDeliverySum / trucks.size();
+        return this.fixCostsDelivery;
     }
 
-    private void calculateTotalTruckCost(){
+    private double calculateTotalTruckCost(){
         double fixTruckCostSum = 0;
         for(Truck t:trucks){
             fixTruckCostSum += t.getFixTruckCost();
         }
         this.totalTruckCost = fixTruckCostSum;
+        return this.totalTruckCost;
     }
 
     protected void addTruckToFleet(Truck truck){
@@ -113,5 +121,18 @@ public class InternalFleet {
 
     public double getTotalTruckCost() {
         return this.totalTruckCost;
+    }
+
+    boolean checkEcoIndexFleetBelowThreshold(){
+        if(this.calculateEcoIndexFleet() < 30){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //TODO only for two months
+    void decreaseCapacityFleetRel(double amount){
+        this.decreaseCapacityFactor += amount;
     }
 }

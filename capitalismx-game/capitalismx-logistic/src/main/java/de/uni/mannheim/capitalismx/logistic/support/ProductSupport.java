@@ -109,28 +109,31 @@ public class ProductSupport {
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;
     }
 
-    private void calculateTotalSupportTypeQuality(){
+    private double calculateTotalSupportTypeQuality(){
         this.totalSupportTypeQuality = 0;
         for(SupportType supportType : supportTypes){
             this.totalSupportTypeQuality += supportType.getSupportTypeQuality();
         }
+        return this.totalSupportTypeQuality;
     }
 
-    private void calculateTotalSupportQuality(){
+    private double calculateTotalSupportQuality(){
         this.calculateTotalSupportTypeQuality();
-        if(externalSupportPartner.getQualityIndex() <= 50){
-            this.totalSupportQuality = 0.4 * externalSupportPartner.getQualityIndex() + 0.6 * this.totalSupportTypeQuality;
+        if(this.externalSupportPartner.getQualityIndex() <= 50){
+            this.totalSupportQuality = 0.4 * this.externalSupportPartner.getQualityIndex() + 0.6 * this.calculateTotalSupportTypeQuality();
         }else{
-            this.totalSupportQuality = 0.3 * externalSupportPartner.getQualityIndex() + 0.7 * this.totalSupportTypeQuality;
+            this.totalSupportQuality = 0.3 * this.externalSupportPartner.getQualityIndex() + 0.7 * this.calculateTotalSupportTypeQuality();
         }
+        return this.totalSupportQuality;
     }
 
-    private void calculateTotalSupportCosts(){
+    private double calculateTotalSupportCosts(){
         totalSupportCosts = 0;
         for(SupportType supportType : supportTypes){
             this.totalSupportCosts += supportType.getCostsSupportType();
         }
         this.totalSupportCosts += this.externalSupportPartner.getContractualCosts();
+        return this.totalSupportCosts;
     }
 
     public ArrayList<SupportType> getSupportTypes() {

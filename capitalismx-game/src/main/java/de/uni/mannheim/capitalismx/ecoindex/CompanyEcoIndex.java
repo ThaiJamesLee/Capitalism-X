@@ -8,7 +8,7 @@ public class CompanyEcoIndex {
     private EcoIndex ecoIndex;
     private final int ECO_FLAT_TAX = 10000;
 
-    private enum EcoIndex{
+    public enum EcoIndex{
         GOOD(5, 80, 100),
         MODERATE(4, 60, 79),
         UNHEALTHY(3, 40, 59),
