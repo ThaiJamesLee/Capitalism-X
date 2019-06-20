@@ -184,6 +184,7 @@ public class ExternalEvents {
     private void checkEventEcoActivists(Logistics logistics){
         if(logistics.checkEcoIndexFleetBelowThreshold()){
             logistics.decreaseCapacityFleetRel(0.70);
+            externalEvents.add(ExternalEvent.EVENT_17);
         }
     }
 
