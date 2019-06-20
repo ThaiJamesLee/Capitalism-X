@@ -1,6 +1,5 @@
 package de.uni.mannheim.capitalismx.warehouse;
 
-
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.Production;
 

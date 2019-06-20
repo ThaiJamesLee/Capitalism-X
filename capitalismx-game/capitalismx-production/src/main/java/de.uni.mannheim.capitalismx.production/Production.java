@@ -26,7 +26,6 @@ public class Production {
     private double productionProcessProductivity;
     private double normalizedProductionProcessProductivity;
 
-
     private Production() {
         this.numberUnitsProducedPerMonth = 0;
         this.monthlyAvailableMachineCapacity = 0;

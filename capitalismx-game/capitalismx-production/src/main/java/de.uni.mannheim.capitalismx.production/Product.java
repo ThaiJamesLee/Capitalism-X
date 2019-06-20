@@ -18,7 +18,6 @@ public class Product {
     private double salesPrice;
     private double profitMargin;
 
-
     public Product(ProductCategory productCategory, ArrayList<Component> components) {
         this.productCategory = productCategory;
         this.components = components;

@@ -45,7 +45,6 @@ public class Warehouse {
         return 0;
     }
 
-
     public double getBuildingCost() {
         return this.buildingCost;
     }
