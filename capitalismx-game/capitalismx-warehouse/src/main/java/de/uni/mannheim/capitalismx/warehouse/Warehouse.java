@@ -45,6 +45,10 @@ public class Warehouse {
         return 0;
     }
 
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     public double getBuildingCost() {
         return this.buildingCost;
     }

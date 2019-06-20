@@ -18,6 +18,7 @@ public class Warehousing {
     private double dailyStorageCost;
     private double monthlyStorageCost;
     private double monthlyTotalCostWarehousing;
+    private int daysSinceFreeStorageThreshold;
 
     private Warehousing() {
         this.warehouses = new ArrayList<Warehouse>();
@@ -29,6 +30,7 @@ public class Warehousing {
         this.dailyStorageCost = 0;
         this.monthlyStorageCost = 0;
         this.monthlyTotalCostWarehousing = 0;
+        this.daysSinceFreeStorageThreshold = 0;
     }
 
     public static synchronized Warehousing getInstance() {
@@ -148,5 +150,38 @@ public class Warehousing {
 
     public int getFreeStorage() {
         return this.freeStorage;
+    }
+
+    public boolean checkFreeStorageThreshold() {
+        if((this.freeStorage / this.totalCapacity) <01) {
+            this.daysSinceFreeStorageThreshold++;
+            return true;
+        } else {
+            this.daysSinceFreeStorageThreshold = 0;
+            return false;
+        }
+    }
+
+    public int getDaysSinceFreeStorageThreshold() {
+        return this.daysSinceFreeStorageThreshold;
+    }
+
+    public ArrayList<Warehouse> getWarehouses() {
+        return this.warehouses;
+    }
+
+    public void decreaseStoredUnitsRel(double percentage) {
+        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+            this.inventory.put(entry.getKey(), (int) (entry.getValue() * 0.7));
+        }
+    }
+
+    public boolean checkWarehouseCapacityThreshold() {
+        return (this.storedUnits / this.totalCapacity) >= 0.8;
+    }
+
+    public void decreaseCapacity(int capacity) {
+        Warehouse damagedWarehouse = this.warehouses.get(0);
+        damagedWarehouse.setCapacity(damagedWarehouse.getCapacity() - capacity);
     }
 }
