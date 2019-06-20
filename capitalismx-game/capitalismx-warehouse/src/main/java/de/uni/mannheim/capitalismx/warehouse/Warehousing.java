@@ -86,11 +86,37 @@ public class Warehousing {
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
     }
 
-    public double buildWarehouse(WarehouseType warehouseType) {
-        Warehouse warehouse = new Warehouse(warehouseType);
+    public double buildWarehouse() {
+        Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
         warehouses.add(warehouse);
-
+        this.calculateMonthlyCostWarehousing();
         return warehouse.getBuildingCost();
+    }
+
+    public double rentWarehouse() {
+        Warehouse warehouse = new Warehouse(WarehouseType.RENTED);
+        warehouses.add(warehouse);
+        this.calculateMonthlyCostWarehousing();
+        return warehouse.getMonthlyRentalCost();
+    }
+
+    public void depreciateAllWarehouseResaleValues() {
+        for(Warehouse warehouse : this.warehouses) {
+            warehouse.depreciateWarehouseResaleValue();
+        }
+    }
+
+    public double getWarehouseResaleValue(Warehouse warehouse) {
+        return warehouse.getResaleValue();
+    }
+
+    public double sellWarehouse(Warehouse warehouse) {
+        double resaleValue = 0;
+        if(warehouse.getWarehouseType() == WarehouseType.BUILT) {
+            resaleValue = warehouse.getResaleValue();
+        }
+        warehouses.remove(warehouse);
+        return resaleValue;
     }
 
     public double calculateMonthlyCostWarehousing() {

@@ -45,6 +45,7 @@ public class Warehouse {
         return 0;
     }
 
+
     public double getBuildingCost() {
         return this.buildingCost;
     }
@@ -67,5 +68,9 @@ public class Warehouse {
 
     public double getResaleValue() {
         return this.resaleValue;
+    }
+
+    public WarehouseType getWarehouseType() {
+        return this.warehouseType;
     }
 }
