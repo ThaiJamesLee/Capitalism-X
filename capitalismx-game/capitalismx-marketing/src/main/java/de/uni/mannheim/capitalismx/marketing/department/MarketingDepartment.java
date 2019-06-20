@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.marketing.department;
 import de.uni.mannheim.capitalismx.marketing.domain.Action;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
+import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,8 @@ public class MarketingDepartment {
 
     private Map<String, List<Campaign>> issuedActions;
 
+    private List<PressRelease> pressReleases;
+
 
     public MarketingDepartment() {
         init();
@@ -33,6 +36,17 @@ public class MarketingDepartment {
         for (String c : CAMPAIGN_NAMES) {
             issuedActions.put(c, new ArrayList<>());
         }
+
+        pressReleases = new ArrayList<>();
+    }
+
+    /**
+     *
+     * Adds the press release into the pressRelease list.
+     * @param release The Press Release that should be done.
+     */
+    public void makePressRelease(PressRelease release) {
+        pressReleases.add(release);
     }
 
     /**
@@ -134,7 +148,40 @@ public class MarketingDepartment {
         }
 
         return points;
+    }
 
+    public List<PressRelease> getPressReleases() {
+        return pressReleases;
+    }
+
+    /**
+     *
+     * @return Returns total cost of press releases.
+     */
+    public double getTotalPressReleaseCosts() {
+        double cost = 0.0;
+        for (PressRelease pr : pressReleases) {
+            cost += pr.getCost();
+        }
+        return cost;
+    }
+
+    /**
+     *
+     * @return Returns total cost of campaigns.
+     */
+    public double getTotalCampaignCosts() {
+        double cost = 0.0;
+
+        for (Map.Entry<String, List<Campaign>> entry: issuedActions.entrySet()) {
+            List<Campaign> campaigns = entry.getValue();
+
+            for(Campaign c : campaigns) {
+                cost += c.getMedia().getCost();
+            }
+        }
+
+        return cost;
     }
 
     public String[] getCampaignNames() {
