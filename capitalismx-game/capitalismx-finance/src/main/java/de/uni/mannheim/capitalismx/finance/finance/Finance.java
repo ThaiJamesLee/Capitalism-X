@@ -35,6 +35,7 @@ public class Finance {
     private double totalSupportCosts;
     private double totalExpenses;
     private double decreaseNopatFactor;
+    private double decreaseNopatConstant;
 
     private ArrayList<Warehouse> warehousesSold;
     private ArrayList<Truck> trucksSold;
@@ -50,6 +51,7 @@ public class Finance {
         this.bankingSystem = new BankingSystem();
         this.investments = new ArrayList<Investment>();
         this.decreaseNopatFactor = 0.0;
+        this.decreaseNopatConstant = 0.0;
     }
 
     public static synchronized Finance getInstance() {
@@ -60,7 +62,7 @@ public class Finance {
     }
 
     // liabilities = loanAmount
-    private double calculateNetWorth(){
+    public double calculateNetWorth(){
         //this.netWorth = this.cash + this.assets - this.liabilities;
         this.netWorth = this.calculateCash() + this.calculateAssets() - this.calculateLiabilities();
         return this.netWorth;
@@ -132,7 +134,7 @@ public class Finance {
         this.machinesSold.add(machine);
     }
 
-    private void calculateAssetsSold(){
+    private double calculateAssetsSold(){
         this.assetsSold = 0;
         for(Warehouse warehouse : this.warehousesSold){
             this.assetsSold += this.calculateResellPrice(warehouse.getPurchasePrice(), warehouse.getUsefulLife(), warehouse.getTimeUsed());
@@ -143,12 +145,13 @@ public class Finance {
         for(Machine machine : this.machinesSold){
             this.assetsSold += this.calculateResellPrice(machine.getPurchasePrice(), machine.getUsefulLife(), machine.getTimeUsed());
         }
+        return this.assetsSold;
     }
 
     // corrected formula in documentation
     private double calculateNopat(){
         //this.nopat = this.ebit - this.incomeTax;
-        this.nopat = (this.calculateEbit() - this.calculateIncomeTax()) * (1 - this.decreaseNopatFactor);
+        this.nopat = ((this.calculateEbit() - this.calculateIncomeTax()) * (1 - this.decreaseNopatFactor)) - this.decreaseNopatConstant;
         return this.nopat;
     }
 
@@ -282,8 +285,9 @@ public class Finance {
         this.calculateTotalInvestmentAmount();
     }
 
-    private void calculateLiabilities(){
+    private double calculateLiabilities(){
         this.liabilities = bankingSystem.getAnnualPrincipalBalance();
+        return this.liabilities;
     }
 
     private double calculateTotalInvestmentAmount(){
@@ -317,22 +321,32 @@ public class Finance {
         this.decreaseCash(this.calculateNopat() * 0.70);
     }
 
-    private void decreaseNopatRelPermanently(double decreaseNopatFactor){
-        if(this.calculateNetWorth() > 1000000){
-            this.decreaseNopatFactor = decreaseNopatFactor;
-        }
+    public void decreaseNopatRelPermanently(double amount){
+        this.decreaseNopatFactor += amount;
     }
 
-    private void increaseTaxRate(double amount){
+    public void increaseNopatRelPermanently(double amount){
+        this.decreaseNopatFactor -= amount;
+    }
+
+    public void increaseTaxRate(double amount){
         this.taxRate += amount;
     }
 
     //TODO only for one year?
-    private void decreaseTaxRate(double amount){
+    public void decreaseTaxRate(double amount){
         this.taxRate -= amount;
     }
 
-    private void nopatFine(double amount){
+    public void nopatFine(double amount){
         this.decreaseCash(this.calculateNopat() * amount);
+    }
+
+    public void decreaseNopatConstant(double amount){
+        this.decreaseNopatConstant += amount;
+    }
+
+    public void setDecreaseNopatConstant(double amount){
+        this.decreaseNopatConstant = amount;
     }
 }
