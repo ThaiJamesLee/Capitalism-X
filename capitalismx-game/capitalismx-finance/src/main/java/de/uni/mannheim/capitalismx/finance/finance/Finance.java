@@ -149,7 +149,7 @@ public class Finance {
     }
 
     // corrected formula in documentation
-    private double calculateNopat(){
+    public double calculateNopat(){
         //this.nopat = this.ebit - this.incomeTax;
         this.nopat = ((this.calculateEbit() - this.calculateIncomeTax()) * (1 - this.decreaseNopatFactor)) - this.decreaseNopatConstant;
         return this.nopat;

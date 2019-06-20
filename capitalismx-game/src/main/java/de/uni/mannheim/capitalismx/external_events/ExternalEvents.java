@@ -1,7 +1,11 @@
 package de.uni.mannheim.capitalismx.external_events;
 
 import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
+import de.uni.mannheim.capitalismx.finance.finance.Finance;
+import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
+import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
+import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -145,7 +149,7 @@ public class ExternalEvents {
                 Finance.getInstance().increaseNopatRelPermanently(0.02);
                 ExternalEvent.EVENT_9.setIncrease(true);
             }else{
-                Finance.decreaseNopatRelPermanently(0.02);
+                Finance.getInstance().decreaseNopatRelPermanently(0.02);
                 ExternalEvent.EVENT_9.setIncrease(false);
             }
             externalEvents.add(ExternalEvent.EVENT_9);
@@ -188,7 +192,7 @@ public class ExternalEvents {
     }
 
     private void checkEventFireFlooding(){
-        if(Warehousing.getInstance().checkFreeStorageTheshold()){
+        if(Warehousing.getInstance().checkFreeStorageThreshold()){
             double probability = Warehousing.getInstance().getDaysSinceFreeStorageThreshold() * 0.01;
             if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
                 Warehousing.getInstance().decreaseStoredUnitsRel(0.30);
