@@ -15,6 +15,8 @@ public class Product {
     private double totalComponentCosts;
     private double totalProductVariableCosts;
     private double totalProductCosts;
+    private double salesPrice;
+    private double profitMargin;
 
 
     public Product(ProductCategory productCategory, ArrayList<Component> components) {
@@ -33,8 +35,11 @@ public class Product {
         return this.productCategory;
     }
 
-    public double getTotalProductVariableCosts() {
-        return totalProductVariableCosts;
+    public double calculateTotalVariableCosts() {
+        /* placeholder for ecoCost */
+        int ecoCostPerProduct = 3000;
+        this.totalProductVariableCosts = this.totalComponentCosts + ecoCostPerProduct;
+        return this.totalProductVariableCosts;
     }
 
     public double calculateTotalProcurementQuality() {
@@ -60,5 +65,17 @@ public class Product {
 
     public void setTotalProductCosts(double totalProductCosts) {
         this.totalProductCosts = totalProductCosts;
+    }
+
+    public double getSalesPrice() {
+        return this.salesPrice;
+    }
+
+    public void setSalesPrice(double salesPrice) {
+        this.salesPrice = salesPrice;
+    }
+
+    public double calculateProfitMargin() {
+        return ((this.salesPrice - this.totalProductCosts) / this.salesPrice) * 100;
     }
 }

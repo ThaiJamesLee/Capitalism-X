@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.production;
 
+import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,7 +29,7 @@ public class Production {
     public double calculateProductionVariableCosts() {
         this.productionVariableCosts = 0;
         for(HashMap.Entry<Product, Integer> entry : this.inventar.entrySet()) {
-            this.productionVariableCosts += entry.getValue() * entry.getKey().getTotalProductVariableCosts();
+            this.productionVariableCosts += entry.getValue() * entry.getKey().calculateTotalVariableCosts();
         }
         return this.productionVariableCosts;
     }
@@ -43,10 +45,9 @@ public class Production {
         return this.productionFixCosts;
     }
 
-    public void setTotalProductCost() {
-        int totalProductCosts = 0;
+    public void setProductsTotalProductCost() {
         for(HashMap.Entry<Product, Integer> entry : this.inventar.entrySet()) {
-            entry.getKey().setTotalProductCosts(entry.getKey().getTotalProductVariableCosts() + this.productionFixCosts / this.inventar.size());
+            entry.getKey().setTotalProductCosts(entry.getKey().calculateTotalVariableCosts() + this.productionFixCosts / this.inventar.size());
         }
     }
 
@@ -65,25 +66,86 @@ public class Production {
     }
 
     public double launchProduct(Product product, int quantity) {
-        double purchasePrice = 0;
+        int totalMachineCapacity = 0;
+        // TO DO getTotalWareHouseCapacity;
+        int amountOfProductsInStock = 0;
         for(HashMap.Entry<Product, Integer> entry : this.inventar.entrySet()) {
-            if(entry.getKey().getProductCategory() == product.getProductCategory()) {
-                this.inventar.remove(entry.getKey());
-            }
+            amountOfProductsInStock += entry.getValue();
         }
-        this.inventar.put(product, quantity);
-        /*
-        *
-        *
-        *
-        *
-        *
-        * HIER
-        *
-        *
-        *
-        * */
-        return purchasePrice;
+        int totalTalWareHouseCapacity = 50000;
+        int availableWareHouseCapacity = totalTalWareHouseCapacity - amountOfProductsInStock;
+        for(Machinery machinery : this.machines) {
+            totalMachineCapacity += machinery.getMachineryCapacity();
+        }
+        if(totalMachineCapacity <= quantity && availableWareHouseCapacity <= quantity) {
+            // variable or total????????
+            double variableProductCosts = 0;
+            for (HashMap.Entry<Product, Integer> entry : this.inventar.entrySet()) {
+                if (entry.getKey().getProductCategory() == product.getProductCategory()) {
+                    this.inventar.remove(entry.getKey());
+                }
+            }
+            this.inventar.put(product, quantity);
+            /* LocalDate.now() placeholder for gameDate */
+            LocalDate gameDate = LocalDate.now();
+            product.setLaunchDate(gameDate);
+            variableProductCosts = product.calculateTotalVariableCosts() * quantity;
+            return variableProductCosts;
+        } else {
+            // throw error message "Your machinery capacity is not sufficient. Either produce a smaller amount or buy new machinery."
+            return -1;
+        }
+    }
+
+    public double produceProduct(Product product, int quantity) {
+        int totalMachineCapacity = 0;
+        // TO DO getAvailableWareHouseCapacity;
+        int amountOfProductsInStock = 0;
+        for(HashMap.Entry<Product, Integer> entry : this.inventar.entrySet()) {
+            amountOfProductsInStock += entry.getValue();
+        }
+        int totalTalWareHouseCapacity = 50000;
+        int availableWareHouseCapacity = totalTalWareHouseCapacity - amountOfProductsInStock;
+        for(Machinery machinery : this.machines) {
+            totalMachineCapacity += machinery.getMachineryCapacity();
+        }
+        if(totalMachineCapacity <= quantity && availableWareHouseCapacity <= quantity) {
+            // variable or total????????
+            double variableProductCosts = 0;
+            /* LocalDate.now() placeholder for gameDate */
+            LocalDate gameDate = LocalDate.now();
+            variableProductCosts = product.calculateTotalVariableCosts() * quantity;
+            return variableProductCosts;
+        } else {
+            // throw error message "Your machinery capacity is not sufficient. Either produce a smaller amount or buy new machinery."
+            return -1;
+        }
+    }
+
+    public double getAmountInStock(Product product) {
+        return this.inventar.get(product);
+    }
+
+    public double getTotalProductCosts(Product product) {
+        this.setProductsTotalProductCost();
+        return product.getTotalProductCosts();
+    }
+
+    public void setProductSalesPrice(Product product, double salesPrice) {
+        /* check for DecimalFormat ##,###.00 in GUI */
+        if(salesPrice > 0 && salesPrice < 100000) {
+            product.setSalesPrice(salesPrice);
+        } else {
+            // throw error "salesPrice has to between 0.01 and 99,999.99"
+        }
+    }
+
+    public double getProductsSalesPrice(Product product) {
+        return product.getSalesPrice();
+    }
+
+    public double getProductsProfitMargin(Product product) {
+        return product.calculateProfitMargin();
     }
 
     public double calculateProductionTechnologyFactor() {
@@ -111,8 +173,6 @@ public class Production {
         this.totalEngineerProductivity = this.totalEngineerQualityOfWork * this.processAutomationFactor;
         return this.totalEngineerProductivity;
     }
-
-    /* once every*/
 
     public ProductionTechnology getProductionTechnology() {
         return this.productionTechnology;

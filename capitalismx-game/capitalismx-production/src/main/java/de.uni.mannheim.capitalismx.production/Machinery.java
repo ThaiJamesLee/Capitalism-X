@@ -143,4 +143,8 @@ public class Machinery {
         this.machineryDepreciation = this.machineryPrice - (this.productionTechnology.getRange() * this.levelPerPrice);
         return this.machineryDepreciation;
     }
+
+    public double getMachineryCapacity() {
+        return this.machineryCapacity;
+    }
 }
