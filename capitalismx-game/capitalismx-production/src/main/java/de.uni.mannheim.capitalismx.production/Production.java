@@ -19,8 +19,18 @@ public class Production {
     private ProductionInvestment systemSecurity;
     private double productionVariableCosts;
     private double productionFixCosts;
+    private double numberUnitsProducedPerMonth;
+    private double monthlyAvailableMachineCapacity;
+    private double manufactureEfficiency;
+    private double productionProcessProductivity;
+    private double normalizedProductionProcessProductivity;
+
 
     public Production() {
+        this.numberUnitsProducedPerMonth = 0;
+        this.monthlyAvailableMachineCapacity = 0;
+        this.inventar = new HashMap<Product, Integer>();
+        this.machines = new ArrayList<Machinery>();
         this.researchAndDevelopment = new ProductionInvestment("Research and Development");
         this.processAutomation = new ProductionInvestment("Process Automation");
         this.systemSecurity = new ProductionInvestment("System Security");
@@ -55,14 +65,39 @@ public class Production {
         return this.machines;
     }
 
+    public void updateMonthlyAvailableMachineCapacity() {
+        for(Machinery machinery : this.machines) {
+            this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
+        }
+    }
+
+    /* This method should always be followed up by updateMonthlyAvailableMachineCapacity and calculate perfomance metric methods*/
+    public void resetMonthlyPerformanceMetrics() {
+        this.numberUnitsProducedPerMonth = 0;
+        this.monthlyAvailableMachineCapacity = 0;
+        this.manufactureEfficiency = 0;
+    }
+
     public double buyMachinery(Machinery machinery) {
-        machines.add(machinery);
+        this.machines.add(machinery);
+        this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
         return machinery.calculatePurchasePrice();
     }
 
     public double sellMachinery(Machinery machinery) {
         machines.remove(machinery);
+        this.monthlyAvailableMachineCapacity -= machinery.getMachineryCapacity();
         return machinery.calculateResellPrice();
+    }
+
+    public double maintainAndRepairMachinery(Machinery machinery) {
+        return machinery.maintainAndRepairMachinery();
+    }
+
+    public double upgradeMachinery(Machinery machinery) {
+        this.monthlyAvailableMachineCapacity -= machinery.getMachineryCapacity();
+        this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity() * 1.2;
+        return machinery.upgradeMachinery();
     }
 
     public double launchProduct(Product product, int quantity) {
@@ -89,6 +124,7 @@ public class Production {
             /* LocalDate.now() placeholder for gameDate */
             LocalDate gameDate = LocalDate.now();
             product.setLaunchDate(gameDate);
+            this.numberUnitsProducedPerMonth += quantity;
             variableProductCosts = product.calculateTotalVariableCosts() * quantity;
             return variableProductCosts;
         } else {
@@ -114,6 +150,7 @@ public class Production {
             double variableProductCosts = 0;
             /* LocalDate.now() placeholder for gameDate */
             LocalDate gameDate = LocalDate.now();
+            this.numberUnitsProducedPerMonth += quantity;
             variableProductCosts = product.calculateTotalVariableCosts() * quantity;
             return variableProductCosts;
         } else {
@@ -149,8 +186,60 @@ public class Production {
     }
 
     public double calculateProductionTechnologyFactor() {
+        this.productionTechnology = ProductionTechnology.DEPRECIATED;
+        double averageProductionTechnologyRange = 0;
+        for(Machinery machinery : this.machines) {
+            averageProductionTechnologyRange += machinery.getProductionTechnology().getRange();
+        }
+        averageProductionTechnologyRange /= this.machines.size();
+        switch((int) Math.round(averageProductionTechnologyRange)) {
+            case 1:
+                this.productionTechnology = ProductionTechnology.DEPRECIATED;
+                break;
+            case 2:
+                this.productionTechnology = ProductionTechnology.OLD;
+                break;
+            case 3:
+                this.productionTechnology = ProductionTechnology.GOOD_CONDITIONS;
+                break;
+            case 4:
+                this.productionTechnology = ProductionTechnology.PURCHASED_MORE_THAN_FIVE_YEARS_AGO;
+                break;
+            case 5:
+                this.productionTechnology = ProductionTechnology.BRANDNEW;
+                break;
+            default: // Do nothing
+        }
         this.productionTechnologyFactor = 0.7 + 0.1 * this.productionTechnology.getRange();
         return this.productionTechnologyFactor;
+    }
+
+    public int calculateProductionTechnology() {
+        this.productionTechnology = ProductionTechnology.DEPRECIATED;
+        double averageProductionTechnologyRange = 0;
+        for(Machinery machinery : this.machines) {
+            averageProductionTechnologyRange += machinery.getProductionTechnology().getRange();
+        }
+        averageProductionTechnologyRange /= this.machines.size();
+        switch((int) Math.round(averageProductionTechnologyRange)) {
+            case 1:
+                this.productionTechnology = ProductionTechnology.DEPRECIATED;
+                break;
+            case 2:
+                this.productionTechnology = ProductionTechnology.OLD;
+                break;
+            case 3:
+                this.productionTechnology = ProductionTechnology.GOOD_CONDITIONS;
+                break;
+            case 4:
+                this.productionTechnology = ProductionTechnology.PURCHASED_MORE_THAN_FIVE_YEARS_AGO;
+                break;
+            case 5:
+                this.productionTechnology = ProductionTechnology.BRANDNEW;
+                break;
+            default: // Do nothing
+        }
+        return this.productionTechnology.getRange();
     }
 
     public double calculateResearchAndDevelopmentFactor() {
@@ -174,7 +263,32 @@ public class Production {
         return this.totalEngineerProductivity;
     }
 
+    public void setTotalProductQuality() {
+        for(HashMap.Entry<Product, Integer> entry : this.inventar.entrySet()) {
+            entry.getKey().calculateTotalProductQuality(this.calculateProductionTechnologyFactor(), this.calculateTotalEngineerProductivity(), this.calculateResearchAndDevelopmentFactor());
+        }
+    }
+
     public ProductionTechnology getProductionTechnology() {
         return this.productionTechnology;
+    }
+
+    /* use this order to calculate mE -> pPP -> nPPP*/
+    public double calculateManufactureEfficiency() {
+        this.manufactureEfficiency = 0;
+        if(this.monthlyAvailableMachineCapacity != 0) {
+            this.manufactureEfficiency = this.numberUnitsProducedPerMonth /this. monthlyAvailableMachineCapacity;
+        }
+        return this.manufactureEfficiency;
+    }
+
+    public double calculateProductionProcessProductivity() {
+        this.productionProcessProductivity = (this.calculateProductionTechnology() + Math.pow(Math.E, Math.log(this.calculateTotalEngineerProductivity())/10)) * this.manufactureEfficiency;
+        return this.productionProcessProductivity;
+    }
+
+    public double calculateNormalizedProductionProcessProductivty() {
+        this.normalizedProductionProcessProductivity = (this.productionProcessProductivity - 0.2) / (3.2 - 0.2);
+        return this.normalizedProductionProcessProductivity;
     }
 }

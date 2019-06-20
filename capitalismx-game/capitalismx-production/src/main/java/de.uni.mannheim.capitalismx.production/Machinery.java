@@ -24,7 +24,7 @@ public class Machinery {
 
     public boolean depreciateMachinery(boolean naturalDisaster) {
         LocalDate gameDate = LocalDate.now();
-        boolean yearIncrease = Period.between(this.lastInvestmentDate, gameDate).getYears() - this.yearsSinceLastInvestment > 0;
+        boolean yearIncrease = Period.between(this.lastInvestmentDate, gameDate).getYears() - this.yearsSinceLastInvestment > 1;
         this.yearsSinceLastInvestment = Period.between(this.lastInvestmentDate, gameDate).getYears();
         if(naturalDisaster) {
             switch(this.productionTechnology) {
@@ -46,7 +46,7 @@ public class Machinery {
                 default: // Do nothing
             }
             return true;
-        } else if(yearIncrease) {
+        } else if(yearIncrease && this.yearsSinceLastInvestment % 5 == 0) {
             switch(this.productionTechnology) {
                 case DEPRECIATED:
                     this.productionTechnology = ProductionTechnology.DEPRECIATED;
@@ -146,5 +146,17 @@ public class Machinery {
 
     public double getMachineryCapacity() {
         return this.machineryCapacity;
+    }
+
+    public ProductionTechnology getProductionTechnology() {
+        return this.productionTechnology;
+    }
+
+    public void setProductionTechnology(ProductionTechnology productionTechnology) {
+        this.productionTechnology = productionTechnology;
+    }
+
+    public void setMachineryCapacity(double machineryCapacity) {
+        this.machineryCapacity = machineryCapacity;
     }
 }
