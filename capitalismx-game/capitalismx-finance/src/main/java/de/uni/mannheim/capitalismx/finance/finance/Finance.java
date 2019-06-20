@@ -90,7 +90,7 @@ public class Finance {
     //TODO
     private double calculateTotalWarehousingValues(){
         this.totalWarehousingValues = 0;
-        ArrayList<Warehouse> warehouses = null;
+        ArrayList<Warehouse> warehouses = Warehousing.getInstance().getWarehouses();
         for(Warehouse warehouse : warehouses){
             this.totalWarehousingValues += this.calculateResellPrice(warehouse.getPurchasePrice(), warehouse.getUsefulLife(), warehouse.getTimeUsed());
         }
@@ -100,7 +100,7 @@ public class Finance {
     //TODO
     private double calculateTotalTruckValues(){
         this.totalTruckValues = 0;
-        ArrayList<Truck> trucks = null;
+        ArrayList<Truck> trucks = Logistics.getInstance().getTrucks();
         for(Truck truck : trucks){
             this.totalTruckValues += this.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.getTimeUsed());
         }
@@ -110,8 +110,8 @@ public class Finance {
     //TODO
     private double calculateTotalMachineValues(){
         this.totalMachineValues = 0;
-        ArrayList<Machine> machines = null;
-        for(Machine machine : machines){
+        ArrayList<Machinery> machines = Production.getInstances().getMachines();
+        for(Machinery machine : machines){
             this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(), machine.getUsefulLife(), machine.getTimeUsed());
         }
         return this.totalMachineValues;
@@ -146,9 +146,9 @@ public class Finance {
     }
 
     // corrected formula in documentation
-    private double calculateNopat(Logistics logistics){
+    private double calculateNopat(){
         //this.nopat = this.ebit - this.incomeTax;
-        this.nopat = (this.calculateEbit(logistics) - this.calculateIncomeTax()) * (1 - this.decreaseNopatFactor);
+        this.nopat = (this.calculateEbit() - this.calculateIncomeTax()) * (1 - this.decreaseNopatFactor);
         return this.nopat;
     }
 
@@ -168,9 +168,9 @@ public class Finance {
         return this.totalRevenue;
     }
 
-    private double calculateTotalExpenses(Logistics logistics){
+    private double calculateTotalExpenses(){
         //this.totalExpenses = this.totalHRCosts + this.totalWarehouseCosts + this.totalLogisticsCosts + this.totalProductionCosts + this.totalMarketingCosts + this.totalSupportCosts;
-        this.totalExpenses = this.calculateTotalHRCosts() + this.calculateTotalWarehouseCosts() + this.calculateTotalLogisticsCosts(logistics) + this.calculateTotalProductionCosts()
+        this.totalExpenses = this.calculateTotalHRCosts() + this.calculateTotalWarehouseCosts() + this.calculateTotalLogisticsCosts() + this.calculateTotalProductionCosts()
                 + this.calculateTotalMarketingCosts() + this.calculateTotalSupportCosts();
         return this.totalExpenses;
     }
@@ -204,8 +204,8 @@ public class Finance {
     }
 
     //TODO
-    private double calculateTotalLogisticsCosts(Logistics logistics){
-        this.totalLogisticsCosts = logistics.getTotalLogisticsCosts();
+    private double calculateTotalLogisticsCosts(){
+        this.totalLogisticsCosts = Logistics.getInstance().getTotalLogisticsCosts();
         return this.totalLogisticsCosts;
     }
 
@@ -231,9 +231,9 @@ public class Finance {
         return 0;
     }
 
-    private double calculateEbit(Logistics logistics){
+    private double calculateEbit(){
         //this.ebit = this.totalRevenue - this.totalExpenses;
-        this.ebit = this.calculateTotalRevenue() - this.calculateTotalExpenses(logistics);
+        this.ebit = this.calculateTotalRevenue() - this.calculateTotalExpenses();
         return this.ebit;
     }
 
@@ -332,7 +332,7 @@ public class Finance {
         this.taxRate -= amount;
     }
 
-    private void nopatFine(double amount, Logistics logistics){
-        this.decreaseCash(this.calculateNopat());
+    private void nopatFine(double amount){
+        this.decreaseCash(this.calculateNopat() * amount);
     }
 }
