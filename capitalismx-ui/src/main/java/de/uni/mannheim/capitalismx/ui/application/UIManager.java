@@ -109,7 +109,7 @@ public class UIManager {
 			// for each predefined GameModuleTypes load the fxml-file and create
 			// a new GameModule, that is stored in the list
 			for (GameModuleType type : GameModuleType.values()) {
-				FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/" + type.fxmlFile));
+				FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/module/" + type.fxmlFile));
 				// create new GridPosition from the type.
 				GridPosition position = new GridPosition(type.gridColStart, type.gridRowStart, type.gridColSpan,
 						type.gridRowSpan);
