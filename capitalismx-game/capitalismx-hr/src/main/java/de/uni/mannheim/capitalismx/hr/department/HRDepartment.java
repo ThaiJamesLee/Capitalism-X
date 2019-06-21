@@ -139,18 +139,13 @@ public class HRDepartment {
     public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
         Team team = teams.get(employeeType);
         List<Employee> teamList = team.getTeam();
-
-        double avgSkillLevel = 0.0;
+        double jss = getTotalJSS();
+        double totalQoW = 0.0;
 
         for (Employee e : teamList) {
-            avgSkillLevel += e.getSkillLevel();
+            totalQoW += 0.5 * e.getSkillLevel() + 0.5 * jss;
         }
-
-        int totalNum = teamList.size();
-        if (totalNum > 0) {
-            avgSkillLevel = avgSkillLevel / totalNum;
-        }
-        return getTotalJSS() * 0.5 + avgSkillLevel * 0.5;
+        return totalQoW;
     }
 
 
