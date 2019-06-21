@@ -1,4 +1,4 @@
-package de.uni.mannheim.components;
+package de.uni.mannheim.capitalismx.ui.components;
 
 /**
  * The type of a {@link GameModule} specifies the fxml-File and it's default

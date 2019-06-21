@@ -1,4 +1,4 @@
-package de.uni.mannheim.application;
+package de.uni.mannheim.capitalismx.ui.application;
 
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;

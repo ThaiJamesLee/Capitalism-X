@@ -1,4 +1,4 @@
-package de.uni.mannheim.application;
+package de.uni.mannheim.capitalismx.ui.application;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.components.GameModule;
-import de.uni.mannheim.components.GameModuleType;
-import de.uni.mannheim.components.GameScene;
-import de.uni.mannheim.components.GameSceneType;
-import de.uni.mannheim.components.GameView;
-import de.uni.mannheim.components.GameViewType;
-import de.uni.mannheim.utils.GridPosition;
+import de.uni.mannheim.capitalismx.ui.components.GameModule;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.components.GameScene;
+import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
+import de.uni.mannheim.capitalismx.ui.components.GameView;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

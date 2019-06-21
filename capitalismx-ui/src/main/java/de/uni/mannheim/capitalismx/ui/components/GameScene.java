@@ -1,6 +1,6 @@
-package de.uni.mannheim.components;
+package de.uni.mannheim.capitalismx.ui.components;
 
-import de.uni.mannheim.controller.GameController;
+import de.uni.mannheim.capitalismx.ui.controller.GameController;
 import javafx.scene.Scene;
 
 /**

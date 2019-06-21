@@ -1,7 +1,7 @@
-package de.uni.mannheim.components;
+package de.uni.mannheim.capitalismx.ui.components;
 
-import de.uni.mannheim.controller.GameController;
-import de.uni.mannheim.utils.GridPosition;
+import de.uni.mannheim.capitalismx.ui.controller.GameController;
+import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.scene.Parent;
 
 /**

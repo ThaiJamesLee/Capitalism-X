@@ -1,4 +1,4 @@
-package de.uni.mannheim.controller;
+package de.uni.mannheim.capitalismx.ui.controller;
 
 /**
  * Abstract class that defines methods an ingame controller should implement. All

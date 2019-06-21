@@ -1,4 +1,4 @@
-package de.uni.mannheim.application;
+package de.uni.mannheim.capitalismx.ui.application;
 
 /**
  * New main class, starting the application for Maven Builds.
