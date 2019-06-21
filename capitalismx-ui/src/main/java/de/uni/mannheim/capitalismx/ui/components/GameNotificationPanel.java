@@ -1,8 +1,8 @@
-package de.uni.mannheim.components;
+package de.uni.mannheim.capitalismx.ui.components;
 
 import java.io.IOException;
 
-import de.uni.mannheim.controller.NotificationController;
+import de.uni.mannheim.capitalismx.ui.controller.NotificationController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
