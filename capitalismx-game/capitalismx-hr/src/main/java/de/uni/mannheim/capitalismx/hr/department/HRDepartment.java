@@ -47,7 +47,7 @@ public class HRDepartment {
      */
     public double getHiringCost() {
         double jss = getTotalJSS()/100;
-        return BASE_COST + BASE_COST*(1-jss);
+        return BASE_COST + BASE_COST*(1 - jss);
     }
 
     /**
@@ -129,6 +129,28 @@ public class HRDepartment {
      */
     public double getTotalQualityOfWork () {
         return getTotalJSS() * 0.5 + getAverageSkillLevel() * 0.5;
+    }
+
+    /**
+     *
+     * @param employeeType The employee type of interest
+     * @return Returns the Quality of Work of the specified team.
+     */
+    public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
+        Team team = teams.get(employeeType);
+        List<Employee> teamList = team.getTeam();
+
+        double avgSkillLevel = 0.0;
+
+        for (Employee e : teamList) {
+            avgSkillLevel += e.getSkillLevel();
+        }
+
+        int totalNum = teamList.size();
+        if (totalNum > 0) {
+            avgSkillLevel = avgSkillLevel / totalNum;
+        }
+        return getTotalJSS() * 0.5 + avgSkillLevel * 0.5;
     }
 
 
