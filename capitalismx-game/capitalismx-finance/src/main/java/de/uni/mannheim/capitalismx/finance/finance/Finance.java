@@ -1,7 +1,14 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
+import de.uni.mannheim.capitalismx.hr.domain.Training;
+import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.Production;
+import de.uni.mannheim.capitalismx.warehouse.Warehouse;
+import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
 import java.util.ArrayList;
 
@@ -39,7 +46,7 @@ public class Finance {
 
     private ArrayList<Warehouse> warehousesSold;
     private ArrayList<Truck> trucksSold;
-    private ArrayList<Machine> machinesSold;
+    private ArrayList<Machinery> machinesSold;
     private ArrayList<Double> nopatLast5Years;
 
     private BankingSystem bankingSystem;
@@ -91,31 +98,37 @@ public class Finance {
 
     //TODO
     private double calculateTotalWarehousingValues(){
+        /**
         this.totalWarehousingValues = 0;
         ArrayList<Warehouse> warehouses = Warehousing.getInstance().getWarehouses();
         for(Warehouse warehouse : warehouses){
             this.totalWarehousingValues += this.calculateResellPrice(warehouse.getPurchasePrice(), warehouse.getUsefulLife(), warehouse.getTimeUsed());
         }
+         **/
         return this.totalWarehousingValues;
     }
 
     //TODO
     private double calculateTotalTruckValues(){
+        /**
         this.totalTruckValues = 0;
         ArrayList<Truck> trucks = Logistics.getInstance().getTrucks();
         for(Truck truck : trucks){
             this.totalTruckValues += this.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.getTimeUsed());
         }
+         **/
         return this.totalTruckValues;
     }
 
     //TODO
     private double calculateTotalMachineValues(){
+        /**
         this.totalMachineValues = 0;
         ArrayList<Machinery> machines = Production.getInstances().getMachines();
         for(Machinery machine : machines){
             this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(), machine.getUsefulLife(), machine.getTimeUsed());
         }
+         **/
         return this.totalMachineValues;
     }
 
@@ -130,11 +143,12 @@ public class Finance {
     }
 
     //TODO timestamp or thread in class that checks if new day
-    public void sellMachine(Machine machine){
+    public void sellMachine(Machinery machine){
         this.machinesSold.add(machine);
     }
 
     private double calculateAssetsSold(){
+        /**
         this.assetsSold = 0;
         for(Warehouse warehouse : this.warehousesSold){
             this.assetsSold += this.calculateResellPrice(warehouse.getPurchasePrice(), warehouse.getUsefulLife(), warehouse.getTimeUsed());
@@ -142,9 +156,10 @@ public class Finance {
         for(Truck truck : this.trucksSold){
             this.assetsSold += this.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.getTimeUsed());
         }
-        for(Machine machine : this.machinesSold){
+        for(Machinery machine : this.machinesSold){
             this.assetsSold += this.calculateResellPrice(machine.getPurchasePrice(), machine.getUsefulLife(), machine.getTimeUsed());
         }
+         **/
         return this.assetsSold;
     }
 
@@ -163,11 +178,13 @@ public class Finance {
 
     //TODO
     private double calculateTotalRevenue(){
+        /**
         ArrayList<Product> productsSold = null;
         this.totalRevenue = 0;
         for(Product product : productsSold){
             this.totalRevenue += product.getSalesFigures() * product.getSalesPrice();
         }
+         **/
         return this.totalRevenue;
     }
 
@@ -180,6 +197,7 @@ public class Finance {
 
     //TODO
     private double calculateTotalHRCosts(){
+        /**
         ArrayList<Training> trainings = null;
         ArrayList<Employee> employees = null;
         double totalTrainingCosts = 0;
@@ -194,15 +212,17 @@ public class Finance {
         }
 
         this.totalHRCosts = totalSalaries + totalTrainingCosts;
+         **/
         return this.totalHRCosts;
     }
 
     //TODO
     private double calculateTotalWarehouseCosts(){
+        /**
         double warehouseCosts = ;
         double storageCosts = ;
 
-        this.totalWarehouseCosts = warehouseCosts + storageCosts;
+        this.totalWarehouseCosts = warehouseCosts + storageCosts;**/
         return this.totalWarehouseCosts;
     }
 
@@ -220,12 +240,14 @@ public class Finance {
 
     //TODO
     private double calculateTotalMarketingCosts(){
+        /**
         double priceManagementConsultancy = ;
         double priceMarketResearch = ;
         double priceCampaign = ;
         double priceLobbyist = ;
         this.totalMarketingCosts = priceManagementConsultancy + priceMarketResearch + priceCampaign + priceLobbyist;
-        return this.totalMarketingCosts;
+        return this.totalMarketingCosts;**/
+        return 0.0;
     }
 
     //TODO

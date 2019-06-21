@@ -1,5 +1,9 @@
 package de.uni.mannheim.capitalismx.ecoindex;
 
+import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
+import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.Production;
+
 import java.util.ArrayList;
 
 public class CompanyEcoIndex {
@@ -59,6 +63,8 @@ public class CompanyEcoIndex {
     }
 
     private void checkMachinery(){
+        //TODO
+
         ArrayList<Machinery> machines = Production.getInstance().getMachines();
         for(Machinery machinery : machines){
             machinery.depreciateMachinery(false);
@@ -69,9 +75,10 @@ public class CompanyEcoIndex {
     }
 
     private void checkVehicles(){
-        if(Logistics.getInstance().getInternalFleet().calculateExoIndexFleet() < 3){
+        //TODO
+        /**if(Logistics.getInstance().getInternalFleet().calculateExoIndexFleet() < 3){
             this.decreaseEcoIndex(1);
-        }
+        }**/
     }
 
     //TODO
@@ -101,7 +108,8 @@ public class CompanyEcoIndex {
 
     //TODO
     private double calculateEcoCosts(){
-        return this.calculateEcoTax() - (Production.getInstance().getProductionTechnology().getRange() + component eL) * 1000;
+        //return this.calculateEcoTax() - (Production.getInstance().getProductionTechnology().getRange() + component eL) * 1000;
+        return 0.0;
     }
 
     private void decreaseEcoIndex(int points){
