@@ -10,7 +10,7 @@ import java.util.List;
 public class Production {
 
     private static Production instance;
-    private HashMap<Product, Integer> inventory;
+    private HashMap<Product, Integer> numberProducedProducts;
     private ArrayList<Machinery> machines;
     private double productionTechnologyFactor;
     private ProductionTechnology productionTechnology;
@@ -33,7 +33,7 @@ public class Production {
     private Production() {
         this.numberUnitsProducedPerMonth = 0;
         this.monthlyAvailableMachineCapacity = 0;
-        this.inventory = new HashMap<Product, Integer>();
+        this.numberProducedProducts = new HashMap<Product, Integer>();
         this.machines = new ArrayList<Machinery>();
         this.researchAndDevelopment = new ProductionInvestment("Research and Development");
         this.processAutomation = new ProductionInvestment("Process Automation");
@@ -49,7 +49,7 @@ public class Production {
 
     public double calculateProductionVariableCosts() {
         this.productionVariableCosts = 0;
-        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             this.productionVariableCosts += entry.getValue() * entry.getKey().calculateTotalVariableCosts();
         }
         return this.productionVariableCosts;
@@ -67,8 +67,8 @@ public class Production {
     }
 
     public void setProductsTotalProductCost() {
-        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
-            entry.getKey().setTotalProductCosts(entry.getKey().calculateTotalVariableCosts() + this.productionFixCosts / this.inventory.size());
+        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+            entry.getKey().setTotalProductCosts(entry.getKey().calculateTotalVariableCosts() + this.productionFixCosts / this.numberProducedProducts.size());
         }
     }
 
@@ -119,8 +119,8 @@ public class Production {
         }
         if(totalMachineCapacity <= quantity && freeStorage <= quantity) {
             double variableProductCosts = 0;
-            for (HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
-                this.inventory.put(product, quantity);
+            for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+                this.numberProducedProducts.put(product, quantity);
             }
             /* LocalDate.now() placeholder for gameDate TODO*/
             LocalDate gameDate = LocalDate.now();
@@ -142,12 +142,12 @@ public class Production {
         if(totalMachineCapacity <= quantity && freeStorage <= quantity) {
             double variableProductCosts = 0;
             int newQuantity = quantity;
-            for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+            for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
                 if(product == entry.getKey()) {
                     newQuantity += entry.getValue();
                 }
             }
-            this.inventory.put(product, newQuantity);
+            this.numberProducedProducts.put(product, newQuantity);
             /* LocalDate.now() placeholder for gameDate */ // NEEDED? TODO
             //LocalDate gameDate = LocalDate.now();
             this.numberUnitsProducedPerMonth += quantity;
@@ -160,7 +160,7 @@ public class Production {
     }
 
     public double getAmountInStock(Product product) {
-        return this.inventory.get(product);
+        return this.numberProducedProducts.get(product);
     }
 
     public double getTotalProductCosts(Product product) {
@@ -182,7 +182,7 @@ public class Production {
     }
 
     public void calculateAllProductsProfitMargin() {
-        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             entry.getKey().calculateProfitMargin();
         }
     }
@@ -274,7 +274,7 @@ public class Production {
     }
 
     public void setTotalProductQuality() {
-        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             entry.getKey().calculateTotalProductQuality(this.calculateProductionTechnologyFactor(), this.calculateTotalEngineerProductivity(), this.calculateResearchAndDevelopmentFactor());
         }
     }
@@ -323,20 +323,20 @@ public class Production {
         this.processAutomation = this.processAutomation.updateInvestment();
     }
 
-    public HashMap<Product, Integer> getInventory() {
-        return this.inventory;
+    public HashMap<Product, Integer> getNumberProducedProducts() {
+        return this.numberProducedProducts;
     }
 
     public void clearInventory() {
-        this.inventory.clear();
+        this.numberProducedProducts.clear();
     }
 
     public double calculateAverageProductBaseQuality() {
         this.averageProductBaseQuality = 0;
-        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             this.averageProductBaseQuality += entry.getKey().calculateAverageBaseQuality();
         }
-        return this.averageProductBaseQuality / this.inventory.size();
+        return this.averageProductBaseQuality / this.numberProducedProducts.size();
     }
 
     /* TODO duration 1 month, winter month*/

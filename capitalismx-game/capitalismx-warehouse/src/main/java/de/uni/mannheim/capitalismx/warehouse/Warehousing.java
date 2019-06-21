@@ -41,7 +41,7 @@ public class Warehousing {
     }
 
     public void storeUnits() {
-        HashMap<Product, Integer> newUnits = Production.getInstance().getInventory();
+        HashMap<Product, Integer> newUnits = Production.getInstance().getNumberProducedProducts();
         for(HashMap.Entry<Product, Integer> entry : newUnits.entrySet()) {
             if(this.inventory.get(entry.getKey()) != null) {
                 int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
@@ -183,5 +183,9 @@ public class Warehousing {
     public void decreaseCapacity(int capacity) {
         Warehouse damagedWarehouse = this.warehouses.get(0);
         damagedWarehouse.setCapacity(damagedWarehouse.getCapacity() - capacity);
+    }
+
+    public HashMap<Product, Integer> getInventory() {
+        return this.inventory;
     }
 }

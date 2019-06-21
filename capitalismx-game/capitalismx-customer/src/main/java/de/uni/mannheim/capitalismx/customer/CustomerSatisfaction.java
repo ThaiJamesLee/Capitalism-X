@@ -128,6 +128,10 @@ public class CustomerSatisfaction {
         this.products = products;
     }
 
+    public List<Product> getProducts() {
+        return this.products;
+    }
+
     public double getCustomerSatisfaction() {
         return customerSatisfaction;
     }

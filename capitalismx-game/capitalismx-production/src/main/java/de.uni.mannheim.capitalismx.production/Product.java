@@ -103,6 +103,10 @@ public class Product {
         return components;
     }
 
+    public LocalDate getLaunchDate() {
+        return this.launchDate;
+    }
+
     /*
     public List<Component> getNewestPossibleComponents(int currentYear) {
         Component[] components = Component.values();
