@@ -82,10 +82,11 @@ public class ExternalEvents {
     }
 
     private void checkEventNewTechnology(){
-        if(Production.getInstance().checkBaseQualityAboveThreshold()){
+        //TODO
+        /**if(Production.getInstance().checkBaseQualityAboveThreshold()){
             Customer.getInstance().increaseCustomerSatisfactionRel(0.3);
             externalEvents.add(ExternalEvent.EVENT_2);
-        }
+        }**/
     }
 
     private void checkEventCompanyAcquisition(){
@@ -104,10 +105,11 @@ public class ExternalEvents {
     }
 
     private void checkEventBrandReputationPlunges(){
-        if(Customer.getInstance().checkCustomerSatisfactionBelowThreshold()){
+        //TODO
+        /**if(Customer.getInstance().checkCustomerSatisfactionBelowThreshold()){
             MarketingDepartment.getInstance().decreaseCompanyImageRel(0.20);
             externalEvents.add(ExternalEvent.EVENT_5);
-        }
+        }**/
     }
 
     private void checkEventComputerVirusAttacks(){
@@ -161,21 +163,24 @@ public class ExternalEvents {
     }
 
     private void checkEventStealing(){
-        if(MarketingDepartment.getInstance().checkTotalJobSatisfactionBelowThreshold(0.50)){
+        //TODO
+        /**if(MarketingDepartment.getInstance().checkTotalJobSatisfactionBelowThreshold(0.50)){
             int numberOfEmployees = 0;
             for(Map.Entry<EmployeeType, Team> team : HRDepartment.getInstance().getTeams().entrySet()){
                 numberOfEmployees += team.getValue().getTeam().size();
             }
             Finance.getInstance().decreaseNopatConstant(numberOfEmployees * 5000);
             externalEvents.add(ExternalEvent.EVENT_10);
-        }
+        }**/
     }
 
     private void checkEventStrikes(){
+        //TODO
+        /**
         if(MarketingDepartment.getInstance().checkTotalJobSatisfactionBelowThreshold(0.10)){
             Customer.getInstance().decresePeriodicDemandAmountRel(0.8);
             externalEvents.add(ExternalEvent.EVENT_11);
-        }
+        }**/
     }
 
     private void checkEventFlu(){
