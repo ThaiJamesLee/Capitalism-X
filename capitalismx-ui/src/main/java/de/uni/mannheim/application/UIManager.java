@@ -3,6 +3,8 @@ package de.uni.mannheim.application;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import de.uni.mannheim.components.GameModule;
 import de.uni.mannheim.components.GameModuleType;
@@ -23,6 +25,8 @@ public class UIManager {
 	private List<GameView> gameViews;
 
 	private Stage window;
+	
+	private String language;
 
 	public GameScene getSceneMenuMain() {
 		return sceneMenuMain;
@@ -41,6 +45,7 @@ public class UIManager {
 	 */
 	public UIManager(Stage stage) {
 		this.window = stage;
+		this.language = "EN";
 
 		// static loading of the scenes
 		loadScenes();
@@ -75,8 +80,9 @@ public class UIManager {
 	private void loadScenes() {
 		Parent root;
 		try {
+			ResourceBundle bundle = ResourceBundle.getBundle("properties.main_en");
 			FXMLLoader loader = new FXMLLoader();
-			root = loader.load(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"));
+			root = loader.load(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
 			GameScene scene = new GameScene(new Scene(root), GameSceneType.MENU_MAIN, loader.getController());
 			sceneMenuMain = scene;
 			root = loader.load(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
@@ -139,6 +145,33 @@ public class UIManager {
 			// TODO handle if no scene found
 			break;
 		}
+	}
+	
+	
+	/**
+	 * Switch to other language scene by reloading message properties.
+	 */
+	public void reloadProperties() {
+		String newProperties;
+		if("EN".equals(this.language)) {
+			newProperties = "properties.main_de";
+			this.language = "DE";
+		} 
+		else {
+			newProperties = "properties.main_en";
+			this.language="EN";
+		}
+			ResourceBundle bundle = ResourceBundle.getBundle(newProperties);
+			FXMLLoader loader = new FXMLLoader();
+			try {
+				Parent root = loader.load(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
+				GameScene scene = new GameScene(new Scene(root), GameSceneType.MENU_MAIN, loader.getController());
+				sceneMenuMain = scene;
+				window.setScene(sceneMenuMain.getScene());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 	}
 
 }

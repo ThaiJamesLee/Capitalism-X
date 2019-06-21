@@ -19,11 +19,20 @@ public class MainMenuController extends UIController {
 	@FXML
 	private Button newGameButton;
 
+	@FXML
+	private Button switchButton;
+	
+	
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		newGameButton.setOnAction(e -> {
-			System.out.println("Main Menu Button pressed!");
 			Main.getManager().switchToScene(GameSceneType.GAME_PAGE);
+		});
+		
+		
+		switchButton.setOnAction(e -> {
+			Main.getManager().reloadProperties();
 		});
 
 	}

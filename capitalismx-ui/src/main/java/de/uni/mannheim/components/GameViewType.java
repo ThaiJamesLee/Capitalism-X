@@ -8,13 +8,22 @@ package de.uni.mannheim.components;
  */
 public enum GameViewType {
 	
-	GAME_OVERVIEW, 
-	GAME_HR,
-	GAME_LOGISTIC,
-	GAME_PRODUCTION,
-	GAME_PROCUREMENT,
-	GAME_WAREHOUSE,
-	GAME_FINANCES,
-	GAME_MARKETING;
+	GAME_OVERVIEW("Overview"),
+	GAME_HR("Human Resources"),
+	GAME_LOGISTIC("Logistics"),
+	GAME_PRODUCTION("Production"),
+	GAME_PROCUREMENT("Procurement"),
+	GAME_WAREHOUSE("Warehouse"),
+	GAME_FINANCES("Finances"),
+	GAME_MARKETING("Marketing");
 	
+	private final String title;
+	
+	private GameViewType(String title) {
+		this.title = title;
+	}
+
+	public String getTitle() {
+		return title;
+	}
 }

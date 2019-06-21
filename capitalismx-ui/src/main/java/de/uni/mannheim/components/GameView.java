@@ -50,5 +50,4 @@ public class GameView {
 		}
 		return null;
 	}
-
 }
