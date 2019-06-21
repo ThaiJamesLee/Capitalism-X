@@ -72,20 +72,21 @@ public class Finance {
     // liabilities = loanAmount
     public double calculateNetWorth(LocalDate gameDate){
         //this.netWorth = this.cash + this.assets - this.liabilities;
-        this.netWorth = this.calculateCash() + this.calculateAssets(gameDate) - this.calculateLiabilities();
+        this.netWorth = this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities();
         return this.netWorth;
     }
 
     private double calculateAssets(LocalDate gameDate){
         //this.assets = this.totalTruckValues + this.totalMachineValues + this.totalWarehousingValues + this.totalInvestmentAmount;
-        this.assets = this.calculateTotalTruckValues(gameDate) + this.calculateTotalMachineValues(gameDate) + this.calculateTotalWarehousingValues(gameDate) + this.calculateTotalInvestmentAmount();
+        this.assets = this.calculateTotalTruckValues(gameDate) + this.calculateTotalMachineValues(gameDate) +
+                this.calculateTotalWarehousingValues(gameDate) + this.calculateTotalInvestmentAmount();
         return this.assets;
     }
 
     // calculated daily
-    private double calculateCash(){
+    private double calculateCash(LocalDate gameDate){
         //this.cash += this.nopat + this.assetsSold;
-        this.cash += this.calculateNopat() + this.calculateAssetsSold();
+        this.cash += this.calculateNopat() + this.calculateAssetsSold(gameDate);
         return this.cash;
     }
 
@@ -147,19 +148,20 @@ public class Finance {
         this.machinesSold.add(machine);
     }
 
-    private double calculateAssetsSold(){
-        /**
+    private double calculateAssetsSold(LocalDate gameDate){
         this.assetsSold = 0;
         for(Warehouse warehouse : this.warehousesSold){
-            this.assetsSold += this.calculateResellPrice(warehouse.getPurchasePrice(), warehouse.getUsefulLife(), warehouse.getTimeUsed());
+            this.assetsSold += this.calculateResellPrice(warehouse.getBuildingCost(),
+                    warehouse.getUsefulLife(), warehouse.calculateTimeUsed(gameDate));
         }
         for(Truck truck : this.trucksSold){
-            this.assetsSold += this.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.getTimeUsed());
+            this.assetsSold += this.calculateResellPrice(truck.getPurchasePrice(),
+                    truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
         }
         for(Machinery machine : this.machinesSold){
-            this.assetsSold += this.calculateResellPrice(machine.getPurchasePrice(), machine.getUsefulLife(), machine.getTimeUsed());
+            this.assetsSold += this.calculateResellPrice(machine.getPurchasePrice(),
+                    machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));
         }
-         **/
         return this.assetsSold;
     }
 
@@ -218,11 +220,10 @@ public class Finance {
 
     //TODO
     private double calculateTotalWarehouseCosts(){
-        /**
-        double warehouseCosts = ;
-        double storageCosts = ;
+        double warehouseCosts = Warehousing.getInstance().calculateMonthlyCostWarehousing();
+        double storageCosts = Warehousing.getInstance().calculateDailyStorageCost();
 
-        this.totalWarehouseCosts = warehouseCosts + storageCosts;**/
+        this.totalWarehouseCosts = warehouseCosts + storageCosts;
         return this.totalWarehouseCosts;
     }
 
