@@ -14,6 +14,7 @@ public class Warehouse {
     private double resaleValue;
     private LocalDate buildDate;
     private double depreciationRateWarehouse;
+    private int usefulLife;
     /* Placeholder */
     private LocalDate gameDate = LocalDate.now();
 
@@ -22,9 +23,8 @@ public class Warehouse {
         this.warehouseType = warehouseType;
         this.variableStorageCost = 5;
         this.monthlyFixCostWarehouse = 1000;
-        /* Placeholder */
-        this.buildDate = gameDate;
         this.depreciationRateWarehouse = 1/14;
+        this.usefulLife = 14;
         if(this.warehouseType == WarehouseType.BUILT) {
             this.buildingCost = 250000;
             this.monthlyRentalCost = 0;
@@ -75,5 +75,17 @@ public class Warehouse {
 
     public WarehouseType getWarehouseType() {
         return this.warehouseType;
+    }
+
+    public int getUsefulLife() {
+        return this.usefulLife;
+    }
+
+    public int calculateTimeUsed(LocalDate gameDate){
+        return Period.between(this.buildDate, gameDate).getYears();
+    }
+
+    public void setBuildDate(LocalDate buildDate) {
+        this.buildDate = buildDate;
     }
 }

@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.logistic.logistics;
 
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -152,8 +153,8 @@ public class Logistics {
         this.calculateAll();
     }
 
-    private void addTruckToFleet(Truck truck){
-        this.internalFleet.addTruckToFleet(truck);
+    private void addTruckToFleet(Truck truck, LocalDate gameDate){
+        this.internalFleet.addTruckToFleet(truck, gameDate);
         this.calculateAll();
     }
 
