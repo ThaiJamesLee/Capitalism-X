@@ -1,7 +1,14 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
+import de.uni.mannheim.capitalismx.hr.domain.Training;
+import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.Production;
+import de.uni.mannheim.capitalismx.warehouse.Warehouse;
+import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
 import java.util.ArrayList;
 
@@ -39,7 +46,7 @@ public class Finance {
 
     private ArrayList<Warehouse> warehousesSold;
     private ArrayList<Truck> trucksSold;
-    private ArrayList<Machine> machinesSold;
+    private ArrayList<Machinery> machinesSold;
     private ArrayList<Double> nopatLast5Years;
 
     private BankingSystem bankingSystem;
@@ -130,7 +137,7 @@ public class Finance {
     }
 
     //TODO timestamp or thread in class that checks if new day
-    public void sellMachine(Machine machine){
+    public void sellMachine(Machinery machine){
         this.machinesSold.add(machine);
     }
 
@@ -142,7 +149,7 @@ public class Finance {
         for(Truck truck : this.trucksSold){
             this.assetsSold += this.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.getTimeUsed());
         }
-        for(Machine machine : this.machinesSold){
+        for(Machinery machine : this.machinesSold){
             this.assetsSold += this.calculateResellPrice(machine.getPurchasePrice(), machine.getUsefulLife(), machine.getTimeUsed());
         }
         return this.assetsSold;
