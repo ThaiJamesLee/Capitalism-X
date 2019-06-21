@@ -18,9 +18,8 @@ public class GameNotificationPanel {
 	public GameNotificationPanel() {
 		FXMLLoader loader = new FXMLLoader();
 		try {
-			setRoot(loader.load(getClass().getClassLoader().getResource("fxml/NotificationWindow2.fxml")));
+			setRoot(loader.load(getClass().getClassLoader().getResource("fxml/NotificationWindow3.fxml")));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("");
