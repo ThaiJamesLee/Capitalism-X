@@ -87,6 +87,8 @@ public class Production {
     }
 
     public double buyMachinery(Machinery machinery) {
+        //TODO
+        machinery.setPurchaseDate(LocalDate.now());
         this.machines.add(machinery);
         this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
         return machinery.calculatePurchasePrice();

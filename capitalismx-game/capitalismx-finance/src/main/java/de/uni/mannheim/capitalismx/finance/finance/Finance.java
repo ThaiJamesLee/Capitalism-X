@@ -8,12 +8,13 @@ import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
+import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- *
  * @author sdupper
  */
 public class Finance {
@@ -69,15 +70,15 @@ public class Finance {
     }
 
     // liabilities = loanAmount
-    public double calculateNetWorth(){
+    public double calculateNetWorth(LocalDate gameDate){
         //this.netWorth = this.cash + this.assets - this.liabilities;
-        this.netWorth = this.calculateCash() + this.calculateAssets() - this.calculateLiabilities();
+        this.netWorth = this.calculateCash() + this.calculateAssets(gameDate) - this.calculateLiabilities();
         return this.netWorth;
     }
 
-    private double calculateAssets(){
+    private double calculateAssets(LocalDate gameDate){
         //this.assets = this.totalTruckValues + this.totalMachineValues + this.totalWarehousingValues + this.totalInvestmentAmount;
-        this.assets = this.calculateTotalTruckValues() + this.calculateTotalMachineValues() + this.calculateTotalWarehousingValues() + this.calculateTotalInvestmentAmount();
+        this.assets = this.calculateTotalTruckValues(gameDate) + this.calculateTotalMachineValues(gameDate) + this.calculateTotalWarehousingValues(gameDate) + this.calculateTotalInvestmentAmount();
         return this.assets;
     }
 
@@ -97,38 +98,37 @@ public class Finance {
     }
 
     //TODO
-    private double calculateTotalWarehousingValues(){
-        /**
+    private double calculateTotalWarehousingValues(LocalDate gameDate){
         this.totalWarehousingValues = 0;
         ArrayList<Warehouse> warehouses = Warehousing.getInstance().getWarehouses();
         for(Warehouse warehouse : warehouses){
-            this.totalWarehousingValues += this.calculateResellPrice(warehouse.getPurchasePrice(), warehouse.getUsefulLife(), warehouse.getTimeUsed());
+            if(warehouse.getWarehouseType() == WarehouseType.BUILT){
+                 this.totalWarehousingValues += this.calculateResellPrice(warehouse.getBuildingCost(),
+                 warehouse.getUsefulLife(), warehouse.calculateTimeUsed(gameDate));
+            }
         }
-         **/
         return this.totalWarehousingValues;
     }
 
     //TODO
-    private double calculateTotalTruckValues(){
-        /**
+    private double calculateTotalTruckValues(LocalDate gameDate){
         this.totalTruckValues = 0;
-        ArrayList<Truck> trucks = Logistics.getInstance().getTrucks();
+        ArrayList<Truck> trucks = Logistics.getInstance().getInternalFleet().getTrucks();
         for(Truck truck : trucks){
-            this.totalTruckValues += this.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.getTimeUsed());
+            this.totalTruckValues += this.calculateResellPrice(truck.getPurchasePrice(),
+                    truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
         }
-         **/
         return this.totalTruckValues;
     }
 
     //TODO
-    private double calculateTotalMachineValues(){
-        /**
+    private double calculateTotalMachineValues(LocalDate gameDate){
         this.totalMachineValues = 0;
-        ArrayList<Machinery> machines = Production.getInstances().getMachines();
+        ArrayList<Machinery> machines = Production.getInstance().getMachines();
         for(Machinery machine : machines){
-            this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(), machine.getUsefulLife(), machine.getTimeUsed());
+            this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(),
+                    machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));
         }
-         **/
         return this.totalMachineValues;
     }
 

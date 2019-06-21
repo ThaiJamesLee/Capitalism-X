@@ -4,14 +4,6 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Machinery {
-
-    public Machinery(ProductionTechnology productionTechnology) {
-        this.productionTechnology = productionTechnology;
-        this.machineryPrice = 10000;
-        this.levelPerPrice = 20000;
-        // TODO this.lastInvestmentDate = gameDate
-    }
-
     private ProductionTechnology productionTechnology;
     /* TODO machinerycapacity not defined*/
     private double machineryCapacity;
@@ -22,6 +14,16 @@ public class Machinery {
     private double machineryDepreciation;
     private LocalDate lastInvestmentDate;
     private int yearsSinceLastInvestment;
+    private int usefulLife;
+    private LocalDate purchaseDate;
+
+    public Machinery(ProductionTechnology productionTechnology) {
+        this.productionTechnology = productionTechnology;
+        this.machineryPrice = 10000;
+        this.levelPerPrice = 20000;
+        this.usefulLife = 20;
+        // TODO this.lastInvestmentDate = gameDate
+    }
 
     public boolean depreciateMachinery(boolean naturalDisaster) {
         LocalDate gameDate = LocalDate.now();
@@ -159,5 +161,17 @@ public class Machinery {
 
     public void setMachineryCapacity(double machineryCapacity) {
         this.machineryCapacity = machineryCapacity;
+    }
+
+    public int getUsefulLife() {
+        return this.usefulLife;
+    }
+
+    public int calculateTimeUsed(LocalDate gameDate){
+        return Period.between(this.purchaseDate, gameDate).getYears();
+    }
+
+    public void setPurchaseDate(LocalDate gameDate) {
+        this.purchaseDate = gameDate;
     }
 }

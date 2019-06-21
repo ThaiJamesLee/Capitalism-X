@@ -1,7 +1,6 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
-import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -43,7 +42,7 @@ public class InternalFleet {
     private double calculateEcoIndexFleet(){
         double ecoIndexSum = 0;
         for(Truck t:trucks){
-            ecoIndexSum += t.getEcoIndexTruck();
+            ecoIndexSum += t.getEcoIndex();
         }
         this.ecoIndexFleet = ecoIndexSum / trucks.size();
         return this.ecoIndexFleet;
@@ -52,7 +51,7 @@ public class InternalFleet {
     private double calculateQualityIndexFleet(){
         double qualityIndexSum = 0;
         for(Truck t:trucks){
-            qualityIndexSum += t.getQualityIndexTruck();
+            qualityIndexSum += t.getQualityIndex();
         }
         this.qualityIndexFleet = qualityIndexSum / trucks.size();
         return this.qualityIndexFleet;
@@ -81,7 +80,8 @@ public class InternalFleet {
         return this.totalTruckCost;
     }
 
-    protected void addTruckToFleet(Truck truck){
+    protected void addTruckToFleet(Truck truck, LocalDate gameDate){
+        truck.setPurchaseDate(gameDate);
         this.trucks.add(truck);
         this.calculateAll();
     }

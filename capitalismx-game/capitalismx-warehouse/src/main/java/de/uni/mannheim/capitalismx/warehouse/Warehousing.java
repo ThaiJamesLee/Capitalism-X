@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.warehouse;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.Production;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -89,6 +90,8 @@ public class Warehousing {
 
     public double buildWarehouse() {
         Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
+        //TODO
+        warehouse.setBuildDate(LocalDate.now());
         warehouses.add(warehouse);
         this.calculateMonthlyCostWarehousing();
         return warehouse.getBuildingCost();
