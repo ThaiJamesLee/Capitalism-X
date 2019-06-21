@@ -8,6 +8,8 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Controller for the menu on the GamePage.
@@ -34,14 +36,24 @@ public class SideMenuController extends UIController {
 	private Button btnWarehouse;
 	@FXML
 	private Button btnMarketing;
+	
 	@FXML
-	private Button btnMessages;
+	private Button btnSkip;
+	@FXML
+	private Button btnForward;
+	@FXML
+	private Button btnPlayPause;
+	@FXML 
+	private ImageView iconPlayPause;
+	private boolean isPaused;
+
 
 	//StringProperty containing the current Title string, bound to Lable in parent GamePageController
 	private StringProperty title = new SimpleStringProperty("Overall View");
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.isPaused = false;
 		btnOverall.setOnAction(e -> {
 			setTitle("Overall View");
 		});
@@ -74,10 +86,42 @@ public class SideMenuController extends UIController {
 			setTitle("Marketing View");
 		});
 		
-		btnMessages.setOnAction(e -> {
-			setTitle("Message Inbox");
+		btnSkip.setOnAction(e -> {
+			System.out.println("Skip a week (?)");
 		});
 		
+		btnForward.setOnAction(e -> {
+			//TODO
+		});
+	
+		btnPlayPause.setOnAction(e -> {
+			boolean pause = this.isPaused;
+			if(this.isPaused) {
+				System.out.println("It is currently paused!");
+				this.resumeGame();
+				iconPlayPause.setImage(new Image(getClass().getClassLoader().getResourceAsStream("icons/pause.png")));
+
+			}
+			else {
+				System.out.println("Game is running now!");
+				this.pauseGame();
+				iconPlayPause.setImage(new Image(getClass().getClassLoader().getResourceAsStream("icons/play-button.png")));
+
+		
+			}
+		});
+	}
+	
+	private void pauseGame() {
+		this.isPaused = true;
+		System.out.println("GAme Paused");
+		//TODO implement functionality
+	}
+	
+	private void resumeGame() {
+		this.isPaused = false;
+		System.out.println("Game resumed");
+		//TODO implement functionality
 	}
 	
 	//Methods to set the current title, which is bound to the corresponding Label in the parent GamePage Controller

@@ -34,20 +34,11 @@ public class GamePageController extends GameController {
 	@FXML
 	private StackPane sidemenuPane;
 
-	
-	
-	//Controll elements
 	@FXML
 	private Label viewTitleLabel;
+
 	@FXML
-	private Button btnSkip;
-	@FXML
-	private Button btnForward;
-	@FXML
-	private Button btnPlayPause;
-	@FXML 
-	private ImageView iconPlayPause;
-	private boolean isPaused;
+	private Button btnMessages;
 	
 	
 	//The SideMenuController
@@ -60,8 +51,6 @@ public class GamePageController extends GameController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		this.isPaused = false;
-		
 		//Bind titleLabel to StringProperty in SideMenuController
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/sidemenu.fxml"));
 		Parent rootB;
@@ -76,31 +65,12 @@ public class GamePageController extends GameController {
 			e1.printStackTrace();
 		}
 
-
-		btnSkip.setOnAction(e -> {
-			System.out.println("Skip a week (?)");
-		});
 		
-		btnForward.setOnAction(e -> {
-			//TODO
+		btnMessages.setOnAction(e -> {
+			//TODO viel Spaß Li :)
 		});
-	
-		btnPlayPause.setOnAction(e -> {
-			boolean pause = this.isPaused;
-			if(pause) {
-				System.out.println("It is currently paused!");
-				this.resumeGame();
-				iconPlayPause.setImage(new Image(getClass().getClassLoader().getResourceAsStream("icons/pause.png")));
 
-			}
-			else {
-				System.out.println("Game is running now!");
-				this.pauseGame();
-				iconPlayPause.setImage(new Image(getClass().getClassLoader().getResourceAsStream("icons/play-button.png")));
 
-		
-			}
-		});
 	}
 
 	@Override
@@ -109,18 +79,7 @@ public class GamePageController extends GameController {
 		switchView(GameViewType.GAME_HR);
 	}
 	
-	private void pauseGame() {
-		this.isPaused = true;
-		System.out.println("GAme Paused");
-		//TODO implement functionality
-	}
 	
-	private void resumeGame() {
-		this.isPaused = false;
-		System.out.println("Game resumed");
-		//TODO implement functionality
-	}
-
 	/**
 	 * Switches the displayed contentType by removing all {@link GameModule}s of
 	 * that type.
