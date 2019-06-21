@@ -86,6 +86,10 @@ public class EmployeeListController extends GameController {
 		employeeTreeView.setShowRoot(false);
 		
 		employeeTreeAnchor.getChildren().add(employeeTreeView);
+		AnchorPane.setTopAnchor(employeeTreeView, 0.0);
+		AnchorPane.setLeftAnchor(employeeTreeView, 0.0);
+		AnchorPane.setRightAnchor(employeeTreeView, 0.0);
+		AnchorPane.setBottomAnchor(employeeTreeView, 0.0);
 		
 	}
 

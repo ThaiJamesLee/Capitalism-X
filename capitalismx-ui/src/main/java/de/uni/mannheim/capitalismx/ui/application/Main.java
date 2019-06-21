@@ -2,8 +2,13 @@ package de.uni.mannheim.capitalismx.ui.application;
 
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 /**
  * The main class, starting the application.
@@ -13,7 +18,9 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
+	private static final boolean testMode = true;
 	private static UIManager manager;
+	private Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
 	public static UIManager getManager() {
 		return manager;
@@ -26,17 +33,27 @@ public class Main extends Application {
 			manager = new UIManager(primaryStage);
 			manager.init();
 
-			// set Stage boundaries to visible bounds of the main screen TODO adjust and
-			// move somewhere else
-			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+			// set Stage boundaries to visible bounds of the main screen TODO
+			// adjust and move somewhere else
+//			primaryStage.setFullScreen(true);
 			primaryStage.setX(primaryScreenBounds.getMinX());
 			primaryStage.setY(primaryScreenBounds.getMinY());
 			primaryStage.setWidth(primaryScreenBounds.getWidth());
 			primaryStage.setHeight(primaryScreenBounds.getHeight());
+//			primaryStage.initStyle(StageStyle.UNDECORATED);
+			primaryStage.setOnCloseRequest(e -> closeStage(e, primaryStage));
 			primaryStage.show();
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void closeStage(WindowEvent e, Stage primaryStage) {
+		if (!testMode) {
+			Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Do you really want to quit?", ButtonType.YES,
+					ButtonType.NO);
+			closeConfirmation.showAndWait();
 		}
 	}
 

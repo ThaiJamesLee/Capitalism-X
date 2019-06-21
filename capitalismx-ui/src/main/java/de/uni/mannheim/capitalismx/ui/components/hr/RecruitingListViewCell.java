@@ -2,7 +2,6 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

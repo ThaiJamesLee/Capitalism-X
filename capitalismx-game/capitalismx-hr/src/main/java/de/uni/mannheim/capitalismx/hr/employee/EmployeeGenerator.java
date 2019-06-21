@@ -27,7 +27,7 @@ public class EmployeeGenerator {
 
         int salary = 0;
         Employee employee = null;
-
+       
         try {
             salary = new SalaryGenerator().getSalary(skillLevel);
             NameGenerator ng = new NameGenerator();
