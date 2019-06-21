@@ -2,7 +2,11 @@ package de.uni.mannheim.capitalismx.external_events;
 
 import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.employee.Team;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
+import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
@@ -101,7 +105,7 @@ public class ExternalEvents {
 
     private void checkEventBrandReputationPlunges(){
         if(Customer.getInstance().checkCustomerSatisfactionBelowThreshold()){
-            Marketing.getInstance().decreaseCompanyImageRel(0.20);
+            MarketingDepartment.getInstance().decreaseCompanyImageRel(0.20);
             externalEvents.add(ExternalEvent.EVENT_5);
         }
     }
@@ -157,10 +161,10 @@ public class ExternalEvents {
     }
 
     private void checkEventStealing(){
-        if(Marketing.getInstance().checkTotalJobSatisfactionBelowThreshold(0.50)){
+        if(MarketingDepartment.getInstance().checkTotalJobSatisfactionBelowThreshold(0.50)){
             int numberOfEmployees = 0;
             for(Map.Entry<EmployeeType, Team> team : HRDepartment.getInstance().getTeams().entrySet()){
-                numberOfEmployees += team.getValue().size();
+                numberOfEmployees += team.getValue().getTeam().size();
             }
             Finance.getInstance().decreaseNopatConstant(numberOfEmployees * 5000);
             externalEvents.add(ExternalEvent.EVENT_10);
@@ -168,7 +172,7 @@ public class ExternalEvents {
     }
 
     private void checkEventStrikes(){
-        if(Marketing.getInstance().checkTotalJobSatisfactionBelowThreshold(0.10)){
+        if(MarketingDepartment.getInstance().checkTotalJobSatisfactionBelowThreshold(0.10)){
             Customer.getInstance().decresePeriodicDemandAmountRel(0.8);
             externalEvents.add(ExternalEvent.EVENT_11);
         }
