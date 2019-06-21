@@ -3,7 +3,6 @@ package de.uni.mannheim.capitalismx.ui.application;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
@@ -57,6 +56,11 @@ public class UIManager {
 		preloadViewsAndModules();
 	}
 
+
+	public void init() {
+		sceneGamePage.getController().update();
+	}
+	
 	/**
 	 * Get the requested {@link GameView } from the list of views.
 	 * 
@@ -81,11 +85,12 @@ public class UIManager {
 		Parent root;
 		try {
 			ResourceBundle bundle = ResourceBundle.getBundle("properties.main_en");
-			FXMLLoader loader = new FXMLLoader();
-			root = loader.load(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
+			root = loader.load();
 			GameScene scene = new GameScene(new Scene(root), GameSceneType.MENU_MAIN, loader.getController());
 			sceneMenuMain = scene;
-			root = loader.load(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
+			root = loader.load();
 			scene = new GameScene(new Scene(root), GameSceneType.GAME_PAGE, loader.getController());
 			sceneGamePage = scene;
 		} catch (IOException e) {
@@ -109,13 +114,13 @@ public class UIManager {
 			// for each predefined GameModuleTypes load the fxml-file and create
 			// a new GameModule, that is stored in the list
 			for (GameModuleType type : GameModuleType.values()) {
-				FXMLLoader loader = new FXMLLoader();
+				FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/module/" + type.fxmlFile));
 				// create new GridPosition from the type.
 				GridPosition position = new GridPosition(type.gridColStart, type.gridRowStart, type.gridColSpan,
 						type.gridRowSpan);
 				// create new GameModule from the type and add it its view.
 				GameModule module = new GameModule(
-						loader.load(getClass().getClassLoader().getResource("fxml/" + type.fxmlFile)), type,
+						loader.load(), type,
 						type.viewType, position, loader.getController());
 				getGameView(type.viewType).addModule(module);
 			}
@@ -162,16 +167,16 @@ public class UIManager {
 			this.language="EN";
 		}
 			ResourceBundle bundle = ResourceBundle.getBundle(newProperties);
-			FXMLLoader loader = new FXMLLoader();
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
 			try {
-				Parent root = loader.load(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
+				
+				Parent root = loader.load();
 				GameScene scene = new GameScene(new Scene(root), GameSceneType.MENU_MAIN, loader.getController());
 				sceneMenuMain = scene;
 				window.setScene(sceneMenuMain.getScene());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}	
+			}
 	}
-
 }

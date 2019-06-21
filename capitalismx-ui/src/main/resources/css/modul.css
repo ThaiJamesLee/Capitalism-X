@@ -1,0 +1,15 @@
+
+.modulePane {
+	-fx-padding: 35 40 40 40;
+	-fx-background-radius: 50.0px;
+	-fx-background-insets: 5 5 5 5;
+	-fx-background-color: linear-gradient(from 25.0px 25.0px to 100.0px 100.0px, #4b4c4f, #65676b);
+}
+
+.header {
+	-fx-font: bold 18pt 'sans-serif';
+	-fx-text-fill: white;
+}
+
+
+
