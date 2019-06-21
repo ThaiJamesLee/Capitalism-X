@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -102,7 +105,8 @@ public class GamePageController extends GameController {
 
 	@Override
 	public void update() {
-
+		//TODO only for testing purpose
+		switchView(GameViewType.GAME_HR);
 	}
 	
 	private void pauseGame() {
@@ -121,11 +125,20 @@ public class GamePageController extends GameController {
 	 * Switches the displayed contentType by removing all {@link GameModule}s of
 	 * that type.
 	 */
-	public void switchContentType() {
-		// TODO new view
+	public void switchView(GameViewType viewType) {
+		if(currentActiveView != null) {
+			// remove all modules of current view
+			for (GameModule module : currentActiveView.getModules()) {
+				moduleGrid.getChildren().remove(module.getRootElement());
+			}
+		}
+		//change current view and add modules
+		currentActiveView = Main.getManager().getGameView(viewType);
 		for (GameModule module : currentActiveView.getModules()) {
-			moduleGrid.getChildren().remove(module.getRootElement());
+			GridPosition position = module.getGridPosition();
+			moduleGrid.add(module.getRootElement(), position.getxStart(), position.getyStart(), position.getxSpan(), position.getySpan());
 		}
 	}
+	
 
 }
