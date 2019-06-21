@@ -1,8 +1,11 @@
 package de.uni.mannheim.capitalismx.production;
 
+import de.uni.mannheim.capitalismx.procurement.component.Component;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Production {
 
@@ -108,7 +111,8 @@ public class Production {
         return machinery.upgradeMachinery();
     }
 
-    public double launchProduct(Product product, int quantity, int freeStorage) {
+    public double launchProduct(String productname, ProductCategory productCategory, List<Component> componentList, int quantity, int freeStorage) {
+        Product product = new Product(productname, productCategory, componentList);
         int totalMachineCapacity = 0;
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
