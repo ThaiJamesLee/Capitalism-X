@@ -19,7 +19,7 @@ public class Machinery {
 
     public Machinery(ProductionTechnology productionTechnology) {
         this.productionTechnology = productionTechnology;
-        this.machineryPrice = 10000;
+        this.machineryPrice = 100000;
         this.levelPerPrice = 20000;
         this.usefulLife = 20;
         // TODO this.lastInvestmentDate = gameDate
