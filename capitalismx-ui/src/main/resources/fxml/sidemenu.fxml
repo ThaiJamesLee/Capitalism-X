@@ -150,7 +150,7 @@
                   <StackPane>
                      <children>
                         <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
-                        <Button fx:id="btnForward" alignment="CENTER_RIGHT" mnemonicParsing="false">
+                        <ToggleButton fx:id="btnForward" mnemonicParsing="false">
                            <graphic>
                               <ImageView fx:id="iconForward" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -158,7 +158,7 @@
                                  </image>
                               </ImageView>
                            </graphic>
-                        </Button>
+                        </ToggleButton>
                      </children>
                   </StackPane>
                   <StackPane>
@@ -178,7 +178,7 @@
                   <StackPane>
                      <children>
                         <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
-                        <Label text="Jun 21&#10;1993">
+                        <Label fx:id="timeLabel">
                            <padding>
                               <Insets left="5.0" />
                            </padding>

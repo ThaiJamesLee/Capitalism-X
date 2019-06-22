@@ -16,9 +16,9 @@
          <top>
             <AnchorPane maxHeight="55.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="700.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox layoutX="40.0" prefHeight="100.0" prefWidth="209.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+                  <HBox layoutX="40.0" prefHeight="100.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                      <children>
-                        <VBox prefHeight="50.0" prefWidth="100.0">
+                        <VBox prefHeight="50.0">
                            <children>
                               <Label text="NetWorth:" />
                               <Label text="2000$" />
@@ -27,7 +27,7 @@
                               <Insets bottom="10.0" />
                            </padding>
                         </VBox>
-                        <VBox prefHeight="50.0" prefWidth="110.0">
+                        <VBox prefHeight="50.0">
                            <children>
                               <Label text="Cashflow:" />
                               <Label text="2000$" />
@@ -36,9 +36,9 @@
                               <Insets bottom="10.0" left="10.0" />
                            </padding>
                         </VBox>
-                        <VBox prefHeight="50.0" prefWidth="100.0">
+                        <VBox prefHeight="50.0">
                            <children>
-                              <Label text="Balance:" />
+                              <Label prefHeight="17.0" prefWidth="100.0" text="Bank Deposit:" />
                               <Label text="2000$" />
                            </children>
                            <padding>
@@ -50,7 +50,7 @@
                         <Insets top="10.0" />
                      </padding>
                   </HBox>
-                  <Label fx:id="viewTitleLabel" alignment="TOP_CENTER" text="Current GameView" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="20.0" />
+                  <Label fx:id="viewTitleLabel" alignment="TOP_CENTER" layoutX="276.0" prefHeight="30.0" prefWidth="334.0" text="Current GameView" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="20.0" />
                   <HBox alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" spacing="10.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0">
                      <children>
                         <StackPane prefHeight="60.0" prefWidth="200.0" />
