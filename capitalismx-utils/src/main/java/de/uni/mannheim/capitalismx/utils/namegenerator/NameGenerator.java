@@ -24,14 +24,23 @@ public class NameGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(NameGenerator.class);
 
-    public NameGenerator() {}
+    private static NameGenerator instance;
+
+    private NameGenerator() {}
+
+    public static NameGenerator getInstance() {
+        if(instance == null) {
+            instance = new NameGenerator();
+        }
+        return instance;
+    }
 
     /**
      * Makes a get request to https://randomuser.me/api/
      * @return Returns a json String containing some fakedata
      * @throws IOException throws Exception if no connection, or URL not resolvable.
      */
-    public String getGeneratedUser() throws IOException {
+    private String getGeneratedUser() throws IOException {
         String userJson = "";
 
         URL urlForGetRequest = new URL("https://randomuser.me/api/");
@@ -42,12 +51,12 @@ public class NameGenerator {
         int responseCode = conection.getResponseCode();
 
         if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(conection.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(conection.getInputStream()));
             StringBuilder response = new StringBuilder();
             while ((readLine = in .readLine()) != null) {
                 response.append(readLine);
-            } in .close();
+            }
+            in .close();
             userJson = response.toString();
         } else {
             logger.error("GET NOT WORKED");
@@ -57,7 +66,7 @@ public class NameGenerator {
 
     /**
      * Gets the Fake Person Data from API and parse the Json.
-     * @return Returns a PersonMeta object.
+     * @return Returns a {@link PersonMeta} object.
      */
     public PersonMeta getGeneratedPersonMeta() {
         PersonMeta pm = null;
@@ -101,6 +110,11 @@ public class NameGenerator {
     }
 
 
+    /**
+     * Converts a String by replacing the first character to uppercase.
+     * @param name The String that should be converted.
+     * @return Returns the converted String.
+     */
     public String toName(String name) {
         String letter = name.substring(0, 1).toUpperCase();
         return letter + name.substring(1);
