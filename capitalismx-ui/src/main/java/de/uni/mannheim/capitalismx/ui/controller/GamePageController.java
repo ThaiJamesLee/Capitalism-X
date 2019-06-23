@@ -52,7 +52,7 @@ public class GamePageController extends GameController {
 	
 	private NotificationController notificationController;
 	private Parent notificationPaneReminder;
-
+	private boolean openNotificationPane;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -73,18 +73,21 @@ public class GamePageController extends GameController {
 		
 		btnMessages.setOnAction(e -> {
 //			parentStackPane.getChildren().add(e);
-			FXMLLoader loader2 = new FXMLLoader(getClass().getClassLoader().getResource("fxml/notificationPane3.fxml"));
-			Parent rootC;
-			try {
-				rootC = loader2.load();
-				notificationController = loader2.getController();
-				parentStackPane.getChildren().add(rootC);
-				notificationPaneReminder = rootC;
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			
+			if(!openNotificationPane) {
+				FXMLLoader loader2 = new FXMLLoader(getClass().getClassLoader().getResource("fxml/notificationPane3.fxml"));
+				Parent rootC;
+				try {
+					rootC = loader2.load();
+					notificationController = loader2.getController();
+					parentStackPane.getChildren().add(rootC);
+					notificationPaneReminder = rootC;
+					openNotificationPane = true;
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 			
 			
 		});
@@ -100,6 +103,7 @@ public class GamePageController extends GameController {
 	
 	public void removeNotificationPane() {
 		parentStackPane.getChildren().remove(notificationPaneReminder);
+		openNotificationPane = false;
 	}
 	
 	
