@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.MainMenuController">
+<AnchorPane stylesheets="@../css/general.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.MainMenuController">
    <children>
       <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -23,14 +23,14 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="250.0" spacing="20.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" text="Capitalism X">
+                              <Label alignment="CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" styleClass="title_label" stylesheets="@../css/menu.css" text="Capitalism X">
                                  <font>
                                     <Font size="26.0" />
                                  </font>
                               </Label>
-                              <Label text="%main.subtitle" />
+                              <Label styleClass="subtitle_label" text="%main.subtitle" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -51,8 +51,8 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" spacing="10.0">
                                  <children>
-                                    <Button fx:id="newGameButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="%btn.newGame" />
-                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="%btn.continueGame" />
+                                    <Button fx:id="newGameButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="big_buttons" text="%btn.newGame" />
+                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="big_buttons" text="%btn.continueGame" />
                                  </children>
                                  <opaqueInsets>
                                     <Insets />
@@ -60,11 +60,11 @@
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                  <children>
-                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="%btn.leaderbord" />
-                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="%btn.credits" />
+                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="big_buttons" text="%btn.leaderbord" />
+                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="big_buttons" text="%btn.credits" />
                                  </children>
                               </VBox>
-                              <Button fx:id="switchButton" layoutX="322.0" layoutY="10.0" minWidth="50.0" mnemonicParsing="false" text="%btn.switch">
+                              <Button fx:id="switchButton" layoutX="322.0" layoutY="10.0" minWidth="50.0" mnemonicParsing="false" styleClass="big_buttons" text="%btn.switch">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin></Button>

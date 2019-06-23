@@ -76,7 +76,7 @@ public class SideMenuController extends UIController {
 		//set up date and bind to timeLabel
 		this.isPaused = false;
 		this.gameDay = LocalDate.of(1990, 1, 1);
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyy").withLocale(Locale.ENGLISH);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, \n yyyy").withLocale(Locale.ENGLISH);
 		
 		// update once every second (as long as rate remains 1)
 		timeline = new Timeline(new KeyFrame(
