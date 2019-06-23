@@ -1,6 +1,6 @@
-.button_styled {
-	-fx-background-color: #423f39;
-	-fx-text-fill: white;
+.button {
+	-fx-background-color: #d8d4cb;
+	-fx-text-fill: black;
 }
 
 
