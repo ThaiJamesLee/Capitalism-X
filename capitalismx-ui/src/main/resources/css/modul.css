@@ -1,10 +1,18 @@
 
-.modulePane {
-	-fx-padding: 35 40 40 40;
-	-fx-background-radius: 50.0px;
-	-fx-background-insets: 5 5 5 5;
-	-fx-background-color: linear-gradient(from 25.0px 25.0px to 100.0px 100.0px, #4b4c4f, #65676b);
+.headerPane {
+	-fx-padding: 25;
+	-fx-background-radius: 10 10 0 0;
+	-fx-background-insets: 2 2 0 2;	
+	-fx-background-color: linear-gradient(from 100.0px 30.0px to 100.0px 100.0px, #35332f, #423f39);
 }
+
+.contentPane {
+	-fx-padding: 25;
+	-fx-background-radius: 0 0 10 10;
+	-fx-background-insets: 0 2 2 2;
+	-fx-background-color: #d8d4cb;
+}
+
 
 .header {
 	-fx-font: bold 18pt 'sans-serif';
