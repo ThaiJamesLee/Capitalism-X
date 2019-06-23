@@ -5,6 +5,8 @@ import de.uni.mannheim.capitalismx.marketing.domain.Action;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
+import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
+import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -237,5 +239,19 @@ public class MarketingDepartment {
     public ConsultancyType[] getConsultancies() {
         return ConsultancyType.values();
     }
+
+    /**
+     *
+     * @return Return all possible reports for market research.
+     */
+    public Reports[] getMarketResearchReports() {
+        return Reports.values();
+    }
+
+    public SurveyTypes[] getMarketResearchSurveyTypes() {
+        return SurveyTypes.values();
+    }
+
+
 
 }
