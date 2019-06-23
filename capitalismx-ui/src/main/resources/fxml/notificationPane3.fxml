@@ -19,7 +19,7 @@
    <children>
       <VBox prefWidth="600.0">
          <children>
-            <AnchorPane>
+            <AnchorPane id="notificationHeaderAnchor" styleClass="header_anchor" stylesheets="@../css/notificationPane.css">
                <children>
                   <GridPane prefHeight="35.0" prefWidth="600.0">
                     <columnConstraints>
@@ -30,7 +30,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Messages">
+                        <Label text="Messages" textFill="WHITE">
                            <GridPane.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </GridPane.margin>

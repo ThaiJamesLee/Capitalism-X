@@ -4,6 +4,7 @@ import java.awt.List;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,6 +24,11 @@ public class NotificationController extends UIController{
 		notificationAll = new ListView<String>();
 		ObservableList<String> items = FXCollections.observableArrayList("01.01.1990", "Capitalism-X simulation has started.");
 		notificationAll.setItems(items);
+		
+		notificationClose.setOnAction(e -> {
+			((GamePageController)(Main.getManager().getSceneGame().getController())).removeNotificationPane();
+		});
+		
 	}
 	
 	public void addNotification() {
