@@ -47,24 +47,24 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </ImageView>
-                        <HBox alignment="BASELINE_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="BASELINE_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" spacing="10.0">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" spacing="20.0">
                                  <children>
-                                    <Button fx:id="newGameButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="big_buttons" text="%btn.newGame" />
-                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="big_buttons" text="%btn.continueGame" />
+                                    <Button fx:id="newGameButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" styleClass="big_buttons" text="%btn.newGame" />
+                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" styleClass="big_buttons" text="%btn.continueGame" />
                                  </children>
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
                               </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                                  <children>
-                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="big_buttons" text="%btn.leaderbord" />
-                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" styleClass="big_buttons" text="%btn.credits" />
+                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" styleClass="big_buttons" text="%btn.leaderbord" />
+                                    <Button disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" styleClass="big_buttons" text="%btn.credits" />
                                  </children>
                               </VBox>
-                              <Button fx:id="switchButton" layoutX="322.0" layoutY="10.0" minWidth="50.0" mnemonicParsing="false" styleClass="big_buttons" text="%btn.switch">
+                              <Button fx:id="switchButton" layoutX="322.0" layoutY="10.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" styleClass="big_buttons" text="%btn.switch">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin></Button>

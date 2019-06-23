@@ -17,7 +17,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.SideMenuController">
    <children>
-      <VBox spacing="10.0" stylesheets="@../css/general.css">
+      <VBox spacing="10.0" styleClass="sidemenu_color" stylesheets="@../css/general.css">
          <children>
             <StackPane fx:id="iconMEss">
                <children>
@@ -150,9 +150,9 @@
                   <StackPane>
                      <children>
                         <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
-                        <ToggleButton fx:id="btnForward" mnemonicParsing="false">
+                        <ToggleButton fx:id="btnForward" mnemonicParsing="false" styleClass="togglebutton">
                            <graphic>
-                              <ImageView fx:id="iconForward" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="iconForward" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="button_toggle">
                                  <image>
                                     <Image url="@../icons/fast-forward.png" />
                                  </image>

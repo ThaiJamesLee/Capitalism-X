@@ -13,61 +13,6 @@
 <StackPane fx:id="parentStackPane" maxHeight="800.0" maxWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GamePageController">
    <children>
       <BorderPane>
-         <top>
-            <AnchorPane maxHeight="55.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="700.0" stylesheets="@../css/general.css" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox layoutX="40.0" prefHeight="100.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
-                     <children>
-                        <VBox styleClass="date_label">
-                           <children>
-                              <Label styleClass="date_label" text="NetWorth:" />
-                              <Label styleClass="date_label" text="2000$" />
-                           </children>
-                        </VBox>
-                        <VBox styleClass="date_label">
-                           <children>
-                              <Label styleClass="date_label" text="Cashflow:" />
-                              <Label styleClass="date_label" text="2000$" />
-                           </children>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </VBox>
-                        <VBox styleClass="date_label">
-                           <children>
-                              <Label styleClass="date_label" text="Bank Deposit:" />
-                              <Label styleClass="date_label" text="2000$" />
-                           </children>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets top="10.0" />
-                     </padding>
-                  </HBox>
-                  <Label fx:id="viewTitleLabel" alignment="TOP_CENTER" layoutX="276.0" prefHeight="30.0" styleClass="currentView_label" text="Current GameView" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="20.0" />
-                  <HBox alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" spacing="10.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0">
-                     <children>
-                        <StackPane prefHeight="60.0" prefWidth="200.0" />
-                        <Button fx:id="btnMessages" mnemonicParsing="false">
-                           <graphic>
-                              <ImageView fx:id="iconMessages" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../icons/envelope.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-            </AnchorPane>
-         </top>
          <center>
             <GridPane fx:id="moduleGrid" hgap="5.0" prefHeight="620.0" prefWidth="707.0" vgap="5.0" BorderPane.alignment="CENTER">
               <columnConstraints>
@@ -127,6 +72,65 @@
                </children>
             </AnchorPane>
          </left>
+         <top>
+            <StackPane styleClass="sidemenu_color" stylesheets="@../css/general.css" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="750.0" stylesheets="@../css/general.css">
+                     <children>
+                        <HBox layoutX="40.0" spacing="30.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                           <children>
+                              <VBox styleClass="date_label">
+                                 <children>
+                                    <Label styleClass="date_label" text="NetWorth:" />
+                                    <Label styleClass="date_label" text="2000$" />
+                                 </children>
+                              </VBox>
+                              <VBox styleClass="date_label">
+                                 <children>
+                                    <Label styleClass="date_label" text="Cashflow:" />
+                                    <Label styleClass="date_label" text="2000$" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox styleClass="date_label">
+                                 <children>
+                                    <Label styleClass="date_label" text="Bank Deposit:" />
+                                    <Label styleClass="date_label" text="2000$" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </HBox>
+                        <Label fx:id="viewTitleLabel" alignment="TOP_CENTER" layoutX="276.0" prefHeight="30.0" styleClass="currentView_label" text="Current GameView" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="20.0" />
+                        <HBox alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" spacing="10.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0">
+                           <children>
+                              <StackPane prefHeight="60.0" prefWidth="200.0" />
+                              <Button fx:id="btnMessages" mnemonicParsing="false">
+                                 <graphic>
+                                    <ImageView fx:id="iconMessages" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../icons/envelope.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </AnchorPane>
+               </children>
+            </StackPane>
+         </top>
       </BorderPane>
    </children>
 </StackPane>

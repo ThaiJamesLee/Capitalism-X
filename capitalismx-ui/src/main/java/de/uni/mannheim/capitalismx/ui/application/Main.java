@@ -36,7 +36,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-
+			
 			manager = new UIManager(primaryStage);
 			manager.init();
 
