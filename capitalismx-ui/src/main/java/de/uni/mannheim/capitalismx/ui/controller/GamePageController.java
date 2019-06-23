@@ -40,6 +40,8 @@ public class GamePageController extends GameController {
 	@FXML
 	private Button btnMessages;
 
+	@FXML
+	private StackPane parentStackPane;
 	
 	//The SideMenuController
 	@FXML
@@ -47,6 +49,8 @@ public class GamePageController extends GameController {
 
 	// The type of content that is currently being displayed.
 	private GameView currentActiveView;
+	
+	private NotificationController notificationController;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -67,7 +71,20 @@ public class GamePageController extends GameController {
 
 		
 		btnMessages.setOnAction(e -> {
-			//TODO viel Spaß Li :)
+//			parentStackPane.getChildren().add(e);
+			FXMLLoader loader2 = new FXMLLoader(getClass().getClassLoader().getResource("fxml/notificationPanel2.fxml"));
+			Parent rootC;
+			try {
+				rootC = loader2.load();
+				notificationController = loader2.getController();
+				parentStackPane.getChildren().add(rootC);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+			
 		});
 
 
