@@ -1,15 +1,25 @@
 package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 /**
  * Controller for the menu on the GamePage.
@@ -40,20 +50,50 @@ public class SideMenuController extends UIController {
 	@FXML
 	private Button btnSkip;
 	@FXML
-	private Button btnForward;
+	private ToggleButton btnForward;
 	@FXML
 	private Button btnPlayPause;
 	@FXML 
 	private ImageView iconPlayPause;
+	@FXML
+	private Label timeLabel;
+	private Timeline  timeline;
+
+	
+	//needed for correct timedisplay
+	//TODO replace current mock implementation
 	private boolean isPaused;
+	private LocalDate gameDay;
 
 
 	//StringProperty containing the current Title string, bound to Lable in parent GamePageController
-	private StringProperty title = new SimpleStringProperty("Overall View");
+	private StringProperty title;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.title  = new SimpleStringProperty("Overall View");
+		
+		//set up date and bind to timeLabel
 		this.isPaused = false;
+		this.gameDay = LocalDate.of(1990, 1, 1);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyy").withLocale(Locale.ENGLISH);
+		
+		// update once every second (as long as rate remains 1)
+		timeline = new Timeline(new KeyFrame(
+				
+				  Duration.seconds(1),
+			        event -> {
+			        	if(!isPaused) {
+			        	this.gameDay = gameDay.plusDays(1);
+			        	}
+			        	timeLabel.setText(dtf.format(gameDay));
+			        }
+		));
+		timeline.setCycleCount(Animation.INDEFINITE);
+		timeline.play();
+
+
+		
 		btnOverall.setOnAction(e -> {
 			setTitle("Overall View");
 		});
@@ -87,23 +127,28 @@ public class SideMenuController extends UIController {
 		});
 		
 		btnSkip.setOnAction(e -> {
-			System.out.println("Skip a week (?)");
+			this.gameDay = gameDay.plusDays(7);
+			this.timeLabel.setText(dtf.format(gameDay));
+			
 		});
 		
 		btnForward.setOnAction(e -> {
-			//TODO
+			if(btnForward.isSelected()) {
+				this.timeline.setRate(2);	
+			}
+			else {
+				this.timeline.setRate(1);	
+			}
+
 		});
 	
 		btnPlayPause.setOnAction(e -> {
-			boolean pause = this.isPaused;
 			if(this.isPaused) {
-				System.out.println("It is currently paused!");
 				this.resumeGame();
 				iconPlayPause.setImage(new Image(getClass().getClassLoader().getResourceAsStream("icons/pause.png")));
 
 			}
 			else {
-				System.out.println("Game is running now!");
 				this.pauseGame();
 				iconPlayPause.setImage(new Image(getClass().getClassLoader().getResourceAsStream("icons/play-button.png")));
 
@@ -114,13 +159,13 @@ public class SideMenuController extends UIController {
 	
 	private void pauseGame() {
 		this.isPaused = true;
-		System.out.println("GAme Paused");
+		this.timeline.pause();
 		//TODO implement functionality
 	}
 	
 	private void resumeGame() {
 		this.isPaused = false;
-		System.out.println("Game resumed");
+		this.timeline.play();
 		//TODO implement functionality
 	}
 	

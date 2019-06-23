@@ -39,7 +39,7 @@ public class GamePageController extends GameController {
 
 	@FXML
 	private Button btnMessages;
-	
+
 	
 	//The SideMenuController
 	@FXML
