@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
 import de.uni.mannheim.capitalismx.hr.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.hr.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
 import de.uni.mannheim.capitalismx.hr.salary.SalaryGenerator;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
@@ -18,7 +19,7 @@ public class EmployeeGenerator {
     private static final Logger logger = LoggerFactory.getLogger(EmployeeGenerator.class);
 
     /**
-     *
+     * Generate an engineer.
      * @param skillLevel generate the engineer with this skill level.
      * @return Returns a randomly generated engineer employee with set skill level
      * and salary randomly generated based of the skill level
@@ -30,11 +31,37 @@ public class EmployeeGenerator {
 
         try {
             salary = new SalaryGenerator().getSalary(skillLevel);
-            NameGenerator ng = new NameGenerator();
+            NameGenerator ng = NameGenerator.getInstance();
 
             PersonMeta newPerson = ng.getGeneratedPersonMeta();
 
             employee = new Engineer(newPerson);
+            employee.setSkillLevel(skillLevel);
+            employee.setSalary(salary);
+
+        } catch (NoDefinedTierException e) {
+            logger.error(e.getMessage());
+        }
+        return employee;
+    }
+
+    /**
+     * Generate a salesperson.
+     * @param skillLevel generate the engineer with this skill level.
+     * @return Returns a randomly generated salesperson employee with set skill level
+     * and salary randomly generated based of the skill level
+     */
+    public Employee generateSalesPeople(int skillLevel) {
+        int salary = 0;
+        Employee employee = null;
+
+        try {
+            salary = new SalaryGenerator().getSalary(skillLevel);
+            NameGenerator ng = NameGenerator.getInstance();
+
+            PersonMeta newPerson = ng.getGeneratedPersonMeta();
+
+            employee = new SalesPerson(newPerson);
             employee.setSkillLevel(skillLevel);
             employee.setSalary(salary);
 
