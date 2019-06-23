@@ -17,8 +17,8 @@ public enum GameModuleType {
 //	OVERVIEW_PLACEHOLDER(1, "m_overview_placeholder.fxml", GameViewType.GAME_OVERVIEW, 0, 1, 0, 1),
 
 	// The modules for HR. (11-20)
-	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.GAME_HR, 0, 7, 1, 15),
-	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.GAME_HR, 9, 7, 1, 19)
+	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.GAME_HR, 1, 7, 1, 15),
+	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.GAME_HR, 9, 7, 2, 19)
 
 	// The modules for Logistics. (21-30)
 //	LOGISTIC_PLACEHOLDER(21, "m_logistic_placeholder.fxml", GameViewType.GAME_LOGISTIC, 0, 1, 0, 1),

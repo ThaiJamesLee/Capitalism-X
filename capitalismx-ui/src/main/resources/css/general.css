@@ -3,6 +3,11 @@
 	-fx-text-fill: black;
 }
 
+.button_module {
+	-fx-background-color: #423f39;
+	-fx-text-fill: white;
+}
+
 .togglebutton {
 	-fx-background-color: #d8d4cb;
 	-fx-text-fill: black;
@@ -15,6 +20,7 @@
 
 .sidemenu_color {
 	-fx-background-color:#423f39;
+	-fx-backgound-insets: 0 0 0 100;
 }
 
 .title_label {

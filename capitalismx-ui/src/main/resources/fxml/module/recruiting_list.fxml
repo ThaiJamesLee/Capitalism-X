@@ -33,7 +33,7 @@
                         </AnchorPane>
                         <AnchorPane>
                            <children>
-                              <Button mnemonicParsing="false" text="Hire for 5000CC each" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <Button mnemonicParsing="false" styleClass="button_module" text="Hire for 5000CC each" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                      </children>

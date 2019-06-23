@@ -10,9 +10,20 @@
    <children>
       <VBox layoutX="40.0" layoutY="35.0" spacing="10.0" stylesheets="@../../css/general.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane styleClass="headerPane">
+            <AnchorPane fx:id="headerPane" styleClass="headerPane">
+               <children>
+                  <Label fx:id="header" styleClass="header" text="Title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Arial Black" size="28.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="contentPane" styleClass="contentPane" />
          </children>
       </VBox>
    </children>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
 </AnchorPane>
