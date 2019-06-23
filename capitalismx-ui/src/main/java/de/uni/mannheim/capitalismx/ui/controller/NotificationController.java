@@ -22,7 +22,6 @@ public class NotificationController extends UIController{
 	}
 	
 	public void addNotification() {
-		notificationAll.
 	}
 
 }
