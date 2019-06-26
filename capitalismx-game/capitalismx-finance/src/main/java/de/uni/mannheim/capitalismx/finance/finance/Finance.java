@@ -55,6 +55,7 @@ public class Finance {
 
 
     private Finance(){
+        this.cash = 1000000;
         this.taxRate = 0.2;
         this.bankingSystem = new BankingSystem();
         this.investments = new ArrayList<Investment>();
@@ -371,5 +372,9 @@ public class Finance {
 
     public void setDecreaseNopatConstant(double amount){
         this.decreaseNopatConstant = amount;
+    }
+
+    public double getCash() {
+        return this.cash;
     }
 }
