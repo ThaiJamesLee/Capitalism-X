@@ -1,8 +1,11 @@
 package de.uni.mannheim.capitalismx.gamelogic;
 
+import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
+import de.uni.mannheim.capitalismx.finance.finance.Investment;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class GameController {
 
@@ -49,7 +52,7 @@ public class GameController {
     }
 
     private void updateFinance() {
-
+        Finance.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
     }
 
     private void updateHR() {
@@ -123,7 +126,7 @@ public class GameController {
     }
 
     private void setInitialFinanceValues() {
-
+        Finance.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
     }
 
     private void setInitialHRValues() {
@@ -161,5 +164,24 @@ public class GameController {
         return netWorth;
     }
 
+    public ArrayList<Investment> generateInvestmentSelection(double amount){
+        return Finance.getInstance().generateInvestmentSelection(amount);
+    }
+
+    public void addInvestment(Investment investment){
+        Finance.getInstance().addInvestment(investment);
+    }
+
+    public void removeInvestment(Investment investment){
+        Finance.getInstance().removeInvestment(investment);
+    }
+
+    public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount){
+        return Finance.getInstance().generateLoanSelection(loanAmount);
+    }
+
+    public void addLoan(BankingSystem.Loan loan){
+        Finance.getInstance().addLoan(loan);
+    }
 
 }

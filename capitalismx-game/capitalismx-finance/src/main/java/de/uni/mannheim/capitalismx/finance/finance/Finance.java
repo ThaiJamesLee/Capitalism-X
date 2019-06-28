@@ -13,6 +13,7 @@ import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author sdupper
@@ -45,22 +46,26 @@ public class Finance {
     private double decreaseNopatFactor;
     private double decreaseNopatConstant;
 
-    private ArrayList<Warehouse> warehousesSold;
-    private ArrayList<Truck> trucksSold;
-    private ArrayList<Machinery> machinesSold;
-    private ArrayList<Double> nopatLast5Years;
+    private List<Warehouse> warehousesSold;
+    private List<Truck> trucksSold;
+    private List<Machinery> machinesSold;
+    private List<Double> nopatLast5Years;
 
     private BankingSystem bankingSystem;
-    private ArrayList<Investment> investments;
+    private List<Investment> investments;
 
 
     private Finance(){
         this.cash = 1000000;
         this.taxRate = 0.2;
-        this.bankingSystem = new BankingSystem();
+        //this.bankingSystem = new BankingSystem();
         this.investments = new ArrayList<Investment>();
         this.decreaseNopatFactor = 0.0;
         this.decreaseNopatConstant = 0.0;
+        this.warehousesSold = new ArrayList<>();
+        this.trucksSold = new ArrayList<>();
+        this.machinesSold = new ArrayList<>();
+        this.nopatLast5Years = new ArrayList<>();
     }
 
     public static synchronized Finance getInstance() {
@@ -73,6 +78,7 @@ public class Finance {
     // liabilities = loanAmount
     public double calculateNetWorth(LocalDate gameDate){
         //this.netWorth = this.cash + this.assets - this.liabilities;
+        //TODO maybe getCash() instead of calculateCash(), because calculateCash() only once per day?
         this.netWorth = this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities();
         return this.netWorth;
     }
@@ -85,6 +91,7 @@ public class Finance {
     }
 
     // calculated daily
+    //TODO reset assetsSold and nopat of current day?
     private double calculateCash(LocalDate gameDate){
         //this.cash += this.nopat + this.assetsSold;
         this.cash += this.calculateNopat() + this.calculateAssetsSold(gameDate);
@@ -295,7 +302,7 @@ public class Finance {
     }
 
     //TODO update cash?
-    private void addInvestment(Investment investment){
+    public void addInvestment(Investment investment){
         this.investments.add(investment);
         this.cash -= investment.getAmount();
         this.calculateTotalInvestmentAmount();
@@ -303,14 +310,14 @@ public class Finance {
 
     //TODO taxes
     //TODO update cash?
-    private void removeInvestment(Investment investment){
+    public void removeInvestment(Investment investment){
         this.investments.remove(investment);
         this.cash += investment.getAmount();
         this.calculateTotalInvestmentAmount();
     }
 
     private double calculateLiabilities(){
-        this.liabilities = bankingSystem.getAnnualPrincipalBalance();
+        this.liabilities = BankingSystem.getInstance().getAnnualPrincipalBalance();
         return this.liabilities;
     }
 
