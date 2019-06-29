@@ -3,6 +3,13 @@ package de.uni.mannheim.capitalismx.gamelogic;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
+import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
+import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
+import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
+import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
+import de.uni.mannheim.capitalismx.production.Product;
+import sun.rmi.runtime.Log;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -60,7 +67,12 @@ public class GameController {
     }
 
     private void updateLogistics() {
-
+        InternalFleet.getInstance().calculateAll();
+        if(Logistics.getInstance().getExternalPartner() != null){
+            Logistics.getInstance().getExternalPartner().calculateExternalLogisticsIndex();
+        }
+        Logistics.getInstance().calculateAll();
+        ProductSupport.getInstance().calculateAll();
     }
 
     private void updateMarketing() {
@@ -134,7 +146,7 @@ public class GameController {
     }
 
     private void setInitialLogisticsValues() {
-
+        //Logistics.getInstance().calculateAll();
     }
 
     private void setInitialMarketingValues() {
@@ -182,6 +194,74 @@ public class GameController {
 
     public void addLoan(BankingSystem.Loan loan){
         Finance.getInstance().addLoan(loan);
+    }
+
+    public ArrayList<ExternalPartner> generateExternalPartnerSelection(){
+        return Logistics.getInstance().generateExternalPartnerSelection();
+    }
+
+    public ArrayList<Truck> generateTruckSelection(){
+        return Logistics.getInstance().generateTruckSelection();
+    }
+
+    public void addExternalPartner(ExternalPartner externalPartner){
+        Logistics.getInstance().addExternalPartner(externalPartner);
+    }
+
+    public void removeExternalPartner(){
+        Logistics.getInstance().removeExternalPartner();
+    }
+
+    public void addTruckToFleet(Truck truck, LocalDate gameDate){
+        Logistics.getInstance().addTruckToFleet(truck, gameDate);
+    }
+
+    public void removeTruckFromFleet(Truck truck){
+        Logistics.getInstance().removeTruckFromFleet(truck);
+    }
+
+    public ArrayList<ProductSupport.SupportType> generateSupportTypeSelection(){
+        return ProductSupport.getInstance().generateSupportTypeSelection();
+    }
+
+    public void addSupport(ProductSupport.SupportType supportType){
+        ProductSupport.getInstance().addSupport(supportType);
+    }
+
+    public void removeSupport(ProductSupport.SupportType supportType){
+        ProductSupport.getInstance().removeSupport(supportType);
+    }
+
+    public ArrayList<ProductSupport.ExternalSupportPartner> generateExternalSupportPartnerSelection(){
+        return ProductSupport.getInstance().generateExternalSupportPartnerSelection();
+    }
+
+    public void addExternalSupportPartner(ProductSupport.ExternalSupportPartner externalSupportPartner){
+        ProductSupport.getInstance().addExternalSupportPartner(externalSupportPartner);
+    }
+
+    public void removeExternalSupportPartner(){
+        ProductSupport.getInstance().removeExternalSupportPartner();
+    }
+
+    public ArrayList<ProductSupport.SupportType> getSupportTypes() {
+        return ProductSupport.getInstance().getSupportTypes();
+    }
+
+    public ProductSupport.ExternalSupportPartner getExternalSupportPartner() {
+        return ProductSupport.getInstance().getExternalSupportPartner();
+    }
+
+    public int getTotalSupportTypeQuality() {
+        return ProductSupport.getInstance().getTotalSupportTypeQuality();
+    }
+
+    public double getTotalSupportQuality() {
+        return ProductSupport.getInstance().getTotalSupportQuality();
+    }
+
+    public double getTotalSupportCosts() {
+        return ProductSupport.getInstance().getTotalSupportCosts();
     }
 
 }

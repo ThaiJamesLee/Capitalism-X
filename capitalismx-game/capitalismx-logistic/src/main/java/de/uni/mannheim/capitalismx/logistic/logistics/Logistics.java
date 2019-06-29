@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Logistics {
     private static Logistics instance;
 
-    private InternalFleet internalFleet;
+    //private InternalFleet internalFleet;
     private ExternalPartner externalPartner;
     private double shippingFee;
     private double costLogistics;
@@ -23,7 +23,7 @@ public class Logistics {
     private int deliveredProducts;
 
     private Logistics(){
-        this.internalFleet = new InternalFleet();
+        //this.internalFleet = new InternalFleet();
         this.shippingFee = 15;
         this.deliveredProducts = 0;
         this.calculateAll();
@@ -36,7 +36,7 @@ public class Logistics {
         return Logistics.instance;
     }
 
-    private void calculateAll(){
+    public void calculateAll(){
         this.calculateCostsLogistics();
         this.calculateLogisticsIndex();
         this.calculateTotalDeliveryCosts();
@@ -45,34 +45,38 @@ public class Logistics {
 
     private double calculateCostsLogistics(){
         if(externalPartner == null){
-            this.costLogistics = internalFleet.getTotalTruckCost();
+            this.costLogistics = InternalFleet.getInstance().getTotalTruckCost();
         }else{
-            this.costLogistics = internalFleet.getTotalTruckCost() + externalPartner.getContractualCost();
+            this.costLogistics = InternalFleet.getInstance().getTotalTruckCost() + externalPartner.getContractualCost();
         }
         return this.costLogistics;
     }
 
     //TODO what if no external partner hired
+    //TODO set deliveredProducts
     private double calculateLogisticsIndex(){
         if(externalPartner == null){
             this.logisticsIndex = -1.0;
         }
-        if(this.deliveredProducts > internalFleet.getCapacityFleet()){
-            this.logisticsIndex = (((this.deliveredProducts - internalFleet.getCapacityFleet()) * externalPartner.getExternalLogisticsIndex()) + (internalFleet.getCapacityFleet() * internalFleet.getInternalLogisticIndex()));
-        }else if(this.deliveredProducts == internalFleet.getCapacityFleet()){
-            this.logisticsIndex = internalFleet.getCapacityFleet() * internalFleet.getInternalLogisticIndex();
+        if(this.deliveredProducts > InternalFleet.getInstance().getCapacityFleet()){
+            this.logisticsIndex = (((this.deliveredProducts - InternalFleet.getInstance().getCapacityFleet()) * externalPartner.getExternalLogisticsIndex())
+                    + (InternalFleet.getInstance().getCapacityFleet() * InternalFleet.getInstance().getInternalLogisticIndex()));
+        }else if(this.deliveredProducts == InternalFleet.getInstance().getCapacityFleet()){
+            this.logisticsIndex = InternalFleet.getInstance().getCapacityFleet() * InternalFleet.getInstance().getInternalLogisticIndex();
         } else{
-            this.logisticsIndex = this.deliveredProducts * internalFleet.getInternalLogisticIndex();
+            this.logisticsIndex = this.deliveredProducts * InternalFleet.getInstance().getInternalLogisticIndex();
         }
         return this.logisticsIndex;
     }
 
     private double calculateTotalDeliveryCosts(){
-        if(this.deliveredProducts <= internalFleet.getCapacityFleet()){
-            this.totalDeliveryCosts = (Math.ceil(this.deliveredProducts / 1000.0) * internalFleet.getFixCostsDelivery()) + (this.deliveredProducts * internalFleet.getVariableCostsDelivery());
+        if(this.deliveredProducts <= InternalFleet.getInstance().getCapacityFleet()){
+            this.totalDeliveryCosts = (Math.ceil(this.deliveredProducts / 1000.0) * InternalFleet.getInstance().getFixCostsDelivery())
+                    + (this.deliveredProducts * InternalFleet.getInstance().getVariableCostsDelivery());
         } else{
             //TODO
-            this.totalDeliveryCosts = (internalFleet.getTrucks().size() * internalFleet.getFixCostsDelivery()) + (internalFleet.getTrucks().size() * 1000 * internalFleet.getVariableCostsDelivery()) + this.calculateCostsExternalDelivery();
+            this.totalDeliveryCosts = (InternalFleet.getInstance().getTrucks().size() * InternalFleet.getInstance().getFixCostsDelivery())
+                    + (InternalFleet.getInstance().getTrucks().size() * 1000 * InternalFleet.getInstance().getVariableCostsDelivery()) + this.calculateCostsExternalDelivery();
         }
         return this.totalDeliveryCosts;
     }
@@ -80,9 +84,9 @@ public class Logistics {
     //TODO possibility to select logistics approach (e.g., only external partner, although internal fleet exists)
     private double calculateCostsExternalDelivery(){
         if(externalPartner != null){
-            this.costsExternalDelivery = (this.deliveredProducts - internalFleet.getCapacityFleet()) * externalPartner.getVariableDeliveryCost();
+            this.costsExternalDelivery = (this.deliveredProducts - InternalFleet.getInstance().getCapacityFleet()) * externalPartner.getVariableDeliveryCost();
         }else{
-            this.costsExternalDelivery = (this.deliveredProducts - internalFleet.getCapacityFleet()) * this.shippingFee;
+            this.costsExternalDelivery = (this.deliveredProducts - InternalFleet.getInstance().getCapacityFleet()) * this.shippingFee;
         }
         return this.costsExternalDelivery;
     }
@@ -95,7 +99,7 @@ public class Logistics {
     /**
      * generate external partners to choose from
      */
-    private ArrayList<ExternalPartner> generateExternalPartnerSelection(){
+    public ArrayList<ExternalPartner> generateExternalPartnerSelection(){
         ArrayList<ExternalPartner> externalPartnerSelection = new ArrayList<ExternalPartner>();
 
         // generate external partners
@@ -126,45 +130,51 @@ public class Logistics {
     /**
      * generate six trucks to choose from
      */
-    private ArrayList<Truck> generateTruckSelection(){
+    public ArrayList<Truck> generateTruckSelection(){
         ArrayList<Truck> truckSelection = new ArrayList<Truck>();
 
         // generate six trucks according to table on page 49
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.1, 1.3), RandomNumberGenerator.getRandomDouble(0.6, 0.8)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.9, 1.1), RandomNumberGenerator.getRandomDouble(0.8, 1.1)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.0, 1.2), RandomNumberGenerator.getRandomDouble(0.7, 0.9)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.8, 1.1), RandomNumberGenerator.getRandomDouble(0.9, 1.1)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.7, 0.9), RandomNumberGenerator.getRandomDouble(1.0, 1.2)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.6, 0.8), RandomNumberGenerator.getRandomDouble(1.1, 1.3)));
+        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.1, 1.3),
+                RandomNumberGenerator.getRandomDouble(0.6, 0.8)));
+        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.9, 1.1),
+                RandomNumberGenerator.getRandomDouble(0.8, 1.1)));
+        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.0, 1.2),
+                RandomNumberGenerator.getRandomDouble(0.7, 0.9)));
+        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.8, 1.1),
+                RandomNumberGenerator.getRandomDouble(0.9, 1.1)));
+        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.7, 0.9),
+                RandomNumberGenerator.getRandomDouble(1.0, 1.2)));
+        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.6, 0.8),
+                RandomNumberGenerator.getRandomDouble(1.1, 1.3)));
         return truckSelection;
     }
 
-    private void setDeliveredProducts(int deliveredProducts){
+    public void setDeliveredProducts(int deliveredProducts){
         this.deliveredProducts = deliveredProducts;
     }
 
-    private void addExternalPartner(ExternalPartner externalPartner){
+    public void addExternalPartner(ExternalPartner externalPartner){
         this.externalPartner = externalPartner;
         this.calculateAll();
     }
 
-    private void removeExternalPartner(){
+    public void removeExternalPartner(){
         this.externalPartner = null;
         this.calculateAll();
     }
 
-    private void addTruckToFleet(Truck truck, LocalDate gameDate){
-        this.internalFleet.addTruckToFleet(truck, gameDate);
+    public void addTruckToFleet(Truck truck, LocalDate gameDate){
+        InternalFleet.getInstance().addTruckToFleet(truck, gameDate);
         this.calculateAll();
     }
 
-    private void removeTruckFromFleet(Truck truck){
-        this.internalFleet.removeTruckFromFleet(truck);
+    public void removeTruckFromFleet(Truck truck){
+        InternalFleet.getInstance().removeTruckFromFleet(truck);
         this.calculateAll();
     }
 
     public InternalFleet getInternalFleet() {
-        return this.internalFleet;
+        return InternalFleet.getInstance();
     }
 
     public ExternalPartner getExternalPartner() {
@@ -200,10 +210,10 @@ public class Logistics {
     }
 
     public boolean checkEcoIndexFleetBelowThreshold(){
-        return this.internalFleet.checkEcoIndexFleetBelowThreshold();
+        return InternalFleet.getInstance().checkEcoIndexFleetBelowThreshold();
     }
 
     public void decreaseCapacityFleetRel(double amount){
-        this.internalFleet.decreaseCapacityFleetRel(amount);
+        InternalFleet.getInstance().decreaseCapacityFleetRel(amount);
     }
 }

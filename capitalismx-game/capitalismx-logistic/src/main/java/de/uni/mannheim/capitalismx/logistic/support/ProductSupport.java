@@ -6,13 +6,15 @@ import java.util.ArrayList;
  * @author sdupper
  */
 public class ProductSupport {
+    private static ProductSupport instance;
+
     private ArrayList<SupportType> supportTypes;
     private ExternalSupportPartner externalSupportPartner;
     private int totalSupportTypeQuality;
     private double totalSupportQuality;
     private double totalSupportCosts;
 
-    private enum SupportType{
+    public enum SupportType{
         NO_PRODUCT_SUPPORT(-10, 0),
         ONLINE_SELF_SERVICE(0, 50),
         ONLINE_SUPPORT(20, 100),
@@ -38,7 +40,7 @@ public class ProductSupport {
     }
 
     //TODO: generate suitable values
-    private enum ExternalSupportPartner{
+    public enum ExternalSupportPartner{
         NO_PARTNER(0, 0),
         PARTNER_1(1000, 80),
         PARTNER_2(800, 40);
@@ -60,13 +62,26 @@ public class ProductSupport {
         }
     }
 
-    public ProductSupport(){
+    private ProductSupport(){
         this.supportTypes = new ArrayList<SupportType>();
         this.supportTypes.add(SupportType.NO_PRODUCT_SUPPORT);
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;
         this.totalSupportTypeQuality = 0;
         this.totalSupportQuality = 0;
         this.totalSupportCosts = 0;
+    }
+
+    public static synchronized ProductSupport getInstance() {
+        if(ProductSupport.instance == null) {
+            ProductSupport.instance = new ProductSupport();
+        }
+        return ProductSupport.instance;
+    }
+
+    public void calculateAll(){
+        this.calculateTotalSupportTypeQuality();
+        this.calculateTotalSupportQuality();
+        this.calculateTotalSupportCosts();
     }
 
     public ArrayList<SupportType> generateSupportTypeSelection(){
@@ -118,7 +133,6 @@ public class ProductSupport {
     }
 
     private double calculateTotalSupportQuality(){
-        this.calculateTotalSupportTypeQuality();
         if(this.externalSupportPartner.getQualityIndex() <= 50){
             this.totalSupportQuality = 0.4 * this.externalSupportPartner.getQualityIndex() + 0.6 * this.calculateTotalSupportTypeQuality();
         }else{

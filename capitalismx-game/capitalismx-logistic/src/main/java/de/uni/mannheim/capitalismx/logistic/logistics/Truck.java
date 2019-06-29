@@ -26,7 +26,7 @@ public class Truck {
         this.fixCostsDelivery = basePrice * fixCostsDeliveryFactor;
 
         this.capacity = 1000;
-        this.fixTruckCost = (purchasePrice * 0.01) / 12;
+        this.fixTruckCost = (this.purchasePrice * 0.01) / 12;
         //TODO for 9 years
         this.depreciationRate = 1/9;
         this.usefulLife = 9;

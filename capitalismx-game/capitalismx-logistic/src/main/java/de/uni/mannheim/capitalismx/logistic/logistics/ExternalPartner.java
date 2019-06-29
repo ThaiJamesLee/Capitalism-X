@@ -21,7 +21,7 @@ public class ExternalPartner {
         this.calculateExternalLogisticsIndex();
     }
 
-    private double calculateExternalLogisticsIndex(){
+    public double calculateExternalLogisticsIndex(){
         if(this.reliabilityIndexPartner <= 40){
             this.externalLogisticsIndex = (this.reliabilityIndexPartner * 0.5 + 0.5 * (this.qualityIndexPartner * 0.8 + this.ecoIndexPartner * 0.2));
         }else{

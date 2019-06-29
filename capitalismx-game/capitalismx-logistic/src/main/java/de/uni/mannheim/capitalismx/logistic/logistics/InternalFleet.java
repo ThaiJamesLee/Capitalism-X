@@ -7,6 +7,8 @@ import java.util.ArrayList;
  * @author sdupper
  */
 public class InternalFleet {
+    private static InternalFleet instance;
+
     private int capacityFleet;
     private double ecoIndexFleet;
     private double qualityIndexFleet;
@@ -18,14 +20,21 @@ public class InternalFleet {
 
     private ArrayList<Truck> trucks;
 
-    public InternalFleet(){
+    private InternalFleet(){
         this.trucks = new ArrayList<Truck>();
         this.variableCostsDelivery = 2;
         this.calculateAll();
         this.decreaseCapacityFactor = 0.0;
     }
 
-    private void calculateAll(){
+    public static synchronized InternalFleet getInstance() {
+        if(InternalFleet.instance == null) {
+            InternalFleet.instance = new InternalFleet();
+        }
+        return InternalFleet.instance;
+    }
+
+    public void calculateAll(){
         this.calculateCapacityFleet();
         this.calculateEcoIndexFleet();
         this.calculateQualityIndexFleet();
