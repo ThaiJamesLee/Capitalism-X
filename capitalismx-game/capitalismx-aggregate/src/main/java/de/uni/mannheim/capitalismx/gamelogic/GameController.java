@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.gamelogic;
 
+import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
@@ -47,7 +48,7 @@ public class GameController {
     }
 
     private void updateCompanyEcoIndex() {
-
+        CompanyEcoIndex.getInstance().calculateAll();
     }
 
     private void updateExternalEvents() {
@@ -262,6 +263,10 @@ public class GameController {
 
     public double getTotalSupportCosts() {
         return ProductSupport.getInstance().getTotalSupportCosts();
+    }
+
+    public CompanyEcoIndex.EcoIndex getEcoIndex(){
+        return CompanyEcoIndex.getInstance().getEcoIndex();
     }
 
 }

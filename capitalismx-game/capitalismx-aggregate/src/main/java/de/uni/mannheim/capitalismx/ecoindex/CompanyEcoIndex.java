@@ -52,7 +52,8 @@ public class CompanyEcoIndex {
     }
 
     private CompanyEcoIndex(){
-
+        this.ecoIndex = EcoIndex.GOOD;
+        this.calculateAll();
     }
 
     public static synchronized CompanyEcoIndex getInstance() {
@@ -60,6 +61,11 @@ public class CompanyEcoIndex {
             CompanyEcoIndex.instance = new CompanyEcoIndex();
         }
         return CompanyEcoIndex.instance;
+    }
+
+    public void calculateAll(){
+        this.calculateEcoTax();
+        this.calculateEcoCosts();
     }
 
     private void checkMachinery(){
@@ -115,11 +121,11 @@ public class CompanyEcoIndex {
     private void decreaseEcoIndex(int points){
         int newPoints = this.ecoIndex.getPoints() - points;
         if(newPoints < this.ecoIndex.getMin()){
-            if(this.ecoIndex.getIndex() > 3){
+            if(this.ecoIndex.getIndex() > 2){
                 this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
             }else{
-                //TODO Game Over event
-
+                //TODO Game Over event if below 10 points
+                this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
             }
         }
         this.ecoIndex.setPoints(newPoints);
