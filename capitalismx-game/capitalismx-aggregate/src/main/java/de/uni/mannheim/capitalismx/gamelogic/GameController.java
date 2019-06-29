@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.gamelogic;
 
 import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
+import de.uni.mannheim.capitalismx.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
@@ -14,6 +15,7 @@ import sun.rmi.runtime.Log;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameController {
 
@@ -52,7 +54,7 @@ public class GameController {
     }
 
     private void updateExternalEvents() {
-
+        ExternalEvents.getInstance().checkEvents();
     }
 
     private void updateCustomer() {
@@ -267,6 +269,10 @@ public class GameController {
 
     public CompanyEcoIndex.EcoIndex getEcoIndex(){
         return CompanyEcoIndex.getInstance().getEcoIndex();
+    }
+
+    public List<ExternalEvents.ExternalEvent> getExternalEvents() {
+        return ExternalEvents.getInstance().getExternalEvents();
     }
 
 }

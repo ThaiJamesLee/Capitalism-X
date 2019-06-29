@@ -12,6 +12,7 @@ import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,9 +22,9 @@ public class ExternalEvents {
 
     private static ExternalEvents instance;
 
-    private ArrayList<ExternalEvent> externalEvents;
+    private List<ExternalEvent> externalEvents;
 
-    private enum ExternalEvent{
+    public enum ExternalEvent{
         EVENT_1("Production Problems pop up"),
         EVENT_2("New technology increases quality"),
         EVENT_3("Company acquisiton possibility offered"),
@@ -65,7 +66,7 @@ public class ExternalEvents {
     }
 
     private ExternalEvents(){
-
+        externalEvents = new ArrayList<>();
     }
 
     public static synchronized ExternalEvents getInstance() {
@@ -233,7 +234,7 @@ public class ExternalEvents {
 
     }
 
-    public ArrayList<ExternalEvent> checkEvents(){
+    public List<ExternalEvent> checkEvents(){
         this.checkEventProductionProblems();
         this.checkEventNewTechnology();
         this.checkEventCompanyAcquisition();
@@ -252,6 +253,10 @@ public class ExternalEvents {
         this.checkEventChangeOfPower();
         this.checkEventEcoActivists();
         this.checkEventTensions();
+        return this.externalEvents;
+    }
+
+    public List<ExternalEvent> getExternalEvents() {
         return this.externalEvents;
     }
 }
