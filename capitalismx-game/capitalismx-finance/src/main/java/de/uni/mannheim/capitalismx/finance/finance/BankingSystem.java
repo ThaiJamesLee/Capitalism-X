@@ -8,13 +8,15 @@ import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
  * @author sdupper
  */
 public class BankingSystem {
+    private static BankingSystem instance;
+
     private double annualRepayment;
     private Loan loan;
     private double annualPrincipalBalance;
     private double annualInterestRate;
     private double annualLoanRate;
 
-    class Loan{
+    public class Loan{
         private double interestRate;
         private double duration;
         private double loanAmount;
@@ -37,6 +39,18 @@ public class BankingSystem {
             return this.loanAmount;
         }
     }
+
+    private BankingSystem(){
+
+    }
+
+    public static synchronized BankingSystem getInstance() {
+        if(BankingSystem.instance == null) {
+            BankingSystem.instance = new BankingSystem();
+        }
+        return BankingSystem.instance;
+    }
+
     ArrayList<Loan> generateLoanSelection(double loanAmount){
         ArrayList<Loan> loanSelection = new ArrayList<Loan>();
         //short-term
