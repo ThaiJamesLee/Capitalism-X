@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * This class represents the marketing department.
  * p. 54 - 63
  * @author duly
  */
@@ -92,6 +93,10 @@ public class MarketingDepartment {
         consultancies.add(con);
     }
 
+    /**
+     * Iterates over all campaigns and social engagements and calculates the company image score.
+     * @return Returns the Company Image score.
+     */
     public double getCompanyImageScore() {
         double originalScore = 0.0;
         List<Campaign> marketing = new ArrayList<>();
@@ -114,6 +119,11 @@ public class MarketingDepartment {
         return Math.pow(originalScore, 2) / 7.84;
     }
 
+    /**
+     *
+     * @param social List of social campaigns.
+     * @return Returns the total points for social engagements.
+     */
     private double getSocialPoints(List<Campaign> social) {
         //TODO CSR is unclear
 
@@ -133,6 +143,11 @@ public class MarketingDepartment {
         return points;
     }
 
+    /**
+     *
+     * @param marketing List of marketing campaigns.
+     * @return Returns the total points for marketing campaigns.
+     */
     private double getMarketingPoints(List<Campaign> marketing) {
         double newspaper = 0.0;
         double tv = 0.0;
@@ -150,6 +165,13 @@ public class MarketingDepartment {
         return newspaper + tv + online;
     }
 
+    /**
+     *
+     * @param campaigns List of Campaigns.
+     * @param name Name of the campaign.
+     * @param media The media used for the campaign.
+     * @return Returns the total points for campaigns that meet the parameters name and media.
+     */
     private double getPointsByCampaignAndMedia(List<Campaign> campaigns, String name, Media media) {
         List<Campaign> filteredByMedia = new ArrayList<>();
 
@@ -175,6 +197,10 @@ public class MarketingDepartment {
         return points;
     }
 
+    /**
+     *
+     * @return Returns the list of issued press releases.
+     */
     public List<PressRelease> getPressReleases() {
         return pressReleases;
     }
@@ -209,16 +235,10 @@ public class MarketingDepartment {
         return cost;
     }
 
-    public double getTotalConsultancyCosts() {
-        double cost = 0.0;
-
-        for (ConsultancyType con : consultancies) {
-            cost += con.getCost();
-        }
-
-        return cost;
-    }
-
+    /**
+     *
+     * @return Return the campaign names.
+     */
     public String[] getCampaignNames() {
         return CAMPAIGN_NAMES;
     }
@@ -232,14 +252,31 @@ public class MarketingDepartment {
         }
     }
 
+    /* Consultancy */
+
+    /**
+     *
+     * @return Returns cost of consultancy taken.
+     */
+    public double getTotalConsultancyCosts() {
+        double cost = 0.0;
+
+        for (ConsultancyType con : consultancies) {
+            cost += con.getCost();
+        }
+
+        return cost;
+    }
+
     /**
      *
      * @return Returns all consultancies.
      */
-    public ConsultancyType[] getConsultancies() {
+    public ConsultancyType[] getAllConsultancies() {
         return ConsultancyType.values();
     }
 
+    /* Market Research */
     /**
      *
      * @return Return all possible reports for market research.

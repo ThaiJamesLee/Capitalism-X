@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.hr.employee;
 
 import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * This class should hold the teams of this company.
  * @duly
  */
-public class Team {
+public class Team implements Serializable {
 
     private List<Employee> team;
     private EmployeeType type;
@@ -29,6 +30,21 @@ public class Team {
         this.type = type;
         this.team = team;
     }
+
+    /**
+     *
+     * @param employee adds an Employee to the team list.
+     */
+    public void addEmployee(Employee employee) {
+        team.add(employee);
+    }
+
+    /**
+     *
+     * @param employee rmeove an Employee from the team list.
+     */
+    public void removeEmployee(Employee employee) { team.remove(employee); }
+
 
     public EmployeeType getType() { return type; }
 

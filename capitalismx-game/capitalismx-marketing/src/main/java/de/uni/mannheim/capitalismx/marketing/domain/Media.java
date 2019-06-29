@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.marketing.domain;
 /**
+ * Defines media for Campaigns.
+ * @see Campaign
  * @author duly
  */
 public enum Media {
@@ -14,6 +16,9 @@ public enum Media {
         this.cost = cost;
     }
 
+    /**
+     * @return Returns the cost of the media.
+     */
     public int getCost() {
         return cost;
     }

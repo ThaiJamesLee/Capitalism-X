@@ -7,6 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ * This class defines the market research.
+ * One instance can only contain one report / table.
+ * For each new research a new MarketResearch object must be created.
+ * @author duly
+ */
 public class MarketResearch {
 
     private boolean isInternal;
@@ -21,6 +28,12 @@ public class MarketResearch {
         this.surveyType = surveyType;
     }
 
+
+    /**
+     * Saves the price sensitivity report in the table variable.
+     * @param values Is a map of String and Double that maps the name of the corresponding value. E.g. sales price: 100.
+     * @return Returns the cost of the price sensitivity report.
+     */
     public double conductPriceSensitivityReport(Map<String, Double> values) {
         double cost = 0.0;
         this.report = Reports.PRICE_SENSITIVE_REPORT;
@@ -54,6 +67,10 @@ public class MarketResearch {
         return surveyType.getInfluencePrice() *  cost;
     }
 
+    /**
+     * TODO Remove this when test not needed.
+     * Print the table.
+     */
     public void printTable() {
         for(Map.Entry<String, List<Double>> entry : table.entrySet()) {
             System.out.print(entry.getKey() + "; ");
@@ -64,6 +81,10 @@ public class MarketResearch {
         }
     }
 
+    /**
+     *
+     * @return Returns the table.
+     */
     public Map<String, List<Double>> getTable() {
         return table;
     }

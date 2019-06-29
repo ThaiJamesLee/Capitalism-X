@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Defines Campaigns.
  * See table at p.55
  * @author duly
  */
@@ -111,6 +112,12 @@ public enum Campaign {
         return social;
     }
 
+    /**
+     *
+     * @param name Name of the campaign.
+     * @param media Media used.
+     * @return Returns the Campaign with specified name and media. Null if no matched media and name.
+     */
     public static Campaign getCampaignsByNameAndMedia(String name, Media media) {
         Campaign[] campaigns = Campaign.values();
         for (Campaign c : campaigns) {
@@ -121,6 +128,13 @@ public enum Campaign {
         return null;
     }
 
+    /**
+     * The two arrays requirements and points are dependent.
+     * They have the same length and are being mapped by their indices.
+     *
+     * @param req The requirement.
+     * @return Returns the point by requirement.
+     */
     public double getPointsByRequirement(double req) {
 
         if (requirement[requirement.length-1] <= req) {

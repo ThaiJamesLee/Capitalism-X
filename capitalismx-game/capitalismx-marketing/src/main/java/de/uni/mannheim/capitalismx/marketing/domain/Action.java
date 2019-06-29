@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.marketing.domain;
 /**
+ * Defines campaign actions.
  * @author duly
  */
 public enum Action {

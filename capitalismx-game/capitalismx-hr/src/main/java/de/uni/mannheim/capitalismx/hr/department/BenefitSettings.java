@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.hr.department;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitTypes;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * This class should save and load settings of benefits.
  * @author duly
  */
-public class BenefitSettings {
+public class BenefitSettings implements Serializable {
 
     private Map<BenefitTypes, Benefit> benefits;
 
@@ -53,6 +54,8 @@ public class BenefitSettings {
         this.benefits = benefits;
     }
 
+
+
     /**
      * Overwrite the benefit with the same benefit type with new benefit
      * @param benefit and the benefit
@@ -63,4 +66,5 @@ public class BenefitSettings {
         }
         benefits.put(benefit.getType(), benefit);
     }
+
 }

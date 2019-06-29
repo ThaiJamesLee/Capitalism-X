@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
+ * The NameGenerator contains functions to make an API-call and generates random persons.
  * @author duly
  */
 public class NameGenerator {

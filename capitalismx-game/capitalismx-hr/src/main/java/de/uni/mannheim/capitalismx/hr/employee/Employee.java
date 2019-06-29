@@ -3,11 +3,13 @@ package de.uni.mannheim.capitalismx.hr.employee;
 import de.uni.mannheim.capitalismx.utils.data.LocationData;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
+import java.io.Serializable;
+
 /**
  * Generic Employee, every employee type must inherit from this class.
  * @author duly
  */
-public abstract class Employee implements Person {
+public abstract class Employee implements Person, Serializable {
 
     private double salary;
     private int skillLevel;

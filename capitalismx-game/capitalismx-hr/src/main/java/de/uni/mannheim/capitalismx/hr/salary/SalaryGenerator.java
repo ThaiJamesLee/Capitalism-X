@@ -11,6 +11,17 @@ import java.security.SecureRandom;
  */
 public class SalaryGenerator {
 
+    private static SalaryGenerator instance;
+
+    private SalaryGenerator() {}
+
+    public static SalaryGenerator getInstance() {
+        if(instance == null) {
+            instance = new SalaryGenerator();
+        }
+        return instance;
+    }
+
     /**
      * Calculates a random salary that is in the predefined ranges.
      * @param skillLevel the skill level of an employee

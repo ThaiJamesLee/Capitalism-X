@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.marketing.consultancy;
 
 /**
+ * Definition of consultancies.
  * @author duly
  */
 public enum ConsultancyType {

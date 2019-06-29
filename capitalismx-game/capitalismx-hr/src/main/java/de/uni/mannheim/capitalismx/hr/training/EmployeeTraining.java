@@ -10,12 +10,23 @@ import de.uni.mannheim.capitalismx.hr.employee.Employee;
  */
 public class EmployeeTraining {
 
+    private static EmployeeTraining instance;
+
+    private EmployeeTraining() {}
+
+    public static EmployeeTraining getInstance() {
+        if(instance == null) {
+            instance = new EmployeeTraining();
+        }
+        return instance;
+    }
+
     /**
      *
      * @param e employee to train to the next level.
      * @return price for the chosen training.
      */
-    public int trainEmployee(Employee e, Training t) {
+    public double trainEmployee(Employee e, Training t) {
         int skillLevel = e.getSkillLevel() + t.getSkillLevelImprove();
         double salary = e.getSalary() * t.getSalaryIncreaseFactor();
 

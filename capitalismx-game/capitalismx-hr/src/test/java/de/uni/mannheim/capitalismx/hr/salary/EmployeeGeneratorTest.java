@@ -12,7 +12,7 @@ public class EmployeeGeneratorTest {
 
     @Test
     public void generateEngineerTest () {
-        EmployeeGenerator generator = new EmployeeGenerator();
+        EmployeeGenerator generator = EmployeeGenerator.getInstance();
 
         for (int i = 0; i < 10 ; i++) {
             try {
@@ -28,7 +28,7 @@ public class EmployeeGeneratorTest {
     //@Test(expectedExceptions = NoDefinedTierException.class)
     @Test
     public void generateEngineerSkillLevelTestI () {
-        EmployeeGenerator generator = new EmployeeGenerator();
+        EmployeeGenerator generator = EmployeeGenerator.getInstance();
 
         for (int i = 101; i < 200; i++) {
             Assert.assertNull(generator.generateEngineer(i));
@@ -39,7 +39,7 @@ public class EmployeeGeneratorTest {
     //@Test(expectedExceptions = NoDefinedTierException.class)
     @Test
     public void generateEngineerSkillLevelTestII () {
-        EmployeeGenerator generator = new EmployeeGenerator();
+        EmployeeGenerator generator = EmployeeGenerator.getInstance();
 
         for (int i = -100; i < -1; i++) {
             Assert.assertNull(generator.generateEngineer(i));

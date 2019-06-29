@@ -18,13 +18,24 @@ public class EmployeeGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeGenerator.class);
 
+    private static EmployeeGenerator instance;
+
+    private EmployeeGenerator() {}
+
+    public static EmployeeGenerator getInstance() {
+        if(instance == null) {
+            instance = new EmployeeGenerator();
+        }
+        return instance;
+    }
+
     /**
      * Generate an engineer.
      * @param skillLevel generate the engineer with this skill level.
      * @return Returns a randomly generated engineer employee with set skill level
      * and salary randomly generated based of the skill level
      */
-    public Employee generateEngineer (int skillLevel) {
+    public Employee generateEngineer(int skillLevel) {
 
         int salary = 0;
         Employee employee = null;

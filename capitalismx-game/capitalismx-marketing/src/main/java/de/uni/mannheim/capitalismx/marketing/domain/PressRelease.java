@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.marketing.domain;
 /**
+ * Defines the press releases.
  * @author duly
  */
 public enum PressRelease {
@@ -21,6 +22,10 @@ public enum PressRelease {
         return name;
     }
 
+    /**
+     *
+     * @return Returns the cost of the press release.
+     */
     public int getCost() {
         return cost;
     }

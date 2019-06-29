@@ -1,22 +1,23 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
-import de.uni.mannheim.capitalismx.hr.domain.Benefit;
-import de.uni.mannheim.capitalismx.hr.domain.BenefitTypes;
-import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
-import de.uni.mannheim.capitalismx.hr.domain.JobSatisfaction;
+import de.uni.mannheim.capitalismx.hr.domain.*;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.Team;
+import de.uni.mannheim.capitalismx.hr.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.hr.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.hr.training.EmployeeTraining;
 import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Based on the report on p.21 - 28
  * @author duly
  */
-public class HRDepartment {
+public class HRDepartment implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
 
@@ -32,6 +33,13 @@ public class HRDepartment {
     private HRDepartment () {
         this.benefitSettings = new BenefitSettings();
         this.teams = new EnumMap<>(EmployeeType.class);
+
+        init();
+    }
+
+    private void init() {
+        teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER));
+        teams.put(EmployeeType.SALESPERSON, new Team(EmployeeType.SALESPERSON));
     }
 
     public static HRDepartment getInstance() {
@@ -39,23 +47,6 @@ public class HRDepartment {
            instance = new HRDepartment();
         }
         return instance;
-    }
-
-    /**
-     * See p.24
-     * @return Returns the actual hiring cost
-     */
-    public double getHiringCost() {
-        double jss = getTotalJSS()/100;
-        return BASE_COST + BASE_COST*(1 - jss);
-    }
-
-    /**
-     * See p.24
-     * @return Returns the actual firing cost
-     */
-    public double getFiringCost() {
-        return BASE_COST;
     }
 
     /**
@@ -107,15 +98,14 @@ public class HRDepartment {
     }
 
     /**
-     * Update JSS and QoW for each employee
+     * Update JSS and QoW for each employee.
      */
     public void calculateAndUpdateEmployeesMeta () {
-        double originalScale = getOriginalScale();
         double totalJSS = getTotalJSS();
         for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
             for (Employee e : entry.getValue().getTeam()) {
                 e.setQualityOfWork(totalJSS * 0.5 + e.getSkillLevel() * 0.5);
-                e.setJobSatisfaction(originalScale);
+                e.setJobSatisfaction(totalJSS);
             }
         }
     }
@@ -124,7 +114,7 @@ public class HRDepartment {
      * The report does not mention how to calculate the overall quality of work KPI.
      * They only defined for single employee. We assume that the average QoW will reflect the total quality of work.
      *
-     * It is defined as QoW = JSS * 0.5 + skillLevel * 0.5
+     * It is defined as QoW = JSS * 0.5 + skillLevel * 0.5.
      * @return The overall quality of work.
      */
     public double getTotalQualityOfWork () {
@@ -132,7 +122,8 @@ public class HRDepartment {
     }
 
     /**
-     *
+     * Gets the total quality of work by employee type. The score
+     * is the sum of quality of work over all employees with the specified employee type.
      * @param employeeType The employee type of interest
      * @return Returns the Quality of Work of the specified team.
      */
@@ -149,17 +140,12 @@ public class HRDepartment {
     }
 
 
-    public void setBenefitSettings(BenefitSettings benefitSettings) {
-        this.benefitSettings = benefitSettings;
-    }
+
 
     public void setTeams(Map<EmployeeType, Team> teams) {
         this.teams = teams;
     }
 
-    public BenefitSettings getBenefitSettings() {
-        return benefitSettings;
-    }
 
     public Map<EmployeeType, Team> getTeams() {
         return teams;
@@ -171,5 +157,96 @@ public class HRDepartment {
 
     public Team getSalesTeam() {
         return teams.get(EmployeeType.SALESPERSON);
+    }
+
+    /* Hiring and Firing */
+
+    /**
+     * Hire the employee. Add the employe to the corresponding team list.
+     * @param employee The employee to hire.
+     * @return Returns the cost of hiring.
+     */
+    public double hire(Employee employee) {
+
+
+        if(employee instanceof Engineer) {
+            teams.get(EmployeeType.ENGINEER).addEmployee(employee);
+
+        } else if (employee instanceof SalesPerson) {
+            teams.get(EmployeeType.SALESPERSON).addEmployee(employee);
+        }
+        //TODO hiring cost should also be dependent on the skill level
+        return getHiringCost();
+    }
+
+    /**
+     * Fires the employee.
+     * @param employee the employee to fire.
+     * @return Returns the cost of the firing.
+     */
+    public double fire(Employee employee) {
+        if(employee instanceof Engineer) {
+            teams.get(EmployeeType.ENGINEER).removeEmployee(employee);
+
+        } else if (employee instanceof SalesPerson) {
+            teams.get(EmployeeType.SALESPERSON).removeEmployee(employee);
+        }
+        //TODO firing cost should be also dependent on skill level
+        return getFiringCost();
+    }
+
+    /**
+     * See p.24
+     * @return Returns the actual hiring cost
+     */
+    private double getHiringCost() {
+        double jss = getTotalJSS()/100;
+        return BASE_COST + BASE_COST*(1 - jss);
+    }
+
+    /**
+     * See p.24
+     * @return Returns the actual firing cost
+     */
+    private double getFiringCost() {
+        return BASE_COST;
+    }
+
+    /* Benefits */
+
+    /**
+     *
+     * @return Returns all available benefits.
+     */
+    public Benefit[] getAllBenefits() {
+        return Benefit.values();
+    }
+
+    public BenefitSettings getBenefitSettings() {
+        return benefitSettings;
+    }
+    public void setBenefitSettings(BenefitSettings benefitSettings) {
+        this.benefitSettings = benefitSettings;
+    }
+
+
+    /* Trainings */
+
+    /**
+     *
+     * @return Returns all possible Trainings.
+     */
+    public Training[] getAllTrainings() {
+        return Training.values();
+    }
+
+    /**
+     *
+     * @param employee The employee to train.
+     * @param training The type of training for the employee.
+     * @return Returns the cost of the training.
+     */
+    public double trainEmployee (Employee employee, Training training) {
+        return EmployeeTraining.getInstance().trainEmployee(employee, training);
     }
 }
