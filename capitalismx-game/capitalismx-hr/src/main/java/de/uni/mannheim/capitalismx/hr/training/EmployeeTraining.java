@@ -33,6 +33,7 @@ public class EmployeeTraining {
         e.setSalary(salary);
         e.setSkillLevel(skillLevel);
 
+        e.addTraining(t);
         // TODO balance the price by increasing according to skill level. Currently price is the same for all.
         return t.getPrice();
     }

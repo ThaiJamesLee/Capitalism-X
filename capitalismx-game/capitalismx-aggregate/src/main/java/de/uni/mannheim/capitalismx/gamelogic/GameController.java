@@ -3,9 +3,19 @@ package de.uni.mannheim.capitalismx.gamelogic;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.hr.domain.Training;
+import de.uni.mannheim.capitalismx.hr.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.employee.Team;
+import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
+import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
+import de.uni.mannheim.capitalismx.marketing.domain.Media;
+import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
+import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameController {
 
@@ -154,6 +164,8 @@ public class GameController {
 
     }
 
+    /* Finance */
+
     public double getCash() {
         double cash = Finance.getInstance().getCash();
         return cash;
@@ -184,4 +196,61 @@ public class GameController {
         Finance.getInstance().addLoan(loan);
     }
 
+
+    /* Marketing */
+
+    public List<Campaign> getAllMarketingCampaigns() {
+        return Campaign.getMarketingCampaigns();
+    }
+
+    public List<Campaign> getAllSocialEngagementCampaigns() {
+        return Campaign.getSocialEngagementCampaigns();
+    }
+
+    public Media[] getAllMedia() {
+        return Media.values();
+    }
+
+    public void makeCampaign(String campaignName, Media media) {
+        MarketingDepartment.getInstance().startCampaign(campaignName, media);
+    }
+
+    public List<PressRelease> getPressReleases() {
+        return MarketingDepartment.getInstance().getPressReleases();
+    }
+
+    public void makePressRelease(PressRelease pr) {
+        MarketingDepartment.getInstance().makePressRelease(pr);
+    }
+
+    public Reports[] getAllMarketResearchReports() {
+        return Reports.values();
+    }
+
+
+    /* Human Resources */
+
+    public void hireEmployee(Employee e) {
+        HRDepartment.getInstance().hire(e);
+    }
+
+    public void fireEmployee(Employee e) {
+        HRDepartment.getInstance().fire(e);
+    }
+
+    public Team getEngineerTeam() {
+        return HRDepartment.getInstance().getEngineerTeam();
+    }
+
+    public Team getSalesPeopleTeam() {
+        return HRDepartment.getInstance().getSalesTeam();
+    }
+
+    public Training[] getAllEmployeeTraining() {
+        return HRDepartment.getInstance().getAllTrainings();
+    }
+
+    public void trainEmployee(Employee e, Training t) {
+        HRDepartment.getInstance().trainEmployee(e, t);
+    }
 }

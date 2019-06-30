@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.marketing.marketresearch;
 
 import de.uni.mannheim.capitalismx.utils.data.Range;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Map;
  * For each new research a new MarketResearch object must be created.
  * @author duly
  */
-public class MarketResearch {
+public class MarketResearch implements Serializable {
 
     private boolean isInternal;
     private Reports report;
@@ -34,7 +35,7 @@ public class MarketResearch {
      * @param values Is a map of String and Double that maps the name of the corresponding value. E.g. sales price: 100.
      * @return Returns the cost of the price sensitivity report.
      */
-    public double conductPriceSensitivityReport(Map<String, Double> values) {
+    public double conductPriceSensitivityResearch(Map<String, Double> values) {
         double cost = 0.0;
         this.report = Reports.PRICE_SENSITIVE_REPORT;
         Range range = new Range(-20, 20);
@@ -66,6 +67,27 @@ public class MarketResearch {
 
         return surveyType.getInfluencePrice() *  cost;
     }
+
+    /**
+     *
+     * @param values
+     * @return
+     */
+    public double conductCustomerSatisfactionResearch(Map<String, Double> values){
+        //TODO implement this
+        return 0.0;
+    }
+
+    /**
+     *
+     * @param values
+     * @return
+     */
+    public double conductMarketStatisticResearch(Map<String, Double> values){
+        //TODO implement this
+        return 0.0;
+    }
+
 
     /**
      * TODO Remove this when test not needed.

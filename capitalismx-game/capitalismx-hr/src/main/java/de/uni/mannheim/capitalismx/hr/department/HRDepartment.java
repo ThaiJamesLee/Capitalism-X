@@ -28,6 +28,10 @@ public class HRDepartment implements Serializable {
 
     private Map<EmployeeType, Team> teams;
 
+    // hired and fired employees.
+    private List<Employee> hired;
+    private List<Employee> fired;
+
     private static HRDepartment instance = null;
 
     private HRDepartment () {
@@ -162,6 +166,22 @@ public class HRDepartment implements Serializable {
     /* Hiring and Firing */
 
     /**
+     *
+     * @return Returns list of hired employees.
+     */
+    public List<Employee> getHired() {
+        return hired;
+    }
+
+    /**
+     *
+     * @return Returns list of fired employees.
+     */
+    public List<Employee> getFired() {
+        return fired;
+    }
+
+    /**
      * Hire the employee. Add the employe to the corresponding team list.
      * @param employee The employee to hire.
      * @return Returns the cost of hiring.
@@ -175,6 +195,7 @@ public class HRDepartment implements Serializable {
         } else if (employee instanceof SalesPerson) {
             teams.get(EmployeeType.SALESPERSON).addEmployee(employee);
         }
+        hired.add(employee);
         //TODO hiring cost should also be dependent on the skill level
         return getHiringCost();
     }
@@ -192,23 +213,24 @@ public class HRDepartment implements Serializable {
             teams.get(EmployeeType.SALESPERSON).removeEmployee(employee);
         }
         //TODO firing cost should be also dependent on skill level
+        fired.add(employee);
         return getFiringCost();
     }
 
     /**
      * See p.24
-     * @return Returns the actual hiring cost
+     * @return Returns the actual hiring cost per employee.
      */
-    private double getHiringCost() {
+    public double getHiringCost() {
         double jss = getTotalJSS()/100;
         return BASE_COST + BASE_COST*(1 - jss);
     }
 
     /**
      * See p.24
-     * @return Returns the actual firing cost
+     * @return Returns the actual firing cost per employee.
      */
-    private double getFiringCost() {
+    public double getFiringCost() {
         return BASE_COST;
     }
 

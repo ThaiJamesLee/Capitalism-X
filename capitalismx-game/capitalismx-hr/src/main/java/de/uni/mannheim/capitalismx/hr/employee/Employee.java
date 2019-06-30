@@ -1,9 +1,12 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
+import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.utils.data.LocationData;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generic Employee, every employee type must inherit from this class.
@@ -30,6 +33,8 @@ public abstract class Employee implements Person, Serializable {
 
     private LocationData locationData;
 
+    private List<Training> trainingsList;
+
     public Employee(PersonMeta metaData) {
         this.firstName = metaData.getFirstName();
         this.lastName = metaData.getLastName();
@@ -38,6 +43,7 @@ public abstract class Employee implements Person, Serializable {
         this.gender = metaData.getGender();
 
         this.eMail = metaData.geteMail();
+        this.trainingsList = new ArrayList<>();
     }
 
     public Employee(String firstName, String lastName, int salary, int skillLevel) {
@@ -46,6 +52,8 @@ public abstract class Employee implements Person, Serializable {
 
         this.salary = salary;
         this.skillLevel = skillLevel;
+        this.trainingsList = new ArrayList<>();
+
     }
 
     public Employee(String firstName, String lastName, String gender, String title, int salary, int skillLevel) {
@@ -57,6 +65,12 @@ public abstract class Employee implements Person, Serializable {
 
         this.salary = salary;
         this.skillLevel = skillLevel;
+        this.trainingsList = new ArrayList<>();
+
+    }
+
+    public void addTraining(Training t) {
+        trainingsList.add(t);
     }
 
     public void setPosition(String position) {
@@ -87,7 +101,9 @@ public abstract class Employee implements Person, Serializable {
         this.locationData = locationData;
     }
 
-
+    public void setTrainingsList(List<Training> trainingsList) {
+        this.trainingsList = trainingsList;
+    }
 
     public LocationData getLocationData() {
         return locationData;
@@ -128,4 +144,7 @@ public abstract class Employee implements Person, Serializable {
 
     public String geteMail() { return eMail; }
 
+    public List<Training> getTrainingsList() {
+        return trainingsList;
+    }
 }

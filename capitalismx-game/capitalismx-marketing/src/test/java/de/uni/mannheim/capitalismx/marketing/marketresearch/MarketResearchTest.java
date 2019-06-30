@@ -16,7 +16,7 @@ public class MarketResearchTest {
         test.put("score_3", 10.0);
 
         MarketResearch m = new MarketResearch(true, SurveyTypes.MAIL_SURVEYS);
-        m.conductPriceSensitivityReport(test);
+        m.conductPriceSensitivityResearch(test);
 
         Assert.assertEquals(m.getTable().keySet().size(), test.keySet().size());
     }

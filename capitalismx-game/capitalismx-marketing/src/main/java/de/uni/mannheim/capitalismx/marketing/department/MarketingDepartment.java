@@ -5,11 +5,13 @@ import de.uni.mannheim.capitalismx.marketing.domain.Action;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
+import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,10 +19,11 @@ import java.util.Map;
 
 /**
  * This class represents the marketing department.
+ * You can issue press releases, start campaigns, buy consultancy services, and conduct different types of market researches.
  * p. 54 - 63
  * @author duly
  */
-public class MarketingDepartment {
+public class MarketingDepartment implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(MarketingDepartment.class);
 
@@ -38,6 +41,9 @@ public class MarketingDepartment {
     // consultancy services the company used
     private List<ConsultancyType> consultancies;
 
+    // list of issued market researches
+    private List<MarketResearch> marketResearches;
+
     private static MarketingDepartment instance = null;
 
     private MarketingDepartment() {
@@ -53,6 +59,7 @@ public class MarketingDepartment {
 
         pressReleases = new ArrayList<>();
         consultancies = new ArrayList<>();
+        marketResearches = new ArrayList<>();
     }
 
     public static MarketingDepartment getInstance() {
@@ -62,13 +69,8 @@ public class MarketingDepartment {
         return instance;
     }
 
-    /**
-     *
-     * Adds the press release into the pressRelease list.
-     * @param release The Press Release that should be done.
-     */
-    public void makePressRelease(PressRelease release) {
-        pressReleases.add(release);
+    public void loadSettings() {
+        //TODO
     }
 
     /**
@@ -89,9 +91,7 @@ public class MarketingDepartment {
         }
     }
 
-    public void useConsultantService(ConsultancyType con) {
-        consultancies.add(con);
-    }
+    /* Campaigns */
 
     /**
      * Iterates over all campaigns and social engagements and calculates the company image score.
@@ -199,26 +199,6 @@ public class MarketingDepartment {
 
     /**
      *
-     * @return Returns the list of issued press releases.
-     */
-    public List<PressRelease> getPressReleases() {
-        return pressReleases;
-    }
-
-    /**
-     *
-     * @return Returns total cost of press releases.
-     */
-    public double getTotalPressReleaseCosts() {
-        double cost = 0.0;
-        for (PressRelease pr : pressReleases) {
-            cost += pr.getCost();
-        }
-        return cost;
-    }
-
-    /**
-     *
      * @return Returns total cost of campaigns.
      */
     public double getTotalCampaignCosts() {
@@ -252,6 +232,46 @@ public class MarketingDepartment {
         }
     }
 
+    /* Press Release */
+
+    /**
+     *
+     * @return Returns total cost of press releases.
+     */
+    public double getTotalPressReleaseCosts() {
+        double cost = 0.0;
+        for (PressRelease pr : pressReleases) {
+            cost += pr.getCost();
+        }
+        return cost;
+    }
+
+    /**
+     *
+     * Adds the press release into the pressRelease list.
+     * @param release The Press Release that should be done.
+     */
+    public void makePressRelease(PressRelease release) {
+        pressReleases.add(release);
+    }
+
+    /**
+     *
+     * @return Returns the list of issued press releases.
+     */
+    public List<PressRelease> getPressReleases() {
+        return pressReleases;
+    }
+
+
+    /**
+     *
+     * @return Returns all defined press releases.
+     */
+    public PressRelease[] getAllPossibiblePressReleases() {
+        return PressRelease.values();
+    }
+
     /* Consultancy */
 
     /**
@@ -268,6 +288,11 @@ public class MarketingDepartment {
         return cost;
     }
 
+
+    public void useConsultantService(ConsultancyType con) {
+        consultancies.add(con);
+    }
+
     /**
      *
      * @return Returns all consultancies.
@@ -277,6 +302,7 @@ public class MarketingDepartment {
     }
 
     /* Market Research */
+
     /**
      *
      * @return Return all possible reports for market research.
@@ -285,9 +311,43 @@ public class MarketingDepartment {
         return Reports.values();
     }
 
+    /**
+     *
+     * @return Return all survey types.
+     */
     public SurveyTypes[] getMarketResearchSurveyTypes() {
         return SurveyTypes.values();
     }
+
+    /**
+     *
+     * @param internal Set true if the research is conducted internally.
+     * @param report The report type.
+     * @param surveyType The survey type.
+     * @param data The data (be careful, since they all take the same type, to select the correct report type!)
+     * @return Returns the cost.
+     */
+    public double issueMarketResearch(boolean internal, Reports report, SurveyTypes surveyType, Map<String, Double> data) {
+        MarketResearch mr = new MarketResearch(internal, surveyType);
+        double cost = 0.0;
+        switch (report) {
+            case PRICE_SENSITIVE_REPORT:
+                mr.conductPriceSensitivityResearch(data);
+                marketResearches.add(mr);
+                break;
+            case CUSTOMER_SATISFACTION_REPORT:
+                mr.conductCustomerSatisfactionResearch(data);
+                marketResearches.add(mr);
+                break;
+            case MARKET_STATISTIC_RESEARCH_REPORT:
+                mr.conductMarketStatisticResearch(data);
+                marketResearches.add(mr);
+                break;
+            default: break;
+        }
+        return cost;
+    }
+
 
 
 
