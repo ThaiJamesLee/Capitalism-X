@@ -1,12 +1,14 @@
 package de.uni.mannheim.capitalismx.production;
 
+import jdk.vm.ci.meta.Local;
+
 import java.time.LocalDate;
 import java.time.Period;
 
 public class Machinery {
     private ProductionTechnology productionTechnology;
     /* TODO machinerycapacity not defined*/
-    private double machineryCapacity;
+    private int machineryCapacity;
     private double machineryPrice;
     private double levelPerPrice;
     private double purchasePrice;
@@ -17,16 +19,17 @@ public class Machinery {
     private int usefulLife;
     private LocalDate purchaseDate;
 
-    public Machinery(ProductionTechnology productionTechnology) {
-        this.productionTechnology = productionTechnology;
+    public Machinery() {
+        this.productionTechnology = ProductionTechnology.BRANDNEW;
         this.machineryPrice = 100000;
         this.levelPerPrice = 20000;
+        // TODO fragen ob usefullife nach jedem jahr um 1 runtergezaehlt werden soll
         this.usefulLife = 20;
+        this.machineryCapacity = 500;
         // TODO this.lastInvestmentDate = gameDate
     }
 
-    public boolean depreciateMachinery(boolean naturalDisaster) {
-        LocalDate gameDate = LocalDate.now();
+    public boolean depreciateMachinery(boolean naturalDisaster, LocalDate gameDate) {
         boolean yearIncrease = Period.between(this.lastInvestmentDate, gameDate).getYears() - this.yearsSinceLastInvestment > 1;
         this.yearsSinceLastInvestment = Period.between(this.lastInvestmentDate, gameDate).getYears();
         if(naturalDisaster) {
@@ -74,7 +77,7 @@ public class Machinery {
     }
 
     /* costs 2,000cc */
-    public double maintainAndRepairMachinery() {
+    public double maintainAndRepairMachinery(LocalDate gameDate) {
         switch(this.productionTechnology) {
             case DEPRECIATED:
                 this.productionTechnology = ProductionTechnology.OLD;
@@ -94,12 +97,12 @@ public class Machinery {
             default: // Do nothing
                 break;
         }
-        // TODO this.lastInvestmentDate = gameDate
+        this.lastInvestmentDate = gameDate;
         return 2000;
     }
 
     /* costs 5,000cc */
-    public double upgradeMachinery() {
+    public double upgradeMachinery(LocalDate gameDate) {
         this.machineryCapacity *= 1.2;
         switch(this.productionTechnology) {
             case DEPRECIATED:
@@ -120,7 +123,7 @@ public class Machinery {
             default: // Do nothing
                 break;
         }
-        // TODO this.lastInvestmentDate = gameDate
+        this.lastInvestmentDate = gameDate;
         return 5000;
     }
 
@@ -147,7 +150,7 @@ public class Machinery {
         return this.machineryDepreciation;
     }
 
-    public double getMachineryCapacity() {
+    public int getMachineryCapacity() {
         return this.machineryCapacity;
     }
 
@@ -159,7 +162,7 @@ public class Machinery {
         this.productionTechnology = productionTechnology;
     }
 
-    public void setMachineryCapacity(double machineryCapacity) {
+    public void setMachineryCapacity(int machineryCapacity) {
         this.machineryCapacity = machineryCapacity;
     }
 
@@ -173,5 +176,30 @@ public class Machinery {
 
     public void setPurchaseDate(LocalDate gameDate) {
         this.purchaseDate = gameDate;
+        this.lastInvestmentDate = gameDate;
+    }
+
+    public double getMachineryPrice() {
+        return this.machineryPrice;
+    }
+
+    public double getLevelPerPrice() {
+        return this.levelPerPrice;
+    }
+
+    public double getResellPrice() {
+        return this.resellPrice;
+    }
+
+    public double getMachineryDepreciation() {
+        return this.machineryDepreciation;
+    }
+
+    public LocalDate getLastInvestmentDate() {
+        return this.lastInvestmentDate;
+    }
+
+    public LocalDate getPurchaseDate() {
+        return this.purchaseDate;
     }
 }

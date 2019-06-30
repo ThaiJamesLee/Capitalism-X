@@ -14,9 +14,8 @@ public class Warehouse {
     private double resaleValue;
     private LocalDate buildDate;
     private double depreciationRateWarehouse;
+    //TODO usefullife jedes jahr runter?
     private int usefulLife;
-    /* Placeholder */
-    private LocalDate gameDate = LocalDate.now();
 
     public Warehouse(WarehouseType warehouseType) {
         this.capacity = 5000;
@@ -36,7 +35,7 @@ public class Warehouse {
         }
     }
 
-    public double depreciateWarehouseResaleValue() {
+    public double depreciateWarehouseResaleValue(LocalDate gameDate) {
         int yearsSinceWarehouseBuilt = Period.between(buildDate, gameDate).getYears();
         if (this.warehouseType == WarehouseType.BUILT) {
             this.resaleValue = 250000 - 25000 * depreciationRateWarehouse * yearsSinceWarehouseBuilt;
@@ -87,5 +86,13 @@ public class Warehouse {
 
     public void setBuildDate(LocalDate buildDate) {
         this.buildDate = buildDate;
+    }
+
+    public LocalDate getBuildDate() {
+        return this.buildDate;
+    }
+
+    public double getDepreciationRateWarehouse() {
+        return this.depreciationRateWarehouse;
     }
 }

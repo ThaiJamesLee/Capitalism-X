@@ -109,7 +109,7 @@ public class Finance {
     //TODO
     private double calculateTotalWarehousingValues(LocalDate gameDate){
         this.totalWarehousingValues = 0;
-        ArrayList<Warehouse> warehouses = Warehousing.getInstance().getWarehouses();
+        List<Warehouse> warehouses = Warehousing.getInstance().getWarehouses();
         for(Warehouse warehouse : warehouses){
             if(warehouse.getWarehouseType() == WarehouseType.BUILT){
                  this.totalWarehousingValues += this.calculateResellPrice(warehouse.getBuildingCost(),
@@ -133,7 +133,7 @@ public class Finance {
     //TODO
     private double calculateTotalMachineValues(LocalDate gameDate){
         this.totalMachineValues = 0;
-        ArrayList<Machinery> machines = Production.getInstance().getMachines();
+        List<Machinery> machines = Production.getInstance().getMachines();
         for(Machinery machine : machines){
             this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(),
                     machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));

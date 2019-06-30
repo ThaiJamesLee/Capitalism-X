@@ -43,7 +43,7 @@ public class Product {
 
     public double calculateTotalVariableCosts() {
         /* TODO placeholder for ecoCost */
-        int ecoCostPerProduct = 3000;
+        int ecoCostPerProduct = 30;
         this.totalProductVariableCosts = this.totalComponentCosts + ecoCostPerProduct;
         return this.totalProductVariableCosts;
     }
@@ -105,6 +105,30 @@ public class Product {
 
     public LocalDate getLaunchDate() {
         return this.launchDate;
+    }
+
+    public String getProductName() {
+        return this.productName;
+    }
+
+    public double getTotalProcurementQuality() {
+        return this.totalProcurementQuality;
+    }
+
+    public double getTotalComponentCosts() {
+        return this.totalComponentCosts;
+    }
+
+    public double getTotalProductVariableCosts() {
+        return this.totalProductVariableCosts;
+    }
+
+    public double getProfitMargin() {
+        return this.profitMargin;
+    }
+
+    public double getAverageProductQuality() {
+        return this.averageProductQuality;
     }
 
     /*
