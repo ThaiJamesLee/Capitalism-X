@@ -70,7 +70,6 @@ public class GameController {
         this.updateWarehouse();
         this.updateProcurement();
         this.updateProduction();
-        this.updateWarehouse();
     }
 
     private void updateCompanyEcoIndex() {
