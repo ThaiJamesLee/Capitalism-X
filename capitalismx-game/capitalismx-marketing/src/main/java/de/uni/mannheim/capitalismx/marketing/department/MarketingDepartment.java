@@ -348,6 +348,9 @@ public class MarketingDepartment implements Serializable {
         return cost;
     }
 
+    public List<MarketResearch> getMarketResearches() {
+        return marketResearches;
+    }
 
 
 

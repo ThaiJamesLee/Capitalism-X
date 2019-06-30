@@ -11,11 +11,14 @@ import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
+import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
+import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GameController {
 
@@ -199,58 +202,151 @@ public class GameController {
 
     /* Marketing */
 
+    /**
+     *
+     * @return Returns all pre defined marketing campaigns.
+     */
     public List<Campaign> getAllMarketingCampaigns() {
         return Campaign.getMarketingCampaigns();
     }
 
+    /**
+     *
+     * @return Returns all pre defined social engagements.
+     */
     public List<Campaign> getAllSocialEngagementCampaigns() {
         return Campaign.getSocialEngagementCampaigns();
     }
 
+    /**
+     *
+     * @return Returns all pre defined media types.
+     */
     public Media[] getAllMedia() {
         return Media.values();
     }
 
+    /**
+     * Make a campaign with the specified campaign name and media type.
+     * But you are restricted to the predefined campaigns!
+     * @param campaignName the campaign name.
+     * @param media the media type.
+     */
     public void makeCampaign(String campaignName, Media media) {
         MarketingDepartment.getInstance().startCampaign(campaignName, media);
     }
 
+    /**
+     *
+     * @return Returns all issued press releases.
+     */
     public List<PressRelease> getPressReleases() {
         return MarketingDepartment.getInstance().getPressReleases();
     }
 
+    /**
+     * Makes a press release.
+     * @param pr a press release.
+     */
     public void makePressRelease(PressRelease pr) {
         MarketingDepartment.getInstance().makePressRelease(pr);
     }
 
+    /**
+     *
+     * @return Returns an array of all defined press releases.
+     */
+    public PressRelease[] getAllPressReleases() {
+        return PressRelease.values();
+    }
+
+    /**
+     *
+     * @return Returns all pre defined market research report types.
+     */
     public Reports[] getAllMarketResearchReports() {
         return Reports.values();
+    }
+
+    /**
+     *
+     * @return Returns all pre defined survey types.
+     */
+    public SurveyTypes[] getAllSurveyTypes() {
+        return SurveyTypes.values();
+    }
+
+    /**
+     * Conduct a market research.
+     * @param internal if conduct market research internally then set true, else if you outsource then set false.
+     * @param report the report type you want to do.
+     * @param surveyType the survey methodology.
+     * @param data the data as a Map of string as key and double value pair.
+     */
+    public void conductMarketResearch(boolean internal, Reports report, SurveyTypes surveyType, Map<String, Double> data) {
+        MarketingDepartment.getInstance().issueMarketResearch(internal, report, surveyType, data);
+    }
+
+    /**
+     *
+     * @return Returns list of conducted market researches.
+     */
+    public List<MarketResearch> getConductedMarketResearch() {
+        return MarketingDepartment.getInstance().getMarketResearches();
     }
 
 
     /* Human Resources */
 
+    /**
+     * Hire the employee. He will be added to your team.
+     * @param e the employee you want to hire.
+     */
     public void hireEmployee(Employee e) {
         HRDepartment.getInstance().hire(e);
     }
 
+    /**
+     * Fire the employee. He will be removed from the team.
+     * @param e the employee you want to fire.
+     */
     public void fireEmployee(Employee e) {
         HRDepartment.getInstance().fire(e);
     }
 
+    /**
+     *
+     * @return Returns the engineer team.
+     */
     public Team getEngineerTeam() {
         return HRDepartment.getInstance().getEngineerTeam();
     }
 
+    /**
+     *
+     * @return Returns the sales people team.
+     */
     public Team getSalesPeopleTeam() {
         return HRDepartment.getInstance().getSalesTeam();
     }
 
+    /**
+     *
+     * @return Returns all pre defined trainings for your employee.
+     */
     public Training[] getAllEmployeeTraining() {
         return HRDepartment.getInstance().getAllTrainings();
     }
 
+    /**
+     *  Train the employee.
+     *  Note: each employee maintains a list of trainings he did.
+     *
+     * @param e the employee you want to train.
+     * @param t the training he should do.
+     */
     public void trainEmployee(Employee e, Training t) {
         HRDepartment.getInstance().trainEmployee(e, t);
     }
+
 }
