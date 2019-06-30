@@ -6,12 +6,14 @@ import de.uni.mannheim.capitalismx.production.Production;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Warehousing {
 
     private static Warehousing instance;
-    private ArrayList<Warehouse> warehouses;
-    private HashMap<Product, Integer> inventory;
+    private List<Warehouse> warehouses;
+    private Map<Product, Integer> inventory;
     private int totalCapacity;
     private int freeStorage;
     private int storedUnits;
@@ -22,8 +24,8 @@ public class Warehousing {
     private int daysSinceFreeStorageThreshold;
 
     private Warehousing() {
-        this.warehouses = new ArrayList<Warehouse>();
-        this.inventory = new HashMap<Product, Integer>();
+        this.warehouses = new ArrayList<>();
+        this.inventory = new HashMap<>();
         this.totalCapacity = 0;
         this.freeStorage = 0;
         this.storedUnits = 0;
@@ -42,7 +44,7 @@ public class Warehousing {
     }
 
     public void storeUnits() {
-        HashMap<Product, Integer> newUnits = Production.getInstance().getNumberProducedProducts();
+        Map<Product, Integer> newUnits = Production.getInstance().getNumberProducedProducts();
         for(HashMap.Entry<Product, Integer> entry : newUnits.entrySet()) {
             if(this.inventory.get(entry.getKey()) != null) {
                 int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
@@ -52,7 +54,6 @@ public class Warehousing {
             }
         }
         Production.getInstance().clearInventory();
-        this.calculateStoredUnits();
     }
 
     public int calculateStoredUnits() {
@@ -88,10 +89,9 @@ public class Warehousing {
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
     }
 
-    public double buildWarehouse() {
+    public double buildWarehouse(LocalDate gameDate) {
         Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
-        //TODO
-        warehouse.setBuildDate(LocalDate.now());
+        warehouse.setBuildDate(gameDate);
         warehouses.add(warehouse);
         this.calculateMonthlyCostWarehousing();
         return warehouse.getBuildingCost();
@@ -104,14 +104,22 @@ public class Warehousing {
         return warehouse.getMonthlyRentalCost();
     }
 
-    public void depreciateAllWarehouseResaleValues() {
+    public void depreciateAllWarehouseResaleValues(LocalDate gameDate) {
         for(Warehouse warehouse : this.warehouses) {
-            warehouse.depreciateWarehouseResaleValue();
+            warehouse.depreciateWarehouseResaleValue(gameDate);
         }
     }
 
     public double getWarehouseResaleValue(Warehouse warehouse) {
         return warehouse.getResaleValue();
+    }
+
+    public Map<Warehouse, Double> getAllWarehouseResaleValues() {
+        Map<Warehouse, Double> allWarehouseResaleValues = new HashMap<>();
+        for(Warehouse warehouse : this.warehouses) {
+            allWarehouseResaleValues.put(warehouse, warehouse.getResaleValue());
+        }
+        return allWarehouseResaleValues;
     }
 
     public double sellWarehouse(Warehouse warehouse) {
@@ -169,7 +177,7 @@ public class Warehousing {
         return this.daysSinceFreeStorageThreshold;
     }
 
-    public ArrayList<Warehouse> getWarehouses() {
+    public List<Warehouse> getWarehouses() {
         return this.warehouses;
     }
 
@@ -188,7 +196,50 @@ public class Warehousing {
         damagedWarehouse.setCapacity(damagedWarehouse.getCapacity() - capacity);
     }
 
-    public HashMap<Product, Integer> getInventory() {
+    public double sellProducts(Map<Product, Integer> sales) {
+        double earnedMoney = 0;
+        for(Map.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+            this.inventory.put(entry.getKey(), entry.getValue() - sales.get(entry.getKey()));
+            earnedMoney += entry.getKey().getSalesPrice() * sales.get(entry.getKey());
+        }
+        return earnedMoney;
+    }
+
+    public void calculateAll() {
+        this.storeUnits();
+        this.calculateStoredUnits();
+        this.calculateTotalCapacity();
+        this.calculateFreeStorage();
+        this.calculateDailyStorageCost();
+        this.calculateMonthlyCostWarehousing();
+        this.calculateTotalMonthlyWarehousingCost();
+    }
+
+    public Map<Product, Integer> getInventory() {
         return this.inventory;
+    }
+
+    public int getTotalCapacity() {
+        return this.totalCapacity;
+    }
+
+    public int getStoredUnits() {
+        return this.storedUnits;
+    }
+
+    public double getMonthlyCostWarehousing() {
+        return this.monthlyCostWarehousing;
+    }
+
+    public double getDailyStorageCost() {
+        return this.dailyStorageCost;
+    }
+
+    public double getMonthlyStorageCost() {
+        return this.monthlyStorageCost;
+    }
+
+    public double getMonthlyTotalCostWarehousing() {
+        return this.monthlyTotalCostWarehousing;
     }
 }

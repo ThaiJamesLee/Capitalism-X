@@ -1,17 +1,20 @@
 package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
+import jdk.vm.ci.meta.Local;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Production {
 
     private static Production instance;
-    private HashMap<Product, Integer> numberProducedProducts;
-    private ArrayList<Machinery> machines;
+    private Map<Product, Integer> numberProducedProducts;
+    private List<Machinery> machines;
     private double productionTechnologyFactor;
     private ProductionTechnology productionTechnology;
     private double researchAndDevelopmentFactor;
@@ -29,12 +32,14 @@ public class Production {
     private double productionProcessProductivity;
     private double normalizedProductionProcessProductivity;
     private double averageProductBaseQuality;
+    private List<Component> allAvailableComponents;
 
     private Production() {
         this.numberUnitsProducedPerMonth = 0;
         this.monthlyAvailableMachineCapacity = 0;
-        this.numberProducedProducts = new HashMap<Product, Integer>();
-        this.machines = new ArrayList<Machinery>();
+        this.numberProducedProducts = new HashMap<>();
+        this.machines = new ArrayList<>();
+        this.allAvailableComponents = new ArrayList<>();
         this.researchAndDevelopment = new ProductionInvestment("Research and Development");
         this.processAutomation = new ProductionInvestment("Process Automation");
         this.systemSecurity = new ProductionInvestment("System Security");
@@ -45,6 +50,29 @@ public class Production {
             Production.instance = new Production();
         }
         return Production.instance;
+    }
+
+    public List<Component> getAllAvailableComponents(LocalDate gameDate) {
+        List<Component> allAvailableComponents = new ArrayList<>();
+        Component[] allComponents = Component.values();
+        for(int i = 0; i < allComponents.length; i++) {
+            if(allComponents[i].getAvailabilityDate() <= gameDate.getYear()) {
+                allAvailableComponents.add(allComponents[i]);
+            }
+        }
+        this.allAvailableComponents = allAvailableComponents;
+        return this.allAvailableComponents;
+    }
+
+    public List<Component> getAvailableComponentsOfComponentCategory(LocalDate gameDate, ComponentCategory componentCategory) {
+        List<Component> availableComponentsOfComponentType = new ArrayList<>();
+        this.getAllAvailableComponents(gameDate);
+        for(Component component : this.allAvailableComponents) {
+            if(component.getComponentCategory() == componentCategory) {
+                availableComponentsOfComponentType.add(component);
+            }
+        }
+        return availableComponentsOfComponentType;
     }
 
     public double calculateProductionVariableCosts() {
@@ -72,7 +100,7 @@ public class Production {
         }
     }
 
-    public ArrayList<Machinery> getMachines() {
+    public List<Machinery> getMachines() {
         return this.machines;
     }
 
@@ -89,28 +117,41 @@ public class Production {
         this.manufactureEfficiency = 0;
     }
 
-    public double buyMachinery(Machinery machinery) {
-        //TODO
-        machinery.setPurchaseDate(LocalDate.now());
+    public double buyMachinery(Machinery machinery, LocalDate gameDate) {
+        machinery.setPurchaseDate(gameDate);
         this.machines.add(machinery);
         this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
         return machinery.calculatePurchasePrice();
     }
 
     public double sellMachinery(Machinery machinery) {
-        machines.remove(machinery);
+        this.machines.remove(machinery);
         this.monthlyAvailableMachineCapacity -= machinery.getMachineryCapacity();
         return machinery.calculateResellPrice();
     }
 
-    public double maintainAndRepairMachinery(Machinery machinery) {
-        return machinery.maintainAndRepairMachinery();
+    public Map<Machinery, Double> calculateMachineryResellPrices() {
+        Map<Machinery, Double> machineryResellPrice = new HashMap<>();
+        for(Machinery machinery : this.machines) {
+            machineryResellPrice.put(machinery, machinery.calculateResellPrice());
+        }
+        return machineryResellPrice;
     }
 
-    public double upgradeMachinery(Machinery machinery) {
+    public double maintainAndRepairMachinery(Machinery machinery, LocalDate gameDate) {
+        return machinery.maintainAndRepairMachinery(gameDate);
+    }
+
+    public double upgradeMachinery(Machinery machinery, LocalDate gameDate) {
         this.monthlyAvailableMachineCapacity -= machinery.getMachineryCapacity();
         this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity() * 1.2;
-        return machinery.upgradeMachinery();
+        return machinery.upgradeMachinery(gameDate);
+    }
+
+    public void depreciateMachinery(boolean naturalDisaster, LocalDate gameDate) {
+        for(Machinery machinery : this.machines) {
+            machinery.depreciateMachinery(naturalDisaster, gameDate);
+        }
     }
 
     public double launchProduct(String productname, ProductCategory productCategory, List<Component> componentList, int quantity, int freeStorage) {
@@ -161,7 +202,7 @@ public class Production {
         }
     }
 
-    public double getAmountInStock(Product product) {
+    public double getAmountInProduction(Product product) {
         return this.numberProducedProducts.get(product);
     }
 
@@ -226,6 +267,7 @@ public class Production {
         return this.productionTechnologyFactor;
     }
 
+    // TODO really necessary?
     public ProductionTechnology calculateProductionTechnology() {
         this.productionTechnology = ProductionTechnology.DEPRECIATED;
         double averageProductionTechnologyRange = 0;
@@ -275,6 +317,12 @@ public class Production {
         return this.totalEngineerProductivity;
     }
 
+    public void setTotalProcurementQuality() {
+        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+            entry.getKey().calculateTotalProcurementQuality();
+        }
+    }
+
     public void setTotalProductQuality() {
         for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             entry.getKey().calculateTotalProductQuality(this.calculateProductionTechnologyFactor(), this.calculateTotalEngineerProductivity(), this.calculateResearchAndDevelopmentFactor());
@@ -299,33 +347,33 @@ public class Production {
         return this.productionProcessProductivity;
     }
 
-    public double calculateNormalizedProductionProcessProductivty() {
+    public double calculateNormalizedProductionProcessProductivity() {
         this.normalizedProductionProcessProductivity = (this.productionProcessProductivity - 0.2) / (3.2 - 0.2);
         return this.normalizedProductionProcessProductivity;
     }
 
-    public double investInSystemSecurity(int level) {
-        this.systemSecurity = systemSecurity.invest(level);
+    public double investInSystemSecurity(int level, LocalDate gameDate) {
+        this.systemSecurity = systemSecurity.invest(level, gameDate);
         return 5000 * level;
     }
 
-    public double investInResearchAndDevelopment(int level) {
-        this.researchAndDevelopment = researchAndDevelopment.invest(level);
+    public double investInResearchAndDevelopment(int level, LocalDate gameDate) {
+        this.researchAndDevelopment = researchAndDevelopment.invest(level, gameDate);
         return 5000 * level;
     }
 
-    public double investInProcessAutomation(int level) {
-        this.processAutomation = processAutomation.invest(level);
+    public double investInProcessAutomation(int level, LocalDate gameDate) {
+        this.processAutomation = processAutomation.invest(level, gameDate);
         return 5000 * level;
     }
 
-    public void depreciateProductInvestment() {
-        this.systemSecurity = this.systemSecurity.updateInvestment();
-        this.researchAndDevelopment = this.researchAndDevelopment.updateInvestment();
-        this.processAutomation = this.processAutomation.updateInvestment();
+    public void depreciateProductInvestment(LocalDate gameDate) {
+        this.systemSecurity = this.systemSecurity.updateInvestment(gameDate);
+        this.researchAndDevelopment = this.researchAndDevelopment.updateInvestment(gameDate);
+        this.processAutomation = this.processAutomation.updateInvestment(gameDate);
     }
 
-    public HashMap<Product, Integer> getNumberProducedProducts() {
+    public Map<Product, Integer> getNumberProducedProducts() {
         return this.numberProducedProducts;
     }
 
@@ -339,6 +387,14 @@ public class Production {
             this.averageProductBaseQuality += entry.getKey().calculateAverageBaseQuality();
         }
         return this.averageProductBaseQuality / this.numberProducedProducts.size();
+    }
+
+    public void updateComponentBaseCosts() {
+        for(Map.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+            for(Component component : entry.getKey().getComponents()) {
+                component.calculateBaseCost();
+            }
+        }
     }
 
     /* TODO duration 1 month, winter month*/
@@ -357,5 +413,91 @@ public class Production {
 
     public boolean checkProductionTechnologyBelowThreshold() {
         return this.calculateProductionTechnology().getRange() < 2;
+    }
+
+    public void calculateAll(LocalDate gameDate) {
+        this.getAllAvailableComponents(gameDate);
+        this.updateComponentBaseCosts();
+        this.depreciateProductInvestment(gameDate);
+        this.depreciateMachinery(false, gameDate);
+        this.calculateMachineryResellPrices();
+        this.calculateProductionTechnologyFactor();
+        this.calculateResearchAndDevelopmentFactor();
+        this.calculateProcessAutomationFactor();
+        this.calculateTotalEngineerQualityOfWork();
+        this.calculateTotalEngineerProductivity();
+        this.setTotalProcurementQuality();
+        this.setTotalProductQuality();
+        this.calculateProductionVariableCosts();
+        this.calculateProductionFixCosts();
+        this.setProductsTotalProductCost();
+        this.updateMonthlyAvailableMachineCapacity();
+        this.calculateManufactureEfficiency();
+        this.calculateProductionProcessProductivity();
+        this.calculateNormalizedProductionProcessProductivity();
+    }
+
+    public double getProductionTechnologyFactor() {
+        return this.productionTechnologyFactor;
+    }
+
+    public double getResearchAndDevelopmentFactor() {
+        return this.researchAndDevelopmentFactor;
+    }
+
+    public ProductionInvestment getResearchAndDevelopment() {
+        return this.researchAndDevelopment;
+    }
+
+    public double getProcessAutomationFactor() {
+        return this.processAutomationFactor;
+    }
+
+    public ProductionInvestment getProcessAutomation() {
+        return this.processAutomation;
+    }
+
+    public double getTotalEngineerQualityOfWork() {
+        return this.totalEngineerQualityOfWork;
+    }
+
+    public double getTotalEngineerProductivity() {
+        return this.totalEngineerProductivity;
+    }
+
+    public ProductionInvestment getSystemSecurity() {
+        return this.systemSecurity;
+    }
+
+    public double getProductionVariableCosts() {
+        return this.productionVariableCosts;
+    }
+
+    public double getProductionFixCosts() {
+        return this.productionFixCosts;
+    }
+
+    public double getNumberUnitsProducedPerMonth() {
+        return this.numberUnitsProducedPerMonth;
+    }
+
+    public double getMonthlyAvailableMachineCapacity() {
+        return this.monthlyAvailableMachineCapacity;
+    }
+
+    public double getManufactureEfficiency() {
+        return this.manufactureEfficiency;
+    }
+
+    public double getProductionProcessProductivity() {
+        return this.productionProcessProductivity;
+    }
+
+    public double getNormalizedProductionProcessProductivity() {
+        return this.normalizedProductionProcessProductivity;
+    }
+
+    public double getAverageProductBaseQuality() {
+        return this.averageProductBaseQuality;
     }
 }
