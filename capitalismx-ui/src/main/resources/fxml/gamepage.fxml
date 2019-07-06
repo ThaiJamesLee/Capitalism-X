@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="parentStackPane" maxHeight="800.0" maxWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GamePageController">
+<StackPane fx:id="parentStackPane" maxHeight="800.0" maxWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GamePageController">
    <children>
       <BorderPane>
          <center>
-            <GridPane fx:id="moduleGrid" hgap="5.0" prefHeight="620.0" prefWidth="707.0" vgap="5.0" BorderPane.alignment="CENTER">
+            <GridPane fx:id="moduleGrid" hgap="5.0" prefHeight="620.0" prefWidth="707.0" styleClass="background" vgap="5.0" BorderPane.alignment="CENTER">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -62,9 +67,9 @@
             </GridPane>
          </center>
          <left>
-            <AnchorPane prefHeight="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <StackPane fx:id="sidemenuPane">
+                  <StackPane fx:id="sidemenuPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <fx:include source="sidemenu.fxml" />
                      </children>
@@ -73,7 +78,7 @@
             </AnchorPane>
          </left>
          <top>
-            <StackPane styleClass="sidemenu_color" stylesheets="@../css/general.css" BorderPane.alignment="CENTER">
+            <StackPane styleClass="sidemenu_color" BorderPane.alignment="CENTER">
                <children>
                   <AnchorPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="750.0" stylesheets="@../css/general.css">
                      <children>
@@ -133,4 +138,8 @@
          </top>
       </BorderPane>
    </children>
+   <stylesheets>
+      <URL value="@../css/general.css" />
+      <URL value="@../css/gamePage.css" />
+   </stylesheets>
 </StackPane>

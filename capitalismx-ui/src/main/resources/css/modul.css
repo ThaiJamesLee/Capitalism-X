@@ -1,23 +1,24 @@
 
+
 .headerPane {
 	-fx-padding: 25;
-	-fx-background-radius: 10 10 0 0;
-	-fx-background-insets: 2 2 0 2;	
-	-fx-background-color: linear-gradient(from 100.0px 30.0px to 100.0px 100.0px, #35332f, #423f39);
+	-fx-border-width: 0 0 0 5;
+	-fx-border-color: -fx-primary;
+	-fx-background-insets: 0 0 0 10;
+	-fx-background-color: -fx-dark;
 }
 
 .contentPane {
 	-fx-padding: 25;
-	-fx-background-radius: 0 0 10 10;
-	-fx-background-insets: 0 2 2 2;
-	-fx-background-color: #d8d4cb;
+	-fx-border-width: 0 0 0 5;
+	-fx-border-color: -fx-primary;
+	-fx-background-insets: 0 0 0 10;
+	-fx-background-color: -fx-light;
 }
 
 
 .header {
-	-fx-font: bold 18pt 'sans-serif';
-	-fx-text-fill: white;
+	-fx-font: bold 18pt 'Dosis-Bold';
+	-fx-text-fill: #c1d5e0;
 }
-
-
 

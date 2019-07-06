@@ -1,25 +1,43 @@
+/** Definition of colors */
+* {
+   -fx-primary: #455a64;
+   -fx-light: #a7c0cd;
+   -fx-dark: #102027;
+   -fx-neutral: #718792;
+   -fx-contrast: #ffd54f;
+}
+
+/** Define fonts */
+@font-face {
+    font-family: Dosis;
+    src: url('../fonts/Dosis-Regular.ttf');
+}
+
+@font-face {
+    font-family: Dosis-Bold;
+    src: url('../fonts/Dosis-Bold.ttf');
+}
+
+
+
 .button {
-	-fx-background-color: #d8d4cb;
-	-fx-text-fill: black;
+	-fx-background-color: -fx-light;
+	-fx-text-fill: -fx-dark;
 }
 
 .button_module {
-	-fx-background-color: #423f39;
-	-fx-text-fill: white;
+	-fx-background-color: -fx-dark;
+	-fx-text-fill: -fx-light;
 }
 
 .togglebutton {
-	-fx-background-color: #d8d4cb;
-	-fx-text-fill: black;
+	-fx-background-color: -fx-light;
+	-fx-text-fill: -fx-dark;
 }
 
-.togglebutton: selected{
-	-fx-background-color: #423f39;
-	-fx-text-fill: #d8d4cb;
-}
 
 .sidemenu_color {
-	-fx-background-color:#423f39;
+	-fx-background-color: -fx-dark;
 	-fx-backgound-insets: 0 0 0 100;
 }
 
@@ -28,7 +46,7 @@
     -fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
     -fx-padding: 15 30 15 30;
-    -fx-font-family: "Helvetica";
+    -fx-font-family: "Dosis-Bold";
     -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333; 
@@ -40,7 +58,7 @@
     -fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
     /*-fx-padding: 15 30 15 30;*/
-    -fx-font-family: "Helvetica";
+    -fx-font-family: "Dosis-Bold";
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;     
@@ -55,7 +73,7 @@
 	-fx-pref-height: 50px;
 	-fx-background-color: #423f39;
 	-fx-text-fill: white;
-    -fx-font-family: "Helvetica";
+    -fx-font-family: "Dosis-Bold";
     /*-fx-font-size: 25px;*/
     -fx-font-weight: bold;
 	-fx-border-size: medium;
@@ -72,7 +90,7 @@
 	-fx-pref-height: 50px;
 	-fx-background-color: #423f39;
 	-fx-text-fill: white;
-    -fx-font-family: "Helvetica";
+    -fx-font-family: "Dosis-Bold";
     /*-fx-font-size: 25px;*/
     -fx-font-weight: bold;
 	-fx-border-size: medium;
@@ -118,7 +136,7 @@
     /*-fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
     /*-fx-padding: 15 30 15 30;*/
-    -fx-font-family: "Helvetica";
+    -fx-font-family: "Dosis";
     -fx-font-size: 15px;
     -fx-font-weight: bold;
 
