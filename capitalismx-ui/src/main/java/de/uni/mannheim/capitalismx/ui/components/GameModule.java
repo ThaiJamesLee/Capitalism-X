@@ -1,7 +1,11 @@
 package de.uni.mannheim.capitalismx.ui.components;
 
+import java.io.IOException;
+
 import de.uni.mannheim.capitalismx.ui.controller.GameController;
+import de.uni.mannheim.capitalismx.ui.controller.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 /**
@@ -31,8 +35,8 @@ public class GameModule {
 	/**
 	 * Constructor for a {@link GameModule}.
 	 * 
-	 * @param root
-	 *            The root element of the module.
+	 * @param contentRoot
+	 *            The root element of the module's content.
 	 * @param type
 	 *            The {@link GameModuleType} of the module.
 	 * @param viewType
@@ -41,9 +45,19 @@ public class GameModule {
 	 * @param gridPosition
 	 *            The {@link GridPosition} of the module.
 	 */
-	public GameModule(Parent root, GameModuleType type, GameViewType viewType, GridPosition gridPosition,
-			GameController controller) {
-		this.rootElement = root;
+	public GameModule(Parent contentRoot, GameModuleType type, GameViewType viewType, GridPosition gridPosition,
+			GameController controller, String title) {
+		//Initialize the module with the title
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/module/standard.fxml"));
+			this.rootElement = loader.load();
+			GameModuleController standardController = ((GameModuleController)loader.getController());
+			standardController.setTitleLabel(title);
+			standardController.setContent(contentRoot);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.type = type;
 		this.owningViewType = viewType;
 		this.setGridPosition(gridPosition);

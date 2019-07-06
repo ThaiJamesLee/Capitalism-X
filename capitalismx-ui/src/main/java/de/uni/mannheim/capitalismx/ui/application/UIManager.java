@@ -121,7 +121,7 @@ public class UIManager {
 				// create new GameModule from the type and add it its view.
 				GameModule module = new GameModule(
 						loader.load(), type,
-						type.viewType, position, loader.getController());
+						type.viewType, position, loader.getController(), type.title);
 				getGameView(type.viewType).addModule(module);
 			}
 		} catch (IOException e) {
