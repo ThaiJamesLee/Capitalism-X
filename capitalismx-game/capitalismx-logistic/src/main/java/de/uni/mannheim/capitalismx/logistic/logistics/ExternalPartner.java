@@ -1,9 +1,11 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import java.io.Serializable;
+
 /**
  * @author sdupper
  */
-public class ExternalPartner {
+public class ExternalPartner implements Serializable {
     private double ecoIndexPartner;
     private double qualityIndexPartner;
     private double reliabilityIndexPartner;

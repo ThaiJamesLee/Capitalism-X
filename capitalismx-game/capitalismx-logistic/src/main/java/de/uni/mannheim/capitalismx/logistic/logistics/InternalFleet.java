@@ -1,12 +1,13 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
  * @author sdupper
  */
-public class InternalFleet {
+public class InternalFleet implements Serializable {
     private static InternalFleet instance;
 
     private int capacityFleet;

@@ -11,6 +11,7 @@ import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * @author sdupper
  */
-public class Finance {
+public class Finance implements Serializable {
 
     private static Finance instance;
 

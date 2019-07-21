@@ -11,6 +11,7 @@ import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +19,13 @@ import java.util.Map;
 /**
  * @author sdupper
  */
-public class ExternalEvents {
+public class ExternalEvents implements Serializable {
 
     private static ExternalEvents instance;
 
     private List<ExternalEvent> externalEvents;
 
-    public enum ExternalEvent{
+    public enum ExternalEvent implements Serializable{
         EVENT_1("Production Problems pop up"),
         EVENT_2("New technology increases quality"),
         EVENT_3("Company acquisiton possibility offered"),

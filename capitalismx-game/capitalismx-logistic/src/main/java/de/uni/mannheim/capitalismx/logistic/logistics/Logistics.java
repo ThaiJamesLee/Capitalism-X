@@ -2,13 +2,14 @@ package de.uni.mannheim.capitalismx.logistic.logistics;
 
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
  * @author sdupper
  */
-public class Logistics {
+public class Logistics implements Serializable {
     private static Logistics instance;
 
     //private InternalFleet internalFleet;

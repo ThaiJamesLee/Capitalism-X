@@ -1,12 +1,13 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  *
  * @author sdupper
  */
-public class Investment {
+public class Investment implements Serializable {
     private double amount;
     private double yearlyStandardDeviation;
     private double averageYearlyReturn;
