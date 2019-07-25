@@ -1,0 +1,20 @@
+.modulePane {
+	-fx-margin: 25;
+	-fx-background-color: -fx-dark;
+}
+
+.headerPane {
+	-fx-padding: 25;
+}
+
+.contentPane {
+	-fx-padding: 25;
+	-fx-background-color: -fx-light;
+}
+
+
+.header {
+	-fx-font: bold 18pt 'Dosis-Bold';
+	-fx-text-fill: #c1d5e0;
+}
+
