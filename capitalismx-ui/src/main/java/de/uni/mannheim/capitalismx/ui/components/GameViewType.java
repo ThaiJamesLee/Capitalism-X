@@ -8,14 +8,14 @@ package de.uni.mannheim.capitalismx.ui.components;
  */
 public enum GameViewType {
 	
-	GAME_OVERVIEW("Overview"),
-	GAME_HR("Human Resources"),
-	GAME_LOGISTIC("Logistics"),
-	GAME_PRODUCTION("Production"),
-	GAME_PROCUREMENT("Procurement"),
-	GAME_WAREHOUSE("Warehouse"),
-	GAME_FINANCES("Finances"),
-	GAME_MARKETING("Marketing");
+	OVERVIEW("Overview"),
+	HR("Human Resources"),
+	LOGISTIC("Logistics"),
+	PRODUCTION("Production"),
+	PROCUREMENT("Procurement"),
+	WAREHOUSE("Warehouse"),
+	FINANCES("Finances"),
+	MARKETING("Marketing");
 	
 	private final String title;
 	

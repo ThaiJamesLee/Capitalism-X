@@ -10,7 +10,8 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
-import de.uni.mannheim.capitalismx.ui.controller.GameController;
+import de.uni.mannheim.capitalismx.ui.controller.GameElementController;
+import de.uni.mannheim.capitalismx.ui.controller.GameModuleController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -23,11 +24,11 @@ import javafx.scene.control.TreeTableColumn.CellDataFeatures;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
-public class EmployeeListController extends GameController {
+public class EmployeeListController extends GameModuleController {
 
 	@FXML
 	private AnchorPane employeeTreeAnchor;
-	
+
 	private ObservableList<EmployeeTree> employeeListObservable;
 
 	@Override
@@ -72,25 +73,27 @@ public class EmployeeListController extends GameController {
 						return param.getValue().getValue().skill;
 					}
 				});
-		
+
 		employeeListObservable = FXCollections.observableArrayList();
 		EmployeeGenerator generator = new EmployeeGenerator();
-		for(int i = 0; i < 10; i++) {
-			Employee employee = generator.generateEngineer((int)(Math.random()*100));
-			employeeListObservable.add(new EmployeeTree("Engineer", employee.getName(), (int)employee.getSalary()+" CC", employee.getSkillLevel() + "%"));
+		for (int i = 0; i < 10; i++) {
+			Employee employee = generator.generateEngineer((int) (Math.random() * 100));
+			employeeListObservable.add(new EmployeeTree("Engineer", employee.getName(),
+					(int) employee.getSalary() + " CC", employee.getSkillLevel() + "%"));
 		}
-		
-		final TreeItem<EmployeeTree> rootTree = new RecursiveTreeItem<EmployeeTree>(employeeListObservable, RecursiveTreeObject::getChildren);
+
+		final TreeItem<EmployeeTree> rootTree = new RecursiveTreeItem<EmployeeTree>(employeeListObservable,
+				RecursiveTreeObject::getChildren);
 		employeeTreeView.getColumns().setAll(roleCol, nameCol, salaryCol, skillLevelCol);
 		employeeTreeView.setRoot(rootTree);
 		employeeTreeView.setShowRoot(false);
-		
+
 		employeeTreeAnchor.getChildren().add(employeeTreeView);
 		AnchorPane.setTopAnchor(employeeTreeView, 0.0);
 		AnchorPane.setLeftAnchor(employeeTreeView, 0.0);
 		AnchorPane.setRightAnchor(employeeTreeView, 0.0);
 		AnchorPane.setBottomAnchor(employeeTreeView, 0.0);
-		
+
 	}
 
 	class EmployeeTree extends RecursiveTreeObject<EmployeeTree> {

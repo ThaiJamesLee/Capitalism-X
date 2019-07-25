@@ -5,6 +5,7 @@
    -fx-dark: #102027;
    -fx-neutral: #718792;
    -fx-contrast: #ffd54f;
+   -fx-transparent-background: rgb(113, 135, 146, 0.7);
 }
 
 /** Define fonts */

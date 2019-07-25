@@ -6,14 +6,14 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.ui.components.hr.RecruitingListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.GameController;
+import de.uni.mannheim.capitalismx.ui.controller.GameModuleController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 
-public class RecruitingListController extends GameController {
+public class RecruitingListController extends GameModuleController {
 
 	@FXML
 	private ListView<Employee> employeeList;

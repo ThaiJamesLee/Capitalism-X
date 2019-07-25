@@ -17,7 +17,7 @@ public class GameView {
 	private GameViewType viewType;
 	// The modules, that are part of this view
 	private ArrayList<GameModule> modules;
-
+	
 	public GameView(GameViewType viewType) {
 		modules = new ArrayList<GameModule>();
 		this.viewType = viewType;
@@ -36,13 +36,13 @@ public class GameView {
 	}
 
 	/**
-	 * Get the {@link GameModule} of the given {@link GameModuleType}.
+	 * Get the {@link GameModule} of the given {@link GameElementType}.
 	 * 
 	 * @param type
-	 *            The {@link GameModuleType} of the module.
+	 *            The {@link GameElementType} of the module.
 	 * @return The {@link GameModule} or null if no module was found.
 	 */
-	public GameModule getModule(GameModuleType type) {
+	public GameModule getModule(GameElementType type) {
 		for (GameModule module : modules) {
 			if (module.getType() == type) {
 				return module;
