@@ -7,7 +7,7 @@ package de.uni.mannheim.capitalismx.ui.components;
  * @author Jonathan
  *
  */
-public enum GameModuleType {
+public enum GameModuleDefinition {
 
 	// TODO remove all the placeholder module types!
 	// The default type. Probably means something went wrong.
@@ -17,8 +17,10 @@ public enum GameModuleType {
 //	OVERVIEW_PLACEHOLDER(1, "m_overview_placeholder.fxml", GameViewType.GAME_OVERVIEW, 0, 1, 0, 1),
 
 	// The modules for HR. (11-20)
-	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.GAME_HR, 1, 7, 1, 15, "Employees"),
-	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.GAME_HR, 9, 7, 2, 19, "Hiring")
+	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, GameOverlayDefinition.HR_EDIT_EMPLOYEE,
+			GameElementType.HR_EMPLOYEES_OVERVIEW, 1, 7, 1, 15),
+	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, GameElementType.HR_RECRUITING_OVERVIEW, 9, 7,
+			2, 19)
 
 	// The modules for Logistics. (21-30)
 //	LOGISTIC_PLACEHOLDER(21, "m_logistic_placeholder.fxml", GameViewType.GAME_LOGISTIC, 0, 1, 0, 1),
@@ -44,7 +46,11 @@ public enum GameModuleType {
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
 	// The contentType of the module.
-	public GameViewType viewType;
+	public final GameViewType viewType;
+	// The contentType of the module.
+	public final GameElementType elementType;
+	// The type of the overlay of the module.
+	public final GameOverlayDefinition overlayDefinition;
 	// Starting column position in the grid.
 	public final int gridColStart;
 	// Number of columns spanned by the module in the grid.
@@ -53,33 +59,35 @@ public enum GameModuleType {
 	public final int gridRowStart;
 	// Number of rows spanned by the module in the grid.
 	public final int gridRowSpan;
-	// The title of the module, that will be displayed on top.
-	public final String title;
 
 	/**
-	 * Create a new {@link GameModuleType} with default values for the actual
+	 * Create a new {@link GameModuleDefinition} with default values for the actual
 	 * modules.
 	 * 
-	 * @param id       The unique id of the type.
-	 * @param fxmlFile The name of the fxml-file defining this type.
-	 * @param viewType The contentType of this module.
-	 * @param colStart Starting column position in the grid.
-	 * @param colSpan  Number of columns spanned by the module in the grid.
-	 * @param rowStart Starting row position in the grid.
-	 * @param rowSpan  Number of rows spanned by the module in the grid.
-	 * @param title    The title of the module, that will be displayed on top.
+	 * @param id                The unique id of the type.
+	 * @param fxmlFile          The name of the fxml-file defining this type.
+	 * @param viewType          The contentType of this module.
+	 * @param overlayDefinition The {@link GameOverlayDefinition} of the module's
+	 *                          overlay.
+	 * @param elementType       The {@link GameElementType} of the module.
+	 * @param colStart          Starting column position in the grid.
+	 * @param colSpan           Number of columns spanned by the module in the grid.
+	 * @param rowStart          Starting row position in the grid.
+	 * @param rowSpan           Number of rows spanned by the module in the grid.
 	 * 
 	 */
-	private GameModuleType(int id, String fxmlFile, GameViewType viewType, int colStart, int colSpan, int rowStart,
-			int rowSpan, String title) {
+	private GameModuleDefinition(int id, String fxmlFile, GameViewType viewType,
+			GameOverlayDefinition overlayDefinition, GameElementType elementType, int colStart, int colSpan,
+			int rowStart, int rowSpan) {
 		this.id = id;
 		this.viewType = viewType;
+		this.overlayDefinition = overlayDefinition;
+		this.elementType = elementType;
 		this.fxmlFile = fxmlFile;
 		this.gridColStart = colStart;
 		this.gridColSpan = colSpan;
 		this.gridRowStart = rowStart;
 		this.gridRowSpan = rowSpan;
-		this.title = title;
 	}
 
 }

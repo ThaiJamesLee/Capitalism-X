@@ -2,7 +2,6 @@ package de.uni.mannheim.capitalismx.ui.components;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.ui.controller.GameController;
 import de.uni.mannheim.capitalismx.ui.controller.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.fxml.FXMLLoader;
@@ -15,72 +14,53 @@ import javafx.scene.Parent;
  * @author Jonathan
  *
  */
-public class GameModule {
+public class GameModule extends GameElement {
 
-	// The root element of the module.
-	private Parent rootElement;
-
-	// The type of the module.
-	private GameModuleType type;
-
-	// The type of the view owning the module.
-	private GameViewType owningViewType;
-
-	// The controller of the module's FX-Components.
-	private GameController controller;
+	//The type of the element.
+	private GameElementType type;
 
 	// The module's position on the grid.
 	private GridPosition gridPosition;
 
+	// The overlay containing the detailed menu for the module.
+	private GameOverlay overlay;
+
 	/**
 	 * Constructor for a {@link GameModule}.
 	 * 
-	 * @param contentRoot
-	 *            The root element of the module's content.
-	 * @param type
-	 *            The {@link GameModuleType} of the module.
-	 * @param viewType
-	 *            The {@link GameViewType} of the {@link GameView} owning the
-	 *            module.
-	 * @param gridPosition
-	 *            The {@link GridPosition} of the module.
+	 * @param contentRoot  The root element of the module's content.
+	 * @param definition         The {@link GameModuleDefinition} of the module.
+	 * @param viewType     The {@link GameViewType} of the {@link GameView} owning
+	 *                     the module.
+	 * @param overlayDefinition  The {@link GameOverlayDefinition} of the {@link GameOverlay} of
+	 *                     the module.
+	 * @param gridPosition The {@link GridPosition} of the module.
+	 * @param controller   The {@link GameModuleController} of this module.
+	 * @throws IOException
 	 */
-	public GameModule(Parent contentRoot, GameModuleType type, GameViewType viewType, GridPosition gridPosition,
-			GameController controller, String title) {
-		//Initialize the module with the title
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/module/standard.fxml"));
-			this.rootElement = loader.load();
-			GameModuleController standardController = ((GameModuleController)loader.getController());
-			standardController.setTitleLabel(title);
-			standardController.setContent(contentRoot);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.type = type;
-		this.owningViewType = viewType;
-		this.setGridPosition(gridPosition);
-		this.controller = controller;
-	}
+	public GameModule(Parent contentRoot, GameModuleDefinition definition,
+			GridPosition gridPosition, GameModuleController controller) throws IOException {
 
-	public GameController getController() {
-		return controller;
+		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.title, contentRoot, controller);
+
+		// Init optional overlay if one is defined
+		if (definition.overlayDefinition != null) {
+			FXMLLoader overlayLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/overlay/" + definition.overlayDefinition.fxmlFile));
+			Parent overlayRoot = overlayLoader.load();
+			this.overlay = new GameOverlay(overlayRoot, definition.overlayDefinition, definition.viewType, gridPosition, overlayLoader.getController(), definition.elementType.title);
+		}
+
+		// Initialize the module with the title
+		this.type = definition.elementType;
+		this.setGridPosition(gridPosition);
+		controller.initModuleController(type, contentRoot);
 	}
 
 	public GridPosition getGridPosition() {
 		return gridPosition;
 	}
 
-	public GameViewType getOwningViewType() {
-		return this.owningViewType;
-	}
-
-	public Parent getRootElement() {
-		return rootElement;
-	}
-
-	public GameModuleType getType() {
+	public GameElementType getType() {
 		return type;
 	}
 
@@ -88,8 +68,8 @@ public class GameModule {
 		this.gridPosition = gridPosition;
 	}
 
-	public void setRootElement(Parent rootElement) {
-		this.rootElement = rootElement;
+	public GameOverlay getOverlay() {
+		return overlay;
 	}
 
 }
