@@ -1,6 +1,8 @@
 package de.uni.mannheim.capitalismx.production;
 
-public enum ProductionTechnology {
+import java.io.Serializable;
+
+public enum ProductionTechnology implements Serializable {
 
     DEPRECIATED ( 1, "Depreciated"),
     OLD (2, "Old"),

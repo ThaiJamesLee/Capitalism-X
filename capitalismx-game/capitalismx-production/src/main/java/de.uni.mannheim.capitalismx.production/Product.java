@@ -3,10 +3,11 @@ package de.uni.mannheim.capitalismx.production;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Product {
+public class Product implements Serializable {
     private String productName;
     private ProductCategory productCategory;
     private List<Component> components;

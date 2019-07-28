@@ -3,13 +3,14 @@ package de.uni.mannheim.capitalismx.warehouse;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.Production;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Warehousing {
+public class Warehousing implements Serializable {
 
     private static Warehousing instance;
     private List<Warehouse> warehouses;

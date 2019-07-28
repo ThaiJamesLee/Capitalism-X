@@ -1,6 +1,8 @@
 package de.uni.mannheim.capitalismx.production;
 
-public enum ProductCategory {
+import java.io.Serializable;
+
+public enum ProductCategory implements Serializable {
 
     NOTEBOOK("Notebook"),
     PHONE("Phone"),

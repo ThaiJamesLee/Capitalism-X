@@ -2,10 +2,11 @@ package de.uni.mannheim.capitalismx.production;
 
 import jdk.vm.ci.meta.Local;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Machinery {
+public class Machinery implements Serializable {
     private ProductionTechnology productionTechnology;
     /* TODO machinerycapacity not defined*/
     private int machineryCapacity;

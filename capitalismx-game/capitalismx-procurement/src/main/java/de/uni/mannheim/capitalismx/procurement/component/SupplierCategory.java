@@ -1,6 +1,8 @@
 package de.uni.mannheim.capitalismx.procurement.component;
 
-public enum SupplierCategory {
+import java.io.Serializable;
+
+public enum SupplierCategory implements Serializable {
     PREMIUM("Premium Supplier"),
     REGULAR("Regular Supplier"),
     CHEAP("Cheap Supplier");
