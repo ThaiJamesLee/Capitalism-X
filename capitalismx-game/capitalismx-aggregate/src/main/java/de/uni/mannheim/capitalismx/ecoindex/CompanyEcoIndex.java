@@ -4,15 +4,18 @@ import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.Production;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
 
-public class CompanyEcoIndex {
+public class CompanyEcoIndex implements Serializable {
     private static CompanyEcoIndex instance;
 
     private EcoIndex ecoIndex;
     private final int ECO_FLAT_TAX = 10000;
 
-    public enum EcoIndex{
+    public enum EcoIndex implements Serializable{
         GOOD(5, 80, 100),
         MODERATE(4, 60, 79),
         UNHEALTHY(3, 40, 59),
@@ -68,12 +71,12 @@ public class CompanyEcoIndex {
         this.calculateEcoCosts();
     }
 
-    private void checkMachinery(){
+    private void checkMachinery(LocalDate gameDate){
         //TODO
 
-        ArrayList<Machinery> machines = Production.getInstance().getMachines();
+        List<Machinery> machines = Production.getInstance().getMachines();
         for(Machinery machinery : machines){
-            machinery.depreciateMachinery(false);
+            machinery.depreciateMachinery(false, gameDate);
             if(machinery.getYearsSinceLastInvestment() > 5){
                 this.decreaseEcoIndex(1);
             }

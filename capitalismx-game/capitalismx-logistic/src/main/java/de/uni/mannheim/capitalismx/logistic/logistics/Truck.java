@@ -1,12 +1,13 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
 /**
  * @author sdupper
  */
-public class Truck {
+public class Truck implements Serializable {
     private int capacity;
     private double ecoIndex;
     private double qualityIndex;

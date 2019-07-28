@@ -1,11 +1,12 @@
 package de.uni.mannheim.capitalismx.logistic.support;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author sdupper
  */
-public class ProductSupport {
+public class ProductSupport implements Serializable {
     private static ProductSupport instance;
 
     private ArrayList<SupportType> supportTypes;
@@ -14,7 +15,7 @@ public class ProductSupport {
     private double totalSupportQuality;
     private double totalSupportCosts;
 
-    public enum SupportType{
+    public enum SupportType implements Serializable{
         NO_PRODUCT_SUPPORT(-10, 0),
         ONLINE_SELF_SERVICE(0, 50),
         ONLINE_SUPPORT(20, 100),
@@ -40,7 +41,7 @@ public class ProductSupport {
     }
 
     //TODO: generate suitable values
-    public enum ExternalSupportPartner{
+    public enum ExternalSupportPartner implements Serializable{
         NO_PARTNER(0, 0),
         PARTNER_1(1000, 80),
         PARTNER_2(800, 40);

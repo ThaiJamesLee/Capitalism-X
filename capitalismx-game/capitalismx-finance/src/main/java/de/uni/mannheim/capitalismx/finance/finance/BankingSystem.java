@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
@@ -7,7 +8,7 @@ import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
  *
  * @author sdupper
  */
-public class BankingSystem {
+public class BankingSystem implements Serializable {
     private static BankingSystem instance;
 
     private double annualRepayment;
@@ -16,7 +17,7 @@ public class BankingSystem {
     private double annualInterestRate;
     private double annualLoanRate;
 
-    public class Loan{
+    public class Loan implements Serializable{
         private double interestRate;
         private double duration;
         private double loanAmount;
