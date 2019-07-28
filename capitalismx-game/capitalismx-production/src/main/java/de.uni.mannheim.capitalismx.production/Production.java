@@ -2,7 +2,6 @@ package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import jdk.vm.ci.meta.Local;
 
 import java.io.Serializable;
 import java.time.LocalDate;
