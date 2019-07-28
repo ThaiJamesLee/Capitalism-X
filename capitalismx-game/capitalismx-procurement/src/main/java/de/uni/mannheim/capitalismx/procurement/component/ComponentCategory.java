@@ -1,6 +1,8 @@
 package de.uni.mannheim.capitalismx.procurement.component;
 
-public enum ComponentCategory {
+import java.io.Serializable;
+
+public enum ComponentCategory implements Serializable {
 
     N_CPU ("Notebook CPU"),
     N_DISPLAYCASE ("Notebook Display Case"),

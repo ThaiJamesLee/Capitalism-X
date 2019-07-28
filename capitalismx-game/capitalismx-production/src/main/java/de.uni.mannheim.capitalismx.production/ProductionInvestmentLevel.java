@@ -1,6 +1,8 @@
 package de.uni.mannheim.capitalismx.production;
 
-public enum ProductionInvestmentLevel {
+import java.io.Serializable;
+
+public enum ProductionInvestmentLevel implements Serializable {
 
     NO_INVESTMENT (1, "No Investment", 0),
     BAD (2, "Bad", 5000),

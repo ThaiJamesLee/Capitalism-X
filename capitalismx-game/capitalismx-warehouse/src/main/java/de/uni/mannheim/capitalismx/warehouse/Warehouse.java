@@ -1,9 +1,10 @@
 package de.uni.mannheim.capitalismx.warehouse;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Warehouse {
+public class Warehouse implements Serializable {
 
     private WarehouseType warehouseType;
     private double buildingCost;
