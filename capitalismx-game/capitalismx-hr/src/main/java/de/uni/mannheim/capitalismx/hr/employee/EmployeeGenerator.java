@@ -41,7 +41,7 @@ public class EmployeeGenerator {
         Employee employee = null;
 
         try {
-            salary = new SalaryGenerator().getSalary(skillLevel);
+            salary = SalaryGenerator.getInstance().getSalary(skillLevel);
             NameGenerator ng = NameGenerator.getInstance();
 
             PersonMeta newPerson = ng.getGeneratedPersonMeta();
@@ -67,7 +67,7 @@ public class EmployeeGenerator {
         Employee employee = null;
 
         try {
-            salary = new SalaryGenerator().getSalary(skillLevel);
+            salary = SalaryGenerator.getInstance().getSalary(skillLevel);
             NameGenerator ng = NameGenerator.getInstance();
 
             PersonMeta newPerson = ng.getGeneratedPersonMeta();

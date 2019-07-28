@@ -14,7 +14,7 @@ public class SalaryGeneratorTest {
 
     @Test
     public void rangeTestTier0() {
-        SalaryGenerator sg = new SalaryGenerator();
+        SalaryGenerator sg = SalaryGenerator.getInstance();
 
         for (int i = 0; i < Salary.TIER_0.getLowerLevel(); i++) {
             try {
@@ -28,7 +28,7 @@ public class SalaryGeneratorTest {
 
     @Test
     public void rangeTestTier1() {
-        SalaryGenerator sg = new SalaryGenerator();
+        SalaryGenerator sg = SalaryGenerator.getInstance();
 
         for (int i = 0; i < Salary.TIER_1.getLowerLevel(); i++) {
             try {
@@ -42,7 +42,7 @@ public class SalaryGeneratorTest {
 
     @Test
     public void rangeTestTier2() {
-        SalaryGenerator sg = new SalaryGenerator();
+        SalaryGenerator sg = SalaryGenerator.getInstance();
 
         for (int i = 0; i < Salary.TIER_2.getLowerLevel(); i++) {
             try {
@@ -56,7 +56,7 @@ public class SalaryGeneratorTest {
 
     @Test
     public void rangeTestTier3() {
-        SalaryGenerator sg = new SalaryGenerator();
+        SalaryGenerator sg = SalaryGenerator.getInstance();
 
         for (int i = 0; i < Salary.TIER_3.getLowerLevel(); i++) {
             try {
@@ -70,7 +70,7 @@ public class SalaryGeneratorTest {
 
     @Test
     public void rangeTestTier4() {
-        SalaryGenerator sg = new SalaryGenerator();
+        SalaryGenerator sg = SalaryGenerator.getInstance();
 
         for (int i = 0; i < Salary.TIER_4.getLowerLevel(); i++) {
             try {
@@ -84,15 +84,15 @@ public class SalaryGeneratorTest {
 
     @Test(expectedExceptions = NoDefinedTierException.class)
     public void bigInputTest() throws NoDefinedTierException {
-        new SalaryGenerator().getSalary(999);
-        new SalaryGenerator().getSalary(999999);
+        SalaryGenerator.getInstance().getSalary(999);
+        SalaryGenerator.getInstance().getSalary(999999);
 
     }
 
     @Test(expectedExceptions = NoDefinedTierException.class)
     public void smallInputTest() throws NoDefinedTierException {
-        new SalaryGenerator().getSalary(-999);
-        new SalaryGenerator().getSalary(-9);
+        SalaryGenerator.getInstance().getSalary(-999);
+        SalaryGenerator.getInstance().getSalary(-9);
     }
 
 
