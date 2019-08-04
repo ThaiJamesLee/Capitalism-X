@@ -46,7 +46,7 @@ public class GamePageController extends GameElementController {
 
 	@FXML
 	private AnchorPane overlayPane;
-	
+
 	// The SideMenuController
 	@FXML
 	private SideMenuController sidemenuController;
@@ -67,9 +67,10 @@ public class GamePageController extends GameElementController {
 		Parent rootB;
 		try {
 			rootB = loader.load();
-			SideMenuController controllerB = loader.getController();
-			viewTitleLabel.textProperty().unbind();
-			viewTitleLabel.textProperty().bind(controllerB.titleProperty());
+			//TODO remove or adjust if necessary
+//			SideMenuController controllerB = loader.getController();
+//			viewTitleLabel.textProperty().unbind();
+//			viewTitleLabel.textProperty().bind(controllerB.titleProperty());
 			sidemenuPane.getChildren().setAll(rootB);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -118,6 +119,9 @@ public class GamePageController extends GameElementController {
 	 *                 to.
 	 */
 	public void switchView(GameViewType viewType) {
+		resetOverlay();
+		viewTitleLabel.setText(viewType.getTitle());
+		
 		if (currentActiveView != null) {
 			// remove all modules of current view
 			for (GameModule module : currentActiveView.getModules()) {
@@ -134,15 +138,22 @@ public class GamePageController extends GameElementController {
 	}
 
 	/**
+	 * If a {@link GameOverlay} is currently being displayed, it is removed from the
+	 * GamePage.
+	 */
+	private void resetOverlay() {
+		overlayPane.getChildren().clear();
+	}
+
+	/**
 	 * Removes currently displayed overlay elements and displays the requested one
 	 * 
 	 * @param elementType The {@link GameElementType} of the {@link GameOverlay} to
 	 *                    display.
 	 */
 	public void showOverlay(GameElementType elementType) {
-		// remove current elements
-		overlayPane.getChildren().clear();
-
+		resetOverlay();
+		
 		// get requested overlay and display it of module and overlay are not null
 		GameModule module = currentActiveView.getModule(elementType);
 		if (module == null)
@@ -158,7 +169,7 @@ public class GamePageController extends GameElementController {
 		overlayPane.getChildren().add(rootElement);
 		overlayPane.toFront();
 	}
-	
+
 	/**
 	 * Remove the displayed overlay from the view and hide it in the background.
 	 */

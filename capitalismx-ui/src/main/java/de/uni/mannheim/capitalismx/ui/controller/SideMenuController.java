@@ -6,6 +6,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.components.GameView;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -29,7 +32,7 @@ import javafx.util.Duration;
  *
  */
 public class SideMenuController extends UIController {
-	
+
 	@FXML
 	private Button btnOverall;
 	@FXML
@@ -40,145 +43,144 @@ public class SideMenuController extends UIController {
 	private Button btnProcurement;
 	@FXML
 	private Button btnProduction;
-	@FXML 
+	@FXML
 	private Button btnLogistics;
-	@FXML 
+	@FXML
 	private Button btnWarehouse;
 	@FXML
 	private Button btnMarketing;
-	
+
 	@FXML
 	private Button btnSkip;
 	@FXML
 	private ToggleButton btnForward;
 	@FXML
 	private Button btnPlayPause;
-	@FXML 
+	@FXML
 	private ImageView iconPlayPause;
 	@FXML
 	private Label timeLabel;
-	private Timeline  timeline;
+	private Timeline timeline;
 
-	
-	//needed for correct timedisplay
-	//TODO replace current mock implementation
+	// needed for correct timedisplay
+	// TODO replace current mock implementation
 	private boolean isPaused;
 	private LocalDate gameDay;
 
-
-	//StringProperty containing the current Title string, bound to Lable in parent GamePageController
+	// StringProperty containing the current Title string, bound to Lable in parent
+	// GamePageController
 	private StringProperty title;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.title  = new SimpleStringProperty("Overall View");
-		
-		//set up date and bind to timeLabel
+		this.title = new SimpleStringProperty("Overall View");
+
+		// set up date and bind to timeLabel
 		this.isPaused = false;
 		this.gameDay = LocalDate.of(1990, 1, 1);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, \n yyyy").withLocale(Locale.ENGLISH);
-		
+
 		// update once every second (as long as rate remains 1)
 		timeline = new Timeline(new KeyFrame(
-				
-				  Duration.seconds(1),
-			        event -> {
-			        	if(!isPaused) {
-			        	this.gameDay = gameDay.plusDays(1);
-			        	}
-			        	timeLabel.setText(dtf.format(gameDay));
-			        }
-		));
+
+				Duration.seconds(1), event -> {
+					if (!isPaused) {
+						this.gameDay = gameDay.plusDays(1);
+					}
+					timeLabel.setText(dtf.format(gameDay));
+				}));
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
 
-
-		
+		// Set the actions for the buttons that switch the views of the departments.
 		btnOverall.setOnAction(e -> {
-			setTitle("Overall View");
+			switchView(GameViewType.OVERVIEW);
 		});
-		
+
 		btnFinance.setOnAction(e -> {
-			setTitle("Finance View");
+			switchView(GameViewType.FINANCES);
 		});
-		
+
 		btnHR.setOnAction(e -> {
-			setTitle("HR View");
+			switchView(GameViewType.HR);
 		});
-		
+
 		btnProcurement.setOnAction(e -> {
-			setTitle("Procurement View");
+			switchView(GameViewType.PROCUREMENT);
 		});
-	
+
 		btnProduction.setOnAction(e -> {
-			setTitle("Production View");
+			switchView(GameViewType.PRODUCTION);
 		});
-		
+
 		btnWarehouse.setOnAction(e -> {
-			setTitle("Warehouse View");
+			switchView(GameViewType.WAREHOUSE);
 		});
-		
+
 		btnLogistics.setOnAction(e -> {
-			setTitle("Logistics View");
+			switchView(GameViewType.LOGISTIC);
 		});
-		
+
 		btnMarketing.setOnAction(e -> {
-			setTitle("Marketing View");
+			switchView(GameViewType.MARKETING);
 		});
-		
+
 		btnSkip.setOnAction(e -> {
 			this.gameDay = gameDay.plusDays(7);
 			this.timeLabel.setText(dtf.format(gameDay));
-			
+
 		});
-		
+
 		btnForward.setOnAction(e -> {
-			if(btnForward.isSelected()) {
-				this.timeline.setRate(2);	
-			}
-			else {
-				this.timeline.setRate(1);	
+			if (btnForward.isSelected()) {
+				this.timeline.setRate(2);
+			} else {
+				this.timeline.setRate(1);
 			}
 
 		});
-	
+
 		btnPlayPause.setOnAction(e -> {
-			if(this.isPaused) {
+			if (this.isPaused) {
 				this.resumeGame();
 				iconPlayPause.setImage(new Image(getClass().getClassLoader().getResourceAsStream("icons/pause.png")));
 
-			}
-			else {
+			} else {
 				this.pauseGame();
-				iconPlayPause.setImage(new Image(getClass().getClassLoader().getResourceAsStream("icons/play-button.png")));
+				iconPlayPause
+						.setImage(new Image(getClass().getClassLoader().getResourceAsStream("icons/play-button.png")));
 
-		
 			}
 		});
 	}
-	
+
 	private void pauseGame() {
 		this.isPaused = true;
 		this.timeline.pause();
-		//TODO implement functionality
+		// TODO implement functionality
 	}
-	
+
 	private void resumeGame() {
 		this.isPaused = false;
 		this.timeline.play();
-		//TODO implement functionality
+		// TODO implement functionality
 	}
-	
-	//Methods to set the current title, which is bound to the corresponding Label in the parent GamePage Controller
+
+	// Methods to set the current title, which is bound to the corresponding Label
+	// in the parent GamePage Controller
 	public StringProperty titleProperty() {
-		return title ;
+		return title;
 	}
-	
+
 	public final String getText() {
 		return titleProperty().get();
 	}
 
 	private final void setTitle(String title) {
 		titleProperty().set(title);
+	}
+
+	private void switchView(GameViewType viewType) {
+		Main.getManager().getGamePageController().switchView(viewType);
 	}
 }
