@@ -2,8 +2,8 @@ package de.uni.mannheim.capitalismx.ui.components;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.ui.controller.GameElementController;
-import de.uni.mannheim.capitalismx.ui.controller.GameElementFrameController;
+import de.uni.mannheim.capitalismx.ui.controller.UIElementController;
+import de.uni.mannheim.capitalismx.ui.controller.UIElementFrameController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -13,36 +13,36 @@ import javafx.scene.Parent;
  * @author Jonathan
  *
  */
-public class GameElement {
+public class UIElement {
 
 	// The root element of the module.
 	private Parent rootElement;
 
 	// The controller of the module's FX-Components.
-	private GameElementController controller;
+	private UIElementController controller;
 
 	// The controller for the frame of the element.
-	private GameElementFrameController frameController;
+	private UIElementFrameController frameController;
 
 	// The type of the view owning the module.
 	private GameViewType owningViewType;
 
 	/**
-	 * Create a new {@link GameElement} and initialize its frame.
+	 * Create a new {@link UIElement} and initialize its frame.
 	 * 
 	 * @param fxmlFileName The filename of the element's frame.
 	 * @param viewType     The type of view, this belongs to.
 	 * @param title        The title of the element.
 	 * @param contentRoot  The root-element of the custom content.
-	 * @param controller   The {@link GameElementController} of the element and its
+	 * @param controller   The {@link UIElementController} of the element and its
 	 *                     content.
 	 * @throws IOException 
 	 */
-	public GameElement(String fxmlFileName, GameViewType viewType, String title, Parent contentRoot,
-			GameElementController controller) throws IOException {
+	public UIElement(String fxmlFileName, GameViewType viewType, String title, Parent contentRoot,
+			UIElementController controller) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxmlFileName));
 		this.rootElement = loader.load();
-		frameController = ((GameElementFrameController) loader.getController());
+		frameController = ((UIElementFrameController) loader.getController());
 		frameController.setTitleLabel(title);
 		frameController.initContent(contentRoot);
 		this.controller = controller;
@@ -60,7 +60,7 @@ public class GameElement {
 		this.rootElement = rootElement;
 	}
 
-	public GameElementController getController() {
+	public UIElementController getController() {
 		return controller;
 	}
 

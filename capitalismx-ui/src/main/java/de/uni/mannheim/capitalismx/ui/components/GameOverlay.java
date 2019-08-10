@@ -2,11 +2,11 @@ package de.uni.mannheim.capitalismx.ui.components;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.ui.controller.GameElementController;
+import de.uni.mannheim.capitalismx.ui.controller.UIElementController;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.scene.Parent;
 
-public class GameOverlay extends GameElement {
+public class GameOverlay extends UIElement {
 
 	// The type of GameOverlay.
 	private GameOverlayDefinition type;
@@ -21,7 +21,7 @@ public class GameOverlay extends GameElement {
 	 * @throws IOException 
 	 */
 	public GameOverlay(Parent contentRoot, GameOverlayDefinition type, GameViewType viewType, GridPosition gridPosition,
-			GameElementController controller, String title) throws IOException {
+			UIElementController controller, String title) throws IOException {
 		super("fxml/overlay/standard.fxml", viewType, title, contentRoot, controller);
 
 		// Initialize the module with the title

@@ -1,7 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.components;
 
 /**
- * Determines which view is currently present on the GamePage.
+ * Determines the type of GameView which is an abstraction 
+ * of the displayed GameElements of a department.
  * 
  * @author Jonathan
  *

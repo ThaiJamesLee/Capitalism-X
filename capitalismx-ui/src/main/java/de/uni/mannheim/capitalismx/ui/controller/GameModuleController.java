@@ -5,15 +5,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.Main;
-import de.uni.mannheim.capitalismx.ui.components.GameElementType;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 
-public class GameModuleController extends GameElementController {
+public class GameModuleController extends UIElementController {
 
 	// The type of element.
-	private GameElementType elementType;
+	private UIElementType elementType;
 
 	@FXML
 	private Parent rootElement;
@@ -36,7 +36,7 @@ public class GameModuleController extends GameElementController {
 	 * @param elementType The {@link ElementType} of the {@link GameModule}.
 	 * @param rootElement The root element of the module.
 	 */
-	public void initModuleController(GameElementType elementType, Parent rootElement) {
+	public void initModuleController(UIElementType elementType, Parent rootElement) {
 		this.elementType = elementType;
 		this.rootElement = rootElement;
 

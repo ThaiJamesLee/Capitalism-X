@@ -36,13 +36,13 @@ public class GameView {
 	}
 
 	/**
-	 * Get the {@link GameModule} of the given {@link GameElementType}.
+	 * Get the {@link GameModule} of the given {@link UIElementType}.
 	 * 
 	 * @param type
-	 *            The {@link GameElementType} of the module.
+	 *            The {@link UIElementType} of the module.
 	 * @return The {@link GameModule} or null if no module was found.
 	 */
-	public GameModule getModule(GameElementType type) {
+	public GameModule getModule(UIElementType type) {
 		for (GameModule module : modules) {
 			if (module.getType() == type) {
 				return module;

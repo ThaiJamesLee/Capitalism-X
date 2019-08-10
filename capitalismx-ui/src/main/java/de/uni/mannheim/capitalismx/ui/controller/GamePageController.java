@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.Main;
-import de.uni.mannheim.capitalismx.ui.components.GameElementType;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
@@ -21,12 +21,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 /**
- * The {@link GameElementController} managing all actions on the GamePage.
+ * The {@link UIElementController} managing all actions on the GamePage.
  * 
  * @author Jonathan
  *
  */
-public class GamePageController extends GameElementController {
+public class GamePageController extends UIElementController {
 
 	// The GridPane that contains all the modules.
 	@FXML
@@ -148,10 +148,10 @@ public class GamePageController extends GameElementController {
 	/**
 	 * Removes currently displayed overlay elements and displays the requested one
 	 * 
-	 * @param elementType The {@link GameElementType} of the {@link GameOverlay} to
+	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
 	 *                    display.
 	 */
-	public void showOverlay(GameElementType elementType) {
+	public void showOverlay(UIElementType elementType) {
 		resetOverlay();
 		
 		// get requested overlay and display it of module and overlay are not null

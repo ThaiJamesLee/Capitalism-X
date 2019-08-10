@@ -14,7 +14,7 @@ import javafx.scene.control.Button;
  * @author Jonathan
  *
  */
-public class MainMenuController extends GameElementController {
+public class MainMenuController extends UIElementController {
 
 	@FXML
 	private Button newGameButton;

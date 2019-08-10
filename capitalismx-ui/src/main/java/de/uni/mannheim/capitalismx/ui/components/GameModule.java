@@ -14,10 +14,10 @@ import javafx.scene.Parent;
  * @author Jonathan
  *
  */
-public class GameModule extends GameElement {
+public class GameModule extends UIElement {
 
 	//The type of the element.
-	private GameElementType type;
+	private UIElementType type;
 
 	// The module's position on the grid.
 	private GridPosition gridPosition;
@@ -60,7 +60,7 @@ public class GameModule extends GameElement {
 		return gridPosition;
 	}
 
-	public GameElementType getType() {
+	public UIElementType getType() {
 		return type;
 	}
 

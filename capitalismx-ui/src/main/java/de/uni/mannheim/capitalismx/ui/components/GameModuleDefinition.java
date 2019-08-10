@@ -1,8 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.components;
 
 /**
- * The type of a {@link GameModule} specifies the fxml-File and it's default
- * position and size on the module-grid.
+ * The {@link GameModuleDefinition} specifies various attributes of a
+ * {@link GameModule}, so it can automatically be generated.
  * 
  * @author Jonathan
  *
@@ -18,8 +18,8 @@ public enum GameModuleDefinition {
 
 	// The modules for HR. (11-20)
 	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, GameOverlayDefinition.HR_EDIT_EMPLOYEE,
-			GameElementType.HR_EMPLOYEES_OVERVIEW, 1, 7, 1, 15),
-	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, GameElementType.HR_RECRUITING_OVERVIEW, 9, 7,
+			UIElementType.HR_EMPLOYEES_OVERVIEW, 1, 7, 1, 15),
+	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, UIElementType.HR_RECRUITING_OVERVIEW, 9, 7,
 			2, 19)
 
 	// The modules for Logistics. (21-30)
@@ -48,7 +48,7 @@ public enum GameModuleDefinition {
 	// The contentType of the module.
 	public final GameViewType viewType;
 	// The contentType of the module.
-	public final GameElementType elementType;
+	public final UIElementType elementType;
 	// The type of the overlay of the module.
 	public final GameOverlayDefinition overlayDefinition;
 	// Starting column position in the grid.
@@ -68,8 +68,8 @@ public enum GameModuleDefinition {
 	 * @param fxmlFile          The name of the fxml-file defining this type.
 	 * @param viewType          The contentType of this module.
 	 * @param overlayDefinition The {@link GameOverlayDefinition} of the module's
-	 *                          overlay.
-	 * @param elementType       The {@link GameElementType} of the module.
+	 *                          overlay. (optional)
+	 * @param elementType       The {@link UIElementType} of the module.
 	 * @param colStart          Starting column position in the grid.
 	 * @param colSpan           Number of columns spanned by the module in the grid.
 	 * @param rowStart          Starting row position in the grid.
@@ -77,7 +77,7 @@ public enum GameModuleDefinition {
 	 * 
 	 */
 	private GameModuleDefinition(int id, String fxmlFile, GameViewType viewType,
-			GameOverlayDefinition overlayDefinition, GameElementType elementType, int colStart, int colSpan,
+			GameOverlayDefinition overlayDefinition, UIElementType elementType, int colStart, int colSpan,
 			int rowStart, int rowSpan) {
 		this.id = id;
 		this.viewType = viewType;

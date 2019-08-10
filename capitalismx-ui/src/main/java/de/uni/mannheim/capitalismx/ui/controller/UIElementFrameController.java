@@ -3,20 +3,20 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.components.GameElement;
+import de.uni.mannheim.capitalismx.ui.components.UIElement;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 /**
- * The controller class for a standard {@link GameElement}, that controls the
+ * The controller class for a standard {@link UIElement}, that controls the
  * frame and title of the element.
  * 
  * @author Jonathan
  *
  */
-public class GameElementFrameController extends UIController {
+public class UIElementFrameController extends UIController {
 
 	@FXML
 	private Label titleLabel;
@@ -31,7 +31,7 @@ public class GameElementFrameController extends UIController {
 
 	// TODO include localization
 	/**
-	 * Set the title of the {@link GameElement}, so it can be displayed.
+	 * Set the title of the {@link UIElement}, so it can be displayed.
 	 * 
 	 * @param title The title to be displayed.
 	 */
@@ -40,7 +40,7 @@ public class GameElementFrameController extends UIController {
 	}
 
 	/**
-	 * Adds the actual content of the {@link GameElement} to the standard module.
+	 * Adds the actual content of the {@link UIElement} to the standard module.
 	 * 
 	 * @param rootElement The content of the module.
 	 */
