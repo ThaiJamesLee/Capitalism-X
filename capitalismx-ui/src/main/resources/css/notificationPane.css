@@ -1,3 +1,18 @@
 .header_anchor{
 	-fx-background-color: #423f39;
 }
+
+.notificationBackground {
+	-fx-background-color: -fx-light;	
+}
+
+.senderLabel {
+	-fx-text-fill: -fx-dark;
+    -fx-font-family: "Dosis-Bold";
+}
+
+.messageLabel {
+	-fx-text-fill: -fx-dark;
+    -fx-font-weight: bold;
+    -fx-font-family: "Dosis";
+}
