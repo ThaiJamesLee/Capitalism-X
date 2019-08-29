@@ -17,5 +17,13 @@
 	-fx-text-fill: -fx-dark;
 }
 
+.button_module {
+	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-light;
+	-fx-border-insets: 0;
+}
 
+.button_module:hover {
+	-fx-background-color: -fx-contrast;
+}
 

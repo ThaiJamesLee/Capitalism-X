@@ -13,14 +13,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 /**
@@ -184,10 +182,6 @@ public class SideMenuController extends UIController {
 
 	public final String getText() {
 		return titleProperty().get();
-	}
-
-	private final void setTitle(String title) {
-		titleProperty().set(title);
 	}
 
 	private void switchView(GameViewType viewType) {
