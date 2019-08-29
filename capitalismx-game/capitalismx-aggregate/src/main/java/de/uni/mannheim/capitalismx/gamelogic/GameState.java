@@ -65,4 +65,92 @@ public class GameState implements Serializable {
     public void setGameDate(LocalDate gameDate) {
         this.gameDate = gameDate;
     }
+
+    /**
+     * Sets the new GameState instance as the singleton.
+     * @param state The new GameState.
+     */
+    public static void setInstance(GameState state) {
+        instance = state;
+    }
+
+    public HRDepartment getHrDepartment() {
+        return hrDepartment;
+    }
+
+    public void setHrDepartment(HRDepartment hrDepartment) {
+        this.hrDepartment = hrDepartment;
+    }
+
+    public Production getProductionDepartment() {
+        return productionDepartment;
+    }
+
+    public void setProductionDepartment(Production productionDepartment) {
+        this.productionDepartment = productionDepartment;
+    }
+
+    public Warehousing getWarehousingDepartment() {
+        return warehousingDepartment;
+    }
+
+    public void setWarehousingDepartment(Warehousing warehousingDepartment) {
+        this.warehousingDepartment = warehousingDepartment;
+    }
+
+    public Finance getFinanceDepartment() {
+        return financeDepartment;
+    }
+
+    public void setFinanceDepartment(Finance financeDepartment) {
+        this.financeDepartment = financeDepartment;
+    }
+
+    public MarketingDepartment getMarketingDepartment() {
+        return marketingDepartment;
+    }
+
+    public void setMarketingDepartment(MarketingDepartment marketingDepartment) {
+        this.marketingDepartment = marketingDepartment;
+    }
+
+    public Logistics getLogisticsDepartment() {
+        return logisticsDepartment;
+    }
+
+    public void setLogisticsDepartment(Logistics logisticsDepartment) {
+        this.logisticsDepartment = logisticsDepartment;
+    }
+
+    public CustomerSatisfaction getCustomerSatisfaction() {
+        return customerSatisfaction;
+    }
+
+    public void setCustomerSatisfaction(CustomerSatisfaction customerSatisfaction) {
+        this.customerSatisfaction = customerSatisfaction;
+    }
+
+    public CustomerDemand getCustomerDemand() {
+        return customerDemand;
+    }
+
+    public void setCustomerDemand(CustomerDemand customerDemand) {
+        this.customerDemand = customerDemand;
+    }
+
+    public ExternalEvents getExternalEvents() {
+        return externalEvents;
+    }
+
+    public void setExternalEvents(ExternalEvents externalEvents) {
+        this.externalEvents = externalEvents;
+    }
+
+    public CompanyEcoIndex getCompanyEcoIndex() {
+        return companyEcoIndex;
+    }
+
+    public void setCompanyEcoIndex(CompanyEcoIndex companyEcoIndex) {
+        this.companyEcoIndex = companyEcoIndex;
+    }
 }

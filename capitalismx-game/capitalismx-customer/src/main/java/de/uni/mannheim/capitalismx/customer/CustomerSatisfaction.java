@@ -3,12 +3,13 @@ package de.uni.mannheim.capitalismx.customer;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.production.Product;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomerSatisfaction {
+public class CustomerSatisfaction implements Serializable {
 
     private static CustomerSatisfaction instance;
     private double averageOverallAppeal;
@@ -20,7 +21,7 @@ public class CustomerSatisfaction {
     private List<Product> products;
     private Map<Product, Double> productAppeal;
     private Map<Product, Double> priceAppeal;
-    private double customerSatisfactionOverallAppeeal;
+    private double customerSatisfactionOverallAppeal;
     private double customerSatisfaction;
 
     private CustomerSatisfaction() {
@@ -94,8 +95,8 @@ public class CustomerSatisfaction {
     }
 
     public double calculateCustomerSatisfactionOverallAppeal() {
-        this.customerSatisfactionOverallAppeeal = Math.tanh(this.calculateAverageOverallAppeal() * 0.7) * 100;
-        return this.customerSatisfactionOverallAppeeal;
+        this.customerSatisfactionOverallAppeal = Math.tanh(this.calculateAverageOverallAppeal() * 0.7) * 100;
+        return this.customerSatisfactionOverallAppeal;
     }
 
     public double calculateCustomerSatisfaction() {

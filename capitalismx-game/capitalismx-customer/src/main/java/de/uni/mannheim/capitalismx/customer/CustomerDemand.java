@@ -3,12 +3,13 @@ package de.uni.mannheim.capitalismx.customer;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomerDemand {
+public class CustomerDemand implements Serializable {
     private static CustomerDemand instance;
     private Map<Product, Double> productCustomerSatisfactionOverallAppeal;
     private double totalSalesQualityOfWork;
