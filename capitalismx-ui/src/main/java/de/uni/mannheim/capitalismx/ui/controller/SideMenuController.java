@@ -7,21 +7,20 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.Main;
-import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 /**
@@ -66,6 +65,7 @@ public class SideMenuController extends UIController {
 	// TODO replace current mock implementation
 	private boolean isPaused;
 	private LocalDate gameDay;
+	DateTimeFormatter dtf;
 
 	// StringProperty containing the current Title string, bound to Lable in parent
 	// GamePageController
@@ -78,7 +78,7 @@ public class SideMenuController extends UIController {
 		// set up date and bind to timeLabel
 		this.isPaused = false;
 		this.gameDay = LocalDate.of(1990, 1, 1);
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, \n yyyy").withLocale(Locale.ENGLISH);
+		dtf = DateTimeFormatter.ofPattern("MMM dd, \n yyyy").withLocale(Locale.ENGLISH);
 
 		// update once every second (as long as rate remains 1)
 		timeline = new Timeline(new KeyFrame(
@@ -92,6 +92,14 @@ public class SideMenuController extends UIController {
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
 
+		initInputHandlers();
+
+	}
+
+	/**
+	 * Method initializes the EventHandlers for all the inputs like buttons etc.
+	 */
+	private void initInputHandlers() {
 		// Set the actions for the buttons that switch the views of the departments.
 		btnOverall.setOnAction(e -> {
 			switchView(GameViewType.OVERVIEW);
@@ -152,6 +160,8 @@ public class SideMenuController extends UIController {
 
 			}
 		});
+		
+		
 	}
 
 	private void pauseGame() {

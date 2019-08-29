@@ -13,9 +13,11 @@ import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class UIManager {
@@ -64,6 +66,46 @@ public class UIManager {
 
 	public void init() {
 		sceneGamePage.getController().update();
+		initKeyboardControls();
+	}
+	
+	private void initKeyboardControls() {
+		sceneGamePage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				switch (event.getCode()) {
+				case DIGIT1:
+					gamePageController.switchView(GameViewType.getTypeById(1));
+					break;
+				case DIGIT2:
+					gamePageController.switchView(GameViewType.getTypeById(2));
+					break;
+				case DIGIT3:
+					gamePageController.switchView(GameViewType.getTypeById(3));
+					break;
+				case DIGIT4:
+					gamePageController.switchView(GameViewType.getTypeById(4));
+					break;
+				case DIGIT5:
+					gamePageController.switchView(GameViewType.getTypeById(5));
+					break;
+				case DIGIT6:
+					gamePageController.switchView(GameViewType.getTypeById(6));
+					break;
+				case DIGIT7:
+					gamePageController.switchView(GameViewType.getTypeById(7));
+					break;
+				case DIGIT8:
+					gamePageController.switchView(GameViewType.getTypeById(8));
+					break;
+				default:
+					break;
+				}
+				
+			}
+			
+		});
 	}
 
 	/**
@@ -104,6 +146,7 @@ public class UIManager {
 		}
 	}
 
+
 	/**
 	 * Preloads all the {@link GameModule}s and adds them to the list of modules.
 	 */
@@ -123,7 +166,7 @@ public class UIManager {
 				// create new GridPosition from the type.
 				GridPosition position = new GridPosition(moduleDefinition.gridColStart, moduleDefinition.gridRowStart,
 						moduleDefinition.gridColSpan, moduleDefinition.gridRowSpan);
-				// create new GameModule from the type and add it its view.
+				// create new GameModule from the type and add it to its view.
 				GameModule module = new GameModule(loader.load(), moduleDefinition, position, loader.getController());
 				getGameView(moduleDefinition.viewType).addModule(module);
 			}
