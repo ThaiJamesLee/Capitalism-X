@@ -28,7 +28,7 @@ public class SaveGameHandlerTest {
     }
 
     /**
-     *
+     * Save GameState instance into a savegame file.
      */
     @Test
     public void saveGameTest() {
@@ -36,7 +36,7 @@ public class SaveGameHandlerTest {
     }
 
     /**
-     *
+     * Load the save game file.
      */
     @Test(dependsOnMethods = "saveGameTest")
     public void loadGameTest() {
