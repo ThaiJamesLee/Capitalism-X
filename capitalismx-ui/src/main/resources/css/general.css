@@ -1,9 +1,9 @@
 /** Definition of colors */
 * {
-   -fx-primary: #455a64;
-   -fx-light: #a7c0cd;
-   -fx-dark: #102027;
-   -fx-neutral: #718792;
+   -fx-primary: orange;
+   -fx-light: #FAFAFA;
+   -fx-dark: #1C1C1C;
+   -fx-neutral: #848484;
    -fx-contrast: #ffd54f;
    -fx-transparent-background: rgb(113, 135, 146, 0.7);
 }
@@ -27,8 +27,9 @@
 }
 
 .button_module {
-	-fx-background-color: -fx-dark;
+	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-light;
+	-fx-border-insets: 0;
 }
 
 .togglebutton {
@@ -137,7 +138,7 @@
     -fx-background-radius: 9,8,5,4;
     /*-fx-padding: 15 30 15 30;*/
     -fx-font-family: "Dosis";
-    -fx-font-size: 15px;
+    -fx-font-size: 25px;
     -fx-font-weight: bold;
 
 }

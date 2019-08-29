@@ -1,24 +1,21 @@
 
 
 .headerPane {
-	-fx-padding: 25;
-	-fx-border-width: 0 0 0 5;
-	-fx-border-color: -fx-primary;
-	-fx-background-insets: 0 0 0 10;
-	-fx-background-color: -fx-dark;
+	-fx-border-width: 0 0 2 0;
+	-fx-border-insets: 25 0 20 25;
+	-fx-border-color: -fx-dark;
+	-fx-background-color: -fx-light;
 }
 
 .contentPane {
-	-fx-padding: 25;
-	-fx-border-width: 0 0 0 5;
-	-fx-border-color: -fx-primary;
-	-fx-background-insets: 0 0 0 10;
 	-fx-background-color: -fx-light;
 }
 
 
 .header {
-	-fx-font: bold 18pt 'Dosis-Bold';
-	-fx-text-fill: #c1d5e0;
+	-fx-font: bold 22px 'Dosis-Bold';
+	-fx-text-fill: -fx-dark;
 }
+
+
 
