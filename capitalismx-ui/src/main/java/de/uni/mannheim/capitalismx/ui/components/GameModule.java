@@ -16,9 +16,6 @@ import javafx.scene.Parent;
  */
 public class GameModule extends UIElement {
 
-	//The type of the element.
-	private UIElementType type;
-
 	// The module's position on the grid.
 	private GridPosition gridPosition;
 
@@ -41,7 +38,7 @@ public class GameModule extends UIElement {
 	public GameModule(Parent contentRoot, GameModuleDefinition definition,
 			GridPosition gridPosition, GameModuleController controller) throws IOException {
 
-		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.title, contentRoot, controller);
+		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.title, contentRoot, controller,  definition.elementType);
 
 		// Init optional overlay if one is defined
 		if (definition.overlayDefinition != null) {
@@ -51,17 +48,12 @@ public class GameModule extends UIElement {
 		}
 
 		// Initialize the module with the title
-		this.type = definition.elementType;
 		this.setGridPosition(gridPosition);
-		controller.initModuleController(type, contentRoot);
+		controller.initModuleController(this.getType(), contentRoot);
 	}
 
 	public GridPosition getGridPosition() {
 		return gridPosition;
-	}
-
-	public UIElementType getType() {
-		return type;
 	}
 
 	public void setGridPosition(GridPosition gridPosition) {

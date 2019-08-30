@@ -10,7 +10,7 @@
    <children>
       <VBox layoutX="40.0" layoutY="35.0" stylesheets="@../../css/general.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane fx:id="headerPane" styleClass="headerPane">
+            <AnchorPane fx:id="headerPane" onMouseClicked="#showOverlay" styleClass="headerPane">
                <children>
                   <Label fx:id="titleLabel" styleClass="header" text="Title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>

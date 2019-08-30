@@ -3,7 +3,11 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.lang.model.type.TypeKind;
+
+import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.UIElement;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -23,7 +27,9 @@ public class UIElementFrameController extends UIController {
 	private Label titleLabel;
 
 	@FXML
-	private AnchorPane contentPane;
+	private AnchorPane contentPane, headerPane;
+	
+	private UIElementType elementType;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -44,10 +50,18 @@ public class UIElementFrameController extends UIController {
 	 * Adds the actual content of the {@link UIElement} to the standard module.
 	 * 
 	 * @param rootElement The content of the module.
+	 * @param elementType The {@link UIElementType} of the {@link UIElement}
+	 *                    contained by this frame.
 	 */
-	public void initContent(Parent rootElement) {
+	public void initContent(Parent rootElement, UIElementType elementType) {
 		this.contentPane.getChildren().add(rootElement);
 		AnchorPaneHelper.snapNodeToAnchorPane(rootElement);
+		this.elementType = elementType; 
+	}
+	
+	@FXML 
+	private void showOverlay() {
+		Main.getManager().getGamePageController().showOverlay(elementType);
 	}
 
 }

@@ -1,11 +1,11 @@
 /** Definition of colors */
 * {
-   -fx-primary: orange;
+   -fx-primary: #DBA901;
    -fx-light: #FAFAFA;
    -fx-dark: #1C1C1C;
    -fx-neutral: #848484;
    -fx-contrast: #ffd54f;
-   -fx-transparent-background: rgb(113, 135, 146, 0.7);
+   -fx-transparent-background: rgb(132, 132, 132, 0.6);
 }
 
 /** Define fonts */

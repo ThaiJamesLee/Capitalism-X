@@ -8,27 +8,21 @@ import javafx.scene.Parent;
 
 public class GameOverlay extends UIElement {
 
-	// The type of GameOverlay.
-	private GameOverlayDefinition type;
 
 	/**
 	 * Constructor for a {@link GameModule}.
 	 * 
 	 * @param contentRoot The root element of the overlay's content.
-	 * @param type        The {@link GameOverlayDefinition} of the overlay.
+	 * @param definition        The {@link GameOverlayDefinition} of the overlay.
 	 * @param viewType    The {@link GameViewType} of the {@link GameView} owning
 	 *                    the overlay.
 	 * @throws IOException 
 	 */
-	public GameOverlay(Parent contentRoot, GameOverlayDefinition type, GameViewType viewType, GridPosition gridPosition,
+	public GameOverlay(Parent contentRoot, GameOverlayDefinition definition, GameViewType viewType, GridPosition gridPosition,
 			UIElementController controller, String title) throws IOException {
-		super("fxml/overlay/standard.fxml", viewType, title, contentRoot, controller);
+		super("fxml/overlay/standard.fxml", viewType, title, contentRoot, controller, definition.elementType);
 
-		// Initialize the module with the title
-		this.type = type;
 	}
 
-	public GameOverlayDefinition getGameOverlayType() {
-		return this.type;	}
 
 }

@@ -190,7 +190,7 @@ public class GamePageController extends UIElementController {
 		AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootElement, 10.0);
 		overlayPane.getChildren().add(rootElement);
 		overlayPane.toFront();
-		showNotification(new GameNotification("Peter", "WARNING: Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 8.0.172-ea"));
+		showNotification(new GameNotification("Peter", "Welcome to CapitalismX! Please enjoy this test notification. Best Regards, Peter."));
 	}
 
 	/**

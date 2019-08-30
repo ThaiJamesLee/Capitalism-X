@@ -15,6 +15,9 @@ import javafx.scene.Parent;
  */
 public class UIElement {
 
+	// The type of the element.
+	private UIElementType type;
+
 	// The root element of the module.
 	private Parent rootElement;
 
@@ -36,15 +39,17 @@ public class UIElement {
 	 * @param contentRoot  The root-element of the custom content.
 	 * @param controller   The {@link UIElementController} of the element and its
 	 *                     content.
-	 * @throws IOException 
+	 * @param elementType  The {@link UIElementType} of the UIElement.
+	 * @throws IOException
 	 */
 	public UIElement(String fxmlFileName, GameViewType viewType, String title, Parent contentRoot,
-			UIElementController controller) throws IOException {
+			UIElementController controller, UIElementType elementType) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxmlFileName));
 		this.rootElement = loader.load();
 		frameController = ((UIElementFrameController) loader.getController());
 		frameController.setTitleLabel(title);
-		frameController.initContent(contentRoot);
+		this.type = elementType;
+		frameController.initContent(contentRoot, type);
 		this.controller = controller;
 	}
 
@@ -54,6 +59,10 @@ public class UIElement {
 
 	public Parent getRootElement() {
 		return rootElement;
+	}
+	
+	public UIElementType getType() {
+		return type;
 	}
 
 	public void setRootElement(Parent rootElement) {
