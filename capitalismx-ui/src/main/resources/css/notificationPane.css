@@ -8,11 +8,19 @@
 
 .senderLabel {
 	-fx-text-fill: -fx-dark;
-    -fx-font-family: "Dosis-Bold";
+	-fx-font-size: 16px;
+    -fx-font-family: "Dosis";
+    -fx-font-wight: bold;
+}
+
+.senderPane {
+	-fx-border-width: 0 1 0 0;
+	-fx-border-color: -fx-dark;
+	-fx-padding: 0 20 0 0;
 }
 
 .messageLabel {
 	-fx-text-fill: -fx-dark;
-    -fx-font-weight: bold;
     -fx-font-family: "Dosis";
 }
+
