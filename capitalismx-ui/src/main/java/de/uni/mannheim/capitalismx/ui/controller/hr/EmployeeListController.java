@@ -11,6 +11,7 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.ui.controller.UIElementController;
+import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.controller.GameModuleController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -89,10 +90,7 @@ public class EmployeeListController extends GameModuleController {
 		employeeTreeView.setShowRoot(false);
 
 		employeeTreeAnchor.getChildren().add(employeeTreeView);
-		AnchorPane.setTopAnchor(employeeTreeView, 0.0);
-		AnchorPane.setLeftAnchor(employeeTreeView, 0.0);
-		AnchorPane.setRightAnchor(employeeTreeView, 0.0);
-		AnchorPane.setBottomAnchor(employeeTreeView, 0.0);
+		AnchorPaneHelper.snapNodeToAnchorPane(employeeTreeView);
 
 	}
 

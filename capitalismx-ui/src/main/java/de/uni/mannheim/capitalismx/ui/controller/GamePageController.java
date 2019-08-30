@@ -13,6 +13,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -151,10 +152,7 @@ public class GamePageController extends UIElementController {
 	 */
 	public void showNotification(GameNotification notification) {
 		Parent rootElement = notification.getRoot();
-		AnchorPane.setTopAnchor(rootElement, 0.0);
-		AnchorPane.setLeftAnchor(rootElement, 0.0);
-		AnchorPane.setRightAnchor(rootElement, 0.0);
-		AnchorPane.setBottomAnchor(rootElement, 0.0);
+		AnchorPaneHelper.snapNodeToAnchorPane(rootElement);
 		notificationAnchor.getChildren().add(rootElement);
 		//schedule removal of notification for two seconds later
 		new Timer().schedule(new TimerTask() {
@@ -189,10 +187,7 @@ public class GamePageController extends UIElementController {
 		if (overlay == null)
 			return;
 		Parent rootElement = currentActiveView.getModule(elementType).getOverlay().getRootElement();
-		AnchorPane.setTopAnchor(rootElement, 10.0);
-		AnchorPane.setLeftAnchor(rootElement, 10.0);
-		AnchorPane.setRightAnchor(rootElement, 10.0);
-		AnchorPane.setBottomAnchor(rootElement, 10.0);
+		AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootElement, 10.0);
 		overlayPane.getChildren().add(rootElement);
 		overlayPane.toFront();
 		showNotification(new GameNotification("Peter", "WARNING: Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 8.0.172-ea"));

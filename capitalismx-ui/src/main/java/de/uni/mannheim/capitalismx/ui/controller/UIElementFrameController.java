@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.components.UIElement;
+import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -46,10 +47,7 @@ public class UIElementFrameController extends UIController {
 	 */
 	public void initContent(Parent rootElement) {
 		this.contentPane.getChildren().add(rootElement);
-		AnchorPane.setBottomAnchor(rootElement, 0.0);
-		AnchorPane.setRightAnchor(rootElement, 0.0);
-		AnchorPane.setLeftAnchor(rootElement, 0.0);
-		AnchorPane.setTopAnchor(rootElement, 0.0);
+		AnchorPaneHelper.snapNodeToAnchorPane(rootElement);
 	}
 
 }
