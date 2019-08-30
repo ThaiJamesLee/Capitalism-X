@@ -1,5 +1,7 @@
-
-
+/**
+ * General section for the style of the modules.
+ */
+ 
 .headerPane {
 	-fx-border-width: 0 0 2 0;
 	-fx-border-insets: 25 0 20 25;
@@ -11,7 +13,9 @@
 	-fx-background-color: -fx-light;
 }
 
-
+/**
+ * Section for reusable module-components.
+ */
 .header {
 	-fx-font: bold 22px 'Dosis-Bold';
 	-fx-text-fill: -fx-dark;
@@ -27,3 +31,45 @@
 	-fx-background-color: -fx-contrast;
 }
 
+/**
+ * Styling for Listviews.
+ */
+ 
+.list-view {
+	-fx-background-color: none;
+	-fx-border-width : 0;
+}
+
+.list-view .scroll-bar:horizontal {
+    -fx-scale-x: 0;
+}
+
+.list-cell {
+	-fx-background-color: -fx-light;
+	-fx-font: bold 12px 'Dosis';
+	-fx-border-insets: 0 5 0 5;
+	-fx-background-insets: 0 5 0 5;
+	-fx-border-width: 0;
+	-fx-border-color: -fx-neutral;
+}
+
+.list-cell:hover {
+	-fx-background-color: -fx-neutral;
+}
+
+.list-cell:odd {
+	-fx-border-width: 1 0 1 0;
+}
+
+.list-cell:even {
+	-fx-border-width: 0 0 0 0;
+}
+
+.list-cell:selected {
+	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-dark;
+}
+
+.list-cell:empty {
+    -fx-opacity: 0;
+}

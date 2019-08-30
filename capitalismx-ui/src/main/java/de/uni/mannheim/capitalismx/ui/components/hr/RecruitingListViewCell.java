@@ -28,12 +28,9 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	 @Override
 	    protected void updateItem(Employee employee, boolean empty) {
 	        super.updateItem(employee, empty);
-
 	        if(empty || employee == null) {
-
 	            setText(null);
 	            setGraphic(null);
-
 	        } else { 
 	        	if (loader == null) {
 	        		loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/recruiting_list_cell.fxml"));
