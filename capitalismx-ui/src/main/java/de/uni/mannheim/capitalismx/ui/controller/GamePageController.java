@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -10,6 +11,7 @@ import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
+import de.uni.mannheim.capitalismx.ui.components.GameOverlayDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
@@ -137,11 +139,11 @@ public class GamePageController extends UIElementController {
 		currentActiveView = Main.getManager().getGameView(viewType);
 		for (GameModule module : currentActiveView.getModules()) {
 			GridPosition position = module.getGridPosition();
+			module.getController().update();
 			moduleGrid.add(module.getRootElement(), position.getxStart(), position.getyStart(), position.getxSpan(),
 					position.getySpan());
 		}
 	}
-
 
 	/**
 	 * Display a {@link GameNotification} on the GamePage. TODO create Queue of
@@ -154,7 +156,7 @@ public class GamePageController extends UIElementController {
 		Parent rootElement = notification.getRoot();
 		AnchorPaneHelper.snapNodeToAnchorPane(rootElement);
 		notificationAnchor.getChildren().add(rootElement);
-		//schedule removal of notification for two seconds later
+		// schedule removal of notification for two seconds later
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -175,22 +177,38 @@ public class GamePageController extends UIElementController {
 	 * 
 	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
 	 *                    display.
+	 * @param properties  Optional properties for the overlay.
 	 */
-	public void showOverlay(UIElementType elementType) {
+	public void showOverlay(UIElementType elementType, Properties properties) {
 		resetOverlay();
 
-		// get requested overlay and display it of module and overlay are not null
+		// get requested overlay and display it, if module and overlay are not null
 		GameModule module = currentActiveView.getModule(elementType);
 		if (module == null)
 			return;
 		GameOverlay overlay = module.getOverlay();
 		if (overlay == null)
 			return;
-		Parent rootElement = currentActiveView.getModule(elementType).getOverlay().getRootElement();
+
+		((GameOverlayController)overlay.getController()).updateProperties(properties);
+		overlay.getController().update();
+		Parent rootElement = overlay.getRootElement();
 		AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootElement, 10.0);
 		overlayPane.getChildren().add(rootElement);
 		overlayPane.toFront();
-		showNotification(new GameNotification("Peter", "Welcome to CapitalismX! Please enjoy this test notification. Best Regards, Peter."));
+		// TODO remove, only for testing of the notifications
+		showNotification(new GameNotification("Peter",
+				"Welcome to CapitalismX! Please enjoy this test notification. Best Regards, Peter."));
+	}
+
+	/**
+	 * Removes currently displayed overlay elements and displays the requested one
+	 * 
+	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
+	 *                    display.
+	 */
+	public void showOverlay(UIElementType elementType) {
+		showOverlay(elementType, new Properties());
 	}
 
 	/**
