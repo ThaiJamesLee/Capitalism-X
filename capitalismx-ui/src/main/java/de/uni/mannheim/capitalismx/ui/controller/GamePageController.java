@@ -11,10 +11,10 @@ import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
-import de.uni.mannheim.capitalismx.ui.components.GameOverlayDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
@@ -33,7 +33,7 @@ import javafx.scene.layout.StackPane;
  * @author Jonathan
  *
  */
-public class GamePageController extends UIElementController {
+public class GamePageController implements UpdateableController {
 
 	// The GridPane that contains all the modules.
 	@FXML
@@ -190,7 +190,7 @@ public class GamePageController extends UIElementController {
 		if (overlay == null)
 			return;
 
-		((GameOverlayController)overlay.getController()).updateProperties(properties);
+		overlay.getController().updateProperties(properties);
 		overlay.getController().update();
 		Parent rootElement = overlay.getRootElement();
 		AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootElement, 10.0);
