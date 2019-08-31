@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.hr;
+package de.uni.mannheim.capitalismx.ui.controller.module.hr;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.ui.components.hr.RecruitingListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

@@ -3,13 +3,12 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.lang.model.type.TypeKind;
-
 import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.UIElement;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -21,14 +20,14 @@ import javafx.scene.layout.AnchorPane;
  * @author Jonathan
  *
  */
-public class UIElementFrameController extends UIController {
+public class UIElementFrameController implements Initializable {
 
 	@FXML
 	private Label titleLabel;
 
 	@FXML
 	private AnchorPane contentPane, headerPane;
-	
+
 	private UIElementType elementType;
 
 	@Override
@@ -56,10 +55,10 @@ public class UIElementFrameController extends UIController {
 	public void initContent(Parent rootElement, UIElementType elementType) {
 		this.contentPane.getChildren().add(rootElement);
 		AnchorPaneHelper.snapNodeToAnchorPane(rootElement);
-		this.elementType = elementType; 
+		this.elementType = elementType;
 	}
-	
-	@FXML 
+
+	@FXML
 	private void showOverlay() {
 		Main.getManager().getGamePageController().showOverlay(elementType);
 	}

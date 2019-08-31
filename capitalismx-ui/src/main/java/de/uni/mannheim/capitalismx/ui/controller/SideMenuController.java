@@ -14,6 +14,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -28,7 +29,7 @@ import javafx.util.Duration;
  * @author Alex
  *
  */
-public class SideMenuController extends UIController {
+public class SideMenuController implements Initializable {
 
 	@FXML
 	private Button btnOverall;
@@ -158,8 +159,7 @@ public class SideMenuController extends UIController {
 
 			}
 		});
-		
-		
+
 	}
 
 	private void pauseGame() {

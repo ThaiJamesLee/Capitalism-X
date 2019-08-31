@@ -2,7 +2,6 @@ package de.uni.mannheim.capitalismx.ui.components;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.ui.controller.UIElementController;
 import de.uni.mannheim.capitalismx.ui.controller.UIElementFrameController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,9 +19,6 @@ public class UIElement {
 
 	// The root element of the module.
 	private Parent rootElement;
-
-	// The controller of the module's FX-Components.
-	private UIElementController controller;
 
 	// The controller for the frame of the element.
 	private UIElementFrameController frameController;
@@ -43,14 +39,13 @@ public class UIElement {
 	 * @throws IOException
 	 */
 	public UIElement(String fxmlFileName, GameViewType viewType, String title, Parent contentRoot,
-			UIElementController controller, UIElementType elementType) throws IOException {
+			UIElementType elementType) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxmlFileName));
 		this.rootElement = loader.load();
 		frameController = ((UIElementFrameController) loader.getController());
 		frameController.setTitleLabel(title);
 		this.type = elementType;
 		frameController.initContent(contentRoot, type);
-		this.controller = controller;
 	}
 
 	public GameViewType getOwningViewType() {
@@ -60,17 +55,13 @@ public class UIElement {
 	public Parent getRootElement() {
 		return rootElement;
 	}
-	
+
 	public UIElementType getType() {
 		return type;
 	}
 
 	public void setRootElement(Parent rootElement) {
 		this.rootElement = rootElement;
-	}
-
-	public UIElementController getController() {
-		return controller;
 	}
 
 }

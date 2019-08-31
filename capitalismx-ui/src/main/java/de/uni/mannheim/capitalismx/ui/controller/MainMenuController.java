@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -14,13 +15,13 @@ import javafx.scene.control.Button;
  * @author Jonathan
  *
  */
-public class MainMenuController extends UIElementController {
+public class MainMenuController implements UpdateableController {
 
 	@FXML
-	private Button newGameButton;
+	public Button newGameButton;
 
 	@FXML
-	private Button switchButton;
+	public Button switchButton;
 	
 	
 	

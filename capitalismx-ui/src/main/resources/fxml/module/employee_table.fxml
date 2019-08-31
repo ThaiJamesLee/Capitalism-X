@@ -3,4 +3,4 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane fx:id="employeeTreeAnchor" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.hr.EmployeeListController" />
+<AnchorPane fx:id="employeeTreeAnchor" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.hr.EmployeeListController" />

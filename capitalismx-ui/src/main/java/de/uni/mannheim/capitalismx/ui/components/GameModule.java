@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.components;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.ui.controller.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +15,8 @@ import javafx.scene.Parent;
  *
  */
 public class GameModule extends UIElement {
+	
+	private GameModuleController controller;
 
 	// The module's position on the grid.
 	private GridPosition gridPosition;
@@ -38,7 +40,7 @@ public class GameModule extends UIElement {
 	public GameModule(Parent contentRoot, GameModuleDefinition definition,
 			GridPosition gridPosition, GameModuleController controller) throws IOException {
 
-		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.title, contentRoot, controller,  definition.elementType);
+		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.title, contentRoot, definition.elementType);
 
 		// Init optional overlay if one is defined
 		if (definition.overlayDefinition != null) {
@@ -49,7 +51,7 @@ public class GameModule extends UIElement {
 
 		// Initialize the module with the title
 		this.setGridPosition(gridPosition);
-		controller.initModuleController(this.getType(), contentRoot);
+		this.controller = controller;
 	}
 
 	public GridPosition getGridPosition() {
@@ -62,6 +64,10 @@ public class GameModule extends UIElement {
 
 	public GameOverlay getOverlay() {
 		return overlay;
+	}
+	
+	public GameModuleController getController() {
+		return controller;
 	}
 
 }

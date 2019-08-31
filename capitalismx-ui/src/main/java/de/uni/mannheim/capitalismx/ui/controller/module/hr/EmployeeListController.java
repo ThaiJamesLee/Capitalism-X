@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.hr;
+package de.uni.mannheim.capitalismx.ui.controller.module.hr;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,9 +10,8 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
-import de.uni.mannheim.capitalismx.ui.controller.UIElementController;
+import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
-import de.uni.mannheim.capitalismx.ui.controller.GameModuleController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
