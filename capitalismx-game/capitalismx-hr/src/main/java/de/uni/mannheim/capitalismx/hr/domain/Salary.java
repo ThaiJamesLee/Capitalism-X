@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.hr.domain;
 
+import de.uni.mannheim.capitalismx.utils.data.Range;
+
 /**
  * This class contains the salary and skill level ranges.
  * See p. 23
@@ -19,6 +21,9 @@ public enum Salary {
     private int lowerSalary;
     private int upperSalary;
 
+    private Range salaryRange;
+    private Range skillLevelRange;
+
     /**
      *
      * @param lowerLevel lower bound of skill level
@@ -27,26 +32,23 @@ public enum Salary {
      * @param upperSalary upper bound of salary for this skill level range
      */
     Salary(int lowerLevel, int upperLevel, int lowerSalary, int upperSalary) {
-        this.lowerLevel = lowerLevel;
-        this.upperLevel = upperLevel;
-
-        this.lowerSalary = lowerSalary;
-        this.upperSalary = upperSalary;
+        salaryRange = new Range(lowerSalary, upperSalary);
+        skillLevelRange = new Range(lowerLevel, upperLevel);
     }
 
-    public int getLowerLevel() {
-        return lowerLevel;
+    public Range getSkillLevelRange() { return skillLevelRange; }
+
+    public Range getSalaryRange() { return salaryRange; }
+
+    public double getLowerLevel() { return skillLevelRange.getLowerBound(); }
+
+    public double getUpperLevel() {
+        return skillLevelRange.getUpperBound();
     }
 
-    public int getUpperLevel() {
-        return upperLevel;
-    }
+    public double getLowerSalary() { return salaryRange.getLowerBound(); }
 
-    public int getLowerSalary() {
-        return lowerSalary;
-    }
-
-    public int getUpperSalary() {
-        return upperSalary;
+    public double getUpperSalary() {
+        return salaryRange.getUpperBound();
     }
 }

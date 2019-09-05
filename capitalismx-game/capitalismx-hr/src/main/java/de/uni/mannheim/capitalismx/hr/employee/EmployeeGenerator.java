@@ -37,7 +37,7 @@ public class EmployeeGenerator {
      */
     public Employee generateEngineer(int skillLevel) {
 
-        int salary = 0;
+        double salary = 0;
         Employee employee = null;
 
         try {
@@ -63,7 +63,7 @@ public class EmployeeGenerator {
      * and salary randomly generated based of the skill level
      */
     public Employee generateSalesPeople(int skillLevel) {
-        int salary = 0;
+        double salary = 0;
         Employee employee = null;
 
         try {

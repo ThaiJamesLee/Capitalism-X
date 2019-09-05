@@ -20,7 +20,7 @@ public class SaveGameHandlerTest {
     private SaveGameHandler saveGameHandler;
 
     @BeforeTest
-    public void init() {
+    public void setUp() {
         GameState state = GameState.getInstance();
         state.initiate();
 
@@ -44,7 +44,6 @@ public class SaveGameHandlerTest {
         try {
             GameState state = saveGameHandler.loadGameState();
             GameState.setInstance(state);
-            System.out.println(state);
 
             Assert.assertNotNull(state);
             Assert.assertNotNull(state.getHrDepartment());
