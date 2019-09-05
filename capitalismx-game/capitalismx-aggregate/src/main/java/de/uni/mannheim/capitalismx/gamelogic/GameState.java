@@ -41,7 +41,7 @@ public class GameState implements Serializable {
         if(instance == null) {
             instance = new GameState();
         }
-        return  instance;
+        return instance;
     }
 
     public void initiate() {

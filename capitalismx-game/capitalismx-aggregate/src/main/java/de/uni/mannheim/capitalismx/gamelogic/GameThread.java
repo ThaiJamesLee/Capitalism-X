@@ -8,33 +8,38 @@ import java.util.Locale;
 public class GameThread extends Thread {
 
     private static GameThread instance;
-    private LocalDate gameDate;
     private int secondsPerDay;
     private boolean pause;
+    private boolean running;
 
     public static GameThread getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new GameThread();
         }
-        return  instance;
+        return instance;
     }
 
     private GameThread() {
-        this.gameDate = LocalDate.of(1990, 1, 1);
         this.secondsPerDay = 1;
+        this.running = true;
     }
 
     public void run() {
-        while(true) {
-            if(!pause) {
+        while (running) {
+            if (!pause) {
                 try {
-                    Thread.sleep(this.secondsPerDay);
+                    Thread.sleep(this.secondsPerDay * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 GameController.getInstance().nextDay();
             }
         }
+    }
+
+
+    public void terminate() {
+        this.running = false;
     }
 
     public void setSecondsPerDay(int secondsPerDay) {
@@ -53,7 +58,4 @@ public class GameThread extends Thread {
         return pause;
     }
 
-    public LocalDate getGameDate() {
-        return this.gameDate;
-    }
 }

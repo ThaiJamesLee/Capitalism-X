@@ -48,13 +48,14 @@ public class GameController {
         return instance;
     }
 
-    public void nextDay() {
+    public synchronized void nextDay() {
         LocalDate oldDate = GameState.getInstance().getGameDate();
-        GameState.getInstance().setGameDate(GameState.getInstance().getGameDate().plusDays(1));
+        GameState.getInstance().setGameDate(oldDate.plusDays(1));
         LocalDate newDate = GameState.getInstance().getGameDate();
         if(oldDate.getMonth() != newDate.getMonth()) {
             Production.getInstance().resetMonthlyPerformanceMetrics();
         }
+        System.out.println("old:" + oldDate + "new:" + newDate);
         this.updateAll();
     }
 
@@ -120,7 +121,7 @@ public class GameController {
 
     public void start() {
         GameState.getInstance().initiate();
-        GameThread.getInstance().start();
+        GameThread.getInstance().run();
     }
 
     public void pauseGame() {

@@ -165,7 +165,10 @@ public class Warehousing implements Serializable {
     }
 
     public boolean checkFreeStorageThreshold() {
-        if((this.freeStorage / this.totalCapacity) <01) {
+        if(this.totalCapacity == 0) {
+            return false;
+        }
+        if((this.freeStorage / this.totalCapacity) < 0.1) {
             this.daysSinceFreeStorageThreshold++;
             return true;
         } else {
@@ -189,6 +192,9 @@ public class Warehousing implements Serializable {
     }
 
     public boolean checkWarehouseCapacityThreshold() {
+        if(this.totalCapacity == 0) {
+            return false;
+        }
         return (this.storedUnits / this.totalCapacity) >= 0.8;
     }
 

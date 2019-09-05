@@ -8,6 +8,7 @@ public class ProductionInvestment implements Serializable {
 
     ProductionInvestment(String name) {
         this.name = name;
+        this.lastInvestmentDate = LocalDate.of(1990, 1, 1);
         this.productionInvestmentLevel = ProductionInvestmentLevel.NO_INVESTMENT;
     }
 
