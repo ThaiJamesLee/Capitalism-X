@@ -42,6 +42,8 @@ public class HRDepartment implements Serializable {
     }
 
     private void init() {
+        hired = new ArrayList<>();
+        fired = new ArrayList<>();
         teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER));
         teams.put(EmployeeType.SALESPERSON, new Team(EmployeeType.SALESPERSON));
     }
@@ -187,8 +189,9 @@ public class HRDepartment implements Serializable {
      * @return Returns the cost of hiring.
      */
     public double hire(Employee employee) {
-
-
+        if(employee == null) {
+            throw new NullPointerException("Employee must be specified!");
+        }
         if(employee instanceof Engineer) {
             teams.get(EmployeeType.ENGINEER).addEmployee(employee);
 
@@ -206,6 +209,9 @@ public class HRDepartment implements Serializable {
      * @return Returns the cost of the firing.
      */
     public double fire(Employee employee) {
+        if(employee == null) {
+            throw new NullPointerException("Employee must be specified!");
+        }
         if(employee instanceof Engineer) {
             teams.get(EmployeeType.ENGINEER).removeEmployee(employee);
 
@@ -235,15 +241,6 @@ public class HRDepartment implements Serializable {
     }
 
     /* Benefits */
-
-    /**
-     *
-     * @return Returns all available benefits.
-     */
-    public Benefit[] getAllBenefits() {
-        return Benefit.values();
-    }
-
     public BenefitSettings getBenefitSettings() {
         return benefitSettings;
     }
