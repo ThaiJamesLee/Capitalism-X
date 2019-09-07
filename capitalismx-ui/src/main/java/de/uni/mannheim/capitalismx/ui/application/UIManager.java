@@ -12,7 +12,12 @@ import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
+import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
+import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,6 +29,7 @@ public class UIManager {
 
 	private GameScene sceneMenuMain;
 	private GameScene sceneGamePage;
+	private GameScene sceneLoadingScreen;
 	private List<GameView> gameViews;
 
 	private Stage window;
@@ -57,18 +63,22 @@ public class UIManager {
 		// static loading of the scenes
 		loadScenes();
 
-		// set the main menu scene as starting scene
-		window.setScene(sceneMenuMain.getScene());
+		// set the initial main menu scene as starting scene
+		window.setScene(new Scene(sceneMenuMain.getScene()));
+	}
 
+	/**
+	 * Inititalizes all components needed for a new Game.
+	 */
+	public void initGame() {
 		// load all the modules and save them in the gameModules-list
 		preloadViewsAndModules();
-	}
 
-	public void init() {
 		sceneGamePage.getController().update();
 		initKeyboardControls();
+
 	}
-	
+
 	private void initKeyboardControls() {
 		sceneGamePage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -102,9 +112,9 @@ public class UIManager {
 				default:
 					break;
 				}
-				
+
 			}
-			
+
 		});
 	}
 
@@ -133,47 +143,74 @@ public class UIManager {
 			ResourceBundle bundle = ResourceBundle.getBundle("properties.main_en");
 			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
 			root = loader.load();
-			GameScene scene = new GameScene(new Scene(root), GameSceneType.MENU_MAIN, loader.getController());
-			sceneMenuMain = scene;
+			sceneMenuMain = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
+
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
 			root = loader.load();
 			gamePageController = (GamePageController) loader.getController();
-			scene = new GameScene(new Scene(root), GameSceneType.GAME_PAGE, loader.getController());
-			sceneGamePage = scene;
+			sceneGamePage = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
+
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"));
+			root = loader.load();
+			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
 		} catch (IOException e) {
 			// TODO Handle error if scenes cannot be initialized
 			e.printStackTrace();
 		}
 	}
 
-
 	/**
 	 * Preloads all the {@link GameModule}s and adds them to the list of modules.
 	 */
 	private void preloadViewsAndModules() {
-		// init list of GameViews
-		gameViews = new ArrayList<GameView>();
-		// create a new GameView for each GameViewType
-		for (GameViewType viewType : GameViewType.values()) {
-			gameViews.add(new GameView(viewType));
-		}
-		try {
-			// for each predefined GameModuleTypes load the fxml-file and create
-			// a new GameModule, that is stored in the list
-			for (GameModuleDefinition moduleDefinition : GameModuleDefinition.values()) {
-				FXMLLoader loader = new FXMLLoader(
-						getClass().getClassLoader().getResource("fxml/module/" + moduleDefinition.fxmlFile));
-				// create new GridPosition from the type.
-				GridPosition position = new GridPosition(moduleDefinition.gridColStart, moduleDefinition.gridRowStart,
-						moduleDefinition.gridColSpan, moduleDefinition.gridRowSpan);
-				// create new GameModule from the type and add it to its view.
-				GameModule module = new GameModule(loader.load(), moduleDefinition, position, loader.getController());
-				getGameView(moduleDefinition.viewType).addModule(module);
+		Task<Integer> task = new Task<Integer>() {
+
+			@Override
+			protected Integer call() throws Exception {
+				double progress = 0.0;
+				this.updateProgress(0.0, 1.0);
+				int numOfComponents = GameModuleDefinition.values().length * 2;
+
+				try {
+					// init list of GameViews
+					gameViews = new ArrayList<GameView>();
+					// create a new GameView for each GameViewType
+					for (GameViewType viewType : GameViewType.values()) {
+						gameViews.add(new GameView(viewType));
+					}
+
+					// for each predefined GameModuleTypes load the fxml-file and create
+					// a new GameModule, that is stored in the list
+					for (GameModuleDefinition moduleDefinition : GameModuleDefinition.values()) {
+						FXMLLoader loader = new FXMLLoader(
+								getClass().getClassLoader().getResource("fxml/module/" + moduleDefinition.fxmlFile));
+						// create new GridPosition from the type.
+						GridPosition position = new GridPosition(moduleDefinition.gridColStart,
+								moduleDefinition.gridRowStart, moduleDefinition.gridColSpan,
+								moduleDefinition.gridRowSpan);
+
+						Parent root = loader.load();
+						progress += 1.0 / numOfComponents;
+						this.updateProgress(progress, 1.0);
+						// create new GameModule from the type and add it to its view.
+						GameModule module = new GameModule(root, moduleDefinition, position, loader.getController());
+						getGameView(moduleDefinition.viewType).addModule(module);
+						progress += 1.0 / numOfComponents;
+						this.updateProgress(progress, 1.0);
+					}
+					Platform.runLater(() -> switchToScene(GameSceneType.GAME_PAGE));
+				} catch (IOException e) {
+					// TODO handle error if module could not be loaded.
+					e.printStackTrace();
+				}
+
+				return 1;
 			}
-		} catch (IOException e) {
-			// TODO handle error if module could not be loaded.
-			e.printStackTrace();
-		}
+
+		};
+		((LoadingScreenController) sceneLoadingScreen.getController()).initProgressBar(task.progressProperty());
+
+		new Thread(task).start();
 	}
 
 	/**
@@ -186,10 +223,13 @@ public class UIManager {
 		// more scenes are needed
 		switch (sceneType) {
 		case MENU_MAIN:
-			window.setScene(sceneMenuMain.getScene());
+			window.getScene().setRoot(sceneMenuMain.getScene());
 			break;
 		case GAME_PAGE:
-			window.setScene(sceneGamePage.getScene());
+			window.getScene().setRoot(sceneGamePage.getScene());
+			break;
+		case LOADING_SCREEN:
+			window.getScene().setRoot(sceneLoadingScreen.getScene());
 			break;
 		default:
 			// TODO handle if no scene found
@@ -214,12 +254,25 @@ public class UIManager {
 		try {
 
 			Parent root = loader.load();
-			GameScene scene = new GameScene(new Scene(root), GameSceneType.MENU_MAIN, loader.getController());
+			GameScene scene = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 			sceneMenuMain = scene;
-			window.setScene(sceneMenuMain.getScene());
+			switchToScene(GameSceneType.MENU_MAIN);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * Starts a new Game.
+	 */
+	public void startNewGame() {
+		switchToScene(GameSceneType.LOADING_SCREEN);
+		initGame();
+	}
+
+	public void toggleFullscreen() {
+		window.setFullScreen(!window.isFullScreen());
+	}
+
 }
