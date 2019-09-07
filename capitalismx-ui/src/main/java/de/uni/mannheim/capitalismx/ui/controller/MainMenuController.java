@@ -23,12 +23,15 @@ public class MainMenuController implements UpdateableController {
 	@FXML
 	public Button switchButton;
 	
+	@FXML
+	public Button fullscreenButton;
+	
 	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		newGameButton.setOnAction(e -> {
-			Main.getManager().switchToScene(GameSceneType.GAME_PAGE);
+			Main.getManager().startNewGame();
 		});
 		
 		
@@ -36,6 +39,10 @@ public class MainMenuController implements UpdateableController {
 			Main.getManager().reloadProperties();
 		});
 
+		
+		fullscreenButton.setOnAction(e -> {
+			Main.getManager().toggleFullscreen();
+		});
 		
 	}
 
