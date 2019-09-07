@@ -38,7 +38,6 @@ public class Main extends Application {
 		try {
 			
 			manager = new UIManager(primaryStage);
-			manager.init();
 
 			// set Stage boundaries to visible bounds of the main screen TODO
 			// adjust and move somewhere else

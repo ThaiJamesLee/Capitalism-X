@@ -45,7 +45,7 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	            }
 	        	
 	        	nameLabel.setText(employee.getName());
-	        	wageLabel.setText((int)employee.getSalary() + "CC");
+	        	wageLabel.setText((int)employee.getSalary() + " CC");
 	        	skillLabel.setText(employee.getSkillLevel() + "");
 
 	        	setText(null);
