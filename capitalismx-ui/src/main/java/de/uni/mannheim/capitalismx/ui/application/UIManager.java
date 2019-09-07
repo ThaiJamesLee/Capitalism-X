@@ -13,6 +13,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
+import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
@@ -39,18 +40,6 @@ public class UIManager {
 	// Controller for the main scene of the game.
 	private GamePageController gamePageController;
 
-	public GameScene getSceneMenuMain() {
-		return sceneMenuMain;
-	}
-
-	public GameScene getSceneGame() {
-		return sceneGamePage;
-	}
-
-	public GamePageController getGamePageController() {
-		return gamePageController;
-	}
-
 	/**
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
@@ -67,8 +56,36 @@ public class UIManager {
 		window.setScene(new Scene(sceneMenuMain.getScene()));
 	}
 
+	public GamePageController getGamePageController() {
+		return gamePageController;
+	}
+
 	/**
-	 * Inititalizes all components needed for a new Game.
+	 * Get the requested {@link GameView } from the list of views.
+	 * 
+	 * @param viewType The {@link GameViewType} of the view.
+	 * @return The requested {@link GameView} or null, if no view was found.
+	 */
+	public GameView getGameView(GameViewType viewType) {
+		for (GameView view : gameViews) {
+			if (view.getViewType() == viewType) {
+				return view;
+			}
+		}
+		// TODO error handling? Custom Exceptions?
+		return null;
+	}
+
+	public GameScene getSceneGame() {
+		return sceneGamePage;
+	}
+
+	public GameScene getSceneMenuMain() {
+		return sceneMenuMain;
+	}
+
+	/**
+	 * Initializes all components needed for a new Game.
 	 */
 	public void initGame() {
 		// load all the modules and save them in the gameModules-list
@@ -79,6 +96,9 @@ public class UIManager {
 
 	}
 
+	/**
+	 * Initialize the KeyboardControls on the GamePage.
+	 */
 	private void initKeyboardControls() {
 		sceneGamePage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -114,24 +134,7 @@ public class UIManager {
 				}
 
 			}
-
 		});
-	}
-
-	/**
-	 * Get the requested {@link GameView } from the list of views.
-	 * 
-	 * @param viewType The {@link GameViewType} of the view.
-	 * @return The requested {@link GameView} or null, if no view was found.
-	 */
-	public GameView getGameView(GameViewType viewType) {
-		for (GameView view : gameViews) {
-			if (view.getViewType() == viewType) {
-				return view;
-			}
-		}
-		// TODO error handling? Custom Exceptions?
-		return null;
 	}
 
 	/**
@@ -163,13 +166,14 @@ public class UIManager {
 	 * Preloads all the {@link GameModule}s and adds them to the list of modules.
 	 */
 	private void preloadViewsAndModules() {
+		//Create a task to load all the Modules without freezing the GUI
 		Task<Integer> task = new Task<Integer>() {
 
 			@Override
 			protected Integer call() throws Exception {
 				double progress = 0.0;
 				this.updateProgress(0.0, 1.0);
-				int numOfComponents = GameModuleDefinition.values().length * 2;
+				int numOfComponents = GameModuleDefinition.values().length*2;
 
 				try {
 					// init list of GameViews
@@ -189,15 +193,25 @@ public class UIManager {
 								moduleDefinition.gridRowStart, moduleDefinition.gridColSpan,
 								moduleDefinition.gridRowSpan);
 
+						//load root and controller of the module from the fxml
 						Parent root = loader.load();
+						GameModuleController controller = loader.getController();
+						
+						//update the progressbar #1 
 						progress += 1.0 / numOfComponents;
 						this.updateProgress(progress, 1.0);
+						System.out.println(progress);
+
 						// create new GameModule from the type and add it to its view.
-						GameModule module = new GameModule(root, moduleDefinition, position, loader.getController());
+						GameModule module = new GameModule(root, moduleDefinition, position, controller);
 						getGameView(moduleDefinition.viewType).addModule(module);
+
+						//update the progressbar #2
 						progress += 1.0 / numOfComponents;
 						this.updateProgress(progress, 1.0);
+						System.out.println(progress);
 					}
+					//Finally switch to the GamePage
 					Platform.runLater(() -> switchToScene(GameSceneType.GAME_PAGE));
 				} catch (IOException e) {
 					// TODO handle error if module could not be loaded.
@@ -211,30 +225,6 @@ public class UIManager {
 		((LoadingScreenController) sceneLoadingScreen.getController()).initProgressBar(task.progressProperty());
 
 		new Thread(task).start();
-	}
-
-	/**
-	 * Switch to the specified scene.
-	 * 
-	 * @param sceneType The type of the {@link GameScene} to switch to.
-	 */
-	public void switchToScene(GameSceneType sceneType) {
-		// TODO static scene choice at the moment, maybe change that later if
-		// more scenes are needed
-		switch (sceneType) {
-		case MENU_MAIN:
-			window.getScene().setRoot(sceneMenuMain.getScene());
-			break;
-		case GAME_PAGE:
-			window.getScene().setRoot(sceneGamePage.getScene());
-			break;
-		case LOADING_SCREEN:
-			window.getScene().setRoot(sceneLoadingScreen.getScene());
-			break;
-		default:
-			// TODO handle if no scene found
-			break;
-		}
 	}
 
 	/**
@@ -271,6 +261,33 @@ public class UIManager {
 		initGame();
 	}
 
+	/**
+	 * Switch to the specified scene.
+	 * 
+	 * @param sceneType The type of the {@link GameScene} to switch to.
+	 */
+	public void switchToScene(GameSceneType sceneType) {
+		// TODO static scene choice at the moment, maybe change that later if
+		// more scenes are needed
+		switch (sceneType) {
+		case MENU_MAIN:
+			window.getScene().setRoot(sceneMenuMain.getScene());
+			break;
+		case GAME_PAGE:
+			window.getScene().setRoot(sceneGamePage.getScene());
+			break;
+		case LOADING_SCREEN:
+			window.getScene().setRoot(sceneLoadingScreen.getScene());
+			break;
+		default:
+			// TODO handle if no scene found
+			break;
+		}
+	}
+
+	/**
+	 * (De-)activates the FullscreenMode, depending on whether it is active.
+	 */
 	public void toggleFullscreen() {
 		window.setFullScreen(!window.isFullScreen());
 	}
