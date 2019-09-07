@@ -9,7 +9,7 @@
 .senderLabel {
 	-fx-text-fill: -fx-dark;
 	-fx-font-size: 16px;
-    -fx-font-family: "Dosis";
+    -fx-font-family: 'Prime';
     -fx-font-wight: bold;
 }
 
@@ -21,6 +21,6 @@
 
 .messageLabel {
 	-fx-text-fill: -fx-dark;
-    -fx-font-family: "Dosis";
+    -fx-font-family: 'Prime Light';
 }
 

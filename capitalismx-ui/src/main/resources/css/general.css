@@ -10,33 +10,22 @@
 
 /** Define fonts */
 @font-face {
-    font-family: Dosis;
-    src: url('../fonts/Dosis-Regular.ttf');
+    src: url('../fonts/Prime-Regular.ttf');
+}
+@font-face {
+    src: url('../fonts/Prime-Light.ttf');
 }
 
-@font-face {
-    font-family: Dosis-Bold;
-    src: url('../fonts/Dosis-Bold.ttf');
-}
 
 .label {
-	-fx-font-family: "Dosis";
+	-fx-font-family: "Prime";
 }
 
-.h1 {
-	-fx-font-size: 22px;
-	-fx-font-style: bold;
-}
 
-.h2 {
-	-fx-font-size: 18px;
-	-fx-font-style: bold;
+FontAwesomeIcon {
+	-fx-text-fill: -fx-dark; 
+	-fx-fill: -fx-dark; 
 }
-
-.h3 {
-	-fx-font-size: 16px;	
-}
-
 
 .button {
 	-fx-background-color: -fx-light;
@@ -62,8 +51,8 @@
     -fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
     -fx-padding: 15 30 15 30;
-    -fx-font-family: "Dosis-Bold";
-    -fx-font-size: 25px;
+    -fx-font-family: "Prime";
+    -fx-font-size: 28px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333; 
 }
@@ -73,8 +62,8 @@
     -fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
     /*-fx-padding: 15 30 15 30;*/
-    -fx-font-family: "Dosis-Bold";
-    -fx-font-size: 15px;
+    -fx-font-family: "Prime";
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;     
 }
@@ -88,7 +77,7 @@
 	-fx-pref-height: 50px;
 	-fx-background-color: #423f39;
 	-fx-text-fill: white;
-    -fx-font-family: "Dosis-Bold";
+    -fx-font-family: "Prime";
     /*-fx-font-size: 25px;*/
     -fx-font-weight: bold;
 	-fx-border-size: medium;
@@ -105,7 +94,7 @@
 	-fx-pref-height: 50px;
 	-fx-background-color: #423f39;
 	-fx-text-fill: white;
-    -fx-font-family: "Dosis-Bold";
+    -fx-font-family: "Prime";
     /*-fx-font-size: 25px;*/
     -fx-font-weight: bold;
 	-fx-border-size: medium;
@@ -151,7 +140,7 @@
     /*-fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
     /*-fx-padding: 15 30 15 30;*/
-    -fx-font-family: "Dosis";
+    -fx-font-family: "Prime";
     -fx-font-size: 25px;
     -fx-font-weight: bold;
 

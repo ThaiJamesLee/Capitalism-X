@@ -17,7 +17,7 @@
  * Section for reusable module-components.
  */
 .header {
-	-fx-font: bold 22px 'Dosis-Bold';
+	-fx-font: bold 22px 'Prime';
 	-fx-text-fill: -fx-dark;
 }
 
@@ -35,9 +35,15 @@
  * Styling for Listviews.
  */
  
+ 
+.list-label {
+	-fx-font-size: 12px;
+	-fx-font-family: 'Prime';
+ }
+ 
 .list-view {
 	-fx-background-color: none;
-	-fx-border-width : 0;
+	-fx-border-width : 1 0 0 0;
 }
 
 .list-view .scroll-bar:horizontal {
@@ -46,7 +52,6 @@
 
 .list-cell {
 	-fx-background-color: -fx-light;
-	-fx-font: bold 12px 'Dosis';
 	-fx-border-insets: 0 5 0 5;
 	-fx-background-insets: 0 5 0 5;
 	-fx-border-width: 0;

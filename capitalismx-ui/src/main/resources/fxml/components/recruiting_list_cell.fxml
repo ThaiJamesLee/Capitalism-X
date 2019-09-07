@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -21,22 +22,26 @@
   </rowConstraints>
    <children>
       <FontAwesomeIcon iconName="USER" />
-      <Label fx:id="nameLabel" text="Label" GridPane.columnIndex="1">
+      <Label fx:id="nameLabel" styleClass="list-label" text="Label" GridPane.columnIndex="1">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Label>
       <FontAwesomeIcon iconName="MONEY" GridPane.columnIndex="2" />
-      <Label fx:id="wageLabel" text="Label" GridPane.columnIndex="3">
+      <Label fx:id="wageLabel" styleClass="list-label" text="Label" GridPane.columnIndex="3">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Label>
       <FontAwesomeIcon iconName="STAR" GridPane.columnIndex="4" />
-      <Label fx:id="skillLabel" text="Label" GridPane.columnIndex="5">
+      <Label fx:id="skillLabel" styleClass="list-label" text="Label" GridPane.columnIndex="5">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Label>
    </children>
+   <stylesheets>
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/modul.css" />
+   </stylesheets>
 </GridPane>
