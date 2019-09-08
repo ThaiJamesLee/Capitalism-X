@@ -97,7 +97,7 @@ public class HRDepartment implements Serializable {
      */
     private double getOriginalScale() {
         double originalScale = 0;
-        for (Map.Entry<BenefitTypes, Benefit> entry : benefitSettings.getBenefits().entrySet()) {
+        for (Map.Entry<BenefitType, Benefit> entry : benefitSettings.getBenefits().entrySet()) {
             originalScale += entry.getValue().getPoints();
         }
         return originalScale;
@@ -241,9 +241,15 @@ public class HRDepartment implements Serializable {
     }
 
     /* Benefits */
+
+    public void changeBenefitSetting(Benefit benefit) {
+        benefitSettings.getBenefits().put(benefit.getType(), benefit);
+    }
+
     public BenefitSettings getBenefitSettings() {
         return benefitSettings;
     }
+
     public void setBenefitSettings(BenefitSettings benefitSettings) {
         this.benefitSettings = benefitSettings;
     }
