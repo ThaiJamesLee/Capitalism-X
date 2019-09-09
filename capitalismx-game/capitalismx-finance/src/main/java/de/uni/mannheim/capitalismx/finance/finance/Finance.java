@@ -67,6 +67,7 @@ public class Finance implements Serializable {
         this.trucksSold = new ArrayList<>();
         this.machinesSold = new ArrayList<>();
         this.nopatLast5Years = new ArrayList<>();
+        this.bankingSystem = BankingSystem.getInstance();
     }
 
     public static synchronized Finance getInstance() {
@@ -274,7 +275,7 @@ public class Finance implements Serializable {
 
     //TODO update cash and netWorth?
     public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount){
-        if(this.cash == 0){
+        if(this.cash == 0.0){
             return null;
         }
         if(desiredLoanAmount > 0.7 * this.netWorth){
@@ -322,7 +323,7 @@ public class Finance implements Serializable {
         return this.liabilities;
     }
 
-    private double calculateTotalInvestmentAmount(){
+    protected double calculateTotalInvestmentAmount(){
         this.totalInvestmentAmount = 0;
         for(Investment investment : this.investments){
             this.totalInvestmentAmount += investment.getAmount();
@@ -384,5 +385,9 @@ public class Finance implements Serializable {
 
     public double getCash() {
         return this.cash;
+    }
+
+    public List<Investment> getInvestments() {
+        return this.investments;
     }
 }
