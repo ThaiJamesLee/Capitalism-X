@@ -50,24 +50,4 @@ public class CompanyEcoIndexTest {
         Assert.assertEquals(companyEcoIndex.getEcoIndex().getIndex(), CompanyEcoIndex.EcoIndex.MODERATE.getIndex());
     }
 
-    @Test
-    public void generateEngineerSkillLevelTestI () {
-        /*EmployeeGenerator generator = EmployeeGenerator.getInstance();
-
-        for (int i = 101; i < 200; i++) {
-            Assert.assertNull(generator.generateEngineer(i));
-
-        }*/
-    }
-
-    //@Test(expectedExceptions = NoDefinedTierException.class)
-    @Test
-    public void generateEngineerSkillLevelTestII () {
-        /*EmployeeGenerator generator = EmployeeGenerator.getInstance();
-
-        for (int i = -100; i < -1; i++) {
-            Assert.assertNull(generator.generateEngineer(i));
-
-        }*/
-    }
 }
