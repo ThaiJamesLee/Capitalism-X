@@ -22,7 +22,7 @@ public class BankingSystem implements Serializable {
         private double duration;
         private double loanAmount;
 
-        private Loan(double interestRate, double duration, double loanAmount){
+        protected Loan(double interestRate, double duration, double loanAmount){
             this.interestRate = interestRate;
             this.duration = duration;
             this.loanAmount = loanAmount;
@@ -67,15 +67,16 @@ public class BankingSystem implements Serializable {
         this.loan = loan;
     }
 
-    private double calculateAnnualRepayment(){
+    protected double calculateAnnualRepayment(){
         this.annualRepayment = 0;
         if(this.loan != null){
-            this.annualRepayment = this.loan.getLoanAmount() / this.loan.getDuration();
+            double durationYears = Math.ceil(this.loan.getDuration() / 12.0);
+            this.annualRepayment = this.loan.getLoanAmount() / durationYears;
         }
         return this.annualRepayment;
     }
 
-    private double calculateAnnualPrincipalBalance(int year){
+    protected double calculateAnnualPrincipalBalance(int year){
         this.annualPrincipalBalance = 0;
         if(this.loan != null){
             this.annualPrincipalBalance = this.loan.getLoanAmount() - (this.calculateAnnualRepayment()  * year);
@@ -83,10 +84,10 @@ public class BankingSystem implements Serializable {
         return this.annualPrincipalBalance;
     }
 
-    private double calculateAnnualInterestRate(Loan loan, int year){
+    protected double calculateAnnualInterestRate(int year){
         this.annualInterestRate = 0;
         if(this.loan != null){
-            this.annualInterestRate = this.calculateAnnualPrincipalBalance(year) * loan.getInterestRate();
+            this.annualInterestRate = this.calculateAnnualPrincipalBalance(year) * this.loan.getInterestRate();
         }
         return this.annualInterestRate;
     }
@@ -94,7 +95,7 @@ public class BankingSystem implements Serializable {
     private double calculateAnnualLoanRate(int year){
         this.annualLoanRate = 0;
         if(loan != null){
-            this.annualLoanRate = this.calculateAnnualRepayment() + this.calculateAnnualInterestRate(loan, year);
+            this.annualLoanRate = this.calculateAnnualRepayment() + this.calculateAnnualInterestRate(year);
         }
         return this.annualLoanRate;
     }
@@ -103,5 +104,9 @@ public class BankingSystem implements Serializable {
     public double getAnnualPrincipalBalance() {
         //this.calculateAnnualPrincipalBalance()
         return this.annualPrincipalBalance;
+    }
+
+    public Loan getLoan() {
+        return this.loan;
     }
 }
