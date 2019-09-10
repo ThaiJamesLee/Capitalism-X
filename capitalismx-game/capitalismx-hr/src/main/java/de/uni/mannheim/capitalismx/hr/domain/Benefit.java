@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.hr.domain;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -10,35 +11,35 @@ import java.util.List;
  */
 public enum Benefit {
 
-    SALARY_BELOW_AVERAGE (BenefitTypes.SALARY, 0,0, 0, "Salary below average"),
-    SALARY_ON_AVERAGE (BenefitTypes.SALARY, 1, 2, 0, "Salary on average"),
-    SALARY_ABOVE_AVERAGE (BenefitTypes.SALARY,2,4, 0, "Salary above average"),
+    SALARY_0(BenefitType.SALARY, 0,0, 0, "Salary below average"),
+    SALARY_1(BenefitType.SALARY, 1, 2, 0, "Salary on average"),
+    SALARY_2(BenefitType.SALARY,2,4, 0, "Salary above average"),
 
-    WTM_FIXED_MODEL(BenefitTypes.WORKING_TIME_MODEL, 0,0, 0, "Fixed Model"),
-    WTM_FLEXTIME_MODEL(BenefitTypes.WORKING_TIME_MODEL, 1,1, 0, "Flextime Model"),
-    WTM_TB(BenefitTypes.WORKING_TIME_MODEL, 2,2, 0, "Trust-based"),
-    WTM_TB_AND_HO_ONCE_A_WEEK (BenefitTypes.WORKING_TIME_MODEL,3, 3, 0, "Trust-based + Home Office once a week"),
-    WTM_TB_AND_ALWAYS_HO_ALLOWED (BenefitTypes.WORKING_TIME_MODEL, 4,4, 0, "Trust-based + Home Office always allowed"),
+    WTM_0(BenefitType.WORKING_TIME_MODEL, 0,0, 0, "Fixed Model"),
+    WTM_1(BenefitType.WORKING_TIME_MODEL, 1,1, 0, "Flextime Model"),
+    WTM_2(BenefitType.WORKING_TIME_MODEL, 2,2, 0, "Trust-based"),
+    WTM_3(BenefitType.WORKING_TIME_MODEL,3, 3, 0, "Trust-based + Home Office once a week"),
+    WTM_4(BenefitType.WORKING_TIME_MODEL, 4,4, 0, "Trust-based + Home Office always allowed"),
 
-    WT_TEN_HOURS (BenefitTypes.WORKTIME, 0,0, 0, "10 Hours"),
-    WT_EIGHT_HOURS (BenefitTypes.WORKTIME, 1,3, 0, "8 Hours"),
-    WT_SIX_HOURS (BenefitTypes.WORKTIME, 2,5, -1000, "6 Hours"),
+    WORK_TIME_0(BenefitType.WORKTIME, 0,0, 0, "10 Hours"),
+    WORK_TIME_1(BenefitType.WORKTIME, 1,3, 0, "8 Hours"),
+    WORK_TIME_2(BenefitType.WORKTIME, 2,5, -1000, "6 Hours"),
 
-    CC_NOT_OFFERED (BenefitTypes.COMPANY_CAR, 0,0, 0, "Not offered"),
-    CC_MEDIUM_SIZE (BenefitTypes.COMPANY_CAR, 1,2, -300, "Medium Size"),
-    CC_FULL_SIZE (BenefitTypes.COMPANY_CAR, 2,4, -600, "Full Size"),
+    COMPANY_CAR_0(BenefitType.COMPANY_CAR, 0,0, 0, "Not offered"),
+    COMPANY_CAR_1(BenefitType.COMPANY_CAR, 1,2, -300, "Medium Size"),
+    COMPANY_CAR_2(BenefitType.COMPANY_CAR, 2,5, -600, "Full Size"),
 
-    IT_AVERAGE (BenefitTypes.IT_EQUIPMENT, 0,0, 0, "Average IT Equipment"),
-    IT_HIGH_END (BenefitTypes.IT_EQUIPMENT, 1,2, -50, "High-End IT Equipment"),
+    IT_EQUIPMENT_0(BenefitType.IT_EQUIPMENT, 0,0, 0, "Average IT Equipment"),
+    IT_EQUIPMENT_1(BenefitType.IT_EQUIPMENT, 1,2, -50, "High-End IT Equipment"),
 
-    FOOD_AND_COFFEE_FREE (BenefitTypes.FOOD_AND_COFFEE, 0,4, -100, "Employee Payment"),
-    FOOD_AND_COFFEE_NOT_FREE (BenefitTypes.IT_EQUIPMENT, 1,0, 0, "Offered for free"),
+    FOOD_AND_COFFEE_1(BenefitType.FOOD_AND_COFFEE, 1,4, -100, "Employee Payment"),
+    FOOD_AND_COFFEE_0(BenefitType.FOOD_AND_COFFEE, 0,0, 0, "Offered for free"),
 
-    GYM_NOT_OFFERED (BenefitTypes.GYM_AND_SPORTS, 0,0, 0, "Not offered"),
-    GYM_SUBSIDIZED (BenefitTypes.GYM_AND_SPORTS, 1,2, -40, "Subsidized"),
-    GYM_FREE (BenefitTypes.GYM_AND_SPORTS, 2,4, -100, "Offered for free");
+    GYM_AND_SPORTS_0(BenefitType.GYM_AND_SPORTS, 0,0, 0, "Not offered"),
+    GYM_AND_SPORTS_1(BenefitType.GYM_AND_SPORTS, 1,2, -40, "Subsidized"),
+    GYM_AND_SPORTS_2(BenefitType.GYM_AND_SPORTS, 2,4, -100, "Offered for free");
 
-    private BenefitTypes type;
+    private BenefitType type;
     private int points;
     private int monetaryImpact;
 
@@ -54,7 +55,7 @@ public enum Benefit {
      * @param monetaryImpact cost for company when enabling this benefit
      * @param name name of the benefit as a string
      */
-    Benefit(BenefitTypes type, int tier, int points, int monetaryImpact, String name) {
+    Benefit(BenefitType type, int tier, int points, int monetaryImpact, String name) {
         this.type = type;
         this.points = points;
         this.monetaryImpact = monetaryImpact;
@@ -72,12 +73,39 @@ public enum Benefit {
 
     public int getTier() { return tier; }
 
-    public BenefitTypes getType() {
+    public BenefitType getType() {
         return type;
     }
 
     public String getName() {
         return name;
+    }
+
+    /**
+     *
+     * @param benefitType The benefit type of interest.
+     * @return Returns the benefit with the specified benefit type that has the highest tier.
+     */
+    public static Benefit getMaxTierBenefitByType(BenefitType benefitType) {
+        Benefit[] benefits = Benefit.values();
+
+        List<Benefit> benefitList = new ArrayList<>();
+
+
+        for(Benefit b : benefits) {
+            if(b.getType().equals(benefitType)) {
+                benefitList.add(b);
+            }
+        }
+        /* Sort benefit list by tier in descending order. */
+        benefitList.sort(new Comparator<Benefit>() {
+            @Override
+            public int compare(Benefit o1, Benefit o2) {
+                return (o1.getTier() > o2.getTier()) ? -1 : (o1.getTier() == o2.getTier())? 0 : 1;
+            }
+        });
+
+        return benefitList.get(0);
     }
 
     /**
@@ -91,9 +119,9 @@ public enum Benefit {
         Benefit[] benefits = Benefit.values();
 
         List<Benefit> cache = new ArrayList<>();
-        BenefitTypes[] types = BenefitTypes.values();
+        BenefitType[] types = BenefitType.values();
 
-        for (BenefitTypes t : types) {
+        for (BenefitType t : types) {
             Benefit maxB = null;
             for (Benefit b : benefits) {
                 if (b.type.equals(t)){
@@ -114,5 +142,4 @@ public enum Benefit {
         }
         return score;
     }
-
 }
