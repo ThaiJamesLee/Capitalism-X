@@ -389,10 +389,10 @@ public class Production implements Serializable {
         return this.averageProductBaseQuality / this.numberProducedProducts.size();
     }
 
-    public void updateComponentBaseCosts() {
+    public void updateComponentBaseCosts(LocalDate gameDate) {
         for(Map.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             for(Component component : entry.getKey().getComponents()) {
-                component.calculateBaseCost();
+                component.calculateBaseCost(gameDate);
             }
         }
     }
@@ -417,7 +417,7 @@ public class Production implements Serializable {
 
     public void calculateAll(LocalDate gameDate) {
         this.getAllAvailableComponents(gameDate);
-        this.updateComponentBaseCosts();
+        this.updateComponentBaseCosts(gameDate);
         this.depreciateProductInvestment(gameDate);
         this.depreciateMachinery(false, gameDate);
         this.calculateMachineryResellPrices();
