@@ -16,6 +16,7 @@ public class ProductSupport implements Serializable {
     private double totalSupportCosts;
 
     public enum SupportType implements Serializable{
+        //TODO change 0 supportTypeQuality
         NO_PRODUCT_SUPPORT(-10, 0),
         ONLINE_SELF_SERVICE(0, 50),
         ONLINE_SUPPORT(20, 100),
@@ -51,7 +52,7 @@ public class ProductSupport implements Serializable {
 
         private ExternalSupportPartner(int contractualCosts, int qualityIndex){
             this.contractualCosts = contractualCosts;
-            this.contractualCosts = qualityIndex;
+            this.qualityIndex = qualityIndex;
         }
 
         public int getContractualCosts() {
@@ -121,11 +122,12 @@ public class ProductSupport implements Serializable {
         this.externalSupportPartner = externalSupportPartner;
     }
 
+    //TODO remove support types
     public void removeExternalSupportPartner(){
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;
     }
 
-    private double calculateTotalSupportTypeQuality(){
+    protected double calculateTotalSupportTypeQuality(){
         this.totalSupportTypeQuality = 0;
         for(SupportType supportType : supportTypes){
             this.totalSupportTypeQuality += supportType.getSupportTypeQuality();
@@ -133,7 +135,7 @@ public class ProductSupport implements Serializable {
         return this.totalSupportTypeQuality;
     }
 
-    private double calculateTotalSupportQuality(){
+    protected double calculateTotalSupportQuality(){
         if(this.externalSupportPartner.getQualityIndex() <= 50){
             this.totalSupportQuality = 0.4 * this.externalSupportPartner.getQualityIndex() + 0.6 * this.calculateTotalSupportTypeQuality();
         }else{
@@ -142,7 +144,7 @@ public class ProductSupport implements Serializable {
         return this.totalSupportQuality;
     }
 
-    private double calculateTotalSupportCosts(){
+    protected double calculateTotalSupportCosts(){
         totalSupportCosts = 0;
         for(SupportType supportType : supportTypes){
             this.totalSupportCosts += supportType.getCostsSupportType();
