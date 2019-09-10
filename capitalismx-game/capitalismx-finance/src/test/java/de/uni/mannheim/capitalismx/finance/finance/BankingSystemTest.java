@@ -11,14 +11,14 @@ public class BankingSystemTest {
 
     @Test
     public void generateLoanSelectionTest () {
-        BankingSystem bankingSystem = BankingSystem.getInstance();
+        BankingSystem bankingSystem = new BankingSystem();
 
         Assert.assertEquals(bankingSystem.generateLoanSelection(100).size(), 3);
     }
 
     @Test
     public void addLoanTest () {
-        BankingSystem bankingSystem = BankingSystem.getInstance();
+        BankingSystem bankingSystem = new BankingSystem();
 
         Assert.assertNull(bankingSystem.getLoan());
         bankingSystem.addLoan(bankingSystem.generateLoanSelection(100).get(0));
@@ -28,7 +28,7 @@ public class BankingSystemTest {
 
     @Test
     public void calculateAnnualRepaymentTest () {
-        BankingSystem bankingSystem = BankingSystem.getInstance();
+        BankingSystem bankingSystem = new BankingSystem();
 
         Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 0.0);
 
@@ -44,7 +44,7 @@ public class BankingSystemTest {
 
     @Test
     public void calculateAnnualPrincipalBalanceTest () {
-        BankingSystem bankingSystem = BankingSystem.getInstance();
+        BankingSystem bankingSystem = new BankingSystem();
 
         Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(1), 0.0);
 
@@ -57,7 +57,7 @@ public class BankingSystemTest {
 
     @Test
     public void calculateAnnualInterestRateTest () {
-        BankingSystem bankingSystem = BankingSystem.getInstance();
+        BankingSystem bankingSystem = new BankingSystem();
 
         Assert.assertEquals(bankingSystem.calculateAnnualInterestRate(1), 0.0);
 

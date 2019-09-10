@@ -41,7 +41,7 @@ public class BankingSystem implements Serializable {
         }
     }
 
-    private BankingSystem(){
+    protected BankingSystem(){
 
     }
 
