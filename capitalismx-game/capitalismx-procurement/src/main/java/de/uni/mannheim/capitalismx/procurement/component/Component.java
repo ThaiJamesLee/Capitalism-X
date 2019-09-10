@@ -8,7 +8,7 @@ public enum Component implements Serializable {
     N_CPU_LEVEL_1 (ComponentCategory.N_CPU,"Pentium Processor",1,550, 30, 1990),
     N_CPU_LEVEL_2 (ComponentCategory.N_CPU,"Pentium Pro",2,710, 50, 1995),
     N_CPU_LEVEL_3 (ComponentCategory.N_CPU,"Pentium II",3,570, 60, 1997),
-    N_CPU_LEVEL_4 (ComponentCategory.N_CPU,"Pentium III",4,430, 80, 200),
+    N_CPU_LEVEL_4 (ComponentCategory.N_CPU,"Pentium III",4,430, 80, 2000),
     N_CPU_LEVEL_5 (ComponentCategory.N_CPU,"Pentium IV",5,610, 100, 2002),
     N_CPU_LEVEL_6 (ComponentCategory.N_CPU,"Pentium M",6,680, 120, 2005),
     N_CPU_LEVEL_7 (ComponentCategory.N_CPU,"Pentium Core",7,435, 150, 2008),

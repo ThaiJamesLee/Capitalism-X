@@ -18,18 +18,19 @@ public class Machinery implements Serializable {
     private int usefulLife;
     private LocalDate purchaseDate;
 
-    public Machinery() {
+    public Machinery(LocalDate gameDate) {
         this.productionTechnology = ProductionTechnology.BRANDNEW;
         this.machineryPrice = 100000;
         this.levelPerPrice = 20000;
         // TODO fragen ob usefullife nach jedem jahr um 1 runtergezaehlt werden soll
         this.usefulLife = 20;
         this.machineryCapacity = 500;
-        // TODO this.lastInvestmentDate = gameDate
+        this.lastInvestmentDate = gameDate;
+        this.yearsSinceLastInvestment = 0;
     }
 
     public boolean depreciateMachinery(boolean naturalDisaster, LocalDate gameDate) {
-        boolean yearIncrease = Period.between(this.lastInvestmentDate, gameDate).getYears() - this.yearsSinceLastInvestment > 1;
+        boolean yearIncrease = Period.between(this.lastInvestmentDate, gameDate).getYears() - this.yearsSinceLastInvestment > 0;
         this.yearsSinceLastInvestment = Period.between(this.lastInvestmentDate, gameDate).getYears();
         if(naturalDisaster) {
             switch(this.productionTechnology) {

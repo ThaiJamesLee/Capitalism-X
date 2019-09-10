@@ -6,19 +6,19 @@ import java.time.Period;
 
 public class ProductionInvestment implements Serializable {
 
+    private ProductionInvestmentLevel productionInvestmentLevel;
+    private LocalDate lastInvestmentDate;
+    private String name;
+
     ProductionInvestment(String name) {
         this.name = name;
         this.lastInvestmentDate = LocalDate.of(1990, 1, 1);
         this.productionInvestmentLevel = ProductionInvestmentLevel.NO_INVESTMENT;
     }
 
-    private ProductionInvestmentLevel productionInvestmentLevel;
-    private LocalDate lastInvestmentDate;
-    private String name;
-
     /* level of investment; 5k, 10k, 15k, 20k respectively for the levels*/
     public ProductionInvestment invest(int level, LocalDate gameDate) {
-        /* placeholder */
+        /* TODO placeholder */
         int numberProductionEngineersTrained = 5;
         if(this.name.equals("Process Automation") && numberProductionEngineersTrained >= level || !this.name.equals("ProcessAutomation")) {
             switch(level) {
@@ -48,7 +48,7 @@ public class ProductionInvestment implements Serializable {
        rather use - 2 for 1 year, -3 for 2 years, -4 for 5 years
      */
     public ProductionInvestment updateInvestment(LocalDate gameDate) {
-        int yearsSinceLastInvestment = Period.between(gameDate, this.lastInvestmentDate).getYears();
+        int yearsSinceLastInvestment = Period.between(this.lastInvestmentDate, gameDate).getYears();
         if(yearsSinceLastInvestment == 1) {
             switch(this.productionInvestmentLevel.getLevel()) {
                 case 5:
@@ -67,7 +67,7 @@ public class ProductionInvestment implements Serializable {
             } else {
                     this.productionInvestmentLevel = ProductionInvestmentLevel.NO_INVESTMENT;
             }
-        } else if(yearsSinceLastInvestment > 5) {
+        } else if(yearsSinceLastInvestment >= 5) {
             this.productionInvestmentLevel = ProductionInvestmentLevel.NO_INVESTMENT;
         }
         return this;
