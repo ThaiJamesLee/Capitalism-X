@@ -54,7 +54,7 @@ public class CompanyEcoIndex implements Serializable {
         }
     }
 
-    private CompanyEcoIndex(){
+    protected CompanyEcoIndex(){
         //TODO determine initial values
         this.ecoIndex = EcoIndex.GOOD;
         this.ecoIndex.setPoints(100);

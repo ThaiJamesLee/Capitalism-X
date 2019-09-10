@@ -11,7 +11,7 @@ public class CompanyEcoIndexTest {
 
     @Test
     public void calculateAllTest () {
-        CompanyEcoIndex companyEcoIndex = CompanyEcoIndex.getInstance();
+        CompanyEcoIndex companyEcoIndex = new CompanyEcoIndex();
 
         companyEcoIndex.calculateAll();
     }
@@ -19,7 +19,7 @@ public class CompanyEcoIndexTest {
     //@Test(dependsOnMethods = "calculateAllTest")
     @Test
     public void decreaseEcoIndexTest () {
-        CompanyEcoIndex companyEcoIndex = CompanyEcoIndex.getInstance();
+        CompanyEcoIndex companyEcoIndex = new CompanyEcoIndex();
         companyEcoIndex.calculateAll();
 
         companyEcoIndex.decreaseEcoIndex(10);
@@ -37,7 +37,7 @@ public class CompanyEcoIndexTest {
 
     @Test
     public void increaseEcoIndexTest () {
-        CompanyEcoIndex companyEcoIndex = CompanyEcoIndex.getInstance();
+        CompanyEcoIndex companyEcoIndex = new CompanyEcoIndex();
         companyEcoIndex.calculateAll();
 
         companyEcoIndex.increaseEcoIndex(10);
