@@ -75,7 +75,7 @@ public class EmployeeListController extends GameModuleController {
 				});
 
 		employeeListObservable = FXCollections.observableArrayList();
-		EmployeeGenerator generator = new EmployeeGenerator();
+		EmployeeGenerator generator = EmployeeGenerator.getInstance();
 		for (int i = 0; i < 10; i++) {
 			Employee employee = generator.generateEngineer((int) (Math.random() * 100));
 			employeeListObservable.add(new EmployeeTree("Engineer", employee.getName(),
