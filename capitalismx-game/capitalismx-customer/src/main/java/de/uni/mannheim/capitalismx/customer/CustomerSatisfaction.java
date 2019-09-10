@@ -52,8 +52,8 @@ public class CustomerSatisfaction implements Serializable {
             }
         }
         /* placeholder until we have competitors */
-        double martketProductUtility = highestProductQuality;
-        double proxyQuality = Math.max(highestProductQuality, martketProductUtility);
+        double marketProductUtility = highestProductQuality;
+        double proxyQuality = Math.max(highestProductQuality, marketProductUtility);
         for(Product product : this.products) {
             productAppeal.put(product, product.getTotalProductQuality() / proxyQuality);
         }
