@@ -39,7 +39,7 @@ public class EmployeeGenerator {
 
         double salary = 0;
         Employee employee = null;
-
+       
         try {
             salary = SalaryGenerator.getInstance().getSalary(skillLevel);
             NameGenerator ng = NameGenerator.getInstance();
