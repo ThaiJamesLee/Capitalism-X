@@ -64,7 +64,7 @@ public class ProductSupport implements Serializable {
         }
     }
 
-    private ProductSupport(){
+    protected ProductSupport(){
         this.supportTypes = new ArrayList<SupportType>();
         this.supportTypes.add(SupportType.NO_PRODUCT_SUPPORT);
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;

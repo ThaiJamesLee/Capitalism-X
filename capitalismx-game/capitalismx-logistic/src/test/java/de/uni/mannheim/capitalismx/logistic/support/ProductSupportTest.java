@@ -12,14 +12,14 @@ public class ProductSupportTest {
 
     @Test
     public void generateSupportTypeSelectionTest() {
-        ProductSupport productSupport = ProductSupport.getInstance();
+        ProductSupport productSupport = new ProductSupport();
 
         Assert.assertEquals(productSupport.generateSupportTypeSelection().size(), 5);
     }
 
     @Test
     public void addSupportTest() {
-        ProductSupport productSupport = ProductSupport.getInstance();
+        ProductSupport productSupport = new ProductSupport();
 
         productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
         Assert.assertEquals(productSupport.getSupportTypes().size(), 1);
@@ -38,14 +38,14 @@ public class ProductSupportTest {
 
     @Test
     public void generateExternalSupportPartnerSelectionTest() {
-        ProductSupport productSupport = ProductSupport.getInstance();
+        ProductSupport productSupport = new ProductSupport();
 
         Assert.assertEquals(productSupport.generateExternalSupportPartnerSelection().size(), 2);
     }
 
     @Test
     public void calculateTotalSupportTypeQualityTest() {
-        ProductSupport productSupport = ProductSupport.getInstance();
+        ProductSupport productSupport = new ProductSupport();
 
         Assert.assertEquals(productSupport.calculateTotalSupportTypeQuality(), -10.0);
 
@@ -60,7 +60,7 @@ public class ProductSupportTest {
 
     @Test
     public void calculateTotalSupportQualityTest() {
-        ProductSupport productSupport = ProductSupport.getInstance();
+        ProductSupport productSupport = new ProductSupport();
 
         Assert.assertEquals(productSupport.calculateTotalSupportQuality(), -6.0);
 
@@ -76,7 +76,7 @@ public class ProductSupportTest {
 
     @Test
     public void calculateTotalSupportCostsTest() {
-        ProductSupport productSupport = ProductSupport.getInstance();
+        ProductSupport productSupport = new ProductSupport();
 
         Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 0.0);
 

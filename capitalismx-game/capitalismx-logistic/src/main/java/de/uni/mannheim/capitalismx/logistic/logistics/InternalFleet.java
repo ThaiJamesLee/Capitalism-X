@@ -21,7 +21,7 @@ public class InternalFleet implements Serializable {
 
     private ArrayList<Truck> trucks;
 
-    private InternalFleet(){
+    protected InternalFleet(){
         this.trucks = new ArrayList<Truck>();
         this.variableCostsDelivery = 2;
         this.calculateAll();

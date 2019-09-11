@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.production.Product;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,8 +52,8 @@ public class CustomerSatisfaction implements Serializable {
             }
         }
         /* placeholder until we have competitors */
-        double martketProductUtility = highestProductQuality;
-        double proxyQuality = Math.max(highestProductQuality, martketProductUtility);
+        double marketProductUtility = highestProductQuality;
+        double proxyQuality = Math.max(highestProductQuality, marketProductUtility);
         for(Product product : this.products) {
             productAppeal.put(product, product.getTotalProductQuality() / proxyQuality);
         }
@@ -60,12 +61,12 @@ public class CustomerSatisfaction implements Serializable {
         return this.productAppeal;
     }
 
-    private Map<Product, Double> calculatePriceAppeal() {
+    private Map<Product, Double> calculatePriceAppeal(LocalDate gameDate) {
         Map<Product, Double> priceAppeal = new HashMap<>();
         for(Product product : this.products) {
             double proxyPrice = 0;
             for(Component component : product.getComponents()) {
-                proxyPrice += component.calculateBaseCost();
+                proxyPrice += component.calculateBaseCost(gameDate);
             }
             priceAppeal.put(product, proxyPrice / product.getSalesPrice());
         }
@@ -73,10 +74,10 @@ public class CustomerSatisfaction implements Serializable {
         return this.priceAppeal;
     }
 
-    public Map<Product, Double> calculateOverallAppeal() {
+    public Map<Product, Double> calculateOverallAppeal(LocalDate gameDate) {
         Map<Product, Double> overallAppeal = new HashMap<>();
         Map<Product, Double> productAppealMap = calculateProductAppeal();
-        Map<Product, Double> priceAppealMap = calculatePriceAppeal();
+        Map<Product, Double> priceAppealMap = calculatePriceAppeal(gameDate);
         for(Product product : this.products) {
             overallAppeal.put(product, productAppealMap.get(product) * priceAppealMap.get(product));
         }
@@ -84,9 +85,9 @@ public class CustomerSatisfaction implements Serializable {
         return this.overallAppeal;
     }
 
-    private double calculateAverageOverallAppeal() {
+    private double calculateAverageOverallAppeal(LocalDate gameDate) {
         double aggregatedOverallAppeal = 0;
-        Map<Product, Double> overallAppealMap = calculateOverallAppeal();
+        Map<Product, Double> overallAppealMap = calculateOverallAppeal(gameDate);
         for(Map.Entry<Product, Double> entry : overallAppealMap.entrySet()) {
             aggregatedOverallAppeal += entry.getValue();
         }
@@ -94,13 +95,13 @@ public class CustomerSatisfaction implements Serializable {
         return this.averageOverallAppeal;
     }
 
-    public double calculateCustomerSatisfactionOverallAppeal() {
-        this.customerSatisfactionOverallAppeal = Math.tanh(this.calculateAverageOverallAppeal() * 0.7) * 100;
+    public double calculateCustomerSatisfactionOverallAppeal(LocalDate gameDate) {
+        this.customerSatisfactionOverallAppeal = Math.tanh(this.calculateAverageOverallAppeal(gameDate) * 0.7) * 100;
         return this.customerSatisfactionOverallAppeal;
     }
 
-    public double calculateCustomerSatisfaction() {
-        this.customerSatisfaction = Math.tanh(0.5 * calculateCustomerSatisfactionOverallAppeal() + 0.2 * this.totalSupportQuality + 0.1 * this.logisticIndex +
+    public double calculateCustomerSatisfaction(LocalDate gameDate) {
+        this.customerSatisfaction = Math.tanh(0.5 * calculateCustomerSatisfactionOverallAppeal(gameDate) + 0.2 * this.totalSupportQuality + 0.1 * this.logisticIndex +
                 0.15 * this.companyImage + 0.05 * employerBranding);
         return this.customerSatisfaction;
     }

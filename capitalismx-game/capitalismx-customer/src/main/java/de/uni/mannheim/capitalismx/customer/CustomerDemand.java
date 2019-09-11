@@ -39,19 +39,19 @@ public class CustomerDemand implements Serializable {
         return CustomerDemand.instance;
     }
 
-    public Map<Product, Double> calculateProductOverallAppeal() {
+    public Map<Product, Double> calculateProductOverallAppeal(LocalDate gameDate) {
         Map<Product, Double> productOverallAppeal = new HashMap<>();
-        for(Map.Entry<Product, Double> entry : CustomerSatisfaction.getInstance().calculateOverallAppeal().entrySet()) {
-            productOverallAppeal.put(entry.getKey(), entry.getValue() * (0.4 * CustomerSatisfaction.getInstance().calculateCustomerSatisfaction() + 0.8));
+        for(Map.Entry<Product, Double> entry : CustomerSatisfaction.getInstance().calculateOverallAppeal(gameDate).entrySet()) {
+            productOverallAppeal.put(entry.getKey(), entry.getValue() * (0.4 * CustomerSatisfaction.getInstance().calculateCustomerSatisfaction(gameDate) + 0.8));
         }
         this.productCustomerSatisfactionOverallAppeal = productOverallAppeal;
         return this.productCustomerSatisfactionOverallAppeal;
     }
 
-    public Map<Product, Double> calculateOverallAppealDemand(double totalSalesQualityOfWork) {
+    public Map<Product, Double> calculateOverallAppealDemand(double totalSalesQualityOfWork, LocalDate gameDate) {
         this.totalSalesQualityOfWork = totalSalesQualityOfWork;
         Map<Product, Double> overallAppealDemand = new HashMap<>();
-        Map<Product, Double> productOverallAppeal = this.calculateProductOverallAppeal();
+        Map<Product, Double> productOverallAppeal = this.calculateProductOverallAppeal(gameDate);
         for(Map.Entry<Product, Double> entry : productOverallAppeal.entrySet()) {
             overallAppealDemand.put(entry.getKey(), entry.getValue() * (0.9 + 0.2 * Math.pow(Math.E, Math.log(totalSalesQualityOfWork)/10)));
         }

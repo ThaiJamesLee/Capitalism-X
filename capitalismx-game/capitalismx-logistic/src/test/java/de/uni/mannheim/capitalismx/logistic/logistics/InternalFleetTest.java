@@ -14,7 +14,7 @@ public class InternalFleetTest {
 
     @Test
     public void calculateCapacityFleetTest() {
-        InternalFleet internalFleet = InternalFleet.getInstance();
+        InternalFleet internalFleet = new InternalFleet();
 
         Assert.assertEquals(internalFleet.calculateCapacityFleet(), 0);
 
@@ -30,7 +30,7 @@ public class InternalFleetTest {
 
     @Test
     public void calculateEcoIndexFleetTest() {
-        InternalFleet internalFleet = InternalFleet.getInstance();
+        InternalFleet internalFleet = new InternalFleet();
 
         Assert.assertEquals(internalFleet.calculateEcoIndexFleet(), 0.0);
 
@@ -43,7 +43,7 @@ public class InternalFleetTest {
 
     @Test
     public void calculateQualityIndexFleet() {
-        InternalFleet internalFleet = InternalFleet.getInstance();
+        InternalFleet internalFleet = new InternalFleet();
 
         Assert.assertEquals(internalFleet.calculateQualityIndexFleet(), 0.0);
 

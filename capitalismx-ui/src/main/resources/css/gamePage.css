@@ -1,0 +1,9 @@
+.background {
+	-fx-background-color: -fx-light;
+}
+
+
+.overlayPane {	
+	-fx-background-color: -fx-transparent-background;
+	-fx-padding: 50;
+}

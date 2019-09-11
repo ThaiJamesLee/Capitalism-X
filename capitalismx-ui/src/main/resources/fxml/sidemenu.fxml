@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane stylesheets="@../css/sideMenu.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.SideMenuController">
+   <children>
+      <VBox spacing="10.0" styleClass="sidemenu_color" stylesheets="@../css/general.css">
+         <children>
+            <StackPane fx:id="iconMEss">
+               <children>
+                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                  <Button fx:id="btnOverall" mnemonicParsing="false" styleClass="departmentButton">
+                     <graphic>
+                        <ImageView fx:id="iconOverall" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/home.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane>
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                  <Button fx:id="btnFinance" mnemonicParsing="false" styleClass="departmentButton">
+                     <graphic>
+                        <ImageView fx:id="iconFinance" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/money.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane>
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                  <Button fx:id="btnHR" mnemonicParsing="false" styleClass="departmentButton">
+                     <graphic>
+                        <ImageView fx:id="iconHR" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/users.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane>
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                  <Button fx:id="btnProcurement" mnemonicParsing="false" styleClass="departmentButton">
+                     <graphic>
+                        <ImageView fx:id="iconProcurement" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/shopping-cart.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane>
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                  <Button fx:id="btnProduction" mnemonicParsing="false" styleClass="departmentButton">
+                     <graphic>
+                        <ImageView fx:id="iconProduction" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/settings.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane>
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                  <Button fx:id="btnMarketing" mnemonicParsing="false" styleClass="departmentButton">
+                     <graphic>
+                        <ImageView fx:id="iconMarketing" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/presentation.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane>
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                  <Button fx:id="btnWarehouse" mnemonicParsing="false" styleClass="departmentButton">
+                     <graphic>
+                        <ImageView fx:id="iconWarehouse" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/layers.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+            <StackPane>
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                  <Button fx:id="btnLogistics" mnemonicParsing="false" styleClass="departmentButton">
+                     <graphic>
+                        <ImageView fx:id="iconLogistics" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/planet-earth.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+            <VBox spacing="10.0">
+               <children>
+                  <StackPane>
+                     <children>
+                        <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                        <Button fx:id="btnSkip" mnemonicParsing="false" styleClass="departmentButton">
+                           <graphic>
+                              <ImageView fx:id="iconSkip" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/next.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </StackPane>
+                  <StackPane>
+                     <children>
+                        <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                        <ToggleButton fx:id="btnForward" mnemonicParsing="false">
+                           <graphic>
+                              <ImageView fx:id="iconForward" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="button_toggle">
+                                 <image>
+                                    <Image url="@../icons/fast-forward.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="togglebutton" />
+                              <String fx:value="departmentButton" />
+                           </styleClass>
+                        </ToggleButton>
+                     </children>
+                  </StackPane>
+                  <StackPane>
+                     <children>
+                        <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                        <Button fx:id="btnPlayPause" mnemonicParsing="false" styleClass="departmentButton">
+                           <graphic>
+                              <ImageView fx:id="iconPlayPause" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/pause.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </StackPane>
+                  <StackPane>
+                     <children>
+                        <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
+                        <Label fx:id="timeLabel" styleClass="date_label" stylesheets="@../css/general.css" text="Jan 01.  &#10;1993">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </children>
+               <padding>
+                  <Insets top="40.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="20.0" />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

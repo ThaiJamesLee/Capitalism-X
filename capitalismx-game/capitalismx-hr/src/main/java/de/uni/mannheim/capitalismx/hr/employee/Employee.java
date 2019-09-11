@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.utils.data.LocationData;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
@@ -30,7 +31,7 @@ public abstract class Employee implements Person, Serializable {
     private String position;
 
     private String eMail;
-
+    private EmployeeType employeeType;
     private LocationData locationData;
 
     private List<Training> trainingsList;
@@ -105,6 +106,10 @@ public abstract class Employee implements Person, Serializable {
         this.trainingsList = trainingsList;
     }
 
+    public void setEmployeeType(EmployeeType employeeType) {
+        this.employeeType = employeeType;
+    }
+
     public LocationData getLocationData() {
         return locationData;
     }
@@ -147,4 +152,11 @@ public abstract class Employee implements Person, Serializable {
     public List<Training> getTrainingsList() {
         return trainingsList;
     }
+
+    public EmployeeType getEmployeeType() {
+        return employeeType;
+    }
+
+    @Override
+    public String toString() { return getName() + "; " + getPosition(); }
 }
