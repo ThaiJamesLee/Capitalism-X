@@ -53,7 +53,9 @@ public class Product implements Serializable {
         for(Component c : components) {
             this.totalProcurementQuality += (0.4 * c.getSupplierEcoIndex() + 0.6 * c.getSupplierQuality()) * c.getBaseUtility();
         }
-        return this.totalProcurementQuality / this.components.size();
+        this.totalProcurementQuality = this.totalProcurementQuality / this.components.size();
+        return this.totalProcurementQuality;
+        // return this.totalProcurementQuality / this.components.size();
     }
 
     public double calculateTotalProductQuality(double productionTechnologyFactor, double totalEngineerProductivity, double researchAndDevelopmentFactor) {

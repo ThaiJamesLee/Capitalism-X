@@ -44,26 +44,30 @@ public class InternalFleet implements Serializable {
         this.calculateTotalTruckCost();
     }
 
-    private double calculateCapacityFleet(){
+    protected int calculateCapacityFleet(){
         this.capacityFleet = (int)((1000 * trucks.size()) * (1 - this.decreaseCapacityFactor));
         return this.capacityFleet;
     }
 
-    private double calculateEcoIndexFleet(){
+    protected double calculateEcoIndexFleet(){
         double ecoIndexSum = 0;
         for(Truck t:trucks){
             ecoIndexSum += t.getEcoIndex();
         }
-        this.ecoIndexFleet = ecoIndexSum / trucks.size();
+        if(trucks.size() > 0){
+            this.ecoIndexFleet = ecoIndexSum / trucks.size();
+        }
         return this.ecoIndexFleet;
     }
 
-    private double calculateQualityIndexFleet(){
+    protected double calculateQualityIndexFleet(){
         double qualityIndexSum = 0;
         for(Truck t:trucks){
             qualityIndexSum += t.getQualityIndex();
         }
-        this.qualityIndexFleet = qualityIndexSum / trucks.size();
+        if(trucks.size() > 0) {
+            this.qualityIndexFleet = qualityIndexSum / trucks.size();
+        }
         return this.qualityIndexFleet;
     }
 
@@ -77,7 +81,9 @@ public class InternalFleet implements Serializable {
         for(Truck t:trucks){
             fixCostsDeliverySum += t.getFixCostsDelivery();
         }
-        this.fixCostsDelivery = fixCostsDeliverySum / trucks.size();
+        if(trucks.size() > 0) {
+            this.fixCostsDelivery = fixCostsDeliverySum / trucks.size();
+        }
         return this.fixCostsDelivery;
     }
 

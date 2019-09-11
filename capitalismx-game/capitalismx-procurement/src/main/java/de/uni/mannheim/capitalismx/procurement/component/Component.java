@@ -1,13 +1,14 @@
 package de.uni.mannheim.capitalismx.procurement.component;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public enum Component implements Serializable {
 
     N_CPU_LEVEL_1 (ComponentCategory.N_CPU,"Pentium Processor",1,550, 30, 1990),
     N_CPU_LEVEL_2 (ComponentCategory.N_CPU,"Pentium Pro",2,710, 50, 1995),
     N_CPU_LEVEL_3 (ComponentCategory.N_CPU,"Pentium II",3,570, 60, 1997),
-    N_CPU_LEVEL_4 (ComponentCategory.N_CPU,"Pentium III",4,430, 80, 200),
+    N_CPU_LEVEL_4 (ComponentCategory.N_CPU,"Pentium III",4,430, 80, 2000),
     N_CPU_LEVEL_5 (ComponentCategory.N_CPU,"Pentium IV",5,610, 100, 2002),
     N_CPU_LEVEL_6 (ComponentCategory.N_CPU,"Pentium M",6,680, 120, 2005),
     N_CPU_LEVEL_7 (ComponentCategory.N_CPU,"Pentium Core",7,435, 150, 2008),
@@ -148,7 +149,7 @@ public enum Component implements Serializable {
         this.availabilityDate = availabilityDate;
     }
 
-    Component(ComponentCategory componentCategory, String componentName, int componentLevel, double initialPrice, int baseUtility, int availabilityDate, SupplierCategory supplierCategory) {
+/*    Component(ComponentCategory componentCategory, String componentName, int componentLevel, double initialPrice, int baseUtility, int availabilityDate, SupplierCategory supplierCategory) {
         this.componentCategory = componentCategory;
         this.componentName = componentName;
         this.componentLevel = componentLevel;
@@ -158,7 +159,27 @@ public enum Component implements Serializable {
         this.supplierCategory = supplierCategory;
         switch(supplierCategory) {
             case CHEAP:
-                /* Component placeholder for RandomNumberGenerator of utils @sdupper*/
+                *//* Component placeholder for RandomNumberGenerator of utils @sdupper*//*
+                this.supplierCostMultiplicator = Component.getRandomDouble(1.1, 1.5);
+                this.supplierQuality = Component.getRandomInt(80, 100);
+                this.supplierEcoIndex = Component.getRandomInt(80, 100);
+                break;
+            case REGULAR:
+                this.supplierCostMultiplicator = Component.getRandomDouble(0.85, 1.2);
+                this.supplierQuality = Component.getRandomInt(55, 85);
+                this.supplierEcoIndex = Component.getRandomInt(55, 85);
+                break;
+            case PREMIUM:
+                this.supplierCostMultiplicator = Component.getRandomDouble(0.7, 1.0);
+                this.supplierQuality = Component.getRandomInt(10, 60);
+                this.supplierEcoIndex = Component.getRandomInt(10, 60);
+        }
+    }*/
+
+    public void setSupplierCategory(SupplierCategory supplierCategory) {
+        this.supplierCategory = supplierCategory;
+        switch(supplierCategory) {
+            case CHEAP:
                 this.supplierCostMultiplicator = Component.getRandomDouble(1.1, 1.5);
                 this.supplierQuality = Component.getRandomInt(80, 100);
                 this.supplierEcoIndex = Component.getRandomInt(80, 100);
@@ -219,10 +240,8 @@ public enum Component implements Serializable {
         return this.baseCost;
     }
 
-    /* TODO has to be calculated on the first January of every year, might be better to use it in the get Method*/
-    public double calculateBaseCost() {
-        /* Placeholder for Gamestate Game Year*/
-        int gameYear = 2019;
+    public double calculateBaseCost(LocalDate gameDate) {
+        int gameYear = gameDate.getYear();
         double tBPM = 0.0001 * Math.pow((gameYear - this.availabilityDate + 1), 5)
                 - 0.0112 * Math.pow((gameYear - this.availabilityDate + 1), 4)
                 - 0.4239 * Math.pow((gameYear - this.availabilityDate + 1), 3)

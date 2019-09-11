@@ -55,7 +55,9 @@ public class CompanyEcoIndex implements Serializable {
     }
 
     private CompanyEcoIndex(){
+        //TODO determine initial values
         this.ecoIndex = EcoIndex.GOOD;
+        this.ecoIndex.setPoints(100);
         this.calculateAll();
     }
 
@@ -121,7 +123,7 @@ public class CompanyEcoIndex implements Serializable {
         return 0.0;
     }
 
-    private void decreaseEcoIndex(int points){
+    protected void decreaseEcoIndex(int points){
         int newPoints = this.ecoIndex.getPoints() - points;
         if(newPoints < this.ecoIndex.getMin()){
             if(this.ecoIndex.getIndex() > 2){
@@ -134,14 +136,18 @@ public class CompanyEcoIndex implements Serializable {
         this.ecoIndex.setPoints(newPoints);
     }
 
-    private void increaseEcoIndex(int points){
+    protected void increaseEcoIndex(int points){
         int newPoints = this.ecoIndex.getPoints() + points;
         if(newPoints > this.ecoIndex.getMax()){
             if(this.ecoIndex.getIndex() < 5){
                 this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() - 1];
+                this.ecoIndex.setPoints(newPoints);
+            }else{
+                this.ecoIndex.setPoints(this.ecoIndex.getMax());
             }
+        }else{
+            this.ecoIndex.setPoints(newPoints);
         }
-        this.ecoIndex.setPoints(newPoints);
     }
 
     //TODO unclear if points or index should be used according to documentation

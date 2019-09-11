@@ -26,7 +26,7 @@ public class Production implements Serializable {
     private ProductionInvestment systemSecurity;
     private double productionVariableCosts;
     private double productionFixCosts;
-    private double numberUnitsProducedPerMonth;
+    private int numberUnitsProducedPerMonth;
     private double monthlyAvailableMachineCapacity;
     private double manufactureEfficiency;
     private double productionProcessProductivity;
@@ -110,7 +110,7 @@ public class Production implements Serializable {
         }
     }
 
-    /* This method should always be followed up by updateMonthlyAvailableMachineCapacity and calculate perfomance metric methods*/
+    /* This method should always be followed up by updateMonthlyAvailableMachineCapacity and calculate performance metric methods*/
     public void resetMonthlyPerformanceMetrics() {
         this.numberUnitsProducedPerMonth = 0;
         this.monthlyAvailableMachineCapacity = 0;
@@ -160,11 +160,11 @@ public class Production implements Serializable {
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
         }
-        if(totalMachineCapacity <= quantity && freeStorage <= quantity) {
+        if(totalMachineCapacity >= quantity && freeStorage >= quantity) {
             double variableProductCosts = 0;
-            for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
-                this.numberProducedProducts.put(product, quantity);
-            }
+            //for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+            this.numberProducedProducts.put(product, quantity);
+            //}
             /* LocalDate.now() placeholder for gameDate TODO*/
             LocalDate gameDate = LocalDate.now();
             product.setLaunchDate(gameDate);
@@ -182,12 +182,12 @@ public class Production implements Serializable {
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
         }
-        if(totalMachineCapacity <= quantity && freeStorage <= quantity) {
+        if(totalMachineCapacity >= quantity && freeStorage >= quantity) {
             double variableProductCosts = 0;
             int newQuantity = quantity;
             for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
                 if(product == entry.getKey()) {
-                    newQuantity += entry.getValue();
+                    newQuantity += this.numberProducedProducts.get(product);
                 }
             }
             this.numberProducedProducts.put(product, newQuantity);
@@ -239,7 +239,6 @@ public class Production implements Serializable {
     }
 
     public double calculateProductionTechnologyFactor() {
-        this.productionTechnology = ProductionTechnology.DEPRECIATED;
         double averageProductionTechnologyRange = 0;
         for(Machinery machinery : this.machines) {
             averageProductionTechnologyRange += machinery.getProductionTechnology().getRange();
@@ -389,10 +388,10 @@ public class Production implements Serializable {
         return this.averageProductBaseQuality / this.numberProducedProducts.size();
     }
 
-    public void updateComponentBaseCosts() {
+    public void updateComponentBaseCosts(LocalDate gameDate) {
         for(Map.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             for(Component component : entry.getKey().getComponents()) {
-                component.calculateBaseCost();
+                component.calculateBaseCost(gameDate);
             }
         }
     }
@@ -417,7 +416,7 @@ public class Production implements Serializable {
 
     public void calculateAll(LocalDate gameDate) {
         this.getAllAvailableComponents(gameDate);
-        this.updateComponentBaseCosts();
+        this.updateComponentBaseCosts(gameDate);
         this.depreciateProductInvestment(gameDate);
         this.depreciateMachinery(false, gameDate);
         this.calculateMachineryResellPrices();
@@ -477,7 +476,7 @@ public class Production implements Serializable {
         return this.productionFixCosts;
     }
 
-    public double getNumberUnitsProducedPerMonth() {
+    public int getNumberUnitsProducedPerMonth() {
         return this.numberUnitsProducedPerMonth;
     }
 
