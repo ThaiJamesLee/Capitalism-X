@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
 import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.Training;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,6 +45,32 @@ public class Team implements Serializable {
      * @param employee rmeove an Employee from the team list.
      */
     public void removeEmployee(Employee employee) { team.remove(employee); }
+
+    /**
+     *
+     * @author sdupper
+     */
+    public double calculateTotalSalaries(){
+        double totalSalaries = 0.0;
+        for(Employee employee : team){
+            totalSalaries += employee.getSalary();
+        }
+        return totalSalaries;
+    }
+
+    /**
+     *
+     * @author sdupper
+     */
+    public double calculateTotalTrainingCosts(){
+        double totalTrainingCosts = 0.0;
+        for(Employee employee : team){
+            for(Training training : employee.getTrainingsList()){
+                totalTrainingCosts += training.getPrice();
+            }
+        }
+        return totalTrainingCosts;
+    }
 
 
     public EmployeeType getType() { return type; }

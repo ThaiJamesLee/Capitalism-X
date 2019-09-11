@@ -274,4 +274,28 @@ public class HRDepartment implements Serializable {
     public double trainEmployee (Employee employee, Training training) {
         return EmployeeTraining.getInstance().trainEmployee(employee, training);
     }
+
+    /**
+     *
+     * @author sdupper
+     */
+    public double calculateTotalSalaries(){
+        double totalSalaries = 0.0;
+        for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+            totalSalaries += entry.getValue().calculateTotalSalaries();
+        }
+        return totalSalaries;
+    }
+
+    /**
+     *
+     * @author sdupper
+     */
+    public double calculateTotalTrainingCosts(){
+        double totalTrainingCosts = 0.0;
+        for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+            totalTrainingCosts += entry.getValue().calculateTotalTrainingCosts();
+        }
+        return totalTrainingCosts;
+    }
 }
