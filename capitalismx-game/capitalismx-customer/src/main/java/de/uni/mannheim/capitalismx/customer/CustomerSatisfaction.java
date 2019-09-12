@@ -141,4 +141,10 @@ public class CustomerSatisfaction implements Serializable {
     public Map<Product, Double> getOverallAppeal() {
         return overallAppeal;
     }
+
+    public void calculateAll(LocalDate gameDate) {
+         this.calculateOverallAppeal(gameDate);
+         this.calculateCustomerSatisfactionOverallAppeal(gameDate);
+         this.calculateCustomerSatisfaction(gameDate);
+    }
 }
