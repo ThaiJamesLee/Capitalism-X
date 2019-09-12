@@ -95,7 +95,7 @@ public class CustomerSatisfaction implements Serializable {
         return this.averageOverallAppeal;
     }
 
-    public double calculateCustomerSatisfactionOverallAppeal(LocalDate gameDate) {
+    private double calculateCustomerSatisfactionOverallAppeal(LocalDate gameDate) {
         this.customerSatisfactionOverallAppeal = Math.tanh(this.calculateAverageOverallAppeal(gameDate) * 0.7) * 100;
         return this.customerSatisfactionOverallAppeal;
     }
@@ -143,8 +143,6 @@ public class CustomerSatisfaction implements Serializable {
     }
 
     public void calculateAll(LocalDate gameDate) {
-         this.calculateOverallAppeal(gameDate);
-         this.calculateCustomerSatisfactionOverallAppeal(gameDate);
          this.calculateCustomerSatisfaction(gameDate);
     }
 }
