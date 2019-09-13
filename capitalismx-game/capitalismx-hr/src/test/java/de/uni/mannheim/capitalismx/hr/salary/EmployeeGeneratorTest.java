@@ -14,7 +14,7 @@ public class EmployeeGeneratorTest {
     public void generateEngineerTest () {
         EmployeeGenerator generator = EmployeeGenerator.getInstance();
 
-        for (int i = 0; i < 10 ; i++) {
+        for (int i = 0; i < 5 ; i++) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -30,7 +30,7 @@ public class EmployeeGeneratorTest {
     public void generateEngineerSkillLevelTestI () {
         EmployeeGenerator generator = EmployeeGenerator.getInstance();
 
-        for (int i = 101; i < 200; i++) {
+        for (int i = 101; i < 110; i++) {
             Assert.assertNull(generator.generateEngineer(i));
 
         }
@@ -41,7 +41,7 @@ public class EmployeeGeneratorTest {
     public void generateEngineerSkillLevelTestII () {
         EmployeeGenerator generator = EmployeeGenerator.getInstance();
 
-        for (int i = -100; i < -1; i++) {
+        for (int i = -10; i < -1; i++) {
             Assert.assertNull(generator.generateEngineer(i));
 
         }
