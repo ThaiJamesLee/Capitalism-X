@@ -95,7 +95,6 @@ public class NameGenerator {
      * @return Returns parsed json as PersonMeta
      */
     public PersonMeta parseAPI1(String json) {
-        System.out.println(json);
         //json string to object conversion
         JsonParser parser = new JsonParser();
         JsonElement ele = parser.parse(json);
