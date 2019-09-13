@@ -5,10 +5,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+import de.uni.mannheim.capitalismx.utils.adapter.ServiceAdapter;
 import de.uni.mannheim.capitalismx.utils.adapter.ServiceHandler;
 import de.uni.mannheim.capitalismx.utils.data.LocationData;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 import de.uni.mannheim.capitalismx.utils.exception.NoServiceAvailableException;
+import de.uni.mannheim.capitalismx.utils.reader.JsonFileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +22,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The NameGenerator contains functions to make an API-call and generates random persons.
@@ -30,10 +35,14 @@ public class NameGenerator {
 
     private static NameGenerator instance;
 
-    private static final String API_1 = "https://uinames.com";
-    private static final String API_2 = "https://randomuser.me";
+    private String[] api1 = {"https://uinames.com", "/api/?region=united%20states&ext"};
+    private String[] api2 = {"https://randomuser.me", "/api"};
 
-    private NameGenerator() {}
+    private ServiceAdapter adapter;
+
+    private NameGenerator() {
+        adapter = new ServiceAdapter();
+    }
 
     public static NameGenerator getInstance() {
         if(instance == null) {
@@ -43,53 +52,36 @@ public class NameGenerator {
     }
 
     /**
-     * Makes a get request to https://randomuser.me/api/
-     * @return Returns a json String containing some fakedata
-     * @throws IOException throws Exception if no connection, or URL not resolvable.
-     */
-    private String getGeneratedUser(String apiUrl) throws IOException {
-        String userJson = "";
-
-        URL urlForGetRequest = new URL(apiUrl);
-
-        String readLine = null;
-        HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
-        connection.setRequestMethod("GET");
-
-        int responseCode = connection.getResponseCode();
-
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            while ((readLine = in.readLine()) != null) {
-                response.append(readLine);
-            }
-            in .close();
-            userJson = response.toString();
-        } else {
-            logger.error("GET NOT WORKED");
-        }
-        return userJson;
-    }
-
-    /**
      * Gets the Fake Person Data from API and parse the Json.
-     * @return Returns a {@link PersonMeta} object.
+     * @return Returns a {@link PersonMeta} List.
      */
-    public PersonMeta getGeneratedPersonMeta() {
-        PersonMeta pm = null;
+    public List<PersonMeta> getGeneratedPersonMeta(int samplesize) {
+        List<PersonMeta> pm = new ArrayList<>();
 
         try {
-            if(ServiceHandler.getInstance().hostIsReachable(API_1)) {
-                String apiUrl = API_1 + "/api/?region=united%20states&ext";
-                String jsonData = getGeneratedUser(apiUrl);
-                pm = parseAPI1(jsonData);
-            } else if(ServiceHandler.getInstance().hostIsReachable(API_2)) {
-                String apiUrl = API_2 + "/api";
-                String jsonData = getGeneratedUser(apiUrl);
-                pm = parseAPI2(jsonData);
+            if(ServiceHandler.getInstance().hostIsReachable(api1[0]) || ServiceHandler.getInstance().hostIsReachable(api2[0])) {
+                String jsonData = adapter.getGeneratedUser(api1[0] + api1[1] + "&amount="+samplesize);
+                // if api1 return null json then use api2
+                if(jsonData != null) {
+                    if(samplesize <= 1) {
+                        //if sample size = 1, then parse directly
+                        pm.add(parseAPI1(jsonData));
+                    } else {
+                        //if sample size > 1, then parse the json array first
+                        List<String> jsonList = new JsonFileReader().parseJsonArrayToStringList(jsonData);
+                        for(String json : jsonList) {
+                            pm.add(parseAPI1(json));
+                        }
+                    }
+                } else {
+                    //iterate samplesize times and create personmeta
+                    for (int i = 0; i < samplesize; i++) {
+                        String json = adapter.getGeneratedUser(api2[0] + api2[1]);
+                        pm.add(parseAPI2(json));
+                    }
+                }
             } else {
-                throw new NoServiceAvailableException("All services are down:\n" + API_1 + "\n" + API_2);
+                throw new NoServiceAvailableException("All services are down:\n" + api1[0] + "\n" + api2[0]);
             }
         } catch (IOException e) {
            logger.error(e.getMessage());
@@ -97,7 +89,12 @@ public class NameGenerator {
         return pm;
     }
 
-    private PersonMeta parseAPI1(String json) {
+    /**
+     * Parse the json of https://uinames.com/api/?ext
+     * @param json one person entity of json.
+     * @return Returns parsed json as PersonMeta
+     */
+    public PersonMeta parseAPI1(String json) {
         System.out.println(json);
         //json string to object conversion
         JsonParser parser = new JsonParser();
@@ -113,7 +110,12 @@ public class NameGenerator {
         return new PersonMeta().createPersonMeta(jname, jsurname, gender, title, eMail);
     }
 
-    private PersonMeta parseAPI2(String json) {
+    /**
+     * Parse the json of https://randomuser.me
+     * @param json one person entity of json.
+     * @return Returns parsed json as PersonMeta
+     */
+    public PersonMeta parseAPI2(String json) {
         //json string to object conversion
         JsonParser parser = new JsonParser();
         JsonElement ele = parser.parse(json);
@@ -159,14 +161,16 @@ public class NameGenerator {
         return letter + name.substring(1);
     }
 
-    public static void main(String[] args) {
-        try {
-            NameGenerator ng = new NameGenerator();
 
-            System.out.println(ng.parseAPI1(ng.getGeneratedUser(API_1+"/api/?region=united%20states&ext")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public String[] getApi1() {
+        return api1;
     }
 
+    public String[] getApi2() {
+        return api2;
+    }
+
+    public void setAdapter(ServiceAdapter adapter) {
+        this.adapter = adapter;
+    }
 }

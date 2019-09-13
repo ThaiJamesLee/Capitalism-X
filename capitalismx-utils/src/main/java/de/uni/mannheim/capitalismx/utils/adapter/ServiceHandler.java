@@ -9,6 +9,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 /**
+ * This class is for checking if the services are available.
  * @author duly
  */
 public class ServiceHandler {

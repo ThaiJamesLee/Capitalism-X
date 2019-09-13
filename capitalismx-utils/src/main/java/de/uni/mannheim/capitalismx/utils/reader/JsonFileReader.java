@@ -6,24 +6,32 @@ import com.google.gson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Resources folder contains a json with 500 user names.
+ * This class reads and parses it.
+ * @author duly
+ */
 public class JsonFileReader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonFileReader.class);
+
+    private String fileNameUS = "generated_users.json";
+    private String fileNameBE = "generated_users_be.json";
+    private String fileNameDE = "generated_users_de.json";
+
 
     /**
      * Reads the generated_users.json from resources.
      * @return Returns the json files content as a String.
      */
-    public String readJsonFileFromResource() {
+    public String readJsonFileFromResource(String jsonFile) {
         StringBuilder sb = new StringBuilder();
-        File f = new File(getClass().getClassLoader().getResource("generated_users.json").getFile());
+        File f = new File(getClass().getClassLoader().getResource(jsonFile).getFile());
 
         try(BufferedReader br = new BufferedReader(new FileReader(f))) {
             String sCurrentLine;
@@ -38,18 +46,46 @@ public class JsonFileReader {
         return sb.toString();
     }
 
+    public String readJsonFileFromResourceUnitTests(String jsonFile) {
+        StringBuilder sb = new StringBuilder();
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(jsonFile)) {
+
+            InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(streamReader);
+            for (String line; (line = reader.readLine()) != null;) {
+                sb.append(line);
+            }
+
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+        return sb.toString();
+    }
+
+    /**
+     *
+     * @param json A json array.
+     * @return Returns a list of strings. Each string element is a person as json.
+     */
     public List<String> parseJsonArrayToStringList(String json){
         List<String> entries = new ArrayList<>();
         JsonParser parser = new JsonParser();
         JsonArray array = (JsonArray)parser.parse(json);
         for(JsonElement entry : array) {
-            System.out.println(entry.toString());
             entries.add(entry.toString());
         }
         return entries;
     }
 
-    public static void main(String[] args) {
-        new JsonFileReader().parseJsonArrayToStringList(new JsonFileReader().readJsonFileFromResource());
+    public String getFileNameBE() {
+        return fileNameBE;
+    }
+
+    public String getFileNameDE() {
+        return fileNameDE;
+    }
+
+    public String getFileNameUS() {
+        return fileNameUS;
     }
 }

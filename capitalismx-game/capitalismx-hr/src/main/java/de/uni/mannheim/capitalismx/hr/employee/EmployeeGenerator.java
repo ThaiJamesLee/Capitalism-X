@@ -16,11 +16,15 @@ import org.slf4j.LoggerFactory;
  */
 public class EmployeeGenerator {
 
+    private EmployeeMarketSample employeeMarketSample;
+
     private static final Logger logger = LoggerFactory.getLogger(EmployeeGenerator.class);
 
     private static EmployeeGenerator instance;
 
-    private EmployeeGenerator() {}
+    private EmployeeGenerator() {
+        employeeMarketSample = new EmployeeMarketSample();
+    }
 
     public static EmployeeGenerator getInstance() {
         if(instance == null) {
@@ -42,9 +46,8 @@ public class EmployeeGenerator {
        
         try {
             salary = SalaryGenerator.getInstance().getSalary(skillLevel);
-            NameGenerator ng = NameGenerator.getInstance();
 
-            PersonMeta newPerson = ng.getGeneratedPersonMeta();
+            PersonMeta newPerson = employeeMarketSample.randomChoosing();
 
             employee = new Engineer(newPerson);
             employee.setSkillLevel(skillLevel);
@@ -68,9 +71,8 @@ public class EmployeeGenerator {
 
         try {
             salary = SalaryGenerator.getInstance().getSalary(skillLevel);
-            NameGenerator ng = NameGenerator.getInstance();
 
-            PersonMeta newPerson = ng.getGeneratedPersonMeta();
+            PersonMeta newPerson = employeeMarketSample.randomChoosing();
 
             employee = new SalesPerson(newPerson);
             employee.setSkillLevel(skillLevel);
@@ -80,5 +82,9 @@ public class EmployeeGenerator {
             logger.error(e.getMessage());
         }
         return employee;
+    }
+
+    public EmployeeMarketSample getEmployeeMarketSample() {
+        return employeeMarketSample;
     }
 }

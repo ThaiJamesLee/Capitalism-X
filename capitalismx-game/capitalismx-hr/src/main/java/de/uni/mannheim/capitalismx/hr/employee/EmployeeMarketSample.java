@@ -1,16 +1,14 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
-import de.uni.mannheim.capitalismx.hr.domain.Salary;
-import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
-import de.uni.mannheim.capitalismx.hr.salary.SalaryGenerator;
+import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
+import de.uni.mannheim.capitalismx.utils.namegenerator.NameGenerator;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
+import de.uni.mannheim.capitalismx.utils.reader.JsonFileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class caches pre-generated person entities.
@@ -18,7 +16,7 @@ import java.util.List;
  * The goal is to reduce the number API-calls.
  * @author duly
  */
-public class EmployeeMarketSample {
+public class EmployeeMarketSample implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeMarketSample.class);
 
@@ -35,6 +33,8 @@ public class EmployeeMarketSample {
                     {40, 15, 20, 15, 10}
             };
 
+    private List<PersonMeta> personMetas;
+
     private String filePath;
     private List<Employee> potentialEmployeeSample;
 
@@ -42,6 +42,8 @@ public class EmployeeMarketSample {
     public EmployeeMarketSample() {
         filePath = System.getProperty("user.dir") + File.separator + EMPLOYEE_SAMPLE_FILE_DIR;
         potentialEmployeeSample = new ArrayList<>();
+        personMetas = new ArrayList<>();
+        loadInitialPersonList();
     }
 
     /**
@@ -51,98 +53,67 @@ public class EmployeeMarketSample {
     public EmployeeMarketSample(String rootDir) {
         filePath = rootDir + File.separator + EMPLOYEE_SAMPLE_FILE_DIR;
         potentialEmployeeSample = new ArrayList<>();
+        personMetas = new ArrayList<>();
+        loadInitialPersonList();
     }
 
     /**
-     * Creates the engineer sample with size of MINIMUM_SAMPLE_SIZE.
-     * @param distribution is the pre-defined distribution index in the DISTRIBUTION array.
+     * Load the json file a
      */
-    private void createEngineerSample(int distribution) {
-        double[] dList = DISTRIBUTION[distribution];
-        for (int k = 0; k < dList.length; k++) {
+    private void loadInitialPersonList() {
+        // load employeesample.capx file first.
+        loadSample();
 
-            int size = (int)(MINIMUM_SAMPLE_SIZE * dList[k]/100);
+        // use jsons if no file exists.
+        if(personMetas.isEmpty()) {
+            JsonFileReader jReader = new JsonFileReader();
+            String jsonArrayDE = jReader.readJsonFileFromResourceUnitTests(jReader.getFileNameDE());
+            String jsonArrayBE = jReader.readJsonFileFromResourceUnitTests(jReader.getFileNameBE());
+            String jsonArrayUS = jReader.readJsonFileFromResourceUnitTests(jReader.getFileNameUS());
 
-            int skillLevel = RandomNumberGenerator.getRandomInt((int)Salary.values()[k].getLowerLevel(), (int)Salary.values()[k].getUpperLevel());
-            for (int i = 0; i < size; i++) {
+            List<String> entitiesDE = jReader.parseJsonArrayToStringList(jsonArrayDE);
+            List<String> entitiesBE = jReader.parseJsonArrayToStringList(jsonArrayBE);
+            List<String> entitiesUS = jReader.parseJsonArrayToStringList(jsonArrayUS);
 
-                try {
-                    Employee emp = EmployeeGenerator.getInstance().generateEngineer(skillLevel);
-                    emp.setSalary(SalaryGenerator.getInstance().getSalary(skillLevel));
-                    potentialEmployeeSample.add(emp);
+            Set<String> entities = new HashSet<>();
+            entities.addAll(entitiesBE);
+            entities.addAll(entitiesDE);
+            entities.addAll(entitiesUS);
 
-                    Thread.sleep(500);
-
-                } catch (NoDefinedTierException e) {
-                    logger.error(e.getMessage());
-                } catch (InterruptedException e) {
-                    logger.error(e.getMessage());
-                    Thread.currentThread().interrupt();
-                }
-
+            for(String person : entities) {
+                personMetas.add(NameGenerator.getInstance().parseAPI1(person));
             }
+
+            Collections.shuffle(personMetas);
         }
-        Collections.shuffle(potentialEmployeeSample);
+
     }
 
-    /**
-     * Creates the sales person sample with size of MINIMUM_SAMPLE_SIZE.
-     * @param distribution is the pre-defined distribution index in the DISTRIBUTION array.
-     */
-    private void createSalesPeopleSample(int distribution) {
-        double[] dList = DISTRIBUTION[distribution];
-        for (int k = 0; k < dList.length; k++) {
 
-            int size = (int)(MINIMUM_SAMPLE_SIZE * dList[k]/100);
-
-            int skillLevel = RandomNumberGenerator.getRandomInt((int)Salary.values()[k].getLowerLevel(), (int)Salary.values()[k].getUpperLevel());
-            for (int i = 0; i < size; i++) {
-
-                try {
-                    Employee emp = EmployeeGenerator.getInstance().generateSalesPeople(skillLevel);
-                    emp.setSalary(SalaryGenerator.getInstance().getSalary(skillLevel));
-                    potentialEmployeeSample.add(emp);
-
-                    Thread.sleep(500);
-
-                } catch (NoDefinedTierException e) {
-                    logger.error(e.getMessage());
-                } catch (InterruptedException e) {
-                    logger.error(e.getMessage());
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
-        Collections.shuffle(potentialEmployeeSample);
-    }
-
-    public void createSample(int distribution) {
-        createEngineerSample(distribution);
-        createSalesPeopleSample(distribution);
-    }
 
     /**
      * Load the employee stack file.
      */
-    public void loadEmployeeSample() {
-        List<Employee> employeesStack = null;
+    public void loadSample() {
+        List<PersonMeta> personStack = null;
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File(filePath)))) {
-            employeesStack = (List<Employee>) objectInputStream.readObject();
+            personStack = (List<PersonMeta>) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             logger.error(e.getMessage());
         }
-        potentialEmployeeSample = employeesStack;
 
-        if(employeesStack == null) {
-            throw new NullPointerException("Loading was not successful!");
+        if(personStack == null) {
+            logger.error("Loading was not succesfull! No employeesample.capx file.");
+        } else {
+            personMetas = personStack;
         }
     }
 
     /**
      *
-     * @param stack the pre-generated employee List to be saved.
+     * @param stack the pre-generated PersonMeta List to be saved.
      */
-    public void saveEmployeeSample(List<Employee> stack) {
+    public void saveSample(List<PersonMeta> stack) {
         File file = new File(filePath);
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
@@ -157,21 +128,24 @@ public class EmployeeMarketSample {
     }
 
     /**
-     * Chooses one employee from the sample randomly.
-     * @return Returns an Employee from the potentialEmployeeSample.
+     * Chooses one personmeta from the sample randomly.
+     * @return Returns a PersonMeta from the initial set.
      */
-    public Employee randomChoosing() {
-        int index = RandomNumberGenerator.getRandomInt(0, potentialEmployeeSample.size()-1);
-        Employee e = potentialEmployeeSample.get(index);
-        potentialEmployeeSample.remove(index);
-        return e;
-    }
+    public PersonMeta randomChoosing() {
+        int index = RandomNumberGenerator.getRandomInt(0, personMetas.size()-1);
+        PersonMeta e = personMetas.get(index);
+        personMetas.remove(index);
 
-    public List<Employee> getPotentialEmployeeSample() {
-        return potentialEmployeeSample;
+        // when peronmetas is below 50, then use APIs to generate a new batch of 500.
+        if(personMetas.size() < 50) {
+            personMetas.addAll(NameGenerator.getInstance().getGeneratedPersonMeta(500));
+        }
+
+        return e;
     }
 
     public String getFilePath() {
         return filePath;
     }
+
 }
