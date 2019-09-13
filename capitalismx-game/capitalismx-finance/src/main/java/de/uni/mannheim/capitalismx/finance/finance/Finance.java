@@ -1,9 +1,11 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.Production;
@@ -207,24 +209,10 @@ public class Finance implements Serializable {
         return this.totalExpenses;
     }
 
-    //TODO
     private double calculateTotalHRCosts(){
-        /**
-        ArrayList<Training> trainings = null;
-        ArrayList<Employee> employees = null;
-        double totalTrainingCosts = 0;
-        double totalSalaries = 0;
-
-        for(Training training : trainings){
-            totalTrainingCosts += training.getCosts();
-        }
-
-        for(Employee employee : employees){
-            totalSalaries += employee.getSalary();
-        }
-
+        double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
+        double totalSalaries = HRDepartment.getInstance().calculateTotalSalaries();
         this.totalHRCosts = totalSalaries + totalTrainingCosts;
-         **/
         return this.totalHRCosts;
     }
 
@@ -243,10 +231,9 @@ public class Finance implements Serializable {
         return this.totalLogisticsCosts;
     }
 
-    //TODO
     private double calculateTotalProductionCosts(){
-        //get from other class
-        return 0;
+        double totalProductionCosts = Production.getInstance().getProductionVariableCosts() + Production.getInstance().getProductionFixCosts();
+        return totalProductionCosts;
     }
 
     //TODO
@@ -261,10 +248,9 @@ public class Finance implements Serializable {
         return 0.0;
     }
 
-    //TODO
     private double calculateTotalSupportCosts(){
-        //get from other class
-        return 0;
+        double totalSupportCosts = ProductSupport.getInstance().calculateTotalSupportCosts();
+        return totalSupportCosts;
     }
 
     private double calculateEbit(){

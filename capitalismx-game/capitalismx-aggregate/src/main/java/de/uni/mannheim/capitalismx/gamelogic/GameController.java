@@ -1,10 +1,13 @@
 package de.uni.mannheim.capitalismx.gamelogic;
 
+import de.uni.mannheim.capitalismx.customer.CustomerDemand;
+import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
 import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
@@ -82,7 +85,9 @@ public class GameController {
     }
 
     private void updateCustomer() {
-
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+        CustomerSatisfaction.getInstance().calculateAll(gameDate);
+        CustomerDemand.getInstance().calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON), gameDate);
     }
 
     private void updateFinance() {
@@ -812,6 +817,10 @@ public class GameController {
      */
     public void trainEmployee(Employee e, Training t) {
         HRDepartment.getInstance().trainEmployee(e, t);
+    }
+
+    public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
+        return HRDepartment.getInstance().getTotalQualityOfWorkByEmployeeType(employeeType);
     }
 
 }

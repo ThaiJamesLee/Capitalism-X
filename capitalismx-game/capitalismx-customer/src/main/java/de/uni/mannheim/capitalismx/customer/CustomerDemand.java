@@ -39,7 +39,7 @@ public class CustomerDemand implements Serializable {
         return CustomerDemand.instance;
     }
 
-    public Map<Product, Double> calculateProductOverallAppeal(LocalDate gameDate) {
+    private Map<Product, Double> calculateProductOverallAppeal(LocalDate gameDate) {
         Map<Product, Double> productOverallAppeal = new HashMap<>();
         for(Map.Entry<Product, Double> entry : CustomerSatisfaction.getInstance().calculateOverallAppeal(gameDate).entrySet()) {
             productOverallAppeal.put(entry.getKey(), entry.getValue() * (0.4 * CustomerSatisfaction.getInstance().calculateCustomerSatisfaction(gameDate) + 0.8));
@@ -48,7 +48,7 @@ public class CustomerDemand implements Serializable {
         return this.productCustomerSatisfactionOverallAppeal;
     }
 
-    public Map<Product, Double> calculateOverallAppealDemand(double totalSalesQualityOfWork, LocalDate gameDate) {
+    private Map<Product, Double> calculateOverallAppealDemand(double totalSalesQualityOfWork, LocalDate gameDate) {
         this.totalSalesQualityOfWork = totalSalesQualityOfWork;
         Map<Product, Double> overallAppealDemand = new HashMap<>();
         Map<Product, Double> productOverallAppeal = this.calculateProductOverallAppeal(gameDate);
@@ -59,8 +59,8 @@ public class CustomerDemand implements Serializable {
         return this.overallAppealDemand;
     }
 
-    /* call calculateOverallAppealDemand before calling this method */
-    public Map<Product, Double> calculateDemandPercentage() {
+    private Map<Product, Double> calculateDemandPercentage(double totalSalesQualityOfWork, LocalDate gameDate) {
+        this.calculateOverallAppealDemand(totalSalesQualityOfWork, gameDate);
         Map<Product, Double> demandPercentage = new HashMap<>();
         for(Map.Entry<Product, Double> entry : this.overallAppealDemand.entrySet()) {
             demandPercentage.put(entry.getKey(), Math.tanh(entry.getValue() / 2));
@@ -69,9 +69,9 @@ public class CustomerDemand implements Serializable {
         return this.demandPercentage;
     }
 
-    public Map<Product, Double> calculateDemandAmount() {
+    private Map<Product, Double> calculateDemandAmount(double totalSalesQualityOfWork, LocalDate gameDate) {
         Map<Product, Double> demandAmount = new HashMap<>();
-        Map<Product, Double> demandPercentage = this.calculateDemandPercentage();
+        Map<Product, Double> demandPercentage = this.calculateDemandPercentage(totalSalesQualityOfWork, gameDate);
         for(Map.Entry<Product, Double> entry : demandPercentage.entrySet()) {
             demandAmount.put(entry.getKey(), entry.getValue() * this.gamePopulation);
         }
@@ -79,7 +79,7 @@ public class CustomerDemand implements Serializable {
         return this.demandAmount;
     }
 
-    public Map<Product, Integer> calculateDaysSinceLaunchDate(LocalDate gameDate) {
+    private Map<Product, Integer> calculateDaysSinceLaunchDate(LocalDate gameDate) {
         Map<Product, Integer> daysSinceLaunchDate = new HashMap<>();
         /* TODO list of products are the list of our own products, we have to change this if we introduce competing products */
         for(Product product : CustomerSatisfaction.getInstance().getProducts()) {
@@ -89,10 +89,10 @@ public class CustomerDemand implements Serializable {
         return this.daysSinceLaunchDate;
     }
 
-    /* call calculateDaysSinceLaunchDate before calling this method */
-    public Map<Product, Double> calculatePeriodicDemandAmount() {
+    private Map<Product, Double> calculatePeriodicDemandAmount(double totalSalesQualityOfWork, LocalDate gameDate) {
+        this.calculateDaysSinceLaunchDate(gameDate);
         Map<Product, Double> periodicDemandAmount = new HashMap<>();
-        Map<Product, Double> demandAmount = calculateDemandAmount();
+        Map<Product, Double> demandAmount = calculateDemandAmount(totalSalesQualityOfWork, gameDate);
         for(Map.Entry<Product, Double> entry : demandAmount.entrySet()) {
             periodicDemandAmount.put(entry.getKey(), entry.getValue() * 0.002 * ((Math.tanh(0.01 * this.daysSinceLaunchDate.get(entry.getKey())-3) / 2) + 0.5));
         }
@@ -101,9 +101,9 @@ public class CustomerDemand implements Serializable {
     }
 
     /* TODO use inventory of warehouse for calculation not amount of products produced on that day */
-    public Map<Product, Integer> calculateSalesFigures() {
+    public Map<Product, Integer> calculateSalesFigures(double totalSalesQualityOfWork, LocalDate gameDate) {
         Map<Product, Integer> salesFigures = new HashMap<>();
-        Map<Product, Double> periodicDemandAmount = calculatePeriodicDemandAmount();
+        Map<Product, Double> periodicDemandAmount = calculatePeriodicDemandAmount(totalSalesQualityOfWork, gameDate);
         for(Map.Entry<Product, Double> entry : periodicDemandAmount.entrySet()) {
             int storedUnits = Warehousing.getInstance().getInventory().get(entry.getKey());
             if(entry.getValue() > storedUnits) {
@@ -114,5 +114,9 @@ public class CustomerDemand implements Serializable {
         }
         this.salesFigures = salesFigures;
         return this.salesFigures;
+    }
+
+    public void calculateAll(double totalSalesQualityOfWork, LocalDate gameDate) {
+        this.calculateSalesFigures(totalSalesQualityOfWork, gameDate);
     }
 }

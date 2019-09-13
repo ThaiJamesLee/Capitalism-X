@@ -144,7 +144,7 @@ public class ProductSupport implements Serializable {
         return this.totalSupportQuality;
     }
 
-    protected double calculateTotalSupportCosts(){
+    public double calculateTotalSupportCosts(){
         totalSupportCosts = 0;
         for(SupportType supportType : supportTypes){
             this.totalSupportCosts += supportType.getCostsSupportType();
