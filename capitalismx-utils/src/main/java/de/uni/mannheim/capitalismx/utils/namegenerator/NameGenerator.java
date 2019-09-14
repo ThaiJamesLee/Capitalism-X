@@ -5,7 +5,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import de.uni.mannheim.capitalismx.utils.adapter.ServiceAdapter;
 import de.uni.mannheim.capitalismx.utils.adapter.ServiceHandler;
 import de.uni.mannheim.capitalismx.utils.data.LocationData;
@@ -15,13 +14,8 @@ import de.uni.mannheim.capitalismx.utils.reader.JsonFileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,22 +57,9 @@ public class NameGenerator {
                 String jsonData = adapter.getGeneratedUser(api1[0] + api1[1] + "&amount="+samplesize);
                 // if api1 return null json then use api2
                 if(jsonData != null) {
-                    if(samplesize <= 1) {
-                        //if sample size = 1, then parse directly
-                        pm.add(parseAPI1(jsonData));
-                    } else {
-                        //if sample size > 1, then parse the json array first
-                        List<String> jsonList = new JsonFileReader().parseJsonArrayToStringList(jsonData);
-                        for(String json : jsonList) {
-                            pm.add(parseAPI1(json));
-                        }
-                    }
+                    callApi1(jsonData, samplesize, pm);
                 } else {
-                    //iterate samplesize times and create personmeta
-                    for (int i = 0; i < samplesize; i++) {
-                        String json = adapter.getGeneratedUser(api2[0] + api2[1]);
-                        pm.add(parseAPI2(json));
-                    }
+                    callApi2(samplesize, pm);
                 }
             } else {
                 throw new NoServiceAvailableException("All services are down:\n" + api1[0] + "\n" + api2[0]);
@@ -87,6 +68,29 @@ public class NameGenerator {
            logger.error(e.getMessage());
         }
         return pm;
+    }
+
+    private void callApi1(String jsonData, int samplesize, List<PersonMeta> pm) {
+        if(samplesize <= 1) {
+            //if sample size = 1, then parse directly
+            pm.add(parseAPI1(jsonData));
+        } else {
+            //if sample size > 1, then parse the json array first
+            List<String> jsonList = new JsonFileReader().parseJsonArrayToStringList(jsonData);
+            for(String json : jsonList) {
+                pm.add(parseAPI1(json));
+            }
+        }
+    }
+
+    private void callApi2(int samplesize, List<PersonMeta> pm) throws IOException {
+        //iterate samplesize times and create personmeta
+        for (int i = 0; i < samplesize; i++) {
+            String json = adapter.getGeneratedUser(api2[0] + api2[1]);
+            if(json != null) {
+                pm.add(parseAPI2(json));
+            }
+        }
     }
 
     /**
@@ -155,7 +159,7 @@ public class NameGenerator {
      * @param name The String that should be converted.
      * @return Returns the converted String.
      */
-    public String toName(String name) {
+    private String toName(String name) {
         String letter = name.substring(0, 1).toUpperCase();
         return letter + name.substring(1);
     }

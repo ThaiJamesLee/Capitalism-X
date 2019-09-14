@@ -46,6 +46,11 @@ public class JsonFileReader {
         return sb.toString();
     }
 
+    /**
+     * Read json file from resource folder.
+     * @param jsonFile
+     * @return
+     */
     public String readJsonFileFromResourceUnitTests(String jsonFile) {
         StringBuilder sb = new StringBuilder();
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(jsonFile)) {
@@ -63,7 +68,7 @@ public class JsonFileReader {
     }
 
     /**
-     *
+     * Parses the json array and create String list of jsons.
      * @param json A json array.
      * @return Returns a list of strings. Each string element is a person as json.
      */
