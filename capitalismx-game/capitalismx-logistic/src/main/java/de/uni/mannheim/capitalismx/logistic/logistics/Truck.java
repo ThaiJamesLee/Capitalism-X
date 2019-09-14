@@ -1,45 +1,53 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
+
 /**
  * @author sdupper
  */
-public class Truck {
+public class Truck implements Serializable {
     private int capacity;
-    private double ecoIndexTruck;
-    private double qualityIndexTruck;
-    private double purchasePriceTruck;
+    private double ecoIndex;
+    private double qualityIndex;
+    private double purchasePrice;
     private double fixTruckCost;
     private int depreciationRate;
     private double fixCostsDelivery;
-    private double variableCostsDelivery = 2;
+    private double variableCostsDelivery;
+    private int usefulLife;
+    private LocalDate purchaseDate;
 
     public Truck(double ecoIndexTruck, double qualityIndexTruck, double purchasePriceTruckFactor, double fixCostsDeliveryFactor){
         int basePrice = 100000;
-        this.ecoIndexTruck = ecoIndexTruck;
-        this.qualityIndexTruck = qualityIndexTruck;
-        this.purchasePriceTruck = basePrice * purchasePriceTruckFactor;
+        this.ecoIndex = ecoIndexTruck;
+        this.qualityIndex = qualityIndexTruck;
+        this.purchasePrice = basePrice * purchasePriceTruckFactor;
         this.fixCostsDelivery = basePrice * fixCostsDeliveryFactor;
 
         this.capacity = 1000;
-        this.fixTruckCost = (purchasePriceTruck * 0.01) / 12;
+        this.fixTruckCost = (this.purchasePrice * 0.01) / 12;
         //TODO for 9 years
         this.depreciationRate = 1/9;
+        this.usefulLife = 9;
+        this.variableCostsDelivery = 2;
     }
 
     public int getCapacity(){
         return this.capacity;
     }
 
-    public double getEcoIndexTruck(){
-        return this.ecoIndexTruck;
+    public double getEcoIndex(){
+        return this.ecoIndex;
     }
 
-    public double getQualityIndexTruck(){
-        return this.qualityIndexTruck;
+    public double getQualityIndex(){
+        return this.qualityIndex;
     }
 
-    public double getPurchasePriceTruck(){
-        return this.purchasePriceTruck;
+    public double getPurchasePrice(){
+        return this.purchasePrice;
     }
 
     public double getFixTruckCost(){
@@ -56,5 +64,17 @@ public class Truck {
 
     public double getVariableCostsDelivery() {
         return this.variableCostsDelivery;
+    }
+
+    public int getUsefulLife() {
+        return this.usefulLife;
+    }
+
+    public int calculateTimeUsed(LocalDate gameDate){
+        return Period.between(this.purchaseDate, gameDate).getYears();
+    }
+
+    public void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
     }
 }

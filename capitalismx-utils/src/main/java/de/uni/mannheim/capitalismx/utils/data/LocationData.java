@@ -1,9 +1,11 @@
 package de.uni.mannheim.capitalismx.utils.data;
 
+import java.io.Serializable;
+
 /**
  * @author duly
  */
-public class LocationData {
+public class LocationData implements Serializable {
 
     private String street;
     private String city;

@@ -1,10 +1,12 @@
 package de.uni.mannheim.capitalismx.utils.data;
 
+import java.io.Serializable;
+
 /**
  * This class contains is a POJO holding meta data of a person.
  * @author duly
  */
-public class PersonMeta {
+public class PersonMeta implements Serializable {
 
     private String firstName;
 
@@ -32,11 +34,11 @@ public class PersonMeta {
 
     /**
      * Creates an instance of PersonMeta
-     * @param firstName
-     * @param lastName
-     * @param gender
-     * @param title
-     * @param eMail
+     * @param firstName first name.
+     * @param lastName last name.
+     * @param gender gender.
+     * @param title title e.g. mister, miss, ...
+     * @param eMail e-mail address.
      * @return Returns a PersonMeta object.
      */
     public PersonMeta createPersonMeta(String firstName, String lastName, String gender, String title, String eMail) {

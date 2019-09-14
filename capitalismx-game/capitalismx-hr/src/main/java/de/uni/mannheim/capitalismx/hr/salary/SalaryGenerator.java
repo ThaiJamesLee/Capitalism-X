@@ -11,12 +11,23 @@ import java.security.SecureRandom;
  */
 public class SalaryGenerator {
 
+    private static SalaryGenerator instance;
+
+    private SalaryGenerator() {}
+
+    public static SalaryGenerator getInstance() {
+        if(instance == null) {
+            instance = new SalaryGenerator();
+        }
+        return instance;
+    }
+
     /**
      * Calculates a random salary that is in the predefined ranges.
      * @param skillLevel the skill level of an employee
      * @return Returns a salary based on the skill level
      */
-    public int getSalary(int skillLevel) throws NoDefinedTierException {
+    public double getSalary(int skillLevel) throws NoDefinedTierException {
 
         SecureRandom random = new SecureRandom();
 
@@ -26,14 +37,14 @@ public class SalaryGenerator {
 
             if (inRange(skillLevel, tier.getLowerLevel(), tier.getUpperLevel())) {
 
-                return random.nextInt(tier.getUpperSalary() - tier.getLowerSalary()) + tier.getLowerSalary();
+                return random.nextInt((int)tier.getUpperSalary() - (int)tier.getLowerSalary()) + tier.getLowerSalary();
 
             }
         }
         throw new NoDefinedTierException("The skill level " + skillLevel + " is in none of the defined ranges!");
     }
 
-    private boolean inRange(int val, int lower, int upper) {
+    private boolean inRange(double val, double lower, double upper) {
         return (val >= lower && val <= upper);
     }
 }

@@ -1,0 +1,19 @@
+package de.uni.mannheim.capitalismx.external_events;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class ExternalEventsTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExternalEventsTest.class);
+
+    @Test
+    public void checkEventsTest () {
+        ExternalEvents externalEvents = ExternalEvents.getInstance();
+
+        Assert.assertNotNull(externalEvents.checkEvents());
+    }
+
+}

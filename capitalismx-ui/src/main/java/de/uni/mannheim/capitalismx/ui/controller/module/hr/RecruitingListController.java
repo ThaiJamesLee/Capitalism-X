@@ -22,7 +22,7 @@ public class RecruitingListController extends GameModuleController {
 	
 	public RecruitingListController() {
 		employeeListObservable = FXCollections.observableArrayList();
-		EmployeeGenerator generator = new EmployeeGenerator();
+		EmployeeGenerator generator = EmployeeGenerator.getInstance();
 		for(int i = 0; i < 10; i++) {
 			employeeListObservable.add(generator.generateEngineer((int)(Math.random()*100)));
 		}

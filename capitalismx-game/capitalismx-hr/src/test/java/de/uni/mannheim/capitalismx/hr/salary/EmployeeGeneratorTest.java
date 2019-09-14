@@ -1,10 +1,16 @@
 package de.uni.mannheim.capitalismx.hr.salary;
 
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
+import de.uni.mannheim.capitalismx.utils.adapter.ServiceAdapter;
+import de.uni.mannheim.capitalismx.utils.namegenerator.NameGenerator;
+import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
+import de.uni.mannheim.capitalismx.utils.reader.JsonFileReader;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 
 public class EmployeeGeneratorTest {
 
@@ -12,9 +18,9 @@ public class EmployeeGeneratorTest {
 
     @Test
     public void generateEngineerTest () {
-        EmployeeGenerator generator = new EmployeeGenerator();
+        EmployeeGenerator generator = EmployeeGenerator.getInstance();
 
-        for (int i = 0; i < 10 ; i++) {
+        for (int i = 0; i < 5 ; i++) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -28,9 +34,10 @@ public class EmployeeGeneratorTest {
     //@Test(expectedExceptions = NoDefinedTierException.class)
     @Test
     public void generateEngineerSkillLevelTestI () {
-        EmployeeGenerator generator = new EmployeeGenerator();
+        EmployeeGenerator generator = EmployeeGenerator.getInstance();
 
-        for (int i = 101; i < 200; i++) {
+
+        for (int i = 101; i < 110; i++) {
             Assert.assertNull(generator.generateEngineer(i));
 
         }
@@ -39,9 +46,10 @@ public class EmployeeGeneratorTest {
     //@Test(expectedExceptions = NoDefinedTierException.class)
     @Test
     public void generateEngineerSkillLevelTestII () {
-        EmployeeGenerator generator = new EmployeeGenerator();
+        EmployeeGenerator generator = EmployeeGenerator.getInstance();
 
-        for (int i = -100; i < -1; i++) {
+
+        for (int i = -10; i < -1; i++) {
             Assert.assertNull(generator.generateEngineer(i));
 
         }

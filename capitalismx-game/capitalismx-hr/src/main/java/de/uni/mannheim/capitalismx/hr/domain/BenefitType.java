@@ -4,7 +4,7 @@ package de.uni.mannheim.capitalismx.hr.domain;
  * See p. 25
  * @author duly
  */
-public enum BenefitTypes {
+public enum BenefitType {
 
     SALARY ("Salary"),
     WORKING_TIME_MODEL ("Working Time Model"),
@@ -16,7 +16,7 @@ public enum BenefitTypes {
 
     private String type;
 
-    BenefitTypes(String type) {
+    BenefitType(String type) {
         this.type = type;
     }
 

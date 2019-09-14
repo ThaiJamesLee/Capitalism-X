@@ -56,6 +56,11 @@
 			<artifactId>capitalismx-hr</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>de.uni.mannheim</groupId>
+			<artifactId>capitalismx-aggregate</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -1,9 +1,11 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import java.io.Serializable;
+
 /**
  * @author sdupper
  */
-public class ExternalPartner {
+public class ExternalPartner implements Serializable {
     private double ecoIndexPartner;
     private double qualityIndexPartner;
     private double reliabilityIndexPartner;
@@ -21,12 +23,13 @@ public class ExternalPartner {
         this.calculateExternalLogisticsIndex();
     }
 
-    private void calculateExternalLogisticsIndex(){
+    public double calculateExternalLogisticsIndex(){
         if(this.reliabilityIndexPartner <= 40){
             this.externalLogisticsIndex = (this.reliabilityIndexPartner * 0.5 + 0.5 * (this.qualityIndexPartner * 0.8 + this.ecoIndexPartner * 0.2));
         }else{
             this.externalLogisticsIndex = (this.reliabilityIndexPartner * 0.4 + 0.6 * (this.qualityIndexPartner * 0.8 + this.ecoIndexPartner * 0.2));
         }
+        return this.externalLogisticsIndex;
     }
 
     public double getEcoIndexPartner() {

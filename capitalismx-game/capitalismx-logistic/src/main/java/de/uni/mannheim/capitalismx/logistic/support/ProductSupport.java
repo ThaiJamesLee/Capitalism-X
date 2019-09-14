@@ -1,18 +1,22 @@
 package de.uni.mannheim.capitalismx.logistic.support;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author sdupper
  */
-public class ProductSupport {
+public class ProductSupport implements Serializable {
+    private static ProductSupport instance;
+
     private ArrayList<SupportType> supportTypes;
     private ExternalSupportPartner externalSupportPartner;
     private int totalSupportTypeQuality;
     private double totalSupportQuality;
     private double totalSupportCosts;
 
-    private enum SupportType{
+    public enum SupportType implements Serializable{
+        //TODO change 0 supportTypeQuality
         NO_PRODUCT_SUPPORT(-10, 0),
         ONLINE_SELF_SERVICE(0, 50),
         ONLINE_SUPPORT(20, 100),
@@ -38,7 +42,7 @@ public class ProductSupport {
     }
 
     //TODO: generate suitable values
-    private enum ExternalSupportPartner{
+    public enum ExternalSupportPartner implements Serializable{
         NO_PARTNER(0, 0),
         PARTNER_1(1000, 80),
         PARTNER_2(800, 40);
@@ -48,7 +52,7 @@ public class ProductSupport {
 
         private ExternalSupportPartner(int contractualCosts, int qualityIndex){
             this.contractualCosts = contractualCosts;
-            this.contractualCosts = qualityIndex;
+            this.qualityIndex = qualityIndex;
         }
 
         public int getContractualCosts() {
@@ -60,13 +64,26 @@ public class ProductSupport {
         }
     }
 
-    public ProductSupport(){
+    protected ProductSupport(){
         this.supportTypes = new ArrayList<SupportType>();
         this.supportTypes.add(SupportType.NO_PRODUCT_SUPPORT);
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;
         this.totalSupportTypeQuality = 0;
         this.totalSupportQuality = 0;
         this.totalSupportCosts = 0;
+    }
+
+    public static synchronized ProductSupport getInstance() {
+        if(ProductSupport.instance == null) {
+            ProductSupport.instance = new ProductSupport();
+        }
+        return ProductSupport.instance;
+    }
+
+    public void calculateAll(){
+        this.calculateTotalSupportTypeQuality();
+        this.calculateTotalSupportQuality();
+        this.calculateTotalSupportCosts();
     }
 
     public ArrayList<SupportType> generateSupportTypeSelection(){
@@ -105,32 +122,35 @@ public class ProductSupport {
         this.externalSupportPartner = externalSupportPartner;
     }
 
+    //TODO remove support types
     public void removeExternalSupportPartner(){
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;
     }
 
-    private void calculateTotalSupportTypeQuality(){
+    protected double calculateTotalSupportTypeQuality(){
         this.totalSupportTypeQuality = 0;
         for(SupportType supportType : supportTypes){
             this.totalSupportTypeQuality += supportType.getSupportTypeQuality();
         }
+        return this.totalSupportTypeQuality;
     }
 
-    private void calculateTotalSupportQuality(){
-        this.calculateTotalSupportTypeQuality();
-        if(externalSupportPartner.getQualityIndex() <= 50){
-            this.totalSupportQuality = 0.4 * externalSupportPartner.getQualityIndex() + 0.6 * this.totalSupportTypeQuality;
+    protected double calculateTotalSupportQuality(){
+        if(this.externalSupportPartner.getQualityIndex() <= 50){
+            this.totalSupportQuality = 0.4 * this.externalSupportPartner.getQualityIndex() + 0.6 * this.calculateTotalSupportTypeQuality();
         }else{
-            this.totalSupportQuality = 0.3 * externalSupportPartner.getQualityIndex() + 0.7 * this.totalSupportTypeQuality;
+            this.totalSupportQuality = 0.3 * this.externalSupportPartner.getQualityIndex() + 0.7 * this.calculateTotalSupportTypeQuality();
         }
+        return this.totalSupportQuality;
     }
 
-    private void calculateTotalSupportCosts(){
+    public double calculateTotalSupportCosts(){
         totalSupportCosts = 0;
         for(SupportType supportType : supportTypes){
             this.totalSupportCosts += supportType.getCostsSupportType();
         }
         this.totalSupportCosts += this.externalSupportPartner.getContractualCosts();
+        return this.totalSupportCosts;
     }
 
     public ArrayList<SupportType> getSupportTypes() {
