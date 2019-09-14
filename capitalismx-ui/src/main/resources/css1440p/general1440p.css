@@ -52,7 +52,7 @@ FontAwesomeIcon {
     -fx-background-radius: 9,8,5,4;
     -fx-padding: 15 30 15 30;
     -fx-font-family: "Prime";
-    -fx-font-size: 28px;
+    -fx-font-size: 37px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333; 
 }
@@ -63,7 +63,7 @@ FontAwesomeIcon {
     -fx-background-radius: 9,8,5,4;
     /*-fx-padding: 15 30 15 30;*/
     -fx-font-family: "Prime";
-    -fx-font-size: 18px;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;     
 }
