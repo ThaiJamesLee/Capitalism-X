@@ -48,7 +48,7 @@ public class JsonFileReader {
 
     /**
      * Read json file from resource folder.
-     * @param jsonFile
+     * @param jsonFile the .json file that is located at src/main/resources.
      * @return
      */
     public String readJsonFileFromResourceUnitTests(String jsonFile) {
