@@ -376,4 +376,8 @@ public class Finance implements Serializable {
     public List<Investment> getInvestments() {
         return this.investments;
     }
+
+    public static void setInstance(Finance instance) {
+        Finance.instance = instance;
+    }
 }

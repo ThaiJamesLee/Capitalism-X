@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
+import de.uni.mannheim.capitalismx.gamesave.SaveGameHandler;
 import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
@@ -31,6 +32,8 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,6 +41,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GameController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
     private static GameController instance;
     private boolean isNewYear;
@@ -52,13 +57,14 @@ public class GameController {
     }
 
     public synchronized void nextDay() {
-        LocalDate oldDate = GameState.getInstance().getGameDate();
-        GameState.getInstance().setGameDate(oldDate.plusDays(1));
-        LocalDate newDate = GameState.getInstance().getGameDate();
+        GameState state = GameState.getInstance();
+
+        LocalDate oldDate = state.getGameDate();
+        state.setGameDate(oldDate.plusDays(1));
+        LocalDate newDate = state.getGameDate();
         if(oldDate.getMonth() != newDate.getMonth()) {
             Production.getInstance().resetMonthlyPerformanceMetrics();
         }
-        System.out.println("old:" + oldDate + "new:" + newDate);
         this.updateAll();
     }
 
@@ -74,6 +80,39 @@ public class GameController {
         this.updateWarehouse();
         this.updateProcurement();
         this.updateProduction();
+    }
+
+    /**
+     * Save GameState.
+     */
+    public void saveGame() {
+        new SaveGameHandler().saveGameState(GameState.getInstance());
+    }
+
+    /**
+     * Load existing GameState and restore singletons.
+     */
+    public void loadGame() {
+        try {
+            GameState state = new SaveGameHandler().loadGameState();
+            GameState.setInstance(state);
+
+            //initialize and restore singleton properties
+            HRDepartment.setInstance(state.getHrDepartment());
+            Production.setInstance(state.getProductionDepartment());
+            Warehousing.setInstance(state.getWarehousingDepartment());
+            Finance.setInstance(state.getFinanceDepartment());
+            MarketingDepartment.setInstance(state.getMarketingDepartment());
+            Logistics.setInstance(state.getLogisticsDepartment());
+            CustomerDemand.setInstance(state.getCustomerDemand());
+            CustomerSatisfaction.setInstance(state.getCustomerSatisfaction());
+            ExternalEvents.setInstance(state.getExternalEvents());
+            CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
+            InternalFleet.setInstance(state.getInternalFleet());
+
+        } catch (ClassNotFoundException e) {
+            LOGGER.error(e.getMessage());
+        }
     }
 
     private void updateCompanyEcoIndex() {

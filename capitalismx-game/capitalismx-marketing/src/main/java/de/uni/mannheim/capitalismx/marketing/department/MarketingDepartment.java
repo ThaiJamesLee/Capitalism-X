@@ -352,6 +352,7 @@ public class MarketingDepartment implements Serializable {
         return marketResearches;
     }
 
-
-
+    public static void setInstance(MarketingDepartment instance) {
+        MarketingDepartment.instance = instance;
+    }
 }

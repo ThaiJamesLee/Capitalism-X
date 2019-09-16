@@ -260,4 +260,8 @@ public class ExternalEvents implements Serializable {
     public List<ExternalEvent> getExternalEvents() {
         return this.externalEvents;
     }
+
+    public static void setInstance(ExternalEvents instance) {
+        ExternalEvents.instance = instance;
+    }
 }
