@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.marketing.marketresearch;
 import de.uni.mannheim.capitalismx.utils.data.Range;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,8 @@ public class MarketResearch implements Serializable {
     private SurveyTypes surveyType;
 
     private Map<String, List<Double>> table;
+
+    private LocalDate date;
 
     public MarketResearch(boolean isInternal, SurveyTypes surveyType) {
         this.table = new HashMap<>();
@@ -101,6 +104,22 @@ public class MarketResearch implements Serializable {
             }
             System.out.println();
         }
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public double getCost() {
+        double influence = surveyType.getInfluencePrice();
+        double price;
+        if(isInternal) {
+            price = report.getInternalPrice();
+        } else {
+            price = report.getExternalPrice();
+        }
+
+        return price * influence;
     }
 
     /**
