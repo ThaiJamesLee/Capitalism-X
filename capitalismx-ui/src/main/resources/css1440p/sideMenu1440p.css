@@ -6,3 +6,7 @@
 .departmentButton:hover {
 	-fx-background-color: -fx-primary;
 }
+
+.sideMenuAnchor {
+	-fx-background-color: -fx-dark;
+}

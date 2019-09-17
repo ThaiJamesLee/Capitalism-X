@@ -17,7 +17,7 @@
  * Section for reusable module-components.
  */
 .header {
-	-fx-font: bold 22px 'Prime';
+	-fx-font: bold 29px 'Prime';
 	-fx-text-fill: -fx-dark;
 }
 
@@ -37,7 +37,7 @@
  
  
 .list-label {
-	-fx-font-size: 12px;
+	-fx-font-size: 16px;
 	-fx-font-family: 'Prime';
  }
  
