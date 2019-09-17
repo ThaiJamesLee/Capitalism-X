@@ -35,7 +35,7 @@ FontAwesomeIcon {
 
 .togglebutton {
 	-fx-background-color: -fx-light;
-	-fx-text-fill: -fx-dark;
+	-fx-text-fill: -fx-dark; 
 }
 
 /**
@@ -73,12 +73,12 @@ FontAwesomeIcon {
     //-fx-pref-width: 200px;
 	-fx-background-color: #E0E0E0;
 	-fx-text-fill: #333333;*/
-	-fx-pref-width: 150px;
-	-fx-pref-height: 50px;
+	-fx-pref-width: 200px;
+	-fx-pref-height: 67px;
 	-fx-background-color: #423f39;
 	-fx-text-fill: white;
     -fx-font-family: "Prime";
-    /*-fx-font-size: 25px;*/
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
 	-fx-border-size: medium;
 	/*-fx-border-style: solid;
@@ -90,8 +90,8 @@ FontAwesomeIcon {
     //-fx-pref-width: 200px;
 	-fx-background-color: #E0E0E0;
 	-fx-text-fill: #333333;*/
-	-fx-pref-width: 80px;
-	-fx-pref-height: 50px;
+	-fx-pref-width: 107px;
+	-fx-pref-height: 67px;
 	-fx-background-color: #423f39;
 	-fx-text-fill: white;
     -fx-font-family: "Prime";
@@ -141,7 +141,7 @@ FontAwesomeIcon {
     -fx-background-radius: 9,8,5,4;
     /*-fx-padding: 15 30 15 30;*/
     -fx-font-family: "Prime";
-    -fx-font-size: 25px;
+    -fx-font-size: 33px;
     -fx-font-weight: bold;
 
 }
