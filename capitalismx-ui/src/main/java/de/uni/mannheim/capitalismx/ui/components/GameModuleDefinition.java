@@ -20,7 +20,7 @@ public enum GameModuleDefinition {
 	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, GameOverlayDefinition.HR_EDIT_EMPLOYEE,
 			UIElementType.HR_EMPLOYEES_OVERVIEW, 1, 7, 1, 15),
 	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, UIElementType.HR_RECRUITING_OVERVIEW, 9, 7,
-			2, 19)
+			2, 19),
 
 	// The modules for Logistics. (21-30)
 //	LOGISTIC_PLACEHOLDER(21, "m_logistic_placeholder.fxml", GameViewType.GAME_LOGISTIC, 0, 1, 0, 1),
@@ -35,7 +35,7 @@ public enum GameModuleDefinition {
 //	WAREHOUSE_PLACEHOLDER(51, "m_warehouse_placeholder.fxml", GameViewType.GAME_WAREHOUSE, 0, 1, 0, 1),
 
 	// The modules for HR. (61-70)
-//	FINANCES_PLACEHOLDER(61, "m_finances_placeholder.fxml", GameViewType.GAME_FINANCES, 0, 1, 0, 1),
+	FINANCES_PLACEHOLDER(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OVERVIEW, 9, 7, 2, 19)
 
 	// The modules for HR. (71-80)
 //	MARKETING_PLACEHOLDER(71, "m_marketing_placeholder.fxml", GameViewType.GAME_MARKETING, 0, 1, 0, 1)
