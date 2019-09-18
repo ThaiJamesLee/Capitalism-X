@@ -77,11 +77,7 @@ public class OperationsTableController  extends GameModuleController {
                     }
                 });
 
-        operationsTable.getColumns().add(rowName);
-        operationsTable.getColumns().add(col1);
-        operationsTable.getColumns().add(col2);
-        operationsTable.getColumns().add(col3);
-        operationsTable.getColumns().add(col4);
+        operationsTable.getColumns().addAll(rowName, col1, col2, col3, col4);
 
         ObservableList<OperationsTableEntry> data = FXCollections.observableArrayList();
         data.add(new OperationsTableEntry("Test", 1, 2, 3 ,4));
