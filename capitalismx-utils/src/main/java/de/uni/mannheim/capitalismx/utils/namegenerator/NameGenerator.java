@@ -51,9 +51,9 @@ public class NameGenerator {
      */
     public List<PersonMeta> getGeneratedPersonMeta(int samplesize) {
         List<PersonMeta> pm = new ArrayList<>();
-
+        ServiceHandler serviceHandler = ServiceHandler.getInstance();
         try {
-            if(ServiceHandler.getInstance().hostIsReachable(api1[0]) || ServiceHandler.getInstance().hostIsReachable(api2[0])) {
+            if(serviceHandler.hostIsReachable(api1[0]) || serviceHandler.hostIsReachable(api2[0])) {
                 String jsonData = adapter.getGeneratedUser(api1[0] + api1[1] + "&amount="+samplesize);
                 // if api1 return null json then use api2
                 if(jsonData != null) {
@@ -70,6 +70,16 @@ public class NameGenerator {
         return pm;
     }
 
+    /**
+     * Call uinames.com API and parse the json response.
+     * If sample size = 1, then parse the string directly.
+     * If sample size > 1, then parse the json array first, then iterate over
+     * the list and parse the single jsons.
+     * Add the generated personmetas to the list.
+     * @param jsonData The json String.
+     * @param samplesize The specified sample size.
+     * @param pm List of PersonMeta.
+     */
     private void callApi1(String jsonData, int samplesize, List<PersonMeta> pm) {
         if(samplesize <= 1) {
             //if sample size = 1, then parse directly
@@ -83,6 +93,13 @@ public class NameGenerator {
         }
     }
 
+    /**
+     * Call randomuser.me API and parse the json response.
+     * Add the generated personmeta to the List.
+     * @param samplesize specified sample size.
+     * @param pm List of person metas.
+     * @throws IOException
+     */
     private void callApi2(int samplesize, List<PersonMeta> pm) throws IOException {
         //iterate samplesize times and create personmeta
         for (int i = 0; i < samplesize; i++) {

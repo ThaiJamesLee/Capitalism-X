@@ -1,11 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.salary;
 
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
-import de.uni.mannheim.capitalismx.utils.adapter.ServiceAdapter;
-import de.uni.mannheim.capitalismx.utils.namegenerator.NameGenerator;
-import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
-import de.uni.mannheim.capitalismx.utils.reader.JsonFileReader;
-import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;

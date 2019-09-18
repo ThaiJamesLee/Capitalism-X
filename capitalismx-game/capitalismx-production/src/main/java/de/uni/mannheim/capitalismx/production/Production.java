@@ -499,4 +499,8 @@ public class Production implements Serializable {
     public double getAverageProductBaseQuality() {
         return this.averageProductBaseQuality;
     }
+
+    public static void setInstance(Production instance) {
+        Production.instance = instance;
+    }
 }

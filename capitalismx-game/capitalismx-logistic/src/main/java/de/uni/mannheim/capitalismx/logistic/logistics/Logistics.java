@@ -217,4 +217,8 @@ public class Logistics implements Serializable {
     public void decreaseCapacityFleetRel(double amount){
         InternalFleet.getInstance().decreaseCapacityFleetRel(amount);
     }
+
+    public static void setInstance(Logistics instance) {
+        Logistics.instance = instance;
+    }
 }

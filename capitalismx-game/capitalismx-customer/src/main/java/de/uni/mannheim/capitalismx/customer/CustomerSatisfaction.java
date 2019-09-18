@@ -145,4 +145,8 @@ public class CustomerSatisfaction implements Serializable {
     public void calculateAll(LocalDate gameDate) {
          this.calculateCustomerSatisfaction(gameDate);
     }
+
+    public static void setInstance(CustomerSatisfaction instance) {
+        CustomerSatisfaction.instance = instance;
+    }
 }

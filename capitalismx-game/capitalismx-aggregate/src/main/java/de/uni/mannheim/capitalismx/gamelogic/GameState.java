@@ -6,6 +6,7 @@ import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Product;
@@ -31,6 +32,7 @@ public class GameState implements Serializable {
     private CustomerDemand customerDemand;
     private ExternalEvents externalEvents;
     private CompanyEcoIndex companyEcoIndex;
+    private InternalFleet internalFleet;
 
     private GameState() {
         this.gameDate = LocalDate.of(1990, 1, 1);
@@ -56,6 +58,7 @@ public class GameState implements Serializable {
         // TODO procurement once a procurement department is implemented where it is possible to buy components
         externalEvents = ExternalEvents.getInstance();
         companyEcoIndex = CompanyEcoIndex.getInstance();
+        internalFleet = InternalFleet.getInstance();
     }
 
     public LocalDate getGameDate() {
@@ -152,5 +155,13 @@ public class GameState implements Serializable {
 
     public void setCompanyEcoIndex(CompanyEcoIndex companyEcoIndex) {
         this.companyEcoIndex = companyEcoIndex;
+    }
+
+    public InternalFleet getInternalFleet() {
+        return internalFleet;
+    }
+
+    public void setInternalFleet(InternalFleet internalFleet) {
+        this.internalFleet = internalFleet;
     }
 }
