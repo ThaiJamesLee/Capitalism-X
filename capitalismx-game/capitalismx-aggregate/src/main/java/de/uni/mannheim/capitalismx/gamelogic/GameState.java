@@ -13,6 +13,8 @@ import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -20,6 +22,8 @@ public class GameState implements Serializable {
 
     private static GameState instance;
     private LocalDate gameDate;
+
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     // Departments
     private HRDepartment hrDepartment;
@@ -61,12 +65,35 @@ public class GameState implements Serializable {
         internalFleet = InternalFleet.getInstance();
     }
 
+    /**
+     * Add a change listener that notifies, if a property has changed.
+     * @param listener A property change listener.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Remove a change listener.
+     * @param listener The property listener that needs to be removed.
+     */
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+
     public LocalDate getGameDate() {
         return this.gameDate;
     }
 
+    /**
+     * Sets the new game date and fires a property changed event.
+     * @param gameDate Sets new game date.
+     */
     public void setGameDate(LocalDate gameDate) {
+        LocalDate oldDate = this.gameDate;
         this.gameDate = gameDate;
+        this.propertyChangeSupport.firePropertyChange("gameDate", oldDate, gameDate);
     }
 
     /**
@@ -164,4 +191,5 @@ public class GameState implements Serializable {
     public void setInternalFleet(InternalFleet internalFleet) {
         this.internalFleet = internalFleet;
     }
+
 }

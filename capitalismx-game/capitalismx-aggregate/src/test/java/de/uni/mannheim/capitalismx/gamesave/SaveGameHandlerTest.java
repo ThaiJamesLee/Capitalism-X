@@ -63,6 +63,8 @@ public class SaveGameHandlerTest {
             Assert.assertNotNull(state.getProductionDepartment());
             Assert.assertNotNull(state.getWarehousingDepartment());
 
+            Assert.assertEquals(state.getGameDate().toString(), "1990-01-01");
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
