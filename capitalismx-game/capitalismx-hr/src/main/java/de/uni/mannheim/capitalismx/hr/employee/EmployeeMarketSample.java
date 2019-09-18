@@ -71,9 +71,9 @@ public class EmployeeMarketSample implements Serializable {
         // use jsons if no file exists.
         if(personMetas.isEmpty()) {
             JsonFileReader jReader = new JsonFileReader();
-            String jsonArrayDE = jReader.readJsonFileFromResourceUnitTests(jReader.getFileNameDE());
-            String jsonArrayBE = jReader.readJsonFileFromResourceUnitTests(jReader.getFileNameBE());
-            String jsonArrayUS = jReader.readJsonFileFromResourceUnitTests(jReader.getFileNameUS());
+            String jsonArrayDE = jReader.readJsonFileFromResourceAsStream(jReader.getFileNameDE());
+            String jsonArrayBE = jReader.readJsonFileFromResourceAsStream(jReader.getFileNameBE());
+            String jsonArrayUS = jReader.readJsonFileFromResourceAsStream(jReader.getFileNameUS());
 
             List<String> entitiesDE = jReader.parseJsonArrayToStringList(jsonArrayDE);
             List<String> entitiesBE = jReader.parseJsonArrayToStringList(jsonArrayBE);

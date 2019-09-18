@@ -26,7 +26,7 @@ public class JsonFileReader {
 
 
     /**
-     * Reads the generated_users.json from resources.
+     * Reads the generated_users.json from resources. Only works in its own maven module, but not outside.
      * @return Returns the json files content as a String.
      */
     public String readJsonFileFromResource(String jsonFile) {
@@ -47,11 +47,11 @@ public class JsonFileReader {
     }
 
     /**
-     * Read json file from resource folder.
+     * Read json file from resource folder. This method is compatible for unit testing.
      * @param jsonFile the .json file that is located at src/main/resources.
-     * @return
+     * @return Returns json as a string.
      */
-    public String readJsonFileFromResourceUnitTests(String jsonFile) {
+    public String readJsonFileFromResourceAsStream(String jsonFile) {
         StringBuilder sb = new StringBuilder();
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(jsonFile)) {
 
