@@ -16,7 +16,7 @@ import javafx.scene.control.SelectionMode;
 public class RecruitingListController extends GameModuleController {
 
 	@FXML
-	private ListView<Employee> employeeList;
+	private ListView<Employee> recruitingList;
 	
 	private ObservableList<Employee> employeeListObservable;
 	
@@ -36,9 +36,9 @@ public class RecruitingListController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		employeeList.setItems(employeeListObservable);
-		employeeList.setCellFactory(employeeListView -> new RecruitingListViewCell());
-		employeeList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+//		recruitingList.setItems(employeeListObservable);
+//		recruitingList.setCellFactory(employeeListView -> new RecruitingListViewCell());
+//		recruitingList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
 	}
 

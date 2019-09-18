@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
@@ -88,6 +90,8 @@ public class UIManager {
 	 * Initializes all components needed for a new Game.
 	 */
 	public void initGame() {
+
+		switchToScene(GameSceneType.LOADING_SCREEN);
 		// load all the modules and save them in the gameModules-list
 		preloadViewsAndModules();
 
@@ -166,14 +170,14 @@ public class UIManager {
 	 * Preloads all the {@link GameModule}s and adds them to the list of modules.
 	 */
 	private void preloadViewsAndModules() {
-		//Create a task to load all the Modules without freezing the GUI
+		// Create a task to load all the Modules without freezing the GUI
 		Task<Integer> task = new Task<Integer>() {
 
 			@Override
 			protected Integer call() throws Exception {
 				double progress = 0.0;
 				this.updateProgress(0.0, 1.0);
-				int numOfComponents = GameModuleDefinition.values().length*2;
+				int numOfComponents = GameModuleDefinition.values().length * 2;
 
 				try {
 					// init list of GameViews
@@ -193,31 +197,28 @@ public class UIManager {
 								moduleDefinition.gridRowStart, moduleDefinition.gridColSpan,
 								moduleDefinition.gridRowSpan);
 
-						//load root and controller of the module from the fxml
+						// load root and controller of the module from the fxml
 						Parent root = loader.load();
 						GameModuleController controller = loader.getController();
-						
-						//update the progressbar #1 
+
+						// update the progressbar #1
 						progress += 1.0 / numOfComponents;
 						this.updateProgress(progress, 1.0);
-						System.out.println(progress);
 
 						// create new GameModule from the type and add it to its view.
 						GameModule module = new GameModule(root, moduleDefinition, position, controller);
 						getGameView(moduleDefinition.viewType).addModule(module);
 
-						//update the progressbar #2
+						// update the progressbar #2
 						progress += 1.0 / numOfComponents;
 						this.updateProgress(progress, 1.0);
-						System.out.println(progress);
 					}
-					//Finally switch to the GamePage
-					Platform.runLater(() -> switchToScene(GameSceneType.GAME_PAGE));
+					// start the game once everything is loaded
+					startGame();
 				} catch (IOException e) {
 					// TODO handle error if module could not be loaded.
 					e.printStackTrace();
 				}
-
 				return 1;
 			}
 
@@ -225,6 +226,14 @@ public class UIManager {
 		((LoadingScreenController) sceneLoadingScreen.getController()).initProgressBar(task.progressProperty());
 
 		new Thread(task).start();
+	}
+
+	/**
+	 * Start the Game by switching to the GamePage and starting the GameController
+	 */
+	private void startGame() {
+		Platform.runLater(() ->	switchToScene(GameSceneType.GAME_PAGE));
+//		Platform.runLater(() -> GameController.getInstance().start());
 	}
 
 	/**
@@ -251,14 +260,6 @@ public class UIManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Starts a new Game.
-	 */
-	public void startNewGame() {
-		switchToScene(GameSceneType.LOADING_SCREEN);
-		initGame();
 	}
 
 	/**

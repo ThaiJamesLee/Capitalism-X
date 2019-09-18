@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -22,6 +23,7 @@ public class EmployeeDetailController extends GameOverlayController {
 	@Override
 	public void update() {
 		String employeeId = this.getProperties().getProperty("employeeId", "no employee selected");
+		//TODO getEmployee(ID)
 		employeeNameLabel.setText("Employee number: " + employeeId);
 	}
 
