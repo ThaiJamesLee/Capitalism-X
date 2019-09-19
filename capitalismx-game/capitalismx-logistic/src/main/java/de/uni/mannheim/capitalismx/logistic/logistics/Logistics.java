@@ -104,25 +104,25 @@ public class Logistics implements Serializable {
         ArrayList<ExternalPartner> externalPartnerSelection = new ArrayList<ExternalPartner>();
 
         // generate external partners
-        externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100),
+        externalPartnerSelection.add(new ExternalPartner("Partner 1", RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100),
                 RandomNumberGenerator.getRandomDouble(1.1, 1.3), RandomNumberGenerator.getRandomDouble(0.7, 0.9)));
-        externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70),
+        externalPartnerSelection.add(new ExternalPartner("Partner 2", RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70),
                 RandomNumberGenerator.getRandomDouble(1.0, 1.2), RandomNumberGenerator.getRandomDouble(0.8, 1.0)));
-        externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(60, 100),
+        externalPartnerSelection.add(new ExternalPartner("Partner 3", RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(60, 100),
                 RandomNumberGenerator.getRandomDouble(1.0, 1.2), RandomNumberGenerator.getRandomDouble(0.8, 1.0)));
 
-        externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40),
+        externalPartnerSelection.add(new ExternalPartner("Partner 4", RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40),
                 RandomNumberGenerator.getRandomDouble(0.9, 1.1), RandomNumberGenerator.getRandomDouble(0.9, 1.1)));
-        externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70),
+        externalPartnerSelection.add(new ExternalPartner("Partner 5", RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70),
                 RandomNumberGenerator.getRandomDouble(0.9, 1.1), RandomNumberGenerator.getRandomDouble(0.9, 1.1)));
-        externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(60, 100),
+        externalPartnerSelection.add(new ExternalPartner("Partner 6", RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(60, 100),
                 RandomNumberGenerator.getRandomDouble(0.9, 1.1), RandomNumberGenerator.getRandomDouble(0.9, 1.1)));
 
-        externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(30, 70),
+        externalPartnerSelection.add(new ExternalPartner("Partner 7", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(30, 70),
                 RandomNumberGenerator.getRandomDouble(0.9, 1.1), RandomNumberGenerator.getRandomDouble(0.9, 1.1)));
-        externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70),
+        externalPartnerSelection.add(new ExternalPartner("Partner 8", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70),
                 RandomNumberGenerator.getRandomDouble(0.8, 1.0), RandomNumberGenerator.getRandomDouble(1.0, 1.2)));
-        externalPartnerSelection.add(new ExternalPartner(RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40),
+        externalPartnerSelection.add(new ExternalPartner("Partner 9", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40),
                 RandomNumberGenerator.getRandomDouble(0.7, 0.9), RandomNumberGenerator.getRandomDouble(1.1, 1.3)));
 
         return externalPartnerSelection;

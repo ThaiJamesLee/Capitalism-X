@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -21,13 +23,13 @@ public class Truck implements Serializable {
 
     public Truck(double ecoIndexTruck, double qualityIndexTruck, double purchasePriceTruckFactor, double fixCostsDeliveryFactor){
         int basePrice = 100000;
-        this.ecoIndex = ecoIndexTruck;
-        this.qualityIndex = qualityIndexTruck;
-        this.purchasePrice = basePrice * purchasePriceTruckFactor;
-        this.fixCostsDelivery = basePrice * fixCostsDeliveryFactor;
+        this.ecoIndex = DecimalRound.round(ecoIndexTruck, 2);
+        this.qualityIndex = DecimalRound.round(qualityIndexTruck, 2);
+        this.purchasePrice = DecimalRound.round(basePrice * purchasePriceTruckFactor, 2);
+        this.fixCostsDelivery = DecimalRound.round(basePrice * fixCostsDeliveryFactor, 2);
 
         this.capacity = 1000;
-        this.fixTruckCost = (this.purchasePrice * 0.01) / 12;
+        this.fixTruckCost = DecimalRound.round((this.purchasePrice * 0.01) / 12, 2);
         //TODO for 9 years
         this.depreciationRate = 1/9;
         this.usefulLife = 9;

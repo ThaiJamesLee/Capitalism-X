@@ -12,7 +12,9 @@ public enum UIElementType {
 
 	HR_EMPLOYEES_OVERVIEW("Employees"), 
 	HR_RECRUITING_OVERVIEW("Recruiting"),
-	FINANCE_OVERVIEW("Finance");
+	FINANCE_OVERVIEW("Finance"),
+	LOGISTICS_PARTNER_OVERVIEW("External Partner"),
+	LOGISTICS_TRUCK_FLEET_OVERVIEW("Truck Fleet");
 
 	// The title of the GameElement, that will be displayed on top.
 	public final String title;

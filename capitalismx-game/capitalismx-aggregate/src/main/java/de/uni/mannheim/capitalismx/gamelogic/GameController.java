@@ -346,6 +346,14 @@ public class GameController {
         return ExternalEvents.getInstance().getExternalEvents();
     }
 
+    /*
+    LOGISTICS
+     */
+
+    public ExternalPartner getExternalPartner(){
+        return Logistics.getInstance().getExternalPartner();
+    }
+
 
     /*
     *  PROCUREMENT
