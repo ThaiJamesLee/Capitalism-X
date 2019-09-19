@@ -34,20 +34,18 @@
 /**
  * Styling for Listviews.
  */
- 
- 
 .list-label {
-	-fx-font-size: 12px;
+	-fx-font-size: 14px;
 	-fx-font-family: 'Prime';
- }
- 
+}
+
 .list-view {
 	-fx-background-color: none;
 	-fx-border-width : 1 0 0 0;
 }
 
 .list-view .scroll-bar:horizontal {
-    -fx-scale-x: 0;
+	-fx-scale-x: 0;
 }
 
 .list-cell {
@@ -76,5 +74,47 @@
 }
 
 .list-cell:empty {
-    -fx-opacity: 0;
+	-fx-opacity: 0;
 }
+
+/**
+ * Styling for TabPanes.
+ */
+ 
+ .tab-pane {
+    -fx-tab-min-width: 60px;
+ }
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-background-color: transparent;
+}
+
+.tab-pane .tab-content-area {
+	-fx-background-color: transparent;
+	-fx-border-width : 1 0 0 0;
+	-fx-border-insets : 0 5 0 5;
+	-fx-border-color: -fx-dark;
+}
+
+.tab-pane .tab {
+    -fx-background-insets: 0 1 0 1;
+	-fx-background-color: -fx-dark;
+	-fx-border-radius: 5 5 0 0;
+	-fx-background-radius: 5 5 0 0;
+}
+
+.tab-pane .tab:selected, .tab-pane .tab-pane:focused {
+	-fx-background-color: -fx-primary;
+	-fx-border-width: 2;
+	-fx-border-color: -fx-dark;
+	-fx-background-insets: -2;
+	-fx-border-insets: -2;
+	-fx-border-radius: 3;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+	-fx-text-fill: -fx-light;
+	-fx-font-family: "Prime";
+}
+
+
