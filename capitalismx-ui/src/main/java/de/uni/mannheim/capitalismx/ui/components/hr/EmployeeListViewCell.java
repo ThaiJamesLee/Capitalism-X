@@ -3,13 +3,17 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
+import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.overlay.hr.EmployeeDetailController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
 
-public class RecruitingListViewCell extends ListCell<Employee> {
+public class EmployeeListViewCell extends ListCell<Employee> {
 
 	@FXML
 	private Label nameLabel;
@@ -19,9 +23,6 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 
 	@FXML
 	private Label skillLabel;
-	
-	@FXML
-	private Label jobLabel;
 	
 	@FXML
 	private GridPane gridPane;
@@ -36,7 +37,7 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	            setGraphic(null);
 	        } else { 
 	        	if (loader == null) {
-	        		loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/recruiting_list_cell.fxml"));
+	        		loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/employee_list_cell.fxml"));
 	        		loader.setController(this);
 
 	                try {
@@ -44,14 +45,18 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	                } catch (IOException e) {
 	                    e.printStackTrace();
 	                }
-
+	                //Open Overlay on click
+	                //TODO remove header click and maybe set listener only to name label
+	                gridPane.setOnMouseClicked(e -> {
+	                	EmployeeDetailController overlayController = (EmployeeDetailController) Main.getManager().getGameView(GameViewType.HR).getModule(UIElementType.HR_EMPLOYEES_OVERVIEW).getOverlay().getController();
+	                	overlayController.setEmployee(employee);
+	                	Main.getManager().getGamePageController().showOverlay(UIElementType.HR_EMPLOYEES_OVERVIEW);
+	                });
 	            }
 	        	
 	        	nameLabel.setText(employee.getName());
 	        	wageLabel.setText((int)employee.getSalary() + " CC");
 	        	skillLabel.setText(employee.getSkillLevel() + "");
-	        	//TODO get employee type
-	        	jobLabel.setText(employee.getPosition());
 
 	        	setText(null);
 	        	setGraphic(gridPane);

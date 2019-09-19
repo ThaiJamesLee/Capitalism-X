@@ -82,7 +82,7 @@
       </StackPane>
       <Button fx:id="fullscreenButton" mnemonicParsing="false" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <graphic>
-            <FontAwesomeIcon iconName="COMPRESS" size="2em">
+            <FontAwesomeIcon iconName="EXPAND" size="2em">
                <font>
                   <Font size="13.0" />
                </font>

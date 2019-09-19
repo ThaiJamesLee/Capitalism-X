@@ -6,7 +6,9 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
+import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.hr.RecruitingListViewCell;
+import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,8 +30,9 @@ public class RecruitingListController extends GameModuleController {
 	public RecruitingListController() {
 		employeeListObservable = FXCollections.observableArrayList();
 		EmployeeGenerator generator = EmployeeGenerator.getInstance();
-		for (int i = 0; i < 10; i++) {
-			employeeListObservable.add(generator.generateEngineer((int) (Math.random() * 100)));
+		for (int i = 0; i < 15; i++) {
+			int rand = (int)(Math.random() * 100);
+			employeeListObservable.add((rand % 2 == 0) ? generator.generateEngineer(rand) : generator.generateSalesPeople(rand));
 		}
 	}
 
@@ -50,6 +53,7 @@ public class RecruitingListController extends GameModuleController {
 		Employee employeeToHire = recruitingList.getSelectionModel().getSelectedItem();
 		HRDepartment.getInstance().hire(employeeToHire);
 		employeeListObservable.remove(employeeToHire);
+		Main.getManager().getGamePageController().update();
 	}
 
 }

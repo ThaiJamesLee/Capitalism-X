@@ -19,11 +19,11 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="contentPane" styleClass="contentPane" />
+            <AnchorPane fx:id="contentPane" styleClass="contentPane">
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="5.0" />
+               </padding></AnchorPane>
          </children>
       </VBox>
    </children>
-   <padding>
-      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-   </padding>
 </AnchorPane>
