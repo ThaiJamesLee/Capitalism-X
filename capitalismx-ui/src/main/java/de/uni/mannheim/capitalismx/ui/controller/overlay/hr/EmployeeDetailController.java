@@ -4,7 +4,8 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.hr.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.employee.EmployeeMarketSample;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -18,19 +19,26 @@ import javafx.scene.control.Label;
 public class EmployeeDetailController extends GameOverlayController {
 
 	@FXML
-	public Label employeeNameLabel;
+	public Label employeeNameLabel, salaryLabel, skillLabel, positionLabel;
+
+	private Employee employee;
 
 	@Override
 	public void update() {
-		String employeeId = this.getProperties().getProperty("employeeId", "no employee selected");
-		//TODO getEmployee(ID)
-		employeeNameLabel.setText("Employee number: " + employeeId);
+		employeeNameLabel.setText(employee.getName());
+		salaryLabel.setText(employee.getSalary() + " CC");
+		skillLabel.setText(employee.getSkillLevel() + "");
+		positionLabel.setText(employee.getPosition());
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	@Override
