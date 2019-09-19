@@ -13,6 +13,7 @@ import javafx.stage.Stage;
  */
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.text.Font;
 import javafx.scene.control.ButtonType;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -36,6 +37,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			loadFonts();
 			
 			manager = new UIManager(primaryStage);
 
@@ -61,6 +63,11 @@ public class Main extends Application {
 					ButtonType.NO);
 			closeConfirmation.showAndWait();
 		}
+	}
+	
+	private void loadFonts() {
+		Font.loadFont(Main.class.getResource("/fonts/Prime-Regular.ttf").toExternalForm(), 10);
+		Font.loadFont(Main.class.getResource("/fonts/Prime-Light.ttf").toExternalForm(), 10);
 	}
 
 	public static void main(String[] args) {
