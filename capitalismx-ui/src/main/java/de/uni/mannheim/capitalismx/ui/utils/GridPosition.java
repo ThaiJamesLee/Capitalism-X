@@ -1,7 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.utils;
 
 /**
- * Determines the position of a UI-Element on the grid of the GamePage.
+ * Determines the position of a UI-Element on the 20x20 content grid of the GamePage.
  * 
  * @author Jonathan
  *
