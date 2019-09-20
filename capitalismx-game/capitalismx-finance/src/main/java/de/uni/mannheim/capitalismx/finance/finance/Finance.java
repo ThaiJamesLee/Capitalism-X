@@ -70,6 +70,9 @@ public class Finance implements Serializable {
         this.machinesSold = new ArrayList<>();
         this.nopatLast5Years = new ArrayList<>();
         this.bankingSystem = BankingSystem.getInstance();
+
+        this.assets = 0.0;
+        this.liabilities = 0.0;
     }
 
     public static synchronized Finance getInstance() {
@@ -379,5 +382,13 @@ public class Finance implements Serializable {
 
     public static void setInstance(Finance instance) {
         Finance.instance = instance;
+    }
+
+    public double getAssets() {
+        return this.assets;
+    }
+
+    public double getLiabilities() {
+        return this.liabilities;
     }
 }

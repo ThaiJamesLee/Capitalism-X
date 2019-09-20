@@ -354,6 +354,14 @@ public class GameController {
         Finance.getInstance().sellTruck(truck);
     }
 
+    public double getAssets(){
+        return Finance.getInstance().getAssets();
+    }
+
+    public double getLiabilities(){
+        return Finance.getInstance().getLiabilities();
+    }
+
     /*
     LOGISTICS
      */

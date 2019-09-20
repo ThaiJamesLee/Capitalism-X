@@ -13,6 +13,7 @@ public enum UIElementType {
 	HR_EMPLOYEES_OVERVIEW("Employees"), 
 	HR_RECRUITING_OVERVIEW("Recruiting"),
 	FINANCE_OVERVIEW("Finance"),
+    FINANCE_OPERATIONS_TABLE("Operations Table"),
 	LOGISTICS_PARTNER_OVERVIEW("External Partner"),
 	LOGISTICS_TRUCK_FLEET_OVERVIEW("Truck Fleet");
 
