@@ -60,7 +60,7 @@ public class TruckFleetController  extends GameModuleController {
 
 
         //truckFleetListView.setItems(truckFleetListObservable);
-        truckFleetListView.setCellFactory(truckListView -> new TruckListViewCell());
+        truckFleetListView.setCellFactory(truckListView -> new TruckListViewCell(truckFleetListView));
     }
 
 }

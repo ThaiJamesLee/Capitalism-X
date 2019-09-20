@@ -350,6 +350,10 @@ public class GameController {
         return Finance.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
     }
 
+    public void sellTruck(Truck truck){
+        Finance.getInstance().sellTruck(truck);
+    }
+
     /*
     LOGISTICS
      */

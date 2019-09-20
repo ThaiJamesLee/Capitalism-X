@@ -6,8 +6,10 @@ import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
@@ -26,7 +28,16 @@ public class TruckListViewCell extends ListCell<Truck> {
     @FXML
     private GridPane gridPane;
 
+    @FXML
+    private Button sellButton;
+
     private FXMLLoader loader;
+
+    private ListView<Truck> truckFleetListView;
+
+    public TruckListViewCell(ListView<Truck> truckFleetListView){
+        this.truckFleetListView = truckFleetListView;
+    }
 
     @Override
     protected void updateItem(Truck truck, boolean empty) {
@@ -51,6 +62,10 @@ public class TruckListViewCell extends ListCell<Truck> {
             indexLabel.setText(controller.getInternalFleet().getTrucks().indexOf(truck) + "");
             valueLabel.setText(controller.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.calculateTimeUsed(GameState.getInstance().getGameDate())) + " CC");
             dateLabel.setText(truck.getPurchaseDate() + "");
+            sellButton.setOnAction(e -> {
+                controller.sellTruck(truck);
+                this.truckFleetListView.getItems().remove(truck);
+            });
 
             setText(null);
             setGraphic(gridPane);
