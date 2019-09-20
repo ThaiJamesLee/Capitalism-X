@@ -18,10 +18,10 @@ public class InternalFleetTest {
 
         Assert.assertEquals(internalFleet.calculateCapacityFleet(), 0);
 
-        internalFleet.addTruckToFleet(new Truck(100, 100, 1.0, 1.0), LocalDate.now());
+        internalFleet.addTruckToFleet(new Truck("Truck 1", 100, 100, 1.0, 1.0), LocalDate.now());
         Assert.assertEquals(internalFleet.calculateCapacityFleet(), 1000);
 
-        internalFleet.addTruckToFleet(new Truck(100, 100, 1.0, 1.0), LocalDate.now());
+        internalFleet.addTruckToFleet(new Truck("Truck 2", 100, 100, 1.0, 1.0), LocalDate.now());
         Assert.assertEquals(internalFleet.calculateCapacityFleet(), 2000);
 
         internalFleet.decreaseCapacityFleetRel(0.1);
@@ -34,10 +34,10 @@ public class InternalFleetTest {
 
         Assert.assertEquals(internalFleet.calculateEcoIndexFleet(), 0.0);
 
-        internalFleet.addTruckToFleet(new Truck(100, 100, 1.0, 1.0), LocalDate.now());
+        internalFleet.addTruckToFleet(new Truck("Truck 1", 100, 100, 1.0, 1.0), LocalDate.now());
         Assert.assertEquals(internalFleet.calculateEcoIndexFleet(), 100.0);
 
-        internalFleet.addTruckToFleet(new Truck(50, 100, 1.0, 1.0), LocalDate.now());
+        internalFleet.addTruckToFleet(new Truck("Truck 2", 50, 100, 1.0, 1.0), LocalDate.now());
         Assert.assertEquals(internalFleet.calculateEcoIndexFleet(), 75.0);
     }
 
@@ -47,10 +47,10 @@ public class InternalFleetTest {
 
         Assert.assertEquals(internalFleet.calculateQualityIndexFleet(), 0.0);
 
-        internalFleet.addTruckToFleet(new Truck(100, 100, 1.0, 1.0), LocalDate.now());
+        internalFleet.addTruckToFleet(new Truck("Truck 1", 100, 100, 1.0, 1.0), LocalDate.now());
         Assert.assertEquals(internalFleet.calculateQualityIndexFleet(), 100.0);
 
-        internalFleet.addTruckToFleet(new Truck(100, 50, 1.0, 1.0), LocalDate.now());
+        internalFleet.addTruckToFleet(new Truck("Truck 2", 100, 50, 1.0, 1.0), LocalDate.now());
         Assert.assertEquals(internalFleet.calculateQualityIndexFleet(), 75.0);
     }
 

@@ -346,12 +346,20 @@ public class GameController {
         return ExternalEvents.getInstance().getExternalEvents();
     }
 
+    public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed){
+        return Finance.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
+    }
+
     /*
     LOGISTICS
      */
 
     public ExternalPartner getExternalPartner(){
         return Logistics.getInstance().getExternalPartner();
+    }
+
+    public InternalFleet getInternalFleet(){
+        return Logistics.getInstance().getInternalFleet();
     }
 
 

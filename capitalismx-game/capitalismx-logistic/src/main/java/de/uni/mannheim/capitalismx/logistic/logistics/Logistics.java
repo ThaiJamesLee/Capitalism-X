@@ -135,17 +135,17 @@ public class Logistics implements Serializable {
         ArrayList<Truck> truckSelection = new ArrayList<Truck>();
 
         // generate six trucks according to table on page 49
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.1, 1.3),
+        truckSelection.add(new Truck("Truck 1", RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.1, 1.3),
                 RandomNumberGenerator.getRandomDouble(0.6, 0.8)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.9, 1.1),
+        truckSelection.add(new Truck("Truck 2", RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.9, 1.1),
                 RandomNumberGenerator.getRandomDouble(0.8, 1.1)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.0, 1.2),
+        truckSelection.add(new Truck("Truck 3", RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.0, 1.2),
                 RandomNumberGenerator.getRandomDouble(0.7, 0.9)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.8, 1.1),
+        truckSelection.add(new Truck("Truck 4", RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.8, 1.1),
                 RandomNumberGenerator.getRandomDouble(0.9, 1.1)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.7, 0.9),
+        truckSelection.add(new Truck("Truck 5", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.7, 0.9),
                 RandomNumberGenerator.getRandomDouble(1.0, 1.2)));
-        truckSelection.add(new Truck(RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.6, 0.8),
+        truckSelection.add(new Truck("Truck 6", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.6, 0.8),
                 RandomNumberGenerator.getRandomDouble(1.1, 1.3)));
         return truckSelection;
     }

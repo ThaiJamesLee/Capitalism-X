@@ -106,7 +106,7 @@ public class Finance implements Serializable {
         return purchasePrice / usefulLife;
     }
 
-    private double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed){
+    public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed){
         return purchasePrice - this.calculateAnnualDepreciation(purchasePrice, usefulLife) * timeUsed;
     }
 

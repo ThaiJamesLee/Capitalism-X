@@ -10,6 +10,7 @@ import java.time.Period;
  * @author sdupper
  */
 public class Truck implements Serializable {
+    private String name;
     private int capacity;
     private double ecoIndex;
     private double qualityIndex;
@@ -21,7 +22,8 @@ public class Truck implements Serializable {
     private int usefulLife;
     private LocalDate purchaseDate;
 
-    public Truck(double ecoIndexTruck, double qualityIndexTruck, double purchasePriceTruckFactor, double fixCostsDeliveryFactor){
+    public Truck(String name, double ecoIndexTruck, double qualityIndexTruck, double purchasePriceTruckFactor, double fixCostsDeliveryFactor){
+        this.name = name;
         int basePrice = 100000;
         this.ecoIndex = DecimalRound.round(ecoIndexTruck, 2);
         this.qualityIndex = DecimalRound.round(qualityIndexTruck, 2);
@@ -78,5 +80,13 @@ public class Truck implements Serializable {
 
     public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
+    }
+
+    public LocalDate getPurchaseDate() {
+        return this.purchaseDate;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
