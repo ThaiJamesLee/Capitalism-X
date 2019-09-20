@@ -101,7 +101,15 @@ public class GameState implements Serializable {
      * @param state The new GameState.
      */
     public static void setInstance(GameState state) {
-        instance = state;
+        GameState.instance = state;
+    }
+
+    /**
+     * This instance is not a singleton, and can not be called by the getInstance method.
+     * @return Returns a newly created instance.
+     */
+    public static GameState createInstance() {
+        return new GameState();
     }
 
     public HRDepartment getHrDepartment() {

@@ -18,11 +18,11 @@ public class SaveGameHandlerTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SaveGameHandlerTest.class);
     private SaveGameHandler saveGameHandler;
+    private GameState state;
 
     @BeforeTest
     public void setUp() {
-        GameState.setInstance(null);
-        GameState state = GameState.getInstance();
+        state = GameState.createInstance();
         state.initiate();
 
         saveGameHandler = new SaveGameHandler();
@@ -33,7 +33,7 @@ public class SaveGameHandlerTest {
      */
     @Test
     public void saveGameTest() {
-        saveGameHandler.saveGameState(GameState.getInstance());
+        saveGameHandler.saveGameState(state);
     }
 
     /**
@@ -65,9 +65,8 @@ public class SaveGameHandlerTest {
             Assert.assertNotNull(state.getWarehousingDepartment());
 
             Assert.assertTrue(state.getGameDate().toString().matches("1990-01-0[1-9]"));
-
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -79,6 +78,5 @@ public class SaveGameHandlerTest {
             LOGGER.info("Savegame file deleted.");
         }
         LOGGER.info("Clean Uo: Destroy GameState Singleton.");
-        GameState.setInstance(null);
     }
 }
