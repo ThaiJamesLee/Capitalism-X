@@ -44,7 +44,7 @@ public class LogisticsPartnerController  extends GameModuleController {
         ArrayList<ExternalPartner> externalPartners = controller.generateExternalPartnerSelection();
         //ObservableList<String> data = FXCollections.observableArrayList();
 
-        MenuItem[] logisticsPartnerMenuItems = new MenuItem[9];
+        MenuItem[] logisticsPartnerMenuItems = new MenuItem[externalPartners.size()];
 
         int i = 0;
         for(ExternalPartner externalPartner : externalPartners) {

@@ -42,7 +42,7 @@ public class TruckFleetController extends GameModuleController {
         }
 
 
-        MenuItem[] truckMenuItems = new MenuItem[6];
+        MenuItem[] truckMenuItems = new MenuItem[trucks.size()];
 
         int i = 0;
         for(Truck truck : trucks) {

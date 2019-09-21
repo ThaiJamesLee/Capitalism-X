@@ -55,7 +55,7 @@ public class Finance implements Serializable {
     private List<Machinery> machinesSold;
     private List<Double> nopatLast5Years;
 
-    private BankingSystem bankingSystem;
+    //private BankingSystem bankingSystem;
     private List<Investment> investments;
 
 
@@ -71,7 +71,7 @@ public class Finance implements Serializable {
         this.trucksSold = new ArrayList<>();
         this.machinesSold = new ArrayList<>();
         this.nopatLast5Years = new ArrayList<>();
-        this.bankingSystem = BankingSystem.getInstance();
+        //this.bankingSystem = BankingSystem.getInstance();
 
         this.assets = 0.0;
         this.liabilities = 0.0;
@@ -276,11 +276,11 @@ public class Finance implements Serializable {
         if(desiredLoanAmount > 0.7 * this.netWorth){
             desiredLoanAmount = 0.7 * this.netWorth;
         }
-        return this.bankingSystem.generateLoanSelection(desiredLoanAmount);
+        return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
     }
 
     public void addLoan(BankingSystem.Loan loan, LocalDate loanDate){
-        bankingSystem.addLoan(loan, loanDate);
+        BankingSystem.getInstance().addLoan(loan, loanDate);
     }
 
     //TODO update cash?
@@ -291,7 +291,7 @@ public class Finance implements Serializable {
         ArrayList<Investment> investmentSelection = new ArrayList<Investment>();
         //Real Estate
         investmentSelection.add(new Investment(amount, 0.07, 0.2));
-        //stocks
+        //Stocks
         investmentSelection.add(new Investment(amount, 0.1, 0.3));
         //Venture Capital
         investmentSelection.add(new Investment(amount, 0.142, 0.5));
@@ -402,5 +402,9 @@ public class Finance implements Serializable {
 
     public double getNetWorth() {
         return this.netWorth;
+    }
+
+    public BankingSystem.Loan getLoan(){
+        return BankingSystem.getInstance().getLoan();
     }
 }

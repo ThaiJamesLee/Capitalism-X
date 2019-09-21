@@ -271,6 +271,10 @@ public class GameController {
         Finance.getInstance().addLoan(loan, loanDate);
     }
 
+    public BankingSystem.Loan getLoan(){
+        return Finance.getInstance().getLoan();
+    }
+
     public ArrayList<ExternalPartner> generateExternalPartnerSelection(){
         return Logistics.getInstance().generateExternalPartnerSelection();
     }
@@ -361,6 +365,10 @@ public class GameController {
 
     public double getLiabilities(){
         return Finance.getInstance().getLiabilities();
+    }
+
+    public double calculateNetWorth(LocalDate gameDate){
+        return Finance.getInstance().calculateNetWorth(gameDate);
     }
 
     /*
