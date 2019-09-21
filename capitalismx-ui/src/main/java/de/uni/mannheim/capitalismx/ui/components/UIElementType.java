@@ -11,7 +11,8 @@ package de.uni.mannheim.capitalismx.ui.components;
 public enum UIElementType {
 
 	HR_EMPLOYEES_OVERVIEW("Employees"), 
-	HR_RECRUITING_OVERVIEW("Recruiting");
+	HR_RECRUITING_OVERVIEW("Recruiting"),
+	PRODUCTION_NEW_PRODUCT_OVERVIEW("Introduce Product");
 
 	// The title of the GameElement, that will be displayed on top.
 	public final String title;
