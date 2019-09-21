@@ -55,7 +55,7 @@
                            <children>
                               <ScrollPane hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <ListView fx:id="notificationAll" prefHeight="335.0" prefWidth="585.0" />
+                                    <ListView id="allListView" fx:id="notificationAll" prefHeight="335.0" prefWidth="585.0" />
                                  </content>
                               </ScrollPane>
                            </children>
@@ -68,7 +68,7 @@
                            <children>
                               <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <ListView fx:id="notificationInternal" prefHeight="335.0" prefWidth="585.0" />
+                                    <ListView id="internalListView" fx:id="notificationInternal" prefHeight="335.0" prefWidth="585.0" />
                                  </content>
                               </ScrollPane>
                            </children>
@@ -81,7 +81,7 @@
                            <children>
                               <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <ListView fx:id="notificationExternal" prefHeight="335.0" prefWidth="585.0" />
+                                    <ListView id="externalListView" fx:id="notificationExternal" prefHeight="335.0" prefWidth="585.0" />
                                  </content>
                               </ScrollPane>
                            </children>
