@@ -298,4 +298,8 @@ public class HRDepartment implements Serializable {
         }
         return totalTrainingCosts;
     }
+
+    public static void setInstance(HRDepartment instance) {
+        HRDepartment.instance = instance;
+    }
 }
