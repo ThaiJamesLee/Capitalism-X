@@ -245,8 +245,9 @@ public class GameController {
         return cash;
     }
 
-    public double getNetWorth(LocalDate gameDate) {
-        double netWorth = Finance.getInstance().calculateNetWorth(gameDate);
+    public double getNetWorth() {
+        //double netWorth = Finance.getInstance().calculateNetWorth(gameDate);
+        double netWorth = Finance.getInstance().getNetWorth();
         return netWorth;
     }
 
@@ -266,8 +267,12 @@ public class GameController {
         return Finance.getInstance().generateLoanSelection(loanAmount);
     }
 
-    public void addLoan(BankingSystem.Loan loan){
-        Finance.getInstance().addLoan(loan);
+    public void addLoan(BankingSystem.Loan loan, LocalDate loanDate){
+        Finance.getInstance().addLoan(loan, loanDate);
+    }
+
+    public BankingSystem.Loan getLoan(){
+        return Finance.getInstance().getLoan();
     }
 
     public ArrayList<ExternalPartner> generateExternalPartnerSelection(){
@@ -344,6 +349,38 @@ public class GameController {
 
     public List<ExternalEvents.ExternalEvent> getExternalEvents() {
         return ExternalEvents.getInstance().getExternalEvents();
+    }
+
+    public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed){
+        return Finance.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
+    }
+
+    public void sellTruck(Truck truck){
+        Finance.getInstance().sellTruck(truck);
+    }
+
+    public double getAssets(){
+        return Finance.getInstance().getAssets();
+    }
+
+    public double getLiabilities(){
+        return Finance.getInstance().getLiabilities();
+    }
+
+    public double calculateNetWorth(LocalDate gameDate){
+        return Finance.getInstance().calculateNetWorth(gameDate);
+    }
+
+    /*
+    LOGISTICS
+     */
+
+    public ExternalPartner getExternalPartner(){
+        return Logistics.getInstance().getExternalPartner();
+    }
+
+    public InternalFleet getInternalFleet(){
+        return Logistics.getInstance().getInternalFleet();
     }
 
 
