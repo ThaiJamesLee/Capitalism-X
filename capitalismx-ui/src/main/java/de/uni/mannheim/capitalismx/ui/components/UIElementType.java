@@ -15,6 +15,7 @@ public enum UIElementType {
 	FINANCE_OVERVIEW("Finance"),
     FINANCE_OPERATIONS_TABLE("Operations Table"),
 	LOGISTICS_PARTNER_OVERVIEW("External Partner"),
+	LOGISTICS_WAREHOUSE_OVERVIEW("Warehouses"),
 	LOGISTICS_TRUCK_FLEET_OVERVIEW("Truck Fleet");
 
 	// The title of the GameElement, that will be displayed on top.

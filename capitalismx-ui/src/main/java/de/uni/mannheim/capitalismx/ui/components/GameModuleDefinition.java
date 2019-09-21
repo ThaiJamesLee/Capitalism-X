@@ -25,6 +25,7 @@ public enum GameModuleDefinition {
 	// The modules for Logistics. (21-30)
 	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),
 	LOGISTICS_TRUCK_FLEET(22, "truck_fleet_overview.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, 5, 5, 0, 15),
+	LOGISTICS_WAREHOUSE_LIST(22, "warehouse_list.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_WAREHOUSE_OVERVIEW, 10, 5, 0, 15),
 
 	// The modules for Production. (31-40)
 //	PRODUCTION_PLACEHOLDER(31, "m_production_placeholder.fxml", GameViewType.GAME_PRODUCTION, 0, 1, 0, 1),

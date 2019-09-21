@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class TruckFleetController  extends GameModuleController {
+public class TruckFleetController extends GameModuleController {
 
     @FXML
     ListView<Truck> truckFleetListView;
