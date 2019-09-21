@@ -19,7 +19,7 @@ public enum GameModuleDefinition {
 	// The modules for HR. (11-20)
 	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, GameOverlayDefinition.HR_EDIT_EMPLOYEE,
 			UIElementType.HR_EMPLOYEES_OVERVIEW, 1, 7, 1, 15),
-	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, GameOverlayDefinition.PRODUCTION_SUPPLIER_OPTIONS, UIElementType.HR_RECRUITING_OVERVIEW, 9, 7,
+	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, UIElementType.HR_RECRUITING_OVERVIEW, 9, 7,
 			2, 19),
 
 	// The modules for Logistics. (21-30)
@@ -27,7 +27,7 @@ public enum GameModuleDefinition {
 
 	// The modules for Production. (31-40)
 //	PRODUCTION_PLACEHOLDER(31, "m_production_placeholder.fxml", GameViewType.GAME_PRODUCTION, 0, 1, 0, 1),
-	PRODUCTION_INTRODUCE_PRODUCT_MENU(31, "introduce_product_menu.fxml", GameViewType.PRODUCTION, null, UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, 0, 5, 0 ,5)
+	PRODUCTION_INTRODUCE_PRODUCT_MENU(31, "introduce_product_menu.fxml", GameViewType.PRODUCTION, GameOverlayDefinition.PRODUCTION_SUPPLIER_OPTIONS, UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, 0, 5, 0 ,5)
 	// The modules for Procurement. (41-50)
 //	PROCUREMENT_PLACEHOLDER(41, "m_procurement_placeholder.fxml", GameViewType.GAME_PROCUREMENT, 0, 1, 0, 1),
 
