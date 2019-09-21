@@ -41,7 +41,7 @@
       </Label>
    </children>
    <stylesheets>
-      <URL value="@../../css/general.css" />
-      <URL value="@../../css/modul.css" />
+      <URL value="@../../css/general1080.css" />
+      <URL value="@../../css/modul1080.css" />
    </stylesheets>
 </GridPane>
