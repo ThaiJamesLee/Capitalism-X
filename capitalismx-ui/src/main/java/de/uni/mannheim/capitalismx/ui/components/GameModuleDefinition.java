@@ -19,7 +19,7 @@ public enum GameModuleDefinition {
 	// The modules for HR. (11-20)
 	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, GameOverlayDefinition.HR_EDIT_EMPLOYEE,
 			UIElementType.HR_EMPLOYEES_OVERVIEW, 1, 7, 1, 15),
-	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, UIElementType.HR_RECRUITING_OVERVIEW, 9, 7,
+	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, GameOverlayDefinition.PRODUCTION_SUPPLIER_OPTIONS, UIElementType.HR_RECRUITING_OVERVIEW, 9, 7,
 			2, 19),
 
 	// The modules for Logistics. (21-30)

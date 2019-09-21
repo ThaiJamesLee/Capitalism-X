@@ -1,11 +1,13 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.production;
 
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import javafx.fxml.FXML;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class IntroduceProductController extends GameModuleController {
+
 
     @Override
     public void update() {

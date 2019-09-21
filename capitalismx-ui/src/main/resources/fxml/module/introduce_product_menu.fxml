@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -9,7 +10,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
    <children>
@@ -31,8 +31,8 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Component" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                               <GridPane>
@@ -59,8 +59,8 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.rowIndex="1" />
                                     <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Price" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -89,8 +89,8 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Component" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                               <GridPane>
@@ -118,8 +118,8 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.rowIndex="1" />
                                     <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Price" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -148,8 +148,8 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Component" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                               <GridPane>
@@ -178,8 +178,8 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.rowIndex="1" />
                                     <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Price" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -205,11 +205,12 @@
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Component" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                               <GridPane>
@@ -236,11 +237,10 @@
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.rowIndex="1" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Price" />
+                                    <TextField GridPane.columnIndex="1" />
                                  </children>
                               </GridPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
