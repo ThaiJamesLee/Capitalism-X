@@ -1,12 +1,15 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
+import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class FinanceOverviewController extends GameModuleController {
@@ -18,7 +21,7 @@ public class FinanceOverviewController extends GameModuleController {
     Label assetsLabel;
 
     @FXML
-    Label liabilitesLabel;
+    Label liabilitiesLabel;
 
     @FXML
     Label netWorthLabel;
@@ -32,8 +35,8 @@ public class FinanceOverviewController extends GameModuleController {
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
         cashLabel.setText(controller.getCash() + "");
-        //assetsLabel.setText(controller.getAssets() + "");
-        //liabilitesLabel.setText(controller.getLiabilities() + "");
-        //netWorthLabel.setText(controller.getNetWorth(GameState.getInstance().getGameDate()) + "");
+        assetsLabel.setText(controller.getAssets() + "");
+        liabilitiesLabel.setText(controller.getLiabilities() + "");
+        netWorthLabel.setText(controller.getNetWorth() + "");
     }
 }

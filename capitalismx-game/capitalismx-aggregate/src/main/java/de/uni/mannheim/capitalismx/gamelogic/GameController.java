@@ -245,8 +245,9 @@ public class GameController {
         return cash;
     }
 
-    public double getNetWorth(LocalDate gameDate) {
-        double netWorth = Finance.getInstance().calculateNetWorth(gameDate);
+    public double getNetWorth() {
+        //double netWorth = Finance.getInstance().calculateNetWorth(gameDate);
+        double netWorth = Finance.getInstance().getNetWorth();
         return netWorth;
     }
 
@@ -266,8 +267,8 @@ public class GameController {
         return Finance.getInstance().generateLoanSelection(loanAmount);
     }
 
-    public void addLoan(BankingSystem.Loan loan){
-        Finance.getInstance().addLoan(loan);
+    public void addLoan(BankingSystem.Loan loan, LocalDate loanDate){
+        Finance.getInstance().addLoan(loan, loanDate);
     }
 
     public ArrayList<ExternalPartner> generateExternalPartnerSelection(){
