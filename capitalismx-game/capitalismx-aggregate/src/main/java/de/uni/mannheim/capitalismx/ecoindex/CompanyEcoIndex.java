@@ -170,4 +170,8 @@ public class CompanyEcoIndex implements Serializable {
     public EcoIndex getEcoIndex() {
         return this.ecoIndex;
     }
+
+    public static void setInstance(CompanyEcoIndex instance) {
+        CompanyEcoIndex.instance = instance;
+    }
 }

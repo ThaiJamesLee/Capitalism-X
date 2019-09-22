@@ -23,6 +23,8 @@ public class EmployeeMarketSample implements Serializable {
     private static final int MINIMUM_SAMPLE_SIZE = 500;
     private static final String EMPLOYEE_SAMPLE_FILE_DIR = "data" + File.separator + "employeesample.capx";
 
+    private String rootDir;
+
     /* Idea: depending on level of progress, the chance of being able to higher employees with higher skill level increases.
     * Therefore, we currently have 4 different distribution of the employee sample */
     private static final double[][] DISTRIBUTION =
@@ -40,7 +42,8 @@ public class EmployeeMarketSample implements Serializable {
 
 
     public EmployeeMarketSample() {
-        filePath = System.getProperty("user.dir") + File.separator + EMPLOYEE_SAMPLE_FILE_DIR;
+        rootDir = System.getProperty("user.dir");
+        filePath = rootDir + File.separator + EMPLOYEE_SAMPLE_FILE_DIR;
         potentialEmployeeSample = new ArrayList<>();
         personMetas = new ArrayList<>();
         loadInitialPersonList();
@@ -51,7 +54,8 @@ public class EmployeeMarketSample implements Serializable {
      * @param rootDir The parent folder of the data folder, that contains the employeesample.capx file.
      */
     public EmployeeMarketSample(String rootDir) {
-        filePath = rootDir + File.separator + EMPLOYEE_SAMPLE_FILE_DIR;
+        this.rootDir = rootDir;
+        filePath = this.rootDir + File.separator + EMPLOYEE_SAMPLE_FILE_DIR;
         potentialEmployeeSample = new ArrayList<>();
         personMetas = new ArrayList<>();
         loadInitialPersonList();
@@ -67,9 +71,9 @@ public class EmployeeMarketSample implements Serializable {
         // use jsons if no file exists.
         if(personMetas.isEmpty()) {
             JsonFileReader jReader = new JsonFileReader();
-            String jsonArrayDE = jReader.readJsonFileFromResourceUnitTests(jReader.getFileNameDE());
-            String jsonArrayBE = jReader.readJsonFileFromResourceUnitTests(jReader.getFileNameBE());
-            String jsonArrayUS = jReader.readJsonFileFromResourceUnitTests(jReader.getFileNameUS());
+            String jsonArrayDE = jReader.readJsonFileFromResourceAsStream(jReader.getFileNameDE());
+            String jsonArrayBE = jReader.readJsonFileFromResourceAsStream(jReader.getFileNameBE());
+            String jsonArrayUS = jReader.readJsonFileFromResourceAsStream(jReader.getFileNameUS());
 
             List<String> entitiesDE = jReader.parseJsonArrayToStringList(jsonArrayDE);
             List<String> entitiesBE = jReader.parseJsonArrayToStringList(jsonArrayBE);
@@ -114,6 +118,12 @@ public class EmployeeMarketSample implements Serializable {
      * @param stack the pre-generated PersonMeta List to be saved.
      */
     public void saveSample(List<PersonMeta> stack) {
+        File f = new File(rootDir + File.separator + "data");
+
+        if(f.mkdir()) {
+            logger.info("The /data folder was created.");
+        }
+
         File file = new File(filePath);
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {

@@ -151,4 +151,8 @@ public class InternalFleet implements Serializable {
     void decreaseCapacityFleetRel(double amount){
         this.decreaseCapacityFactor += amount;
     }
+
+    public static void setInstance(InternalFleet instance) {
+        InternalFleet.instance = instance;
+    }
 }

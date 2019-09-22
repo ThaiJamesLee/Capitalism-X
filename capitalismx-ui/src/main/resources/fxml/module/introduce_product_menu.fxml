@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="1200.0" stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
+   <children>
+      <TabPane layoutX="79.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/general.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="TV">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TextField />
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="92.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="8.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="8.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <Label text="Screen" GridPane.columnIndex="1" />
+                                    <Label text="Audio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                       <children>
+                                          <Label fx:id="tvScreenLabel0" text="Label" />
+                                          <Label fx:id="tvScreenLabel1" text="Label" />
+                                          <Label fx:id="tvScreenLabel2" text="Label" />
+                                          <Label fx:id="tvScreenLabel3" text="Label" />
+                                          <Label fx:id="tvScreenLabel4" text="Label" />
+                                          <Label fx:id="tvScreenLabel5" text="Label" />
+                                          <Label fx:id="tvScreenLabel6" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <children>
+                                          <Label fx:id="tvAudioLabel0" text="Label" />
+                                          <Label fx:id="tvAudioLabel1" text="Label" />
+                                          <Label fx:id="tvAudioLabel2" text="Label" />
+                                          <Label fx:id="tvAudioLabel3" text="Label" />
+                                          <Label fx:id="tvAudioLabel4" text="Label" />
+                                          <Label fx:id="tvAudioLabel5" text="Label" />
+                                          <Label fx:id="tvAudioLabel6" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <Label text="Case" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                       <children>
+                                          <Label fx:id="tvCaseLabel0" text="Label" />
+                                          <Label fx:id="tvCaseLabel1" text="Label" />
+                                          <Label fx:id="tvCaseLabel2" text="Label" />
+                                          <Label fx:id="tvCaseLabel3" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <Label text="OS" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <children>
+                                          <Label fx:id="tvOSLabel0" text="Label" />
+                                          <Label fx:id="tvOSLabel1" text="Label" />
+                                          <Label fx:id="tvOSLabel2" text="Label" />
+                                          <Label fx:id="tvOSLabel3" text="Label" />
+                                          <Label fx:id="tvOSLabel4" text="Label" />
+                                          <Label fx:id="tvOSLabel5" text="Label" />
+                                          <Label fx:id="tvOSLabel6" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Price" GridPane.rowIndex="1" />
+                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($10,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Console">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TextField />
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                       <children>
+                                          <Label fx:id="consoleCPULabel0" text="Label" />
+                                          <Label fx:id="consoleCPULabel1" text="Label" />
+                                          <Label fx:id="consoleCPULabel2" text="Label" />
+                                          <Label fx:id="consoleCPULabel3" text="Label" />
+                                          <Label fx:id="consoleCPULabel4" text="Label" />
+                                          <Label fx:id="consoleCPULabel5" text="Label" />
+                                          <Label fx:id="consoleCPULabel6" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <children>
+                                          <Label fx:id="consoleScreenLabel0" text="Label" />
+                                          <Label fx:id="consoleScreenLabel1" text="Label" />
+                                          <Label fx:id="consoleScreenLabel2" text="Label" />
+                                          <Label fx:id="consoleScreenLabel3" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <children>
+                                          <Label fx:id="consolePowersupplyLabel0" text="Label" />
+                                          <Label fx:id="consolePowersupplyLabel1" text="Label" />
+                                          <Label fx:id="consolePowersupplyLabel2" text="Label" />
+                                          <Label fx:id="consolePowersupplyLabel3" text="Label" />
+                                          <Label fx:id="consolePowersupplyLabel4" text="Label" />
+                                          <Label fx:id="consolePowersupplyLabel5" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <Label text="CPU" GridPane.columnIndex="1" />
+                                    <Label text="Screen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Powersupply" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Camera" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                       <children>
+                                          <Label fx:id="consoleCameraLabel0" text="Label" />
+                                          <Label fx:id="consoleCameraLabel1" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <Label text="Connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                       <children>
+                                          <Label fx:id="consoleConnectivityLabel0" text="Label" />
+                                          <Label fx:id="consoleConnectivityLabel1" text="Label" />
+                                          <Label fx:id="consoleConnectivityLabel2" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                 </children>
+                              </GridPane>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Price" GridPane.rowIndex="1" />
+                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($50,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Notebook">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TextField />
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                       <children>
+                                          <Label fx:id="notebookCPULabel0" text="Label" />
+                                          <Label fx:id="notebookCPULabel1" text="Label" />
+                                          <Label fx:id="notebookCPULabel2" text="Label" />
+                                          <Label fx:id="notebookCPULabel3" text="Label" />
+                                          <Label fx:id="notebookCPULabel4" text="Label" />
+                                          <Label fx:id="notebookCPULabel5" text="Label" />
+                                          <Label fx:id="notebookCPULabel6" text="Label" />
+                                          <Label fx:id="notebookCPULabel7" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <children>
+                                          <Label fx:id="notebookStorageLabel0" text="Label" />
+                                          <Label fx:id="notebookStorageLabel1" text="Label" />
+                                          <Label fx:id="notebookStorageLabel2" text="Label" />
+                                          <Label fx:id="notebookStorageLabel3" text="Label" />
+                                          <Label fx:id="notebookStorageLabel4" text="Label" />
+                                          <Label fx:id="notebookStorageLabel5" text="Label" />
+                                          <Label fx:id="notebookStorageLabel6" text="Label" />
+                                          <Label fx:id="notebookStorageLabel7" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <children>
+                                          <Label fx:id="notebookScreenLabel0" text="Label" />
+                                          <Label fx:id="notebookScreenLabel1" text="Label" />
+                                          <Label fx:id="notebookScreenLabel2" text="Label" />
+                                          <Label fx:id="notebookScreenLabel3" text="Label" />
+                                          <Label fx:id="notebookScreenLabel4" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                       <children>
+                                          <Label fx:id="notebookSoftwareLabel0" text="Label" />
+                                          <Label fx:id="notebookSoftwareLabel1" text="Label" />
+                                          <Label fx:id="notebookSoftwareLabel2" text="Label" />
+                                          <Label fx:id="notebookSoftwareLabel3" text="Label" />
+                                          <Label fx:id="notebookSoftwareLabel4" text="Label" />
+                                          <Label fx:id="notebookSoftwareLabel5" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <Label text="CPU" GridPane.columnIndex="1" />
+                                    <Label text="Storage" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Screen" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Software" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="Powersupply" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label fx:id="notebookPowersupplyLabel0" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                 </children>
+                              </GridPane>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Price" GridPane.rowIndex="1" />
+                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($200,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Phone">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TextField />
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                       <children>
+                                          <Label fx:id="phoneCPULabel0" text="Label" />
+                                          <Label fx:id="phoneCPULabel1" text="Label" />
+                                          <Label fx:id="phoneCPULabel2" text="Label" />
+                                          <Label fx:id="phoneCPULabel3" text="Label" />
+                                          <Label fx:id="phoneCPULabel4" text="Label" />
+                                          <Label fx:id="phoneCPULabel5" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                       <children>
+                                          <Label fx:id="phoneConnectivyLabel0" text="Label" />
+                                          <Label fx:id="phoneConnectivyLabel1" text="Label" />
+                                          <Label fx:id="phoneConnectivyLabel2" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <children>
+                                          <Label fx:id="phoneScreenLabel0" text="Label" />
+                                          <Label fx:id="phoneScreenLabel1" text="Label" />
+                                          <Label fx:id="phoneScreenLabel2" text="Label" />
+                                          <Label fx:id="phoneScreenLabel3" text="Label" />
+                                          <Label fx:id="phoneScreenLabel4" text="Label" />
+                                          <Label fx:id="phoneScreenLabel5" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <children>
+                                          <Label fx:id="phoneCameraLabel0" text="Label" />
+                                          <Label fx:id="phoneCameraLabel1" text="Label" />
+                                          <Label fx:id="phoneCameraLabel2" text="Label" />
+                                          <Label fx:id="phoneCameraLabel3" text="Label" />
+                                          <Label fx:id="phoneCameraLabel4" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                       <children>
+                                          <Label fx:id="phonePowersupplyLabel0" text="Label" />
+                                          <Label fx:id="phonePowersupplyLabel1" text="Label" />
+                                          <Label fx:id="phonePowersupplyLabel2" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <Label text="Powersupply" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Camera" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Screen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label prefHeight="17.0" prefWidth="25.0" text="CPU" GridPane.columnIndex="1" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                       <children>
+                                          <Label fx:id="phoneKeypadLabel0" text="Label" />
+                                          <Label fx:id="phoneKeypadLabel1" text="Label" />
+                                       </children>
+                                    </HBox>
+                                    <Label text="Keypad" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                 </children>
+                              </GridPane>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Price" />
+                                    <TextField GridPane.columnIndex="1" />
+                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($500,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

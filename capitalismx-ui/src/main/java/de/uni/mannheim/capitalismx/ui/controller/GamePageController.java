@@ -111,6 +111,9 @@ public class GamePageController implements UpdateableController {
 
 	@Override
 	public void update() {
+		for( GameModule m : currentActiveView.getModules()) {
+			m.getController().update();
+		}
 	}
 
 	public void removeNotificationPane() {

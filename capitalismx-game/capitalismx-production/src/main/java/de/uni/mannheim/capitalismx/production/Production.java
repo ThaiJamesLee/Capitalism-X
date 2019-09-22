@@ -43,6 +43,8 @@ public class Production implements Serializable {
         this.researchAndDevelopment = new ProductionInvestment("Research and Development");
         this.processAutomation = new ProductionInvestment("Process Automation");
         this.systemSecurity = new ProductionInvestment("System Security");
+        this.productionFixCosts = 0.0;
+        this.productionVariableCosts = 0.0;
     }
 
     public static synchronized Production getInstance() {
@@ -498,5 +500,9 @@ public class Production implements Serializable {
 
     public double getAverageProductBaseQuality() {
         return this.averageProductBaseQuality;
+    }
+
+    public static void setInstance(Production instance) {
+        Production.instance = instance;
     }
 }

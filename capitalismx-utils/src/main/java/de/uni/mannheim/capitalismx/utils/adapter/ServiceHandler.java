@@ -43,7 +43,7 @@ public class ServiceHandler {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return false;
     }

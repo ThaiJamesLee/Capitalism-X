@@ -1,0 +1,12 @@
+.departmentButton {
+	-fx-background-color: -fx-light;
+	-fx-text-fill: -fx-dark;
+}
+
+.departmentButton:hover {
+	-fx-background-color: -fx-primary;
+}
+
+.sideMenuAnchor {
+	-fx-background-color: -fx-dark;
+}
