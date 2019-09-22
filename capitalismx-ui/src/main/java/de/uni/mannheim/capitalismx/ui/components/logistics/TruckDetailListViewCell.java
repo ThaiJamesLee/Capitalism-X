@@ -75,7 +75,6 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
             fixCostsLabel.setText("Fix Costs Delivery: " + truck.getFixCostsDelivery());
             buyButton.setOnAction(e -> {
                 controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
-                //TODO update lists of bought trucks
                 TruckFleetController uiController = (TruckFleetController) Main.getManager().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
                 uiController.addTruck(truck);
             });
