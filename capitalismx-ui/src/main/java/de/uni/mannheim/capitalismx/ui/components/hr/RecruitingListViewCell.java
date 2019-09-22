@@ -50,8 +50,7 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	        	nameLabel.setText(employee.getName());
 	        	wageLabel.setText((int)employee.getSalary() + " CC");
 	        	skillLabel.setText(employee.getSkillLevel() + "");
-	        	//TODO get employee type
-	        	jobLabel.setText(employee.getPosition());
+	        	jobLabel.setText(employee.getEmployeeType().toString());
 
 	        	setText(null);
 	        	setGraphic(gridPane);
