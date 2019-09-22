@@ -16,7 +16,7 @@ public enum GameViewType {
 	PRODUCTION(4, "Production"), 
 	PROCUREMENT(5, "Procurement"), 
 	WAREHOUSE(6, "Warehouse"), 
-	FINANCES(7, "Finances"),
+	FINANCES(7, "Finance"),
 	MARKETING(8, "Marketing");
 
 	private final String title;

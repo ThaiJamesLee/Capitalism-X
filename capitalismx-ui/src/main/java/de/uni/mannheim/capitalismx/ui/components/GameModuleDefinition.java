@@ -23,7 +23,7 @@ public enum GameModuleDefinition {
 			0, 17),
 	HR_EMPLOYEE_SATISFACTION(13, "employee_satisfaction.fxml", GameViewType.HR, null, UIElementType.HR_EMPLOYEE_SATISFACTION, 14, 6,
 			0, 9),
-	HR_WORKING_CONDITIONS(13, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
+	HR_WORKING_CONDITIONS(14, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
 			9, 11),
 
 	// The modules for Logistics. (21-30)
@@ -42,7 +42,8 @@ public enum GameModuleDefinition {
 
 	// The modules for HR. (61-70)
 	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 5, 0, 19),
-	FINANCE_OVERVIEW(61, "finance_overview.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OVERVIEW, 0, 5, 0, 19)
+	FINANCE_OVERVIEW(62, "finance_overview.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OVERVIEW, 0, 5, 0, 19),
+	FINANCE_SALES_CHART(63, "finance_statistics_charts.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_SALES_CHART, 10, 5, 0, 19)
 
 	// The modules for HR. (71-80)
 //	MARKETING_PLACEHOLDER(71, "m_marketing_placeholder.fxml", GameViewType.GAME_MARKETING, 0, 1, 0, 1)
