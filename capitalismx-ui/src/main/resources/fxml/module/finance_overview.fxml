@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -60,7 +60,7 @@
             <TextField fx:id="loanAmountTextField" promptText="Enter Loan Amount" />
             <AnchorPane>
                <children>
-                  <MenuButton fx:id="loanRequestMenuButton" mnemonicParsing="false" text="Request Loan" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <MenuButton fx:id="loanRequestMenuButton" mnemonicParsing="false" styleClass="button_module" text="Request Loan" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <Label layoutX="10.0" layoutY="167.0" text="Investments">
@@ -80,7 +80,7 @@
             <SplitPane dividerPositions="0.5">
                <items>
                   <TextField fx:id="realEstateTextField" promptText="Enter Amount" />
-                  <Button fx:id="realEstateButton" mnemonicParsing="false" text="Buy" />
+                  <Button fx:id="realEstateButton" mnemonicParsing="false" styleClass="button_module" text="Buy" />
                </items>
             </SplitPane>
             <Label layoutX="10.0" layoutY="305.0" text="Stocks">
@@ -92,7 +92,7 @@
             <SplitPane dividerPositions="0.5" layoutX="10.0" layoutY="339.0">
                <items>
                   <TextField fx:id="stocksTextField" promptText="Enter Amount" />
-                  <Button fx:id="stocksButton" mnemonicParsing="false" text="Buy" />
+                  <Button fx:id="stocksButton" mnemonicParsing="false" styleClass="button_module" text="Buy" />
                </items>
             </SplitPane>
             <Label layoutX="10.0" layoutY="366.0" text="Venture Capital">
@@ -104,7 +104,7 @@
             <SplitPane dividerPositions="0.5" layoutX="10.0" layoutY="400.0">
                <items>
                   <TextField fx:id="ventureCapitalTextField" promptText="Enter Amount" />
-                  <Button fx:id="ventureCapitalButton" mnemonicParsing="false" text="Buy" />
+                  <Button fx:id="ventureCapitalButton" mnemonicParsing="false" styleClass="button_module" text="Buy" />
                </items>
             </SplitPane>
          </children>
