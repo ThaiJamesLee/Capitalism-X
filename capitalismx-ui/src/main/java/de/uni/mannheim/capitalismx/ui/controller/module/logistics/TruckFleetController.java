@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -24,7 +25,7 @@ public class TruckFleetController extends GameModuleController {
     ListView<Truck> truckFleetListView;
 
     @FXML
-    private MenuButton truckSelectionDropdown;
+    private Button buyTruckButton;
 
     public TruckFleetController() {
     }
@@ -37,14 +38,14 @@ public class TruckFleetController extends GameModuleController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
-        ObservableList<Truck> truckFleetListObservable = FXCollections.observableArrayList();
+        //ObservableList<Truck> truckFleetListObservable = FXCollections.observableArrayList();
         ArrayList<Truck> trucks = controller.generateTruckSelection();
-        for(Truck truck : trucks){
+        /*for(Truck truck : trucks){
             truckFleetListObservable.add(truck);
-        }
+        }*/
 
 
-        MenuItem[] truckMenuItems = new MenuItem[trucks.size()];
+        /*MenuItem[] truckMenuItems = new MenuItem[trucks.size()];
 
         int i = 0;
         for(Truck truck : trucks) {
@@ -58,15 +59,19 @@ public class TruckFleetController extends GameModuleController {
             i++;
         }
 
-        truckSelectionDropdown.getItems().addAll(truckMenuItems);
+        truckSelectionDropdown.getItems().addAll(truckMenuItems);*/
 
 
         //truckFleetListView.setItems(truckFleetListObservable);
         truckFleetListView.setCellFactory(truckListView -> new TruckListViewCell(truckFleetListView));
 
-        truckSelectionDropdown.setOnMouseClicked(e -> {
-            //Main.getManager().getGamePageController().showOverlay(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW);
+        buyTruckButton.setOnAction(e -> {
+            Main.getManager().getGamePageController().showOverlay(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW);
         });
+    }
+
+    public void addTruck(Truck truck){
+        truckFleetListView.getItems().add(truck);
     }
 
 }
