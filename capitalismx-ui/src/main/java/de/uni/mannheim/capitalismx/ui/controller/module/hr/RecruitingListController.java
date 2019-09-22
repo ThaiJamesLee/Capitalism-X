@@ -53,7 +53,7 @@ public class RecruitingListController extends GameModuleController {
 		Employee employeeToHire = recruitingList.getSelectionModel().getSelectedItem();
 		HRDepartment.getInstance().hire(employeeToHire);
 		employeeListObservable.remove(employeeToHire);
-		Main.getManager().getGamePageController().update();
+		recruitingList.getSelectionModel().clearSelection();
 	}
 
 }
