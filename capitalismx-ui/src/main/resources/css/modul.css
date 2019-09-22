@@ -21,6 +21,14 @@
 	-fx-text-fill: -fx-dark;
 }
 
+.label_large {
+	-fx-font-size: 14;
+}
+
+.label_medium {
+	-fx-font-size: 14;
+}
+
 .button_module {
 	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-light;
@@ -30,6 +38,15 @@
 .button_module:hover {
 	-fx-background-color: -fx-contrast;
 }
+
+/**
+ * Utilities
+ */
+ .separator_right {
+ 	-fx-border-width: 0 1 0 0;
+ 	-fx-border-color: -fx-dark;
+ 	-fx-border-insets: 0 0 0 0;
+ }
 
 /**
  * Styling for Listviews.
@@ -126,10 +143,28 @@
 /**
  * Styling of radio buttons
  */
-.radio-button .radio:selected {
-	-fx-background-color: -fx-primary;
+ .radio-button {
+	-fx-font-family: "Prime";	
+ }
+ 
+ .radio-button .radio {
+ 	-fx-background-color: -fx-light;
+ 	-fx-border-radius: 50%;
+ 	-fx-border-color: -fx-dark;
+ }
+ 
+ .radio-button .dot {
+ 	-fx-background-color: -fx-light;
+ }
+ 
+ .radio-button:hover .dot {
+ 	-fx-background-color: -fx-primary;
+ }
+ 
+.radio-button:selected .dot {
+	-fx-background-color: -fx-dark;
 }
 
-.radio-button {
-	-fx-font-family: "Prime";	
+.radio-button:selected .radio {
+	-fx-background-color: -fx-primary;
 }
