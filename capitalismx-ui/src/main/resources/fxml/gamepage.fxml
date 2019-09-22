@@ -91,7 +91,7 @@
          <top>
             <StackPane styleClass="sidemenu_color" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane prefHeight="75.0" stylesheets="@../css1440p/general1440p.css">
+                  <AnchorPane prefHeight="75.0" stylesheets="@../css1080p/general1080p.css">
                      <children>
                         <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <columnConstraints>
@@ -162,7 +162,7 @@
       </BorderPane>
    </children>
    <stylesheets>
-      <URL value="@../css1440p/general1440p.css" />
-      <URL value="@../css1440p/gamePage1440p.css" />
+      <URL value="@../css1080p/general1080p.css" />
+      <URL value="@../css1080p/gamePage1080p.css" />
    </stylesheets>
 </StackPane>

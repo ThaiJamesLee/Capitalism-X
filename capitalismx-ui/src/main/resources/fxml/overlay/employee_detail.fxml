@@ -57,7 +57,7 @@
       <fx:include source="../module/employee_table.fxml" />
    </children>
    <stylesheets>
-      <URL value="@../../css/general.css" />
-      <URL value="@../../css/overlay.css" />
+      <URL value="@../../css1080p/general1080p.css" />
+      <URL value="@../../css1080p/overlay1080p.css" />
    </stylesheets>
 </GridPane>

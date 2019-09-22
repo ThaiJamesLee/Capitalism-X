@@ -48,6 +48,7 @@ public class Main extends Application {
 			primaryStage.setY(primaryScreenBounds.getMinY());
 			primaryStage.setWidth(primaryScreenBounds.getWidth());
 			primaryStage.setHeight(primaryScreenBounds.getHeight());
+			primaryStage.setMaximized(true);
 //			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setOnCloseRequest(e -> closeStage(e, primaryStage));
 			primaryStage.show();
