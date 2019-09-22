@@ -117,4 +117,19 @@
 	-fx-font-family: "Prime";
 }
 
+/**
+ * Styling of charts
+ */
+ 
+ 
+ 
+/**
+ * Styling of radio buttons
+ */
+.radio-button .radio:selected {
+	-fx-background-color: -fx-primary;
+}
 
+.radio-button {
+	-fx-font-family: "Prime";	
+}
