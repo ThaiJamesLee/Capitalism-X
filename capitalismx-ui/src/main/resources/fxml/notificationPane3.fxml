@@ -19,7 +19,7 @@
    <children>
       <VBox prefWidth="600.0">
          <children>
-            <AnchorPane id="notificationHeaderAnchor" styleClass="header_anchor" stylesheets="@../css/notificationPane1080p.css">
+            <AnchorPane id="notificationHeaderAnchor" styleClass="header_anchor" stylesheets="@../css1080p/notificationPane1080p.css">
                <children>
                   <GridPane prefHeight="35.0" prefWidth="600.0">
                     <columnConstraints>

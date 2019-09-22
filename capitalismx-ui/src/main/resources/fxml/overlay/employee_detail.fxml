@@ -24,7 +24,7 @@
       </VBox>
    </children>
    <stylesheets>
-      <URL value="@../../css/general1080.css" />
-      <URL value="@../../css/overlay1080.css" />
+      <URL value="@../../css1080p/general1080p.css" />
+      <URL value="@../../css1080p/overlay1080p.css" />
    </stylesheets>
 </GridPane>

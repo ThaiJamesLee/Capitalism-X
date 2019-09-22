@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane styleClass="rootPane" stylesheets="@../../css/overlay1080.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.UIElementFrameController">
+<AnchorPane styleClass="rootPane" stylesheets="@../../css1080p/overlay1080p.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.UIElementFrameController">
    <children>
-      <VBox layoutX="40.0" layoutY="35.0" spacing="10.0" stylesheets="@../../css/general1080.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="40.0" layoutY="35.0" spacing="10.0" stylesheets="@../../css1080p/general1080p.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane fx:id="headerPane" styleClass="headerPane">
                <children>
