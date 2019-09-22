@@ -249,4 +249,8 @@ public class Warehousing implements Serializable {
     public double getMonthlyTotalCostWarehousing() {
         return this.monthlyTotalCostWarehousing;
     }
+
+    public static void setInstance(Warehousing instance) {
+        Warehousing.instance = instance;
+    }
 }

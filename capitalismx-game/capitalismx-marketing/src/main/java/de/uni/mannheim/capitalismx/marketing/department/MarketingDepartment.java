@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class represents the marketing department.
@@ -69,8 +66,16 @@ public class MarketingDepartment implements Serializable {
         return instance;
     }
 
-    public void loadSettings() {
-        //TODO
+    public double getTotalMarketingCosts() {
+        double totalCosts = 0.0;
+
+        totalCosts += getTotalConsultancyCosts();
+        totalCosts += getTotalCampaignCosts();
+        totalCosts += getTotalPressReleaseCosts();
+        totalCosts += getTotalMarketResearchCost();
+        //TODO Lobbyist ? How should we handle him. Influence the taxRate is a bad design.
+
+        return totalCosts;
     }
 
     /**
@@ -337,21 +342,36 @@ public class MarketingDepartment implements Serializable {
                 break;
             case CUSTOMER_SATISFACTION_REPORT:
                 mr.conductCustomerSatisfactionResearch(data);
-                marketResearches.add(mr);
-                break;
+                //marketResearches.add(mr);
+                logger.error("Not implemented yet.");
+                throw new UnsupportedOperationException();
+                //break;
             case MARKET_STATISTIC_RESEARCH_REPORT:
+
                 mr.conductMarketStatisticResearch(data);
-                marketResearches.add(mr);
-                break;
+                //marketResearches.add(mr);
+                logger.error("Not implemented yet.");
+                throw new UnsupportedOperationException();
+                //break;
             default: break;
         }
         return cost;
+    }
+
+    public double getTotalMarketResearchCost() {
+        double costs = 0.0;
+        for(MarketResearch mr : marketResearches) {
+            costs += mr.getCost();
+        }
+
+        return costs;
     }
 
     public List<MarketResearch> getMarketResearches() {
         return marketResearches;
     }
 
-
-
+    public static void setInstance(MarketingDepartment instance) {
+        MarketingDepartment.instance = instance;
+    }
 }

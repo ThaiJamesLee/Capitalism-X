@@ -1,27 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane hgap="25.0" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.overlay.hr.EmployeeDetailController">
+<GridPane hgap="50.0" styleClass="employee_detail_grid" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.overlay.hr.EmployeeDetailController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0">
+      <AnchorPane styleClass="employee_detail_background" GridPane.columnIndex="1">
          <children>
-            <Label fx:id="employeeNameLabel" styleClass="h2" text="Label" />
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="employeeNameLabel" styleClass="header" text="Label" />
+                  <GridPane hgap="5.0" vgap="15.0">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label fx:id="salaryLabel" styleClass="details_label" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="positionLabel" styleClass="details_label" text="Label" GridPane.columnIndex="1" />
+                        <Label styleClass="details_label" text="Salary" GridPane.rowIndex="1" />
+                        <Label styleClass="details_label" text="Skill" GridPane.rowIndex="2" />
+                        <Label fx:id="skillLabel" styleClass="details_label" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label styleClass="details_label" text="Position" />
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="employee_detail_separator" GridPane.columnSpan="2" />
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="employee_detail_separator" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="employee_detail_separator" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </GridPane>
+               </children>
+            </VBox>
          </children>
-      </VBox>
+      </AnchorPane>
+      <fx:include source="../module/employee_table.fxml" />
    </children>
    <stylesheets>
       <URL value="@../../css/general.css" />

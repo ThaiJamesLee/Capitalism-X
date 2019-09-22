@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.employee;
 
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.hr.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
@@ -52,6 +53,7 @@ public class EmployeeGenerator {
             employee = new Engineer(newPerson);
             employee.setSkillLevel(skillLevel);
             employee.setSalary(salary);
+            employee.setEmployeeType(EmployeeType.ENGINEER);
 
         } catch (NoDefinedTierException e) {
             logger.error(e.getMessage());
@@ -77,6 +79,7 @@ public class EmployeeGenerator {
             employee = new SalesPerson(newPerson);
             employee.setSkillLevel(skillLevel);
             employee.setSalary(salary);
+            employee.setEmployeeType(EmployeeType.SALESPERSON);
 
         } catch (NoDefinedTierException e) {
             logger.error(e.getMessage());

@@ -1,11 +1,14 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
+
 import java.io.Serializable;
 
 /**
  * @author sdupper
  */
 public class ExternalPartner implements Serializable {
+    private String name;
     private double ecoIndexPartner;
     private double qualityIndexPartner;
     private double reliabilityIndexPartner;
@@ -13,12 +16,13 @@ public class ExternalPartner implements Serializable {
     private double variableDeliveryCost;
     private double externalLogisticsIndex;
 
-    public ExternalPartner(double ecoIndexPartner, double qualityIndexPartner, double reliabilityIndexPartner, double contractualCostFactor, double variableDeliveryCostFactor){
-        this.ecoIndexPartner = ecoIndexPartner;
-        this.qualityIndexPartner = qualityIndexPartner;
-        this.reliabilityIndexPartner = reliabilityIndexPartner;
-        this.contractualCost = 1000 * contractualCostFactor;
-        this.variableDeliveryCost = 5 * variableDeliveryCostFactor;
+    public ExternalPartner(String name, double ecoIndexPartner, double qualityIndexPartner, double reliabilityIndexPartner, double contractualCostFactor, double variableDeliveryCostFactor){
+        this.name = name;
+        this.ecoIndexPartner = DecimalRound.round(ecoIndexPartner, 2);
+        this.qualityIndexPartner = DecimalRound.round(qualityIndexPartner, 2);
+        this.reliabilityIndexPartner = DecimalRound.round(reliabilityIndexPartner, 2);
+        this.contractualCost = DecimalRound.round(1000 * contractualCostFactor, 2);
+        this.variableDeliveryCost = DecimalRound.round(5 * variableDeliveryCostFactor, 2);
 
         this.calculateExternalLogisticsIndex();
     }
@@ -54,5 +58,9 @@ public class ExternalPartner implements Serializable {
 
     public double getExternalLogisticsIndex() {
         return this.externalLogisticsIndex;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
