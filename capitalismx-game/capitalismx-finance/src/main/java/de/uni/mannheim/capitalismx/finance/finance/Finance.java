@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.finance.finance;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
+import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
@@ -54,12 +55,13 @@ public class Finance implements Serializable {
     private List<Machinery> machinesSold;
     private List<Double> nopatLast5Years;
 
-    private BankingSystem bankingSystem;
+    //private BankingSystem bankingSystem;
     private List<Investment> investments;
 
 
-    private Finance(){
-        this.cash = 1000000;
+    protected Finance(){
+        this.cash = 1000000.0;
+        this.netWorth = 1000000.0;
         this.taxRate = 0.2;
         //this.bankingSystem = new BankingSystem();
         this.investments = new ArrayList<Investment>();
@@ -69,7 +71,10 @@ public class Finance implements Serializable {
         this.trucksSold = new ArrayList<>();
         this.machinesSold = new ArrayList<>();
         this.nopatLast5Years = new ArrayList<>();
-        this.bankingSystem = BankingSystem.getInstance();
+        //this.bankingSystem = BankingSystem.getInstance();
+
+        this.assets = 0.0;
+        this.liabilities = 0.0;
     }
 
     public static synchronized Finance getInstance() {
@@ -83,11 +88,11 @@ public class Finance implements Serializable {
     public double calculateNetWorth(LocalDate gameDate){
         //this.netWorth = this.cash + this.assets - this.liabilities;
         //TODO maybe getCash() instead of calculateCash(), because calculateCash() only once per day?
-        this.netWorth = this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities();
+        this.netWorth = this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities(gameDate);
         return this.netWorth;
     }
 
-    private double calculateAssets(LocalDate gameDate){
+    protected double calculateAssets(LocalDate gameDate){
         //this.assets = this.totalTruckValues + this.totalMachineValues + this.totalWarehousingValues + this.totalInvestmentAmount;
         this.assets = this.calculateTotalTruckValues(gameDate) + this.calculateTotalMachineValues(gameDate) +
                 this.calculateTotalWarehousingValues(gameDate) + this.calculateTotalInvestmentAmount();
@@ -96,7 +101,7 @@ public class Finance implements Serializable {
 
     // calculated daily
     //TODO reset assetsSold and nopat of current day?
-    private double calculateCash(LocalDate gameDate){
+    protected double calculateCash(LocalDate gameDate){
         //this.cash += this.nopat + this.assetsSold;
         this.cash += this.calculateNopat() + this.calculateAssetsSold(gameDate);
         return this.cash;
@@ -106,12 +111,11 @@ public class Finance implements Serializable {
         return purchasePrice / usefulLife;
     }
 
-    private double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed){
+    public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed){
         return purchasePrice - this.calculateAnnualDepreciation(purchasePrice, usefulLife) * timeUsed;
     }
 
-    //TODO
-    private double calculateTotalWarehousingValues(LocalDate gameDate){
+    protected double calculateTotalWarehousingValues(LocalDate gameDate){
         this.totalWarehousingValues = 0;
         List<Warehouse> warehouses = Warehousing.getInstance().getWarehouses();
         for(Warehouse warehouse : warehouses){
@@ -123,10 +127,9 @@ public class Finance implements Serializable {
         return this.totalWarehousingValues;
     }
 
-    //TODO
-    private double calculateTotalTruckValues(LocalDate gameDate){
+    protected double calculateTotalTruckValues(LocalDate gameDate){
         this.totalTruckValues = 0;
-        ArrayList<Truck> trucks = Logistics.getInstance().getInternalFleet().getTrucks();
+        ArrayList<Truck> trucks = InternalFleet.getInstance().getTrucks();
         for(Truck truck : trucks){
             this.totalTruckValues += this.calculateResellPrice(truck.getPurchasePrice(),
                     truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
@@ -134,8 +137,7 @@ public class Finance implements Serializable {
         return this.totalTruckValues;
     }
 
-    //TODO
-    private double calculateTotalMachineValues(LocalDate gameDate){
+    protected double calculateTotalMachineValues(LocalDate gameDate){
         this.totalMachineValues = 0;
         List<Machinery> machines = Production.getInstance().getMachines();
         for(Machinery machine : machines){
@@ -160,7 +162,7 @@ public class Finance implements Serializable {
         this.machinesSold.add(machine);
     }
 
-    private double calculateAssetsSold(LocalDate gameDate){
+    protected double calculateAssetsSold(LocalDate gameDate){
         this.assetsSold = 0;
         for(Warehouse warehouse : this.warehousesSold){
             this.assetsSold += this.calculateResellPrice(warehouse.getBuildingCost(),
@@ -184,9 +186,13 @@ public class Finance implements Serializable {
         return this.nopat;
     }
 
-    private double calculateIncomeTax(){
+    //TODO negative EBIT
+    protected double calculateIncomeTax(){
         //this.incomeTax = this.ebit * this.taxRate;
-        this.incomeTax = this.calculateEbit() * this.taxRate;
+        this.incomeTax = 0;
+        if(this.calculateEbit() >= 0){
+            this.incomeTax = this.ebit * this.taxRate;
+        }
         return this.incomeTax;
     }
 
@@ -199,7 +205,8 @@ public class Finance implements Serializable {
             this.totalRevenue += product.getSalesFigures() * product.getSalesPrice();
         }
          **/
-        return this.totalRevenue;
+        //return this.totalRevenue;
+        return 0.0;
     }
 
     private double calculateTotalExpenses(){
@@ -209,7 +216,7 @@ public class Finance implements Serializable {
         return this.totalExpenses;
     }
 
-    private double calculateTotalHRCosts(){
+    protected double calculateTotalHRCosts(){
         double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
         double totalSalaries = HRDepartment.getInstance().calculateTotalSalaries();
         this.totalHRCosts = totalSalaries + totalTrainingCosts;
@@ -217,7 +224,7 @@ public class Finance implements Serializable {
     }
 
     //TODO
-    private double calculateTotalWarehouseCosts(){
+    protected double calculateTotalWarehouseCosts(){
         double warehouseCosts = Warehousing.getInstance().calculateMonthlyCostWarehousing();
         double storageCosts = Warehousing.getInstance().calculateDailyStorageCost();
 
@@ -226,12 +233,14 @@ public class Finance implements Serializable {
     }
 
     //TODO
-    private double calculateTotalLogisticsCosts(){
+    protected double calculateTotalLogisticsCosts(){
         this.totalLogisticsCosts = Logistics.getInstance().getTotalLogisticsCosts();
         return this.totalLogisticsCosts;
     }
 
-    private double calculateTotalProductionCosts(){
+    //TODO
+    protected double calculateTotalProductionCosts(){
+        //double totalProductionCosts = Production.getInstance().calculateProductionVariableCosts() + Production.getInstance().calculateProductionFixCosts();
         double totalProductionCosts = Production.getInstance().getProductionVariableCosts() + Production.getInstance().getProductionFixCosts();
         return totalProductionCosts;
     }
@@ -253,7 +262,7 @@ public class Finance implements Serializable {
         return totalSupportCosts;
     }
 
-    private double calculateEbit(){
+    protected double calculateEbit(){
         //this.ebit = this.totalRevenue - this.totalExpenses;
         this.ebit = this.calculateTotalRevenue() - this.calculateTotalExpenses();
         return this.ebit;
@@ -267,11 +276,11 @@ public class Finance implements Serializable {
         if(desiredLoanAmount > 0.7 * this.netWorth){
             desiredLoanAmount = 0.7 * this.netWorth;
         }
-        return this.bankingSystem.generateLoanSelection(desiredLoanAmount);
+        return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
     }
 
-    public void addLoan(BankingSystem.Loan loan){
-        bankingSystem.addLoan(loan);
+    public void addLoan(BankingSystem.Loan loan, LocalDate loanDate){
+        BankingSystem.getInstance().addLoan(loan, loanDate);
     }
 
     //TODO update cash?
@@ -282,7 +291,7 @@ public class Finance implements Serializable {
         ArrayList<Investment> investmentSelection = new ArrayList<Investment>();
         //Real Estate
         investmentSelection.add(new Investment(amount, 0.07, 0.2));
-        //stocks
+        //Stocks
         investmentSelection.add(new Investment(amount, 0.1, 0.3));
         //Venture Capital
         investmentSelection.add(new Investment(amount, 0.142, 0.5));
@@ -304,8 +313,10 @@ public class Finance implements Serializable {
         this.calculateTotalInvestmentAmount();
     }
 
-    private double calculateLiabilities(){
-        this.liabilities = BankingSystem.getInstance().getAnnualPrincipalBalance();
+    //TODO
+    protected double calculateLiabilities(LocalDate gameDate){
+        //this.liabilities = BankingSystem.getInstance().getAnnualPrincipalBalance();
+        this.liabilities = BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate);
         return this.liabilities;
     }
 
@@ -379,5 +390,21 @@ public class Finance implements Serializable {
 
     public static void setInstance(Finance instance) {
         Finance.instance = instance;
+    }
+
+    public double getAssets() {
+        return this.assets;
+    }
+
+    public double getLiabilities() {
+        return this.liabilities;
+    }
+
+    public double getNetWorth() {
+        return this.netWorth;
+    }
+
+    public BankingSystem.Loan getLoan(){
+        return BankingSystem.getInstance().getLoan();
     }
 }
