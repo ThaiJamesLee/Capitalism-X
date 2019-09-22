@@ -14,6 +14,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.ChoiceBoxListCell;
+import javafx.util.StringConverter;
 
 import javax.swing.*;
 import java.net.URL;
@@ -25,45 +26,45 @@ public class IntroduceProductController extends GameModuleController {
 
     /****** Supplier Options ******/
     @FXML
-    private ChoiceBox tvScreensChoiceBox;
+    private ChoiceBox<Component> tvScreensChoiceBox;
     @FXML
-    private ChoiceBox tvAudiosChoiceBox;
+    private ChoiceBox<Component> tvAudiosChoiceBox;
     @FXML
-    private ChoiceBox tvOSsChoiceBox;
+    private ChoiceBox<Component> tvOSsChoiceBox;
     @FXML
-    private ChoiceBox tvCasesChoiceBox;
+    private ChoiceBox<Component> tvCasesChoiceBox;
     @FXML
-    private ChoiceBox consoleCPUsChoiceBox;
+    private ChoiceBox<Component> consoleCPUsChoiceBox;
     @FXML
-    private ChoiceBox consoleScreensChoiceBox;
+    private ChoiceBox<Component> consoleScreensChoiceBox;
     @FXML
-    private ChoiceBox consolePowersuppliesChoiceBox;
+    private ChoiceBox<Component> consolePowersuppliesChoiceBox;
     @FXML
-    private ChoiceBox consoleConnectivitiesChoiceBox;
+    private ChoiceBox<Component> consoleConnectivitiesChoiceBox;
     @FXML
-    private ChoiceBox consoleCamerasChoiceBox;
+    private ChoiceBox<Component> consoleCamerasChoiceBox;
     @FXML
-    private ChoiceBox notebookCPUsChoiceBox;
+    private ChoiceBox<Component> notebookCPUsChoiceBox;
     @FXML
-    private ChoiceBox notebeookStoragesChoiceBox;
+    private ChoiceBox<Component> notebeookStoragesChoiceBox;
     @FXML
-    private ChoiceBox notebookScreensChoiceBox;
+    private ChoiceBox<Component> notebookScreensChoiceBox;
     @FXML
-    private ChoiceBox notebookSoftwaresChoiceBox;
+    private ChoiceBox<Component> notebookSoftwaresChoiceBox;
     @FXML
-    private ChoiceBox notebookPowersuppliesChoiceBox;
+    private ChoiceBox<Component> notebookPowersuppliesChoiceBox;
     @FXML
-    private ChoiceBox phoneCPUsChoiceBox;
+    private ChoiceBox<Component> phoneCPUsChoiceBox;
     @FXML
-    private ChoiceBox phoneScreensChoiceBox;
+    private ChoiceBox<Component> phoneScreensChoiceBox;
     @FXML
-    private ChoiceBox phoneCamerasChoiceBox;
+    private ChoiceBox<Component> phoneCamerasChoiceBox;
     @FXML
-    private ChoiceBox phoneConnectivitiesChoiceBox;
+    private ChoiceBox<Component> phoneConnectivitiesChoiceBox;
     @FXML
-    private ChoiceBox phonePowersuppliesChoiceBox;
+    private ChoiceBox<Component> phonePowersuppliesChoiceBox;
     @FXML
-    private ChoiceBox phoneKeypadsChoiceBox;
+    private ChoiceBox<Component> phoneKeypadsChoiceBox;
 
     /****** TV Components ******/
     @FXML
@@ -295,19 +296,19 @@ public class IntroduceProductController extends GameModuleController {
     private ObservableList<Component> tvCaseList;
     private ObservableList<Component> consoleCPUList;
     private ObservableList<Component> consoleScreenList;
-    private ObservableList<Component> consolePowersupplieList;
-    private ObservableList<Component> consoleConnectivitieList;
+    private ObservableList<Component> consolePowersupplyList;
+    private ObservableList<Component> consoleConnectivityList;
     private ObservableList<Component> consoleCameraList;
     private ObservableList<Component> notebookCPUList;
     private ObservableList<Component> notebeookStorageList;
     private ObservableList<Component> notebookScreenList;
     private ObservableList<Component> notebookSoftwareList;
-    private ObservableList<Component> notebookPowersupplieList;
+    private ObservableList<Component> notebookPowersupplyList;
     private ObservableList<Component> phoneCPUList;
     private ObservableList<Component> phoneScreenList;
     private ObservableList<Component> phoneCameraList;
-    private ObservableList<Component> phoneConnectivitieList;
-    private ObservableList<Component> phonePowersupplieList;
+    private ObservableList<Component> phoneConnectivityList;
+    private ObservableList<Component> phonePowersupplyList;
     private ObservableList<Component> phoneKeypadList;
 
     private Map<ToggleButton, Component> tvScreens;
@@ -720,19 +721,19 @@ public class IntroduceProductController extends GameModuleController {
         this.tvCaseList = FXCollections.observableArrayList();
         this.consoleCPUList = FXCollections.observableArrayList();
         this.consoleScreenList = FXCollections.observableArrayList();
-        this.consolePowersupplieList = FXCollections.observableArrayList();
-        this.consoleConnectivitieList = FXCollections.observableArrayList();
+        this.consolePowersupplyList = FXCollections.observableArrayList();
+        this.consoleConnectivityList = FXCollections.observableArrayList();
         this.consoleCameraList = FXCollections.observableArrayList();
         this.notebookCPUList = FXCollections.observableArrayList();
         this.notebeookStorageList = FXCollections.observableArrayList();
         this.notebookScreenList = FXCollections.observableArrayList();
         this.notebookSoftwareList = FXCollections.observableArrayList();
-        this.notebookPowersupplieList = FXCollections.observableArrayList();
+        this.notebookPowersupplyList = FXCollections.observableArrayList();
         this.phoneCPUList = FXCollections.observableArrayList();
         this.phoneScreenList = FXCollections.observableArrayList();
         this.phoneCameraList = FXCollections.observableArrayList();
-        this.phoneConnectivitieList = FXCollections.observableArrayList();
-        this.phonePowersupplieList = FXCollections.observableArrayList();
+        this.phoneConnectivityList = FXCollections.observableArrayList();
+        this.phonePowersupplyList = FXCollections.observableArrayList();
         this.phoneKeypadList = FXCollections.observableArrayList();
 
         for(int i=0; i <3; i++) {
@@ -803,7 +804,7 @@ public class IntroduceProductController extends GameModuleController {
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
                 default:
             }
-            this.consolePowersupplieList.add(tmpComp);
+            this.consolePowersupplyList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = selectedConsoleConnectivity;
@@ -813,7 +814,7 @@ public class IntroduceProductController extends GameModuleController {
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
                 default:
             }
-            this.consoleConnectivitieList.add(tmpComp);
+            this.consoleConnectivityList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = selectedConsoleCamera;
@@ -873,7 +874,7 @@ public class IntroduceProductController extends GameModuleController {
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
                 default:
             }
-            this.notebookPowersupplieList.add(tmpComp);
+            this.notebookPowersupplyList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = selectedPhoneCPU;
@@ -913,7 +914,7 @@ public class IntroduceProductController extends GameModuleController {
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
                 default:
             }
-            this.phoneConnectivitieList.add(tmpComp);
+            this.phoneConnectivityList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = selectedPhonePowersupply;
@@ -923,7 +924,7 @@ public class IntroduceProductController extends GameModuleController {
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
                 default:
             }
-            this.phonePowersupplieList.add(tmpComp);
+            this.phonePowersupplyList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = selectedPhoneKeypads;
@@ -938,147 +939,72 @@ public class IntroduceProductController extends GameModuleController {
 
         DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
         LocalDate gameDate = GameState.getInstance().getGameDate();
+        ComponentStringConverter componentStringConverter = new ComponentStringConverter();
 
+        //this.tvScreensChoiceBox.setConverter(componentStringConverter);
         this.tvScreensChoiceBox.setItems(this.tvScreenList);
-        ArrayList<String> tvScreenStringList = new ArrayList<>();
-        for(Component component : this.tvScreenList) {
-            tvScreenStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.tvScreensChoiceBox.setUserData(tvScreenStringList);
+        this.tvScreensChoiceBox.setConverter(componentStringConverter);
+
 
         this.tvAudiosChoiceBox.setItems(this.tvAudioList);
-        ArrayList<String> tvAudioStringList = new ArrayList<>();
-        for(Component component : this.tvAudioList) {
-            tvAudioStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.tvAudiosChoiceBox.setUserData(tvAudioStringList);
+        this.tvAudiosChoiceBox.setConverter(componentStringConverter);
+
 
         this.tvOSsChoiceBox.setItems(this.tvOSList);
-        ArrayList<String> tvOSStringList = new ArrayList<>();
-        for(Component component : this.tvOSList) {
-            tvOSStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.tvOSsChoiceBox.setUserData(tvOSStringList);
+        this.tvOSsChoiceBox.setConverter(componentStringConverter);
+
 
         this.tvCasesChoiceBox.setItems(this.tvCaseList);
-        ArrayList<String> tvCaseStringList = new ArrayList<>();
-        for(Component component : this.tvCaseList) {
-            tvCaseStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.tvCasesChoiceBox.setUserData(tvCaseStringList);
+        this.tvCasesChoiceBox.setConverter(componentStringConverter);
+
 
         this.consoleCPUsChoiceBox.setItems(this.consoleCPUList);
-        ArrayList<String> consoleCPUStringList = new ArrayList<>();
-        for(Component component : this.consoleCPUList) {
-            consoleCPUStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.consoleCPUsChoiceBox.setUserData(consoleCPUStringList);
+        this.consoleCPUsChoiceBox.setConverter(componentStringConverter);
 
         this.consoleScreensChoiceBox.setItems(this.consoleScreenList);
-        ArrayList<String> consoleScreenStringList = new ArrayList<>();
-        for(Component component : this.consoleScreenList) {
-            consoleScreenStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.consoleScreensChoiceBox.setUserData(consoleScreenStringList);
+        this.consoleScreensChoiceBox.setConverter(componentStringConverter);
 
-        this.consolePowersuppliesChoiceBox.setItems(this.consolePowersupplieList);
-        ArrayList<String> consolePowersupplieStringList = new ArrayList<>();
-        for(Component component : this.consolePowersupplieList) {
-            consolePowersupplieStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.consolePowersuppliesChoiceBox.setUserData(consolePowersupplieStringList);
+        this.consolePowersuppliesChoiceBox.setItems(this.consolePowersupplyList);
+        this.consolePowersuppliesChoiceBox.setConverter(componentStringConverter);
 
-        this.consoleConnectivitiesChoiceBox.setItems(this.consoleConnectivitieList);
-        ArrayList<String> consoleConnectivitieStringList = new ArrayList<>();
-        for(Component component : this.consoleConnectivitieList) {
-            consoleConnectivitieStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.consoleConnectivitiesChoiceBox.setUserData(consoleConnectivitieStringList);
+        this.consoleConnectivitiesChoiceBox.setItems(this.consoleConnectivityList);
+        this.consoleConnectivitiesChoiceBox.setConverter(componentStringConverter);
 
         this.consoleCamerasChoiceBox.setItems(this.consoleCameraList);
-        ArrayList<String> consoleCameraStringList = new ArrayList<>();
-        for(Component component : this.consoleCameraList) {
-            consoleCameraStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.consoleCamerasChoiceBox.setUserData(consoleCameraStringList);
+        this.consoleCamerasChoiceBox.setConverter(componentStringConverter);
 
         this.notebookCPUsChoiceBox.setItems(this.notebookCPUList);
-        ArrayList<String> notebookCPUStringList = new ArrayList<>();
-        for(Component component : this.notebookCPUList) {
-            notebookCPUStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.notebookCPUsChoiceBox.setUserData(notebookCPUStringList);
+        this.notebookCPUsChoiceBox.setConverter(componentStringConverter);
 
         this.notebeookStoragesChoiceBox.setItems(this.notebeookStorageList);
-        ArrayList<String> notebeookStorageStringList = new ArrayList<>();
-        for(Component component : this.notebeookStorageList) {
-            notebeookStorageStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.notebeookStoragesChoiceBox.setUserData(notebeookStorageStringList);
+        this.notebeookStoragesChoiceBox.setConverter(componentStringConverter);
 
         this.notebookScreensChoiceBox.setItems(this.notebookScreenList);
-        ArrayList<String> notebookScreenStringList = new ArrayList<>();
-        for(Component component : this.notebookScreenList) {
-            notebookScreenStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.notebookScreensChoiceBox.setUserData(notebookScreenStringList);
+        this.notebookScreensChoiceBox.setConverter(componentStringConverter);
 
         this.notebookSoftwaresChoiceBox.setItems(this.notebookSoftwareList);
-        ArrayList<String> notebookSoftwareStringList = new ArrayList<>();
-        for(Component component : this.notebookSoftwareList) {
-            notebookSoftwareStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.notebookSoftwaresChoiceBox.setUserData(notebookSoftwareStringList);
+        this.notebookSoftwaresChoiceBox.setConverter(componentStringConverter);
 
-        this.notebookPowersuppliesChoiceBox.setItems(this.notebookPowersupplieList);
-        ArrayList<String> notebookPowersupplieStringList = new ArrayList<>();
-        for(Component component : this.notebookPowersupplieList) {
-            notebookPowersupplieStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.notebookPowersuppliesChoiceBox.setUserData(notebookPowersupplieStringList);
+        this.notebookPowersuppliesChoiceBox.setItems(this.notebookPowersupplyList);
+        this.notebookPowersuppliesChoiceBox.setConverter(componentStringConverter);
 
         this.phoneCPUsChoiceBox.setItems(this.phoneCPUList);
-        ArrayList<String> phoneCPUStringList = new ArrayList<>();
-        for(Component component : this.phoneCPUList) {
-            phoneCPUStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.phoneCPUsChoiceBox.setUserData(phoneCPUStringList);
+        this.phoneCPUsChoiceBox.setConverter(componentStringConverter);
 
         this.phoneScreensChoiceBox.setItems(this.phoneScreenList);
-        ArrayList<String> phoneScreenStringList = new ArrayList<>();
-        for(Component component : this.phoneScreenList) {
-            phoneScreenStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.phoneScreensChoiceBox.setUserData(phoneScreenStringList);
+        this.phoneScreensChoiceBox.setConverter(componentStringConverter);
 
         this.phoneCamerasChoiceBox.setItems(this.phoneCameraList);
-        ArrayList<String> phoneCameraStringList = new ArrayList<>();
-        for(Component component : this.phoneCameraList) {
-            phoneCameraStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.phoneCamerasChoiceBox.setUserData(phoneCameraStringList);
+        this.phoneCamerasChoiceBox.setConverter(componentStringConverter);
 
-        this.phoneConnectivitiesChoiceBox.setItems(this.phoneConnectivitieList);
-        ArrayList<String> phoneConnectivitieStringList = new ArrayList<>();
-        for(Component component : this.phoneConnectivitieList) {
-            phoneConnectivitieStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.phoneConnectivitiesChoiceBox.setUserData(phoneConnectivitieStringList);
+        this.phoneConnectivitiesChoiceBox.setItems(this.phoneConnectivityList);
+        this.phoneConnectivitiesChoiceBox.setConverter(componentStringConverter);
 
-        this.phonePowersuppliesChoiceBox.setItems(this.phonePowersupplieList);
-        ArrayList<String> phonePowersupplieStringList = new ArrayList<>();
-        for(Component component : this.phonePowersupplieList) {
-            phonePowersupplieStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.phonePowersuppliesChoiceBox.setUserData(phonePowersupplieStringList);
+        this.phonePowersuppliesChoiceBox.setItems(this.phonePowersupplyList);
+        this.phonePowersuppliesChoiceBox.setConverter(componentStringConverter);
 
         this.phoneKeypadsChoiceBox.setItems(this.phoneKeypadList);
-        ArrayList<String> phoneKeypadStringList = new ArrayList<>();
-        for(Component component : this.phoneKeypadList) {
-            phoneKeypadStringList.add(component.getSupplierQuality() + " (" + decimalFormat.format(component.calculateBaseCost(gameDate)) +")");
-        }
-        this.phoneKeypadsChoiceBox.setUserData(phoneKeypadStringList);
-
+        this.phoneKeypadsChoiceBox.setConverter(componentStringConverter);
 
         this.tvScreensChoiceBox.setValue(this.tvScreenList.get(0));
         this.tvAudiosChoiceBox.setValue(this.tvAudioList.get(0));
@@ -1086,24 +1012,39 @@ public class IntroduceProductController extends GameModuleController {
         this.tvCasesChoiceBox.setValue(this.tvCaseList.get(0));
         this.consoleCPUsChoiceBox.setValue(this.consoleCPUList.get(0));
         this.consoleScreensChoiceBox.setValue(this.consoleScreenList.get(0));
-        this.consolePowersuppliesChoiceBox.setValue(this.consolePowersupplieList.get(0));
-        this.consoleConnectivitiesChoiceBox.setValue(this.consoleConnectivitieList.get(0));
+        this.consolePowersuppliesChoiceBox.setValue(this.consolePowersupplyList.get(0));
+        this.consoleConnectivitiesChoiceBox.setValue(this.consoleConnectivityList.get(0));
         this.consoleCamerasChoiceBox.setValue(this.consoleCameraList.get(0));
         this.notebookCPUsChoiceBox.setValue(this.notebookCPUList.get(0));
         this.notebeookStoragesChoiceBox.setValue(this.notebeookStorageList.get(0));
         this.notebookScreensChoiceBox.setValue(this.notebookScreenList.get(0));
         this.notebookSoftwaresChoiceBox.setValue(this.notebookSoftwareList.get(0));
-        this.notebookPowersuppliesChoiceBox.setValue(this.notebookPowersupplieList.get(0));
+        this.notebookPowersuppliesChoiceBox.setValue(this.notebookPowersupplyList.get(0));
         this.phoneCPUsChoiceBox.setValue(this.phoneCPUList.get(0));
         this.phoneScreensChoiceBox.setValue(this.phoneScreenList.get(0));
         this.phoneCamerasChoiceBox.setValue(this.phoneCameraList.get(0));
-        this.phoneConnectivitiesChoiceBox.setValue(this.phoneConnectivitieList.get(0));
-        this.phonePowersuppliesChoiceBox.setValue(this.phonePowersupplieList.get(0));
+        this.phoneConnectivitiesChoiceBox.setValue(this.phoneConnectivityList.get(0));
+        this.phonePowersuppliesChoiceBox.setValue(this.phonePowersupplyList.get(0));
         this.phoneKeypadsChoiceBox.setValue(this.phoneKeypadList.get(0));
     }
 
     public void showSupplierOptions() {
         Main.getManager().getGamePageController().showOverlay(UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
+    }
+
+    class ComponentStringConverter extends StringConverter<Component> {
+
+        @Override
+        public String toString(Component component) {
+            DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
+            LocalDate gameDate = GameState.getInstance().getGameDate();
+            return "" + component.getSupplierCategory() + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
+        }
+
+        @Override
+        public Component fromString(String s) {
+            return null;
+        }
     }
 
     /*
