@@ -3,8 +3,9 @@
  */
  
 .headerPane {
-	-fx-border-width: 0 0 2 0;
-	-fx-border-insets: 25 0 20 25;
+	-fx-padding: 0 0 15 0;
+	-fx-border-width: 0.0 0.0 2.0 0.0;
+	-fx-border-insets: 25.0 25.0 0.0 25.0;
 	-fx-border-color: -fx-dark;
 	-fx-background-color: -fx-light;
 }
@@ -17,22 +18,22 @@
  * Section for reusable module-components.
  */
 .header {
-	-fx-font: bold 22px 'Prime';
+	-fx-font: bold 22.0px 'Prime';
 	-fx-text-fill: -fx-dark;
 }
 
 .label_large {
-	-fx-font-size: 14;
+	-fx-font-size: 14.0;
 }
 
 .label_medium {
-	-fx-font-size: 14;
+	-fx-font-size: 14.0;
 }
 
 .button_module {
 	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-light;
-	-fx-border-insets: 0;
+	-fx-border-insets: 0.0;
 }
 
 .button_module:hover {
@@ -43,33 +44,33 @@
  * Utilities
  */
  .separator_right {
- 	-fx-border-width: 0 1 0 0;
+ 	-fx-border-width: 0.0 1.0 0.0 0.0;
  	-fx-border-color: -fx-dark;
- 	-fx-border-insets: 0 0 0 0;
+ 	-fx-border-insets: 0.0 -5.0 0.0 0.0;
  }
 
 /**
  * Styling for Listviews.
  */
 .list-label {
-	-fx-font-size: 14px;
+	-fx-font-size: 14.0px;
 	-fx-font-family: 'Prime';
 }
 
 .list-view {
 	-fx-background-color: none;
-	-fx-border-width : 1 0 0 0;
+	-fx-border-width : 1.0 0.0 0.0 0.0;
 }
 
 .list-view .scroll-bar:horizontal {
-	-fx-scale-x: 0;
+	-fx-scale-x: 0.0;
 }
 
 .list-cell {
 	-fx-background-color: -fx-light;
-	-fx-border-insets: 0 5 0 5;
-	-fx-background-insets: 0 5 0 5;
-	-fx-border-width: 0;
+	-fx-border-insets: 0.0 5.0 0.0 5.0;
+	-fx-background-insets: 0.0 5.0 0.0 5.0;
+	-fx-border-width: 0.0;
 	-fx-border-color: -fx-neutral;
 }
 
@@ -78,11 +79,11 @@
 }
 
 .list-cell:odd {
-	-fx-border-width: 1 0 1 0;
+	-fx-border-width: 1.0 0.0 1.0 0.0;
 }
 
 .list-cell:even {
-	-fx-border-width: 0 0 0 0;
+	-fx-border-width: 0.0 0.0 0.0 0.0;
 }
 
 .list-cell:selected {
@@ -91,7 +92,7 @@
 }
 
 .list-cell:empty {
-	-fx-opacity: 0;
+	-fx-opacity: 0.0;
 }
 
 /**
@@ -99,7 +100,7 @@
  */
  
  .tab-pane {
-    -fx-tab-min-width: 60px;
+    -fx-tab-min-width: 60.0px;
  }
 .tab-pane .tab-header-area .tab-header-background {
 	-fx-background-color: transparent;
@@ -107,25 +108,25 @@
 
 .tab-pane .tab-content-area {
 	-fx-background-color: transparent;
-	-fx-border-width : 1 0 0 0;
-	-fx-border-insets : 0 5 0 5;
+	-fx-border-width : 1.0 0.0 0.0 0.0;
+	-fx-border-insets : 0.0 5.0 0.0 5.0;
 	-fx-border-color: -fx-dark;
 }
 
 .tab-pane .tab {
-    -fx-background-insets: 0 1 0 1;
+    -fx-background-insets: 0.0 1.0 0.0 1.0;
 	-fx-background-color: -fx-dark;
-	-fx-border-radius: 5 5 0 0;
-	-fx-background-radius: 5 5 0 0;
+	-fx-border-radius: 5.0 5.0 0.0 0.0;
+	-fx-background-radius: 5.0 5.0 0.0 0.0;
 }
 
 .tab-pane .tab:selected, .tab-pane .tab-pane:focused {
 	-fx-background-color: -fx-primary;
-	-fx-border-width: 2;
+	-fx-border-width: 2.0;
 	-fx-border-color: -fx-dark;
-	-fx-background-insets: -2;
-	-fx-border-insets: -2;
-	-fx-border-radius: 3;
+	-fx-background-insets: -2.0;
+	-fx-border-insets: -2.0;
+	-fx-border-radius: 3.0;
 }
 
 .tab .tab-label {
@@ -137,8 +138,38 @@
 /**
  * Styling of charts
  */
+.chart-bar {
+	-fx-bar-fill: -fx-primary;
+}
+
+.chart-plot-background{
+	-fx-background-color: -fx-light-neutral;	
+}
+
+.chart-alternative-row-fill {
+    -fx-fill: -fx-light;
+}
  
+ .axis {
+ 	-fx-border-color: -fx-dark;
+ 	-fx-tick-label-font-size: 12px;
+ 	-fx-tick-label-font-family: "Prime";
+ }
  
+ .axis-label {
+  	-fx-text-fill: -fx-dark;
+ 	-fx-font-size: 16.0px;
+}
+ 
+ .axis:left {
+ 	-fx-border-width: 0.0 2.0 0.0 0.0;
+ 	-fx-border-insets: 0.0 0.0 -1.0 0.0;
+ }
+ 
+ .axis:bottom {
+ 	-fx-border-width: 2.0 0.0 0.0 0.0;
+ 	-fx-border-insets: 0.0 0.0 0.0 -1.0;
+ }
  
 /**
  * Styling of radio buttons
@@ -149,7 +180,7 @@
  
  .radio-button .radio {
  	-fx-background-color: -fx-light;
- 	-fx-border-radius: 50%;
+ 	-fx-border-radius: 50.0%;
  	-fx-border-color: -fx-dark;
  }
  
@@ -168,3 +199,5 @@
 .radio-button:selected .radio {
 	-fx-background-color: -fx-primary;
 }
+
+

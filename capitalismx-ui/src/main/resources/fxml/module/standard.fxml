@@ -21,7 +21,7 @@
             </AnchorPane>
             <AnchorPane fx:id="contentPane" styleClass="contentPane">
                <padding>
-                  <Insets bottom="25.0" left="25.0" right="25.0" top="5.0" />
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                </padding></AnchorPane>
          </children>
       </VBox>

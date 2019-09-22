@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
+import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
