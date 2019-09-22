@@ -3,6 +3,8 @@ package de.uni.mannheim.capitalismx.ui.controller.module.logistics;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.collections.FXCollections;
@@ -61,6 +63,10 @@ public class TruckFleetController extends GameModuleController {
 
         //truckFleetListView.setItems(truckFleetListObservable);
         truckFleetListView.setCellFactory(truckListView -> new TruckListViewCell(truckFleetListView));
+
+        truckSelectionDropdown.setOnMouseClicked(e -> {
+            //Main.getManager().getGamePageController().showOverlay(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW);
+        });
     }
 
 }
