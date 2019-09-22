@@ -113,10 +113,10 @@ FontAwesomeIcon {
 
 
 .date_label {
-	-fx-background-color: #E0E0E0;
+	-fx-background-color: -fx-neutral;
     -fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
-	-fx-background-color: #423f39;
+	/*-fx-background-color: #423f39;*/
 	-fx-text-fill: white;
 }
 
