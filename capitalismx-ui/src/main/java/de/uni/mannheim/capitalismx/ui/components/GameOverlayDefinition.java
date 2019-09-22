@@ -8,7 +8,8 @@ package de.uni.mannheim.capitalismx.ui.components;
  */
 public enum GameOverlayDefinition {
 
-	HR_EDIT_EMPLOYEE("employee_detail.fxml", GameViewType.HR, UIElementType.HR_EMPLOYEES_OVERVIEW);
+	HR_EDIT_EMPLOYEE("employee_detail.fxml", GameViewType.HR, UIElementType.HR_EMPLOYEES_OVERVIEW),
+	PRODUCTION_SUPPLIER_OPTIONS("supplier_options.fxml", GameViewType.PRODUCTION, UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
 
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
