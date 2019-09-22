@@ -10,6 +10,8 @@ package de.uni.mannheim.capitalismx.ui.components;
  */
 public enum UIElementType {
 
+	OVERVIEW_MAP_3D("Company Map"),
+	
 	HR_EMPLOYEES_OVERVIEW("Employees"), 
 	HR_EMPLOYEE_SATISFACTION("Employee Satisfaction"), 
 	HR_WORKING_CONDITIONS("Working Conditions"), 

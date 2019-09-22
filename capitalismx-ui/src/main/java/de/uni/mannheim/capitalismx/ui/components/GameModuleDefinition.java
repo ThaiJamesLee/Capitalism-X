@@ -14,7 +14,7 @@ public enum GameModuleDefinition {
 //	UNKNOWN(0, "", GameViewType.GAME_OVERVIEW, 0, 0, 0, 0),
 
 	// The modules for the overview. (1-10)
-//	OVERVIEW_PLACEHOLDER(1, "m_overview_placeholder.fxml", GameViewType.GAME_OVERVIEW, 0, 1, 0, 1),
+	//OVERVIEW_PLACEHOLDER(1, "overview_map3D.fxml", GameViewType.OVERVIEW, null, UIElementType.OVERVIEW_MAP_3D, 1, 20, 1, 20),
 
 	// The modules for HR. (11-20)
 	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, GameOverlayDefinition.HR_EDIT_EMPLOYEE,
