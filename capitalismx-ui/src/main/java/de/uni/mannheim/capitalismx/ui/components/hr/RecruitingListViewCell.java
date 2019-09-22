@@ -21,6 +21,9 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	private Label skillLabel;
 	
 	@FXML
+	private Label jobLabel;
+	
+	@FXML
 	private GridPane gridPane;
 	
 	private FXMLLoader loader;
@@ -47,6 +50,7 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	        	nameLabel.setText(employee.getName());
 	        	wageLabel.setText((int)employee.getSalary() + " CC");
 	        	skillLabel.setText(employee.getSkillLevel() + "");
+	        	jobLabel.setText(employee.getEmployeeType().toString());
 
 	        	setText(null);
 	        	setGraphic(gridPane);

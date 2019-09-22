@@ -1,6 +1,8 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
@@ -16,6 +18,7 @@ public class BankingSystem implements Serializable {
     private double annualPrincipalBalance;
     private double annualInterestRate;
     private double annualLoanRate;
+    private LocalDate loanDate;
 
     public class Loan implements Serializable{
         private double interestRate;
@@ -63,8 +66,9 @@ public class BankingSystem implements Serializable {
         return loanSelection;
     }
 
-    void addLoan(Loan loan){
+    void addLoan(Loan loan, LocalDate loanDate){
         this.loan = loan;
+        this.loanDate = loanDate;
     }
 
     protected double calculateAnnualRepayment(){
@@ -76,26 +80,29 @@ public class BankingSystem implements Serializable {
         return this.annualRepayment;
     }
 
-    protected double calculateAnnualPrincipalBalance(int year){
+    protected double calculateAnnualPrincipalBalance(LocalDate gameDate){
         this.annualPrincipalBalance = 0;
         if(this.loan != null){
+            int year = Period.between(this.loanDate, gameDate).getYears();
             this.annualPrincipalBalance = this.loan.getLoanAmount() - (this.calculateAnnualRepayment()  * year);
         }
         return this.annualPrincipalBalance;
     }
 
-    protected double calculateAnnualInterestRate(int year){
+    protected double calculateAnnualInterestRate(LocalDate gameDate){
         this.annualInterestRate = 0;
         if(this.loan != null){
-            this.annualInterestRate = this.calculateAnnualPrincipalBalance(year) * this.loan.getInterestRate();
+            int year = Period.between(this.loanDate, gameDate).getYears();
+            this.annualInterestRate = this.calculateAnnualPrincipalBalance(gameDate) * this.loan.getInterestRate();
         }
         return this.annualInterestRate;
     }
 
-    private double calculateAnnualLoanRate(int year){
+    private double calculateAnnualLoanRate(LocalDate gameDate){
         this.annualLoanRate = 0;
         if(loan != null){
-            this.annualLoanRate = this.calculateAnnualRepayment() + this.calculateAnnualInterestRate(year);
+            int year = Period.between(this.loanDate, gameDate).getYears();
+            this.annualLoanRate = this.calculateAnnualRepayment() + this.calculateAnnualInterestRate(gameDate);
         }
         return this.annualLoanRate;
     }
