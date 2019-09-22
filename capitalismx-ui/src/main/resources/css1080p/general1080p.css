@@ -4,6 +4,7 @@
    -fx-light: #FAFAFA;
    -fx-dark: #2E2E2E;
    -fx-neutral: #848484;
+   -fx-light-neutral: #cccccc;
    -fx-contrast: #ffd54f;
    -fx-transparent-background: rgb(132, 132, 132, 0.6);
 }

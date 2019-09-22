@@ -1,17 +1,27 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
-import de.uni.mannheim.capitalismx.hr.domain.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.uni.mannheim.capitalismx.hr.domain.Benefit;
+import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.JobSatisfaction;
+import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.Team;
 import de.uni.mannheim.capitalismx.hr.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.hr.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.training.EmployeeTraining;
 import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.Serializable;
-import java.util.*;
 
 /**
  * Based on the report on p.21 - 28
@@ -20,11 +30,13 @@ import java.util.*;
 public class HRDepartment implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
-
+    
     // base cost for hiring and firing
     private static final int BASE_COST = 5000;
 
     private BenefitSettings benefitSettings;
+    
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     private Map<EmployeeType, Team> teams;
 
@@ -33,6 +45,22 @@ public class HRDepartment implements Serializable {
     private List<Employee> fired;
 
     private static HRDepartment instance = null;
+    
+    /**
+     * Add a change listener that notifies, if a property has changed.
+     * @param listener A property change listener.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Remove a change listener.
+     * @param listener The property listener that needs to be removed.
+     */
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.removePropertyChangeListener(listener);
+    }
 
     private HRDepartment () {
         this.benefitSettings = new BenefitSettings();
@@ -184,7 +212,7 @@ public class HRDepartment implements Serializable {
     }
 
     /**
-     * Hire the employee. Add the employe to the corresponding team list.
+     * Hire the employee. Add the employee to the corresponding team list.
      * @param employee The employee to hire.
      * @return Returns the cost of hiring.
      */
@@ -193,10 +221,13 @@ public class HRDepartment implements Serializable {
             throw new NullPointerException("Employee must be specified!");
         }
         if(employee instanceof Engineer) {
+        	Team oldEngineers = getEngineerTeam();
             teams.get(EmployeeType.ENGINEER).addEmployee(employee);
-
+            propertyChangeSupport.firePropertyChange("engineerChange", oldEngineers, getEngineerTeam());
         } else if (employee instanceof SalesPerson) {
+        	Team oldSalesTeam = getSalesTeam();
             teams.get(EmployeeType.SALESPERSON).addEmployee(employee);
+            propertyChangeSupport.firePropertyChange("salesPersonChange", oldSalesTeam, getSalesTeam());
         }
         hired.add(employee);
         //TODO hiring cost should also be dependent on the skill level
@@ -213,10 +244,14 @@ public class HRDepartment implements Serializable {
             throw new NullPointerException("Employee must be specified!");
         }
         if(employee instanceof Engineer) {
+        	Team oldEngineers = getEngineerTeam();
             teams.get(EmployeeType.ENGINEER).removeEmployee(employee);
+            propertyChangeSupport.firePropertyChange("engineerChange", oldEngineers, getEngineerTeam());
 
         } else if (employee instanceof SalesPerson) {
+        	Team oldSalesTeam = getSalesTeam();
             teams.get(EmployeeType.SALESPERSON).removeEmployee(employee);
+            propertyChangeSupport.firePropertyChange("salesPersonChange", oldSalesTeam, getSalesTeam());
         }
         //TODO firing cost should be also dependent on skill level
         fired.add(employee);

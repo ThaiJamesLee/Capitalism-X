@@ -12,7 +12,7 @@
             <ListView fx:id="truckFleetListView" />
             <AnchorPane>
                <children>
-                  <MenuButton fx:id="truckSelectionDropdown" layoutY="400.0" mnemonicParsing="false" text="MenuButton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <MenuButton fx:id="truckSelectionDropdown" layoutY="400.0" mnemonicParsing="false" styleClass="button_module" text="Buy Truck" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </children>

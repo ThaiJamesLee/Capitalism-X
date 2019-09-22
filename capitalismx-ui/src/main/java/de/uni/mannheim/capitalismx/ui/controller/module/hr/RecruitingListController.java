@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.hr.RecruitingListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.HREventListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -43,6 +44,8 @@ public class RecruitingListController extends GameModuleController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//TODO auslagern in UIManager, nur einmal initialisieren
+		HRDepartment.getInstance().addPropertyChangeListener(new HREventListener());
 		recruitingList.setItems(employeeListObservable);
 		recruitingList.setCellFactory(employeeListView -> new RecruitingListViewCell());
 		recruitingList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

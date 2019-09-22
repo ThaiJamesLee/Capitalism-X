@@ -30,9 +30,7 @@ public class EmployeeListController extends GameModuleController {
 
 	@Override
 	public void update() {
-		HRDepartment hrDep = HRDepartment.getInstance();
-		engineers = FXCollections.observableArrayList(hrDep.getEngineerTeam().getTeam());
-		salesPeople = FXCollections.observableArrayList(hrDep.getSalesTeam().getTeam());
+		
 	}
 
 	@Override
@@ -48,6 +46,11 @@ public class EmployeeListController extends GameModuleController {
 		engineerList.setCellFactory(employeeListView -> new EmployeeListViewCell());
 		salesList.setItems(salesPeople);
 		salesList.setCellFactory(employeeListView -> new EmployeeListViewCell());
+	}
+	
+	public void updateEngineerList(List<Employee> engineerTeam) {
+		engineers = FXCollections.observableArrayList(engineerTeam);
+		engineerList.setItems(engineers);
 	}
 	
 

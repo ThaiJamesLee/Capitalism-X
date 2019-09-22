@@ -33,7 +33,8 @@ public class WorkingConditionsController extends GameModuleController {
 	 */
 	private void createCostTooltip(RadioButton radio) {
 		// TODO tooltip gets displayed after way too long -> either upgrade to newer
-		// version of JFX, where delay is customizable or use some hack/workaround
+		// version of JFX, where delay is customizable or use some hack/workaround 
+		// -> ControlsFX
 		Tooltip tooltip = new Tooltip();
 		tooltip.setText(((Benefit) radio.getUserData()).getMonetaryImpact() + "CC per Employee/Month");
 		radio.setTooltip(tooltip);

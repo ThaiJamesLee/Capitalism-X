@@ -25,6 +25,19 @@
 	-fx-font-family: "Prime";
 }
 
+.header {
+	-fx-font: bold 22.0px 'Prime';
+	-fx-text-fill: -fx-dark;
+}
+
+.label_large {
+	-fx-font-size: 14.0;
+}
+
+.label_medium {
+	-fx-font-size: 14.0;
+}
+
 FontAwesomeIcon {
 	-fx-text-fill: -fx-dark;
 	-fx-fill: -fx-dark;
