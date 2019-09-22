@@ -179,7 +179,7 @@ public enum Component implements Serializable {
     public void setSupplierCategory(SupplierCategory supplierCategory) {
         this.supplierCategory = supplierCategory;
         switch(supplierCategory) {
-            case CHEAP:
+            case PREMIUM:
                 this.supplierCostMultiplicator = Component.getRandomDouble(1.1, 1.5);
                 this.supplierQuality = Component.getRandomInt(80, 100);
                 this.supplierEcoIndex = Component.getRandomInt(80, 100);
@@ -189,7 +189,7 @@ public enum Component implements Serializable {
                 this.supplierQuality = Component.getRandomInt(55, 85);
                 this.supplierEcoIndex = Component.getRandomInt(55, 85);
                 break;
-            case PREMIUM:
+            case CHEAP:
                 this.supplierCostMultiplicator = Component.getRandomDouble(0.7, 1.0);
                 this.supplierQuality = Component.getRandomInt(10, 60);
                 this.supplierEcoIndex = Component.getRandomInt(10, 60);

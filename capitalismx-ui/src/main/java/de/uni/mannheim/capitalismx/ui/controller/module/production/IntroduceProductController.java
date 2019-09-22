@@ -1,10 +1,15 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.production;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 import javax.swing.*;
@@ -12,6 +17,10 @@ import java.net.URL;
 import java.util.*;
 
 public class IntroduceProductController extends GameModuleController {
+
+    /****** Supplier Options ******/
+    @FXML
+    private ChoiceBox tvScreenChoiceBox;
 
     /****** TV Components ******/
     @FXML
@@ -433,6 +442,23 @@ public class IntroduceProductController extends GameModuleController {
                 componentEntry.getKey().setText(componentEntry.getValue().getComponentName());
             }
         }
+        /*
+        Component tvScreenCheap1 = Component.T_DISPLAY_LEVEL_1;
+        Component tvScreenCheap2 = Component.T_DISPLAY_LEVEL_1;
+        Component tvScreenCheap3 = Component.T_DISPLAY_LEVEL_1;
+        tvScreenCheap1.setSupplierCategory(SupplierCategory.CHEAP);
+        tvScreenCheap2.setSupplierCategory(SupplierCategory.REGULAR);
+        tvScreenCheap3.setSupplierCategory(SupplierCategory.PREMIUM);
+
+        ArrayList<Component> arrayList = new ArrayList<>();
+
+        arrayList.add(tvScreenCheap1);
+        arrayList.add(tvScreenCheap2);
+        arrayList.add(tvScreenCheap3);
+
+        tvScreenChoiceBox.setItems(FXCollections.observableArrayList(tvScreenCheap1 + "" + tvScreenCheap1.calculateBaseCost(GameState.getInstance().getGameDate()),"was","krass"));
+        tvScreenChoiceBox.setValue("das");
+        */
     }
 
     public void showSupplierOptions() {
