@@ -44,17 +44,11 @@ public class EmployeeListController extends GameModuleController {
 		engineers = FXCollections.observableArrayList(hrDep.getEngineerTeam().getTeam());
 		salesPeople = FXCollections.observableArrayList(hrDep.getSalesTeam().getTeam());
 		
-
 		engineerList.setItems(engineers);
 		engineerList.setCellFactory(employeeListView -> new EmployeeListViewCell());
 		salesList.setItems(salesPeople);
 		salesList.setCellFactory(employeeListView -> new EmployeeListViewCell());
 	}
-	
-	private void showEmployeeDetails() {
-		
-	}
-
 	
 
 }
