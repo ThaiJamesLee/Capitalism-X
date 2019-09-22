@@ -41,7 +41,7 @@ public enum GameModuleDefinition {
 //	WAREHOUSE_PLACEHOLDER(51, "m_warehouse_placeholder.fxml", GameViewType.GAME_WAREHOUSE, 0, 1, 0, 1),
 
 	// The modules for HR. (61-70)
-	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 10, 0, 19),
+	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 5, 0, 19),
 	FINANCE_OVERVIEW(61, "finance_overview.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OVERVIEW, 0, 5, 0, 19)
 
 	// The modules for HR. (71-80)
