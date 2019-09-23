@@ -3,8 +3,9 @@
  */
  
 .headerPane {
-	-fx-border-width: 0 0 2 0;
-	-fx-border-insets: 25 0 20 25;
+	-fx-padding: 0 0 15 0;
+	-fx-border-width: 0.0 0.0 2.0 0.0;
+	-fx-border-insets: 25.0 25.0 0.0 25.0;
 	-fx-border-color: -fx-dark;
 	-fx-background-color: -fx-light;
 }
@@ -16,65 +17,14 @@
 /**
  * Section for reusable module-components.
  */
-.header {
-	-fx-font: bold 22px 'Prime';
-	-fx-text-fill: -fx-dark;
-}
-
 .button_module {
 	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-light;
-	-fx-border-insets: 0;
+	-fx-border-insets: 0.0;
 }
 
 .button_module:hover {
 	-fx-background-color: -fx-contrast;
 }
 
-/**
- * Styling for Listviews.
- */
- 
- 
-.list-label {
-	-fx-font-size: 12px;
-	-fx-font-family: 'Prime';
- }
- 
-.list-view {
-	-fx-background-color: none;
-	-fx-border-width : 1 0 0 0;
-}
 
-.list-view .scroll-bar:horizontal {
-    -fx-scale-x: 0;
-}
-
-.list-cell {
-	-fx-background-color: -fx-light;
-	-fx-border-insets: 0 5 0 5;
-	-fx-background-insets: 0 5 0 5;
-	-fx-border-width: 0;
-	-fx-border-color: -fx-neutral;
-}
-
-.list-cell:hover {
-	-fx-background-color: -fx-neutral;
-}
-
-.list-cell:odd {
-	-fx-border-width: 1 0 1 0;
-}
-
-.list-cell:even {
-	-fx-border-width: 0 0 0 0;
-}
-
-.list-cell:selected {
-	-fx-background-color: -fx-primary;
-	-fx-text-fill: -fx-dark;
-}
-
-.list-cell:empty {
-    -fx-opacity: 0;
-}

@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -8,6 +10,7 @@ import java.time.Period;
  * @author sdupper
  */
 public class Truck implements Serializable {
+    private String name;
     private int capacity;
     private double ecoIndex;
     private double qualityIndex;
@@ -19,15 +22,16 @@ public class Truck implements Serializable {
     private int usefulLife;
     private LocalDate purchaseDate;
 
-    public Truck(double ecoIndexTruck, double qualityIndexTruck, double purchasePriceTruckFactor, double fixCostsDeliveryFactor){
+    public Truck(String name, double ecoIndexTruck, double qualityIndexTruck, double purchasePriceTruckFactor, double fixCostsDeliveryFactor){
+        this.name = name;
         int basePrice = 100000;
-        this.ecoIndex = ecoIndexTruck;
-        this.qualityIndex = qualityIndexTruck;
-        this.purchasePrice = basePrice * purchasePriceTruckFactor;
-        this.fixCostsDelivery = basePrice * fixCostsDeliveryFactor;
+        this.ecoIndex = DecimalRound.round(ecoIndexTruck, 2);
+        this.qualityIndex = DecimalRound.round(qualityIndexTruck, 2);
+        this.purchasePrice = DecimalRound.round(basePrice * purchasePriceTruckFactor, 2);
+        this.fixCostsDelivery = DecimalRound.round(basePrice * fixCostsDeliveryFactor, 2);
 
         this.capacity = 1000;
-        this.fixTruckCost = (this.purchasePrice * 0.01) / 12;
+        this.fixTruckCost = DecimalRound.round((this.purchasePrice * 0.01) / 12, 2);
         //TODO for 9 years
         this.depreciationRate = 1/9;
         this.usefulLife = 9;
@@ -76,5 +80,13 @@ public class Truck implements Serializable {
 
     public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
+    }
+
+    public LocalDate getPurchaseDate() {
+        return this.purchaseDate;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

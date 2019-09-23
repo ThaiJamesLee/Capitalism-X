@@ -42,7 +42,7 @@
       </GridPane>
    </children>
    <stylesheets>
-      <URL value="@../css/general.css" />
-      <URL value="@../css/loadingScreen.css" />
+      <URL value="@../css1080p/general1080p.css" />
+      <URL value="@../css1080p/loadingScreen1080p.css" />
    </stylesheets>
 </AnchorPane>

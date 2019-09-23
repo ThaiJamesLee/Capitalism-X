@@ -1,0 +1,18 @@
+
+.grid {
+	-fx-background-color: lightgrey;
+}
+
+.menubutton {
+	-fx-border-color: white;
+	-fx-border-width: 5px;
+	-fx-background-color: lightgrey;
+}
+
+.menulabel {
+	-fx-font-size: 24pt;
+	-fx-text-fill: darkorange;
+}
+
+
+

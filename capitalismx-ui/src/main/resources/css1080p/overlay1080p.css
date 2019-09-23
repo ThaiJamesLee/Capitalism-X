@@ -1,0 +1,16 @@
+.headerPane {
+	-fx-padding: 15;
+	-fx-background-color: -fx-light;
+}
+
+.contentPane {
+	-fx-padding: 15;
+	-fx-background-color: -fx-light;
+}
+
+
+.header {
+	-fx-font: bold 24pt 'Prime';
+	-fx-text-fill: -fx-dark;
+}
+

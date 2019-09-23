@@ -6,12 +6,15 @@ import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -19,6 +22,8 @@ public class GameState implements Serializable {
 
     private static GameState instance;
     private LocalDate gameDate;
+
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     // Departments
     private HRDepartment hrDepartment;
@@ -31,6 +36,7 @@ public class GameState implements Serializable {
     private CustomerDemand customerDemand;
     private ExternalEvents externalEvents;
     private CompanyEcoIndex companyEcoIndex;
+    private InternalFleet internalFleet;
 
     private GameState() {
         this.gameDate = LocalDate.of(1990, 1, 1);
@@ -56,14 +62,38 @@ public class GameState implements Serializable {
         // TODO procurement once a procurement department is implemented where it is possible to buy components
         externalEvents = ExternalEvents.getInstance();
         companyEcoIndex = CompanyEcoIndex.getInstance();
+        internalFleet = InternalFleet.getInstance();
     }
+
+    /**
+     * Add a change listener that notifies, if a property has changed.
+     * @param listener A property change listener.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Remove a change listener.
+     * @param listener The property listener that needs to be removed.
+     */
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
 
     public LocalDate getGameDate() {
         return this.gameDate;
     }
 
+    /**
+     * Sets the new game date and fires a property changed event.
+     * @param gameDate Sets new game date.
+     */
     public void setGameDate(LocalDate gameDate) {
+        LocalDate oldDate = this.gameDate;
         this.gameDate = gameDate;
+        this.propertyChangeSupport.firePropertyChange("gameDate", oldDate, gameDate);
     }
 
     /**
@@ -71,7 +101,15 @@ public class GameState implements Serializable {
      * @param state The new GameState.
      */
     public static void setInstance(GameState state) {
-        instance = state;
+        GameState.instance = state;
+    }
+
+    /**
+     * This instance is not a singleton, and can not be called by the getInstance method.
+     * @return Returns a newly created instance.
+     */
+    public static GameState createInstance() {
+        return new GameState();
     }
 
     public HRDepartment getHrDepartment() {
@@ -153,4 +191,13 @@ public class GameState implements Serializable {
     public void setCompanyEcoIndex(CompanyEcoIndex companyEcoIndex) {
         this.companyEcoIndex = companyEcoIndex;
     }
+
+    public InternalFleet getInternalFleet() {
+        return internalFleet;
+    }
+
+    public void setInternalFleet(InternalFleet internalFleet) {
+        this.internalFleet = internalFleet;
+    }
+
 }

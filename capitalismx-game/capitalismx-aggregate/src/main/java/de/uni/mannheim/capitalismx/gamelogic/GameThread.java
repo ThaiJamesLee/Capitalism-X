@@ -24,15 +24,15 @@ public class GameThread extends Thread {
         this.running = true;
     }
 
-    public void run() {
+    public synchronized void run() {
         while (running) {
             if (!pause) {
-                try {
-                    Thread.sleep(this.secondsPerDay * 1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 GameController.getInstance().nextDay();
+            }
+            try {
+                wait(this.secondsPerDay * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -119,4 +119,8 @@ public class CustomerDemand implements Serializable {
     public void calculateAll(double totalSalesQualityOfWork, LocalDate gameDate) {
         this.calculateSalesFigures(totalSalesQualityOfWork, gameDate);
     }
+
+    public static void setInstance(CustomerDemand instance) {
+        CustomerDemand.instance = instance;
+    }
 }

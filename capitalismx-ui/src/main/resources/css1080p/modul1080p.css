@@ -1,0 +1,28 @@
+/**
+ * General section for the style of the modules.
+ */
+ 
+.headerPane {
+	-fx-border-width: 0 0 2 0;
+	-fx-border-insets: 25 0 20 25;
+	-fx-border-color: -fx-dark;
+	-fx-background-color: -fx-light;
+}
+
+.contentPane {
+	-fx-background-color: -fx-light;
+}
+
+/**
+ * Section for reusable module-components.
+ */
+
+.button_module {
+	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-light;
+	-fx-border-insets: 0;
+}
+
+.button_module:hover {
+	-fx-background-color: -fx-contrast;
+}
