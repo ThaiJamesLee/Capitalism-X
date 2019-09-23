@@ -12,7 +12,7 @@
                 <ListView fx:id="machineryListView" />
                 <AnchorPane>
                     <children>
-                        <Button fx:id="buyButton" mnemonicParsing="false" styleClass="button_module" text="Buy Machinery (100000 CC)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button fx:id="buyButton" mnemonicParsing="false" styleClass="button_module" text="Buy Machinery (120600 CC)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </children>
                 </AnchorPane>
             </children>
