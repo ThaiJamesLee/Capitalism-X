@@ -80,8 +80,17 @@ public class OperationsTableController  extends GameModuleController {
         operationsTable.getColumns().addAll(rowName, col1, col2, col3, col4);
 
         ObservableList<OperationsTableEntry> data = FXCollections.observableArrayList();
-        data.add(new OperationsTableEntry("Test", 1, 2, 3 ,4));
-        data.add(new OperationsTableEntry("Test2", 5, 6, 7 ,8));
+        data.add(new OperationsTableEntry("Sales", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("Salaries", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("Material", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("Machines", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("Logistics", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("Lobbying", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("Marketing", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("EBIT", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("Loan Interest", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("Taxes", 0, 0, 0 ,0));
+        data.add(new OperationsTableEntry("NOPAT", 0, 0, 0 ,0));
         operationsTable.setItems(data);
     }
 
