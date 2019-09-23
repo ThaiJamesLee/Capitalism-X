@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,23 +22,23 @@ public class ProductTest {
     public void setUp() {
         ArrayList<Component> components = new ArrayList<>();
         LocalDate gameDate = LocalDate.of(1990,1,1);
-        Component cpu = Component.N_CPU_LEVEL_1;
+        Component cpu = new Component(ComponentType.N_CPU_LEVEL_1);
         cpu.setSupplierCategory(SupplierCategory.CHEAP);
         cpu.calculateBaseCost(gameDate);
         components.add(cpu);
-        Component displayCase = Component.N_DISPLAYCASE_LEVEL_1;
+        Component displayCase = new Component(ComponentType.N_DISPLAYCASE_LEVEL_1);
         displayCase.setSupplierCategory(SupplierCategory.CHEAP);
         displayCase.calculateBaseCost(gameDate);
         components.add(displayCase);
-        Component powerSupply = Component.N_POWERSUPPLY_LEVEL_1;
+        Component powerSupply = new Component(ComponentType.N_POWERSUPPLY_LEVEL_1);
         powerSupply.setSupplierCategory(SupplierCategory.CHEAP);
         powerSupply.calculateBaseCost(gameDate);
         components.add(powerSupply);
-        Component software = Component.N_SOFTWARE_LEVEL_1;
+        Component software = new Component(ComponentType.N_SOFTWARE_LEVEL_1);
         software.setSupplierCategory(SupplierCategory.CHEAP);
         software.calculateBaseCost(gameDate);
         components.add(software);
-        Component storage = Component.N_STORAGE_LEVEL_1;
+        Component storage = new Component(ComponentType.N_STORAGE_LEVEL_1);
         storage.setSupplierCategory(SupplierCategory.CHEAP);
         storage.calculateBaseCost(gameDate);
         components.add(storage);

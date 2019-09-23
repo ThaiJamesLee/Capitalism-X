@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 
 import java.io.Serializable;
@@ -32,7 +33,7 @@ public class Production implements Serializable {
     private double productionProcessProductivity;
     private double normalizedProductionProcessProductivity;
     private double averageProductBaseQuality;
-    private List<Component> allAvailableComponents;
+    private List<ComponentType> allAvailableComponents;
 
     private Production() {
         this.numberUnitsProducedPerMonth = 0;
@@ -52,9 +53,9 @@ public class Production implements Serializable {
         return Production.instance;
     }
 
-    public List<Component> getAllAvailableComponents(LocalDate gameDate) {
-        List<Component> allAvailableComponents = new ArrayList<>();
-        Component[] allComponents = Component.values();
+    public List<ComponentType> getAllAvailableComponents(LocalDate gameDate) {
+        List<ComponentType> allAvailableComponents = new ArrayList<>();
+        ComponentType[] allComponents = ComponentType.values();
         for(int i = 0; i < allComponents.length; i++) {
             if(allComponents[i].getAvailabilityDate() <= gameDate.getYear()) {
                 allAvailableComponents.add(allComponents[i]);
@@ -64,10 +65,10 @@ public class Production implements Serializable {
         return this.allAvailableComponents;
     }
 
-    public List<Component> getAvailableComponentsOfComponentCategory(LocalDate gameDate, ComponentCategory componentCategory) {
-        List<Component> availableComponentsOfComponentType = new ArrayList<>();
+    public List<ComponentType> getAvailableComponentsOfComponentCategory(LocalDate gameDate, ComponentCategory componentCategory) {
+        List<ComponentType> availableComponentsOfComponentType = new ArrayList<>();
         this.getAllAvailableComponents(gameDate);
-        for(Component component : this.allAvailableComponents) {
+        for(ComponentType component : this.allAvailableComponents) {
             if(component.getComponentCategory() == componentCategory) {
                 availableComponentsOfComponentType.add(component);
             }

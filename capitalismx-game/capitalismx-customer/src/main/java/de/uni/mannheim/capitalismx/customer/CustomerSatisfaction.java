@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.customer;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.production.Product;
 
 import java.io.Serializable;

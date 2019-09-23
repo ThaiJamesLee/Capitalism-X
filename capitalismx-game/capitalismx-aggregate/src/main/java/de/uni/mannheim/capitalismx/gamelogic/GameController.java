@@ -14,6 +14,7 @@ import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.*;
@@ -311,23 +312,23 @@ public class GameController {
     /*
     *  PROCUREMENT
     * */
-    public String getComponentName(Component component) {
+    public String getComponentName(ComponentType component) {
         return component.getComponentName();
     }
 
-    public int getComponentLevel(Component component) {
+    public int getComponentLevel(ComponentType component) {
         return component.getComponentLevel();
     }
 
-    public double getInitialComponentPrice(Component component) {
+    public double getInitialComponentPrice(ComponentType component) {
         return component.getInitialComponentPrice();
     }
 
-    public int getComponentBaseUtility(Component component) {
+    public int getComponentBaseUtility(ComponentType component) {
         return component.getBaseUtility();
     }
 
-    public int getComponentAvailabilityDate (Component component) {
+    public int getComponentAvailabilityDate (ComponentType component) {
         return component.getAvailabilityDate();
     }
 
@@ -351,11 +352,11 @@ public class GameController {
         return component.getBaseCost();
     }
 
-    public List<Component> getAllAvailableComponents() {
+    public List<ComponentType> getAllAvailableComponents() {
         return Production.getInstance().getAllAvailableComponents(GameState.getInstance().getGameDate());
     }
 
-    public List<Component> getAvailableComponentsOfComponentCategory(ComponentCategory componentCategory) {
+    public List<ComponentType> getAvailableComponentsOfComponentCategory(ComponentCategory componentCategory) {
         return Production.getInstance().getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
     }
 
