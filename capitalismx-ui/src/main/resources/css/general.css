@@ -43,7 +43,7 @@ FontAwesomeIcon {
 	-fx-fill: -fx-dark;
 }
 
-.button {
+.nav_button {
 	-fx-background-color: -fx-light;
 	-fx-text-fill: -fx-dark;
 }
