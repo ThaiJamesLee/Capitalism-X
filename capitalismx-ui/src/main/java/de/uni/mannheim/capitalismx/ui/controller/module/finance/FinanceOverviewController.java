@@ -98,8 +98,10 @@ public class FinanceOverviewController extends GameModuleController {
                             " Duration: " + loan.getDuration());
                     loanMenuItems[i].setOnAction(e2 -> {
                         controller.addLoan(loan, GameState.getInstance().getGameDate());
-                        loanLabel.setText("Interest Rate: " + controller.getLoan().getInterestRate() + " Duration: " +
-                                controller.getLoan().getDuration());
+                        //loanLabel.setText("Interest Rate: " + controller.getLoan().getInterestRate() + " Duration: " +
+                         //       controller.getLoan().getDuration());
+                        loanLabel.setText("" + controller.getLoan().getLoanAmount() + "CC - Duration: " +
+                               controller.getLoan().getDuration() + " Months");
                         loanAmountTextField.clear();
                     });
                     i++;
