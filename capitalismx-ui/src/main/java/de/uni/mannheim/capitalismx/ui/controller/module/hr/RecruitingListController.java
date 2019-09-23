@@ -44,8 +44,6 @@ public class RecruitingListController extends GameModuleController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//TODO auslagern in UIManager, nur einmal initialisieren
-		HRDepartment.getInstance().addPropertyChangeListener(new HREventListener());
 		recruitingList.setItems(employeeListObservable);
 		recruitingList.setCellFactory(employeeListView -> new RecruitingListViewCell());
 		recruitingList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

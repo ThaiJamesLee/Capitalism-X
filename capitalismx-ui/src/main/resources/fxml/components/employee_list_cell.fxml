@@ -18,7 +18,8 @@
     <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="5.0" />
       <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
-      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" />
+      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="10.0" />
+      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="10.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -44,12 +45,17 @@
       </Label>
       <AnchorPane GridPane.columnIndex="6">
          <children>
-            <Button mnemonicParsing="false" styleClass="button_module" text="Train" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="trainButton" mnemonicParsing="false" styleClass="button_module" text="Train" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane GridPane.columnIndex="7">
+         <children>
+            <Button fx:id="fireButton" mnemonicParsing="false" styleClass="button_module" text="Fire" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </children>
    <stylesheets>
-      <URL value="@../../css/general.css" />
-      <URL value="@../../css/modul.css" />
+      <URL value="@../../css1080p/general1080p.css" />
+      <URL value="@../../css1080p/modul1080p.css" />
    </stylesheets>
 </GridPane>

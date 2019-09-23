@@ -2,6 +2,8 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
 
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
@@ -9,6 +11,7 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.hr.EmployeeDetailController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
@@ -23,6 +26,9 @@ public class EmployeeListViewCell extends ListCell<Employee> {
 
 	@FXML
 	private Label skillLabel;
+	
+	@FXML
+	private Button trainButton, fireButton;
 	
 	@FXML
 	private GridPane gridPane;
@@ -57,6 +63,13 @@ public class EmployeeListViewCell extends ListCell<Employee> {
 	        	nameLabel.setText(employee.getName());
 	        	wageLabel.setText((int)employee.getSalary() + " CC");
 	        	skillLabel.setText(employee.getSkillLevel() + "");
+	        	fireButton.setOnAction(e -> {
+	        		HRDepartment.getInstance().fire(employee);
+	        	});
+	        	trainButton.setOnAction(e -> {
+	        		//TODO Popover for Choosing a training
+	        		HRDepartment.getInstance().trainEmployee(employee, Training.COURSES);
+	        	});
 
 	        	setText(null);
 	        	setGraphic(gridPane);

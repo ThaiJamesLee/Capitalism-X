@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
@@ -14,6 +15,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.HREventListener;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -87,6 +89,9 @@ public class UIManager {
 	 * Initializes all components needed for a new Game.
 	 */
 	public void initGame() {
+
+		//TODO auslagern in UIManager, nur einmal initialisieren
+		HRDepartment.getInstance().addPropertyChangeListener(new HREventListener());
 		
 		switchToScene(GameSceneType.LOADING_SCREEN);
 		// load all the modules and save them in the gameModules-list
@@ -230,6 +235,7 @@ public class UIManager {
 	private void startGame() {
 		Platform.runLater(() ->	switchToScene(GameSceneType.GAME_PAGE));
 //		Platform.runLater(() -> GameController.getInstance().start());
+		
 		sceneGamePage.getController().update();
 	}
 
