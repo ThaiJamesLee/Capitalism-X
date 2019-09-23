@@ -9,6 +9,10 @@
    -fx-transparent-background: rgb(132, 132, 132, 0.6);
 }
 
+* {
+	-fx-focus-color: -fx-primary;
+} 
+
 /** Define fonts */
 @font-face {
     src: url('../fonts/Prime-Regular.ttf');
@@ -22,13 +26,27 @@
 	-fx-font-family: "Prime";
 }
 
+.label_large {
+       -fx-font-size: 14.0;
+}
+
+.label_medium {
+       -fx-font-size: 14.0;
+} 
+
+
+.header {
+	-fx-font: bold 29px 'Prime';
+	-fx-text-fill: -fx-dark;
+}
+
 
 FontAwesomeIcon {
 	-fx-text-fill: -fx-dark; 
 	-fx-fill: -fx-dark; 
 }
 
-.button {
+.nav_button {
 	-fx-background-color: -fx-light;
 	-fx-text-fill: -fx-dark;
 }
@@ -38,6 +56,216 @@ FontAwesomeIcon {
 	-fx-background-color: -fx-light;
 	-fx-text-fill: -fx-dark; 
 }
+
+
+
+
+/**
+ * Styling for Listviews.
+ */
+ 
+ 
+.list-label {
+	-fx-font-size: 16px;
+	-fx-font-family: 'Prime';
+ }
+ 
+.list-view {
+	-fx-background-color: none;
+	-fx-border-width : 1 0 0 0;
+}
+
+.list-view .scroll-bar:horizontal {
+    -fx-scale-x: 0;
+}
+
+.list-cell {
+	-fx-background-color: -fx-light;
+	-fx-border-insets: 0 5 0 5;
+	-fx-background-insets: 0 5 0 5;
+	-fx-border-width: 0;
+	-fx-border-color: -fx-neutral;
+}
+
+.list-cell:hover {
+	-fx-background-color: -fx-neutral;
+}
+
+.list-cell:odd {
+	-fx-border-width: 1 0 1 0;
+}
+
+.list-cell:even {
+	-fx-border-width: 0 0 0 0;
+}
+
+.list-cell:selected {
+	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-dark;
+}
+
+.list-cell:empty {
+    -fx-opacity: 0;
+}
+
+/**
+ * Styling of scrollbars
+ */
+.scroll-bar {
+	-fx-background-color: transparent;
+	-fx-border-width: 0;
+}
+
+.scroll-bar .track {
+	-fx-background-color: transparent;
+	-fx-border-width: 0;
+}
+
+.scroll-bar .thumb {
+	-fx-background-color: -fx-neutral;
+	-fx-width: 8px;
+	-fx-border-radius: 3;
+}
+
+.increment-button ,
+.decrement-button {
+	-fx-background-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-padding:0 15 0 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+	-fx-shape: " ";
+	-fx-padding:0;
+}
+
+.scroll-bar .thumb:hover {
+	-fx-background-color: -fx-light-neutral;
+}
+
+.scroll-bar .thumb:pressed {
+	-fx-background-color: -fx-dark;
+}
+
+
+/**
+ * Utilities
+ */
+ .separator_right {
+ 	-fx-border-width: 0.0 1.0 0.0 0.0;
+ 	-fx-border-color: -fx-dark;
+ 	-fx-border-insets: 0.0 -5.0 0.0 0.0;
+ }
+
+
+
+/**
+ * Styling for TabPanes.
+ */
+ 
+ .tab-pane {
+    -fx-tab-min-width: 60.0px;
+ }
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-background-color: transparent;
+}
+
+.tab-pane .tab-content-area {
+	-fx-background-color: transparent;
+	-fx-border-width : 1.0 0.0 0.0 0.0;
+	-fx-border-insets : 0.0 5.0 0.0 5.0;
+	-fx-border-color: -fx-dark;
+}
+
+.tab-pane .tab {
+    -fx-background-insets: 0.0 1.0 0.0 1.0;
+	-fx-background-color: -fx-dark;
+	-fx-border-radius: 5.0 5.0 0.0 0.0;
+	-fx-background-radius: 5.0 5.0 0.0 0.0;
+}
+
+.tab-pane .tab:selected, .tab-pane .tab-pane:focused {
+	-fx-background-color: -fx-primary;
+	-fx-border-width: 2.0;
+	-fx-border-color: -fx-dark;
+	-fx-background-insets: -2.0;
+	-fx-border-insets: -2.0;
+	-fx-border-radius: 3.0;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+	-fx-text-fill: -fx-light;
+	-fx-font-family: "Prime";
+}
+
+/**
+ * Styling of charts
+ */
+.chart-bar {
+	-fx-bar-fill: -fx-primary;
+}
+
+.chart-plot-background{
+	-fx-background-color: -fx-light-neutral;	
+}
+
+.chart-alternative-row-fill {
+    -fx-fill: -fx-light;
+}
+ 
+ .axis {
+ 	-fx-border-color: -fx-dark;
+ 	-fx-tick-label-font-size: 12px;
+ 	-fx-tick-label-font-family: "Prime";
+ }
+ 
+ .axis-label {
+  	-fx-text-fill: -fx-dark;
+ 	-fx-font-size: 16.0px;
+}
+ 
+ .axis:left {
+ 	-fx-border-width: 0.0 2.0 0.0 0.0;
+ 	-fx-border-insets: 0.0 0.0 -1.0 0.0;
+ }
+ 
+ .axis:bottom {
+ 	-fx-border-width: 2.0 0.0 0.0 0.0;
+ 	-fx-border-insets: 0.0 0.0 0.0 -1.0;
+ }
+ 
+/**
+ * Styling of radio buttons
+ */
+ .radio-button {
+	-fx-font-family: "Prime";	
+ }
+ 
+ .radio-button .radio {
+ 	-fx-background-color: -fx-light;
+ 	-fx-border-radius: 50.0%;
+ 	-fx-border-color: -fx-dark;
+ }
+ 
+ .radio-button .dot {
+ 	-fx-background-color: -fx-light;
+ }
+ 
+ .radio-button:hover .dot {
+ 	-fx-background-color: -fx-primary;
+ }
+ 
+.radio-button:selected .dot {
+	-fx-background-color: -fx-dark;
+}
+
+.radio-button:selected .radio {
+	-fx-background-color: -fx-primary;
+}
+
+
 
 /**
  * TODO: in eigene Dateien für das jeweilige Element auslagern

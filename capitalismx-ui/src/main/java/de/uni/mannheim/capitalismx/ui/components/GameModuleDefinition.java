@@ -23,12 +23,12 @@ public enum GameModuleDefinition {
 			0, 17),
 	HR_EMPLOYEE_SATISFACTION(13, "employee_satisfaction.fxml", GameViewType.HR, null, UIElementType.HR_EMPLOYEE_SATISFACTION, 14, 6,
 			0, 9),
-	HR_WORKING_CONDITIONS(13, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
+	HR_WORKING_CONDITIONS(14, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
 			9, 11),
 
 	// The modules for Logistics. (21-30)
-	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),
-	LOGISTICS_TRUCK_FLEET(22, "truck_fleet_overview.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, 5, 5, 0, 15),
+	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.LOGISTICS_PARTNER_DETAIL, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),
+	LOGISTICS_TRUCK_FLEET(22, "truck_fleet_overview.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.TRUCK_DETAIL, UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, 5, 5, 0, 15),
 	LOGISTICS_WAREHOUSE_LIST(23, "warehouse_list.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_WAREHOUSE_OVERVIEW, 10, 5, 0, 15),
 
 	// The modules for Production. (31-40)
@@ -41,8 +41,9 @@ public enum GameModuleDefinition {
 //	WAREHOUSE_PLACEHOLDER(51, "m_warehouse_placeholder.fxml", GameViewType.GAME_WAREHOUSE, 0, 1, 0, 1),
 
 	// The modules for HR. (61-70)
-	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 10, 0, 19),
-	FINANCE_OVERVIEW(61, "finance_overview.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OVERVIEW, 0, 5, 0, 19)
+	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 5, 0, 19),
+	FINANCE_OVERVIEW(62, "finance_overview.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OVERVIEW, 0, 5, 0, 19),
+	FINANCE_SALES_CHART(63, "finance_statistics_charts.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_SALES_CHART, 10, 5, 0, 19)
 
 	// The modules for HR. (71-80)
 //	MARKETING_PLACEHOLDER(71, "m_marketing_placeholder.fxml", GameViewType.GAME_MARKETING, 0, 1, 0, 1)

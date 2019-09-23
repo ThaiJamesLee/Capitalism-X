@@ -22,7 +22,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class UIManager {
@@ -87,6 +86,7 @@ public class UIManager {
 	 * Initializes all components needed for a new Game.
 	 */
 	public void initGame() {
+
 		
 		switchToScene(GameSceneType.LOADING_SCREEN);
 		// load all the modules and save them in the gameModules-list
@@ -230,6 +230,7 @@ public class UIManager {
 	private void startGame() {
 		Platform.runLater(() ->	switchToScene(GameSceneType.GAME_PAGE));
 //		Platform.runLater(() -> GameController.getInstance().start());
+		
 		sceneGamePage.getController().update();
 	}
 
