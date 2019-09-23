@@ -28,7 +28,7 @@ public class EmployeeDetailController extends GameOverlayController {
 		employeeNameLabel.setText(employee.getName());
 		salaryLabel.setText(employee.getSalary() + " CC");
 		skillLabel.setText(employee.getSkillLevel() + "");
-		positionLabel.setText(employee.getPosition());
+		positionLabel.setText(employee.getEmployeeType().toString());
 	}
 
 	@Override

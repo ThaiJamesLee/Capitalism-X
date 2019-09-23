@@ -231,7 +231,7 @@ public class UIManager {
 		Platform.runLater(() ->	switchToScene(GameSceneType.GAME_PAGE));
 //		Platform.runLater(() -> GameController.getInstance().start());
 		
-		sceneGamePage.getController().update();
+		((GamePageController)sceneGamePage.getController()).switchView(GameViewType.OVERVIEW);
 	}
 
 	/**
