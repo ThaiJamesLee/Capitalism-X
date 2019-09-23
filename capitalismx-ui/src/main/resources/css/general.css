@@ -166,6 +166,45 @@ FontAwesomeIcon {
 }
 
 /**
+ * Styling for tables
+ */
+ .table-view .column-drag-header .label{
+ 	-fx-font-family: "Prime";
+ 	-fx-font-size: 12px;
+ 	-fx-text-fill: -fx-light;
+ }
+ 
+ 
+ .table-view .column-header .label{
+ 	-fx-text-fill: -fx-light;
+ 	}
+ 
+ .table-view {
+ 	-fx-border-width: 0 0 1 0;
+ 	-fx-border-color: -fx-dark;
+ 	-fx-font-family: "Prime";
+ 	-fx-font-size: 12px;
+ }
+ 
+ .table-view  .column-header {
+ 	-fx-border-width: 0 0 1 0;
+ 	-fx-border-color: -fx-light;
+ 	-fx-background-color: -fx-dark;
+ }
+ 
+ .table-view  .column-header:odd {
+}
+ 
+ .table-view .cell:odd {
+ 	-fx-background-color: -fx-light-neutral;
+ }
+ 
+ 
+.table-view .column-header:empty {
+	-fx-opacity: 0.0;
+}
+
+/**
  * Styling for TabPanes.
  */
  

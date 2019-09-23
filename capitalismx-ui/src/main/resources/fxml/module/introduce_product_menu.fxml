@@ -2,6 +2,7 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import de.jensd.fx.glyphs.weathericons.WeatherIcon?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="1200.0" stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
+<AnchorPane prefHeight="400.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
    <children>
       <TabPane layoutX="79.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/general.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -44,7 +45,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
@@ -130,13 +131,13 @@
                                  </rowConstraints>
                                  <children>
                                     <TextField fx:id="tvSalesPriceTextField" alignment="CENTER_RIGHT" promptText="400" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Price" GridPane.rowIndex="1" />
+                                    <Label styleClass="label_large" text="Price" GridPane.rowIndex="1" />
                                     <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Launch ($10,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button mnemonicParsing="false" styleClass="button_module" text="Launch ($10,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -162,7 +163,7 @@
                            <children>
                               <AnchorPane prefHeight="49.0" prefWidth="1229.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($50,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="Launch ($50,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                               <GridPane GridPane.rowIndex="3">
@@ -177,7 +178,7 @@
                                  </rowConstraints>
                                  <children>
                                     <TextField fx:id="consoleSalesPriceTextField" alignment="CENTER_RIGHT" promptText="600" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Price" GridPane.rowIndex="1" />
+                                    <Label styleClass="label_large" text="Price" GridPane.rowIndex="1" />
                                     <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
@@ -264,7 +265,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
@@ -292,7 +293,7 @@
                            <children>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($200,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="Launch ($200,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                               <GridPane GridPane.rowIndex="3">
@@ -307,7 +308,7 @@
                                  </rowConstraints>
                                  <children>
                                     <TextField fx:id="notebookSalesPriceTextField" alignment="CENTER_RIGHT" promptText="1500" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Price" GridPane.rowIndex="1" />
+                                    <Label styleClass="label_large" text="Price" GridPane.rowIndex="1" />
                                     <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
@@ -396,7 +397,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
@@ -424,7 +425,7 @@
                            <children>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($500,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="Launch ($500,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
                               <GridPane GridPane.rowIndex="3">
                                 <columnConstraints>
@@ -436,7 +437,7 @@
                                   <RowConstraints percentHeight="100.0" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="Price" />
+                                    <Label styleClass="label_large" text="Price" />
                                     <TextField fx:id="phoneSalesPriceTextField" alignment="CENTER_RIGHT" promptText="700" GridPane.columnIndex="1" />
                                     <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
@@ -536,7 +537,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                     <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
@@ -550,4 +551,8 @@
         </tabs>
       </TabPane>
    </children>
+   <stylesheets>
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/modul.css" />
+   </stylesheets>
 </AnchorPane>
