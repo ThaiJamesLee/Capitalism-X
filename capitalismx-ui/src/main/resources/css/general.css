@@ -48,8 +48,21 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-dark;
 }
 
-.togglebutton {
-	-fx-background-color: -fx-light;
+.toggle-button {
+	-fx-border-radius: 2px;
+	-fx-border-width: 1.5;
+	-fx-background-color: -fx-dark;
+	-fx-border-color: -fx-light;
+	-fx-text-fill: -fx-light;
+}
+.toggle-button:disabled {
+	-fx-background-color: -fx-light-neutral;
+	-fx-border-color: -fx-dark;
+	-fx-text-fill: -fx-neutral;
+}
+.toggle-button:selected {
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-dark;
 	-fx-text-fill: -fx-dark;
 }
 

@@ -52,6 +52,7 @@ public class RecruitingListController extends GameModuleController {
 	@FXML
 	private void hireEmployee() {
 		Employee employeeToHire = recruitingList.getSelectionModel().getSelectedItem();
+		if(employeeToHire == null) return;
 		HRDepartment.getInstance().hire(employeeToHire);
 		employeeListObservable.remove(employeeToHire);
 		recruitingList.getSelectionModel().clearSelection();
