@@ -155,6 +155,7 @@ public class Finance implements Serializable {
     //TODO timestamp or thread in class that checks if new day
     public void sellTruck(Truck truck){
         this.trucksSold.add(truck);
+        Logistics.getInstance().removeTruckFromFleet(truck);
     }
 
     //TODO timestamp or thread in class that checks if new day

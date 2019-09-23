@@ -6,6 +6,7 @@ import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.module.logistics.TruckFleetController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -74,8 +75,8 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
             fixCostsLabel.setText("Fix Costs Delivery: " + truck.getFixCostsDelivery());
             buyButton.setOnAction(e -> {
                 controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
-                //TODO update lists of bought trucks
-
+                TruckFleetController uiController = (TruckFleetController) Main.getManager().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
+                uiController.addTruck(truck);
             });
 
             setText(null);

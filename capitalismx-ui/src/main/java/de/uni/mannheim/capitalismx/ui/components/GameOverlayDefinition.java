@@ -10,7 +10,8 @@ public enum GameOverlayDefinition {
 
 	HR_EDIT_EMPLOYEE("employee_detail.fxml", GameViewType.HR, UIElementType.HR_EMPLOYEES_OVERVIEW),
 	PRODUCTION_SUPPLIER_OPTIONS("supplier_options.fxml", GameViewType.PRODUCTION, UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW),
-	TRUCK_DETAIL("truck_detail_list.fxml", GameViewType.LOGISTIC, UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW);
+	TRUCK_DETAIL("truck_detail_list.fxml", GameViewType.LOGISTIC, UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW),
+	LOGISTICS_PARTNER_DETAIL("logistics_partner_detail_list.fxml", GameViewType.LOGISTIC, UIElementType.LOGISTICS_PARTNER_OVERVIEW);
 
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
