@@ -712,7 +712,7 @@ public class IntroduceProductController extends GameModuleController {
         Component selectedPhoneCamera = phoneCameras.get(phoneCamerasToggleGroup.getSelectedToggle());
         Component selectedPhoneConnectivity = phoneConnectivities.get(phoneConnectivitiesToggleGroup.getSelectedToggle());
         Component selectedPhonePowersupply = phonePowersupplies.get(phonePowersuppliesToggleGroup.getSelectedToggle());
-        Component selectedPhoneKeypads = phoneKeypads.get(phoneKeypadsToggleGroup.getSelectedToggle());
+        Component selectedPhoneKeypad = phoneKeypads.get(phoneKeypadsToggleGroup.getSelectedToggle());
 
         this.tvScreenList = FXCollections.observableArrayList();
         this.tvAudioList = FXCollections.observableArrayList();
@@ -736,202 +736,282 @@ public class IntroduceProductController extends GameModuleController {
         this.phoneKeypadList = FXCollections.observableArrayList();
 
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedTvScreen;
+            Component tmpComp = new Component(selectedTvScreen.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.tvScreenList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedTvAudio;
+            Component tmpComp = new Component(selectedTvAudio.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.tvAudioList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedTvOS;
+            Component tmpComp = new Component(selectedTvOS.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.tvOSList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedTvCase;
+            Component tmpComp = new Component(selectedTvCase.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.tvCaseList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedConsoleCPU;
+            Component tmpComp = new Component(selectedConsoleCPU.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.consoleCPUList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedConsoleScreen;
+            Component tmpComp = new Component(selectedConsoleScreen.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.consoleScreenList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedConsolePowersupply;
+            Component tmpComp = new Component(selectedConsolePowersupply.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.consolePowersupplyList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedConsoleConnectivity;
+            Component tmpComp = new Component(selectedConsoleConnectivity.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.consoleConnectivityList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedConsoleCamera;
+            Component tmpComp = new Component(selectedConsoleCamera.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.consoleCameraList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedNotebookCPU;
+            Component tmpComp = new Component(selectedNotebookCPU.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.notebookCPUList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedNotebookStorage;
+            Component tmpComp = new Component(selectedNotebookStorage.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.notebeookStorageList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedNotebookScreen;
+            Component tmpComp = new Component(selectedNotebookScreen.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.notebookScreenList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedNotebookSoftware;
+            Component tmpComp = new Component(selectedNotebookSoftware.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.notebookSoftwareList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedNotebookPowersupply;
+            Component tmpComp = new Component(selectedNotebookPowersupply.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.notebookPowersupplyList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedPhoneCPU;
+            Component tmpComp = new Component(selectedPhoneCPU.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.phoneCPUList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedPhoneScreen;
+            Component tmpComp = new Component(selectedPhoneScreen.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.phoneScreenList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedPhoneCamera;
+            Component tmpComp = new Component(selectedPhoneCamera.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.phoneCameraList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedPhoneConnectivity;
+            Component tmpComp = new Component(selectedPhoneConnectivity.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.phoneConnectivityList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedPhonePowersupply;
+            Component tmpComp = new Component(selectedPhonePowersupply.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.phonePowersupplyList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = selectedPhoneKeypads;
+            Component tmpComp = new Component(selectedPhoneKeypad.getComponentType());
             switch(i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
                 case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
                 default:
+                    break;
             }
             this.phoneKeypadList.add(tmpComp);
         }
@@ -1037,7 +1117,7 @@ public class IntroduceProductController extends GameModuleController {
         public String toString(Component component) {
             DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
             LocalDate gameDate = GameState.getInstance().getGameDate();
-            return "" + component.getSupplierCategory() + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
+            return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
         }
 
         @Override

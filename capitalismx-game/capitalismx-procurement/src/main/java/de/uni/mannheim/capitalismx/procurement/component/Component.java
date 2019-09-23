@@ -17,6 +17,7 @@ public class Component {
     private int supplierQuality;
     private int supplierEcoIndex;
     private double baseCost;
+    private ComponentType componentType;
 
     public Component(ComponentType componentType) {
         this.componentCategory = componentType.getComponentCategory();
@@ -25,6 +26,7 @@ public class Component {
         this.initialComponentPrice = componentType.getInitialComponentPrice();
         this.baseUtility = componentType.getBaseUtility();
         this.availabilityDate = componentType.getAvailabilityDate();
+        this.componentType = componentType;
     }
 
     public Component(ComponentType componentType, SupplierCategory supplierCategory) {
@@ -34,6 +36,7 @@ public class Component {
         this.initialComponentPrice = componentType.getInitialComponentPrice();
         this.baseUtility = componentType.getBaseUtility();
         this.availabilityDate = componentType.getAvailabilityDate();
+        this.componentType = componentType;
         this.supplierCategory = supplierCategory;
         switch(supplierCategory) {
             case CHEAP:
@@ -111,6 +114,10 @@ public class Component {
 
     public int getSupplierEcoIndex() {
         return this.supplierEcoIndex;
+    }
+
+    public ComponentType getComponentType() {
+        return this.componentType;
     }
 
     public double getBaseCost() {
