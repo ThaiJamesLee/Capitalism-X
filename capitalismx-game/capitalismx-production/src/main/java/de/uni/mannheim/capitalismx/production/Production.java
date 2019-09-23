@@ -34,6 +34,7 @@ public class Production implements Serializable {
     private double normalizedProductionProcessProductivity;
     private double averageProductBaseQuality;
     private List<ComponentType> allAvailableComponents;
+    private List<Product> launchedProducts;
 
     private Production() {
         this.numberUnitsProducedPerMonth = 0;
@@ -46,6 +47,7 @@ public class Production implements Serializable {
         this.systemSecurity = new ProductionInvestment("System Security");
         this.productionFixCosts = 0.0;
         this.productionVariableCosts = 0.0;
+        this.launchedProducts = new ArrayList<>();
     }
 
     public static synchronized Production getInstance() {
@@ -157,8 +159,7 @@ public class Production implements Serializable {
         }
     }
 
-    public double launchProduct(String productname, ProductCategory productCategory, List<Component> componentList, int quantity, int freeStorage) {
-        Product product = new Product(productname, productCategory, componentList);
+    public double launchProduct(Product product, int quantity, int freeStorage) {
         int totalMachineCapacity = 0;
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
@@ -171,6 +172,7 @@ public class Production implements Serializable {
             /* LocalDate.now() placeholder for gameDate TODO*/
             LocalDate gameDate = LocalDate.now();
             product.setLaunchDate(gameDate);
+            this.launchedProducts.add(product);
             this.numberUnitsProducedPerMonth += quantity;
             variableProductCosts = product.calculateTotalVariableCosts() * quantity;
             return variableProductCosts;
@@ -437,6 +439,10 @@ public class Production implements Serializable {
         this.calculateManufactureEfficiency();
         this.calculateProductionProcessProductivity();
         this.calculateNormalizedProductionProcessProductivity();
+    }
+
+    public List<Product> getLaunchedProducts() {
+        return this.launchedProducts;
     }
 
     public double getProductionTechnologyFactor() {

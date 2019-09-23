@@ -52,7 +52,8 @@ public class WarehousingTest {
         components.add(storage);
 
         Production.getInstance().buyMachinery(new Machinery(gameDate), gameDate);
-        Production.getInstance().launchProduct("Notebook", ProductCategory.NOTEBOOK, components, 10, 200);
+        Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, components);
+        Production.getInstance().launchProduct(notebook, 10, 200);
         Warehousing.getInstance().storeUnits();
         int numberStoredUnits = 0;
         HashMap<Product, Integer> inventory = new HashMap<>(Warehousing.getInstance().getInventory());

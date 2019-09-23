@@ -555,8 +555,8 @@ public class GameController {
     }
 
     /* product game mechanics */
-    public double launchProduct(String productname, ProductCategory productCategory, List<Component> componentList, int quantity) {
-        return Production.getInstance().launchProduct(productname, productCategory, componentList, quantity, Warehousing.getInstance().calculateFreeStorage());
+    public double launchProduct(Product product, int quantity) {
+        return Production.getInstance().launchProduct(product, quantity, Warehousing.getInstance().calculateFreeStorage());
     }
 
     public double produceProduct(Product product, int quantity) {
@@ -609,6 +609,10 @@ public class GameController {
 
     public double getProductProfitMargin(Product product) {
         return product.getProfitMargin();
+    }
+
+    public List<Product> getLaunchedProducts() {
+        return Production.getInstance().getLaunchedProducts();
     }
 
     /* production investment game mechanics*/

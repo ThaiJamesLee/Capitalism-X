@@ -5,13 +5,18 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.util.StringConverter;
@@ -22,6 +27,14 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class IntroduceProductController extends GameModuleController {
+
+    /****** Product Name Text Fields ******/
+    @FXML
+    private TextField tvProductNameTextField, consoleProductNameTextField, notebookProductNameTextField, phoneProductNameTextField;
+
+    /****** Product Sales Price Text Fields ******/
+    @FXML
+    private TextField tvSalesPriceTextField, consoleSalesPriceTextField, notebookSalesPriceTextField, phoneSalesPriceTextField;
 
     /****** Supplier Options ******/
     @FXML
@@ -45,7 +58,7 @@ public class IntroduceProductController extends GameModuleController {
     @FXML
     private ChoiceBox<Component> notebookCPUsChoiceBox;
     @FXML
-    private ChoiceBox<Component> notebeookStoragesChoiceBox;
+    private ChoiceBox<Component> notebookStoragesChoiceBox;
     @FXML
     private ChoiceBox<Component> notebookScreensChoiceBox;
     @FXML
@@ -289,6 +302,11 @@ public class IntroduceProductController extends GameModuleController {
     @FXML
     private ToggleButton phoneKeypadToggleButton1;
 
+    private Product tv;
+    private Product console;
+    private Product notebook;
+    private Product phone;
+
     private ObservableList<Component> tvScreenList;
     private ObservableList<Component> tvAudioList;
     private ObservableList<Component> tvOSList;
@@ -299,7 +317,7 @@ public class IntroduceProductController extends GameModuleController {
     private ObservableList<Component> consoleConnectivityList;
     private ObservableList<Component> consoleCameraList;
     private ObservableList<Component> notebookCPUList;
-    private ObservableList<Component> notebeookStorageList;
+    private ObservableList<Component> notebookStorageList;
     private ObservableList<Component> notebookScreenList;
     private ObservableList<Component> notebookSoftwareList;
     private ObservableList<Component> notebookPowersupplyList;
@@ -320,7 +338,7 @@ public class IntroduceProductController extends GameModuleController {
     private Map<ToggleButton, Component> consoleConnectivities;
     private Map<ToggleButton, Component> consoleCameras;
     private Map<ToggleButton, Component> notebookCPUs;
-    private Map<ToggleButton, Component> notebeookStorages;
+    private Map<ToggleButton, Component> notebookStorages;
     private Map<ToggleButton, Component> notebookScreens;
     private Map<ToggleButton, Component> notebookSoftwares;
     private Map<ToggleButton, Component> notebookPowersupplies;
@@ -435,15 +453,15 @@ public class IntroduceProductController extends GameModuleController {
         this.notebookCPUs.put(notebookCPUToggleButton6, new Component(ComponentType.N_CPU_LEVEL_7));
         this.notebookCPUs.put(notebookCPUToggleButton7, new Component(ComponentType.N_CPU_LEVEL_8));
 
-        this.notebeookStorages = new HashMap<>();
-        this.notebeookStorages.put(notebookStorageToggleButton0, new Component(ComponentType.N_STORAGE_LEVEL_1));
-        this.notebeookStorages.put(notebookStorageToggleButton1, new Component(ComponentType.N_STORAGE_LEVEL_2));
-        this.notebeookStorages.put(notebookStorageToggleButton2, new Component(ComponentType.N_STORAGE_LEVEL_3));
-        this.notebeookStorages.put(notebookStorageToggleButton3, new Component(ComponentType.N_STORAGE_LEVEL_4));
-        this.notebeookStorages.put(notebookStorageToggleButton4, new Component(ComponentType.N_STORAGE_LEVEL_5));
-        this.notebeookStorages.put(notebookStorageToggleButton5, new Component(ComponentType.N_STORAGE_LEVEL_6));
-        this.notebeookStorages.put(notebookStorageToggleButton6, new Component(ComponentType.N_STORAGE_LEVEL_7));
-        this.notebeookStorages.put(notebookStorageToggleButton7, new Component(ComponentType.N_STORAGE_LEVEL_8));
+        this.notebookStorages = new HashMap<>();
+        this.notebookStorages.put(notebookStorageToggleButton0, new Component(ComponentType.N_STORAGE_LEVEL_1));
+        this.notebookStorages.put(notebookStorageToggleButton1, new Component(ComponentType.N_STORAGE_LEVEL_2));
+        this.notebookStorages.put(notebookStorageToggleButton2, new Component(ComponentType.N_STORAGE_LEVEL_3));
+        this.notebookStorages.put(notebookStorageToggleButton3, new Component(ComponentType.N_STORAGE_LEVEL_4));
+        this.notebookStorages.put(notebookStorageToggleButton4, new Component(ComponentType.N_STORAGE_LEVEL_5));
+        this.notebookStorages.put(notebookStorageToggleButton5, new Component(ComponentType.N_STORAGE_LEVEL_6));
+        this.notebookStorages.put(notebookStorageToggleButton6, new Component(ComponentType.N_STORAGE_LEVEL_7));
+        this.notebookStorages.put(notebookStorageToggleButton7, new Component(ComponentType.N_STORAGE_LEVEL_8));
 
         this.notebookScreens  = new HashMap<>();
         this.notebookScreens.put(notebookScreenToggleButton0, new Component(ComponentType.N_DISPLAYCASE_LEVEL_1));
@@ -653,7 +671,7 @@ public class IntroduceProductController extends GameModuleController {
         allComponents.add(consoleConnectivities);
         allComponents.add(consoleCameras);
         allComponents.add(notebookCPUs);
-        allComponents.add(notebeookStorages);
+        allComponents.add(notebookStorages);
         allComponents.add(notebookScreens);
         allComponents.add(notebookSoftwares);
         allComponents.add(notebookPowersupplies);
@@ -664,9 +682,14 @@ public class IntroduceProductController extends GameModuleController {
         allComponents.add(phonePowersupplies);
         allComponents.add(phoneKeypads);
 
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+
         for(Map<ToggleButton, Component> componentMap : allComponents) {
             for(Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
                 componentEntry.getKey().setText(componentEntry.getValue().getComponentName());
+                if(!componentEntry.getValue().isAvailable(gameDate)) {
+                    componentEntry.getKey().setDisable(true);
+                }
             }
         }
 
@@ -703,7 +726,7 @@ public class IntroduceProductController extends GameModuleController {
         Component selectedConsoleConnectivity = consoleConnectivities.get(consoleConnectivitiesToggleGroup.getSelectedToggle());
         Component selectedConsoleCamera = consoleCameras.get(consoleCamerasToggleGroup.getSelectedToggle());
         Component selectedNotebookCPU = notebookCPUs.get(notebookCPUsToggleGroup.getSelectedToggle());
-        Component selectedNotebookStorage = notebeookStorages.get(notebookStoragesToggleGroup.getSelectedToggle());
+        Component selectedNotebookStorage = notebookStorages.get(notebookStoragesToggleGroup.getSelectedToggle());
         Component selectedNotebookScreen = notebookScreens.get(notebookScreensToggleGroup.getSelectedToggle());
         Component selectedNotebookSoftware = notebookSoftwares.get(notebookSoftwaresToggleGroup.getSelectedToggle());
         Component selectedNotebookPowersupply = notebookPowersupplies.get(notebookPowersuppliesToggleGroup.getSelectedToggle());
@@ -724,7 +747,7 @@ public class IntroduceProductController extends GameModuleController {
         this.consoleConnectivityList = FXCollections.observableArrayList();
         this.consoleCameraList = FXCollections.observableArrayList();
         this.notebookCPUList = FXCollections.observableArrayList();
-        this.notebeookStorageList = FXCollections.observableArrayList();
+        this.notebookStorageList = FXCollections.observableArrayList();
         this.notebookScreenList = FXCollections.observableArrayList();
         this.notebookSoftwareList = FXCollections.observableArrayList();
         this.notebookPowersupplyList = FXCollections.observableArrayList();
@@ -887,7 +910,7 @@ public class IntroduceProductController extends GameModuleController {
                 default:
                     break;
             }
-            this.notebeookStorageList.add(tmpComp);
+            this.notebookStorageList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookScreen.getComponentType());
@@ -1055,8 +1078,8 @@ public class IntroduceProductController extends GameModuleController {
         this.notebookCPUsChoiceBox.setItems(this.notebookCPUList);
         this.notebookCPUsChoiceBox.setConverter(componentStringConverter);
 
-        this.notebeookStoragesChoiceBox.setItems(this.notebeookStorageList);
-        this.notebeookStoragesChoiceBox.setConverter(componentStringConverter);
+        this.notebookStoragesChoiceBox.setItems(this.notebookStorageList);
+        this.notebookStoragesChoiceBox.setConverter(componentStringConverter);
 
         this.notebookScreensChoiceBox.setItems(this.notebookScreenList);
         this.notebookScreensChoiceBox.setConverter(componentStringConverter);
@@ -1095,7 +1118,7 @@ public class IntroduceProductController extends GameModuleController {
         this.consoleConnectivitiesChoiceBox.setValue(this.consoleConnectivityList.get(0));
         this.consoleCamerasChoiceBox.setValue(this.consoleCameraList.get(0));
         this.notebookCPUsChoiceBox.setValue(this.notebookCPUList.get(0));
-        this.notebeookStoragesChoiceBox.setValue(this.notebeookStorageList.get(0));
+        this.notebookStoragesChoiceBox.setValue(this.notebookStorageList.get(0));
         this.notebookScreensChoiceBox.setValue(this.notebookScreenList.get(0));
         this.notebookSoftwaresChoiceBox.setValue(this.notebookSoftwareList.get(0));
         this.notebookPowersuppliesChoiceBox.setValue(this.notebookPowersupplyList.get(0));
@@ -1105,6 +1128,54 @@ public class IntroduceProductController extends GameModuleController {
         this.phoneConnectivitiesChoiceBox.setValue(this.phoneConnectivityList.get(0));
         this.phonePowersuppliesChoiceBox.setValue(this.phonePowersupplyList.get(0));
         this.phoneKeypadsChoiceBox.setValue(this.phoneKeypadList.get(0));
+    }
+
+    public void launchTv() {
+        List<Component> components = new ArrayList<>();
+        components.add(this.tvScreensChoiceBox.getValue());
+        components.add(this.tvAudiosChoiceBox.getValue());
+        components.add(this.tvCasesChoiceBox.getValue());
+        components.add(this.tvOSsChoiceBox.getValue());
+        this.tv = new Product(this.tvProductNameTextField.getText(), ProductCategory.TELEVISION, components);
+        this.tv.setSalesPrice(Double.valueOf(this.tvSalesPriceTextField.getText()));
+        Production.getInstance().launchProduct(this.tv, 1, Warehousing.getInstance().getFreeStorage());
+    }
+
+    public void launchConsole() {
+        List<Component> components = new ArrayList<>();
+        components.add(this.consoleCPUsChoiceBox.getValue());
+        components.add(this.consoleScreensChoiceBox.getValue());
+        components.add(this.consoleConnectivitiesChoiceBox.getValue());
+        components.add(this.consolePowersuppliesChoiceBox.getValue());
+        components.add(this.consoleCamerasChoiceBox.getValue());
+        this.console = new Product(this.consoleProductNameTextField.getText(), ProductCategory.GAME_BOY, components);
+        this.console.setSalesPrice(Double.valueOf(this.consoleSalesPriceTextField.getText()));
+        Production.getInstance().launchProduct(this.console, 1, Warehousing.getInstance().getFreeStorage());
+    }
+
+    public void launchNotebook() {
+        List<Component> components = new ArrayList<>();
+        components.add(this.notebookCPUsChoiceBox.getValue());
+        components.add(this.notebookScreensChoiceBox.getValue());
+        components.add(this.notebookStoragesChoiceBox.getValue());
+        components.add(this.notebookSoftwaresChoiceBox.getValue());
+        components.add(this.notebookPowersuppliesChoiceBox.getValue());
+        this.notebook = new Product(this.notebookProductNameTextField.getText(), ProductCategory.NOTEBOOK, components);
+        this.notebook.setSalesPrice(Double.valueOf(this.notebookSalesPriceTextField.getText()));
+        Production.getInstance().launchProduct(this.notebook, 1, Warehousing.getInstance().getFreeStorage());
+    }
+
+    public void launchPhone() {
+        List<Component> components = new ArrayList<>();
+        components.add(this.phoneCPUsChoiceBox.getValue());
+        components.add(this.phoneScreensChoiceBox.getValue());
+        components.add(this.phoneConnectivitiesChoiceBox.getValue());
+        components.add(this.phonePowersuppliesChoiceBox.getValue());
+        components.add(this.phoneCamerasChoiceBox.getValue());
+        components.add(this.phoneKeypadsChoiceBox.getValue());
+        this.phone = new Product(this.phoneProductNameTextField.getText(), ProductCategory.PHONE, components);
+        this.phone.setSalesPrice(Double.valueOf(this.phoneSalesPriceTextField.getText()));
+        Production.getInstance().launchProduct(this.phone, 1, Warehousing.getInstance().getFreeStorage());
     }
 
     public void showSupplierOptions() {

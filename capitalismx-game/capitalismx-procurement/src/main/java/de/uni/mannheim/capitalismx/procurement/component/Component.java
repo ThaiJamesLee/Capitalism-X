@@ -100,6 +100,10 @@ public class Component {
         return this.availabilityDate;
     }
 
+    public boolean isAvailable(LocalDate gameDate) {
+        return gameDate.getYear() >= this.availabilityDate;
+    }
+
     public SupplierCategory getSupplierCategory() {
         return this.supplierCategory;
     }

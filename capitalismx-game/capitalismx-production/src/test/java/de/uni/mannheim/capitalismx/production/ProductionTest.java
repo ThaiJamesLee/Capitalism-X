@@ -84,8 +84,9 @@ public class ProductionTest {
 
     @Test
     public void launchProductTest() {
-        Assert.assertEquals(Production.getInstance().launchProduct("Notebook", ProductCategory.NOTEBOOK, this.components, 10, 9), -1.0);
-        Production.getInstance().launchProduct("Notebook", ProductCategory.NOTEBOOK, this.components, 10, 10);
+        Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
+        Assert.assertEquals(Production.getInstance().launchProduct(notebook, 10, 9), -1.0);
+        Production.getInstance().launchProduct(notebook, 10, 10);
         Assert.assertEquals(Production.getInstance().getNumberProducedProducts().size(), 1);
         Assert.assertEquals(Production.getInstance().getNumberUnitsProducedPerMonth(), 10);
     }
