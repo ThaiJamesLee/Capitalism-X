@@ -119,19 +119,19 @@
                                     <AnchorPane styleClass="hud_box">
                                        <children>
                                           <Label styleClass="hud_label" text="Net Worth" AnchorPane.topAnchor="1.0" />
-                                          <Label layoutY="17.0" styleClass="hud_label" text="2000$" AnchorPane.bottomAnchor="5.0" />
+                                          <Label layoutY="17.0" styleClass="hud_label" text="1,000,000.00$" AnchorPane.bottomAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane styleClass="hud_box">
                                        <children>
                                           <Label styleClass="hud_label" text="Cashflow" AnchorPane.topAnchor="1.0" />
-                                          <Label layoutY="17.0" styleClass="hud_label" text="2000$" AnchorPane.bottomAnchor="5.0" />
+                                          <Label layoutY="17.0" styleClass="hud_label" text="0.00$" AnchorPane.bottomAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane styleClass="hud_box">
                                        <children>
                                           <Label styleClass="hud_label" text="Bank Deposit" AnchorPane.topAnchor="1.0" />
-                                          <Label layoutY="17.0" styleClass="hud_label" text="2000$" AnchorPane.bottomAnchor="5.0" />
+                                          <Label layoutY="17.0" styleClass="hud_label" text="1,000,000.00$" AnchorPane.bottomAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                  </children>
