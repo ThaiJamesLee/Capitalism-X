@@ -50,6 +50,8 @@ FontAwesomeIcon {
 
 .toggle-button {
 	-fx-border-radius: 2px;
+	-fx-font-family: "Prime";
+	-fx-font-size: 10px;
 	-fx-border-width: 1.5;
 	-fx-background-color: -fx-dark;
 	-fx-border-color: -fx-light;
@@ -61,6 +63,7 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-neutral;
 }
 .toggle-button:selected {
+	-fx-border-radius: 2px;
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-dark;
 	-fx-text-fill: -fx-dark;
