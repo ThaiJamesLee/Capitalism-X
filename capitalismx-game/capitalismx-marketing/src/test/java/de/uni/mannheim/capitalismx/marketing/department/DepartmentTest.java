@@ -56,5 +56,12 @@ public class DepartmentTest {
         Assert.assertTrue(score > 0);
     }
 
+    @Test(dependsOnMethods = {"companyImageScoreTest", "companyImageScoreTestException"})
+    public void totalCostTest() {
+        Assert.assertTrue(department.getTotalMarketingCosts() > 0.0);
+        String message = "The total marketing costs are " + department.getTotalMarketingCosts();
+        logger.info(message);
+
+    }
 
 }

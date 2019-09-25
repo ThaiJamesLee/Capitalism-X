@@ -6,6 +6,7 @@ import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.hr.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -97,9 +98,9 @@ public class HRDepartmentTest {
 
         department.calculateAndUpdateEmployeesMeta();
 
-        List<Employee> hiredEmployees = department.getHired();
+        PropertyChangeSupportList<Employee> hiredEmployees = department.getHired();
 
-        for(Employee e : hiredEmployees) {
+        for(Employee e : hiredEmployees.getList()) {
             Assert.assertTrue(e.getQualityOfWork() > 0);
         }
 

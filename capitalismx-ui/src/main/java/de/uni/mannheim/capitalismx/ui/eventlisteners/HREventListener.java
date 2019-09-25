@@ -13,6 +13,8 @@ public class HREventListener implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println("Event: " + evt.getPropertyName());
+
 		if (evt.getPropertyName().equals("engineerChange")) {
 			EmployeeListController contr = (EmployeeListController) Main.getManager().getGameView(GameViewType.HR)
 					.getModule(UIElementType.HR_EMPLOYEES_OVERVIEW).getController();

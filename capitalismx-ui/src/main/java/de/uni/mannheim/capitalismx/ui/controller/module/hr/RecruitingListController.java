@@ -28,7 +28,10 @@ public class RecruitingListController extends GameModuleController {
 
 	private ObservableList<Employee> employeeListObservable;
 
+	private HREventListener hrEventListener;
+
 	public RecruitingListController() {
+		hrEventListener = new HREventListener();
 		employeeListObservable = FXCollections.observableArrayList();
 		EmployeeGenerator generator = EmployeeGenerator.getInstance();
 		for (int i = 0; i < 15; i++) {
@@ -44,6 +47,7 @@ public class RecruitingListController extends GameModuleController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		HRDepartment.getInstance().getHired().addPropertyChangeListener(hrEventListener);
 		recruitingList.setItems(employeeListObservable);
 		recruitingList.setCellFactory(employeeListView -> new RecruitingListViewCell());
 		recruitingList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
