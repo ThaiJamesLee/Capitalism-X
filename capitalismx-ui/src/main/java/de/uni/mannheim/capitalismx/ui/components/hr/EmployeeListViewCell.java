@@ -2,12 +2,15 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
 
+import org.controlsfx.control.PopOver;
+
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.hr.EmployeeDetailController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,18 +61,33 @@ public class EmployeeListViewCell extends ListCell<Employee> {
 	                	overlayController.setEmployee(employee);
 	                	Main.getManager().getGamePageController().showOverlay(UIElementType.HR_EMPLOYEES_OVERVIEW);
 	                });
+	                
+	                fireButton.setOnAction(e -> {
+		        		HRDepartment.getInstance().fire(employee);
+		        	});
+	                
+	                FXMLLoader popoverLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/training_popover.fxml"));
+	        		PopOver trainPopover = new PopOver();
+	        		try {
+	        			trainPopover.setContentNode(popoverLoader.load());
+	        			TrainingPopoverController popOverController = ((TrainingPopoverController)popoverLoader.getController());
+	        			popOverController.init(trainPopover, employee);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	                
+	                trainButton.setOnAction(e -> {
+		        		trainPopover.show(trainButton);
+		        		HRDepartment.getInstance().trainEmployee(employee, Training.COURSES);
+		        	});
 	            }
 	        	
 	        	nameLabel.setText(employee.getName());
 	        	wageLabel.setText((int)employee.getSalary() + " CC");
 	        	skillLabel.setText(employee.getSkillLevel() + "");
-	        	fireButton.setOnAction(e -> {
-	        		HRDepartment.getInstance().fire(employee);
-	        	});
-	        	trainButton.setOnAction(e -> {
-	        		//TODO Popover for Choosing a training
-	        		HRDepartment.getInstance().trainEmployee(employee, Training.COURSES);
-	        	});
+	        	
+	        	
 
 	        	setText(null);
 	        	setGraphic(gridPane);
