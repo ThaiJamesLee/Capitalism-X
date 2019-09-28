@@ -6,16 +6,15 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
-import de.uni.mannheim.capitalismx.ui.application.Main;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
+import javafx.util.Duration;
 
 public class WorkingConditionsController extends GameModuleController {
 
@@ -32,11 +31,8 @@ public class WorkingConditionsController extends GameModuleController {
 	 * @param radio The {@link RadioButton} to get a custom {@link Tooltip} for.
 	 */
 	private void createCostTooltip(RadioButton radio) {
-		// TODO tooltip gets displayed after way too long -> either upgrade to newer
-		// version of JFX, where delay is customizable or use some hack/workaround 
-		// -> ControlsFX
-		Tooltip tooltip = new Tooltip();
-		tooltip.setText(((Benefit) radio.getUserData()).getMonetaryImpact() + "CC per Employee/Month");
+		Tooltip tooltip = new Tooltip(((Benefit) radio.getUserData()).getMonetaryImpact() + "CC per Employee/Month");
+		tooltip.setShowDelay(Duration.seconds(0.0));
 		radio.setTooltip(tooltip);
 	}
 
@@ -86,9 +82,11 @@ public class WorkingConditionsController extends GameModuleController {
 	}
 
 	/**
-	 * Initiates a {@link ToggleGroup} by getting the
+	 * Initiates a {@link ToggleGroup} by creating a ChangeListener, that handles
+	 * the contained RadioButtons and sets the initially active buttons.
 	 * 
-	 * @param group
+	 * @param group The {@link ToggleGroup} to initialize.
+	 * @param type  The {@link BenefitType} that the group is managing.
 	 */
 	private void initToggleGroup(ToggleGroup group, BenefitType type) {
 		HRDepartment hrDep = HRDepartment.getInstance();
