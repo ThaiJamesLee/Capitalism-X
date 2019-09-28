@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane fx:id="trainingPopoverRoot" prefWidth="220.0" styleClass="popover" stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController">
+   <children>
+      <VBox layoutX="-69.0" layoutY="-48.0" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label styleClass="header" text="Training" />
+            <GridPane fx:id="workshopGrid" styleClass="training_grid">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="70.0" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label styleClass="label_medium" text="Workshop" />
+                  <Label styleClass="label_light" text="Skill +1, Salary +1%" GridPane.rowIndex="1" />
+                  <Label styleClass="label_medium" text="3000 CC" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="courseGrid" styleClass="training_grid">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="70.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label styleClass="label_medium" text="Course" />
+                  <Label styleClass="label_light" text="Skill +2, Salary +2%" GridPane.rowIndex="1" />
+                  <Label styleClass="label_medium" text="5500 CC" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="15.0" right="15.0" top="20.0" />
+   </padding>
+</AnchorPane>
