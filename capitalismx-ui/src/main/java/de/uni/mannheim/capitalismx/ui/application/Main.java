@@ -29,7 +29,7 @@ public class Main extends Application {
 	private static final boolean testMode = true;
 	private static UIManager manager;
 	private Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
+	
 	public static UIManager getManager() {
 		return manager;
 	}
@@ -69,10 +69,12 @@ public class Main extends Application {
 	private void loadFonts() {
 		Font.loadFont(Main.class.getResource("/fonts/Prime-Regular.ttf").toExternalForm(), 10);
 		Font.loadFont(Main.class.getResource("/fonts/Prime-Light.ttf").toExternalForm(), 10);
+		Font.loadFont(Main.class.getResource("/fonts/Reckoner.ttf").toExternalForm(), 10);
+		Font.loadFont(Main.class.getResource("/fonts/Reckoner_Bold.ttf").toExternalForm(), 10);
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+	
 }

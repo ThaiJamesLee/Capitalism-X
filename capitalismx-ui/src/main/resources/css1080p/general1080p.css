@@ -375,3 +375,28 @@ FontAwesomeIcon {
     -fx-font-weight: bold;
 
 }
+
+
+
+
+/**
+ *	Design for the Popover.
+ */
+.popover {
+	-fx-border-radius: 5;
+	-fx-width: 150px;
+}
+
+.popover .training_grid {
+	-fx-border-radius: 2;
+	-fx-padding: 5px;
+	-fx-background-color: -fx-light-neutral;
+}
+
+.popover .training_grid:hover {
+	-fx-background-color: -fx-primary;
+}
+.popover .training_grid:pressed {
+	-fx-background-color: -fx-neutral;
+	-fx-border-color: -fx-primary;
+}
