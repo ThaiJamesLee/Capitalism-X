@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class UIManager {
 
@@ -87,7 +88,6 @@ public class UIManager {
 	 */
 	public void initGame() {
 
-		
 		switchToScene(GameSceneType.LOADING_SCREEN);
 		// load all the modules and save them in the gameModules-list
 		preloadViewsAndModules();
@@ -144,7 +144,7 @@ public class UIManager {
 		Parent root;
 		try {
 			ResourceBundle bundle = ResourceBundle.getBundle("properties.main_en");
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), bundle);
 			root = loader.load();
 			sceneMenuMain = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 
@@ -228,10 +228,10 @@ public class UIManager {
 	 * Start the Game by switching to the GamePage and starting the GameController
 	 */
 	private void startGame() {
-		Platform.runLater(() ->	switchToScene(GameSceneType.GAME_PAGE));
+		Platform.runLater(() -> switchToScene(GameSceneType.GAME_PAGE));
 //		Platform.runLater(() -> GameController.getInstance().start());
-		
-		((GamePageController)sceneGamePage.getController()).switchView(GameViewType.OVERVIEW);
+
+		((GamePageController) sceneGamePage.getController()).switchView(GameViewType.OVERVIEW);
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class UIManager {
 			this.language = "EN";
 		}
 		ResourceBundle bundle = ResourceBundle.getBundle(newProperties);
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), bundle);
 		try {
 
 			Parent root = loader.load();
@@ -289,6 +289,14 @@ public class UIManager {
 	 */
 	public void toggleFullscreen() {
 		window.setFullScreen(!window.isFullScreen());
+	}
+	
+	/**
+	 * Quits the game: Triggers a new {@link WindowEvent}, containing a WINDOW_CLOSE_REQUEST, which can then be handled by the Application.
+	 * TODO maybe handle more stuff when ingame. (eg autosave)
+	 */
+	public void quitGame() {
+		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 
 }
