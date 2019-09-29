@@ -55,6 +55,17 @@ public enum Salary {
         return salaryRange.getUpperBound();
     }
 
+    public Salary getSalaryBySkillLevel(int skillLevel) {
+        Salary[] salaries = Salary.values();
+
+        for(Salary s : salaries) {
+            if (s.getSkillLevelRange().isInRange(skillLevel)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     public String getName() {
         return name;
     }
