@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
@@ -35,7 +36,7 @@ public class EmployeeListController extends GameModuleController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		HRDepartment hrDep = HRDepartment.getInstance();
+		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
 		hrDep.hire(EmployeeGenerator.getInstance().generateEngineer(42));
 		hrDep.hire(EmployeeGenerator.getInstance().generateSalesPeople(43));
 		hrDep.hire(EmployeeGenerator.getInstance().generateEngineer(4));

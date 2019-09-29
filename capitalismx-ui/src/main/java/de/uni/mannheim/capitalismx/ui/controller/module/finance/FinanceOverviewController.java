@@ -82,7 +82,7 @@ public class FinanceOverviewController extends GameModuleController {
         GameController controller = GameController.getInstance();
         financeEventListener = new FinanceEventListener();
 
-        Finance f = Finance.getInstance();
+        Finance f = GameState.getInstance().getFinanceDepartment();
         f.addPropertyChangeListener(financeEventListener);
 
         cashLabel.setText(controller.getCash() + "");

@@ -165,7 +165,6 @@ public class GameController {
     }
 
     public void start() {
-        GameState.getInstance().initiate();
         GameThread.getInstance().run();
     }
 

@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
 
-import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import javafx.fxml.FXML;
@@ -42,13 +42,13 @@ public class TrainingPopoverController implements Initializable {
 
 	@FXML
 	public void trainEmployeeWorkshop() {
-		HRDepartment.getInstance().trainEmployee(employee, Training.WORKSHOP);
+		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP);
 		popover.hide();
 	}
 
 	@FXML
 	public void trainEmployeeCourse() {
-		HRDepartment.getInstance().trainEmployee(employee, Training.WORKSHOP);
+		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP);
 		popover.hide();
 	}
 
