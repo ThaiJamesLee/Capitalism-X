@@ -60,6 +60,28 @@ FontAwesomeIcon {
 	-fx-fill: -fx-dark;
 }
 
+
+/**
+ * Section for reusable module-components.
+ */
+.button_module {
+	-fx-border-radius: 2px;
+	-fx-border-width: 1.5px;
+	-fx-border-color: transparent;
+	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-light;
+	-fx-border-insets: 0.0;
+}
+
+.button_module:hover {
+	-fx-border-color: -fx-dark;
+}
+
+.button_module:pressed {
+	-fx-background-color: -fx-dark;
+	-fx-border-color: -fx-primary;
+}
+
 .nav_button {
 	-fx-background-color: -fx-light;
 	-fx-text-fill: -fx-dark;
