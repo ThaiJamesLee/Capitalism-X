@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
@@ -229,7 +230,12 @@ public class UIManager {
 	 */
 	private void startGame() {
 		Platform.runLater(() -> switchToScene(GameSceneType.GAME_PAGE));
-//		Platform.runLater(() -> GameController.getInstance().start());
+		Platform.runLater(() -> new Runnable() {
+			@Override
+			public void run() {
+				GameController.getInstance().start();
+			}
+		});
 
 		((GamePageController) sceneGamePage.getController()).switchView(GameViewType.OVERVIEW);
 	}
