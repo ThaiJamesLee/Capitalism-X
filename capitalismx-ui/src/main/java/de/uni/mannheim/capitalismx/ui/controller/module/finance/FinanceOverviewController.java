@@ -151,4 +151,8 @@ public class FinanceOverviewController extends GameModuleController {
             controller.calculateNetWorth(GameState.getInstance().getGameDate());
         });
     }
+
+    public void setNetWorthLabel(String text){
+        this.netWorthLabel.setText(text);
+    }
 }
