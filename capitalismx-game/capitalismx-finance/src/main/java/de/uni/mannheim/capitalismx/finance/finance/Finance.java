@@ -10,10 +10,12 @@ import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.Production;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,7 +28,8 @@ public class Finance implements Serializable {
 
     private static Finance instance;
 
-    private double netWorth;
+    private PropertyChangeSupportDouble netWorth;
+    //private double netWorth;
     private double cash;
     private double assets;
     private double liabilities;
@@ -61,7 +64,11 @@ public class Finance implements Serializable {
 
     protected Finance(){
         this.cash = 1000000.0;
-        this.netWorth = 1000000.0;
+        this.netWorth = new PropertyChangeSupportDouble();
+
+        this.netWorth.setValue(1000000.0);
+        this.netWorth.setPropertyChangedName("netWorth");
+
         this.taxRate = 0.2;
         //this.bankingSystem = new BankingSystem();
         this.investments = new ArrayList<Investment>();
@@ -84,12 +91,18 @@ public class Finance implements Serializable {
         return Finance.instance;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+        // TODO add all property changelisteners here
+        this.netWorth.addPropertyChangeListener(propertyChangeListener);
+
+    }
+
     // liabilities = loanAmount
     public double calculateNetWorth(LocalDate gameDate){
         //this.netWorth = this.cash + this.assets - this.liabilities;
         //TODO maybe getCash() instead of calculateCash(), because calculateCash() only once per day?
-        this.netWorth = this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities(gameDate);
-        return this.netWorth;
+        this.netWorth.setValue(this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities(gameDate));
+        return this.netWorth.getValue();
     }
 
     protected double calculateAssets(LocalDate gameDate){
@@ -274,8 +287,8 @@ public class Finance implements Serializable {
         if(this.cash == 0.0){
             return null;
         }
-        if(desiredLoanAmount > 0.7 * this.netWorth){
-            desiredLoanAmount = 0.7 * this.netWorth;
+        if(desiredLoanAmount > 0.7 * this.netWorth.getValue()){
+            desiredLoanAmount = 0.7 * this.netWorth.getValue();
         }
         return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
     }
@@ -402,7 +415,7 @@ public class Finance implements Serializable {
     }
 
     public double getNetWorth() {
-        return this.netWorth;
+        return this.netWorth.getValue();
     }
 
     public BankingSystem.Loan getLoan(){

@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
+import de.uni.mannheim.capitalismx.finance.finance.Finance;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -68,6 +70,8 @@ public class FinanceOverviewController extends GameModuleController {
     @FXML
     Button ventureCapitalButton;
 
+    private FinanceEventListener financeEventListener;
+
     @Override
     public void update() {
         // TODO Auto-generated method stub
@@ -76,6 +80,11 @@ public class FinanceOverviewController extends GameModuleController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
+        financeEventListener = new FinanceEventListener();
+
+        Finance f = Finance.getInstance();
+        f.addPropertyChangeListener(financeEventListener);
+
         cashLabel.setText(controller.getCash() + "");
         assetsLabel.setText(controller.getAssets() + "");
         liabilitiesLabel.setText(controller.getLiabilities() + "");
