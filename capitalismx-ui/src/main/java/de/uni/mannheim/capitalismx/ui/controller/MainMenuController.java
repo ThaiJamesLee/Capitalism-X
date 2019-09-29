@@ -3,7 +3,8 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -34,21 +35,21 @@ public class MainMenuController implements UpdateableController {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		newGameButton.setOnAction(e -> {
-			Main.getManager().initGame();
+			UIManager.getInstance().initGame();
 		});
 		
 		
 		switchButton.setOnAction(e -> {
-			Main.getManager().reloadProperties();
+			UIManager.getInstance().reloadProperties();
 		});
 
 		
 		fullscreenButton.setOnAction(e -> {
-			Main.getManager().toggleFullscreen();
+			UIManager.getInstance().toggleFullscreen();
 		});
 		
 		quitButton.setOnAction(e -> {
-			Main.getManager().quitGame();
+			UIManager.getInstance().quitGame();
 		});
 	}
 

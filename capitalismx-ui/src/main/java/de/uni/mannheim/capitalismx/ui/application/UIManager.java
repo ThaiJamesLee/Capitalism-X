@@ -33,6 +33,8 @@ public class UIManager {
 	private GameScene sceneLoadingScreen;
 	private List<GameView> gameViews;
 
+	private static UIManager instance;
+	
 	private Stage window;
 
 	private String language;
@@ -46,6 +48,7 @@ public class UIManager {
 	 * @param stage The primary stage of the application.
 	 */
 	public UIManager(Stage stage) {
+		instance = this;
 		this.window = stage;
 		this.language = "EN";
 
@@ -54,6 +57,10 @@ public class UIManager {
 
 		// set the initial main menu scene as starting scene
 		window.setScene(new Scene(sceneMenuMain.getScene()));
+	}
+	
+	public static UIManager getInstance() {
+		return instance;
 	}
 
 	public GamePageController getGamePageController() {

@@ -3,7 +3,8 @@ package de.uni.mannheim.capitalismx.ui.components.logistics;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.TruckFleetController;
@@ -75,7 +76,7 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
             fixCostsLabel.setText("Fix Costs Delivery: " + truck.getFixCostsDelivery());
             buyButton.setOnAction(e -> {
                 controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
-                TruckFleetController uiController = (TruckFleetController) Main.getManager().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
+                TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
                 uiController.addTruck(truck);
             });
 

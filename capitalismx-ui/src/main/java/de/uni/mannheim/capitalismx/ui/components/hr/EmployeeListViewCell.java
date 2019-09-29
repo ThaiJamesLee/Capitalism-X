@@ -7,7 +7,8 @@ import org.controlsfx.control.PopOver;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
@@ -57,9 +58,9 @@ public class EmployeeListViewCell extends ListCell<Employee> {
 	                //Open Overlay on click
 	                //TODO remove header click and maybe set listener only to name label
 	                gridPane.setOnMouseClicked(e -> {
-	                	EmployeeDetailController overlayController = (EmployeeDetailController) Main.getManager().getGameView(GameViewType.HR).getModule(UIElementType.HR_EMPLOYEES_OVERVIEW).getOverlay().getController();
+	                	EmployeeDetailController overlayController = (EmployeeDetailController) UIManager.getInstance().getGameView(GameViewType.HR).getModule(UIElementType.HR_EMPLOYEES_OVERVIEW).getOverlay().getController();
 	                	overlayController.setEmployee(employee);
-	                	Main.getManager().getGamePageController().showOverlay(UIElementType.HR_EMPLOYEES_OVERVIEW);
+	                	UIManager.getInstance().getGamePageController().showOverlay(UIElementType.HR_EMPLOYEES_OVERVIEW);
 	                });
 	                
 	                fireButton.setOnAction(e -> {

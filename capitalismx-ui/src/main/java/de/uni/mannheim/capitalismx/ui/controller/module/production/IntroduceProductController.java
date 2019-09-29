@@ -8,7 +8,8 @@ import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.production.Production;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
@@ -1179,7 +1180,7 @@ public class IntroduceProductController extends GameModuleController {
     }
 
     public void showSupplierOptions() {
-        Main.getManager().getGamePageController().showOverlay(UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
+        UIManager.getInstance().getGamePageController().showOverlay(UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
     }
 
     class ComponentStringConverter extends StringConverter<Component> {

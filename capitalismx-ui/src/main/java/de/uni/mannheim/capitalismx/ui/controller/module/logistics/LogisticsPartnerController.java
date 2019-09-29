@@ -3,7 +3,8 @@ package de.uni.mannheim.capitalismx.ui.controller.module.logistics;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableController;
@@ -42,7 +43,7 @@ public class LogisticsPartnerController  extends GameModuleController {
         }
 
         logisticsPartnerButton.setOnAction(e -> {
-            Main.getManager().getGamePageController().showOverlay(UIElementType.LOGISTICS_PARTNER_OVERVIEW);
+            UIManager.getInstance().getGamePageController().showOverlay(UIElementType.LOGISTICS_PARTNER_OVERVIEW);
         });
     }
 

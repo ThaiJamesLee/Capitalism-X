@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +46,7 @@ public class EmployeeBox {
 		gridPane.setOnMouseClicked(e -> {
 			Properties prop = new Properties();
 			prop.setProperty("employeeId", employee.getID());
-			Main.getManager().getGamePageController().showOverlay(UIElementType.HR_EMPLOYEES_OVERVIEW, prop);
+			UIManager.getInstance().getGamePageController().showOverlay(UIElementType.HR_EMPLOYEES_OVERVIEW, prop);
 		});
 	}
 

@@ -3,7 +3,8 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -45,7 +46,7 @@ public class MessageController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		messageClose.setOnAction(e -> {
-			((GamePageController)(Main.getManager().getSceneGame().getController())).removeMessagePane();
+			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).removeMessagePane();
 		});
 	}
 
