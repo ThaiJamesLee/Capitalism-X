@@ -358,6 +358,9 @@ FontAwesomeIcon {
 	-fx-text-fill: white;
 }
 
+.wholeOverlayBackground {
+	-fx-background-color: #E0E0E0;
+}
 
 .currentView_label {
 	/*-fx-background-radius: 10 10 0 0;

@@ -104,7 +104,7 @@
                            <children>
                               <HBox spacing="20.0">
                                  <children>
-                                    <Button fx:id="btnMessages1" mnemonicParsing="false" styleClass="date_label">
+                                    <Button fx:id="btnMenu" mnemonicParsing="false" styleClass="date_label">
                                        <graphic>
                                           <ImageView fx:id="iconMessages1" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                              <image>

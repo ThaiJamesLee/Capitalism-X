@@ -49,6 +49,9 @@ public class GamePageController implements UpdateableController {
 	private Button btnMessages;
 
 	@FXML
+	private Button btnMenu;
+
+	@FXML
 	private StackPane parentStackPane;
 
 	@FXML
@@ -63,8 +66,18 @@ public class GamePageController implements UpdateableController {
 
 	// Elements for the message-system
 	private MessageController messageController;
+	//saves the added element so it can be addressed for removal
 	private Parent messagePaneReminder;
+	//flag to know whether message Pane is open or not: true=open false=closed.
 	private boolean openMessagePane;
+	
+	//Elements for the in-game menu
+	private IngameMenuController ingameMenuController;
+	//saves the added element so it can be addressed for removal
+	private Parent menuPaneReminder;
+	//flag to know whether menu Pane is open or not: true=open false=closed.
+	private boolean openMenuPane;
+	
 	@FXML
 	private AnchorPane notificationAnchor;
 
@@ -106,6 +119,25 @@ public class GamePageController implements UpdateableController {
 			}
 
 		});
+		
+		btnMenu.setOnAction(e -> {
+			if (!openMenuPane) {
+				FXMLLoader loader2 = new FXMLLoader(
+						getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"));
+				Parent rootD;
+				try {
+					rootD = loader2.load();
+					ingameMenuController = loader2.getController();
+					parentStackPane.getChildren().add(rootD);
+					menuPaneReminder = rootD;
+					openMenuPane = true;
+				} catch (IOException e1){
+					e1.printStackTrace();
+				}
+			}
+			
+			
+		});
 
 	}
 
@@ -121,6 +153,11 @@ public class GamePageController implements UpdateableController {
 		openMessagePane = false;
 	}
 
+	public void removeIngameMenuPane() {
+		parentStackPane.getChildren().remove(menuPaneReminder);
+		openMenuPane = false;
+	}
+	
 	/**
 	 * Switches the displayed contentType by removing all {@link GameModule}s of
 	 * that type.
