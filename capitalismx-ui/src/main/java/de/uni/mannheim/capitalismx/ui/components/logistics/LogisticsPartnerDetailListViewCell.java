@@ -4,7 +4,8 @@ import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.LogisticsPartnerController;
@@ -81,7 +82,7 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
             variableCostsLabel.setText("Variable Delivery Costs: " + externalPartner.getVariableDeliveryCost() + " CC");
             buyButton.setOnAction(e -> {
                 controller.addExternalPartner(externalPartner);
-                LogisticsPartnerController uiController = (LogisticsPartnerController) Main.getManager().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_PARTNER_OVERVIEW).getController();
+                LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_PARTNER_OVERVIEW).getController();
                 uiController.addExternalPartner(externalPartner);
             });
 

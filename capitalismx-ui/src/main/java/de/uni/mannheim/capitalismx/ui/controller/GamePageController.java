@@ -7,7 +7,8 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
@@ -176,7 +177,7 @@ public class GamePageController implements UpdateableController {
 			}
 		}
 		// change current view and add modules
-		currentActiveView = Main.getManager().getGameView(viewType);
+		currentActiveView = UIManager.getInstance().getGameView(viewType);
 		for (GameModule module : currentActiveView.getModules()) {
 			GridPosition position = module.getGridPosition();
 			module.getController().update();

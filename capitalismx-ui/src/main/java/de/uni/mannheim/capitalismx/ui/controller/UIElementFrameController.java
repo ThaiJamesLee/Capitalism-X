@@ -3,7 +3,8 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElement;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
@@ -60,7 +61,7 @@ public class UIElementFrameController implements Initializable {
 
 	@FXML
 	private void showOverlay() {
-		Main.getManager().getGamePageController().showOverlay(elementType);
+		UIManager.getInstance().getGamePageController().showOverlay(elementType);
 	}
 
 }

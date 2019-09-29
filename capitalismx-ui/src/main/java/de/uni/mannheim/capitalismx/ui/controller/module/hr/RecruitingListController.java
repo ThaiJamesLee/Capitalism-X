@@ -3,10 +3,11 @@ package de.uni.mannheim.capitalismx.ui.controller.module.hr;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.components.hr.RecruitingListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
@@ -47,7 +48,7 @@ public class RecruitingListController extends GameModuleController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		HRDepartment.getInstance().getHired().addPropertyChangeListener(hrEventListener);
+		GameState.getInstance().getHrDepartment().getHired().addPropertyChangeListener(hrEventListener);
 		recruitingList.setItems(employeeListObservable);
 		recruitingList.setCellFactory(employeeListView -> new RecruitingListViewCell());
 		recruitingList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -57,7 +58,7 @@ public class RecruitingListController extends GameModuleController {
 	private void hireEmployee() {
 		Employee employeeToHire = recruitingList.getSelectionModel().getSelectedItem();
 		if(employeeToHire == null) return;
-		HRDepartment.getInstance().hire(employeeToHire);
+		GameState.getInstance().getHrDepartment().hire(employeeToHire);
 		employeeListObservable.remove(employeeToHire);
 		recruitingList.getSelectionModel().clearSelection();
 	}

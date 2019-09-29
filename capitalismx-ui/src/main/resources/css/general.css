@@ -16,6 +16,13 @@
 @font-face {
     src: url('../fonts/Prime-Light.ttf');
 }
+@font-face {
+    src: url('../fonts/Reckone-Regular.ttf');
+}
+@font-face {
+    src: url('../fonts/Reckoner-Bold.ttf');
+}
+
 
 * {
 	-fx-focus-color: -fx-primary;
@@ -30,12 +37,22 @@
 	-fx-text-fill: -fx-dark;
 }
 
+.label_very_large {
+	-fx-font-weight: bold;
+	-fx-font-size: 18.0;
+}
+
 .label_large {
+	-fx-font-weight: bold;
 	-fx-font-size: 14.0;
 }
 
 .label_medium {
 	-fx-font-size: 14.0;
+}
+
+.label_light {
+	-fx-font-family: "Prime Light";
 }
 
 FontAwesomeIcon {
@@ -318,28 +335,6 @@ FontAwesomeIcon {
 	-fx-backgound-insets: 0 0 0 100;
 }
 
-.title_label {
-	-fx-background-color: #E0E0E0;
-	-fx-background-insets: 0,1,4,5;
-	-fx-background-radius: 9,8,5,4;
-	-fx-padding: 15 30 15 30;
-	-fx-font-family: "Prime";
-	-fx-font-size: 28px;
-	-fx-font-weight: bold;
-	-fx-text-fill: #333333;
-}
-
-.subtitle_label {
-	-fx-background-color: #E0E0E0;
-	-fx-background-insets: 0,1,4,5;
-	-fx-background-radius: 9,8,5,4;
-		/*-fx-padding: 15 30 15 30;*/
-	-fx-font-family: "Prime";
-	-fx-font-size: 18px;
-	-fx-font-weight: bold;
-	-fx-text-fill: #333333;
-}
-
 .big_buttons {
 		/*-fx-pref-height: 50px;
 		 *     //-fx-pref-width: 200px;
@@ -412,5 +407,30 @@ FontAwesomeIcon {
 	-fx-font-family: "Prime";
 	-fx-font-size: 25px;
 	-fx-font-weight: bold;
+}
+
+
+/**
+ *	Design for the Popover.
+ */
+.popover {
+	-fx-border-radius: 5;
+	-fx-width: 150px;
+}
+
+.popover .training_grid {
+	-fx-border-radius: 2px;
+	-fx-background-radius: 2px;
+	-fx-padding: 5px;
+	-fx-background-color: -fx-light-neutral;
+
+}
+
+.popover .training_grid:hover {
+	-fx-background-color: -fx-primary;
+}
+.popover .training_grid:pressed {
+	-fx-background-color: -fx-neutral;
+	-fx-border-color: -fx-primary;
 }
 
