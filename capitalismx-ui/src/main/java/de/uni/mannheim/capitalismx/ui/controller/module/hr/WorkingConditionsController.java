@@ -15,6 +15,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
+import javafx.util.Duration;
 
 public class WorkingConditionsController extends GameModuleController {
 
@@ -32,7 +33,7 @@ public class WorkingConditionsController extends GameModuleController {
 	 */
 	private void createCostTooltip(RadioButton radio) {
 		Tooltip tooltip = new Tooltip(((Benefit) radio.getUserData()).getMonetaryImpact() + "CC per Employee/Month");
-//		tooltip.setShowDelay(Duration.seconds(0.0));
+		tooltip.setShowDelay(Duration.seconds(0.0));
 		radio.setTooltip(tooltip);
 	}
 

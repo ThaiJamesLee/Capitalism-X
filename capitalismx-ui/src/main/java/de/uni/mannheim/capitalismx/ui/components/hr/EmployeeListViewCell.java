@@ -5,10 +5,8 @@ import java.io.IOException;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
-import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Training;
 import de.uni.mannheim.capitalismx.hr.employee.Employee;
-import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
@@ -68,28 +66,26 @@ public class EmployeeListViewCell extends ListCell<Employee> {
 		        		GameState.getInstance().getHrDepartment().fire(employee);
 		        	});
 	                
-//	                FXMLLoader popoverLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/training_popover.fxml"));
-//	        		PopOver trainPopover = new PopOver();
-//	        		try {
-//	        			trainPopover.setContentNode(popoverLoader.load());
-//	        			TrainingPopoverController popOverController = ((TrainingPopoverController)popoverLoader.getController());
-//	        			popOverController.init(trainPopover, employee);
-//					} catch (IOException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
+	                FXMLLoader popoverLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/training_popover.fxml"));
+	        		PopOver trainPopover = new PopOver();
+	        		try {
+	        			trainPopover.setContentNode(popoverLoader.load());
+	        			TrainingPopoverController popOverController = ((TrainingPopoverController)popoverLoader.getController());
+	        			popOverController.init(trainPopover, employee);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 	                
-//	                trainButton.setOnAction(e -> {
-//		        		trainPopover.show(trainButton);
-//		        		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.COURSES);
-//		        	});
+	                trainButton.setOnAction(e -> {
+		        		trainPopover.show(trainButton);
+		        		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.COURSES);
+		        	});
 	            }
 	        	
 	        	nameLabel.setText(employee.getName());
 	        	wageLabel.setText((int)employee.getSalary() + " CC");
 	        	skillLabel.setText(employee.getSkillLevel() + "");
-	        	
-	        	
 
 	        	setText(null);
 	        	setGraphic(gridPane);
