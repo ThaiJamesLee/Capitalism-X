@@ -13,6 +13,11 @@
     <dependencies>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
+            <artifactId>capitalismx-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-production</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

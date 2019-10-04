@@ -1,11 +1,9 @@
 package de.uni.mannheim.capitalismx.ecoindex;
 
-import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
 import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.Production;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -76,7 +74,7 @@ public class CompanyEcoIndex implements Serializable {
     private void checkMachinery(LocalDate gameDate){
         //TODO
 
-        List<Machinery> machines = Production.getInstance().getMachines();
+        List<Machinery> machines = ProductionDepartment.getInstance().getMachines();
         for(Machinery machinery : machines){
             machinery.depreciateMachinery(false, gameDate);
             if(machinery.getYearsSinceLastInvestment() > 5){

@@ -16,16 +16,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductionTest {
+public class ProductionDepartmentTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Production.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductionDepartment.class);
 
     private Machinery machinery;
     private List<Component> components;
 
     @BeforeTest
     public void setUp() {
-        Production.getInstance();
+        ProductionDepartment.getInstance();
         this.machinery = new Machinery(LocalDate.of(1990,1,1));
         this.components = new ArrayList<>();
         LocalDate gameDate = LocalDate.of(1990,1,1);
@@ -53,69 +53,69 @@ public class ProductionTest {
 
     @Test
     public void getAllAvailableComponentsTest() {
-        ArrayList<ComponentType> components = new ArrayList<>(Production.getInstance().getAllAvailableComponents(LocalDate.of(1990,1,1)));
+        ArrayList<ComponentType> components = new ArrayList<>(ProductionDepartment.getInstance().getAllAvailableComponents(LocalDate.of(1990,1,1)));
         Assert.assertEquals(components.size(), 18);
-        components = new ArrayList<>(Production.getInstance().getAllAvailableComponents(LocalDate.of(2019,1,1)));
+        components = new ArrayList<>(ProductionDepartment.getInstance().getAllAvailableComponents(LocalDate.of(2019,1,1)));
         ComponentType[] allComponents = ComponentType.values();
         Assert.assertEquals(components.size(), allComponents.length);
     }
 
     @Test
     public void getAvailableComponentsOfComponentCategoryTest() {
-        ArrayList<ComponentType> components = new ArrayList<>(Production.getInstance().getAvailableComponentsOfComponentCategory(LocalDate.of(1990,1,1), ComponentCategory.N_CPU));
+        ArrayList<ComponentType> components = new ArrayList<>(ProductionDepartment.getInstance().getAvailableComponentsOfComponentCategory(LocalDate.of(1990,1,1), ComponentCategory.N_CPU));
         Assert.assertEquals(components.size(), 1);
-        components = new ArrayList<>(Production.getInstance().getAvailableComponentsOfComponentCategory(LocalDate.of(2019,1,1), ComponentCategory.N_CPU));
+        components = new ArrayList<>(ProductionDepartment.getInstance().getAvailableComponentsOfComponentCategory(LocalDate.of(2019,1,1), ComponentCategory.N_CPU));
         Assert.assertEquals(components.size(), 8);
     }
 
     @Test
     public void buyMachineryTest() {
-        Production.getInstance().buyMachinery(this.machinery, LocalDate.of(1990,1,1));
-        Assert.assertEquals(Production.getInstance().getMachines().size(), 1);
-        Assert.assertEquals(Production.getInstance().getMonthlyAvailableMachineCapacity(), 500.0);
+        ProductionDepartment.getInstance().buyMachinery(this.machinery, LocalDate.of(1990,1,1));
+        Assert.assertEquals(ProductionDepartment.getInstance().getMachines().size(), 1);
+        Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 500.0);
     }
 
     @Test
     public void calculateMachineryResellPricesTest() {
         Map<Machinery, Double> machineryResellPrice = new HashMap<>();
         machineryResellPrice.put(this.machinery, this.machinery.calculateResellPrice());
-        Assert.assertEquals(Production.getInstance().calculateMachineryResellPrices(), machineryResellPrice);
+        Assert.assertEquals(ProductionDepartment.getInstance().calculateMachineryResellPrices(), machineryResellPrice);
     }
 
     @Test
     public void launchProductTest() {
         Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
-        Assert.assertEquals(Production.getInstance().launchProduct(notebook, 10, 9), -1.0);
-        Production.getInstance().launchProduct(notebook, 10, 10);
-        Assert.assertEquals(Production.getInstance().getNumberProducedProducts().size(), 1);
-        Assert.assertEquals(Production.getInstance().getNumberUnitsProducedPerMonth(), 10);
+        Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, 10, 9), -1.0);
+        ProductionDepartment.getInstance().launchProduct(notebook, 10, 10);
+        Assert.assertEquals(ProductionDepartment.getInstance().getNumberProducedProducts().size(), 1);
+        Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 10);
     }
 
     @Test
     public void produceProductTest() {
-        Map<Product, Integer> products = Production.getInstance().getNumberProducedProducts();
+        Map<Product, Integer> products = ProductionDepartment.getInstance().getNumberProducedProducts();
         for(HashMap.Entry<Product, Integer> p : products.entrySet()) {
-            Production.getInstance().produceProduct(p.getKey(), 10, 10);
+            ProductionDepartment.getInstance().produceProduct(p.getKey(), 10, 10);
         }
-        Assert.assertEquals(Production.getInstance().getNumberUnitsProducedPerMonth(), 20);
+        Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 20);
     }
 
     @Test
     public void calculateProductionTechnologyFactorTest() {
-        Assert.assertEquals(Production.getInstance().calculateProductionTechnologyFactor(), 1.2);
+        Assert.assertEquals(ProductionDepartment.getInstance().calculateProductionTechnologyFactor(), 1.2);
     }
 
     @Test
     public void calculateProductionTechnologyTest() {
-        Assert.assertEquals(Production.getInstance().calculateProductionTechnology(), ProductionTechnology.BRANDNEW);
+        Assert.assertEquals(ProductionDepartment.getInstance().calculateProductionTechnology(), ProductionTechnology.BRANDNEW);
     }
 
 
 
     @Test
     public void sellMachineryTest(){
-        Production.getInstance().sellMachinery(this.machinery);
-        Assert.assertEquals(Production.getInstance().getMachines().size(), 0);
-        Assert.assertEquals(Production.getInstance().getMonthlyAvailableMachineCapacity(), 0.0);
+        ProductionDepartment.getInstance().sellMachinery(this.machinery);
+        Assert.assertEquals(ProductionDepartment.getInstance().getMachines().size(), 0);
+        Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 0.0);
     }
 }

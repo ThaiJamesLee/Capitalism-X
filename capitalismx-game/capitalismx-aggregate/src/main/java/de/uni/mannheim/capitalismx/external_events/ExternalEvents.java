@@ -1,11 +1,11 @@
 package de.uni.mannheim.capitalismx.external_events;
 
 import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
-import de.uni.mannheim.capitalismx.finance.finance.Finance;
-import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
-import de.uni.mannheim.capitalismx.production.Production;
+import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
+import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
-import de.uni.mannheim.capitalismx.warehouse.Warehousing;
+import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class ExternalEvents implements Serializable {
     }
 
     private void checkEventProductionProblems(){
-        if(Production.getInstance().checkProductionTechnologyBelowThreshold()){
+        if(ProductionDepartment.getInstance().checkProductionTechnologyBelowThreshold()){
             externalEvents.add(ExternalEvent.EVENT_1);
         }
     }
@@ -87,16 +87,16 @@ public class ExternalEvents implements Serializable {
     }
 
     private void checkEventCompanyAcquisition(){
-        if(Finance.getInstance().checkIncreasingNopat()){
+        if(FinanceDepartment.getInstance().checkIncreasingNopat()){
             //TODO ask user
-            Finance.getInstance().acquireCompany();
+            FinanceDepartment.getInstance().acquireCompany();
             externalEvents.add(ExternalEvent.EVENT_3);
         }
     }
 
     private void checkEventCompanyOvertakesMarketShare(){
-        if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (Finance.getInstance().calculateNopat() > 1000000)){
-            Finance.getInstance().decreaseNopatRelPermanently(0.10);
+        if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (FinanceDepartment.getInstance().calculateNopat() > 1000000)){
+            FinanceDepartment.getInstance().decreaseNopatRelPermanently(0.10);
             externalEvents.add(ExternalEvent.EVENT_4);
         }
     }
@@ -111,7 +111,7 @@ public class ExternalEvents implements Serializable {
 
     private void checkEventComputerVirusAttacks(){
         if(RandomNumberGenerator.getRandomInt(0, 19) == 0){
-            Production.getInstance().decreaseProcessAutomationRel(0.50);
+            ProductionDepartment.getInstance().decreaseProcessAutomationRel(0.50);
             externalEvents.add(ExternalEvent.EVENT_6);
         }
     }
@@ -119,10 +119,10 @@ public class ExternalEvents implements Serializable {
     private void checkEventTaxChanges(){
         if(RandomNumberGenerator.getRandomInt(0, 19) == 0){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
-                Finance.getInstance().increaseTaxRate(0.02);
+                FinanceDepartment.getInstance().increaseTaxRate(0.02);
                 ExternalEvent.EVENT_7.setIncrease(true);
             }else{
-                Finance.getInstance().decreaseTaxRate(0.02);
+                FinanceDepartment.getInstance().decreaseTaxRate(0.02);
                 ExternalEvent.EVENT_7.setIncrease(false);
             }
             externalEvents.add(ExternalEvent.EVENT_7);
@@ -138,7 +138,7 @@ public class ExternalEvents implements Serializable {
                 //TODO use more suitable formula for probability
                 double probability = Math.pow(CompanyEcoIndex.getInstance().getEcoIndex().getIndex(), 0.31) - 1;
                 if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
-                    Finance.getInstance().nopatFine(0.10);
+                    FinanceDepartment.getInstance().nopatFine(0.10);
                     externalEvents.add(ExternalEvent.EVENT_8);
                 }
             }
@@ -149,10 +149,10 @@ public class ExternalEvents implements Serializable {
         //TODO probability between 0 and 2
         if(RandomNumberGenerator.getRandomInt(0, 49) == 0){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
-                Finance.getInstance().increaseNopatRelPermanently(0.02);
+                FinanceDepartment.getInstance().increaseNopatRelPermanently(0.02);
                 ExternalEvent.EVENT_9.setIncrease(true);
             }else{
-                Finance.getInstance().decreaseNopatRelPermanently(0.02);
+                FinanceDepartment.getInstance().decreaseNopatRelPermanently(0.02);
                 ExternalEvent.EVENT_9.setIncrease(false);
             }
             externalEvents.add(ExternalEvent.EVENT_9);
@@ -182,26 +182,26 @@ public class ExternalEvents implements Serializable {
 
     private void checkEventFlu(){
         if(RandomNumberGenerator.getRandomInt(0, 9) == 0){
-            Production.getInstance().decreaseTotalEngineerQualityOfWorkRel(0.10);
+            ProductionDepartment.getInstance().decreaseTotalEngineerQualityOfWorkRel(0.10);
             externalEvents.add(ExternalEvent.EVENT_12);
         }
     }
 
     private void checkEventHurricanesTornadoesEarthquakes(){
-        if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold() && Warehousing.getInstance().checkWarehouseCapacityThreshold()){
+        if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold() && WarehousingDepartment.getInstance().checkWarehouseCapacityThreshold()){
             double probability = 0.1 / CompanyEcoIndex.getInstance().getEcoIndex().getIndex();
             if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
-                Warehousing.getInstance().decreaseCapacity(2000);
+                WarehousingDepartment.getInstance().decreaseCapacity(2000);
                 externalEvents.add(ExternalEvent.EVENT_13);
             }
         }
     }
 
     private void checkEventFireFlooding(){
-        if(Warehousing.getInstance().checkFreeStorageThreshold()){
-            double probability = Warehousing.getInstance().getDaysSinceFreeStorageThreshold() * 0.01;
+        if(WarehousingDepartment.getInstance().checkFreeStorageThreshold()){
+            double probability = WarehousingDepartment.getInstance().getDaysSinceFreeStorageThreshold() * 0.01;
             if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
-                Warehousing.getInstance().decreaseStoredUnitsRel(0.30);
+                WarehousingDepartment.getInstance().decreaseStoredUnitsRel(0.30);
                 externalEvents.add(ExternalEvent.EVENT_14);
             }
 
@@ -219,8 +219,8 @@ public class ExternalEvents implements Serializable {
     }
 
     private void checkEventEcoActivists(){
-        if(Logistics.getInstance().checkEcoIndexFleetBelowThreshold()){
-            Logistics.getInstance().decreaseCapacityFleetRel(0.70);
+        if(LogisticsDepartment.getInstance().checkEcoIndexFleetBelowThreshold()){
+            LogisticsDepartment.getInstance().decreaseCapacityFleetRel(0.70);
             externalEvents.add(ExternalEvent.EVENT_17);
         }
     }

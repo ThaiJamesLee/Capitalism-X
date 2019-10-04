@@ -1,19 +1,19 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
-import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
+import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.Production;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
-import de.uni.mannheim.capitalismx.warehouse.Warehousing;
+import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,9 @@ import java.util.List;
 /**
  * @author sdupper
  */
-public class Finance implements Serializable {
+public class FinanceDepartment extends DepartmentImpl {
 
-    private static Finance instance;
+    private static FinanceDepartment instance;
 
     private PropertyChangeSupportDouble netWorth;
     //private double netWorth;
@@ -59,7 +59,8 @@ public class Finance implements Serializable {
     private List<Investment> investments;
 
 
-    protected Finance(){
+    protected FinanceDepartment(){
+        super("Finance");
         this.cash = 1000000.0;
         this.netWorth = new PropertyChangeSupportDouble();
 
@@ -81,11 +82,11 @@ public class Finance implements Serializable {
         this.liabilities = 0.0;
     }
 
-    public static synchronized Finance getInstance() {
-        if(Finance.instance == null) {
-            Finance.instance = new Finance();
+    public static synchronized FinanceDepartment getInstance() {
+        if(FinanceDepartment.instance == null) {
+            FinanceDepartment.instance = new FinanceDepartment();
         }
-        return Finance.instance;
+        return FinanceDepartment.instance;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
@@ -127,7 +128,7 @@ public class Finance implements Serializable {
 
     protected double calculateTotalWarehousingValues(LocalDate gameDate){
         this.totalWarehousingValues = 0;
-        List<Warehouse> warehouses = Warehousing.getInstance().getWarehouses();
+        List<Warehouse> warehouses = WarehousingDepartment.getInstance().getWarehouses();
         for(Warehouse warehouse : warehouses){
             if(warehouse.getWarehouseType() == WarehouseType.BUILT){
                  this.totalWarehousingValues += this.calculateResellPrice(warehouse.getBuildingCost(),
@@ -149,7 +150,7 @@ public class Finance implements Serializable {
 
     protected double calculateTotalMachineValues(LocalDate gameDate){
         this.totalMachineValues = 0;
-        List<Machinery> machines = Production.getInstance().getMachines();
+        List<Machinery> machines = ProductionDepartment.getInstance().getMachines();
         for(Machinery machine : machines){
             this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(),
                     machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));
@@ -165,7 +166,7 @@ public class Finance implements Serializable {
     //TODO timestamp or thread in class that checks if new day
     public void sellTruck(Truck truck){
         this.trucksSold.add(truck);
-        Logistics.getInstance().removeTruckFromFleet(truck);
+        LogisticsDepartment.getInstance().removeTruckFromFleet(truck);
     }
 
     //TODO timestamp or thread in class that checks if new day
@@ -236,8 +237,8 @@ public class Finance implements Serializable {
 
     //TODO
     protected double calculateTotalWarehouseCosts(){
-        double warehouseCosts = Warehousing.getInstance().calculateMonthlyCostWarehousing();
-        double storageCosts = Warehousing.getInstance().calculateDailyStorageCost();
+        double warehouseCosts = WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing();
+        double storageCosts = WarehousingDepartment.getInstance().calculateDailyStorageCost();
 
         this.totalWarehouseCosts = warehouseCosts + storageCosts;
         return this.totalWarehouseCosts;
@@ -245,14 +246,14 @@ public class Finance implements Serializable {
 
     //TODO
     protected double calculateTotalLogisticsCosts(){
-        this.totalLogisticsCosts = Logistics.getInstance().getTotalLogisticsCosts();
+        this.totalLogisticsCosts = LogisticsDepartment.getInstance().getTotalLogisticsCosts();
         return this.totalLogisticsCosts;
     }
 
     //TODO
     protected double calculateTotalProductionCosts(){
         //double totalProductionCosts = Production.getInstance().calculateProductionVariableCosts() + Production.getInstance().calculateProductionFixCosts();
-        double totalProductionCosts = Production.getInstance().getProductionVariableCosts() + Production.getInstance().getProductionFixCosts();
+        double totalProductionCosts = ProductionDepartment.getInstance().getProductionVariableCosts() + ProductionDepartment.getInstance().getProductionFixCosts();
         return totalProductionCosts;
     }
 
@@ -399,8 +400,8 @@ public class Finance implements Serializable {
         return this.investments;
     }
 
-    public static void setInstance(Finance instance) {
-        Finance.instance = instance;
+    public static void setInstance(FinanceDepartment instance) {
+        FinanceDepartment.instance = instance;
     }
 
     public double getAssets() {

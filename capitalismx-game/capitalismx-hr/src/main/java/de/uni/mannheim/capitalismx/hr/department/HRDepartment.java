@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.Team;
 import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
@@ -25,7 +26,7 @@ import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
  * Based on the report on p.21 - 28
  * @author duly
  */
-public class HRDepartment implements Serializable {
+public class HRDepartment extends DepartmentImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
     
@@ -44,6 +45,7 @@ public class HRDepartment implements Serializable {
     private static HRDepartment instance = null;
 
     private HRDepartment () {
+        super("HR");
         this.benefitSettings = new BenefitSettings();
         this.teams = new EnumMap<>(EmployeeType.class);
 

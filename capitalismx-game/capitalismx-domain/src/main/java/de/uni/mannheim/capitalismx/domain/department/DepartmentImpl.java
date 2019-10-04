@@ -2,6 +2,10 @@ package de.uni.mannheim.capitalismx.domain.department;
 
 import java.io.Serializable;
 
+/**
+ * Abstract class for departments.
+ * @author duly
+ */
 public abstract class DepartmentImpl implements Department, Serializable {
 
     private String name;
