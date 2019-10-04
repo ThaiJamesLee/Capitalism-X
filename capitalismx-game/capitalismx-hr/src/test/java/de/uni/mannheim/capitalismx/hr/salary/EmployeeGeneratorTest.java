@@ -1,6 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.salary;
 
-import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;

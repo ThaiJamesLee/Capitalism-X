@@ -3,10 +3,11 @@ package de.uni.mannheim.capitalismx.ui.controller.module.hr;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
-import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
+
 import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.components.hr.RecruitingListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;

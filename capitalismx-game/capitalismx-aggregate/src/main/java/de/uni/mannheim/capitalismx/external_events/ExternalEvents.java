@@ -2,11 +2,7 @@ package de.uni.mannheim.capitalismx.external_events;
 
 import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.finance.finance.Finance;
-import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
-import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
-import de.uni.mannheim.capitalismx.hr.employee.Team;
 import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
-import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import de.uni.mannheim.capitalismx.warehouse.Warehousing;
@@ -14,7 +10,6 @@ import de.uni.mannheim.capitalismx.warehouse.Warehousing;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author sdupper
