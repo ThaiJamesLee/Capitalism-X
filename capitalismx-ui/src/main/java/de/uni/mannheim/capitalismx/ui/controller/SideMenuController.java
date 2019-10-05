@@ -64,6 +64,7 @@ public class SideMenuController implements Initializable {
 	private Timeline timeline;
 
 	// TODO replace current mock implementation --> Lokalen gameDay löschen und Code wieder einkommentieren/eincoden (? wie nennt man das???)
+
 	private boolean isPaused;
 	private LocalDate gameDay;
 	DateTimeFormatter dtf;

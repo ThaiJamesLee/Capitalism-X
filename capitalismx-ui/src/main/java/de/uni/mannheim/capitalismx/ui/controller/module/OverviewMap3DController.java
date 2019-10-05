@@ -12,34 +12,42 @@ import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.DrawMode;
+import javafx.scene.shape.MeshView;
+import javafx.scene.shape.TriangleMesh;
+import javafx.stage.Stage;
 
 public class OverviewMap3DController extends GameModuleController {
 
 	@FXML
-	SubScene overviewMap3D;
+	AnchorPane overviewMap3D;
 
-	//Xforms allow 3D Rotation
 	final Group root = new Group();
 	final Xform axisGroup = new Xform();
 	final Xform moleculeGroup = new Xform();
-	final Xform terrainGroup = new Xform();
 	final Xform world = new Xform();
 	final PerspectiveCamera camera = new PerspectiveCamera(true);
 	final Xform cameraXform = new Xform();
 	final Xform cameraXform2 = new Xform();
 	final Xform cameraXform3 = new Xform();
-
-	private static final double CAMERA_INITIAL_DISTANCE = -700;
-	private static final double CAMERA_INITIAL_X_ANGLE = 70.0;
-	private static final double CAMERA_INITIAL_Y_ANGLE = 320.0;
+	//TODO set good initial camera point for factory...
+	private static final double CAMERA_INITIAL_DISTANCE = -4000;
+	private static final double CAMERA_INITIAL_X_ANGLE = 0.0;
+	private static final double CAMERA_INITIAL_Y_ANGLE = 0.0;
 	private static final double CAMERA_NEAR_CLIP = 0.1;
-	private static final double CAMERA_FAR_CLIP = 3000.0;
+	private static final double CAMERA_FAR_CLIP = 10000.0;
+	private static final double AXIS_LENGTH = 1000.0;
 
-	//TODO ausmisten - alle sinnvoll?
 	private static final double CONTROL_MULTIPLIER = 0.1;
 	private static final double SHIFT_MULTIPLIER = 10.0;
 	private static final double MOUSE_SPEED = 0.1;
@@ -53,63 +61,76 @@ public class OverviewMap3DController extends GameModuleController {
 	double mouseDeltaX;
 	double mouseDeltaY;
 
-
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-
+	}
+    
+	private SubScene buildSubScene(Group group) {
+		SubScene subscene = new SubScene(group, 800, 400, true, SceneAntialiasing.BALANCED);
+		subscene.setFill(Color.SKYBLUE); 
+		//subscene.setPickOnBounds(true); //TODO ist das nötig?
+        handleKeyboard(subscene, world);
+        handleMouse(subscene, world);
+		
+        subscene.setCamera(camera);
+		
+		return subscene;
 	}
 
+		
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
-		System.out.println("Map initialization started!");
 		
-		root.getChildren().add(world);
-		root.setDepthTest(DepthTest.ENABLE);
+        root.getChildren().add(world);
+        root.setDepthTest(DepthTest.ENABLE);
 		
 		buildCamera();
-		System.out.println("Success! - build camera");
+        buildAxes();
 
-		importModel();
-		System.out.println("Success! - build model");
+		Group office = importModel("models/example_office/example_office.fxml");
+        office.setTranslateX(1800);
+        office.setTranslateZ(600);
+		
+        Group factory = importModel("models/Factory_Hall/industrial_building_1.fxml");
+        
+        moleculeGroup.getChildren().add(office);
+        moleculeGroup.getChildren().add(factory);
+        world.getChildren().addAll(moleculeGroup);
+         
+        
+        MeshView terrain = generateTerrain(10000);
+        world.getChildren().addAll(terrain);
 
-		overviewMap3D.setFill(Color.GREY);
-		handleKeyboard(overviewMap3D, world);
-		handleMouse(overviewMap3D, world);
-
-		overviewMap3D.setCamera(camera);
-		System.out.println("Map initialization finished!");
+		SubScene scene3D = buildSubScene(root);
+		scene3D.setCamera(camera);
+		
+		overviewMap3D.getChildren().add(scene3D);      
 	}
 
-	private void importModel() {
+	
+	private Group importModel(String location) {
 		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(this.getClass().getClassLoader().getResource("models/HST-3DS/hst.fxml"));
-		
+		fxmlLoader.setLocation(this.getClass().getClassLoader().getResource(location));
+		Group graphic = new Group();
 		try {
-			Group graphic = fxmlLoader.<Group>load();
-			moleculeGroup.getChildren().addAll(graphic);
-			root.getChildren().add(moleculeGroup);
+			graphic = fxmlLoader.<Group>load();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}            
-
+		} 
+		return graphic;
 	}
 
 
 	private void buildCamera() {
-
+		System.out.println("buildCamera()");
 		root.getChildren().add(cameraXform);
 		cameraXform.getChildren().add(cameraXform2);
 		cameraXform2.getChildren().add(cameraXform3);
 		cameraXform3.getChildren().add(camera);
-		cameraXform3.setRotateZ(180.0);
-
-		camera.setTranslateZ(-700);
-		camera.setNearClip(0.1);
-		camera.setFarClip(3000.0);
-		camera.setFieldOfView(60);
+		//cameraXform3.setRotateZ(180.0);
 
 		camera.setNearClip(CAMERA_NEAR_CLIP);
 		camera.setFarClip(CAMERA_FAR_CLIP);
@@ -119,7 +140,69 @@ public class OverviewMap3DController extends GameModuleController {
 	}
 
 
-	//TODO welche Controls sind für die Map überhaupt sinnvoll -> absprechen!
+	private void buildAxes() {
+		System.out.println("buildAxes()");
+		final PhongMaterial redMaterial = new PhongMaterial();
+		redMaterial.setDiffuseColor(Color.DARKRED);
+		redMaterial.setSpecularColor(Color.RED);
+
+		final PhongMaterial greenMaterial = new PhongMaterial();
+		greenMaterial.setDiffuseColor(Color.DARKGREEN);
+		greenMaterial.setSpecularColor(Color.GREEN);
+
+		final PhongMaterial blueMaterial = new PhongMaterial();
+		blueMaterial.setDiffuseColor(Color.DARKBLUE);
+		blueMaterial.setSpecularColor(Color.BLUE);
+
+		final Box xAxis = new Box(AXIS_LENGTH, 1, 1);
+		final Box yAxis = new Box(1, AXIS_LENGTH, 1);
+		final Box zAxis = new Box(1, 1, AXIS_LENGTH);
+
+		xAxis.setMaterial(redMaterial);
+		yAxis.setMaterial(greenMaterial);
+		zAxis.setMaterial(blueMaterial);
+
+		axisGroup.getChildren().addAll(xAxis, yAxis, zAxis);
+		axisGroup.setVisible(true);
+		world.getChildren().addAll(axisGroup);
+	}
+
+	
+	private MeshView generateTerrain(float side) {
+		TriangleMesh mesh = new TriangleMesh();
+		mesh.getTexCoords().addAll(0,0);
+		
+		float h = 0.1f;
+		mesh.getPoints().addAll(
+		        0,	  0,	0,
+				0,    h,    -side/2,         // Point 1 - Front
+		        -side/2, h,    0,            // Point 2 - Left
+		        side/2,  h,    0,            // Point 3 - Back
+		        0,    h,    side/2           // Point 4 - Right
+		    );
+		
+		mesh.getFaces().addAll(
+		        0,0,  2,0,  1,0,          // Front left face
+		        0,0,  1,0,  3,0,          // Front right face
+		        0,0,  3,0,  4,0,          // Back right face
+		        0,0,  4,0,  2,0,          // Back left face
+		        3,0,  0,0,  1,0,          // Bottom rear face
+		        3,0,  2,0,  0,0           // Bottom front face
+		    ); 
+		
+		MeshView terrainMesh = new MeshView(mesh);
+		terrainMesh.setDrawMode(DrawMode.FILL);
+		
+		final PhongMaterial greenMaterial = new PhongMaterial();
+		greenMaterial.setDiffuseColor(Color.LIGHTGREEN);
+	
+		terrainMesh.setMaterial(greenMaterial);
+		
+		terrainMesh.setTranslateZ(-1.0);
+		return terrainMesh;
+	}
+	
+	
 	private void handleMouse(SubScene scene, final Node root) {
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override public void handle(MouseEvent me) {
@@ -140,36 +223,57 @@ public class OverviewMap3DController extends GameModuleController {
 
 				double modifier = 1.0;
 
-				//TODO buttons um drehspeed zu ändern sinnvoll - klappt zumindest???
-						if (me.isControlDown()) {
-							modifier = CONTROL_MULTIPLIER;
-						} 
-						if (me.isShiftDown()) {
-							modifier = SHIFT_MULTIPLIER;
-						}     
-						if (me.isPrimaryButtonDown()) {
-							cameraXform.ry.setAngle(cameraXform.ry.getAngle() - mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED);  
-							//TODO auskommentieren für nur horizontale Kamerabewegung
-							//		- oder doch besser nur updaten in bestimmtem Wertbereich
-							cameraXform.rx.setAngle(cameraXform.rx.getAngle() + mouseDeltaY*MOUSE_SPEED*modifier*ROTATION_SPEED);  
-						}
-						else if (me.isSecondaryButtonDown()) {
-							double z = camera.getTranslateZ();
-							double newZ = z + mouseDeltaX*MOUSE_SPEED*modifier;
-							camera.setTranslateZ(newZ);
-						}
-						else if (me.isMiddleButtonDown()) {
-							cameraXform2.t.setX(cameraXform2.t.getX() + mouseDeltaX*MOUSE_SPEED*modifier*TRACK_SPEED);  
-							cameraXform2.t.setY(cameraXform2.t.getY() + mouseDeltaY*MOUSE_SPEED*modifier*TRACK_SPEED);  
-						}
+				if (me.isControlDown()) {
+					modifier = CONTROL_MULTIPLIER;
+				} 
+				if (me.isShiftDown()) {
+					modifier = SHIFT_MULTIPLIER;
+				}     
+				if (me.isPrimaryButtonDown()) {
+					cameraXform.ry.setAngle(cameraXform.ry.getAngle() + mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED);  
+					System.out.println("ry: " + (cameraXform.ry.getAngle() + mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED));  
+					//to ensure that camera stays overground
+					double newX = cameraXform.rx.getAngle() - mouseDeltaY*MOUSE_SPEED*modifier*ROTATION_SPEED;
+                    if(-180 < newX && newX <= 0) {
+                    	cameraXform.rx.setAngle(newX);
+                    }  	
+                    System.out.println("rX: " + newX);
+                }
+				else if (me.isSecondaryButtonDown()) {
+					cameraXform2.t.setX(cameraXform2.t.getX() + mouseDeltaX*MOUSE_SPEED*modifier*TRACK_SPEED);  
+					cameraXform2.t.setY(cameraXform2.t.getY() + mouseDeltaY*MOUSE_SPEED*modifier*TRACK_SPEED);  
+				}
+			}
+		});
+		scene.addEventHandler(ScrollEvent.SCROLL, event -> {
+			double delta = event.getDeltaY();
+			camera.translateZProperty().set(camera.getTranslateZ() + delta);
+		});
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
+			switch (event.getCode()) {
+			case W:
+				cameraXform2.t.setZ(cameraXform2.t.getZ() + 10);
+				break;
+			case A:
+				cameraXform2.t.setX(cameraXform2.t.getX() + 10);
+				break;
+			case S:
+				cameraXform2.t.setZ(cameraXform2.t.getZ() - 10);
+				break;
+			case D:
+				cameraXform2.t.setX(cameraXform2.t.getX() - 10);
+				break;
+			//TODO add SHIFT -> Sprint and SPACE - Jump?
+			default: 
+				break;
+			
 			}
 		});
 	}
 
-	@SuppressWarnings("incomplete-switch")//TODO
+	
 	private void handleKeyboard(SubScene scene, final Node root) {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			
 			@Override
 			public void handle(KeyEvent event) {
 				switch (event.getCode()) {
@@ -180,10 +284,25 @@ public class OverviewMap3DController extends GameModuleController {
 					cameraXform.ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
 					cameraXform.rx.setAngle(CAMERA_INITIAL_X_ANGLE);
 					break;
-				case SHIFT:
-					
+				case X:
+					axisGroup.setVisible(!axisGroup.isVisible());
+					break;
+				case W:
+					cameraXform2.t.setZ(cameraXform2.t.getZ() + 10);
+					break;
+				case A:
+					cameraXform2.t.setX(cameraXform2.t.getX() + 10);
+				
+					break;
+				case S:
+					cameraXform2.t.setZ(cameraXform2.t.getZ() - 10);
+					break;
+				case D:
+					cameraXform2.t.setX(cameraXform2.t.getX() - 10);
+					break;
 				}
 			}
 		});
 	}
+
 }
