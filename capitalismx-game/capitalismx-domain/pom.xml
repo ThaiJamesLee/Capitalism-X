@@ -9,20 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>capitalismx-warehouse</artifactId>
+    <artifactId>capitalismx-domain</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
-            <artifactId>capitalismx-domain</artifactId>
+            <artifactId>capitalismx-utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.uni.mannheim</groupId>
-            <artifactId>capitalismx-production</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
-
-
 </project>

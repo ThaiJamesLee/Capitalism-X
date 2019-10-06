@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
-import de.uni.mannheim.capitalismx.finance.finance.Finance;
+import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
@@ -82,7 +82,7 @@ public class FinanceOverviewController extends GameModuleController {
         GameController controller = GameController.getInstance();
         financeEventListener = new FinanceEventListener();
 
-        Finance f = GameState.getInstance().getFinanceDepartment();
+        FinanceDepartment f = GameState.getInstance().getFinanceDepartment();
         f.addPropertyChangeListener(financeEventListener);
 
         cashLabel.setText(controller.getCash() + "");

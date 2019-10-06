@@ -1,18 +1,18 @@
 package de.uni.mannheim.capitalismx.warehouse;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.Production;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Warehousing implements Serializable {
+public class WarehousingDepartment extends DepartmentImpl {
 
-    private static Warehousing instance;
+    private static WarehousingDepartment instance;
     private List<Warehouse> warehouses;
     private Map<Product, Integer> inventory;
     private int totalCapacity;
@@ -24,7 +24,8 @@ public class Warehousing implements Serializable {
     private double monthlyTotalCostWarehousing;
     private int daysSinceFreeStorageThreshold;
 
-    private Warehousing() {
+    private WarehousingDepartment() {
+        super("Warehousing");
         this.warehouses = new ArrayList<>();
         this.inventory = new HashMap<>();
         this.totalCapacity = 0;
@@ -37,15 +38,15 @@ public class Warehousing implements Serializable {
         this.daysSinceFreeStorageThreshold = 0;
     }
 
-    public static synchronized Warehousing getInstance() {
-        if(Warehousing.instance == null) {
-            Warehousing.instance = new Warehousing();
+    public static synchronized WarehousingDepartment getInstance() {
+        if(WarehousingDepartment.instance == null) {
+            WarehousingDepartment.instance = new WarehousingDepartment();
         }
-        return Warehousing.instance;
+        return WarehousingDepartment.instance;
     }
 
     public void storeUnits() {
-        Map<Product, Integer> newUnits = Production.getInstance().getNumberProducedProducts();
+        Map<Product, Integer> newUnits = ProductionDepartment.getInstance().getNumberProducedProducts();
         for(HashMap.Entry<Product, Integer> entry : newUnits.entrySet()) {
             if(this.inventory.get(entry.getKey()) != null) {
                 int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
@@ -54,7 +55,7 @@ public class Warehousing implements Serializable {
                 this.inventory.put(entry.getKey(), entry.getValue());
             }
         }
-        Production.getInstance().clearInventory();
+        ProductionDepartment.getInstance().clearInventory();
     }
 
     public int calculateStoredUnits() {
@@ -250,7 +251,7 @@ public class Warehousing implements Serializable {
         return this.monthlyTotalCostWarehousing;
     }
 
-    public static void setInstance(Warehousing instance) {
-        Warehousing.instance = instance;
+    public static void setInstance(WarehousingDepartment instance) {
+        WarehousingDepartment.instance = instance;
     }
 }

@@ -1,7 +1,6 @@
-package de.uni.mannheim.capitalismx.hr.employee;
+package de.uni.mannheim.capitalismx.domain.employee;
 
-import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
-import de.uni.mannheim.capitalismx.hr.domain.Training;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;

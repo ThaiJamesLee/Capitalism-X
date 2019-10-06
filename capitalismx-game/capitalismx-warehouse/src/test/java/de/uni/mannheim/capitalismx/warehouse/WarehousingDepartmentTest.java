@@ -6,7 +6,7 @@ import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.production.Production;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -17,13 +17,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class WarehousingTest {
+public class WarehousingDepartmentTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Warehousing.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarehousingDepartment.class);
 
     @BeforeTest
     public void setUp() {
-        Warehousing.getInstance();
+        WarehousingDepartment.getInstance();
     }
 
     @Test
@@ -51,36 +51,36 @@ public class WarehousingTest {
         storage.calculateBaseCost(gameDate);
         components.add(storage);
 
-        Production.getInstance().buyMachinery(new Machinery(gameDate), gameDate);
+        ProductionDepartment.getInstance().buyMachinery(new Machinery(gameDate), gameDate);
         Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, components);
-        Production.getInstance().launchProduct(notebook, 10, 200);
-        Warehousing.getInstance().storeUnits();
+        ProductionDepartment.getInstance().launchProduct(notebook, 10, 200);
+        WarehousingDepartment.getInstance().storeUnits();
         int numberStoredUnits = 0;
-        HashMap<Product, Integer> inventory = new HashMap<>(Warehousing.getInstance().getInventory());
+        HashMap<Product, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
         for(HashMap.Entry<Product, Integer> entry : inventory.entrySet()) {
             numberStoredUnits += entry.getValue();
         }
         Assert.assertEquals(numberStoredUnits, 10);
-        Assert.assertEquals(Warehousing.getInstance().calculateStoredUnits(), 10);
+        Assert.assertEquals(WarehousingDepartment.getInstance().calculateStoredUnits(), 10);
     }
 
     @Test
     public void buildWarehouseTest() {
-        Warehousing.getInstance().buildWarehouse(LocalDate.of(1990,1,1));
-        Assert.assertEquals(Warehousing.getInstance().getWarehouses().size(), 1);
+        WarehousingDepartment.getInstance().buildWarehouse(LocalDate.of(1990,1,1));
+        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
     }
 
     @Test
     public void rentWarehouseTest() {
-        Warehousing.getInstance().rentWarehouse();
-        Assert.assertEquals(Warehousing.getInstance().getWarehouses().size(), 2);
+        WarehousingDepartment.getInstance().rentWarehouse();
+        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 2);
     }
 
     @Test
     public void sellProductTest() {
-        HashMap<Product, Integer> inventory = new HashMap<>(Warehousing.getInstance().getInventory());
-        Warehousing.getInstance().sellProducts(inventory);
-        inventory = new HashMap<>(Warehousing.getInstance().getInventory());
+        HashMap<Product, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
+        WarehousingDepartment.getInstance().sellProducts(inventory);
+        inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
         int numberStoredUnits = 0;
         for(HashMap.Entry<Product, Integer> entry : inventory.entrySet()) {
             numberStoredUnits += entry.getValue();
@@ -90,12 +90,12 @@ public class WarehousingTest {
 
     @Test
     public void sellWarehouseTest() {
-        ArrayList<Warehouse> warehouses = new ArrayList<>(Warehousing.getInstance().getWarehouses());
+        ArrayList<Warehouse> warehouses = new ArrayList<>(WarehousingDepartment.getInstance().getWarehouses());
         for(Warehouse w : warehouses) {
             if(w.getWarehouseType() == WarehouseType.BUILT) {
-                Warehousing.getInstance().sellWarehouse(w);
+                WarehousingDepartment.getInstance().sellWarehouse(w);
             }
         }
-        Assert.assertEquals(Warehousing.getInstance().getWarehouses().size(), 1);
+        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
     }
 }

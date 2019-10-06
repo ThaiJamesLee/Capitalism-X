@@ -1,19 +1,19 @@
 package de.uni.mannheim.capitalismx.production;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Production implements Serializable {
+public class ProductionDepartment extends DepartmentImpl {
 
-    private static Production instance;
+    private static ProductionDepartment instance;
     private Map<Product, Integer> numberProducedProducts;
     private List<Machinery> machines;
     private double productionTechnologyFactor;
@@ -36,7 +36,8 @@ public class Production implements Serializable {
     private List<ComponentType> allAvailableComponents;
     private List<Product> launchedProducts;
 
-    private Production() {
+    private ProductionDepartment() {
+        super("Production");
         this.numberUnitsProducedPerMonth = 0;
         this.monthlyAvailableMachineCapacity = 0;
         this.numberProducedProducts = new HashMap<>();
@@ -50,11 +51,11 @@ public class Production implements Serializable {
         this.launchedProducts = new ArrayList<>();
     }
 
-    public static synchronized Production getInstance() {
-        if(Production.instance == null) {
-            Production.instance = new Production();
+    public static synchronized ProductionDepartment getInstance() {
+        if(ProductionDepartment.instance == null) {
+            ProductionDepartment.instance = new ProductionDepartment();
         }
-        return Production.instance;
+        return ProductionDepartment.instance;
     }
 
     public List<ComponentType> getAllAvailableComponents(LocalDate gameDate) {
@@ -509,7 +510,7 @@ public class Production implements Serializable {
         return this.averageProductBaseQuality;
     }
 
-    public static void setInstance(Production instance) {
-        Production.instance = instance;
+    public static void setInstance(ProductionDepartment instance) {
+        ProductionDepartment.instance = instance;
     }
 }

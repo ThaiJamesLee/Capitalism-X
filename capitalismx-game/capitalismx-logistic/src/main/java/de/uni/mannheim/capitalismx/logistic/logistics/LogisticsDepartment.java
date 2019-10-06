@@ -1,16 +1,16 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
  * @author sdupper
  */
-public class Logistics implements Serializable {
-    private static Logistics instance;
+public class LogisticsDepartment extends DepartmentImpl {
+    private static LogisticsDepartment instance;
 
     //private InternalFleet internalFleet;
     private ExternalPartner externalPartner;
@@ -23,18 +23,19 @@ public class Logistics implements Serializable {
     //delivered products per day
     private int deliveredProducts;
 
-    private Logistics(){
+    private LogisticsDepartment(){
+        super("Logistics");
         //this.internalFleet = new InternalFleet();
         this.shippingFee = 15;
         this.deliveredProducts = 0;
         this.calculateAll();
     }
 
-    public static synchronized Logistics getInstance() {
-        if(Logistics.instance == null) {
-            Logistics.instance = new Logistics();
+    public static synchronized LogisticsDepartment getInstance() {
+        if(LogisticsDepartment.instance == null) {
+            LogisticsDepartment.instance = new LogisticsDepartment();
         }
-        return Logistics.instance;
+        return LogisticsDepartment.instance;
     }
 
     public void calculateAll(){
@@ -218,7 +219,7 @@ public class Logistics implements Serializable {
         InternalFleet.getInstance().decreaseCapacityFleetRel(amount);
     }
 
-    public static void setInstance(Logistics instance) {
-        Logistics.instance = instance;
+    public static void setInstance(LogisticsDepartment instance) {
+        LogisticsDepartment.instance = instance;
     }
 }

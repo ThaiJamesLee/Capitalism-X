@@ -3,11 +3,11 @@ package de.uni.mannheim.capitalismx.ui.controller.component;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
-import de.uni.mannheim.capitalismx.hr.domain.Training;
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.Training;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;

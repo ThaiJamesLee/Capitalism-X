@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.marketing.department;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.domain.Action;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
@@ -20,7 +21,7 @@ import java.util.*;
  * p. 54 - 63
  * @author duly
  */
-public class MarketingDepartment implements Serializable {
+public class MarketingDepartment extends DepartmentImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(MarketingDepartment.class);
 
@@ -44,6 +45,7 @@ public class MarketingDepartment implements Serializable {
     private static MarketingDepartment instance = null;
 
     private MarketingDepartment() {
+        super("Marketing");
         init();
     }
 

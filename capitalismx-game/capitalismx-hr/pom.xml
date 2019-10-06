@@ -17,6 +17,11 @@
             <artifactId>capitalismx-utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>de.uni.mannheim</groupId>
+            <artifactId>capitalismx-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.testng</groupId>
@@ -36,7 +41,6 @@
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>

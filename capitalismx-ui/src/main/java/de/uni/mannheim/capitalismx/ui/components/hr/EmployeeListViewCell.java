@@ -2,11 +2,11 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
 
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
-import de.uni.mannheim.capitalismx.hr.domain.Training;
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.Training;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;

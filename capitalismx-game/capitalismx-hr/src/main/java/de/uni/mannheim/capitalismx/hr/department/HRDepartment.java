@@ -1,26 +1,24 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.Team;
+import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
-import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.JobSatisfaction;
-import de.uni.mannheim.capitalismx.hr.domain.Training;
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
-import de.uni.mannheim.capitalismx.hr.employee.Team;
-import de.uni.mannheim.capitalismx.hr.employee.impl.Engineer;
-import de.uni.mannheim.capitalismx.hr.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.domain.employee.Training;
 import de.uni.mannheim.capitalismx.hr.training.EmployeeTraining;
 import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
 
@@ -28,7 +26,7 @@ import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
  * Based on the report on p.21 - 28
  * @author duly
  */
-public class HRDepartment implements Serializable {
+public class HRDepartment extends DepartmentImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
     
@@ -47,6 +45,7 @@ public class HRDepartment implements Serializable {
     private static HRDepartment instance = null;
 
     private HRDepartment () {
+        super("HR");
         this.benefitSettings = new BenefitSettings();
         this.teams = new EnumMap<>(EmployeeType.class);
 

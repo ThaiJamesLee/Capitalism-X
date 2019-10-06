@@ -18,7 +18,7 @@ import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.warehouse.Warehousing;
+import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -1140,7 +1140,7 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.tvOSsChoiceBox.getValue());
         this.tv = new Product(this.tvProductNameTextField.getText(), ProductCategory.TELEVISION, components);
         this.tv.setSalesPrice(Double.valueOf(this.tvSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.tv, 1, Warehousing.getInstance().getFreeStorage());
+        GameState.getInstance().getProductionDepartment().launchProduct(this.tv, 1, WarehousingDepartment.getInstance().getFreeStorage());
     }
 
     public void launchConsole() {
@@ -1152,7 +1152,7 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.consoleCamerasChoiceBox.getValue());
         this.console = new Product(this.consoleProductNameTextField.getText(), ProductCategory.GAME_BOY, components);
         this.console.setSalesPrice(Double.valueOf(this.consoleSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.console, 1, Warehousing.getInstance().getFreeStorage());
+        GameState.getInstance().getProductionDepartment().launchProduct(this.console, 1, WarehousingDepartment.getInstance().getFreeStorage());
     }
 
     public void launchNotebook() {
@@ -1164,7 +1164,7 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.notebookPowersuppliesChoiceBox.getValue());
         this.notebook = new Product(this.notebookProductNameTextField.getText(), ProductCategory.NOTEBOOK, components);
         this.notebook.setSalesPrice(Double.valueOf(this.notebookSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.notebook, 1, Warehousing.getInstance().getFreeStorage());
+        GameState.getInstance().getProductionDepartment().launchProduct(this.notebook, 1, WarehousingDepartment.getInstance().getFreeStorage());
     }
 
     public void launchPhone() {
@@ -1177,7 +1177,7 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.phoneKeypadsChoiceBox.getValue());
         this.phone = new Product(this.phoneProductNameTextField.getText(), ProductCategory.PHONE, components);
         this.phone.setSalesPrice(Double.valueOf(this.phoneSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.phone, 1, Warehousing.getInstance().getFreeStorage());
+        GameState.getInstance().getProductionDepartment().launchProduct(this.phone, 1, WarehousingDepartment.getInstance().getFreeStorage());
     }
 
     public void showSupplierOptions() {

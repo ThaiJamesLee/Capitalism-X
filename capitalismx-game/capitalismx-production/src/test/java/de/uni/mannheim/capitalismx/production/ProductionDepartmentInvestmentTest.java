@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 
-public class ProductionInvestmentTest {
+public class ProductionDepartmentInvestmentTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductionInvestment.class);
 
     private ProductionInvestment productionInvestment;

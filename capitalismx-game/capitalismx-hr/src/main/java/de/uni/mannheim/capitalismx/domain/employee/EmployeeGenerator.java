@@ -1,12 +1,10 @@
-package de.uni.mannheim.capitalismx.hr.employee;
+package de.uni.mannheim.capitalismx.domain.employee;
 
-import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
-import de.uni.mannheim.capitalismx.hr.employee.impl.Engineer;
-import de.uni.mannheim.capitalismx.hr.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
 import de.uni.mannheim.capitalismx.hr.salary.SalaryGenerator;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
-import de.uni.mannheim.capitalismx.utils.namegenerator.NameGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

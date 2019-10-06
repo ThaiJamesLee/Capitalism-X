@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.hr.domain;
+package de.uni.mannheim.capitalismx.domain.employee;
 
 /**
  * @author duly

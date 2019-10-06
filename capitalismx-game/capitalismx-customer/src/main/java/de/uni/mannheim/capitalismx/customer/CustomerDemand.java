@@ -1,7 +1,7 @@
 package de.uni.mannheim.capitalismx.customer;
 
 import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.warehouse.Warehousing;
+import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -105,7 +105,7 @@ public class CustomerDemand implements Serializable {
         Map<Product, Integer> salesFigures = new HashMap<>();
         Map<Product, Double> periodicDemandAmount = calculatePeriodicDemandAmount(totalSalesQualityOfWork, gameDate);
         for(Map.Entry<Product, Double> entry : periodicDemandAmount.entrySet()) {
-            int storedUnits = Warehousing.getInstance().getInventory().get(entry.getKey());
+            int storedUnits = WarehousingDepartment.getInstance().getInventory().get(entry.getKey());
             if(entry.getValue() > storedUnits) {
                 salesFigures.put(entry.getKey(), storedUnits);
             } else {

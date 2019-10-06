@@ -3,7 +3,7 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 import java.io.IOException;
 import java.util.Properties;
 
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;

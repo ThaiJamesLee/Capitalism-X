@@ -4,14 +4,13 @@ import de.uni.mannheim.capitalismx.customer.CustomerDemand;
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
 import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.external_events.ExternalEvents;
-import de.uni.mannheim.capitalismx.finance.finance.Finance;
+import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
-import de.uni.mannheim.capitalismx.logistic.logistics.Logistics;
+import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.Production;
-import de.uni.mannheim.capitalismx.warehouse.Warehousing;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -27,11 +26,11 @@ public class GameState implements Serializable {
 
     // Departments
     private HRDepartment hrDepartment;
-    private Production productionDepartment;
-    private Warehousing warehousingDepartment;
-    private Finance financeDepartment;
+    private ProductionDepartment productionDepartment;
+    private WarehousingDepartment warehousingDepartment;
+    private FinanceDepartment financeDepartment;
     private MarketingDepartment marketingDepartment;
-    private Logistics logisticsDepartment;
+    private LogisticsDepartment logisticsDepartment;
     private CustomerSatisfaction customerSatisfaction;
     private CustomerDemand customerDemand;
     private ExternalEvents externalEvents;
@@ -52,11 +51,11 @@ public class GameState implements Serializable {
 
     public void initiate() {
         hrDepartment = HRDepartment.getInstance();
-        productionDepartment = Production.getInstance();
-        warehousingDepartment = Warehousing.getInstance();
-        financeDepartment = Finance.getInstance();
+        productionDepartment = ProductionDepartment.getInstance();
+        warehousingDepartment = WarehousingDepartment.getInstance();
+        financeDepartment = FinanceDepartment.getInstance();
         marketingDepartment = MarketingDepartment.getInstance();
-        logisticsDepartment = Logistics.getInstance();
+        logisticsDepartment = LogisticsDepartment.getInstance();
         customerSatisfaction = CustomerSatisfaction.getInstance();
         customerDemand = CustomerDemand.getInstance();
         // TODO procurement once a procurement department is implemented where it is possible to buy components
@@ -120,27 +119,27 @@ public class GameState implements Serializable {
         this.hrDepartment = hrDepartment;
     }
 
-    public Production getProductionDepartment() {
+    public ProductionDepartment getProductionDepartment() {
         return productionDepartment;
     }
 
-    public void setProductionDepartment(Production productionDepartment) {
+    public void setProductionDepartment(ProductionDepartment productionDepartment) {
         this.productionDepartment = productionDepartment;
     }
 
-    public Warehousing getWarehousingDepartment() {
+    public WarehousingDepartment getWarehousingDepartment() {
         return warehousingDepartment;
     }
 
-    public void setWarehousingDepartment(Warehousing warehousingDepartment) {
+    public void setWarehousingDepartment(WarehousingDepartment warehousingDepartment) {
         this.warehousingDepartment = warehousingDepartment;
     }
 
-    public Finance getFinanceDepartment() {
+    public FinanceDepartment getFinanceDepartment() {
         return financeDepartment;
     }
 
-    public void setFinanceDepartment(Finance financeDepartment) {
+    public void setFinanceDepartment(FinanceDepartment financeDepartment) {
         this.financeDepartment = financeDepartment;
     }
 
@@ -152,11 +151,11 @@ public class GameState implements Serializable {
         this.marketingDepartment = marketingDepartment;
     }
 
-    public Logistics getLogisticsDepartment() {
+    public LogisticsDepartment getLogisticsDepartment() {
         return logisticsDepartment;
     }
 
-    public void setLogisticsDepartment(Logistics logisticsDepartment) {
+    public void setLogisticsDepartment(LogisticsDepartment logisticsDepartment) {
         this.logisticsDepartment = logisticsDepartment;
     }
 
