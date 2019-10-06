@@ -231,13 +231,13 @@ public class OverviewMap3DController extends GameModuleController {
 				}     
 				if (me.isPrimaryButtonDown()) {
 					cameraXform.ry.setAngle(cameraXform.ry.getAngle() + mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED);  
-					System.out.println("ry: " + (cameraXform.ry.getAngle() + mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED));  
+					//System.out.println("ry: " + (cameraXform.ry.getAngle() + mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED));  
 					//to ensure that camera stays overground
 					double newX = cameraXform.rx.getAngle() - mouseDeltaY*MOUSE_SPEED*modifier*ROTATION_SPEED;
                     if(-180 < newX && newX <= 0) {
                     	cameraXform.rx.setAngle(newX);
                     }  	
-                    System.out.println("rX: " + newX);
+                   // System.out.println("rX: " + newX);
                 }
 				else if (me.isSecondaryButtonDown()) {
 					cameraXform2.t.setX(cameraXform2.t.getX() + mouseDeltaX*MOUSE_SPEED*modifier*TRACK_SPEED);  
