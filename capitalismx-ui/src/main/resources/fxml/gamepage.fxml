@@ -13,9 +13,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="parentStackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GamePageController">
+<StackPane fx:id="parentStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GamePageController">
    <children>
       <BorderPane>
          <center>
@@ -103,32 +102,38 @@
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <HBox spacing="30.0">
+                              <HBox spacing="20.0">
                                  <children>
-                                    <VBox styleClass="date_label">
+                                    <Button fx:id="btnMessages1" mnemonicParsing="false" styleClass="date_label">
+                                       <graphic>
+                                          <ImageView fx:id="iconMessages1" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../icons/settings-3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="2.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <AnchorPane styleClass="hud_box">
                                        <children>
-                                          <Label styleClass="date_label" text="NetWorth:" />
-                                          <Label styleClass="date_label" text="2000$" />
+                                          <Label styleClass="hud_label" text="Net Worth" AnchorPane.topAnchor="1.0" />
+                                          <Label layoutY="17.0" styleClass="hud_label" text="1,000,000.00$" AnchorPane.bottomAnchor="5.0" />
                                        </children>
-                                    </VBox>
-                                    <VBox styleClass="date_label">
+                                    </AnchorPane>
+                                    <AnchorPane styleClass="hud_box">
                                        <children>
-                                          <Label styleClass="date_label" text="Cashflow:" />
-                                          <Label styleClass="date_label" text="2000$" />
+                                          <Label styleClass="hud_label" text="Cashflow" AnchorPane.topAnchor="1.0" />
+                                          <Label layoutY="17.0" styleClass="hud_label" text="0.00$" AnchorPane.bottomAnchor="5.0" />
                                        </children>
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                    </VBox>
-                                    <VBox styleClass="date_label">
+                                    </AnchorPane>
+                                    <AnchorPane styleClass="hud_box">
                                        <children>
-                                          <Label styleClass="date_label" text="Bank Deposit:" />
-                                          <Label styleClass="date_label" text="2000$" />
+                                          <Label styleClass="hud_label" text="Bank Deposit" AnchorPane.topAnchor="1.0" />
+                                          <Label layoutY="17.0" styleClass="hud_label" text="1,000,000.00$" AnchorPane.bottomAnchor="5.0" />
                                        </children>
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                    </VBox>
+                                    </AnchorPane>
                                  </children>
                                  <padding>
                                     <Insets top="10.0" />

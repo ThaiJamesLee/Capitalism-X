@@ -6,10 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
-import de.uni.mannheim.capitalismx.gamelogic.GameThread;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -187,6 +184,6 @@ public class SideMenuController implements Initializable {
 	}
 
 	private void switchView(GameViewType viewType) {
-		Main.getManager().getGamePageController().switchView(viewType);
+		UIManager.getInstance().getGamePageController().switchView(viewType);
 	}
 }

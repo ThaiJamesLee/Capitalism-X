@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceStatisticsChartsController">
+    <children>
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+              <BarChart fx:id="salesChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" verticalGridLinesVisible="false">
+                  <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                  </xAxis>
+                  <yAxis>
+                      <NumberAxis autoRanging="false" label="Sales" minorTickCount="20" minorTickLength="20.0" minorTickVisible="false" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickMarkVisible="false" tickUnit="20.0" />
+                  </yAxis>
+              </BarChart>
+            <BarChart fx:id="salariesChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" verticalGridLinesVisible="false">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="false" label="Salaries" minorTickCount="20" minorTickLength="20.0" minorTickVisible="false" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickMarkVisible="false" tickUnit="20.0" />
+               </yAxis>
+            </BarChart>
+            <BarChart fx:id="loansChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutX="10.0" layoutY="410.0" verticalGridLinesVisible="false">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="false" label="Loans" minorTickCount="20" minorTickLength="20.0" minorTickVisible="false" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickMarkVisible="false" tickUnit="20.0" />
+               </yAxis>
+            </BarChart>
+         </children>
+      </VBox>
+    </children>
+    <stylesheets>
+        <URL value="@../../css/general.css" />
+        <URL value="@../../css/modul.css" />
+    </stylesheets>
+</AnchorPane>

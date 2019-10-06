@@ -7,3 +7,15 @@
 	-fx-background-color: -fx-transparent-background;
 	-fx-padding: 66;
 }
+
+.hud_box {
+	-fx-background-color: -fx-dark;
+	-fx-pref-width: 120px;
+}
+
+.hud_label {
+	-fx-text-fill: white;
+	-fx-font-weight: bolder;
+	-fx-font-size: 15px;
+	-fx-text-alignment: center;
+}

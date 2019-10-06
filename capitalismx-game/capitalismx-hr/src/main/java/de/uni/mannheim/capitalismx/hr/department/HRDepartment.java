@@ -1,25 +1,24 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.Team;
+import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
-import de.uni.mannheim.capitalismx.hr.domain.EmployeeType;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.JobSatisfaction;
-import de.uni.mannheim.capitalismx.hr.domain.Training;
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
-import de.uni.mannheim.capitalismx.hr.employee.Team;
-import de.uni.mannheim.capitalismx.hr.employee.impl.Engineer;
-import de.uni.mannheim.capitalismx.hr.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.domain.employee.Training;
 import de.uni.mannheim.capitalismx.hr.training.EmployeeTraining;
 import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
 
@@ -27,7 +26,7 @@ import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
  * Based on the report on p.21 - 28
  * @author duly
  */
-public class HRDepartment implements Serializable {
+public class HRDepartment extends DepartmentImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
     
@@ -35,34 +34,18 @@ public class HRDepartment implements Serializable {
     private static final int BASE_COST = 5000;
 
     private BenefitSettings benefitSettings;
-    
-    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     private Map<EmployeeType, Team> teams;
 
     // hired and fired employees.
-    private List<Employee> hired;
-    private List<Employee> fired;
+
+    private PropertyChangeSupportList<Employee> hired;
+    private PropertyChangeSupportList<Employee> fired;
 
     private static HRDepartment instance = null;
-    
-    /**
-     * Add a change listener that notifies, if a property has changed.
-     * @param listener A property change listener.
-     */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.propertyChangeSupport.addPropertyChangeListener(listener);
-    }
-
-    /**
-     * Remove a change listener.
-     * @param listener The property listener that needs to be removed.
-     */
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.propertyChangeSupport.removePropertyChangeListener(listener);
-    }
 
     private HRDepartment () {
+        super("HR");
         this.benefitSettings = new BenefitSettings();
         this.teams = new EnumMap<>(EmployeeType.class);
 
@@ -70,8 +53,15 @@ public class HRDepartment implements Serializable {
     }
 
     private void init() {
-        hired = new ArrayList<>();
-        fired = new ArrayList<>();
+
+        hired = new PropertyChangeSupportList<>();
+        hired.setAddPropertyName("hireEmployee");
+        hired.setRemovePropertyName("fireEmployee");
+
+        fired = new PropertyChangeSupportList<>();
+        fired.setAddPropertyName("addFiredList");
+        fired.setRemovePropertyName("removeFiredList");
+
         teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER));
         teams.put(EmployeeType.SALESPERSON, new Team(EmployeeType.SALESPERSON));
     }
@@ -199,7 +189,7 @@ public class HRDepartment implements Serializable {
      *
      * @return Returns list of hired employees.
      */
-    public List<Employee> getHired() {
+    public PropertyChangeSupportList<Employee> getHired() {
         return hired;
     }
 
@@ -207,7 +197,7 @@ public class HRDepartment implements Serializable {
      *
      * @return Returns list of fired employees.
      */
-    public List<Employee> getFired() {
+    public PropertyChangeSupportList<Employee> getFired() {
         return fired;
     }
 
@@ -221,15 +211,12 @@ public class HRDepartment implements Serializable {
             throw new NullPointerException("Employee must be specified!");
         }
         if(employee instanceof Engineer) {
-        	Team oldEngineers = getEngineerTeam();
             teams.get(EmployeeType.ENGINEER).addEmployee(employee);
-            propertyChangeSupport.firePropertyChange("engineerChange", oldEngineers, getEngineerTeam());
         } else if (employee instanceof SalesPerson) {
-        	Team oldSalesTeam = getSalesTeam();
             teams.get(EmployeeType.SALESPERSON).addEmployee(employee);
-            propertyChangeSupport.firePropertyChange("salesPersonChange", oldSalesTeam, getSalesTeam());
         }
         hired.add(employee);
+        //departmentBean.setHired(hired);
         //TODO hiring cost should also be dependent on the skill level
         return getHiringCost();
     }
@@ -244,14 +231,10 @@ public class HRDepartment implements Serializable {
             throw new NullPointerException("Employee must be specified!");
         }
         if(employee instanceof Engineer) {
-        	Team oldEngineers = getEngineerTeam();
             teams.get(EmployeeType.ENGINEER).removeEmployee(employee);
-            propertyChangeSupport.firePropertyChange("engineerChange", oldEngineers, getEngineerTeam());
 
         } else if (employee instanceof SalesPerson) {
-        	Team oldSalesTeam = getSalesTeam();
             teams.get(EmployeeType.SALESPERSON).removeEmployee(employee);
-            propertyChangeSupport.firePropertyChange("salesPersonChange", oldSalesTeam, getSalesTeam());
         }
         //TODO firing cost should be also dependent on skill level
         fired.add(employee);

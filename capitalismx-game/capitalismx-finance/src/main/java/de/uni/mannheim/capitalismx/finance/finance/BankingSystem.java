@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
 /**
@@ -26,9 +28,9 @@ public class BankingSystem implements Serializable {
         private double loanAmount;
 
         protected Loan(double interestRate, double duration, double loanAmount){
-            this.interestRate = interestRate;
+            this.interestRate = DecimalRound.round(interestRate, 4);
             this.duration = duration;
-            this.loanAmount = loanAmount;
+            this.loanAmount = DecimalRound.round(loanAmount, 2);
         }
 
         public double getInterestRate() {

@@ -1,0 +1,29 @@
+.header_anchor{
+	-fx-background-color: -fx-dark;
+}
+
+.notificationBackground {
+	-fx-background-color: -fx-light;	
+}
+
+.senderLabel {
+	-fx-text-fill: -fx-dark;
+	-fx-font-size: 16px;
+    -fx-font-family: 'Prime';
+    -fx-font-wight: bold;
+}
+
+.senderPane {
+	-fx-border-width: 0 1 0 0;
+	-fx-border-color: -fx-dark;
+	-fx-padding: 0 20 0 0;
+}
+
+.messageLabel {
+	-fx-text-fill: -fx-dark;
+    -fx-font-family: 'Prime Light';
+}
+
+.messageTabBackground {
+	-fx-background-color: -fx-light-neutral;
+}

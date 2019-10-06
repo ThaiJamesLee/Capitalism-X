@@ -3,10 +3,12 @@ package de.uni.mannheim.capitalismx.ui.controller.module.hr;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeGenerator;
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
-import de.uni.mannheim.capitalismx.hr.employee.EmployeeGenerator;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.components.hr.RecruitingListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
@@ -28,7 +30,10 @@ public class RecruitingListController extends GameModuleController {
 
 	private ObservableList<Employee> employeeListObservable;
 
+	private HREventListener hrEventListener;
+
 	public RecruitingListController() {
+		hrEventListener = new HREventListener();
 		employeeListObservable = FXCollections.observableArrayList();
 		EmployeeGenerator generator = EmployeeGenerator.getInstance();
 		for (int i = 0; i < 15; i++) {
@@ -44,8 +49,7 @@ public class RecruitingListController extends GameModuleController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//TODO auslagern in UIManager, nur einmal initialisieren
-		HRDepartment.getInstance().addPropertyChangeListener(new HREventListener());
+		GameState.getInstance().getHrDepartment().getHired().addPropertyChangeListener(hrEventListener);
 		recruitingList.setItems(employeeListObservable);
 		recruitingList.setCellFactory(employeeListView -> new RecruitingListViewCell());
 		recruitingList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -54,7 +58,8 @@ public class RecruitingListController extends GameModuleController {
 	@FXML
 	private void hireEmployee() {
 		Employee employeeToHire = recruitingList.getSelectionModel().getSelectedItem();
-		HRDepartment.getInstance().hire(employeeToHire);
+		if(employeeToHire == null) return;
+		GameState.getInstance().getHrDepartment().hire(employeeToHire);
 		employeeListObservable.remove(employeeToHire);
 		recruitingList.getSelectionModel().clearSelection();
 	}

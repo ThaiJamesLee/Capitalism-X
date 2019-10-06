@@ -1,262 +1,376 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.production;
 
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
+import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-
-import javax.swing.*;
-import java.net.URL;
-import java.util.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.util.StringConverter;
 
 public class IntroduceProductController extends GameModuleController {
 
+    /****** Product Name Text Fields ******/
+    @FXML
+    private TextField tvProductNameTextField, consoleProductNameTextField, notebookProductNameTextField, phoneProductNameTextField;
+
+    /****** Product Sales Price Text Fields ******/
+    @FXML
+    private TextField tvSalesPriceTextField, consoleSalesPriceTextField, notebookSalesPriceTextField, phoneSalesPriceTextField;
+
+    /****** Supplier Options ******/
+    @FXML
+    private ChoiceBox<Component> tvScreensChoiceBox;
+    @FXML
+    private ChoiceBox<Component> tvAudiosChoiceBox;
+    @FXML
+    private ChoiceBox<Component> tvOSsChoiceBox;
+    @FXML
+    private ChoiceBox<Component> tvCasesChoiceBox;
+    @FXML
+    private ChoiceBox<Component> consoleCPUsChoiceBox;
+    @FXML
+    private ChoiceBox<Component> consoleScreensChoiceBox;
+    @FXML
+    private ChoiceBox<Component> consolePowersuppliesChoiceBox;
+    @FXML
+    private ChoiceBox<Component> consoleConnectivitiesChoiceBox;
+    @FXML
+    private ChoiceBox<Component> consoleCamerasChoiceBox;
+    @FXML
+    private ChoiceBox<Component> notebookCPUsChoiceBox;
+    @FXML
+    private ChoiceBox<Component> notebookStoragesChoiceBox;
+    @FXML
+    private ChoiceBox<Component> notebookScreensChoiceBox;
+    @FXML
+    private ChoiceBox<Component> notebookSoftwaresChoiceBox;
+    @FXML
+    private ChoiceBox<Component> notebookPowersuppliesChoiceBox;
+    @FXML
+    private ChoiceBox<Component> phoneCPUsChoiceBox;
+    @FXML
+    private ChoiceBox<Component> phoneScreensChoiceBox;
+    @FXML
+    private ChoiceBox<Component> phoneCamerasChoiceBox;
+    @FXML
+    private ChoiceBox<Component> phoneConnectivitiesChoiceBox;
+    @FXML
+    private ChoiceBox<Component> phonePowersuppliesChoiceBox;
+    @FXML
+    private ChoiceBox<Component> phoneKeypadsChoiceBox;
+
     /****** TV Components ******/
     @FXML
-    private Label tvScreenLabel0;
+    private ToggleButton tvScreenToggleButton0;
     @FXML
-    private Label tvScreenLabel1;
+    private ToggleButton tvScreenToggleButton1;
     @FXML
-    private Label tvScreenLabel2;
+    private ToggleButton tvScreenToggleButton2;
     @FXML
-    private Label tvScreenLabel3;
+    private ToggleButton tvScreenToggleButton3;
     @FXML
-    private Label tvScreenLabel4;
+    private ToggleButton tvScreenToggleButton4;
     @FXML
-    private Label tvScreenLabel5;
+    private ToggleButton tvScreenToggleButton5;
     @FXML
-    private Label tvScreenLabel6;
+    private ToggleButton tvScreenToggleButton6;
 
     @FXML
-    private Label tvAudioLabel0;
+    private ToggleButton tvAudioToggleButton0;
     @FXML
-    private Label tvAudioLabel1;
+    private ToggleButton tvAudioToggleButton1;
     @FXML
-    private Label tvAudioLabel2;
+    private ToggleButton tvAudioToggleButton2;
     @FXML
-    private Label tvAudioLabel3;
+    private ToggleButton tvAudioToggleButton3;
     @FXML
-    private Label tvAudioLabel4;
+    private ToggleButton tvAudioToggleButton4;
     @FXML
-    private Label tvAudioLabel5;
+    private ToggleButton tvAudioToggleButton5;
     @FXML
-    private Label tvAudioLabel6;
+    private ToggleButton tvAudioToggleButton6;
 
     @FXML
-    private Label tvOSLabel0;
+    private ToggleButton tvOSToggleButton0;
     @FXML
-    private Label tvOSLabel1;
+    private ToggleButton tvOSToggleButton1;
     @FXML
-    private Label tvOSLabel2;
+    private ToggleButton tvOSToggleButton2;
     @FXML
-    private Label tvOSLabel3;
+    private ToggleButton tvOSToggleButton3;
     @FXML
-    private Label tvOSLabel4;
+    private ToggleButton tvOSToggleButton4;
     @FXML
-    private Label tvOSLabel5;
+    private ToggleButton tvOSToggleButton5;
     @FXML
-    private Label tvOSLabel6;
+    private ToggleButton tvOSToggleButton6;
 
     @FXML
-    private Label tvCaseLabel0;
+    private ToggleButton tvCaseToggleButton0;
     @FXML
-    private Label tvCaseLabel1;
+    private ToggleButton tvCaseToggleButton1;
     @FXML
-    private Label tvCaseLabel2;
+    private ToggleButton tvCaseToggleButton2;
     @FXML
-    private Label tvCaseLabel3;
+    private ToggleButton tvCaseToggleButton3;
 
     /****** Console Components ******/
     @FXML
-    private Label consoleCPULabel0;
+    private ToggleButton consoleCPUToggleButton0;
     @FXML
-    private Label consoleCPULabel1;
+    private ToggleButton consoleCPUToggleButton1;
     @FXML
-    private Label consoleCPULabel2;
+    private ToggleButton consoleCPUToggleButton2;
     @FXML
-    private Label consoleCPULabel3;
+    private ToggleButton consoleCPUToggleButton3;
     @FXML
-    private Label consoleCPULabel4;
+    private ToggleButton consoleCPUToggleButton4;
     @FXML
-    private Label consoleCPULabel5;
+    private ToggleButton consoleCPUToggleButton5;
     @FXML
-    private Label consoleCPULabel6;
+    private ToggleButton consoleCPUToggleButton6;
 
     @FXML
-    private Label consoleScreenLabel0;
+    private ToggleButton consoleScreenToggleButton0;
     @FXML
-    private Label consoleScreenLabel1;
+    private ToggleButton consoleScreenToggleButton1;
     @FXML
-    private Label consoleScreenLabel2;
+    private ToggleButton consoleScreenToggleButton2;
     @FXML
-    private Label consoleScreenLabel3;
+    private ToggleButton consoleScreenToggleButton3;
 
     @FXML
-    private Label consolePowersupplyLabel0;
+    private ToggleButton consolePowersupplyToggleButton0;
     @FXML
-    private Label consolePowersupplyLabel1;
+    private ToggleButton consolePowersupplyToggleButton1;
     @FXML
-    private Label consolePowersupplyLabel2;
+    private ToggleButton consolePowersupplyToggleButton2;
     @FXML
-    private Label consolePowersupplyLabel3;
+    private ToggleButton consolePowersupplyToggleButton3;
     @FXML
-    private Label consolePowersupplyLabel4;
+    private ToggleButton consolePowersupplyToggleButton4;
     @FXML
-    private Label consolePowersupplyLabel5;
+    private ToggleButton consolePowersupplyToggleButton5;
 
     @FXML
-    private Label consoleConnectivityLabel0;
+    private ToggleButton consoleConnectivityToggleButton0;
     @FXML
-    private Label consoleConnectivityLabel1;
+    private ToggleButton consoleConnectivityToggleButton1;
     @FXML
-    private Label consoleConnectivityLabel2;
+    private ToggleButton consoleConnectivityToggleButton2;
 
     @FXML
-    private Label consoleCameraLabel0;
+    private ToggleButton consoleCameraToggleButton0;
     @FXML
-    private Label consoleCameraLabel1;
+    private ToggleButton consoleCameraToggleButton1;
 
     /****** Notebook Components ******/
     @FXML
-    private Label notebookCPULabel0;
+    private ToggleButton notebookCPUToggleButton0;
     @FXML
-    private Label notebookCPULabel1;
+    private ToggleButton notebookCPUToggleButton1;
     @FXML
-    private Label notebookCPULabel2;
+    private ToggleButton notebookCPUToggleButton2;
     @FXML
-    private Label notebookCPULabel3;
+    private ToggleButton notebookCPUToggleButton3;
     @FXML
-    private Label notebookCPULabel4;
+    private ToggleButton notebookCPUToggleButton4;
     @FXML
-    private Label notebookCPULabel5;
+    private ToggleButton notebookCPUToggleButton5;
     @FXML
-    private Label notebookCPULabel6;
+    private ToggleButton notebookCPUToggleButton6;
     @FXML
-    private Label notebookCPULabel7;
+    private ToggleButton notebookCPUToggleButton7;
 
     @FXML
-    private Label notebookStorageLabel0;
+    private ToggleButton notebookStorageToggleButton0;
     @FXML
-    private Label notebookStorageLabel1;
+    private ToggleButton notebookStorageToggleButton1;
     @FXML
-    private Label notebookStorageLabel2;
+    private ToggleButton notebookStorageToggleButton2;
     @FXML
-    private Label notebookStorageLabel3;
+    private ToggleButton notebookStorageToggleButton3;
     @FXML
-    private Label notebookStorageLabel4;
+    private ToggleButton notebookStorageToggleButton4;
     @FXML
-    private Label notebookStorageLabel5;
+    private ToggleButton notebookStorageToggleButton5;
     @FXML
-    private Label notebookStorageLabel6;
+    private ToggleButton notebookStorageToggleButton6;
     @FXML
-    private Label notebookStorageLabel7;
+    private ToggleButton notebookStorageToggleButton7;
 
     @FXML
-    private Label notebookScreenLabel0;
+    private ToggleButton notebookScreenToggleButton0;
     @FXML
-    private Label notebookScreenLabel1;
+    private ToggleButton notebookScreenToggleButton1;
     @FXML
-    private Label notebookScreenLabel2;
+    private ToggleButton notebookScreenToggleButton2;
     @FXML
-    private Label notebookScreenLabel3;
+    private ToggleButton notebookScreenToggleButton3;
     @FXML
-    private Label notebookScreenLabel4;
+    private ToggleButton notebookScreenToggleButton4;
 
     @FXML
-    private Label notebookSoftwareLabel0;
+    private ToggleButton notebookSoftwareToggleButton0;
     @FXML
-    private Label notebookSoftwareLabel1;
+    private ToggleButton notebookSoftwareToggleButton1;
     @FXML
-    private Label notebookSoftwareLabel2;
+    private ToggleButton notebookSoftwareToggleButton2;
     @FXML
-    private Label notebookSoftwareLabel3;
+    private ToggleButton notebookSoftwareToggleButton3;
     @FXML
-    private Label notebookSoftwareLabel4;
+    private ToggleButton notebookSoftwareToggleButton4;
     @FXML
-    private Label notebookSoftwareLabel5;
+    private ToggleButton notebookSoftwareToggleButton5;
 
     @FXML
-    private Label notebookPowersupplyLabel0;
+    private ToggleButton notebookPowersupplyToggleButton0;
 
     /****** Phone Components ******/
     @FXML
-    private Label phoneCPULabel0;
+    private ToggleButton phoneCPUToggleButton0;
     @FXML
-    private Label phoneCPULabel1;
+    private ToggleButton phoneCPUToggleButton1;
     @FXML
-    private Label phoneCPULabel2;
+    private ToggleButton phoneCPUToggleButton2;
     @FXML
-    private Label phoneCPULabel3;
+    private ToggleButton phoneCPUToggleButton3;
     @FXML
-    private Label phoneCPULabel4;
+    private ToggleButton phoneCPUToggleButton4;
     @FXML
-    private Label phoneCPULabel5;
+    private ToggleButton phoneCPUToggleButton5;
 
     @FXML
-    private Label phoneScreenLabel0;
+    private ToggleButton phoneScreenToggleButton0;
     @FXML
-    private Label phoneScreenLabel1;
+    private ToggleButton phoneScreenToggleButton1;
     @FXML
-    private Label phoneScreenLabel2;
+    private ToggleButton phoneScreenToggleButton2;
     @FXML
-    private Label phoneScreenLabel3;
+    private ToggleButton phoneScreenToggleButton3;
     @FXML
-    private Label phoneScreenLabel4;
+    private ToggleButton phoneScreenToggleButton4;
     @FXML
-    private Label phoneScreenLabel5;
+    private ToggleButton phoneScreenToggleButton5;
 
     @FXML
-    private Label phoneCameraLabel0;
+    private ToggleButton phoneCameraToggleButton0;
     @FXML
-    private Label phoneCameraLabel1;
+    private ToggleButton phoneCameraToggleButton1;
     @FXML
-    private Label phoneCameraLabel2;
+    private ToggleButton phoneCameraToggleButton2;
     @FXML
-    private Label phoneCameraLabel3;
+    private ToggleButton phoneCameraToggleButton3;
     @FXML
-    private Label phoneCameraLabel4;
+    private ToggleButton phoneCameraToggleButton4;
 
     @FXML
-    private Label phoneConnectivyLabel0;
+    private ToggleButton phoneConnectivyToggleButton0;
     @FXML
-    private Label phoneConnectivyLabel1;
+    private ToggleButton phoneConnectivyToggleButton1;
     @FXML
-    private Label phoneConnectivyLabel2;
+    private ToggleButton phoneConnectivyToggleButton2;
 
     @FXML
-    private Label phonePowersupplyLabel0;
+    private ToggleButton phonePowersupplyToggleButton0;
     @FXML
-    private Label phonePowersupplyLabel1;
+    private ToggleButton phonePowersupplyToggleButton1;
     @FXML
-    private Label phonePowersupplyLabel2;
+    private ToggleButton phonePowersupplyToggleButton2;
 
     @FXML
-    private Label phoneKeypadLabel0;
+    private ToggleButton phoneKeypadToggleButton0;
     @FXML
-    private Label phoneKeypadLabel1;
+    private ToggleButton phoneKeypadToggleButton1;
 
-    private Map<Label, Component> tvScreens;
-    private Map<Label, Component> tvAudios;
-    private Map<Label, Component> tvOSs;
-    private Map<Label, Component> tvCases;
-    private Map<Label, Component> consoleCPUs;
-    private Map<Label, Component> consoleScreens;
-    private Map<Label, Component> consolePowersupplies;
-    private Map<Label, Component> consoleConnectivities;
-    private Map<Label, Component> consoleCameras;
-    private Map<Label, Component> notebookCPUs;
-    private Map<Label, Component> notebeookStorages;
-    private Map<Label, Component> notebookScreens;
-    private Map<Label, Component> notebookSoftwares;
-    private Map<Label, Component> notebookPowersupplies;
-    private Map<Label, Component> phoneCPUs;
-    private Map<Label, Component> phoneScreens;
-    private Map<Label, Component> phoneCameras;
-    private Map<Label, Component> phoneConnectivities;
-    private Map<Label, Component> phonePowersupplies;
-    private Map<Label, Component> phoneKeypads;
+    private Product tv;
+    private Product console;
+    private Product notebook;
+    private Product phone;
+
+    private ObservableList<Component> tvScreenList;
+    private ObservableList<Component> tvAudioList;
+    private ObservableList<Component> tvOSList;
+    private ObservableList<Component> tvCaseList;
+    private ObservableList<Component> consoleCPUList;
+    private ObservableList<Component> consoleScreenList;
+    private ObservableList<Component> consolePowersupplyList;
+    private ObservableList<Component> consoleConnectivityList;
+    private ObservableList<Component> consoleCameraList;
+    private ObservableList<Component> notebookCPUList;
+    private ObservableList<Component> notebookStorageList;
+    private ObservableList<Component> notebookScreenList;
+    private ObservableList<Component> notebookSoftwareList;
+    private ObservableList<Component> notebookPowersupplyList;
+    private ObservableList<Component> phoneCPUList;
+    private ObservableList<Component> phoneScreenList;
+    private ObservableList<Component> phoneCameraList;
+    private ObservableList<Component> phoneConnectivityList;
+    private ObservableList<Component> phonePowersupplyList;
+    private ObservableList<Component> phoneKeypadList;
+
+    private Map<ToggleButton, Component> tvScreens;
+    private Map<ToggleButton, Component> tvAudios;
+    private Map<ToggleButton, Component> tvOSs;
+    private Map<ToggleButton, Component> tvCases;
+    private Map<ToggleButton, Component> consoleCPUs;
+    private Map<ToggleButton, Component> consoleScreens;
+    private Map<ToggleButton, Component> consolePowersupplies;
+    private Map<ToggleButton, Component> consoleConnectivities;
+    private Map<ToggleButton, Component> consoleCameras;
+    private Map<ToggleButton, Component> notebookCPUs;
+    private Map<ToggleButton, Component> notebookStorages;
+    private Map<ToggleButton, Component> notebookScreens;
+    private Map<ToggleButton, Component> notebookSoftwares;
+    private Map<ToggleButton, Component> notebookPowersupplies;
+    private Map<ToggleButton, Component> phoneCPUs;
+    private Map<ToggleButton, Component> phoneScreens;
+    private Map<ToggleButton, Component> phoneCameras;
+    private Map<ToggleButton, Component> phoneConnectivities;
+    private Map<ToggleButton, Component> phonePowersupplies;
+    private Map<ToggleButton, Component> phoneKeypads;
+
+    private ToggleGroup tvScreensToggleGroup;
+    private ToggleGroup tvAudiosToggleGroup;
+    private ToggleGroup tvOSsToggleGroup;
+    private ToggleGroup tvCasesToggleGroup;
+    private ToggleGroup consoleCPUsToggleGroup;
+    private ToggleGroup consoleScreensToggleGroup;
+    private ToggleGroup consolePowersuppliesToggleGroup;
+    private ToggleGroup consoleConnectivitiesToggleGroup;
+    private ToggleGroup consoleCamerasToggleGroup;
+    private ToggleGroup notebookCPUsToggleGroup;
+    private ToggleGroup notebookStoragesToggleGroup;
+    private ToggleGroup notebookScreensToggleGroup;
+    private ToggleGroup notebookSoftwaresToggleGroup;
+    private ToggleGroup notebookPowersuppliesToggleGroup;
+    private ToggleGroup phoneCPUsToggleGroup;
+    private ToggleGroup phoneScreensToggleGroup;
+    private ToggleGroup phoneCamerasToggleGroup;
+    private ToggleGroup phoneConnectivitiesToggleGroup;
+    private ToggleGroup phonePowersuppliesToggleGroup;
+    private ToggleGroup phoneKeypadsToggleGroup;
 
     @Override
     public void update() {
@@ -267,146 +381,288 @@ public class IntroduceProductController extends GameModuleController {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tvScreens = new HashMap<>();
-        this.tvScreens.put(tvScreenLabel0, Component.T_DISPLAY_LEVEL_1);
-        this.tvScreens.put(tvScreenLabel1, Component.T_DISPLAY_LEVEL_2);
-        this.tvScreens.put(tvScreenLabel2, Component.T_DISPLAY_LEVEL_3);
-        this.tvScreens.put(tvScreenLabel3, Component.T_DISPLAY_LEVEL_4);
-        this.tvScreens.put(tvScreenLabel4, Component.T_DISPLAY_LEVEL_5);
-        this.tvScreens.put(tvScreenLabel5, Component.T_DISPLAY_LEVEL_6);
-        this.tvScreens.put(tvScreenLabel6, Component.T_DISPLAY_LEVEL_7);
+        this.tvScreens.put(tvScreenToggleButton0, new Component(ComponentType.T_DISPLAY_LEVEL_1));
+        this.tvScreens.put(tvScreenToggleButton1, new Component(ComponentType.T_DISPLAY_LEVEL_2));
+        this.tvScreens.put(tvScreenToggleButton2, new Component(ComponentType.T_DISPLAY_LEVEL_3));
+        this.tvScreens.put(tvScreenToggleButton3, new Component(ComponentType.T_DISPLAY_LEVEL_4));
+        this.tvScreens.put(tvScreenToggleButton4, new Component(ComponentType.T_DISPLAY_LEVEL_5));
+        this.tvScreens.put(tvScreenToggleButton5, new Component(ComponentType.T_DISPLAY_LEVEL_6));
+        this.tvScreens.put(tvScreenToggleButton6, new Component(ComponentType.T_DISPLAY_LEVEL_7));
 
         this.tvAudios = new HashMap<>();
-        this.tvAudios.put(tvAudioLabel0, Component.T_SOUND_LEVEL_1);
-        this.tvAudios.put(tvAudioLabel1, Component.T_SOUND_LEVEL_2);
-        this.tvAudios.put(tvAudioLabel2, Component.T_SOUND_LEVEL_3);
-        this.tvAudios.put(tvAudioLabel3, Component.T_SOUND_LEVEL_4);
-        this.tvAudios.put(tvAudioLabel4, Component.T_SOUND_LEVEL_5);
-        this.tvAudios.put(tvAudioLabel5, Component.T_SOUND_LEVEL_6);
-        this.tvAudios.put(tvAudioLabel6, Component.T_SOUND_LEVEL_7);
+        this.tvAudios.put(tvAudioToggleButton0, new Component(ComponentType.T_SOUND_LEVEL_1));
+        this.tvAudios.put(tvAudioToggleButton1, new Component(ComponentType.T_SOUND_LEVEL_2));
+        this.tvAudios.put(tvAudioToggleButton2, new Component(ComponentType.T_SOUND_LEVEL_3));
+        this.tvAudios.put(tvAudioToggleButton3, new Component(ComponentType.T_SOUND_LEVEL_4));
+        this.tvAudios.put(tvAudioToggleButton4, new Component(ComponentType.T_SOUND_LEVEL_5));
+        this.tvAudios.put(tvAudioToggleButton5, new Component(ComponentType.T_SOUND_LEVEL_6));
+        this.tvAudios.put(tvAudioToggleButton6, new Component(ComponentType.T_SOUND_LEVEL_7));
 
         this.tvOSs = new HashMap<>();
-        this.tvOSs.put(tvOSLabel0, Component.T_OS_LEVEL_1);
-        this.tvOSs.put(tvOSLabel1, Component.T_OS_LEVEL_2);
-        this.tvOSs.put(tvOSLabel2, Component.T_OS_LEVEL_3);
-        this.tvOSs.put(tvOSLabel3, Component.T_OS_LEVEL_4);
-        this.tvOSs.put(tvOSLabel4, Component.T_OS_LEVEL_5);
-        this.tvOSs.put(tvOSLabel5, Component.T_OS_LEVEL_6);
-        this.tvOSs.put(tvOSLabel6, Component.T_OS_LEVEL_7);
+        this.tvOSs.put(tvOSToggleButton0, new Component(ComponentType.T_OS_LEVEL_1));
+        this.tvOSs.put(tvOSToggleButton1, new Component(ComponentType.T_OS_LEVEL_2));
+        this.tvOSs.put(tvOSToggleButton2, new Component(ComponentType.T_OS_LEVEL_3));
+        this.tvOSs.put(tvOSToggleButton3, new Component(ComponentType.T_OS_LEVEL_4));
+        this.tvOSs.put(tvOSToggleButton4, new Component(ComponentType.T_OS_LEVEL_5));
+        this.tvOSs.put(tvOSToggleButton5, new Component(ComponentType.T_OS_LEVEL_6));
+        this.tvOSs.put(tvOSToggleButton6, new Component(ComponentType.T_OS_LEVEL_7));
 
         this.tvCases = new HashMap<>();
-        this.tvCases.put(tvCaseLabel0, Component.T_CASE_LEVEL_1);
-        this.tvCases.put(tvCaseLabel1, Component.T_CASE_LEVEL_2);
-        this.tvCases.put(tvCaseLabel2, Component.T_CASE_LEVEL_3);
-        this.tvCases.put(tvCaseLabel3, Component.T_CASE_LEVEL_4);
+        this.tvCases.put(tvCaseToggleButton0, new Component(ComponentType.T_CASE_LEVEL_1));
+        this.tvCases.put(tvCaseToggleButton1, new Component(ComponentType.T_CASE_LEVEL_2));
+        this.tvCases.put(tvCaseToggleButton2, new Component(ComponentType.T_CASE_LEVEL_3));
+        this.tvCases.put(tvCaseToggleButton3, new Component(ComponentType.T_CASE_LEVEL_4));
 
         this.consoleCPUs = new HashMap<>();
-        this.consoleCPUs.put(consoleCPULabel0, Component.G_CPU_LEVEL_1);
-        this.consoleCPUs.put(consoleCPULabel1, Component.G_CPU_LEVEL_2);
-        this.consoleCPUs.put(consoleCPULabel2, Component.G_CPU_LEVEL_3);
-        this.consoleCPUs.put(consoleCPULabel3, Component.G_CPU_LEVEL_4);
-        this.consoleCPUs.put(consoleCPULabel4, Component.G_CPU_LEVEL_5);
-        this.consoleCPUs.put(consoleCPULabel5, Component.G_CPU_LEVEL_6);
-        this.consoleCPUs.put(consoleCPULabel6, Component.G_CPU_LEVEL_7);
+        this.consoleCPUs.put(consoleCPUToggleButton0, new Component(ComponentType.G_CPU_LEVEL_1));
+        this.consoleCPUs.put(consoleCPUToggleButton1, new Component(ComponentType.G_CPU_LEVEL_2));
+        this.consoleCPUs.put(consoleCPUToggleButton2, new Component(ComponentType.G_CPU_LEVEL_3));
+        this.consoleCPUs.put(consoleCPUToggleButton3, new Component(ComponentType.G_CPU_LEVEL_4));
+        this.consoleCPUs.put(consoleCPUToggleButton4, new Component(ComponentType.G_CPU_LEVEL_5));
+        this.consoleCPUs.put(consoleCPUToggleButton5, new Component(ComponentType.G_CPU_LEVEL_6));
+        this.consoleCPUs.put(consoleCPUToggleButton6, new Component(ComponentType.G_CPU_LEVEL_7));
 
         this.consoleScreens = new HashMap<>();
-        this.consoleScreens.put(consoleScreenLabel0, Component.G_DISPLAYCASE_LEVEL_1);
-        this.consoleScreens.put(consoleScreenLabel1, Component.G_DISPLAYCASE_LEVEL_2);
-        this.consoleScreens.put(consoleScreenLabel2, Component.G_DISPLAYCASE_LEVEL_3);
-        this.consoleScreens.put(consoleScreenLabel3, Component.G_DISPLAYCASE_LEVEL_4);
+        this.consoleScreens.put(consoleScreenToggleButton0, new Component(ComponentType.G_DISPLAYCASE_LEVEL_1));
+        this.consoleScreens.put(consoleScreenToggleButton1, new Component(ComponentType.G_DISPLAYCASE_LEVEL_2));
+        this.consoleScreens.put(consoleScreenToggleButton2, new Component(ComponentType.G_DISPLAYCASE_LEVEL_3));
+        this.consoleScreens.put(consoleScreenToggleButton3, new Component(ComponentType.G_DISPLAYCASE_LEVEL_4));
 
         this.consolePowersupplies = new HashMap<>();
-        this.consolePowersupplies.put(consolePowersupplyLabel0, Component.G_POWERSUPPLY_LEVEL_1);
-        this.consolePowersupplies.put(consolePowersupplyLabel1, Component.G_POWERSUPPLY_LEVEL_2);
-        this.consolePowersupplies.put(consolePowersupplyLabel2, Component.G_POWERSUPPLY_LEVEL_3);
-        this.consolePowersupplies.put(consolePowersupplyLabel3, Component.G_POWERSUPPLY_LEVEL_4);
-        this.consolePowersupplies.put(consolePowersupplyLabel4, Component.G_POWERSUPPLY_LEVEL_5);
-        this.consolePowersupplies.put(consolePowersupplyLabel5, Component.G_POWERSUPPLY_LEVEL_6);
+        this.consolePowersupplies.put(consolePowersupplyToggleButton0, new Component(ComponentType.G_POWERSUPPLY_LEVEL_1));
+        this.consolePowersupplies.put(consolePowersupplyToggleButton1, new Component(ComponentType.G_POWERSUPPLY_LEVEL_2));
+        this.consolePowersupplies.put(consolePowersupplyToggleButton2, new Component(ComponentType.G_POWERSUPPLY_LEVEL_3));
+        this.consolePowersupplies.put(consolePowersupplyToggleButton3, new Component(ComponentType.G_POWERSUPPLY_LEVEL_4));
+        this.consolePowersupplies.put(consolePowersupplyToggleButton4, new Component(ComponentType.G_POWERSUPPLY_LEVEL_5));
+        this.consolePowersupplies.put(consolePowersupplyToggleButton5, new Component(ComponentType.G_POWERSUPPLY_LEVEL_6));
 
         this.consoleConnectivities = new HashMap<>();
-        this.consoleConnectivities.put(consoleConnectivityLabel0, Component.G_CONNECTIVITY_LEVEL_1);
-        this.consoleConnectivities.put(consoleConnectivityLabel1, Component.G_CONNECTIVITY_LEVEL_2);
-        this.consoleConnectivities.put(consoleConnectivityLabel2, Component.G_CONNECTIVITY_LEVEL_3);
+        this.consoleConnectivities.put(consoleConnectivityToggleButton0, new Component(ComponentType.G_CONNECTIVITY_LEVEL_1));
+        this.consoleConnectivities.put(consoleConnectivityToggleButton1, new Component(ComponentType.G_CONNECTIVITY_LEVEL_2));
+        this.consoleConnectivities.put(consoleConnectivityToggleButton2, new Component(ComponentType.G_CONNECTIVITY_LEVEL_3));
 
         this.consoleCameras = new HashMap<>();
-        this.consoleCameras.put(consoleCameraLabel0, Component.G_CAMERA_LEVEL_1);
-        this.consoleCameras.put(consoleCameraLabel1, Component.G_CAMERA_LEVEL_2);
+        this.consoleCameras.put(consoleCameraToggleButton0, new Component(ComponentType.G_CAMERA_LEVEL_1));
+        this.consoleCameras.put(consoleCameraToggleButton1, new Component(ComponentType.G_CAMERA_LEVEL_2));
 
         this.notebookCPUs = new HashMap<>();
-        this.notebookCPUs.put(notebookCPULabel0, Component.N_CPU_LEVEL_1);
-        this.notebookCPUs.put(notebookCPULabel1, Component.N_CPU_LEVEL_2);
-        this.notebookCPUs.put(notebookCPULabel2, Component.N_CPU_LEVEL_3);
-        this.notebookCPUs.put(notebookCPULabel3, Component.N_CPU_LEVEL_4);
-        this.notebookCPUs.put(notebookCPULabel4, Component.N_CPU_LEVEL_5);
-        this.notebookCPUs.put(notebookCPULabel5, Component.N_CPU_LEVEL_6);
-        this.notebookCPUs.put(notebookCPULabel6, Component.N_CPU_LEVEL_7);
-        this.notebookCPUs.put(notebookCPULabel7, Component.N_CPU_LEVEL_8);
+        this.notebookCPUs.put(notebookCPUToggleButton0, new Component(ComponentType.N_CPU_LEVEL_1));
+        this.notebookCPUs.put(notebookCPUToggleButton1, new Component(ComponentType.N_CPU_LEVEL_2));
+        this.notebookCPUs.put(notebookCPUToggleButton2, new Component(ComponentType.N_CPU_LEVEL_3));
+        this.notebookCPUs.put(notebookCPUToggleButton3, new Component(ComponentType.N_CPU_LEVEL_4));
+        this.notebookCPUs.put(notebookCPUToggleButton4, new Component(ComponentType.N_CPU_LEVEL_5));
+        this.notebookCPUs.put(notebookCPUToggleButton5, new Component(ComponentType.N_CPU_LEVEL_6));
+        this.notebookCPUs.put(notebookCPUToggleButton6, new Component(ComponentType.N_CPU_LEVEL_7));
+        this.notebookCPUs.put(notebookCPUToggleButton7, new Component(ComponentType.N_CPU_LEVEL_8));
 
-        this.notebeookStorages = new HashMap<>();
-        this.notebeookStorages.put(notebookStorageLabel0, Component.N_STORAGE_LEVEL_1);
-        this.notebeookStorages.put(notebookStorageLabel1, Component.N_STORAGE_LEVEL_2);
-        this.notebeookStorages.put(notebookStorageLabel2, Component.N_STORAGE_LEVEL_3);
-        this.notebeookStorages.put(notebookStorageLabel3, Component.N_STORAGE_LEVEL_4);
-        this.notebeookStorages.put(notebookStorageLabel4, Component.N_STORAGE_LEVEL_5);
-        this.notebeookStorages.put(notebookStorageLabel5, Component.N_STORAGE_LEVEL_6);
-        this.notebeookStorages.put(notebookStorageLabel6, Component.N_STORAGE_LEVEL_7);
-        this.notebeookStorages.put(notebookStorageLabel7, Component.N_STORAGE_LEVEL_8);
+        this.notebookStorages = new HashMap<>();
+        this.notebookStorages.put(notebookStorageToggleButton0, new Component(ComponentType.N_STORAGE_LEVEL_1));
+        this.notebookStorages.put(notebookStorageToggleButton1, new Component(ComponentType.N_STORAGE_LEVEL_2));
+        this.notebookStorages.put(notebookStorageToggleButton2, new Component(ComponentType.N_STORAGE_LEVEL_3));
+        this.notebookStorages.put(notebookStorageToggleButton3, new Component(ComponentType.N_STORAGE_LEVEL_4));
+        this.notebookStorages.put(notebookStorageToggleButton4, new Component(ComponentType.N_STORAGE_LEVEL_5));
+        this.notebookStorages.put(notebookStorageToggleButton5, new Component(ComponentType.N_STORAGE_LEVEL_6));
+        this.notebookStorages.put(notebookStorageToggleButton6, new Component(ComponentType.N_STORAGE_LEVEL_7));
+        this.notebookStorages.put(notebookStorageToggleButton7, new Component(ComponentType.N_STORAGE_LEVEL_8));
 
         this.notebookScreens  = new HashMap<>();
-        this.notebookScreens.put(notebookScreenLabel0, Component.N_DISPLAYCASE_LEVEL_1);
-        this.notebookScreens.put(notebookScreenLabel1, Component.N_DISPLAYCASE_LEVEL_2);
-        this.notebookScreens.put(notebookScreenLabel2, Component.N_DISPLAYCASE_LEVEL_3);
-        this.notebookScreens.put(notebookScreenLabel3, Component.N_DISPLAYCASE_LEVEL_4);
-        this.notebookScreens.put(notebookScreenLabel4, Component.N_DISPLAYCASE_LEVEL_5);
+        this.notebookScreens.put(notebookScreenToggleButton0, new Component(ComponentType.N_DISPLAYCASE_LEVEL_1));
+        this.notebookScreens.put(notebookScreenToggleButton1, new Component(ComponentType.N_DISPLAYCASE_LEVEL_2));
+        this.notebookScreens.put(notebookScreenToggleButton2, new Component(ComponentType.N_DISPLAYCASE_LEVEL_3));
+        this.notebookScreens.put(notebookScreenToggleButton3, new Component(ComponentType.N_DISPLAYCASE_LEVEL_4));
+        this.notebookScreens.put(notebookScreenToggleButton4, new Component(ComponentType.N_DISPLAYCASE_LEVEL_5));
 
         this.notebookSoftwares = new HashMap<>();
-        this.notebookSoftwares.put(notebookSoftwareLabel0, Component.N_SOFTWARE_LEVEL_1);
-        this.notebookSoftwares.put(notebookSoftwareLabel1, Component.N_SOFTWARE_LEVEL_2);
-        this.notebookSoftwares.put(notebookSoftwareLabel2, Component.N_SOFTWARE_LEVEL_3);
-        this.notebookSoftwares.put(notebookSoftwareLabel3, Component.N_SOFTWARE_LEVEL_4);
-        this.notebookSoftwares.put(notebookSoftwareLabel4, Component.N_SOFTWARE_LEVEL_5);
-        this.notebookSoftwares.put(notebookSoftwareLabel5, Component.N_SOFTWARE_LEVEL_6);
+        this.notebookSoftwares.put(notebookSoftwareToggleButton0, new Component(ComponentType.N_SOFTWARE_LEVEL_1));
+        this.notebookSoftwares.put(notebookSoftwareToggleButton1, new Component(ComponentType.N_SOFTWARE_LEVEL_2));
+        this.notebookSoftwares.put(notebookSoftwareToggleButton2, new Component(ComponentType.N_SOFTWARE_LEVEL_3));
+        this.notebookSoftwares.put(notebookSoftwareToggleButton3, new Component(ComponentType.N_SOFTWARE_LEVEL_4));
+        this.notebookSoftwares.put(notebookSoftwareToggleButton4, new Component(ComponentType.N_SOFTWARE_LEVEL_5));
+        this.notebookSoftwares.put(notebookSoftwareToggleButton5, new Component(ComponentType.N_SOFTWARE_LEVEL_6));
 
         this.notebookPowersupplies = new HashMap<>();
-        this.notebookPowersupplies.put(notebookPowersupplyLabel0, Component.N_POWERSUPPLY_LEVEL_1);
+        this.notebookPowersupplies.put(notebookPowersupplyToggleButton0, new Component(ComponentType.N_POWERSUPPLY_LEVEL_1));
 
         this.phoneCPUs = new HashMap<>();
-        this.phoneCPUs.put(phoneCPULabel0, Component.P_CPU_LEVEL_1);
-        this.phoneCPUs.put(phoneCPULabel1, Component.P_CPU_LEVEL_2);
-        this.phoneCPUs.put(phoneCPULabel2, Component.P_CPU_LEVEL_3);
-        this.phoneCPUs.put(phoneCPULabel3, Component.P_CPU_LEVEL_4);
-        this.phoneCPUs.put(phoneCPULabel4, Component.P_CPU_LEVEL_5);
-        this.phoneCPUs.put(phoneCPULabel5, Component.P_CPU_LEVEL_6);
+        this.phoneCPUs.put(phoneCPUToggleButton0, new Component(ComponentType.P_CPU_LEVEL_1));
+        this.phoneCPUs.put(phoneCPUToggleButton1, new Component(ComponentType.P_CPU_LEVEL_2));
+        this.phoneCPUs.put(phoneCPUToggleButton2, new Component(ComponentType.P_CPU_LEVEL_3));
+        this.phoneCPUs.put(phoneCPUToggleButton3, new Component(ComponentType.P_CPU_LEVEL_4));
+        this.phoneCPUs.put(phoneCPUToggleButton4, new Component(ComponentType.P_CPU_LEVEL_5));
+        this.phoneCPUs.put(phoneCPUToggleButton5, new Component(ComponentType.P_CPU_LEVEL_6));
 
         this.phoneScreens = new HashMap<>();
-        this.phoneScreens.put(phoneScreenLabel0, Component.P_DISPLAYCASE_LEVEL_1);
-        this.phoneScreens.put(phoneScreenLabel1, Component.P_DISPLAYCASE_LEVEL_2);
-        this.phoneScreens.put(phoneScreenLabel2, Component.P_DISPLAYCASE_LEVEL_3);
-        this.phoneScreens.put(phoneScreenLabel3, Component.P_DISPLAYCASE_LEVEL_4);
-        this.phoneScreens.put(phoneScreenLabel4, Component.P_DISPLAYCASE_LEVEL_5);
-        this.phoneScreens.put(phoneScreenLabel5, Component.P_DISPLAYCASE_LEVEL_6);
+        this.phoneScreens.put(phoneScreenToggleButton0, new Component(ComponentType.P_DISPLAYCASE_LEVEL_1));
+        this.phoneScreens.put(phoneScreenToggleButton1, new Component(ComponentType.P_DISPLAYCASE_LEVEL_2));
+        this.phoneScreens.put(phoneScreenToggleButton2, new Component(ComponentType.P_DISPLAYCASE_LEVEL_3));
+        this.phoneScreens.put(phoneScreenToggleButton3, new Component(ComponentType.P_DISPLAYCASE_LEVEL_4));
+        this.phoneScreens.put(phoneScreenToggleButton4, new Component(ComponentType.P_DISPLAYCASE_LEVEL_5));
+        this.phoneScreens.put(phoneScreenToggleButton5, new Component(ComponentType.P_DISPLAYCASE_LEVEL_6));
 
         this.phoneCameras = new HashMap<>();
-        this.phoneCameras.put(phoneCameraLabel0, Component.P_CAMERA_LEVEL_1);
-        this.phoneCameras.put(phoneCameraLabel1, Component.P_CAMERA_LEVEL_2);
-        this.phoneCameras.put(phoneCameraLabel2, Component.P_CAMERA_LEVEL_3);
-        this.phoneCameras.put(phoneCameraLabel3, Component.P_CAMERA_LEVEL_4);
-        this.phoneCameras.put(phoneCameraLabel4, Component.P_CAMERA_LEVEL_5);
+        this.phoneCameras.put(phoneCameraToggleButton0, new Component(ComponentType.P_CAMERA_LEVEL_1));
+        this.phoneCameras.put(phoneCameraToggleButton1, new Component(ComponentType.P_CAMERA_LEVEL_2));
+        this.phoneCameras.put(phoneCameraToggleButton2, new Component(ComponentType.P_CAMERA_LEVEL_3));
+        this.phoneCameras.put(phoneCameraToggleButton3, new Component(ComponentType.P_CAMERA_LEVEL_4));
+        this.phoneCameras.put(phoneCameraToggleButton4, new Component(ComponentType.P_CAMERA_LEVEL_5));
 
         this.phoneConnectivities = new HashMap<>();
-        this.phoneConnectivities.put(phoneConnectivyLabel0, Component.P_CONNECTIVITY_LEVEL_1);
-        this.phoneConnectivities.put(phoneConnectivyLabel1, Component.P_CONNECTIVITY_LEVEL_2);
-        this.phoneConnectivities.put(phoneConnectivyLabel2, Component.P_CONNECTIVITY_LEVEL_3);
+        this.phoneConnectivities.put(phoneConnectivyToggleButton0, new Component(ComponentType.P_CONNECTIVITY_LEVEL_1));
+        this.phoneConnectivities.put(phoneConnectivyToggleButton1, new Component(ComponentType.P_CONNECTIVITY_LEVEL_2));
+        this.phoneConnectivities.put(phoneConnectivyToggleButton2, new Component(ComponentType.P_CONNECTIVITY_LEVEL_3));
 
         this.phonePowersupplies = new HashMap<>();
-        this.phonePowersupplies.put(phonePowersupplyLabel0, Component.P_POWERSUPPLY_LEVEL_1);
-        this.phonePowersupplies.put(phonePowersupplyLabel1, Component.P_POWERSUPPLY_LEVEL_2);
-        this.phonePowersupplies.put(phonePowersupplyLabel2, Component.P_POWERSUPPLY_LEVEL_3);
+        this.phonePowersupplies.put(phonePowersupplyToggleButton0, new Component(ComponentType.P_POWERSUPPLY_LEVEL_1));
+        this.phonePowersupplies.put(phonePowersupplyToggleButton1, new Component(ComponentType.P_POWERSUPPLY_LEVEL_2));
+        this.phonePowersupplies.put(phonePowersupplyToggleButton2, new Component(ComponentType.P_POWERSUPPLY_LEVEL_3));
 
         this.phoneKeypads = new HashMap<>();
-        this.phoneKeypads.put(phoneKeypadLabel0, Component.P_KEYPAD_LEVEL_1);
-        this.phoneKeypads.put(phoneKeypadLabel1, Component.P_KEYPAD_LEVEL_2);
+        this.phoneKeypads.put(phoneKeypadToggleButton0, new Component(ComponentType.P_KEYPAD_LEVEL_1));
+        this.phoneKeypads.put(phoneKeypadToggleButton1, new Component(ComponentType.P_KEYPAD_LEVEL_2));
 
-        List<Map<Label, Component>> allComponents = new ArrayList<>();
+        tvScreensToggleGroup = new ToggleGroup();
+        tvAudiosToggleGroup = new ToggleGroup();
+        tvOSsToggleGroup = new ToggleGroup();
+        tvCasesToggleGroup = new ToggleGroup();
+        consoleCPUsToggleGroup = new ToggleGroup();
+        consoleScreensToggleGroup = new ToggleGroup();
+        consolePowersuppliesToggleGroup = new ToggleGroup();
+        consoleConnectivitiesToggleGroup = new ToggleGroup();
+        consoleCamerasToggleGroup = new ToggleGroup();
+        notebookCPUsToggleGroup = new ToggleGroup();
+        notebookStoragesToggleGroup = new ToggleGroup();
+        notebookScreensToggleGroup = new ToggleGroup();
+        notebookSoftwaresToggleGroup = new ToggleGroup();
+        notebookPowersuppliesToggleGroup = new ToggleGroup();
+        phoneCPUsToggleGroup = new ToggleGroup();
+        phoneScreensToggleGroup = new ToggleGroup();
+        phoneCamerasToggleGroup = new ToggleGroup();
+        phoneConnectivitiesToggleGroup = new ToggleGroup();
+        phonePowersuppliesToggleGroup = new ToggleGroup();
+        phoneKeypadsToggleGroup = new ToggleGroup();
+
+
+        this.tvScreenToggleButton0.setToggleGroup(tvScreensToggleGroup);
+        this.tvScreenToggleButton1.setToggleGroup(tvScreensToggleGroup);
+        this.tvScreenToggleButton2.setToggleGroup(tvScreensToggleGroup);
+        this.tvScreenToggleButton3.setToggleGroup(tvScreensToggleGroup);
+        this.tvScreenToggleButton4.setToggleGroup(tvScreensToggleGroup);
+        this.tvScreenToggleButton5.setToggleGroup(tvScreensToggleGroup);
+        this.tvScreenToggleButton6.setToggleGroup(tvScreensToggleGroup);
+
+        this.tvAudioToggleButton0.setToggleGroup(tvAudiosToggleGroup);
+        this.tvAudioToggleButton1.setToggleGroup(tvAudiosToggleGroup);
+        this.tvAudioToggleButton2.setToggleGroup(tvAudiosToggleGroup);
+        this.tvAudioToggleButton3.setToggleGroup(tvAudiosToggleGroup);
+        this.tvAudioToggleButton4.setToggleGroup(tvAudiosToggleGroup);
+        this.tvAudioToggleButton5.setToggleGroup(tvAudiosToggleGroup);
+        this.tvAudioToggleButton6.setToggleGroup(tvAudiosToggleGroup);
+
+        this.tvOSToggleButton0.setToggleGroup(tvOSsToggleGroup);
+        this.tvOSToggleButton1.setToggleGroup(tvOSsToggleGroup);
+        this.tvOSToggleButton2.setToggleGroup(tvOSsToggleGroup);
+        this.tvOSToggleButton3.setToggleGroup(tvOSsToggleGroup);
+        this.tvOSToggleButton4.setToggleGroup(tvOSsToggleGroup);
+        this.tvOSToggleButton5.setToggleGroup(tvOSsToggleGroup);
+        this.tvOSToggleButton6.setToggleGroup(tvOSsToggleGroup);
+
+        this.tvCaseToggleButton0.setToggleGroup(tvCasesToggleGroup);
+        this.tvCaseToggleButton1.setToggleGroup(tvCasesToggleGroup);
+        this.tvCaseToggleButton2.setToggleGroup(tvCasesToggleGroup);
+        this.tvCaseToggleButton3.setToggleGroup(tvCasesToggleGroup);
+
+        this.consoleCPUToggleButton0.setToggleGroup(consoleCPUsToggleGroup);
+        this.consoleCPUToggleButton1.setToggleGroup(consoleCPUsToggleGroup);
+        this.consoleCPUToggleButton2.setToggleGroup(consoleCPUsToggleGroup);
+        this.consoleCPUToggleButton3.setToggleGroup(consoleCPUsToggleGroup);
+        this.consoleCPUToggleButton4.setToggleGroup(consoleCPUsToggleGroup);
+        this.consoleCPUToggleButton5.setToggleGroup(consoleCPUsToggleGroup);
+        this.consoleCPUToggleButton6.setToggleGroup(consoleCPUsToggleGroup);
+
+        this.consoleScreenToggleButton0.setToggleGroup(consoleScreensToggleGroup);
+        this.consoleScreenToggleButton1.setToggleGroup(consoleScreensToggleGroup);
+        this.consoleScreenToggleButton2.setToggleGroup(consoleScreensToggleGroup);
+        this.consoleScreenToggleButton3.setToggleGroup(consoleScreensToggleGroup);
+
+        this.consolePowersupplyToggleButton0.setToggleGroup(consolePowersuppliesToggleGroup);
+        this.consolePowersupplyToggleButton1.setToggleGroup(consolePowersuppliesToggleGroup);
+        this.consolePowersupplyToggleButton2.setToggleGroup(consolePowersuppliesToggleGroup);
+        this.consolePowersupplyToggleButton3.setToggleGroup(consolePowersuppliesToggleGroup);
+        this.consolePowersupplyToggleButton4.setToggleGroup(consolePowersuppliesToggleGroup);
+        this.consolePowersupplyToggleButton5.setToggleGroup(consolePowersuppliesToggleGroup);
+
+        this.consoleConnectivityToggleButton0.setToggleGroup(consoleConnectivitiesToggleGroup);
+        this.consoleConnectivityToggleButton1.setToggleGroup(consoleConnectivitiesToggleGroup);
+        this.consoleConnectivityToggleButton2.setToggleGroup(consoleConnectivitiesToggleGroup);
+
+        this.consoleCameraToggleButton0.setToggleGroup(consoleCamerasToggleGroup);
+        this.consoleCameraToggleButton1.setToggleGroup(consoleCamerasToggleGroup);
+
+        this.notebookCPUToggleButton0.setToggleGroup(notebookCPUsToggleGroup);
+        this.notebookCPUToggleButton1.setToggleGroup(notebookCPUsToggleGroup);
+        this.notebookCPUToggleButton2.setToggleGroup(notebookCPUsToggleGroup);
+        this.notebookCPUToggleButton3.setToggleGroup(notebookCPUsToggleGroup);
+        this.notebookCPUToggleButton4.setToggleGroup(notebookCPUsToggleGroup);
+        this.notebookCPUToggleButton5.setToggleGroup(notebookCPUsToggleGroup);
+        this.notebookCPUToggleButton6.setToggleGroup(notebookCPUsToggleGroup);
+        this.notebookCPUToggleButton7.setToggleGroup(notebookCPUsToggleGroup);
+
+        this.notebookStorageToggleButton0.setToggleGroup(notebookStoragesToggleGroup);
+        this.notebookStorageToggleButton1.setToggleGroup(notebookStoragesToggleGroup);
+        this.notebookStorageToggleButton2.setToggleGroup(notebookStoragesToggleGroup);
+        this.notebookStorageToggleButton3.setToggleGroup(notebookStoragesToggleGroup);
+        this.notebookStorageToggleButton4.setToggleGroup(notebookStoragesToggleGroup);
+        this.notebookStorageToggleButton5.setToggleGroup(notebookStoragesToggleGroup);
+        this.notebookStorageToggleButton6.setToggleGroup(notebookStoragesToggleGroup);
+        this.notebookStorageToggleButton7.setToggleGroup(notebookStoragesToggleGroup);
+
+        this.notebookScreenToggleButton0.setToggleGroup(notebookScreensToggleGroup);
+        this.notebookScreenToggleButton1.setToggleGroup(notebookScreensToggleGroup);
+        this.notebookScreenToggleButton2.setToggleGroup(notebookScreensToggleGroup);
+        this.notebookScreenToggleButton3.setToggleGroup(notebookScreensToggleGroup);
+        this.notebookScreenToggleButton4.setToggleGroup(notebookScreensToggleGroup);
+
+        this.notebookSoftwareToggleButton0.setToggleGroup(notebookSoftwaresToggleGroup);
+        this.notebookSoftwareToggleButton1.setToggleGroup(notebookSoftwaresToggleGroup);
+        this.notebookSoftwareToggleButton2.setToggleGroup(notebookSoftwaresToggleGroup);
+        this.notebookSoftwareToggleButton3.setToggleGroup(notebookSoftwaresToggleGroup);
+        this.notebookSoftwareToggleButton4.setToggleGroup(notebookSoftwaresToggleGroup);
+        this.notebookSoftwareToggleButton5.setToggleGroup(notebookSoftwaresToggleGroup);
+
+        this.notebookPowersupplyToggleButton0.setToggleGroup(notebookPowersuppliesToggleGroup);
+
+        this.phoneCPUToggleButton0.setToggleGroup(phoneCPUsToggleGroup);
+        this.phoneCPUToggleButton1.setToggleGroup(phoneCPUsToggleGroup);
+        this.phoneCPUToggleButton2.setToggleGroup(phoneCPUsToggleGroup);
+        this.phoneCPUToggleButton3.setToggleGroup(phoneCPUsToggleGroup);
+        this.phoneCPUToggleButton4.setToggleGroup(phoneCPUsToggleGroup);
+        this.phoneCPUToggleButton5.setToggleGroup(phoneCPUsToggleGroup);
+
+        this.phoneScreenToggleButton0.setToggleGroup(phoneScreensToggleGroup);
+        this.phoneScreenToggleButton1.setToggleGroup(phoneScreensToggleGroup);
+        this.phoneScreenToggleButton2.setToggleGroup(phoneScreensToggleGroup);
+        this.phoneScreenToggleButton3.setToggleGroup(phoneScreensToggleGroup);
+        this.phoneScreenToggleButton4.setToggleGroup(phoneScreensToggleGroup);
+        this.phoneScreenToggleButton5.setToggleGroup(phoneScreensToggleGroup);
+
+        this.phoneCameraToggleButton0.setToggleGroup(phoneCamerasToggleGroup);
+        this.phoneCameraToggleButton1.setToggleGroup(phoneCamerasToggleGroup);
+        this.phoneCameraToggleButton2.setToggleGroup(phoneCamerasToggleGroup);
+        this.phoneCameraToggleButton3.setToggleGroup(phoneCamerasToggleGroup);
+        this.phoneCameraToggleButton4.setToggleGroup(phoneCamerasToggleGroup);
+
+        this.phoneConnectivyToggleButton0.setToggleGroup(phoneConnectivitiesToggleGroup);
+        this.phoneConnectivyToggleButton1.setToggleGroup(phoneConnectivitiesToggleGroup);
+        this.phoneConnectivyToggleButton2.setToggleGroup(phoneConnectivitiesToggleGroup);
+
+        this.phonePowersupplyToggleButton0.setToggleGroup(phonePowersuppliesToggleGroup);
+        this.phonePowersupplyToggleButton1.setToggleGroup(phonePowersuppliesToggleGroup);
+        this.phonePowersupplyToggleButton2.setToggleGroup(phonePowersuppliesToggleGroup);
+
+        this.phoneKeypadToggleButton0.setToggleGroup(phoneKeypadsToggleGroup);
+        this.phoneKeypadToggleButton1.setToggleGroup(phoneKeypadsToggleGroup);
+
+        List<Map<ToggleButton, Component>> allComponents = new ArrayList<>();
         allComponents.add(tvScreens);
         allComponents.add(tvAudios);
         allComponents.add(tvOSs);
@@ -417,7 +673,7 @@ public class IntroduceProductController extends GameModuleController {
         allComponents.add(consoleConnectivities);
         allComponents.add(consoleCameras);
         allComponents.add(notebookCPUs);
-        allComponents.add(notebeookStorages);
+        allComponents.add(notebookStorages);
         allComponents.add(notebookScreens);
         allComponents.add(notebookSoftwares);
         allComponents.add(notebookPowersupplies);
@@ -428,14 +684,529 @@ public class IntroduceProductController extends GameModuleController {
         allComponents.add(phonePowersupplies);
         allComponents.add(phoneKeypads);
 
-        for(Map<Label, Component> componentMap : allComponents) {
-            for(Map.Entry<Label, Component> componentEntry : componentMap.entrySet()) {
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+
+        for(Map<ToggleButton, Component> componentMap : allComponents) {
+            for(Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
                 componentEntry.getKey().setText(componentEntry.getValue().getComponentName());
+                if(!componentEntry.getValue().isAvailable(gameDate)) {
+                    componentEntry.getKey().setDisable(true);
+                }
             }
         }
+
+        this.updateSuppliers();
+
+        /*
+        Component tvScreenCheap1 = Component.T_DISPLAY_LEVEL_1;
+        Component tvScreenCheap2 = Component.T_DISPLAY_LEVEL_1;
+        Component tvScreenCheap3 = Component.T_DISPLAY_LEVEL_1;
+        tvScreenCheap1.setSupplierCategory(SupplierCategory.CHEAP);
+        tvScreenCheap2.setSupplierCategory(SupplierCategory.REGULAR);
+        tvScreenCheap3.setSupplierCategory(SupplierCategory.PREMIUM);
+
+        ArrayList<Component> arrayList = new ArrayList<>();
+
+        arrayList.add(tvScreenCheap1);
+        arrayList.add(tvScreenCheap2);
+        arrayList.add(tvScreenCheap3);
+
+        tvScreenChoiceBox.setItems(FXCollections.observableArrayList(tvScreenCheap1 + "" + tvScreenCheap1.calculateBaseCost(GameState.getInstance().getGameDate()),"was","krass"));
+        tvScreenChoiceBox.setValue("das");
+        */
+    }
+
+
+    public void updateSuppliers() {
+        Component selectedTvScreen = tvScreens.get(tvScreensToggleGroup.getSelectedToggle());
+        Component selectedTvAudio = tvAudios.get(tvAudiosToggleGroup.getSelectedToggle());
+        Component selectedTvOS = tvOSs.get(tvOSsToggleGroup.getSelectedToggle());
+        Component selectedTvCase = tvCases.get(tvCasesToggleGroup.getSelectedToggle());
+        Component selectedConsoleCPU = consoleCPUs.get(consoleCPUsToggleGroup.getSelectedToggle());
+        Component selectedConsoleScreen = consoleScreens.get(consoleScreensToggleGroup.getSelectedToggle());
+        Component selectedConsolePowersupply = consolePowersupplies.get(consolePowersuppliesToggleGroup.getSelectedToggle());
+        Component selectedConsoleConnectivity = consoleConnectivities.get(consoleConnectivitiesToggleGroup.getSelectedToggle());
+        Component selectedConsoleCamera = consoleCameras.get(consoleCamerasToggleGroup.getSelectedToggle());
+        Component selectedNotebookCPU = notebookCPUs.get(notebookCPUsToggleGroup.getSelectedToggle());
+        Component selectedNotebookStorage = notebookStorages.get(notebookStoragesToggleGroup.getSelectedToggle());
+        Component selectedNotebookScreen = notebookScreens.get(notebookScreensToggleGroup.getSelectedToggle());
+        Component selectedNotebookSoftware = notebookSoftwares.get(notebookSoftwaresToggleGroup.getSelectedToggle());
+        Component selectedNotebookPowersupply = notebookPowersupplies.get(notebookPowersuppliesToggleGroup.getSelectedToggle());
+        Component selectedPhoneCPU = phoneCPUs.get(phoneCPUsToggleGroup.getSelectedToggle());
+        Component selectedPhoneScreen = phoneScreens.get(phoneScreensToggleGroup.getSelectedToggle());
+        Component selectedPhoneCamera = phoneCameras.get(phoneCamerasToggleGroup.getSelectedToggle());
+        Component selectedPhoneConnectivity = phoneConnectivities.get(phoneConnectivitiesToggleGroup.getSelectedToggle());
+        Component selectedPhonePowersupply = phonePowersupplies.get(phonePowersuppliesToggleGroup.getSelectedToggle());
+        Component selectedPhoneKeypad = phoneKeypads.get(phoneKeypadsToggleGroup.getSelectedToggle());
+
+        this.tvScreenList = FXCollections.observableArrayList();
+        this.tvAudioList = FXCollections.observableArrayList();
+        this.tvOSList = FXCollections.observableArrayList();
+        this.tvCaseList = FXCollections.observableArrayList();
+        this.consoleCPUList = FXCollections.observableArrayList();
+        this.consoleScreenList = FXCollections.observableArrayList();
+        this.consolePowersupplyList = FXCollections.observableArrayList();
+        this.consoleConnectivityList = FXCollections.observableArrayList();
+        this.consoleCameraList = FXCollections.observableArrayList();
+        this.notebookCPUList = FXCollections.observableArrayList();
+        this.notebookStorageList = FXCollections.observableArrayList();
+        this.notebookScreenList = FXCollections.observableArrayList();
+        this.notebookSoftwareList = FXCollections.observableArrayList();
+        this.notebookPowersupplyList = FXCollections.observableArrayList();
+        this.phoneCPUList = FXCollections.observableArrayList();
+        this.phoneScreenList = FXCollections.observableArrayList();
+        this.phoneCameraList = FXCollections.observableArrayList();
+        this.phoneConnectivityList = FXCollections.observableArrayList();
+        this.phonePowersupplyList = FXCollections.observableArrayList();
+        this.phoneKeypadList = FXCollections.observableArrayList();
+
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedTvScreen.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.tvScreenList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedTvAudio.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.tvAudioList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedTvOS.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.tvOSList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedTvCase.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.tvCaseList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedConsoleCPU.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.consoleCPUList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedConsoleScreen.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.consoleScreenList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedConsolePowersupply.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.consolePowersupplyList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedConsoleConnectivity.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.consoleConnectivityList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedConsoleCamera.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.consoleCameraList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedNotebookCPU.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.notebookCPUList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedNotebookStorage.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.notebookStorageList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedNotebookScreen.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.notebookScreenList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedNotebookSoftware.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.notebookSoftwareList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedNotebookPowersupply.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.notebookPowersupplyList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedPhoneCPU.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.phoneCPUList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedPhoneScreen.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.phoneScreenList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedPhoneCamera.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.phoneCameraList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedPhoneConnectivity.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.phoneConnectivityList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedPhonePowersupply.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.phonePowersupplyList.add(tmpComp);
+        }
+        for(int i=0; i <3; i++) {
+            Component tmpComp = new Component(selectedPhoneKeypad.getComponentType());
+            switch(i) {
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    break;
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    break;
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    break;
+                default:
+                    break;
+            }
+            this.phoneKeypadList.add(tmpComp);
+        }
+
+        DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+        ComponentStringConverter componentStringConverter = new ComponentStringConverter();
+
+        //this.tvScreensChoiceBox.setConverter(componentStringConverter);
+        this.tvScreensChoiceBox.setItems(this.tvScreenList);
+        this.tvScreensChoiceBox.setConverter(componentStringConverter);
+
+
+        this.tvAudiosChoiceBox.setItems(this.tvAudioList);
+        this.tvAudiosChoiceBox.setConverter(componentStringConverter);
+
+
+        this.tvOSsChoiceBox.setItems(this.tvOSList);
+        this.tvOSsChoiceBox.setConverter(componentStringConverter);
+
+
+        this.tvCasesChoiceBox.setItems(this.tvCaseList);
+        this.tvCasesChoiceBox.setConverter(componentStringConverter);
+
+
+        this.consoleCPUsChoiceBox.setItems(this.consoleCPUList);
+        this.consoleCPUsChoiceBox.setConverter(componentStringConverter);
+
+        this.consoleScreensChoiceBox.setItems(this.consoleScreenList);
+        this.consoleScreensChoiceBox.setConverter(componentStringConverter);
+
+        this.consolePowersuppliesChoiceBox.setItems(this.consolePowersupplyList);
+        this.consolePowersuppliesChoiceBox.setConverter(componentStringConverter);
+
+        this.consoleConnectivitiesChoiceBox.setItems(this.consoleConnectivityList);
+        this.consoleConnectivitiesChoiceBox.setConverter(componentStringConverter);
+
+        this.consoleCamerasChoiceBox.setItems(this.consoleCameraList);
+        this.consoleCamerasChoiceBox.setConverter(componentStringConverter);
+
+        this.notebookCPUsChoiceBox.setItems(this.notebookCPUList);
+        this.notebookCPUsChoiceBox.setConverter(componentStringConverter);
+
+        this.notebookStoragesChoiceBox.setItems(this.notebookStorageList);
+        this.notebookStoragesChoiceBox.setConverter(componentStringConverter);
+
+        this.notebookScreensChoiceBox.setItems(this.notebookScreenList);
+        this.notebookScreensChoiceBox.setConverter(componentStringConverter);
+
+        this.notebookSoftwaresChoiceBox.setItems(this.notebookSoftwareList);
+        this.notebookSoftwaresChoiceBox.setConverter(componentStringConverter);
+
+        this.notebookPowersuppliesChoiceBox.setItems(this.notebookPowersupplyList);
+        this.notebookPowersuppliesChoiceBox.setConverter(componentStringConverter);
+
+        this.phoneCPUsChoiceBox.setItems(this.phoneCPUList);
+        this.phoneCPUsChoiceBox.setConverter(componentStringConverter);
+
+        this.phoneScreensChoiceBox.setItems(this.phoneScreenList);
+        this.phoneScreensChoiceBox.setConverter(componentStringConverter);
+
+        this.phoneCamerasChoiceBox.setItems(this.phoneCameraList);
+        this.phoneCamerasChoiceBox.setConverter(componentStringConverter);
+
+        this.phoneConnectivitiesChoiceBox.setItems(this.phoneConnectivityList);
+        this.phoneConnectivitiesChoiceBox.setConverter(componentStringConverter);
+
+        this.phonePowersuppliesChoiceBox.setItems(this.phonePowersupplyList);
+        this.phonePowersuppliesChoiceBox.setConverter(componentStringConverter);
+
+        this.phoneKeypadsChoiceBox.setItems(this.phoneKeypadList);
+        this.phoneKeypadsChoiceBox.setConverter(componentStringConverter);
+
+        this.tvScreensChoiceBox.setValue(this.tvScreenList.get(0));
+        this.tvAudiosChoiceBox.setValue(this.tvAudioList.get(0));
+        this.tvOSsChoiceBox.setValue(this.tvOSList.get(0));
+        this.tvCasesChoiceBox.setValue(this.tvCaseList.get(0));
+        this.consoleCPUsChoiceBox.setValue(this.consoleCPUList.get(0));
+        this.consoleScreensChoiceBox.setValue(this.consoleScreenList.get(0));
+        this.consolePowersuppliesChoiceBox.setValue(this.consolePowersupplyList.get(0));
+        this.consoleConnectivitiesChoiceBox.setValue(this.consoleConnectivityList.get(0));
+        this.consoleCamerasChoiceBox.setValue(this.consoleCameraList.get(0));
+        this.notebookCPUsChoiceBox.setValue(this.notebookCPUList.get(0));
+        this.notebookStoragesChoiceBox.setValue(this.notebookStorageList.get(0));
+        this.notebookScreensChoiceBox.setValue(this.notebookScreenList.get(0));
+        this.notebookSoftwaresChoiceBox.setValue(this.notebookSoftwareList.get(0));
+        this.notebookPowersuppliesChoiceBox.setValue(this.notebookPowersupplyList.get(0));
+        this.phoneCPUsChoiceBox.setValue(this.phoneCPUList.get(0));
+        this.phoneScreensChoiceBox.setValue(this.phoneScreenList.get(0));
+        this.phoneCamerasChoiceBox.setValue(this.phoneCameraList.get(0));
+        this.phoneConnectivitiesChoiceBox.setValue(this.phoneConnectivityList.get(0));
+        this.phonePowersuppliesChoiceBox.setValue(this.phonePowersupplyList.get(0));
+        this.phoneKeypadsChoiceBox.setValue(this.phoneKeypadList.get(0));
+    }
+
+    public void launchTv() {
+        List<Component> components = new ArrayList<>();
+        components.add(this.tvScreensChoiceBox.getValue());
+        components.add(this.tvAudiosChoiceBox.getValue());
+        components.add(this.tvCasesChoiceBox.getValue());
+        components.add(this.tvOSsChoiceBox.getValue());
+        this.tv = new Product(this.tvProductNameTextField.getText(), ProductCategory.TELEVISION, components);
+        this.tv.setSalesPrice(Double.valueOf(this.tvSalesPriceTextField.getText()));
+        GameState.getInstance().getProductionDepartment().launchProduct(this.tv, 1, WarehousingDepartment.getInstance().getFreeStorage());
+    }
+
+    public void launchConsole() {
+        List<Component> components = new ArrayList<>();
+        components.add(this.consoleCPUsChoiceBox.getValue());
+        components.add(this.consoleScreensChoiceBox.getValue());
+        components.add(this.consoleConnectivitiesChoiceBox.getValue());
+        components.add(this.consolePowersuppliesChoiceBox.getValue());
+        components.add(this.consoleCamerasChoiceBox.getValue());
+        this.console = new Product(this.consoleProductNameTextField.getText(), ProductCategory.GAME_BOY, components);
+        this.console.setSalesPrice(Double.valueOf(this.consoleSalesPriceTextField.getText()));
+        GameState.getInstance().getProductionDepartment().launchProduct(this.console, 1, WarehousingDepartment.getInstance().getFreeStorage());
+    }
+
+    public void launchNotebook() {
+        List<Component> components = new ArrayList<>();
+        components.add(this.notebookCPUsChoiceBox.getValue());
+        components.add(this.notebookScreensChoiceBox.getValue());
+        components.add(this.notebookStoragesChoiceBox.getValue());
+        components.add(this.notebookSoftwaresChoiceBox.getValue());
+        components.add(this.notebookPowersuppliesChoiceBox.getValue());
+        this.notebook = new Product(this.notebookProductNameTextField.getText(), ProductCategory.NOTEBOOK, components);
+        this.notebook.setSalesPrice(Double.valueOf(this.notebookSalesPriceTextField.getText()));
+        GameState.getInstance().getProductionDepartment().launchProduct(this.notebook, 1, WarehousingDepartment.getInstance().getFreeStorage());
+    }
+
+    public void launchPhone() {
+        List<Component> components = new ArrayList<>();
+        components.add(this.phoneCPUsChoiceBox.getValue());
+        components.add(this.phoneScreensChoiceBox.getValue());
+        components.add(this.phoneConnectivitiesChoiceBox.getValue());
+        components.add(this.phonePowersuppliesChoiceBox.getValue());
+        components.add(this.phoneCamerasChoiceBox.getValue());
+        components.add(this.phoneKeypadsChoiceBox.getValue());
+        this.phone = new Product(this.phoneProductNameTextField.getText(), ProductCategory.PHONE, components);
+        this.phone.setSalesPrice(Double.valueOf(this.phoneSalesPriceTextField.getText()));
+        GameState.getInstance().getProductionDepartment().launchProduct(this.phone, 1, WarehousingDepartment.getInstance().getFreeStorage());
     }
 
     public void showSupplierOptions() {
-        Main.getManager().getGamePageController().showOverlay(UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
+        UIManager.getInstance().getGamePageController().showOverlay(UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
     }
+
+    class ComponentStringConverter extends StringConverter<Component> {
+
+        @Override
+        public String toString(Component component) {
+            DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
+            LocalDate gameDate = GameState.getInstance().getGameDate();
+            return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
+        }
+
+        @Override
+        public Component fromString(String s) {
+            return null;
+        }
+    }
+
+    /*
+    class SupplierListViewCell extends ChoiceBoxListCell<Component> {
+
+        public void updateItem(Component component, boolean empty) {
+            super.updateItem(component, empty);
+            DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
+            setText(component.getSupplierCategory() + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())));
+        }
+    }
+    */
 }

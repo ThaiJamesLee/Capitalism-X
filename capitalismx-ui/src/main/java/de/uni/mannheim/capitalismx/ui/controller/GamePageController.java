@@ -7,7 +7,8 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.uni.mannheim.capitalismx.ui.application.Main;
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
@@ -61,10 +62,10 @@ public class GamePageController implements UpdateableController {
 	// The type of content that is currently being displayed.
 	private GameView currentActiveView;
 
-	// Elements for the notification-system
-	private NotificationController notificationController;
-	private Parent notificationPaneReminder;
-	private boolean openNotificationPane;
+	// Elements for the message-system
+	private MessageController messageController;
+	private Parent messagePaneReminder;
+	private boolean openMessagePane;
 	@FXML
 	private AnchorPane notificationAnchor;
 
@@ -89,16 +90,16 @@ public class GamePageController implements UpdateableController {
 		btnMessages.setOnAction(e -> {
 //			parentStackPane.getChildren().add(e);
 
-			if (!openNotificationPane) {
+			if (!openMessagePane) {
 				FXMLLoader loader2 = new FXMLLoader(
-						getClass().getClassLoader().getResource("fxml/notificationPane3.fxml"));
+						getClass().getClassLoader().getResource("fxml/messagePane.fxml"));
 				Parent rootC;
 				try {
 					rootC = loader2.load();
-					notificationController = loader2.getController();
+					messageController = loader2.getController();
 					parentStackPane.getChildren().add(rootC);
-					notificationPaneReminder = rootC;
-					openNotificationPane = true;
+					messagePaneReminder = rootC;
+					openMessagePane = true;
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -116,9 +117,9 @@ public class GamePageController implements UpdateableController {
 		}
 	}
 
-	public void removeNotificationPane() {
-		parentStackPane.getChildren().remove(notificationPaneReminder);
-		openNotificationPane = false;
+	public void removeMessagePane() {
+		parentStackPane.getChildren().remove(messagePaneReminder);
+		openMessagePane = false;
 	}
 
 	/**
@@ -139,7 +140,7 @@ public class GamePageController implements UpdateableController {
 			}
 		}
 		// change current view and add modules
-		currentActiveView = Main.getManager().getGameView(viewType);
+		currentActiveView = UIManager.getInstance().getGameView(viewType);
 		for (GameModule module : currentActiveView.getModules()) {
 			GridPosition position = module.getGridPosition();
 			module.getController().update();

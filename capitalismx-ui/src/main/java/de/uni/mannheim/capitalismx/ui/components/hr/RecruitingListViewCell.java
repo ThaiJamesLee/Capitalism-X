@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;

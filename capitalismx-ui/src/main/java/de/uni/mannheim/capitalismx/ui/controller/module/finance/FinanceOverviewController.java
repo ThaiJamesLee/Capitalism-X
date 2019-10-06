@@ -1,21 +1,24 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
-import de.uni.mannheim.capitalismx.finance.finance.Finance;
+import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
-import de.uni.mannheim.capitalismx.production.Production;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 
 public class FinanceOverviewController extends GameModuleController {
 
@@ -67,6 +70,8 @@ public class FinanceOverviewController extends GameModuleController {
     @FXML
     Button ventureCapitalButton;
 
+    private FinanceEventListener financeEventListener;
+
     @Override
     public void update() {
         // TODO Auto-generated method stub
@@ -75,6 +80,11 @@ public class FinanceOverviewController extends GameModuleController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
+        financeEventListener = new FinanceEventListener();
+
+        FinanceDepartment f = GameState.getInstance().getFinanceDepartment();
+        f.addPropertyChangeListener(financeEventListener);
+
         cashLabel.setText(controller.getCash() + "");
         assetsLabel.setText(controller.getAssets() + "");
         liabilitiesLabel.setText(controller.getLiabilities() + "");
@@ -98,8 +108,10 @@ public class FinanceOverviewController extends GameModuleController {
                             " Duration: " + loan.getDuration());
                     loanMenuItems[i].setOnAction(e2 -> {
                         controller.addLoan(loan, GameState.getInstance().getGameDate());
-                        loanLabel.setText("Interest Rate: " + controller.getLoan().getInterestRate() + " Duration: " +
-                                controller.getLoan().getDuration());
+                        //loanLabel.setText("Interest Rate: " + controller.getLoan().getInterestRate() + " Duration: " +
+                         //       controller.getLoan().getDuration());
+                        loanLabel.setText("" + controller.getLoan().getLoanAmount() + "CC - Duration: " +
+                               controller.getLoan().getDuration() + " Months");
                         loanAmountTextField.clear();
                     });
                     i++;
@@ -138,5 +150,9 @@ public class FinanceOverviewController extends GameModuleController {
             //TODO update GUI
             controller.calculateNetWorth(GameState.getInstance().getGameDate());
         });
+    }
+
+    public void setNetWorthLabel(String text){
+        this.netWorthLabel.setText(text);
     }
 }

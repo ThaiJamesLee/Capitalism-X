@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
+
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
+
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
@@ -23,8 +26,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class UIManager {
 
@@ -33,6 +36,8 @@ public class UIManager {
 	private GameScene sceneLoadingScreen;
 	private List<GameView> gameViews;
 
+	private static UIManager instance;
+	
 	private Stage window;
 
 	private String language;
@@ -46,6 +51,7 @@ public class UIManager {
 	 * @param stage The primary stage of the application.
 	 */
 	public UIManager(Stage stage) {
+		instance = this;
 		this.window = stage;
 		this.language = "EN";
 
@@ -54,6 +60,10 @@ public class UIManager {
 
 		// set the initial main menu scene as starting scene
 		window.setScene(new Scene(sceneMenuMain.getScene()));
+	}
+	
+	public static UIManager getInstance() {
+		return instance;
 	}
 
 	public GamePageController getGamePageController() {
@@ -89,6 +99,8 @@ public class UIManager {
 	 */
 	public void initGame() {
 		
+		GameState.getInstance().initiate();
+
 		switchToScene(GameSceneType.LOADING_SCREEN);
 		// load all the modules and save them in the gameModules-list
 		preloadViewsAndModules();
@@ -145,7 +157,7 @@ public class UIManager {
 		Parent root;
 		try {
 			ResourceBundle bundle = ResourceBundle.getBundle("properties.main_en");
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), bundle);
 			root = loader.load();
 			sceneMenuMain = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 
@@ -229,9 +241,15 @@ public class UIManager {
 	 * Start the Game by switching to the GamePage and starting the GameController
 	 */
 	private void startGame() {
-		Platform.runLater(() ->	switchToScene(GameSceneType.GAME_PAGE));
-//		Platform.runLater(() -> GameController.getInstance().start());
-		sceneGamePage.getController().update();
+		Platform.runLater(() -> switchToScene(GameSceneType.GAME_PAGE));
+		Platform.runLater(() -> new Runnable() {
+			@Override
+			public void run() {
+				GameController.getInstance().start();
+			}
+		});
+
+		((GamePageController) sceneGamePage.getController()).switchView(GameViewType.OVERVIEW);
 	}
 
 	/**
@@ -247,7 +265,7 @@ public class UIManager {
 			this.language = "EN";
 		}
 		ResourceBundle bundle = ResourceBundle.getBundle(newProperties);
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainmenu.fxml"), bundle);
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), bundle);
 		try {
 
 			Parent root = loader.load();
@@ -289,6 +307,14 @@ public class UIManager {
 	 */
 	public void toggleFullscreen() {
 		window.setFullScreen(!window.isFullScreen());
+	}
+	
+	/**
+	 * Quits the game: Triggers a new {@link WindowEvent}, containing a WINDOW_CLOSE_REQUEST, which can then be handled by the Application.
+	 * TODO maybe handle more stuff when ingame. (eg autosave)
+	 */
+	public void quitGame() {
+		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 
 }

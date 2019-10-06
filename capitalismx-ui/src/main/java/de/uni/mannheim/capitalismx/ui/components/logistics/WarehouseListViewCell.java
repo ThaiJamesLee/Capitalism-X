@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.components.logistics;
 
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
+
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import javafx.fxml.FXML;

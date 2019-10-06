@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import de.jensd.fx.glyphs.weathericons.WeatherIcon?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="1200.0" stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
+<AnchorPane prefHeight="400.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
    <children>
       <TabPane layoutX="79.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/general.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -20,28 +24,38 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane layoutX="-1.0" prefHeight="374.0" prefWidth="1191.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="87.0" minHeight="10.0" percentHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="74.0" minHeight="10.0" percentHeight="50.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <TextField />
-                              <GridPane>
+                              <GridPane GridPane.rowIndex="1">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="92.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="8.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <GridPane>
+                              <TextField fx:id="tvProductNameTextField" promptText="capTV" />
+                              <GridPane GridPane.rowIndex="2">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="8.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -50,61 +64,65 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                     <Label text="Screen" GridPane.columnIndex="1" />
                                     <Label text="Audio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                    <HBox prefHeight="13.0" prefWidth="918.0" GridPane.columnIndex="2">
                                        <children>
-                                          <Label fx:id="tvScreenLabel0" text="Label" />
-                                          <Label fx:id="tvScreenLabel1" text="Label" />
-                                          <Label fx:id="tvScreenLabel2" text="Label" />
-                                          <Label fx:id="tvScreenLabel3" text="Label" />
-                                          <Label fx:id="tvScreenLabel4" text="Label" />
-                                          <Label fx:id="tvScreenLabel5" text="Label" />
-                                          <Label fx:id="tvScreenLabel6" text="Label" />
+                                          <ToggleButton fx:id="tvScreenToggleButton0" mnemonicParsing="false" prefHeight="49.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton1" mnemonicParsing="false" prefHeight="53.0" prefWidth="89.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton2" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton3" mnemonicParsing="false" prefHeight="64.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton4" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton5" mnemonicParsing="false" prefHeight="68.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton6" mnemonicParsing="false" prefHeight="86.0" prefWidth="89.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                          <Label fx:id="tvAudioLabel0" text="Label" />
-                                          <Label fx:id="tvAudioLabel1" text="Label" />
-                                          <Label fx:id="tvAudioLabel2" text="Label" />
-                                          <Label fx:id="tvAudioLabel3" text="Label" />
-                                          <Label fx:id="tvAudioLabel4" text="Label" />
-                                          <Label fx:id="tvAudioLabel5" text="Label" />
-                                          <Label fx:id="tvAudioLabel6" text="Label" />
+                                          <ToggleButton fx:id="tvAudioToggleButton0" mnemonicParsing="false" prefHeight="71.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton1" mnemonicParsing="false" prefHeight="72.0" prefWidth="89.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton2" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton3" mnemonicParsing="false" prefHeight="71.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton4" mnemonicParsing="false" prefHeight="77.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton5" mnemonicParsing="false" prefHeight="73.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton6" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="Case" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
-                                          <Label fx:id="tvCaseLabel0" text="Label" />
-                                          <Label fx:id="tvCaseLabel1" text="Label" />
-                                          <Label fx:id="tvCaseLabel2" text="Label" />
-                                          <Label fx:id="tvCaseLabel3" text="Label" />
+                                          <ToggleButton fx:id="tvCaseToggleButton0" mnemonicParsing="false" prefHeight="53.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvCaseToggleButton1" mnemonicParsing="false" prefHeight="59.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvCaseToggleButton2" mnemonicParsing="false" prefHeight="67.0" prefWidth="89.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvCaseToggleButton3" mnemonicParsing="false" prefHeight="63.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                                     <Label text="OS" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
-                                          <Label fx:id="tvOSLabel0" text="Label" />
-                                          <Label fx:id="tvOSLabel1" text="Label" />
-                                          <Label fx:id="tvOSLabel2" text="Label" />
-                                          <Label fx:id="tvOSLabel3" text="Label" />
-                                          <Label fx:id="tvOSLabel4" text="Label" />
-                                          <Label fx:id="tvOSLabel5" text="Label" />
-                                          <Label fx:id="tvOSLabel6" text="Label" />
+                                          <ToggleButton fx:id="tvOSToggleButton0" mnemonicParsing="false" prefHeight="58.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton1" mnemonicParsing="false" prefHeight="78.0" prefWidth="89.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton2" mnemonicParsing="false" prefHeight="77.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton3" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton4" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton5" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton6" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <ChoiceBox fx:id="tvScreensChoiceBox" prefHeight="59.0" prefWidth="119.0" GridPane.columnIndex="3" />
+                                    <FontAwesomeIcon iconName="PHOTO" />
+                                    <FontAwesomeIcon iconName="VOLUME_UP" GridPane.rowIndex="1" />
+                                    <FontAwesomeIcon iconName="LINUX" GridPane.rowIndex="2" />
+                                    <FontAwesomeIcon iconName="CODEPEN" GridPane.rowIndex="3" />
+                                    <ChoiceBox fx:id="tvAudiosChoiceBox" prefHeight="60.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <ChoiceBox fx:id="tvOSsChoiceBox" prefHeight="60.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <ChoiceBox fx:id="tvCasesChoiceBox" prefHeight="78.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
-                              <GridPane>
+                              <GridPane GridPane.rowIndex="3">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
@@ -112,18 +130,18 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Price" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tvSalesPriceTextField" alignment="CENTER_RIGHT" promptText="400" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label styleClass="label_large" text="Price" GridPane.rowIndex="1" />
                                     <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($10,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button mnemonicParsing="false" styleClass="button_module" text="Launch ($10,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </children>
-                        </VBox>
+                        </GridPane>
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -131,28 +149,45 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane layoutX="-1.0" prefHeight="377.0" prefWidth="1192.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="87.0" minHeight="10.0" percentHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="74.0" minHeight="10.0" percentHeight="50.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
-                              <TextField />
-                              <GridPane>
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+                              <AnchorPane prefHeight="49.0" prefWidth="1229.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="Launch ($50,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
-                              </GridPane>
-                              <GridPane>
+                              </AnchorPane>
+                              <GridPane GridPane.rowIndex="3">
                                  <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <TextField fx:id="consoleSalesPriceTextField" alignment="CENTER_RIGHT" promptText="600" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label styleClass="label_large" text="Price" GridPane.rowIndex="1" />
+                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <GridPane GridPane.rowIndex="2">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -162,36 +197,33 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                                        <children>
-                                          <Label fx:id="consoleCPULabel0" text="Label" />
-                                          <Label fx:id="consoleCPULabel1" text="Label" />
-                                          <Label fx:id="consoleCPULabel2" text="Label" />
-                                          <Label fx:id="consoleCPULabel3" text="Label" />
-                                          <Label fx:id="consoleCPULabel4" text="Label" />
-                                          <Label fx:id="consoleCPULabel5" text="Label" />
-                                          <Label fx:id="consoleCPULabel6" text="Label" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton0" mnemonicParsing="false" prefHeight="51.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton1" mnemonicParsing="false" prefHeight="65.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton2" mnemonicParsing="false" prefHeight="72.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton3" mnemonicParsing="false" prefHeight="72.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton4" mnemonicParsing="false" prefHeight="78.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton5" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton6" mnemonicParsing="false" prefHeight="74.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                          <Label fx:id="consoleScreenLabel0" text="Label" />
-                                          <Label fx:id="consoleScreenLabel1" text="Label" />
-                                          <Label fx:id="consoleScreenLabel2" text="Label" />
-                                          <Label fx:id="consoleScreenLabel3" text="Label" />
+                                          <ToggleButton fx:id="consoleScreenToggleButton0" mnemonicParsing="false" prefHeight="53.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleScreenToggleButton1" mnemonicParsing="false" prefHeight="60.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleScreenToggleButton2" mnemonicParsing="false" prefHeight="58.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleScreenToggleButton3" mnemonicParsing="false" prefHeight="64.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
-                                          <Label fx:id="consolePowersupplyLabel0" text="Label" />
-                                          <Label fx:id="consolePowersupplyLabel1" text="Label" />
-                                          <Label fx:id="consolePowersupplyLabel2" text="Label" />
-                                          <Label fx:id="consolePowersupplyLabel3" text="Label" />
-                                          <Label fx:id="consolePowersupplyLabel4" text="Label" />
-                                          <Label fx:id="consolePowersupplyLabel5" text="Label" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton0" mnemonicParsing="false" prefHeight="56.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton1" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton2" mnemonicParsing="false" prefHeight="56.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton3" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton4" mnemonicParsing="false" prefHeight="61.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton5" mnemonicParsing="false" prefHeight="65.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="CPU" GridPane.columnIndex="1" />
@@ -200,45 +232,46 @@
                                     <Label text="Camera" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                        <children>
-                                          <Label fx:id="consoleCameraLabel0" text="Label" />
-                                          <Label fx:id="consoleCameraLabel1" text="Label" />
+                                          <ToggleButton fx:id="consoleCameraToggleButton0" mnemonicParsing="false" prefHeight="63.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCameraToggleButton1" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="Connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
-                                          <Label fx:id="consoleConnectivityLabel0" text="Label" />
-                                          <Label fx:id="consoleConnectivityLabel1" text="Label" />
-                                          <Label fx:id="consoleConnectivityLabel2" text="Label" />
+                                          <ToggleButton fx:id="consoleConnectivityToggleButton0" mnemonicParsing="false" prefHeight="50.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleConnectivityToggleButton1" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleConnectivityToggleButton2" mnemonicParsing="false" prefHeight="69.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <ChoiceBox fx:id="consoleCPUsChoiceBox" prefHeight="56.0" prefWidth="119.0" GridPane.columnIndex="3" />
+                                    <ChoiceBox fx:id="consoleScreensChoiceBox" prefHeight="64.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <ChoiceBox fx:id="consolePowersuppliesChoiceBox" prefHeight="53.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <ChoiceBox fx:id="consoleConnectivitiesChoiceBox" prefHeight="56.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <ChoiceBox fx:id="consoleCamerasChoiceBox" prefHeight="63.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <FontAwesomeIcon iconName="CALCULATOR" />
+                                    <FontAwesomeIcon iconName="PHOTO" GridPane.rowIndex="1" />
+                                    <FontAwesomeIcon iconName="WIFI" GridPane.rowIndex="3" />
+                                    <FontAwesomeIcon iconName="INSTAGRAM" GridPane.rowIndex="4" />
+                                    <WeatherIcon iconName="LIGHTNING" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
-                              <GridPane>
+                              <GridPane GridPane.rowIndex="1">
                                  <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Price" GridPane.rowIndex="1" />
-                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($50,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
+                              <TextField fx:id="consoleProductNameTextField" promptText="capConsole" />
                            </children>
-                        </VBox>
+                        </GridPane>
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -246,28 +279,45 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane layoutX="214.0" prefHeight="617.0" prefWidth="587.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="87.0" minHeight="10.0" percentHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="74.0" minHeight="10.0" percentHeight="50.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
-                              <TextField />
-                              <GridPane>
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="Launch ($200,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
-                              </GridPane>
-                              <GridPane>
+                              </AnchorPane>
+                              <GridPane GridPane.rowIndex="3">
                                  <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <TextField fx:id="notebookSalesPriceTextField" alignment="CENTER_RIGHT" promptText="1500" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label styleClass="label_large" text="Price" GridPane.rowIndex="1" />
+                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <GridPane GridPane.rowIndex="2">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -277,51 +327,47 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                                        <children>
-                                          <Label fx:id="notebookCPULabel0" text="Label" />
-                                          <Label fx:id="notebookCPULabel1" text="Label" />
-                                          <Label fx:id="notebookCPULabel2" text="Label" />
-                                          <Label fx:id="notebookCPULabel3" text="Label" />
-                                          <Label fx:id="notebookCPULabel4" text="Label" />
-                                          <Label fx:id="notebookCPULabel5" text="Label" />
-                                          <Label fx:id="notebookCPULabel6" text="Label" />
-                                          <Label fx:id="notebookCPULabel7" text="Label" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton0" mnemonicParsing="false" prefHeight="52.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton1" mnemonicParsing="false" prefHeight="60.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton2" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton3" mnemonicParsing="false" prefHeight="45.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton4" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton5" mnemonicParsing="false" prefHeight="52.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton6" mnemonicParsing="false" prefHeight="61.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton7" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                          <Label fx:id="notebookStorageLabel0" text="Label" />
-                                          <Label fx:id="notebookStorageLabel1" text="Label" />
-                                          <Label fx:id="notebookStorageLabel2" text="Label" />
-                                          <Label fx:id="notebookStorageLabel3" text="Label" />
-                                          <Label fx:id="notebookStorageLabel4" text="Label" />
-                                          <Label fx:id="notebookStorageLabel5" text="Label" />
-                                          <Label fx:id="notebookStorageLabel6" text="Label" />
-                                          <Label fx:id="notebookStorageLabel7" text="Label" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton0" mnemonicParsing="false" prefHeight="46.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton1" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton2" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton3" mnemonicParsing="false" prefHeight="52.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton4" mnemonicParsing="false" prefHeight="46.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton5" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton6" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton7" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
-                                          <Label fx:id="notebookScreenLabel0" text="Label" />
-                                          <Label fx:id="notebookScreenLabel1" text="Label" />
-                                          <Label fx:id="notebookScreenLabel2" text="Label" />
-                                          <Label fx:id="notebookScreenLabel3" text="Label" />
-                                          <Label fx:id="notebookScreenLabel4" text="Label" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton0" mnemonicParsing="false" prefHeight="41.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton1" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton2" mnemonicParsing="false" prefHeight="52.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton3" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton4" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
-                                          <Label fx:id="notebookSoftwareLabel0" text="Label" />
-                                          <Label fx:id="notebookSoftwareLabel1" text="Label" />
-                                          <Label fx:id="notebookSoftwareLabel2" text="Label" />
-                                          <Label fx:id="notebookSoftwareLabel3" text="Label" />
-                                          <Label fx:id="notebookSoftwareLabel4" text="Label" />
-                                          <Label fx:id="notebookSoftwareLabel5" text="Label" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton0" mnemonicParsing="false" prefHeight="56.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton1" mnemonicParsing="false" prefHeight="48.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton2" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton3" mnemonicParsing="false" prefHeight="56.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton4" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton5" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="CPU" GridPane.columnIndex="1" />
@@ -329,33 +375,35 @@
                                     <Label text="Screen" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <Label text="Software" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <Label text="Powersupply" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <Label fx:id="notebookPowersupplyLabel0" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <ToggleButton fx:id="notebookPowersupplyToggleButton0" mnemonicParsing="false" prefHeight="52.0" selected="true" text="ToggleButton" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <ChoiceBox fx:id="notebookCPUsChoiceBox" prefHeight="62.0" prefWidth="119.0" GridPane.columnIndex="3" />
+                                    <ChoiceBox fx:id="notebookStoragesChoiceBox" prefHeight="60.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <ChoiceBox fx:id="notebookScreensChoiceBox" prefHeight="63.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <ChoiceBox fx:id="notebookSoftwaresChoiceBox" prefHeight="57.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <ChoiceBox fx:id="notebookPowersuppliesChoiceBox" prefHeight="50.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <FontAwesomeIcon iconName="CALCULATOR" />
+                                    <FontAwesomeIcon iconName="FLOPPY_ALT" GridPane.rowIndex="1" />
+                                    <FontAwesomeIcon iconName="PHOTO" GridPane.rowIndex="2" />
+                                    <FontAwesomeIcon iconName="APPLE" GridPane.rowIndex="3" />
+                                    <WeatherIcon iconName="LIGHTNING" GridPane.rowIndex="4" />
                                  </children>
                               </GridPane>
-                              <GridPane>
+                              <GridPane GridPane.rowIndex="1">
                                  <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Price" GridPane.rowIndex="1" />
-                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($200,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
+                              <TextField fx:id="notebookProductNameTextField" promptText="capNotebook" />
                            </children>
-                        </VBox>
+                        </GridPane>
                      </children></AnchorPane>
               </content>
             </Tab>
@@ -363,29 +411,43 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane layoutX="-45.0" prefHeight="619.0" prefWidth="846.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="87.0" minHeight="10.0" percentHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="74.0" minHeight="10.0" percentHeight="50.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
-                              <TextField />
-                              <GridPane>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+                                 <children>
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="Launch ($500,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
+                              <GridPane GridPane.rowIndex="3">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" prefWidth="100.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints percentHeight="100.0" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="Components" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Label styleClass="label_large" text="Price" />
+                                    <TextField fx:id="phoneSalesPriceTextField" alignment="CENTER_RIGHT" promptText="700" GridPane.columnIndex="1" />
+                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <GridPane>
+                              <GridPane GridPane.rowIndex="2">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -398,52 +460,47 @@
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                                        <children>
-                                          <Label fx:id="phoneCPULabel0" text="Label" />
-                                          <Label fx:id="phoneCPULabel1" text="Label" />
-                                          <Label fx:id="phoneCPULabel2" text="Label" />
-                                          <Label fx:id="phoneCPULabel3" text="Label" />
-                                          <Label fx:id="phoneCPULabel4" text="Label" />
-                                          <Label fx:id="phoneCPULabel5" text="Label" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton0" mnemonicParsing="false" prefHeight="48.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton1" mnemonicParsing="false" prefHeight="58.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton2" mnemonicParsing="false" prefHeight="59.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton3" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton4" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton5" mnemonicParsing="false" prefHeight="104.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
-                                          <Label fx:id="phoneConnectivyLabel0" text="Label" />
-                                          <Label fx:id="phoneConnectivyLabel1" text="Label" />
-                                          <Label fx:id="phoneConnectivyLabel2" text="Label" />
+                                          <ToggleButton fx:id="phoneConnectivyToggleButton0" mnemonicParsing="false" prefHeight="35.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneConnectivyToggleButton1" mnemonicParsing="false" prefHeight="36.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneConnectivyToggleButton2" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                          <Label fx:id="phoneScreenLabel0" text="Label" />
-                                          <Label fx:id="phoneScreenLabel1" text="Label" />
-                                          <Label fx:id="phoneScreenLabel2" text="Label" />
-                                          <Label fx:id="phoneScreenLabel3" text="Label" />
-                                          <Label fx:id="phoneScreenLabel4" text="Label" />
-                                          <Label fx:id="phoneScreenLabel5" text="Label" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton0" mnemonicParsing="false" prefHeight="47.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton1" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton2" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton3" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton4" mnemonicParsing="false" prefHeight="38.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton5" mnemonicParsing="false" prefHeight="48.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
-                                          <Label fx:id="phoneCameraLabel0" text="Label" />
-                                          <Label fx:id="phoneCameraLabel1" text="Label" />
-                                          <Label fx:id="phoneCameraLabel2" text="Label" />
-                                          <Label fx:id="phoneCameraLabel3" text="Label" />
-                                          <Label fx:id="phoneCameraLabel4" text="Label" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton0" mnemonicParsing="false" prefHeight="35.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton1" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton2" mnemonicParsing="false" prefHeight="41.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton3" mnemonicParsing="false" prefHeight="44.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton4" mnemonicParsing="false" prefHeight="38.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                        <children>
-                                          <Label fx:id="phonePowersupplyLabel0" text="Label" />
-                                          <Label fx:id="phonePowersupplyLabel1" text="Label" />
-                                          <Label fx:id="phonePowersupplyLabel2" text="Label" />
+                                          <ToggleButton fx:id="phonePowersupplyToggleButton0" mnemonicParsing="false" prefHeight="36.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phonePowersupplyToggleButton1" mnemonicParsing="false" prefHeight="39.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phonePowersupplyToggleButton2" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                                     <Label text="Powersupply" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <Label text="Camera" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <Label text="Screen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -451,35 +508,42 @@
                                     <Label prefHeight="17.0" prefWidth="25.0" text="CPU" GridPane.columnIndex="1" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                                        <children>
-                                          <Label fx:id="phoneKeypadLabel0" text="Label" />
-                                          <Label fx:id="phoneKeypadLabel1" text="Label" />
+                                          <ToggleButton fx:id="phoneKeypadToggleButton0" mnemonicParsing="false" prefHeight="42.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneKeypadToggleButton1" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="Keypad" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                    <Button mnemonicParsing="false" onAction="#showSupplierOptions" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                    <ChoiceBox fx:id="phoneCPUsChoiceBox" prefHeight="55.0" prefWidth="119.0" GridPane.columnIndex="3" />
+                                    <ChoiceBox fx:id="phoneScreensChoiceBox" prefHeight="52.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <ChoiceBox fx:id="phoneCamerasChoiceBox" prefHeight="51.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <ChoiceBox fx:id="phoneConnectivitiesChoiceBox" prefHeight="59.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <ChoiceBox fx:id="phonePowersuppliesChoiceBox" prefHeight="58.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <ChoiceBox fx:id="phoneKeypadsChoiceBox" prefHeight="52.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                    <FontAwesomeIcon iconName="CALCULATOR" />
+                                    <FontAwesomeIcon iconName="PHOTO" GridPane.rowIndex="1" />
+                                    <FontAwesomeIcon iconName="INSTAGRAM" GridPane.rowIndex="2" />
+                                    <FontAwesomeIcon iconName="WIFI" GridPane.rowIndex="3" />
+                                    <FontAwesomeIcon iconName="KEYBOARD_ALT" GridPane.rowIndex="5" />
+                                    <WeatherIcon iconName="LIGHTNING" GridPane.rowIndex="4" />
                                  </children>
                               </GridPane>
-                              <GridPane>
+                              <GridPane GridPane.rowIndex="1">
                                 <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" prefWidth="100.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="Price" />
-                                    <TextField GridPane.columnIndex="1" />
-                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" text="Launch ($500,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children></AnchorPane>
+                              <TextField fx:id="phoneProductNameTextField" promptText="capPhone" />
                            </children>
-                        </VBox>
+                        </GridPane>
                      </children>
                   </AnchorPane>
               </content>
@@ -487,4 +551,8 @@
         </tabs>
       </TabPane>
    </children>
+   <stylesheets>
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/modul.css" />
+   </stylesheets>
 </AnchorPane>

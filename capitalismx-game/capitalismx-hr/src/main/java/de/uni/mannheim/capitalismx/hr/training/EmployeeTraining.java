@@ -1,7 +1,7 @@
 package de.uni.mannheim.capitalismx.hr.training;
 
-import de.uni.mannheim.capitalismx.hr.domain.Training;
-import de.uni.mannheim.capitalismx.hr.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.Training;
 
 /**
  * Handles training an employee.
