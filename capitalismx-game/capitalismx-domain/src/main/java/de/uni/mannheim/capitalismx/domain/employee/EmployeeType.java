@@ -6,7 +6,8 @@ package de.uni.mannheim.capitalismx.domain.employee;
 public enum EmployeeType {
 
     ENGINEER("Engineer"),
-    SALESPERSON("Salesperson");
+    SALESPERSON("Salesperson"),
+    PRODUCTION_WORKER("Production Worker");
 
     private String type;
 

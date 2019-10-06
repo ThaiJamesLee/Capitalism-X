@@ -104,8 +104,9 @@ public abstract class Employee implements Person, Serializable {
         this.trainingsList = trainingsList;
     }
 
-    public void setEmployeeType(EmployeeType employeeType) {
+    public Employee setEmployeeType(EmployeeType employeeType) {
         this.employeeType = employeeType;
+        return this;
     }
 
     public LocationData getLocationData() {
