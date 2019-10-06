@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
@@ -41,7 +40,7 @@ public class GamePageController implements UpdateableController {
 	private GridPane moduleGrid;
 
 	@FXML
-	private StackPane sidemenuPane;
+	private StackPane sidemenuPane, contentStack;
 
 	@FXML
 	private Label viewTitleLabel;
@@ -100,6 +99,8 @@ public class GamePageController implements UpdateableController {
 			e1.printStackTrace();
 		}
 
+		
+		//TODO Refactor: keep panes in memory, loading them each time is probably not very performant
 		btnMessages.setOnAction(e -> {
 //			parentStackPane.getChildren().add(e);
 
@@ -110,7 +111,7 @@ public class GamePageController implements UpdateableController {
 				try {
 					rootC = loader2.load();
 					messageController = loader2.getController();
-					parentStackPane.getChildren().add(rootC);
+					contentStack.getChildren().add(rootC);
 					messagePaneReminder = rootC;
 					openMessagePane = true;
 				} catch (IOException e1) {
