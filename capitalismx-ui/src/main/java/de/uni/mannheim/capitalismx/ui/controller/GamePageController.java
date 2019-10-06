@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
@@ -41,13 +40,16 @@ public class GamePageController implements UpdateableController {
 	private GridPane moduleGrid;
 
 	@FXML
-	private StackPane sidemenuPane;
+	private StackPane sidemenuPane, contentStack;
 
 	@FXML
 	private Label viewTitleLabel;
 
 	@FXML
 	private Button btnMessages;
+
+	@FXML
+	private Button btnMenu;
 
 	@FXML
 	private StackPane parentStackPane;
@@ -64,8 +66,18 @@ public class GamePageController implements UpdateableController {
 
 	// Elements for the message-system
 	private MessageController messageController;
+	//saves the added element so it can be addressed for removal
 	private Parent messagePaneReminder;
+	//flag to know whether message Pane is open or not: true=open false=closed.
 	private boolean openMessagePane;
+	
+	//Elements for the in-game menu
+	private IngameMenuController ingameMenuController;
+	//saves the added element so it can be addressed for removal
+	private Parent menuPaneReminder;
+	//flag to know whether menu Pane is open or not: true=open false=closed.
+	private boolean openMenuPane;
+	
 	@FXML
 	private AnchorPane notificationAnchor;
 
@@ -87,6 +99,8 @@ public class GamePageController implements UpdateableController {
 			e1.printStackTrace();
 		}
 
+		
+		//TODO Refactor: keep panes in memory, loading them each time is probably not very performant
 		btnMessages.setOnAction(e -> {
 //			parentStackPane.getChildren().add(e);
 
@@ -97,7 +111,7 @@ public class GamePageController implements UpdateableController {
 				try {
 					rootC = loader2.load();
 					messageController = loader2.getController();
-					parentStackPane.getChildren().add(rootC);
+					contentStack.getChildren().add(rootC);
 					messagePaneReminder = rootC;
 					openMessagePane = true;
 				} catch (IOException e1) {
@@ -106,6 +120,25 @@ public class GamePageController implements UpdateableController {
 				}
 			}
 
+		});
+		
+		btnMenu.setOnAction(e -> {
+			if (!openMenuPane) {
+				FXMLLoader loader2 = new FXMLLoader(
+						getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"));
+				Parent rootD;
+				try {
+					rootD = loader2.load();
+					ingameMenuController = loader2.getController();
+					parentStackPane.getChildren().add(rootD);
+					menuPaneReminder = rootD;
+					openMenuPane = true;
+				} catch (IOException e1){
+					e1.printStackTrace();
+				}
+			}
+			
+			
 		});
 
 	}
@@ -118,10 +151,15 @@ public class GamePageController implements UpdateableController {
 	}
 
 	public void removeMessagePane() {
-		parentStackPane.getChildren().remove(messagePaneReminder);
+		contentStack.getChildren().remove(messagePaneReminder);
 		openMessagePane = false;
 	}
 
+	public void removeIngameMenuPane() {
+		parentStackPane.getChildren().remove(menuPaneReminder);
+		openMenuPane = false;
+	}
+	
 	/**
 	 * Switches the displayed contentType by removing all {@link GameModule}s of
 	 * that type.

@@ -46,6 +46,18 @@ FontAwesomeIcon {
 	-fx-fill: -fx-dark; 
 }
 
+.fontAwesomeButtonDark, .fontAwesomeButtonDark FontAwesomeIcon {
+	-fx-background-color: -fx-dark;
+	-fx-cursor: hand;
+	-fx-text-fill: -fx-light; 
+	-fx-fill: -fx-light; 
+}
+
+.fontAwesomeButtonDark:hover, .fontAwesomeButtonDark FontAwesomeIcon:hover {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
+}
+
 .nav_button {
 	-fx-background-color: -fx-light;
 	-fx-text-fill: -fx-dark;
@@ -358,6 +370,9 @@ FontAwesomeIcon {
 	-fx-text-fill: white;
 }
 
+.wholeOverlayBackground {
+	-fx-background-color: #E0E0E0;
+}
 
 .currentView_label {
 	/*-fx-background-radius: 10 10 0 0;

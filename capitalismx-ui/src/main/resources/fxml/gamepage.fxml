@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -14,11 +15,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="parentStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GamePageController">
+<StackPane fx:id="parentStackPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GamePageController">
    <children>
       <BorderPane>
          <center>
-            <StackPane BorderPane.alignment="CENTER">
+            <StackPane fx:id="contentStack" BorderPane.alignment="CENTER">
                <children>
                   <AnchorPane fx:id="overlayPane" onMouseClicked="#resetOverlay" styleClass="overlayPane" />
                   <GridPane fx:id="moduleGrid" hgap="20.0" styleClass="background" vgap="20.0">
@@ -104,17 +105,13 @@
                            <children>
                               <HBox spacing="20.0">
                                  <children>
-                                    <Button fx:id="btnMessages1" mnemonicParsing="false" styleClass="date_label">
-                                       <graphic>
-                                          <ImageView fx:id="iconMessages1" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../icons/settings-3.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
+                                    <Button fx:id="btnMenu" mnemonicParsing="false" styleClass="fontAwesomeButtonDark">
                                        <HBox.margin>
                                           <Insets left="2.0" />
                                        </HBox.margin>
+                                       <graphic>
+                                          <FontAwesomeIcon iconName="GEAR" size="4em" />
+                                       </graphic>
                                     </Button>
                                     <AnchorPane styleClass="hud_box">
                                        <children>
