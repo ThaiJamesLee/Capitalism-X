@@ -16,9 +16,14 @@ public class FinanceEventListener implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("netWorth")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-           //TODO do something
             FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OVERVIEW).getController();
             financeOverviewController.setNetWorthLabel(String.valueOf(newVal.getValue()));
+        }
+
+        if (evt.getPropertyName().equals("cash")) {
+            PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
+            FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OVERVIEW).getController();
+            financeOverviewController.setCashLabel(String.valueOf(newVal.getValue()));
         }
     }
 }
