@@ -27,7 +27,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     private PropertyChangeSupportDouble netWorth;
     //private double netWorth;
-    private double cash;
+    private PropertyChangeSupportDouble cash;
     private double assets;
     private double liabilities;
     private double totalTruckValues;
@@ -61,9 +61,11 @@ public class FinanceDepartment extends DepartmentImpl {
 
     protected FinanceDepartment(){
         super("Finance");
-        this.cash = 1000000.0;
-        this.netWorth = new PropertyChangeSupportDouble();
+        this.cash = new PropertyChangeSupportDouble();
+        this.cash.setValue(1000000.0);
+        this.cash.setPropertyChangedName("cash");
 
+        this.netWorth = new PropertyChangeSupportDouble();
         this.netWorth.setValue(1000000.0);
         this.netWorth.setPropertyChangedName("netWorth");
 
@@ -92,7 +94,7 @@ public class FinanceDepartment extends DepartmentImpl {
     public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
         // TODO add all property changelisteners here
         this.netWorth.addPropertyChangeListener(propertyChangeListener);
-
+        this.cash.addPropertyChangeListener(propertyChangeListener);
     }
 
     // liabilities = loanAmount
@@ -114,8 +116,8 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO reset assetsSold and nopat of current day?
     protected double calculateCash(LocalDate gameDate){
         //this.cash += this.nopat + this.assetsSold;
-        this.cash += this.calculateNopat() + this.calculateAssetsSold(gameDate);
-        return this.cash;
+        this.cash.setValue(this.cash.getValue() +  this.calculateNopat() + this.calculateAssetsSold(gameDate));
+        return this.cash.getValue();
     }
 
     private double calculateAnnualDepreciation(double purchasePrice, double usefulLife){
@@ -282,7 +284,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     //TODO update cash and netWorth?
     public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount){
-        if(this.cash == 0.0){
+        if(this.cash.getValue() == 0.0){
             return null;
         }
         if(desiredLoanAmount > 0.7 * this.netWorth.getValue()){
@@ -297,7 +299,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     //TODO update cash?
     public ArrayList<Investment> generateInvestmentSelection(double amount){
-        if(amount > this.cash){
+        if(amount > this.cash.getValue()){
             return null;
         }
         ArrayList<Investment> investmentSelection = new ArrayList<Investment>();
@@ -313,16 +315,16 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO update cash?
     public void addInvestment(Investment investment){
         this.investments.add(investment);
-        this.cash -= investment.getAmount();
-        this.calculateTotalInvestmentAmount();
+        this.cash.setValue(this.cash.getValue() - investment.getAmount());
+        //this.calculateTotalInvestmentAmount();
     }
 
     //TODO taxes
     //TODO update cash?
     public void removeInvestment(Investment investment){
         this.investments.remove(investment);
-        this.cash += investment.getAmount();
-        this.calculateTotalInvestmentAmount();
+        this.cash.setValue(this.cash.getValue() + investment.getAmount());
+        //this.calculateTotalInvestmentAmount();
     }
 
     //TODO
@@ -350,11 +352,11 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     private void decreaseCash(double amount){
-        this.cash -= amount;
+        this.cash.setValue(this.cash.getValue() - amount);
     }
 
-    private void increaseCash(double amount){
-        this.cash += amount;
+    public void increaseCash(double amount){
+        this.cash.setValue(this.cash.getValue() + amount);
     }
 
     //TODO decide on suitable consequences of acquisition, e.g., increase assets
@@ -393,7 +395,7 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     public double getCash() {
-        return this.cash;
+        return this.cash.getValue();
     }
 
     public List<Investment> getInvestments() {
