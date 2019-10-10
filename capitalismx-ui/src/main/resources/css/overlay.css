@@ -1,0 +1,36 @@
+.headerPane {
+	-fx-padding: 15;
+	-fx-background-color: -fx-light;
+}
+
+.contentPane {
+	-fx-padding: 15;
+	-fx-background-color: -fx-light;
+}
+
+
+.header {
+	-fx-font: bold 24pt 'Prime';
+	-fx-text-fill: -fx-dark;
+}
+
+.details_label {
+	-fx-font-size: 16px;
+	-fx-font-family: "Prime";
+}	
+
+.employee_detail_separator {
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: -fx-dark;
+}
+
+.employee_detail_grid {
+	-fx-padding: 15 0 15 0;
+}
+
+.employee_detail_background {
+	-fx-border-width: 0 1 0 1;
+	-fx-border-color: -fx-dark;
+	-fx-border-insets: 5 -25 5 -25;
+}
+

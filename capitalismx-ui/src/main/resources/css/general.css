@@ -1,0 +1,453 @@
+/** Definition of colors */
+* {
+   -fx-primary: #DBA901;
+   -fx-light: #FAFAFA;
+   -fx-dark: #2E2E2E;
+   -fx-neutral: #848484;
+   -fx-light-neutral: #cccccc;
+   -fx-contrast: #ffd54f;
+   -fx-transparent-background: rgb(132, 132, 132, 0.6);
+}
+
+* {
+	-fx-focus-color: -fx-primary;
+} 
+
+/** Define fonts */
+@font-face {
+    src: url('../fonts/Prime-Regular.ttf');
+}
+@font-face {
+    src: url('../fonts/Prime-Light.ttf');
+}
+@font-face {
+    src: url('../fonts/Reckone-Regular.ttf');
+}
+@font-face {
+    src: url('../fonts/Reckoner-Bold.ttf');
+}
+
+
+.label {
+	-fx-font-family: "Prime";
+}
+
+.label_very_large {
+	-fx-font-weight: bold;
+	-fx-font-size: 20.0;
+}
+
+.label_large {
+	-fx-font-weight: bold;
+	-fx-font-size: 16.0;
+}
+
+.label_medium {
+	-fx-font-size: 12.0;
+}
+
+.label_light {
+	-fx-font-family: "Prime Light";
+}
+
+
+.header {
+	-fx-font: bold 29px 'Prime';
+	-fx-text-fill: -fx-dark;
+}
+
+
+FontAwesomeIcon {
+	-fx-text-fill: -fx-dark; 
+	-fx-fill: -fx-dark; 
+}
+
+.fontAwesomeButtonDark, .fontAwesomeButtonDark FontAwesomeIcon {
+	-fx-background-color: -fx-dark;
+	-fx-cursor: hand;
+	-fx-text-fill: -fx-light; 
+	-fx-fill: -fx-light; 
+}
+
+.fontAwesomeButtonDark:hover, .fontAwesomeButtonDark FontAwesomeIcon:hover {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
+}
+
+.nav_button {
+	-fx-background-color: -fx-light;
+	-fx-text-fill: -fx-dark;
+}
+
+
+.togglebutton {
+	-fx-background-color: -fx-light;
+	-fx-text-fill: -fx-dark; 
+}
+
+
+
+.button_module {
+	-fx-border-radius: 2px;
+	-fx-border-width: 1.5px;
+	-fx-border-color: transparent;
+	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-light;
+	-fx-border-insets: 0.0;
+}
+
+.button_module:hover {
+	-fx-border-color: -fx-dark;
+}
+
+.button_module:pressed {
+	-fx-background-color: -fx-dark;
+	-fx-border-color: -fx-primary;
+}
+
+.nav_button {
+	-fx-background-color: -fx-light;
+	-fx-text-fill: -fx-dark;
+}
+
+.toggle-button {
+	-fx-border-radius: 2px;
+	-fx-font-family: "Prime";
+	-fx-font-size: 10px;
+	-fx-border-width: 1.5;
+	-fx-background-color: -fx-dark;
+	-fx-border-color: -fx-light;
+	-fx-text-fill: -fx-light;
+}
+.toggle-button:disabled {
+	-fx-background-color: -fx-light-neutral;
+	-fx-border-color: -fx-dark;
+	-fx-text-fill: -fx-neutral;
+}
+.toggle-button:selected {
+	-fx-border-radius: 2px;
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-dark;
+	-fx-text-fill: -fx-dark;
+}
+
+
+/**
+ * Styling for Listviews.
+ */
+ 
+ 
+.list-label {
+	-fx-font-size: 16px;
+	-fx-font-family: 'Prime';
+ }
+ 
+.list-view {
+	-fx-background-color: none;
+	-fx-border-width : 1 0 0 0;
+}
+
+.list-view .scroll-bar:horizontal {
+    -fx-scale-x: 0;
+}
+
+.list-cell {
+	-fx-background-color: -fx-light;
+	-fx-border-insets: 0 5 0 5;
+	-fx-background-insets: 0 5 0 5;
+	-fx-border-width: 0;
+	-fx-border-color: -fx-neutral;
+}
+
+.list-cell:hover {
+	-fx-background-color: -fx-neutral;
+}
+
+.list-cell:odd {
+	-fx-border-width: 1 0 1 0;
+}
+
+.list-cell:even {
+	-fx-border-width: 0 0 0 0;
+}
+
+.list-cell:selected {
+	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-dark;
+}
+
+.list-cell:empty {
+    -fx-opacity: 0;
+}
+
+/**
+ * Styling of scrollbars
+ */
+.scroll-bar {
+	-fx-background-color: transparent;
+	-fx-border-width: 0;
+}
+
+.scroll-bar .track {
+	-fx-background-color: transparent;
+	-fx-border-width: 0;
+}
+
+.scroll-bar .thumb {
+	-fx-background-color: -fx-neutral;
+	-fx-width: 8px;
+	-fx-border-radius: 3;
+}
+
+.increment-button ,
+.decrement-button {
+	-fx-background-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-padding:0 15 0 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+	-fx-shape: " ";
+	-fx-padding:0;
+}
+
+.scroll-bar .thumb:hover {
+	-fx-background-color: -fx-light-neutral;
+}
+
+.scroll-bar .thumb:pressed {
+	-fx-background-color: -fx-dark;
+}
+
+
+/**
+ * Utilities
+ */
+ .separator_right {
+ 	-fx-border-width: 0.0 1.0 0.0 0.0;
+ 	-fx-border-color: -fx-dark;
+ 	-fx-border-insets: 0.0 -5.0 0.0 0.0;
+ }
+
+
+
+/**
+ * Styling for TabPanes.
+ */
+ 
+ .tab-pane {
+    -fx-tab-min-width: 60.0px;
+ }
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-background-color: transparent;
+}
+
+.tab-pane .tab-content-area {
+	-fx-background-color: transparent;
+	-fx-border-width : 1.0 0.0 0.0 0.0;
+	-fx-border-insets : 0.0 5.0 0.0 5.0;
+	-fx-border-color: -fx-dark;
+}
+
+.tab-pane .tab {
+    -fx-background-insets: 0.0 1.0 0.0 1.0;
+	-fx-background-color: -fx-dark;
+	-fx-border-radius: 5.0 5.0 0.0 0.0;
+	-fx-background-radius: 5.0 5.0 0.0 0.0;
+}
+
+.tab-pane .tab:selected, .tab-pane .tab-pane:focused {
+	-fx-background-color: -fx-primary;
+	-fx-border-width: 2.0;
+	-fx-border-color: -fx-dark;
+	-fx-background-insets: -2.0;
+	-fx-border-insets: -2.0;
+	-fx-border-radius: 3.0;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+	-fx-text-fill: -fx-light;
+	-fx-font-family: "Prime";
+}
+
+/**
+ * Styling of charts
+ */
+.chart-bar {
+	-fx-bar-fill: -fx-primary;
+}
+
+.chart-plot-background{
+	-fx-background-color: -fx-light-neutral;	
+}
+
+.chart-alternative-row-fill {
+    -fx-fill: -fx-light;
+}
+ 
+ .axis {
+ 	-fx-border-color: -fx-dark;
+ 	-fx-tick-label-font-size: 12px;
+ 	-fx-tick-label-font-family: "Prime";
+ }
+ 
+ .axis-label {
+  	-fx-text-fill: -fx-dark;
+ 	-fx-font-size: 16.0px;
+}
+ 
+ .axis:left {
+ 	-fx-border-width: 0.0 2.0 0.0 0.0;
+ 	-fx-border-insets: 0.0 0.0 -1.0 0.0;
+ }
+ 
+ .axis:bottom {
+ 	-fx-border-width: 2.0 0.0 0.0 0.0;
+ 	-fx-border-insets: 0.0 0.0 0.0 -1.0;
+ }
+ 
+/**
+ * Styling of radio buttons
+ */
+ .radio-button {
+	-fx-font-family: "Prime";	
+ }
+ 
+ .radio-button .radio {
+ 	-fx-background-color: -fx-light;
+ 	-fx-border-radius: 50.0%;
+ 	-fx-border-color: -fx-dark;
+ }
+ 
+ .radio-button .dot {
+ 	-fx-background-color: -fx-light;
+ }
+ 
+ .radio-button:hover .dot {
+ 	-fx-background-color: -fx-primary;
+ }
+ 
+.radio-button:selected .dot {
+	-fx-background-color: -fx-dark;
+}
+
+.radio-button:selected .radio {
+	-fx-background-color: -fx-primary;
+}
+
+
+
+/**
+ * TODO: in eigene Dateien für das jeweilige Element auslagern
+ */
+.sidemenu_color {
+	-fx-background-color: -fx-dark;
+	-fx-backgound-insets: 0 0 0 100;
+}
+
+.title_label {
+    -fx-background-insets: 0,1,4,5;
+    -fx-background-radius: 9,8,5,4;
+    -fx-padding: 15 30 15 30;
+    -fx-font-family: "Prime";
+    -fx-font-size: 37px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333; 
+}
+
+.subtitle_label {
+    -fx-background-insets: 0,1,4,5;
+    -fx-background-radius: 9,8,5,4;
+    /*-fx-padding: 15 30 15 30;*/
+    -fx-font-family: "Prime";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;     
+}
+
+.big_buttons {
+	-fx-pref-width: 200px;
+	-fx-pref-height: 67px;
+	-fx-background-color: #423f39;
+	-fx-text-fill: white;
+    -fx-font-family: "Prime";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+	-fx-border-size: medium;
+}
+
+.big_button_sprache {
+	-fx-pref-width: 107px;
+	-fx-pref-height: 67px;
+	-fx-background-color: #423f39;
+	-fx-text-fill: white;
+    -fx-font-family: "Prime";
+    -fx-font-weight: bold;
+	-fx-border-size: medium;
+}
+
+.big_buttons:hover {
+	-fx-border-color: blue;
+	-fx-text-color: blue;
+}
+
+.big_buttons:pressed {
+	-fx-background-color: lightgrey;
+}
+
+
+.date_label {
+	-fx-background-color: -fx-dark;
+    -fx-background-insets: 0,1,4,5;
+    -fx-background-radius: 9,8,5,4;
+	-fx-font-size: 15px;
+	-fx-text-fill: white;
+}
+
+.ressource_label {
+	-fx-background-color: #E0E0E0;
+    -fx-background-insets: 0,1,4,5;
+    -fx-background-radius: 9,8,5,4;
+	-fx-background-color: #423f39;
+	-fx-text-fill: white;
+}
+
+.wholeOverlayBackground {
+	-fx-background-color: #E0E0E0;
+}
+
+.currentView_label {
+	-fx-text-fill: -fx-light;
+    -fx-font-family: "Prime";
+    -fx-font-size: 33px;
+    -fx-font-weight: bold;
+
+}
+
+
+
+
+/**
+ *	Design for the Popover.
+ */
+.popover {
+	-fx-border-radius: 5;
+	-fx-width: 150px;
+}
+
+.popover .training_grid {
+	-fx-border-radius: 2px;
+	-fx-background-radius: 2px;
+	-fx-padding: 5px;
+	-fx-background-color: -fx-light-neutral;
+}
+
+.popover .training_grid:hover {
+	-fx-background-color: -fx-primary;
+}
+.popover .training_grid:pressed {
+	-fx-background-color: -fx-neutral;
+	-fx-border-color: -fx-primary;
+}

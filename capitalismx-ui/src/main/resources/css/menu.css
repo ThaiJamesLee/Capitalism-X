@@ -1,0 +1,54 @@
+.root {
+	-fx-background-color: white;
+}
+.grid {
+	-fx-background-color: lightgrey;
+}
+
+.menubutton {
+	-fx-border-color: white;
+	-fx-border-width: 7px;
+	-fx-background-color: lightgrey;
+}
+
+.menu_image {
+	-fx-background-image: url("../img/Menuv1.jpg");	
+	-fx-background-size: contain;
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-background-insets: 15px;
+	-fx-border-width: 0 2 0 0;
+	-fx-border-color: -fx-dark;
+	-fx-border-insets: 50 -25 50 0;
+}
+
+.menu_button {
+	-fx-background-color: transparent;
+	-fx-text-fill: -fx-dark;
+	-fx-font-family: "Reckoner";
+}
+
+.main_button {
+	-fx-font-size: 42;
+}
+
+.menu_button:hover, .menu_button:hover FontAwesomeIcon {
+	-fx-fill: -fx-primary;
+	-fx-text-fill: -fx-primary;
+}
+
+.menu_button:pressed, .menu_button:hover FontAwesomeIcon {
+	-fx-underline: true;
+}
+
+.title_label {
+	-fx-font-family: "Reckoner Bold";
+	-fx-font-size: 108;
+}
+
+.subtitle_label {
+	-fx-font-family: "Reckoner";
+	-fx-font-size: 54;
+}
+
+
