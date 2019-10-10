@@ -6,7 +6,9 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import org.controlsfx.control.PopOver;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.domain.employee.Training;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,6 +29,8 @@ public class TrainingPopoverController implements Initializable {
 	private GridPane workshopGrid, courseGrid;
 
 	private Employee employee;
+	
+	private UpdateableController parentController;
 
 	private PopOver popover;
 
@@ -42,24 +46,27 @@ public class TrainingPopoverController implements Initializable {
 		this.training2CostLabel.setText(Training.COURSES.getPrice() + "CC");
 		this.training1NameLabel.setText(Training.WORKSHOP.name());
 		this.training2NameLabel.setText(Training.COURSES.name());
-		this.training1EffectLabel.setText("Skill +" + Training.WORKSHOP.getSkillLevelImprove() + ", Salary " + (int)(Training.WORKSHOP.getSalaryIncreaseFactor() - 1)*100 + "%");
-		this.training2EffectLabel.setText("Skill +" + Training.COURSES.getSkillLevelImprove() + ", Salary " + (int)(Training.COURSES.getSalaryIncreaseFactor() - 1)*100 + "%");
+		this.training1EffectLabel.setText("Skill +" + Training.WORKSHOP.getSkillLevelImprove() + ", Salary " + (int)((Training.WORKSHOP.getSalaryIncreaseFactor() - 1)*100) + "%");
+		this.training2EffectLabel.setText("Skill +" + Training.COURSES.getSkillLevelImprove() + ", Salary " + (int)((Training.COURSES.getSalaryIncreaseFactor() - 1)*100) + "%");
 	}
 
-	public void init(PopOver popover, Employee employee) {
+	public void init(PopOver popover, Employee employee, UpdateableController controller) {
 		this.popover = popover;
 		this.employee = employee;
+		this.parentController = controller;
 	}
 
 	@FXML
 	public void trainEmployeeWorkshop() {
 		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP);
+		parentController.update();
 		popover.hide();
 	}
 
 	@FXML
 	public void trainEmployeeCourse() {
 		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP);
+		parentController.update();
 		popover.hide();
 	}
 
