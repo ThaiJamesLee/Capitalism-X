@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
-
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
-
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
@@ -25,7 +23,6 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;

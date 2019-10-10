@@ -3,7 +3,6 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElement;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
