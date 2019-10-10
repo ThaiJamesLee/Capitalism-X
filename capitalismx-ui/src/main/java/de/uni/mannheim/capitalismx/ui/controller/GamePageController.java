@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.controlsfx.control.PopOver.ArrowLocation;
+
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
@@ -14,6 +16,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
@@ -137,10 +140,12 @@ public class GamePageController implements UpdateableController {
 					e1.printStackTrace();
 				}
 			}
-			
-			
 		});
 
+
+		TooltipFactory factory = new TooltipFactory();
+		factory.setLocationOfArrow(ArrowLocation.LEFT_CENTER);
+		factory.addSimpleTooltipToNode(btnMenu, "Settings");
 	}
 
 	@Override
@@ -238,9 +243,6 @@ public class GamePageController implements UpdateableController {
 		AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootElement, 10.0);
 		overlayPane.getChildren().add(rootElement);
 		overlayPane.toFront();
-		// TODO remove, only for testing of the notifications
-		showNotification(new GameNotification("Peter",
-				"Welcome to CapitalismX! Please enjoy this test notification. Best Regards, Peter."));
 	}
 
 	/**
