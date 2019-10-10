@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -108,10 +109,6 @@ public class SideMenuController implements Initializable {
 
 		btnHR.setOnAction(e -> {
 			switchView(GameViewType.HR);
-		});
-
-		btnProcurement.setOnAction(e -> {
-			switchView(GameViewType.PROCUREMENT);
 		});
 
 		btnProduction.setOnAction(e -> {
