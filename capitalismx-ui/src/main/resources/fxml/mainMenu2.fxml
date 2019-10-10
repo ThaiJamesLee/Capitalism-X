@@ -37,7 +37,7 @@
                         </Pane>
                         <VBox alignment="TOP_CENTER" spacing="15.0">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" styleClass="title_label" stylesheets="@../css1080p/menu1080p.css" text="Capitalism X">
+                              <Label alignment="CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" styleClass="title_label" stylesheets="@../css/menu.css" text="Capitalism X">
                                  <font>
                                     <Font size="26.0" />
                                  </font>

@@ -49,7 +49,7 @@
       </Label>
    </children>
    <stylesheets>
-      <URL value="@../../css1080p/general1080p.css" />
-      <URL value="@../../css1080p/modul1080p.css" />
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/modul.css" />
    </stylesheets>
 </GridPane>
