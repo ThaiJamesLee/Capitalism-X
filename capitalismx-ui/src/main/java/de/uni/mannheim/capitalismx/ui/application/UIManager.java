@@ -18,11 +18,14 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -37,7 +40,7 @@ public class UIManager {
 	private List<GameView> gameViews;
 
 	private static UIManager instance;
-	
+
 	private Stage window;
 
 	private String language;
@@ -45,23 +48,29 @@ public class UIManager {
 	// Controller for the main scene of the game.
 	private GamePageController gamePageController;
 
+	private GameResolution currentResolution;
+
 	/**
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
-	 * @param stage The primary stage of the application.
+	 * @param stage                The primary stage of the application.
+	 * @param calculatedResolution The {@link GameResolution} that was initially
+	 *                             calculated for the game.
 	 */
-	public UIManager(Stage stage) {
+	public UIManager(Stage stage, GameResolution calculatedResolution) {
 		instance = this;
 		this.window = stage;
 		this.language = "EN";
+		this.currentResolution = calculatedResolution;
 
+		resetResolution();
 		// static loading of the scenes
 		loadScenes();
 
 		// set the initial main menu scene as starting scene
 		window.setScene(new Scene(sceneMenuMain.getScene()));
 	}
-	
+
 	public static UIManager getInstance() {
 		return instance;
 	}
@@ -85,6 +94,11 @@ public class UIManager {
 		// TODO error handling? Custom Exceptions?
 		return null;
 	}
+	
+	public void resetResolution() {
+		//TODO adjust/force size of Scene/Stage to given Resolution or just switch css
+		CssHelper.adjustCssToResolution(currentResolution);
+	}
 
 	public GameScene getSceneGame() {
 		return sceneGamePage;
@@ -98,7 +112,7 @@ public class UIManager {
 	 * Initializes all components needed for a new Game.
 	 */
 	public void initGame() {
-		
+
 		GameState.getInstance().initiate();
 
 		switchToScene(GameSceneType.LOADING_SCREEN);
@@ -308,10 +322,11 @@ public class UIManager {
 	public void toggleFullscreen() {
 		window.setFullScreen(!window.isFullScreen());
 	}
-	
+
 	/**
-	 * Quits the game: Triggers a new {@link WindowEvent}, containing a WINDOW_CLOSE_REQUEST, which can then be handled by the Application.
-	 * TODO maybe handle more stuff when ingame. (eg autosave)
+	 * Quits the game: Triggers a new {@link WindowEvent}, containing a
+	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application. TODO
+	 * maybe handle more stuff when ingame. (eg autosave)
 	 */
 	public void quitGame() {
 		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
