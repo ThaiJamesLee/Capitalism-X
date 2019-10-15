@@ -29,7 +29,7 @@ public enum GameModuleDefinition {
 	HR_STATISTICS(13, "hr_statistics.fxml", GameViewType.HR, null, UIElementType.HR_STATISTICS, 14, 6,
 			0, 9),
 	HR_WORKING_CONDITIONS(14, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
-			9, 11),
+			10, 11),
 
 	// The modules for Logistics. (21-30)
 	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.LOGISTICS_PARTNER_DETAIL, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),

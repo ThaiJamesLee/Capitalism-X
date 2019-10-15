@@ -229,6 +229,12 @@ FontAwesomeIcon {
  	-fx-border-color: -fx-dark;
  	-fx-border-insets: 0.0 -5.0 0.0 0.0;
  }
+ 
+ .separator_horizontal {
+ 	-fx-border-width: 1.0 0.0 0.0 0.0;
+ 	-fx-border-color: -fx-dark;
+ 	-fx-border-insets: 0.0 5.0 0.0 5.0;
+ }
 
 
 
