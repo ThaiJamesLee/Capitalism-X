@@ -13,7 +13,7 @@ public enum UIElementType {
 	OVERVIEW_MAP_3D("Company Map"),
 	
 	HR_EMPLOYEES_OVERVIEW("Employees"), 
-	HR_EMPLOYEE_SATISFACTION("Employee Satisfaction"), 
+	HR_STATISTICS("Statistics"), 
 	HR_WORKING_CONDITIONS("Working Conditions"), 
 	HR_RECRUITING_OVERVIEW("Recruiting"),
 	FINANCE_OVERVIEW("Finance"),

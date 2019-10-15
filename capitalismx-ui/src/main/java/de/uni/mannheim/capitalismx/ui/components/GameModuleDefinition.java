@@ -26,7 +26,7 @@ public enum GameModuleDefinition {
 			UIElementType.HR_EMPLOYEES_OVERVIEW, 0, 7, 0, 15),
 	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, UIElementType.HR_RECRUITING_OVERVIEW, 7, 7,
 			0, 17),
-	HR_EMPLOYEE_SATISFACTION(13, "employee_satisfaction.fxml", GameViewType.HR, null, UIElementType.HR_EMPLOYEE_SATISFACTION, 14, 6,
+	HR_STATISTICS(13, "hr_statistics.fxml", GameViewType.HR, null, UIElementType.HR_STATISTICS, 14, 6,
 			0, 9),
 	HR_WORKING_CONDITIONS(14, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
 			9, 11),
