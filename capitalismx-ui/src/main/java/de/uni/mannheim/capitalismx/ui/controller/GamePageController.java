@@ -191,6 +191,9 @@ public class GamePageController implements UpdateableController {
 		viewTitleLabel.setText(viewType.getTitle());
 
 		if (currentActiveView != null) {
+			if(currentActiveView.getViewType().equals(GameViewType.OVERVIEW)) {
+				pane3D.toBack();
+			}
 			// remove all modules of current view
 			for (GameModule module : currentActiveView.getModules()) {
 				moduleGrid.getChildren().remove(module.getRootElement());
@@ -203,6 +206,9 @@ public class GamePageController implements UpdateableController {
 			module.getController().update();
 			moduleGrid.add(module.getRootElement(), position.getxStart(), position.getyStart(), position.getxSpan(),
 					position.getySpan());
+		}
+		if(viewType.equals(GameViewType.OVERVIEW)) {
+			pane3D.toFront();
 		}
 	}
 
