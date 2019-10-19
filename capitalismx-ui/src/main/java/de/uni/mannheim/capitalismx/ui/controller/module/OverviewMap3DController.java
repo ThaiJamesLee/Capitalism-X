@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.Xform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -40,7 +43,7 @@ public class OverviewMap3DController extends GameModuleController {
 	final Xform cameraXform = new Xform();
 	final Xform cameraXform2 = new Xform();
 	final Xform cameraXform3 = new Xform();
-	//TODO set good initial camera point for factory...
+	// TODO set good initial camera point for factory...
 	private static final double CAMERA_INITIAL_DISTANCE = -4000;
 	private static final double CAMERA_INITIAL_X_ANGLE = 0.0;
 	private static final double CAMERA_INITIAL_Y_ANGLE = 0.0;
@@ -65,50 +68,48 @@ public class OverviewMap3DController extends GameModuleController {
 	public void update() {
 		// TODO Auto-generated method stub
 	}
-    
+
 	private SubScene buildSubScene(Group group) {
-		SubScene subscene = new SubScene(group, 800, 400, true, SceneAntialiasing.BALANCED);
-		subscene.setFill(Color.SKYBLUE); 
-		//subscene.setPickOnBounds(true); //TODO ist das nötig?
-        handleKeyboard(subscene, world);
-        handleMouse(subscene, world);
-		
-        subscene.setCamera(camera);
-		
+		GameResolution resolution = UIManager.getInstance().getCurrentResolution();
+		SubScene subscene = new SubScene(group, resolution.getWidth() - 120, resolution.getHeight() - 120, true, SceneAntialiasing.BALANCED);
+		subscene.setFill(Color.SKYBLUE);
+		// subscene.setPickOnBounds(true); //TODO ist das nötig?
+		handleKeyboard(subscene, world);
+		handleMouse(subscene, world);
+
+		subscene.setCamera(camera);
+
 		return subscene;
 	}
 
-		
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-        root.getChildren().add(world);
-        root.setDepthTest(DepthTest.ENABLE);
-		
+
+		root.getChildren().add(world);
+		root.setDepthTest(DepthTest.ENABLE);
+
 		buildCamera();
-        buildAxes();
+		buildAxes();
 
 		Group office = importModel("models/example_office/example_office.fxml");
-        office.setTranslateX(1800);
-        office.setTranslateZ(600);
-		
-        Group factory = importModel("models/Factory_Hall/industrial_building_1.fxml");
-        
-        moleculeGroup.getChildren().add(office);
-        moleculeGroup.getChildren().add(factory);
-        world.getChildren().addAll(moleculeGroup);
-         
-        
-        MeshView terrain = generateTerrain(10000);
-        world.getChildren().addAll(terrain);
+		office.setTranslateX(1800);
+		office.setTranslateZ(600);
+
+		Group factory = importModel("models/Factory_Hall/industrial_building_1.fxml");
+
+		moleculeGroup.getChildren().add(office);
+		moleculeGroup.getChildren().add(factory);
+		world.getChildren().addAll(moleculeGroup);
+
+		MeshView terrain = generateTerrain(10000);
+		world.getChildren().addAll(terrain);
 
 		SubScene scene3D = buildSubScene(root);
 		scene3D.setCamera(camera);
-		
-		overviewMap3D.getChildren().add(scene3D);      
+
+		overviewMap3D.getChildren().add(scene3D);
 	}
 
-	
 	private Group importModel(String location) {
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(this.getClass().getClassLoader().getResource(location));
@@ -119,10 +120,9 @@ public class OverviewMap3DController extends GameModuleController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		return graphic;
 	}
-
 
 	private void buildCamera() {
 		System.out.println("buildCamera()");
@@ -130,7 +130,7 @@ public class OverviewMap3DController extends GameModuleController {
 		cameraXform.getChildren().add(cameraXform2);
 		cameraXform2.getChildren().add(cameraXform3);
 		cameraXform3.getChildren().add(camera);
-		//cameraXform3.setRotateZ(180.0);
+		// cameraXform3.setRotateZ(180.0);
 
 		camera.setNearClip(CAMERA_NEAR_CLIP);
 		camera.setFarClip(CAMERA_FAR_CLIP);
@@ -138,7 +138,6 @@ public class OverviewMap3DController extends GameModuleController {
 		cameraXform.ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
 		cameraXform.rx.setAngle(CAMERA_INITIAL_X_ANGLE);
 	}
-
 
 	private void buildAxes() {
 		System.out.println("buildAxes()");
@@ -167,45 +166,41 @@ public class OverviewMap3DController extends GameModuleController {
 		world.getChildren().addAll(axisGroup);
 	}
 
-	
 	private MeshView generateTerrain(float side) {
 		TriangleMesh mesh = new TriangleMesh();
-		mesh.getTexCoords().addAll(0,0);
-		
+		mesh.getTexCoords().addAll(0, 0);
+
 		float h = 0.1f;
-		mesh.getPoints().addAll(
-		        0,	  0,	0,
-				0,    h,    -side/2,         // Point 1 - Front
-		        -side/2, h,    0,            // Point 2 - Left
-		        side/2,  h,    0,            // Point 3 - Back
-		        0,    h,    side/2           // Point 4 - Right
-		    );
-		
-		mesh.getFaces().addAll(
-		        0,0,  2,0,  1,0,          // Front left face
-		        0,0,  1,0,  3,0,          // Front right face
-		        0,0,  3,0,  4,0,          // Back right face
-		        0,0,  4,0,  2,0,          // Back left face
-		        3,0,  0,0,  1,0,          // Bottom rear face
-		        3,0,  2,0,  0,0           // Bottom front face
-		    ); 
-		
+		mesh.getPoints().addAll(0, 0, 0, 0, h, -side / 2, // Point 1 - Front
+				-side / 2, h, 0, // Point 2 - Left
+				side / 2, h, 0, // Point 3 - Back
+				0, h, side / 2 // Point 4 - Right
+		);
+
+		mesh.getFaces().addAll(0, 0, 2, 0, 1, 0, // Front left face
+				0, 0, 1, 0, 3, 0, // Front right face
+				0, 0, 3, 0, 4, 0, // Back right face
+				0, 0, 4, 0, 2, 0, // Back left face
+				3, 0, 0, 0, 1, 0, // Bottom rear face
+				3, 0, 2, 0, 0, 0 // Bottom front face
+		);
+
 		MeshView terrainMesh = new MeshView(mesh);
 		terrainMesh.setDrawMode(DrawMode.FILL);
-		
+
 		final PhongMaterial greenMaterial = new PhongMaterial();
 		greenMaterial.setDiffuseColor(Color.LIGHTGREEN);
-	
+
 		terrainMesh.setMaterial(greenMaterial);
-		
+
 		terrainMesh.setTranslateZ(-1.0);
 		return terrainMesh;
 	}
-	
-	
+
 	private void handleMouse(SubScene scene, final Node root) {
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent me) {
+			@Override
+			public void handle(MouseEvent me) {
 				mousePosX = me.getSceneX();
 				mousePosY = me.getSceneY();
 				mouseOldX = me.getSceneX();
@@ -213,35 +208,37 @@ public class OverviewMap3DController extends GameModuleController {
 			}
 		});
 		scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent me) {
+			@Override
+			public void handle(MouseEvent me) {
 				mouseOldX = mousePosX;
 				mouseOldY = mousePosY;
 				mousePosX = me.getSceneX();
 				mousePosY = me.getSceneY();
-				mouseDeltaX = (mousePosX - mouseOldX); 
-				mouseDeltaY = (mousePosY - mouseOldY); 
+				mouseDeltaX = (mousePosX - mouseOldX);
+				mouseDeltaY = (mousePosY - mouseOldY);
 
 				double modifier = 1.0;
 
 				if (me.isControlDown()) {
 					modifier = CONTROL_MULTIPLIER;
-				} 
+				}
 				if (me.isShiftDown()) {
 					modifier = SHIFT_MULTIPLIER;
-				}     
+				}
 				if (me.isPrimaryButtonDown()) {
-					cameraXform.ry.setAngle(cameraXform.ry.getAngle() + mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED);  
-					//System.out.println("ry: " + (cameraXform.ry.getAngle() + mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED));  
-					//to ensure that camera stays overground
-					double newX = cameraXform.rx.getAngle() - mouseDeltaY*MOUSE_SPEED*modifier*ROTATION_SPEED;
-                    if(-180 < newX && newX <= 0) {
-                    	cameraXform.rx.setAngle(newX);
-                    }  	
-                   // System.out.println("rX: " + newX);
-                }
-				else if (me.isSecondaryButtonDown()) {
-					cameraXform2.t.setX(cameraXform2.t.getX() + mouseDeltaX*MOUSE_SPEED*modifier*TRACK_SPEED);  
-					cameraXform2.t.setY(cameraXform2.t.getY() + mouseDeltaY*MOUSE_SPEED*modifier*TRACK_SPEED);  
+					cameraXform.ry.setAngle(
+							cameraXform.ry.getAngle() + mouseDeltaX * MOUSE_SPEED * modifier * ROTATION_SPEED);
+					// System.out.println("ry: " + (cameraXform.ry.getAngle() +
+					// mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED));
+					// to ensure that camera stays overground
+					double newX = cameraXform.rx.getAngle() - mouseDeltaY * MOUSE_SPEED * modifier * ROTATION_SPEED;
+					if (-180 < newX && newX <= 0) {
+						cameraXform.rx.setAngle(newX);
+					}
+					// System.out.println("rX: " + newX);
+				} else if (me.isSecondaryButtonDown()) {
+					cameraXform2.t.setX(cameraXform2.t.getX() + mouseDeltaX * MOUSE_SPEED * modifier * TRACK_SPEED);
+					cameraXform2.t.setY(cameraXform2.t.getY() + mouseDeltaY * MOUSE_SPEED * modifier * TRACK_SPEED);
 				}
 			}
 		});
@@ -249,7 +246,7 @@ public class OverviewMap3DController extends GameModuleController {
 			double delta = event.getDeltaY();
 			camera.translateZProperty().set(camera.getTranslateZ() + delta);
 		});
-		scene.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
 			case W:
 				cameraXform2.t.setZ(cameraXform2.t.getZ() + 10);
@@ -263,15 +260,14 @@ public class OverviewMap3DController extends GameModuleController {
 			case D:
 				cameraXform2.t.setX(cameraXform2.t.getX() - 10);
 				break;
-			//TODO add SHIFT -> Sprint and SPACE - Jump?
-			default: 
+			// TODO add SHIFT -> Sprint and SPACE - Jump?
+			default:
 				break;
-			
+
 			}
 		});
 	}
 
-	
 	private void handleKeyboard(SubScene scene, final Node root) {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -292,7 +288,7 @@ public class OverviewMap3DController extends GameModuleController {
 					break;
 				case A:
 					cameraXform2.t.setX(cameraXform2.t.getX() + 10);
-				
+
 					break;
 				case S:
 					cameraXform2.t.setZ(cameraXform2.t.getZ() - 10);

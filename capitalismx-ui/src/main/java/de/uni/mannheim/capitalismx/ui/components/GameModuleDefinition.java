@@ -17,8 +17,8 @@ public enum GameModuleDefinition {
 
 	//OVERVIEW_PLACEHOLDER(1, "overview_map3D.fxml", GameViewType.OVERVIEW, null, UIElementType.OVERVIEW_MAP_3D, 1, 20, 1, 20),
 
-	OVERVIEW_PLACEHOLDER(1, "overview_map3D.fxml", GameViewType.OVERVIEW,
-			null, UIElementType.OVERVIEW_MAP_3D, 0, 20, 0, 20),
+//	OVERVIEW_PLACEHOLDER(1, "overview_map3D.fxml", GameViewType.OVERVIEW,
+//			null, UIElementType.OVERVIEW_MAP_3D, 0, 20, 0, 20),
 
 
 	// The modules for HR. (11-20)
