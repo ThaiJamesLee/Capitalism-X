@@ -13,7 +13,8 @@ import javafx.stage.Screen;
  */
 public enum GameResolution {
 
-	RES_1080(1920, 1080, "1080p");
+	RES_1080(1920, 1080, "1080p"),
+	RES_720(1280, 720, "1080p");
 
 	// width of the resolution in pixel
 	private int width;
