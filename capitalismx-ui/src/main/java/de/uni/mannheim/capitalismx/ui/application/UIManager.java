@@ -47,6 +47,10 @@ public class UIManager {
 
 	private GameResolution currentResolution;
 
+	public GameResolution getCurrentResolution() {
+		return currentResolution;
+	}
+
 	/**
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
@@ -152,6 +156,12 @@ public class UIManager {
 					break;
 				case DIGIT8:
 					gamePageController.switchView(GameViewType.getTypeById(8));
+					break;
+				case F12:
+					UIManager.getInstance().toggleFullscreen();
+					break;
+				case ESCAPE:
+					//TODO open Menu
 					break;
 				default:
 					break;

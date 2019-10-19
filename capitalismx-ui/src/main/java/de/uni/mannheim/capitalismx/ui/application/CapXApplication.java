@@ -12,6 +12,9 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination.ModifierValue;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -49,6 +52,9 @@ public class CapXApplication extends Application {
 		window.setY(primaryScreenBounds.getMinY());
 		window.setWidth(primaryScreenBounds.getWidth());
 		window.setHeight(primaryScreenBounds.getHeight());
+		//disable exiting the fullscreen with ESCAPE, set it to shift + escape for the Main menu
+		window.setFullScreenExitHint("You can toggle the Fullscreen by pressing 'F12' when ingame.");
+		window.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.ESCAPE, ModifierValue.DOWN, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY));
 //		window.setMaximized(true);
 		window.setResizable(false);
 		window.setOnCloseRequest(e -> closeStage(e, window));
