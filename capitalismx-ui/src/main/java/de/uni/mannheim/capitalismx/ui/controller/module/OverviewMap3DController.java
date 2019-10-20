@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.utils.Resolution;
+import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.Xform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -67,7 +67,7 @@ public class OverviewMap3DController extends GameModuleController {
 	}
 
 	private SubScene buildSubScene(Group group) {
-		Resolution resolution = UIManager.getInstance().getCurrentResolution();
+		GameResolution resolution = UIManager.getInstance().getGameResolution();
 		SubScene subscene = new SubScene(group, resolution.getWidth() - 120, resolution.getHeight() - 120, true, SceneAntialiasing.BALANCED);
 		subscene.setFill(Color.SKYBLUE);
 		// subscene.setPickOnBounds(true); //TODO ist das nötig?

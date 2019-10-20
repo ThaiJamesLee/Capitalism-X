@@ -17,9 +17,8 @@ import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
-import de.uni.mannheim.capitalismx.ui.utils.Resolution;
-import de.uni.mannheim.capitalismx.ui.utils.SupportedGameResolution;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -30,15 +29,30 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * The UIManager is the central Singleton class of the UI. It manages all the UI
+ * components like the {@link GameScene}s, {@link GameView}s, the Controller of
+ * the GamePage, as well as some utilities like the {@link GameResolution} and
+ * the {@link Stage}. Additionally it provides some useful methods.
+ * 
+ * @author Jonathan
+ *
+ */
 public class UIManager {
 
+	/**
+	 * The {@link GameScene}s of the game.
+	 */
 	private GameScene sceneMenuMain;
 	private GameScene sceneGamePage;
 	private GameScene sceneLoadingScreen;
+
+	// List containing all GameViews
 	private List<GameView> gameViews;
 
 	private static UIManager instance;
 
+	// The Stage object representing the window.
 	private Stage window;
 
 	private String language;
@@ -46,24 +60,25 @@ public class UIManager {
 	// Controller for the main scene of the game.
 	private GamePageController gamePageController;
 
-	private Resolution currentResolution;
+	// Get information about the resolution of the game.
+	private GameResolution gameResolution;
 
-	public Resolution getCurrentResolution() {
-		return currentResolution;
+	public GameResolution getGameResolution() {
+		return gameResolution;
 	}
 
 	/**
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
 	 * @param stage                The primary stage of the application.
-	 * @param calculatedResolution The {@link Resolution} that was initially
+	 * @param calculatedResolution The {@link GameResolution} that was initially
 	 *                             calculated for the game.
 	 */
-	public UIManager(Stage stage, Resolution calculatedResolution) {
+	public UIManager(Stage stage, GameResolution calculatedResolution) {
 		instance = this;
 		this.window = stage;
 		this.language = "EN";
-		this.currentResolution = calculatedResolution;
+		this.gameResolution = calculatedResolution;
 
 		resetResolution();
 		// static loading of the scenes
@@ -96,9 +111,9 @@ public class UIManager {
 		// TODO error handling? Custom Exceptions?
 		return null;
 	}
-	
+
 	public void resetResolution() {
-		//TODO adjust/force size of Scene/Stage to given Resolution or just switch css
+		// TODO adjust/force size of Scene/Stage to given Resolution or just switch css
 		CssHelper.adjustCssToCurrentResolution();
 	}
 
@@ -162,7 +177,7 @@ public class UIManager {
 					UIManager.getInstance().toggleFullscreen();
 					break;
 				case ESCAPE:
-					//TODO open Menu
+					// TODO open Menu
 					break;
 				default:
 					break;
