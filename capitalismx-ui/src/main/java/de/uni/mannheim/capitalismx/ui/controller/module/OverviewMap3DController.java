@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
+import de.uni.mannheim.capitalismx.ui.utils.Resolution;
 import de.uni.mannheim.capitalismx.ui.utils.Xform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,7 +14,6 @@ import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.input.KeyEvent;
@@ -28,7 +26,6 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
-import javafx.stage.Stage;
 
 public class OverviewMap3DController extends GameModuleController {
 
@@ -70,7 +67,7 @@ public class OverviewMap3DController extends GameModuleController {
 	}
 
 	private SubScene buildSubScene(Group group) {
-		GameResolution resolution = UIManager.getInstance().getCurrentResolution();
+		Resolution resolution = UIManager.getInstance().getCurrentResolution();
 		SubScene subscene = new SubScene(group, resolution.getWidth() - 120, resolution.getHeight() - 120, true, SceneAntialiasing.BALANCED);
 		subscene.setFill(Color.SKYBLUE);
 		// subscene.setPickOnBounds(true); //TODO ist das nötig?

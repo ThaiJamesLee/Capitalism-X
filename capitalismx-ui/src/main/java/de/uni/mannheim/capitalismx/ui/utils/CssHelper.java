@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+
 /**
  * This class provides some static methods that help with the automatic
  * selection-process of the css-Files.
@@ -15,17 +17,16 @@ import java.nio.file.StandardCopyOption;
 public class CssHelper {
 
 	/**
-	 * Method that copies the css-Files of the specified {@link GameResolution} to
+	 * Method that copies the css-Files of the specified {@link SupportedGameResolution} to
 	 * the css-Directory, where they will be used by the game.
 	 * 
-	 * @param resolution The {@link GameResolution} to get the css for.
 	 */
-	public static void adjustCssToResolution(GameResolution resolution) {
-		File cssSourceDirectory = new File("src/main/resources/css/" + resolution.getCssSourceFolder() + "/");
+	public static void adjustCssToCurrentResolution() {
+		File cssSourceDirectory = new File("src/main/resources/css/" + UIManager.getInstance().getCurrentResolution().getCurrentlyActiveResolution().getCssSourceFolder() + "/");
 		File cssTargetDirectory = new File("target/classes/css/");
 		for (File cssFile : cssSourceDirectory.listFiles()) {
 			File targetFile = new File(cssTargetDirectory.getAbsolutePath() + "/"
-					+ cssFile.getName().replace(resolution.getCssSourceFolder(), ""));
+					+ cssFile.getName().replace(UIManager.getInstance().getCurrentResolution().getCurrentlyActiveResolution().getCssSourceFolder(), ""));
 			if (!targetFile.exists()) {
 				targetFile.mkdirs();
 			}

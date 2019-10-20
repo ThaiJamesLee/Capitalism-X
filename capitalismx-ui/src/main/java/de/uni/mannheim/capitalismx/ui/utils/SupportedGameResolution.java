@@ -4,14 +4,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 
 /**
- * All the resolutions the game supports. Each {@link GameResolution} contains
+ * All the resolutions the game supports. Each {@link SupportedGameResolution} contains
  * information about the width and height of the resolution, as well as a String
  * that specifies the folder, containing the cssFiles for that resolution.
  * 
  * @author Jonathan
  *
  */
-public enum GameResolution {
+public enum SupportedGameResolution {
 
 	RES_1080(1920, 1080, "1080p"),
 	RES_720(1280, 720, "1080p");
@@ -38,7 +38,7 @@ public enum GameResolution {
 		return cssSourceFolder;
 	}
 
-	private GameResolution(int width, int height, String cssSourceFolder) {
+	private SupportedGameResolution(int width, int height, String cssSourceFolder) {
 		this.cssSourceFolder = cssSourceFolder;
 		this.height = height;
 		this.width = width;
@@ -46,18 +46,18 @@ public enum GameResolution {
 
 	/**
 	 * Given the bounds of a {@link Screen}. The method returns the
-	 * {@link GameResolution} that fits best to the screen. To calculate that, the
+	 * {@link SupportedGameResolution} that fits best to the screen. To calculate that, the
 	 * difference of the width and height of Resolution and screenbounds is
 	 * compared.
 	 * 
 	 * @param screenBounds The {@link Rectangle2D} describing the bounds of the
 	 *                     {@link Screen}.
-	 * @return The optimal {@link GameResolution} for the given bounds.
+	 * @return The optimal {@link SupportedGameResolution} for the given bounds.
 	 */
-	public static GameResolution getOptimalResolution(Rectangle2D screenBounds) {
+	public static SupportedGameResolution getOptimalResolution(Rectangle2D screenBounds) {
 		int minDiffToScreenBounds = 10000;
-		GameResolution resolutionWithSmallestDiff = null;
-		for (GameResolution resolution : GameResolution.values()) {
+		SupportedGameResolution resolutionWithSmallestDiff = null;
+		for (SupportedGameResolution resolution : SupportedGameResolution.values()) {
 			int diffToScreenBounds = (int) Math.abs(screenBounds.getWidth() - resolution.getWidth())
 					+ (int) Math.abs(screenBounds.getHeight() - resolution.getHeight());
 			if (diffToScreenBounds < minDiffToScreenBounds) {

@@ -17,8 +17,9 @@ import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
+import de.uni.mannheim.capitalismx.ui.utils.Resolution;
+import de.uni.mannheim.capitalismx.ui.utils.SupportedGameResolution;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -45,9 +46,9 @@ public class UIManager {
 	// Controller for the main scene of the game.
 	private GamePageController gamePageController;
 
-	private GameResolution currentResolution;
+	private Resolution currentResolution;
 
-	public GameResolution getCurrentResolution() {
+	public Resolution getCurrentResolution() {
 		return currentResolution;
 	}
 
@@ -55,10 +56,10 @@ public class UIManager {
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
 	 * @param stage                The primary stage of the application.
-	 * @param calculatedResolution The {@link GameResolution} that was initially
+	 * @param calculatedResolution The {@link Resolution} that was initially
 	 *                             calculated for the game.
 	 */
-	public UIManager(Stage stage, GameResolution calculatedResolution) {
+	public UIManager(Stage stage, Resolution calculatedResolution) {
 		instance = this;
 		this.window = stage;
 		this.language = "EN";
@@ -98,7 +99,7 @@ public class UIManager {
 	
 	public void resetResolution() {
 		//TODO adjust/force size of Scene/Stage to given Resolution or just switch css
-		CssHelper.adjustCssToResolution(currentResolution);
+		CssHelper.adjustCssToCurrentResolution();
 	}
 
 	public GameScene getSceneGame() {

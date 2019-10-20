@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.application;
 
-import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
+import de.uni.mannheim.capitalismx.ui.utils.Resolution;
+import de.uni.mannheim.capitalismx.ui.utils.SupportedGameResolution;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 /**
@@ -37,8 +38,12 @@ public class CapXApplication extends Application {
 			loadFonts();
 
 			prepareScreen(primaryStage);
-			
-			new UIManager(primaryStage, GameResolution.getOptimalResolution(primaryScreenBounds));
+
+			Resolution resolution = new Resolution((int) primaryScreenBounds.getWidth(),
+					(int) primaryScreenBounds.getHeight(),
+					SupportedGameResolution.getOptimalResolution(primaryScreenBounds));
+
+			new UIManager(primaryStage, resolution);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,9 +57,11 @@ public class CapXApplication extends Application {
 		window.setY(primaryScreenBounds.getMinY());
 		window.setWidth(primaryScreenBounds.getWidth());
 		window.setHeight(primaryScreenBounds.getHeight());
-		//disable exiting the fullscreen with ESCAPE, set it to shift + escape for the Main menu
+		// disable exiting the fullscreen with ESCAPE, set it to shift + escape for the
+		// Main menu
 		window.setFullScreenExitHint("You can toggle the Fullscreen by pressing 'F12' when ingame.");
-		window.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.ESCAPE, ModifierValue.DOWN, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY));
+		window.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.ESCAPE, ModifierValue.DOWN,
+				ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY));
 //		window.setMaximized(true);
 		window.setResizable(false);
 		window.setOnCloseRequest(e -> closeStage(e, window));
