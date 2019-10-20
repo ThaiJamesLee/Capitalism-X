@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane styleClass="sideMenuAnchor" stylesheets="@../css1080p/sideMenu1080p.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.SideMenuController">
+<AnchorPane styleClass="sideMenuAnchor" stylesheets="@../css/sideMenu.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.SideMenuController">
    <children>
-      <VBox spacing="10.0" stylesheets="@../css1080p/general1080p.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox spacing="10.0" stylesheets="@../css/general.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <StackPane fx:id="iconMEss">
                <children>
@@ -61,20 +61,6 @@
             <StackPane>
                <children>
                   <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
-                  <Button fx:id="btnProcurement" mnemonicParsing="false" styleClass="departmentButton">
-                     <graphic>
-                        <ImageView fx:id="iconProcurement" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/shopping-cart.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </StackPane>
-            <StackPane>
-               <children>
-                  <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
                   <Button fx:id="btnProduction" mnemonicParsing="false" styleClass="departmentButton">
                      <graphic>
                         <ImageView fx:id="iconProduction" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
@@ -89,11 +75,11 @@
             <StackPane>
                <children>
                   <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
-                  <Button fx:id="btnMarketing" mnemonicParsing="false" styleClass="departmentButton">
+                  <Button fx:id="btnLogistics" mnemonicParsing="false" styleClass="departmentButton">
                      <graphic>
-                        <ImageView fx:id="iconMarketing" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="iconLogistics" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/presentation.png" />
+                              <Image url="@../icons/planet-earth.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -117,11 +103,11 @@
             <StackPane>
                <children>
                   <Pane prefHeight="50.0" prefWidth="100.0" styleClass="menubutton" />
-                  <Button fx:id="btnLogistics" mnemonicParsing="false" styleClass="departmentButton">
+                  <Button fx:id="btnMarketing" mnemonicParsing="false" styleClass="departmentButton">
                      <graphic>
-                        <ImageView fx:id="iconLogistics" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="iconMarketing" fitHeight="40.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/planet-earth.png" />
+                              <Image url="@../icons/presentation.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -187,7 +173,7 @@
             <StackPane>
                <children>
                   <Pane prefHeight="50.0" prefWidth="100.0" />
-                  <Label fx:id="timeLabel" styleClass="date_label" stylesheets="@../css1080p/general1080p.css" text="Jan 01.  &#10;1993">
+                  <Label fx:id="timeLabel" styleClass="date_label" stylesheets="@../css/general.css" text="Jan 01.  &#10;1993">
                      <padding>
                         <Insets left="5.0" />
                      </padding>

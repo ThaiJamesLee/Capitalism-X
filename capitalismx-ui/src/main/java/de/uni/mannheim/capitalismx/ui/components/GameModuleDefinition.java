@@ -17,8 +17,8 @@ public enum GameModuleDefinition {
 
 	//OVERVIEW_PLACEHOLDER(1, "overview_map3D.fxml", GameViewType.OVERVIEW, null, UIElementType.OVERVIEW_MAP_3D, 1, 20, 1, 20),
 
-	OVERVIEW_PLACEHOLDER(1, "overview_map3D.fxml", GameViewType.OVERVIEW,
-			null, UIElementType.OVERVIEW_MAP_3D, 0, 20, 0, 20),
+//	OVERVIEW_PLACEHOLDER(1, "overview_map3D.fxml", GameViewType.OVERVIEW,
+//			null, UIElementType.OVERVIEW_MAP_3D, 0, 20, 0, 20),
 
 
 	// The modules for HR. (11-20)
@@ -26,10 +26,10 @@ public enum GameModuleDefinition {
 			UIElementType.HR_EMPLOYEES_OVERVIEW, 0, 7, 0, 15),
 	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, UIElementType.HR_RECRUITING_OVERVIEW, 7, 7,
 			0, 17),
-	HR_EMPLOYEE_SATISFACTION(13, "employee_satisfaction.fxml", GameViewType.HR, null, UIElementType.HR_EMPLOYEE_SATISFACTION, 14, 6,
+	HR_STATISTICS(13, "hr_statistics.fxml", GameViewType.HR, null, UIElementType.HR_STATISTICS, 14, 6,
 			0, 9),
 	HR_WORKING_CONDITIONS(14, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
-			9, 11),
+			10, 11),
 
 	// The modules for Logistics. (21-30)
 	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.LOGISTICS_PARTNER_DETAIL, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),

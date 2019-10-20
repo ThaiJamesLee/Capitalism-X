@@ -1,5 +1,5 @@
 .header_anchor{
-	-fx-background-color: #423f39;
+	-fx-background-color: -fx-dark;
 }
 
 .notificationBackground {
@@ -24,3 +24,6 @@
     -fx-font-family: 'Prime Light';
 }
 
+.messageTabBackground {
+	-fx-background-color: -fx-light-neutral;
+}
