@@ -372,6 +372,10 @@ public class GameController {
         return FinanceDepartment.getInstance().calculateNetWorth(gameDate);
     }
 
+    public void increaseCash(double amount){
+        FinanceDepartment.getInstance().increaseCash(amount);
+    }
+
     /*
     LOGISTICS
      */

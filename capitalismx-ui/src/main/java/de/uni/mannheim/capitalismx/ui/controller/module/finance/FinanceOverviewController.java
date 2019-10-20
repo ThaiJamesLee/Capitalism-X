@@ -130,7 +130,7 @@ public class FinanceOverviewController extends GameModuleController {
             realEstateLabel.setText("Amount: " + investment.getAmount());
             realEstateTextField.clear();
             //TODO update GUI
-            controller.calculateNetWorth(GameState.getInstance().getGameDate());
+            //controller.calculateNetWorth(GameState.getInstance().getGameDate());
         });
 
         stocksButton.setOnAction(e -> {
@@ -139,7 +139,7 @@ public class FinanceOverviewController extends GameModuleController {
             stocksLabel.setText("Amount: " + investment.getAmount());
             stocksTextField.clear();
             //TODO update GUI
-            controller.calculateNetWorth(GameState.getInstance().getGameDate());
+            //controller.calculateNetWorth(GameState.getInstance().getGameDate());
         });
 
         ventureCapitalButton.setOnAction(e -> {
@@ -148,11 +148,15 @@ public class FinanceOverviewController extends GameModuleController {
             ventureCapitalLabel.setText("Amount: " + investment.getAmount());
             ventureCapitalTextField.clear();
             //TODO update GUI
-            controller.calculateNetWorth(GameState.getInstance().getGameDate());
+            //controller.calculateNetWorth(GameState.getInstance().getGameDate());
         });
     }
 
     public void setNetWorthLabel(String text){
         this.netWorthLabel.setText(text);
+    }
+
+    public void setCashLabel(String text){
+        this.cashLabel.setText(text);
     }
 }
