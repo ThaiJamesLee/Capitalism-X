@@ -19,11 +19,10 @@ public class CssHelper {
 	/**
 	 * Method that copies the css-Files of the specified {@link SupportedResolution} to
 	 * the css-Directory, where they will be used by the game.
-	 * 
 	 */
 	public static void adjustCssToCurrentResolution() {
-		File cssSourceDirectory = new File("src/main/resources/css/" + UIManager.getInstance().getGameResolution().getCurrentlyActiveResolution().getCssSourceFolder() + "/");
-		File cssTargetDirectory = new File("target/classes/css/");
+		File cssSourceDirectory = new File(CssHelper.class.getResource("/css/" + UIManager.getInstance().getGameResolution().getCurrentlyActiveResolution().getCssSourceFolder() + "/").getFile());
+		File cssTargetDirectory = new File(CssHelper.class.getResource("/css/").getFile());
 		for (File cssFile : cssSourceDirectory.listFiles()) {
 			File targetFile = new File(cssTargetDirectory.getAbsolutePath() + "/"
 					+ cssFile.getName().replace(UIManager.getInstance().getGameResolution().getCurrentlyActiveResolution().getCssSourceFolder(), ""));
