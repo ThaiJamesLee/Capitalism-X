@@ -9,6 +9,8 @@ import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
 import javafx.collections.FXCollections;
@@ -35,7 +37,7 @@ public class FinanceOverviewController extends GameModuleController {
     Label netWorthLabel;
 
     @FXML
-    MenuButton loanRequestMenuButton;
+    Button loanRequestButton;
 
     @FXML
     TextField loanAmountTextField;
@@ -72,6 +74,8 @@ public class FinanceOverviewController extends GameModuleController {
 
     private FinanceEventListener financeEventListener;
 
+    private double loanAmount;
+
     @Override
     public void update() {
         // TODO Auto-generated method stub
@@ -90,37 +94,15 @@ public class FinanceOverviewController extends GameModuleController {
         liabilitiesLabel.setText(controller.getLiabilities() + "");
         netWorthLabel.setText(controller.getNetWorth() + "");
 
-        loanRequestMenuButton.setOnMouseClicked(e -> {
-            loanRequestMenuButton.getItems().removeAll(loanRequestMenuButton.getItems());
-            ObservableList<BankingSystem.Loan> loanListObservable = FXCollections.observableArrayList();
+        loanRequestButton.setOnAction(e -> {
             try {
-                double loanAmount = Double.parseDouble(loanAmountTextField.getText());
-                ArrayList<BankingSystem.Loan> loans = controller.generateLoanSelection(loanAmount);
-                for(BankingSystem.Loan loan : loans){
-                    loanListObservable.add(loan);
-                }
-
-                MenuItem[] loanMenuItems = new MenuItem[loans.size()];
-
-                int i = 0;
-                for(BankingSystem.Loan loan : loans) {
-                    loanMenuItems[i] = new MenuItem("Loan " + i + " Interest Rate: " + loan.getInterestRate() +
-                            " Duration: " + loan.getDuration());
-                    loanMenuItems[i].setOnAction(e2 -> {
-                        controller.addLoan(loan, GameState.getInstance().getGameDate());
-                        //loanLabel.setText("Interest Rate: " + controller.getLoan().getInterestRate() + " Duration: " +
-                         //       controller.getLoan().getDuration());
-                        loanLabel.setText("" + controller.getLoan().getLoanAmount() + "CC - Duration: " +
-                               controller.getLoan().getDuration() + " Months");
-                        loanAmountTextField.clear();
-                    });
-                    i++;
-                }
-
-                loanRequestMenuButton.getItems().addAll(loanMenuItems);
+                this.loanAmount = Double.parseDouble(loanAmountTextField.getText());
+                UIManager.getInstance().getGamePageController().showOverlay(UIElementType.FINANCE_OVERVIEW);
+                //this.loanAmount = NULL;
+                loanAmountTextField.clear();
             }catch (NumberFormatException exception){
                 //TODO tooltip/popup
-                System.out.println("Not a number");
+                System.out.println("Not a valid loan amount!");
             }
         });
 
@@ -158,5 +140,15 @@ public class FinanceOverviewController extends GameModuleController {
 
     public void setCashLabel(String text){
         this.cashLabel.setText(text);
+    }
+
+    public double getLoanAmount() {
+        return this.loanAmount;
+    }
+
+    public void addLoan(BankingSystem.Loan loan){
+        loanLabel.setText("" + loan.getLoanAmount() + "CC - Duration: " +
+                loan.getDuration() + " Months");
+        loanAmountTextField.clear();
     }
 }
