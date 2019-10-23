@@ -10,9 +10,12 @@ import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -135,19 +138,35 @@ public class FinanceOverviewController extends GameModuleController {
     }
 
     public void setNetWorthLabel(String text){
-        this.netWorthLabel.setText(text);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                netWorthLabel.setText(text);
+            }
+        });
     }
 
     public void setCashLabel(String text){
-        this.cashLabel.setText(text);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                cashLabel.setText(text);
+            }
+        });
     }
 
     public void setAssetsLabel(String text){
-        this.assetsLabel.setText(text);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                assetsLabel.setText(text);
+            }
+        });
     }
 
     public void setLiabilitiesLabel(String text){
-        this.liabilitiesLabel.setText(text);
+        Platform.runLater(new Runnable() {
+            public void run() {
+                liabilitiesLabel.setText(text);
+            }
+        });
     }
 
     public double getLoanAmount() {
