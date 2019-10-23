@@ -142,6 +142,14 @@ public class FinanceOverviewController extends GameModuleController {
         this.cashLabel.setText(text);
     }
 
+    public void setAssetsLabel(String text){
+        this.assetsLabel.setText(text);
+    }
+
+    public void setLiabilitiesLabel(String text){
+        this.liabilitiesLabel.setText(text);
+    }
+
     public double getLoanAmount() {
         return this.loanAmount;
     }

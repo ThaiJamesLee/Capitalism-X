@@ -67,7 +67,7 @@ public class LoanRequestListViewCell extends ListCell<BankingSystem.Loan> {
             GameController controller = GameController.getInstance();
             nameLabel.setText(loan.getName());
             interestRateLabel.setText("Interest Rate: " + loan.getInterestRate());
-            durationLabel.setText("Duration: " + loan.getDuration());
+            durationLabel.setText("Duration: " + loan.getDuration() + " Months");
             loanAmountLabel.setText("Loan Amount: " + loan.getLoanAmount());
             raiseButton.setOnAction(e -> {
                 controller.addLoan(loan, GameState.getInstance().getGameDate());

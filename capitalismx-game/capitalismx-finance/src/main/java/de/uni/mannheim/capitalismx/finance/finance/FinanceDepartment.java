@@ -26,10 +26,9 @@ public class FinanceDepartment extends DepartmentImpl {
     private static FinanceDepartment instance;
 
     private PropertyChangeSupportDouble netWorth;
-    //private double netWorth;
     private PropertyChangeSupportDouble cash;
-    private double assets;
-    private double liabilities;
+    private PropertyChangeSupportDouble assets;
+    private PropertyChangeSupportDouble liabilities;
     private double totalTruckValues;
     private double totalMachineValues;
     private double totalWarehousingValues;
@@ -80,8 +79,12 @@ public class FinanceDepartment extends DepartmentImpl {
         this.nopatLast5Years = new ArrayList<>();
         //this.bankingSystem = BankingSystem.getInstance();
 
-        this.assets = 0.0;
-        this.liabilities = 0.0;
+        this.assets = new PropertyChangeSupportDouble();
+        this.assets.setValue(0.0);
+        this.assets.setPropertyChangedName("assets");
+        this.liabilities = new PropertyChangeSupportDouble();
+        this.liabilities.setValue(0.0);
+        this.liabilities.setPropertyChangedName("liabilities");
     }
 
     public static synchronized FinanceDepartment getInstance() {
@@ -95,6 +98,8 @@ public class FinanceDepartment extends DepartmentImpl {
         // TODO add all property changelisteners here
         this.netWorth.addPropertyChangeListener(propertyChangeListener);
         this.cash.addPropertyChangeListener(propertyChangeListener);
+        this.assets.addPropertyChangeListener(propertyChangeListener);
+        this.liabilities.addPropertyChangeListener(propertyChangeListener);
     }
 
     // liabilities = loanAmount
@@ -107,9 +112,9 @@ public class FinanceDepartment extends DepartmentImpl {
 
     protected double calculateAssets(LocalDate gameDate){
         //this.assets = this.totalTruckValues + this.totalMachineValues + this.totalWarehousingValues + this.totalInvestmentAmount;
-        this.assets = this.calculateTotalTruckValues(gameDate) + this.calculateTotalMachineValues(gameDate) +
-                this.calculateTotalWarehousingValues(gameDate) + this.calculateTotalInvestmentAmount();
-        return this.assets;
+        this.assets.setValue(this.calculateTotalTruckValues(gameDate) + this.calculateTotalMachineValues(gameDate) +
+                this.calculateTotalWarehousingValues(gameDate) + this.calculateTotalInvestmentAmount());
+        return this.assets.getValue();
     }
 
     // calculated daily
@@ -285,6 +290,7 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO update cash and netWorth?
     public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount){
         if(this.cash.getValue() == 0.0){
+            //TODO popup
             return null;
         }
         if(desiredLoanAmount > 0.7 * this.netWorth.getValue()){
@@ -295,6 +301,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public void addLoan(BankingSystem.Loan loan, LocalDate loanDate){
         BankingSystem.getInstance().addLoan(loan, loanDate);
+        this.cash.setValue(this.cash.getValue() + loan.getLoanAmount());
     }
 
     //TODO update cash?
@@ -330,8 +337,8 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO
     protected double calculateLiabilities(LocalDate gameDate){
         //this.liabilities = BankingSystem.getInstance().getAnnualPrincipalBalance();
-        this.liabilities = BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate);
-        return this.liabilities;
+        this.liabilities.setValue(BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate));
+        return this.liabilities.getValue();
     }
 
     protected double calculateTotalInvestmentAmount(){
@@ -407,11 +414,11 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     public double getAssets() {
-        return this.assets;
+        return this.assets.getValue();
     }
 
     public double getLiabilities() {
-        return this.liabilities;
+        return this.liabilities.getValue();
     }
 
     public double getNetWorth() {
