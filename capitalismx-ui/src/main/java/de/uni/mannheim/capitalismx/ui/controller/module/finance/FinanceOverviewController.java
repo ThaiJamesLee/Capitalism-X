@@ -174,8 +174,12 @@ public class FinanceOverviewController extends GameModuleController {
     }
 
     public void addLoan(BankingSystem.Loan loan){
-        loanLabel.setText("" + loan.getLoanAmount() + "CC - Duration: " +
-                loan.getDuration() + " Months");
-        loanAmountTextField.clear();
+        Platform.runLater(new Runnable() {
+            public void run() {
+                loanLabel.setText("" + loan.getLoanAmount() + "CC - Duration: " +
+                        loan.getDuration() + " Months");
+                loanAmountTextField.clear();
+            }
+        });
     }
 }

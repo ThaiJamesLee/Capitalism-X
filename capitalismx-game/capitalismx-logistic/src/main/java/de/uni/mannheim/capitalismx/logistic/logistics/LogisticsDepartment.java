@@ -58,7 +58,7 @@ public class LogisticsDepartment extends DepartmentImpl {
     //TODO set deliveredProducts
     private double calculateLogisticsIndex(){
         if(externalPartner == null){
-            this.logisticsIndex = -1.0;
+            return this.logisticsIndex = -1.0;
         }
         if(this.deliveredProducts > InternalFleet.getInstance().getCapacityFleet()){
             this.logisticsIndex = (((this.deliveredProducts - InternalFleet.getInstance().getCapacityFleet()) * externalPartner.getExternalLogisticsIndex())
