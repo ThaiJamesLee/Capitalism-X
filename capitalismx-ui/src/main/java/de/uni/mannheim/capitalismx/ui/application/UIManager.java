@@ -318,12 +318,13 @@ public class UIManager {
 			gamePageController.switchView(GameViewType.OVERVIEW);
 			switchToScene(GameSceneType.GAME_PAGE);
 		});
-		Platform.runLater(() -> new Runnable() {
-			@Override
-			public void run() {
+		Task task = new Task<Void>() {
+			@Override public Void call() {
 				GameController.getInstance().start();
+				return null;
 			}
-		});
+		};
+		new Thread(task).start();
 	}
 
 	/**
