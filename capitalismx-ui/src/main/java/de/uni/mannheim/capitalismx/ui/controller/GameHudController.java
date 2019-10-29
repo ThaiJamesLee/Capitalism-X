@@ -9,6 +9,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -31,7 +32,6 @@ public class GameHudController implements UpdateableController {
 	@FXML
 	private GridPane moduleGrid;
 
-
 	public GridPane getModuleGrid() {
 		return moduleGrid;
 	}
@@ -43,7 +43,7 @@ public class GameHudController implements UpdateableController {
 		cashLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getCash()));
 		employeeLabel.setText(gameState.getHrDepartment().getEngineerTeam().getTeam().size() + "");
 		netWorthLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getNetWorth()));
-		
+
 		// Set the actions for the buttons that switch the views of the departments.
 		initDepartmentButton(btnOverview, GameViewType.OVERVIEW);
 		initDepartmentButton(btnFinance, GameViewType.FINANCES);
@@ -52,7 +52,7 @@ public class GameHudController implements UpdateableController {
 		initDepartmentButton(btnWarehouse, GameViewType.WAREHOUSE);
 		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
 		initDepartmentButton(btnMarketing, GameViewType.MARKETING);
-		
+
 		UIManager.getInstance().setGameHudController(this);
 	}
 
@@ -93,9 +93,25 @@ public class GameHudController implements UpdateableController {
 	private void switchView(GameViewType viewType) {
 		UIManager.getInstance().getGamePageController().switchView(viewType);
 	}
-	
+
 	public void updateGameViewLabel(GameViewType viewType) {
 		this.departmentLabel.setText(viewType.getTitle());
+	}
+
+	public void updateCashLabel(double currentCash) {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				cashLabel.setText(NumberFormat.getIntegerInstance().format(currentCash));
+			}
+		});
+	}
+
+	public void updateNetworthLabel(double currentNetWorth) {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				netWorthLabel.setText(NumberFormat.getIntegerInstance().format(currentNetWorth));
+			}
+		});
 	}
 
 }
