@@ -119,35 +119,40 @@ public class GamePageController implements UpdateableController {
 			e1.printStackTrace();
 		}
 
-		// TODO Refactor: keep panes in memory, loading them each time is probably not
-		// very performant
+
+		//loads message pane and saves it and its controller in attributes
+		FXMLLoader loader2 = new FXMLLoader(
+				getClass().getClassLoader().getResource("fxml/messagePane.fxml"));
+		try {
+			messagePaneReminder = loader2.load();
+			messageController = loader2.getController();
+			messageController.addMessage("HR Manager", "01.01.1990", "Hallo,\nIch bin Ihr neuer HR Manager.", "HR Manager Introduction");
+			openMessagePane = false;
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		//checks if message pane is open or and opens it if not
 		btnMessages.setOnAction(e -> {
 //			parentStackPane.getChildren().add(e);
 
 			if (!openMessagePane) {
-				FXMLLoader loader2 = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePane.fxml"));
-				Parent rootC;
-				try {
-					rootC = loader2.load();
-					messageController = loader2.getController();
-					contentStack.getChildren().add(rootC);
-					messagePaneReminder = rootC;
-					openMessagePane = true;
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				contentStack.getChildren().add(messagePaneReminder);
+				openMessagePane = true;
+			} else {
+				removeMessagePane();
 			}
 
 		});
 
 		btnMenu.setOnAction(e -> {
 			if (!openMenuPane) {
-				FXMLLoader loader2 = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"));
+				FXMLLoader loader3 = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"));
 				Parent rootD;
 				try {
-					rootD = loader2.load();
-					ingameMenuController = loader2.getController();
+					rootD = loader3.load();
+					ingameMenuController = loader3.getController();
 					parentStackPane.getChildren().add(rootD);
 					menuPaneReminder = rootD;
 					openMenuPane = true;
@@ -177,6 +182,10 @@ public class GamePageController implements UpdateableController {
 	public void removeIngameMenuPane() {
 		parentStackPane.getChildren().remove(menuPaneReminder);
 		openMenuPane = false;
+	}
+
+	public Parent getMessagePaneReminder() {
+		return messagePaneReminder;
 	}
 
 	/**
