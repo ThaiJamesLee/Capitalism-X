@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.eventhandlers.Map3DInputHandler;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.Xform;
 import javafx.event.EventHandler;
@@ -60,6 +61,12 @@ public class OverviewMap3DController extends GameModuleController {
 	double mouseOldY;
 	double mouseDeltaX;
 	double mouseDeltaY;
+	
+	private Map3DInputHandler mouseEventHandler;
+
+	public Map3DInputHandler getMouseEventHandler() {
+		return mouseEventHandler;
+	}
 
 	@Override
 	public void update() {
@@ -68,7 +75,7 @@ public class OverviewMap3DController extends GameModuleController {
 
 	private SubScene buildSubScene(Group group) {
 		GameResolution resolution = UIManager.getInstance().getGameResolution();
-		SubScene subscene = new SubScene(group, resolution.getWidth() - 120, resolution.getHeight() - 120, true, SceneAntialiasing.BALANCED);
+		SubScene subscene = new SubScene(group, resolution.getWidth(), resolution.getHeight(), true, SceneAntialiasing.BALANCED);
 		subscene.setFill(Color.SKYBLUE);
 		// subscene.setPickOnBounds(true); //TODO ist das nötig?
 		handleKeyboard(subscene, world);
@@ -105,6 +112,7 @@ public class OverviewMap3DController extends GameModuleController {
 		scene3D.setCamera(camera);
 
 		overviewMap3D.getChildren().add(scene3D);
+		this.mouseEventHandler = new Map3DInputHandler(cameraXform, cameraXform2, cameraXform3, camera);
 	}
 
 	private Group importModel(String location) {
