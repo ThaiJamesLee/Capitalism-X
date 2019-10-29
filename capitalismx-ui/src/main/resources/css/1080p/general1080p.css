@@ -1,11 +1,21 @@
 /** Definition of colors */
 * {
-   -fx-primary: #DBA901;
-   -fx-light: #FAFAFA;
-   -fx-dark: #2E2E2E;
-   -fx-neutral: #848484;
-   -fx-light-neutral: #cccccc;
-   -fx-contrast: #ffd54f;
+   -fx-primary: rgb(227,188, 82,1);
+   -fx-primary-dark-transparent: rgb( 10,  8,  2,0.7);
+   -fx-primary-dark: rgb( 10,  8,  2,1);
+   -fx-primary-light: rgb(255,252,244,1);
+   -fx-primary-light-neutral: rgb(133,129,117,1);
+   -fx-primary-neutral: rgb( 29, 27, 21,1);
+   -fx-light: #EEE7D0;
+   -fx-dark: #141108;
+   -fx-neutral: #86794E;
+   -fx-light-neutral: #C0AD6F;
+   -fx-complement-light: rgb(227,228,236,1);	/* Main Complement color */
+   -fx-complement-light-neutral:  rgb( 83, 83, 92,1);
+   -fx-complement-neutral: rgb( 15, 16, 20,1) ;
+   -fx-complement: rgb( 71, 77,157,1);
+   -fx-complement-dark: rgb(  2,  3,  7,1);
+   -fx-complement-dark-transparent: rgb(  2,  3,  7,0.7);
    -fx-transparent-background: rgb(132, 132, 132, 0.6);
 }
 
@@ -30,6 +40,7 @@
 
 .label {
 	-fx-font-family: "Prime";
+	-fx-text-fill: -fx-primary-dark;
 }
 
 .label_very_large {
@@ -46,16 +57,13 @@
 	-fx-font-size: 12.0;
 }
 
+.label_small {
+	-fx-font-size: 9.0;
+}
+
 .label_light {
 	-fx-font-family: "Prime Light";
 }
-
-
-.header {
-	-fx-font: bold 29px 'Prime';
-	-fx-text-fill: -fx-dark;
-}
-
 
 FontAwesomeIcon {
 	-fx-text-fill: -fx-dark; 
@@ -85,24 +93,25 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-dark; 
 }
 
-
-
 .button_module {
-	-fx-border-radius: 2px;
-	-fx-border-width: 1.5px;
-	-fx-border-color: transparent;
-	-fx-background-color: -fx-primary;
-	-fx-text-fill: -fx-light;
-	-fx-border-insets: 0.0;
+	-fx-background-color: -fx-primary-dark;
+	-fx-border-radius: 2;
+	-fx-text-fill: -fx-primary;
+	-fx-font-family: "Prime";
+	-fx-font-size: 14;	
+	-fx-cursor: hand;
 }
 
 .button_module:hover {
-	-fx-border-color: -fx-dark;
+	-fx-text-fill: -fx-primary-light;
+	-fx-background-color: -fx-primary-neutral;
 }
 
 .button_module:pressed {
-	-fx-background-color: -fx-dark;
-	-fx-border-color: -fx-primary;
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-text-fill: -fx-primary-dark;
+	-fx-cursor: closed_hand;
 }
 
 .nav_button {
@@ -129,6 +138,7 @@ FontAwesomeIcon {
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-dark;
 	-fx-text-fill: -fx-dark;
+	-fx-cursor: closed_hand;
 }
 
 
@@ -152,15 +162,17 @@ FontAwesomeIcon {
 }
 
 .list-cell {
-	-fx-background-color: -fx-light;
+	-fx-background-color: -fx-complement-light;
 	-fx-border-insets: 0 5 0 5;
 	-fx-background-insets: 0 5 0 5;
 	-fx-border-width: 0;
-	-fx-border-color: -fx-neutral;
+	-fx-border-color: -fx-complement-neutral;
+	-fx-cursor: hand;
 }
 
 .list-cell:hover {
-	-fx-background-color: -fx-neutral;
+	-fx-background-color: -fx-complement-light-neutral;
+	-fx-text-fill: -fx-primary;
 }
 
 .list-cell:odd {
@@ -173,7 +185,8 @@ FontAwesomeIcon {
 
 .list-cell:selected {
 	-fx-background-color: -fx-primary;
-	-fx-text-fill: -fx-dark;
+	-fx-text-fill: -fx-primary-dark;
+	-fx-cursor: open;
 }
 
 .list-cell:empty {
@@ -186,6 +199,7 @@ FontAwesomeIcon {
 .scroll-bar {
 	-fx-background-color: transparent;
 	-fx-border-width: 0;
+	-fx-cursor: open_hand;
 }
 
 .scroll-bar .track {
@@ -194,7 +208,7 @@ FontAwesomeIcon {
 }
 
 .scroll-bar .thumb {
-	-fx-background-color: -fx-neutral;
+	-fx-background-color: -fx-primary-neutral;
 	-fx-width: 8px;
 	-fx-border-radius: 3;
 }
@@ -213,11 +227,12 @@ FontAwesomeIcon {
 }
 
 .scroll-bar .thumb:hover {
-	-fx-background-color: -fx-light-neutral;
+	-fx-background-color: -fx-primary-light-neutral;
 }
 
 .scroll-bar .thumb:pressed {
-	-fx-background-color: -fx-dark;
+	-fx-background-color: -fx-primary-dark;
+	-fx-cursor: closed_hand;
 }
 
 
@@ -253,12 +268,12 @@ FontAwesomeIcon {
 	-fx-background-color: transparent;
 	-fx-border-width : 1.0 0.0 0.0 0.0;
 	-fx-border-insets : 0.0 5.0 0.0 5.0;
-	-fx-border-color: -fx-dark;
+	-fx-border-color: -fx-primary-dark;
 }
 
 .tab-pane .tab {
     -fx-background-insets: 0.0 1.0 0.0 1.0;
-	-fx-background-color: -fx-dark;
+	-fx-background-color: -fx-primary-dark;
 	-fx-border-radius: 5.0 5.0 0.0 0.0;
 	-fx-background-radius: 5.0 5.0 0.0 0.0;
 }
@@ -266,7 +281,7 @@ FontAwesomeIcon {
 .tab-pane .tab:selected, .tab-pane .tab-pane:focused {
 	-fx-background-color: -fx-primary;
 	-fx-border-width: 2.0;
-	-fx-border-color: -fx-dark;
+	-fx-border-color: -fx-primary-dark;
 	-fx-background-insets: -2.0;
 	-fx-border-insets: -2.0;
 	-fx-border-radius: 3.0;
@@ -274,7 +289,7 @@ FontAwesomeIcon {
 
 .tab .tab-label {
     -fx-alignment: CENTER;
-	-fx-text-fill: -fx-light;
+	-fx-text-fill: -fx-primary-light;
 	-fx-font-family: "Prime";
 }
 
@@ -354,9 +369,7 @@ FontAwesomeIcon {
 }
 
 .title_label {
-    -fx-background-insets: 0,1,4,5;
-    -fx-background-radius: 9,8,5,4;
-    -fx-padding: 15 30 15 30;
+    -fx-margin: 15 30 15 30;
     -fx-font-family: "Prime";
     -fx-font-size: 37px;
     -fx-font-weight: bold;
