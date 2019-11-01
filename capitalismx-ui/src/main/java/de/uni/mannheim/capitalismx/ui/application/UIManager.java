@@ -16,6 +16,8 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -27,15 +29,30 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * The UIManager is the central Singleton class of the UI. It manages all the UI
+ * components like the {@link GameScene}s, {@link GameView}s, the Controller of
+ * the GamePage, as well as some utilities like the {@link GameResolution} and
+ * the {@link Stage}. Additionally it provides some useful methods.
+ * 
+ * @author Jonathan
+ *
+ */
 public class UIManager {
 
+	/**
+	 * The {@link GameScene}s of the game.
+	 */
 	private GameScene sceneMenuMain;
 	private GameScene sceneGamePage;
 	private GameScene sceneLoadingScreen;
+
+	// List containing all GameViews
 	private List<GameView> gameViews;
 
 	private static UIManager instance;
-	
+
+	// The Stage object representing the window.
 	private Stage window;
 
 	private String language;
@@ -43,23 +60,34 @@ public class UIManager {
 	// Controller for the main scene of the game.
 	private GamePageController gamePageController;
 
+	// Get information about the resolution of the game.
+	private GameResolution gameResolution;
+
+	public GameResolution getGameResolution() {
+		return gameResolution;
+	}
+
 	/**
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
-	 * @param stage The primary stage of the application.
+	 * @param stage                The primary stage of the application.
+	 * @param calculatedResolution The {@link GameResolution} that was initially
+	 *                             calculated for the game.
 	 */
-	public UIManager(Stage stage) {
+	public UIManager(Stage stage, GameResolution calculatedResolution) {
 		instance = this;
 		this.window = stage;
 		this.language = "EN";
+		this.gameResolution = calculatedResolution;
 
+		resetResolution();
 		// static loading of the scenes
 		loadScenes();
 
 		// set the initial main menu scene as starting scene
 		window.setScene(new Scene(sceneMenuMain.getScene()));
 	}
-	
+
 	public static UIManager getInstance() {
 		return instance;
 	}
@@ -84,6 +112,11 @@ public class UIManager {
 		return null;
 	}
 
+	public void resetResolution() {
+		// TODO adjust/force size of Scene/Stage to given Resolution or just switch css
+		CssHelper.adjustCssToCurrentResolution();
+	}
+
 	public GameScene getSceneGame() {
 		return sceneGamePage;
 	}
@@ -96,7 +129,7 @@ public class UIManager {
 	 * Initializes all components needed for a new Game.
 	 */
 	public void initGame() {
-		
+
 		GameState.getInstance().initiate();
 
 		switchToScene(GameSceneType.LOADING_SCREEN);
@@ -139,6 +172,12 @@ public class UIManager {
 					break;
 				case DIGIT8:
 					gamePageController.switchView(GameViewType.getTypeById(8));
+					break;
+				case F12:
+					UIManager.getInstance().toggleFullscreen();
+					break;
+				case ESCAPE:
+					// TODO open Menu
 					break;
 				default:
 					break;
@@ -240,14 +279,20 @@ public class UIManager {
 	 */
 	private void startGame() {
 		Platform.runLater(() -> switchToScene(GameSceneType.GAME_PAGE));
-		Platform.runLater(() -> new Runnable() {
-			@Override
-			public void run() {
+
+		Task task = new Task<Void>() {
+			@Override public Void call() {
 				GameController.getInstance().start();
+				return null;
+			}
+		};
+		new Thread(task).start();
+
+		Platform.runLater(new Runnable() {
+			public void run() {
+				((GamePageController) sceneGamePage.getController()).switchView(GameViewType.OVERVIEW);
 			}
 		});
-
-		((GamePageController) sceneGamePage.getController()).switchView(GameViewType.OVERVIEW);
 	}
 
 	/**
@@ -306,10 +351,11 @@ public class UIManager {
 	public void toggleFullscreen() {
 		window.setFullScreen(!window.isFullScreen());
 	}
-	
+
 	/**
-	 * Quits the game: Triggers a new {@link WindowEvent}, containing a WINDOW_CLOSE_REQUEST, which can then be handled by the Application.
-	 * TODO maybe handle more stuff when ingame. (eg autosave)
+	 * Quits the game: Triggers a new {@link WindowEvent}, containing a
+	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application. TODO
+	 * maybe handle more stuff when ingame. (eg autosave)
 	 */
 	public void quitGame() {
 		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));

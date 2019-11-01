@@ -7,7 +7,8 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import org.controlsfx.control.PopOver.ArrowLocation;
+
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
@@ -15,6 +16,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
@@ -36,42 +38,66 @@ import javafx.scene.layout.StackPane;
  */
 public class GamePageController implements UpdateableController {
 
-	// The GridPane that contains all the modules.
-	@FXML
-	private GridPane moduleGrid;
-
+	/**
+	 * Menu elements
+	 */
 	@FXML
 	private StackPane sidemenuPane;
-
+	@FXML
+	private Button btnMessages, btnMenu;
 	@FXML
 	private Label viewTitleLabel;
-
-	@FXML
-	private Button btnMessages;
-
-	@FXML
-	private StackPane parentStackPane;
-
-	@FXML
-	private AnchorPane overlayPane;
-
-	// The SideMenuController
 	@FXML
 	private SideMenuController sidemenuController;
-
-	// The type of content that is currently being displayed.
-	private GameView currentActiveView;
-
-	// Elements for the message-system
-	private MessageController messageController;
-	private Parent messagePaneReminder;
-	private boolean openMessagePane;
 	@FXML
 	private AnchorPane notificationAnchor;
 
+	/**
+	 * Content elements
+	 */
+	@FXML
+	private StackPane parentStackPane;
+	@FXML
+	private StackPane contentStack;
+	// The GridPane that contains all the modules.
+	@FXML
+	private GridPane moduleGrid;
+	@FXML
+	private AnchorPane overlayPane;
+	
+	private AnchorPane pane3D;
+
+	/**
+	 * General controller related attributes
+	 */
+	// The type of content that is currently being displayed.
+	private GameView currentActiveView;
+
+	/**
+	 * elements for the message-system
+	 */
+	private MessageController messageController;
+	// saves the added element so it can be addressed for removal
+	private Parent messagePaneReminder;
+	// flag to know whether message Pane is open or not: true=open false=closed.
+	private boolean openMessagePane;
+
+	/**
+	 * elements for the in-game menu
+	 */
+	private IngameMenuController ingameMenuController;
+	// saves the added element so it can be addressed for removal
+	private Parent menuPaneReminder;
+	// flag to know whether menu Pane is open or not: true=open false=closed.
+	private boolean openMenuPane;
+
+
+	public StackPane getContentStack() {
+		return contentStack;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 		// Bind titleLabel to StringProperty in SideMenuController
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/sidemenu.fxml"));
 		Parent rootB;
@@ -82,22 +108,29 @@ public class GamePageController implements UpdateableController {
 //			viewTitleLabel.textProperty().unbind();
 //			viewTitleLabel.textProperty().bind(controllerB.titleProperty());
 			sidemenuPane.getChildren().setAll(rootB);
+
+			FXMLLoader loader2 = new FXMLLoader(
+					getClass().getClassLoader().getResource("fxml/module/overview_map3d.fxml"));
+			pane3D = loader2.load();
+			contentStack.getChildren().add(pane3D);
+			pane3D.toBack();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
+		// TODO Refactor: keep panes in memory, loading them each time is probably not
+		// very performant
 		btnMessages.setOnAction(e -> {
 //			parentStackPane.getChildren().add(e);
 
 			if (!openMessagePane) {
-				FXMLLoader loader2 = new FXMLLoader(
-						getClass().getClassLoader().getResource("fxml/messagePane.fxml"));
+				FXMLLoader loader2 = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePane.fxml"));
 				Parent rootC;
 				try {
 					rootC = loader2.load();
 					messageController = loader2.getController();
-					parentStackPane.getChildren().add(rootC);
+					contentStack.getChildren().add(rootC);
 					messagePaneReminder = rootC;
 					openMessagePane = true;
 				} catch (IOException e1) {
@@ -108,18 +141,42 @@ public class GamePageController implements UpdateableController {
 
 		});
 
+		btnMenu.setOnAction(e -> {
+			if (!openMenuPane) {
+				FXMLLoader loader2 = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"));
+				Parent rootD;
+				try {
+					rootD = loader2.load();
+					ingameMenuController = loader2.getController();
+					parentStackPane.getChildren().add(rootD);
+					menuPaneReminder = rootD;
+					openMenuPane = true;
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		TooltipFactory factory = new TooltipFactory();
+		factory.setLocationOfArrow(ArrowLocation.LEFT_CENTER);
+		factory.addSimpleTooltipToNode(btnMenu, "Settings");
 	}
 
 	@Override
 	public void update() {
-		for( GameModule m : currentActiveView.getModules()) {
+		for (GameModule m : currentActiveView.getModules()) {
 			m.getController().update();
 		}
 	}
 
 	public void removeMessagePane() {
-		parentStackPane.getChildren().remove(messagePaneReminder);
+		contentStack.getChildren().remove(messagePaneReminder);
 		openMessagePane = false;
+	}
+
+	public void removeIngameMenuPane() {
+		parentStackPane.getChildren().remove(menuPaneReminder);
+		openMenuPane = false;
 	}
 
 	/**
@@ -134,6 +191,9 @@ public class GamePageController implements UpdateableController {
 		viewTitleLabel.setText(viewType.getTitle());
 
 		if (currentActiveView != null) {
+			if(currentActiveView.getViewType().equals(GameViewType.OVERVIEW)) {
+				pane3D.toBack();
+			}
 			// remove all modules of current view
 			for (GameModule module : currentActiveView.getModules()) {
 				moduleGrid.getChildren().remove(module.getRootElement());
@@ -146,6 +206,9 @@ public class GamePageController implements UpdateableController {
 			module.getController().update();
 			moduleGrid.add(module.getRootElement(), position.getxStart(), position.getyStart(), position.getxSpan(),
 					position.getySpan());
+		}
+		if(viewType.equals(GameViewType.OVERVIEW)) {
+			pane3D.toFront();
 		}
 	}
 
@@ -200,9 +263,6 @@ public class GamePageController implements UpdateableController {
 		AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootElement, 10.0);
 		overlayPane.getChildren().add(rootElement);
 		overlayPane.toFront();
-		// TODO remove, only for testing of the notifications
-		showNotification(new GameNotification("Peter",
-				"Welcome to CapitalismX! Please enjoy this test notification. Best Regards, Peter."));
 	}
 
 	/**

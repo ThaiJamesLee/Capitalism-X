@@ -1,0 +1,17 @@
+/**
+ * General section for the style of the modules.
+ */
+ 
+.headerPane {
+	-fx-padding: 0 0 15 0;
+	-fx-border-width: 0.0 0.0 2.0 0.0;
+	-fx-border-insets: 25.0 25.0 0.0 25.0;
+	-fx-border-color: -fx-dark;
+	-fx-background-color: -fx-light;
+}
+
+.contentPane {
+	-fx-background-color: -fx-light;
+}
+
+

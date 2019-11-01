@@ -23,11 +23,13 @@ public class BankingSystem implements Serializable {
     private LocalDate loanDate;
 
     public class Loan implements Serializable{
+        private String name;
         private double interestRate;
         private double duration;
         private double loanAmount;
 
-        protected Loan(double interestRate, double duration, double loanAmount){
+        protected Loan(String name, double interestRate, double duration, double loanAmount){
+            this.name = name;
             this.interestRate = DecimalRound.round(interestRate, 4);
             this.duration = duration;
             this.loanAmount = DecimalRound.round(loanAmount, 2);
@@ -43,6 +45,10 @@ public class BankingSystem implements Serializable {
 
         public double getLoanAmount() {
             return this.loanAmount;
+        }
+
+        public String getName() {
+            return this.name;
         }
     }
 
@@ -60,11 +66,11 @@ public class BankingSystem implements Serializable {
     ArrayList<Loan> generateLoanSelection(double loanAmount){
         ArrayList<Loan> loanSelection = new ArrayList<Loan>();
         //short-term
-        loanSelection.add(new Loan(RandomNumberGenerator.getRandomDouble(0.06, 0.18), RandomNumberGenerator.getRandomInt(1, 12), loanAmount));
+        loanSelection.add(new Loan("Short-term Loan", RandomNumberGenerator.getRandomDouble(0.06, 0.18), RandomNumberGenerator.getRandomInt(1, 12), loanAmount));
         //medium-term
-        loanSelection.add(new Loan(RandomNumberGenerator.getRandomDouble(0.03, 0.06), RandomNumberGenerator.getRandomInt(1, 5) * 12, loanAmount));
+        loanSelection.add(new Loan("Medium-term Loan", RandomNumberGenerator.getRandomDouble(0.03, 0.06), RandomNumberGenerator.getRandomInt(1, 5) * 12, loanAmount));
         //long-term
-        loanSelection.add(new Loan(RandomNumberGenerator.getRandomDouble(0.01, 0.03), RandomNumberGenerator.getRandomInt(10, 15) * 12, loanAmount));
+        loanSelection.add(new Loan("Long-term Loan", RandomNumberGenerator.getRandomDouble(0.01, 0.03), RandomNumberGenerator.getRandomInt(10, 15) * 12, loanAmount));
         return loanSelection;
     }
 

@@ -5,9 +5,9 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import org.controlsfx.control.PopOver;
 
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
@@ -35,33 +35,42 @@ public class EmployeeDetailController extends GameOverlayController {
 
 	@Override
 	public void update() {
-		employeeNameLabel.setText(employee.getName());
-		salaryLabel.setText(employee.getSalary() + " CC");
+		salaryLabel.setText(((int)employee.getSalary()) + " CC");
 		skillLabel.setText(employee.getSkillLevel() + "");
 		positionLabel.setText(employee.getEmployeeType().toString());
+		employeeNameLabel.setText(employee.getName());
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+	}
+
+	/**
+	 * Initialize the EmployeeDetail-Overlay with a different {@link Employee}. 
+	 * @param employee
+	 */
+	public void initForDifferentEmployee(Employee employee) {
+		this.employee = employee;
+		
+		initTrainingPopover();
+	}
+	
+	private void initTrainingPopover() {
 		FXMLLoader popoverLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/training_popover.fxml"));
  		PopOver trainPopover = new PopOver();
 		try {
 			trainPopover.setContentNode(popoverLoader.load());
 			TrainingPopoverController popOverController = ((TrainingPopoverController)popoverLoader.getController());
-			popOverController.init(trainPopover, employee);
+			popOverController.init(trainPopover, employee, this);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		
 		trainButton.setOnAction(e -> {
 			trainPopover.show(trainButton, 1.0);
 		});
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
 	}
 
 	@Override

@@ -9,15 +9,13 @@ package de.uni.mannheim.capitalismx.ui.components;
  */
 public enum GameViewType {
 
-	UNKNOWN(0, "Unknown"), 
 	OVERVIEW(1, "Overview"), 
-	HR(2, "Human Resources"), 
-	LOGISTIC(3, "Logistics"),
+	FINANCES(2, "Finance"),
+	HR(3, "Human Resources"), 
 	PRODUCTION(4, "Production"), 
-	PROCUREMENT(5, "Procurement"), 
+	LOGISTIC(5, "Logistics"),
 	WAREHOUSE(6, "Warehouse"), 
-	FINANCES(7, "Finance"),
-	MARKETING(8, "Marketing");
+	MARKETING(7, "Marketing");
 
 	private final String title;
 	private final int id;
@@ -43,7 +41,7 @@ public enum GameViewType {
 				return type;
 			}
 		}
-		return UNKNOWN;
+		return OVERVIEW;
 	}
 
 	public int getId() {

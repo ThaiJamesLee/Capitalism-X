@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane styleClass="wholeOverlayBackground" stylesheets="@../css/general.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.IngameMenuController">
+   <children>
+      <VBox alignment="CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/logo.png" />
+               </image>
+            </ImageView>
+            <Label styleClass="title_label" text="Game Paused" />
+            <Button fx:id="ingameContinue" mnemonicParsing="false" styleClass="big_buttons" text="Continue" />
+            <Button fx:id="ingameSave" mnemonicParsing="false" styleClass="big_buttons" text="Save" />
+            <Button fx:id="ingameLoad" mnemonicParsing="false" styleClass="big_buttons" text="Load" />
+            <Button fx:id="ingameSettings" mnemonicParsing="false" styleClass="big_buttons" text="Settings" />
+            <Button fx:id="ingameQuit" mnemonicParsing="false" styleClass="big_buttons" text="Quit" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

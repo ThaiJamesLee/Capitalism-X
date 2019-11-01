@@ -20,19 +20,35 @@
 @font-face {
     src: url('../fonts/Prime-Light.ttf');
 }
+@font-face {
+    src: url('../fonts/Reckone-Regular.ttf');
+}
+@font-face {
+    src: url('../fonts/Reckoner-Bold.ttf');
+}
 
 
 .label {
 	-fx-font-family: "Prime";
 }
 
+.label_very_large {
+	-fx-font-weight: bold;
+	-fx-font-size: 20.0;
+}
+
 .label_large {
-       -fx-font-size: 14.0;
+	-fx-font-weight: bold;
+	-fx-font-size: 16.0;
 }
 
 .label_medium {
-       -fx-font-size: 14.0;
-} 
+	-fx-font-size: 12.0;
+}
+
+.label_light {
+	-fx-font-family: "Prime Light";
+}
 
 
 .header {
@@ -44,6 +60,18 @@
 FontAwesomeIcon {
 	-fx-text-fill: -fx-dark; 
 	-fx-fill: -fx-dark; 
+}
+
+.fontAwesomeButtonDark, .fontAwesomeButtonDark FontAwesomeIcon {
+	-fx-background-color: -fx-dark;
+	-fx-cursor: hand;
+	-fx-text-fill: -fx-light; 
+	-fx-fill: -fx-light; 
+}
+
+.fontAwesomeButtonDark:hover, .fontAwesomeButtonDark FontAwesomeIcon:hover {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
 }
 
 .nav_button {
@@ -58,6 +86,50 @@ FontAwesomeIcon {
 }
 
 
+
+.button_module {
+	-fx-border-radius: 2px;
+	-fx-border-width: 1.5px;
+	-fx-border-color: transparent;
+	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-light;
+	-fx-border-insets: 0.0;
+}
+
+.button_module:hover {
+	-fx-border-color: -fx-dark;
+}
+
+.button_module:pressed {
+	-fx-background-color: -fx-dark;
+	-fx-border-color: -fx-primary;
+}
+
+.nav_button {
+	-fx-background-color: -fx-light;
+	-fx-text-fill: -fx-dark;
+}
+
+.toggle-button {
+	-fx-border-radius: 2px;
+	-fx-font-family: "Prime";
+	-fx-font-size: 10px;
+	-fx-border-width: 1.5;
+	-fx-background-color: -fx-dark;
+	-fx-border-color: -fx-light;
+	-fx-text-fill: -fx-light;
+}
+.toggle-button:disabled {
+	-fx-background-color: -fx-light-neutral;
+	-fx-border-color: -fx-dark;
+	-fx-text-fill: -fx-neutral;
+}
+.toggle-button:selected {
+	-fx-border-radius: 2px;
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-dark;
+	-fx-text-fill: -fx-dark;
+}
 
 
 /**
@@ -156,6 +228,12 @@ FontAwesomeIcon {
  	-fx-border-width: 0.0 1.0 0.0 0.0;
  	-fx-border-color: -fx-dark;
  	-fx-border-insets: 0.0 -5.0 0.0 0.0;
+ }
+ 
+ .separator_horizontal {
+ 	-fx-border-width: 1.0 0.0 0.0 0.0;
+ 	-fx-border-color: -fx-dark;
+ 	-fx-border-insets: 0.0 5.0 0.0 5.0;
  }
 
 
@@ -276,7 +354,6 @@ FontAwesomeIcon {
 }
 
 .title_label {
-	-fx-background-color: #E0E0E0;
     -fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
     -fx-padding: 15 30 15 30;
@@ -287,7 +364,6 @@ FontAwesomeIcon {
 }
 
 .subtitle_label {
-	-fx-background-color: #E0E0E0;
     -fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
     /*-fx-padding: 15 30 15 30;*/
@@ -298,10 +374,6 @@ FontAwesomeIcon {
 }
 
 .big_buttons {
-	/*-fx-pref-height: 50px;
-    //-fx-pref-width: 200px;
-	-fx-background-color: #E0E0E0;
-	-fx-text-fill: #333333;*/
 	-fx-pref-width: 200px;
 	-fx-pref-height: 67px;
 	-fx-background-color: #423f39;
@@ -310,25 +382,16 @@ FontAwesomeIcon {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
 	-fx-border-size: medium;
-	/*-fx-border-style: solid;
-	//-fx-border-color: black;*/
 }
 
 .big_button_sprache {
-	/*-fx-pref-height: 50px;
-    //-fx-pref-width: 200px;
-	-fx-background-color: #E0E0E0;
-	-fx-text-fill: #333333;*/
 	-fx-pref-width: 107px;
 	-fx-pref-height: 67px;
 	-fx-background-color: #423f39;
 	-fx-text-fill: white;
     -fx-font-family: "Prime";
-    /*-fx-font-size: 25px;*/
     -fx-font-weight: bold;
 	-fx-border-size: medium;
-	/*-fx-border-style: solid;
-	//-fx-border-color: black;*/
 }
 
 .big_buttons:hover {
@@ -345,7 +408,6 @@ FontAwesomeIcon {
 	-fx-background-color: -fx-dark;
     -fx-background-insets: 0,1,4,5;
     -fx-background-radius: 9,8,5,4;
-	/*-fx-background-color: #423f39;*/
 	-fx-font-size: 15px;
 	-fx-text-fill: white;
 }
@@ -358,18 +420,12 @@ FontAwesomeIcon {
 	-fx-text-fill: white;
 }
 
+.wholeOverlayBackground {
+	-fx-background-color: #E0E0E0;
+}
 
 .currentView_label {
-	/*-fx-background-radius: 10 10 0 0;
-	  -fx-text-fill: #333333; 
-		-fx-background-color: #E0E0E0;
-	//-fx-background-insets: 2 2 0 2;	
-	-fx-background-color: linear-gradient(from 100.0px 30.0px to 100.0px 100.0px, #35332f, #423f39);*/
-	-fx-text-fill: white;
-
-    /*-fx-background-insets: 0,1,4,5;
-    -fx-background-radius: 9,8,5,4;
-    /*-fx-padding: 15 30 15 30;*/
+	-fx-text-fill: -fx-light;
     -fx-font-family: "Prime";
     -fx-font-size: 33px;
     -fx-font-weight: bold;
@@ -388,7 +444,8 @@ FontAwesomeIcon {
 }
 
 .popover .training_grid {
-	-fx-border-radius: 2;
+	-fx-border-radius: 2px;
+	-fx-background-radius: 2px;
 	-fx-padding: 5px;
 	-fx-background-color: -fx-light-neutral;
 }

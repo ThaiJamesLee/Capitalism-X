@@ -1,10 +1,9 @@
 package de.uni.mannheim.capitalismx.ui.application;
 
+import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
+import de.uni.mannheim.capitalismx.ui.utils.SupportedResolution;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-
 /**
  * The main class, starting the application.
  * 
@@ -13,9 +12,13 @@ import javafx.stage.Stage;
  */
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.text.Font;
 import javafx.scene.control.ButtonType;
-import javafx.stage.StageStyle;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination.ModifierValue;
+import javafx.scene.text.Font;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
@@ -28,29 +31,41 @@ public class CapXApplication extends Application {
 
 	private static final boolean testMode = true;
 	private Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			loadFonts();
-			
-			new UIManager(primaryStage);
 
-			// set Stage boundaries to visible bounds of the main screen TODO
-			// adjust and move somewhere else
-//			primaryStage.setFullScreen(true);
-			primaryStage.setX(primaryScreenBounds.getMinX());
-			primaryStage.setY(primaryScreenBounds.getMinY());
-			primaryStage.setWidth(primaryScreenBounds.getWidth());
-			primaryStage.setHeight(primaryScreenBounds.getHeight());
-			primaryStage.setMaximized(true);
-//			primaryStage.initStyle(StageStyle.UNDECORATED);
-			primaryStage.setOnCloseRequest(e -> closeStage(e, primaryStage));
-			primaryStage.show();
+			prepareScreen(primaryStage);
+
+			GameResolution resolution = new GameResolution((int) primaryScreenBounds.getWidth(),
+					(int) primaryScreenBounds.getHeight(),
+					SupportedResolution.getOptimalResolution(primaryScreenBounds));
+
+			new UIManager(primaryStage, resolution);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void prepareScreen(Stage window) {
+		// set Stage boundaries to visible bounds of the main screen TODO
+		// adjust and move somewhere else
+		window.setX(primaryScreenBounds.getMinX());
+		window.setY(primaryScreenBounds.getMinY());
+		window.setWidth(primaryScreenBounds.getWidth());
+		window.setHeight(primaryScreenBounds.getHeight());
+		// disable exiting the fullscreen with ESCAPE, set it to shift + escape for the
+		// Main menu
+		window.setFullScreenExitHint("You can toggle the Fullscreen by pressing 'F12' when ingame.");
+		window.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.ESCAPE, ModifierValue.DOWN,
+				ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY));
+//		window.setMaximized(true);
+		window.setResizable(false);
+		window.setOnCloseRequest(e -> closeStage(e, window));
+		window.show();
 	}
 
 	private void closeStage(WindowEvent e, Stage primaryStage) {
@@ -60,7 +75,7 @@ public class CapXApplication extends Application {
 			closeConfirmation.showAndWait();
 		}
 	}
-	
+
 	private void loadFonts() {
 		Font.loadFont(CapXApplication.class.getResource("/fonts/Prime-Regular.ttf").toExternalForm(), 10);
 		Font.loadFont(CapXApplication.class.getResource("/fonts/Prime-Light.ttf").toExternalForm(), 10);
@@ -71,5 +86,5 @@ public class CapXApplication extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 }
