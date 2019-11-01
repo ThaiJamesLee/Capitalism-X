@@ -6,7 +6,7 @@
 	-fx-padding: 10;
 	-fx-background-radius: 5 5 0 0;
 	-fx-border-radius: 5 5 0 0;
-	-fx-background-color: -fx-complement-dark;
+	-fx-background-color: -fx-complement-neutral;
 }
 
 .contentPane {
