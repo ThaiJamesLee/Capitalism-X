@@ -27,6 +27,7 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
+import javafx.stage.Screen;
 
 public class OverviewMap3DController extends GameModuleController {
 
@@ -74,8 +75,7 @@ public class OverviewMap3DController extends GameModuleController {
 	}
 
 	private SubScene buildSubScene(Group group) {
-		GameResolution resolution = UIManager.getInstance().getGameResolution();
-		SubScene subscene = new SubScene(group, resolution.getWidth(), resolution.getHeight(), true, SceneAntialiasing.BALANCED);
+		SubScene subscene = new SubScene(group, Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight(), true, SceneAntialiasing.BALANCED);
 		subscene.setFill(Color.SKYBLUE);
 		// subscene.setPickOnBounds(true); //TODO ist das nötig?
 		handleKeyboard(subscene, world);
