@@ -4,19 +4,25 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.PopOver.ArrowLocation;
+
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
+import javafx.stage.PopupWindow.AnchorLocation;
+import javafx.util.Duration;
 
 public class GameHudController implements UpdateableController {
 
@@ -34,6 +40,8 @@ public class GameHudController implements UpdateableController {
 
 	@FXML 
 	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton;
+	@FXML
+	private Label playPauseIconLabel, forwardIconLabel, skipIconLabel, messageIconLabel, settingsIconLabel;
 	
 	public GridPane getModuleGrid() {
 		return moduleGrid;
@@ -47,6 +55,8 @@ public class GameHudController implements UpdateableController {
 		employeeLabel.setText(gameState.getHrDepartment().getEngineerTeam().getTeam().size() + "");
 		netWorthLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getNetWorth()));
 
+		//TODO Tooltip on the changelabels, with period described by the label
+		
 		// Set the actions for the buttons that switch the views of the departments.
 		initDepartmentButton(btnOverview, GameViewType.OVERVIEW);
 		initDepartmentButton(btnFinance, GameViewType.FINANCES);
@@ -56,6 +66,16 @@ public class GameHudController implements UpdateableController {
 		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
 		initDepartmentButton(btnMarketing, GameViewType.MARKETING);
 
+		TooltipFactory tooltipFactory = new TooltipFactory();
+		tooltipFactory.setFadeInDuration(Duration.millis(100));
+		
+		playPauseIconLabel.setTooltip(tooltipFactory.createTooltip("Play/Pause"));
+		skipIconLabel.setTooltip(tooltipFactory.createTooltip("Skip"));
+		forwardIconLabel.setTooltip(tooltipFactory.createTooltip("Fast Forward"));
+		tooltipFactory.setAnchorLocation(AnchorLocation.WINDOW_TOP_RIGHT);
+		settingsIconLabel.setTooltip(tooltipFactory.createTooltip("Settings"));
+		messageIconLabel.setTooltip(tooltipFactory.createTooltip("Messages"));
+		
 		UIManager.getInstance().setGameHudController(this);
 	}
 
@@ -65,10 +85,6 @@ public class GameHudController implements UpdateableController {
 
 	}
 	
-	public void updateDateLabel() {
-		
-	}
-
 	/**
 	 * Initiates the department buttons by adding the necessary EventHandlers.
 	 * 
