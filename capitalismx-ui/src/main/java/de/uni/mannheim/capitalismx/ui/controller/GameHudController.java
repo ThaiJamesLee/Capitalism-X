@@ -4,9 +4,11 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.application.Platform;
@@ -14,9 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 
 public class GameHudController implements UpdateableController {
 
@@ -32,6 +32,9 @@ public class GameHudController implements UpdateableController {
 	@FXML
 	private GridPane moduleGrid;
 
+	@FXML 
+	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton;
+	
 	public GridPane getModuleGrid() {
 		return moduleGrid;
 	}
@@ -60,6 +63,10 @@ public class GameHudController implements UpdateableController {
 	public void update() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void updateDateLabel() {
+		
 	}
 
 	/**
@@ -96,6 +103,18 @@ public class GameHudController implements UpdateableController {
 
 	public void updateGameViewLabel(GameViewType viewType) {
 		this.departmentLabel.setText(viewType.getTitle());
+	}
+	
+	@FXML 
+	public void playPause() {
+		GameController controller = GameController.getInstance();
+		if(controller.isGamePaused()) {
+			controller.resumeGame();
+			playPauseIconButton.setIcon(FontAwesomeIconName.PAUSE);
+		} else {
+			controller.pauseGame();
+			playPauseIconButton.setIcon(FontAwesomeIconName.PLAY);
+		}
 	}
 
 	public void updateCashLabel(double currentCash) {
