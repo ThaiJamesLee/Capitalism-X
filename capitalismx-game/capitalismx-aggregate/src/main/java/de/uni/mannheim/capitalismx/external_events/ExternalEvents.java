@@ -89,7 +89,7 @@ public class ExternalEvents implements Serializable {
     private void checkEventCompanyAcquisition(){
         if(FinanceDepartment.getInstance().checkIncreasingNopat()){
             //TODO ask user
-            FinanceDepartment.getInstance().acquireCompany();
+            //FinanceDepartment.getInstance().acquireCompany();
             externalEvents.add(ExternalEvent.EVENT_3);
         }
     }
@@ -231,6 +231,7 @@ public class ExternalEvents implements Serializable {
     }
 
     public List<ExternalEvent> checkEvents(){
+        this.externalEvents.clear();
         this.checkEventProductionProblems();
         this.checkEventNewTechnology();
         this.checkEventCompanyAcquisition();
