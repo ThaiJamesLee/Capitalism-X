@@ -307,6 +307,8 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO update cash?
     public ArrayList<Investment> generateInvestmentSelection(double amount){
         if(amount > this.cash.getValue()){
+            //TODO popup
+            System.out.println("Not enough cash!");
             return null;
         }
         ArrayList<Investment> investmentSelection = new ArrayList<Investment>();
