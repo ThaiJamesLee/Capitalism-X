@@ -74,21 +74,32 @@
 					<source>12</source>
 					<target>12</target>
 					<release>12</release>
-					<mainClass>java/de/uni/mannheim/capitalismx/ui/application/NewMain</mainClass>
+					<mainClass>de.uni.mannheim.capitalismx.ui.application.Main</mainClass>
 				</configuration>
 			</plugin>
+
+			<!--
+				replace maven jar plugin to package.
+				See: https://stackoverflow.com/questions/19602727/how-to-reference-javafx-fxml-files-in-resource-folder
+			-->
 			<plugin>
-				<!-- Build an executable JAR -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>de.uni.mannheim.capitalismx.ui.application.NewMain</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>de.uni.mannheim.capitalismx.ui.application.Main</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
