@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
  */
 public enum EmployeeType {
 
-    ENGINEER("Engineer", "name.enginner"),
+    ENGINEER("Engineer", "name.engineer"),
     SALESPERSON("Salesperson", "name.salesperson");
 
     private String type;

@@ -1,22 +1,26 @@
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class PropertiesTest {
 
     @Test
     public void propertiesTestEn() {
-        ResourceBundle bundle = ResourceBundle.getBundle("domain-module", Locale.ENGLISH);
-        Assert.assertEquals(bundle.getString("name.salesperson"), "SalesPerson");
-        Assert.assertEquals(bundle.getString("name.engineer"), "Engineer");
+        EmployeeType salesperson = EmployeeType.SALESPERSON;
+        EmployeeType engineer = EmployeeType.ENGINEER;
+
+        Assert.assertEquals(salesperson.getName(Locale.ENGLISH), "SalesPerson");
+        Assert.assertEquals(engineer.getName(Locale.ENGLISH), "Engineer");
     }
 
     @Test
     public void propertiesTestDe() {
-        ResourceBundle bundle = ResourceBundle.getBundle("domain-module", Locale.GERMAN);
-        Assert.assertEquals(bundle.getString("name.salesperson"), "Verkäufer");
-        Assert.assertEquals(bundle.getString("name.engineer"), "Ingenieur");
+        EmployeeType salesperson = EmployeeType.SALESPERSON;
+        EmployeeType engineer = EmployeeType.ENGINEER;
+
+        Assert.assertEquals(salesperson.getName(Locale.GERMAN), "Verkäufer");
+        Assert.assertEquals(engineer.getName(Locale.GERMAN), "Ingenieur");
     }
 }
