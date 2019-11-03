@@ -1,21 +1,37 @@
 package de.uni.mannheim.capitalismx.domain.employee;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 /**
  * @author duly
  */
 public enum EmployeeType {
 
-    ENGINEER("Engineer"),
-    SALESPERSON("Salesperson");
+    ENGINEER("Engineer", "name.enginner"),
+    SALESPERSON("Salesperson", "name.salesperson");
 
     private String type;
+    private String propertyKey;
 
-    EmployeeType (String type) {
+    EmployeeType (String type, String propertyKey) {
+
         this.type = type;
+        this.propertyKey = propertyKey;
     }
 
     @Override
     public String toString () {
         return type;
+    }
+
+    /**
+     * Reads the properties file.
+     * @param locale the locale of the properties file (English or German).
+     * @return Returns the name of the employee type.
+     */
+    public String getName(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle("domain-module", locale);
+        return bundle.getString(propertyKey);
     }
 }
