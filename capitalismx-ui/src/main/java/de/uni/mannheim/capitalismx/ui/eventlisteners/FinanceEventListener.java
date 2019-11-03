@@ -19,10 +19,12 @@ public class FinanceEventListener implements PropertyChangeListener {
 
         if (evt.getPropertyName().equals("netWorth")) {
             financeOverviewController.setNetWorthLabel(String.valueOf(newVal.getValue()));
+            UIManager.getInstance().getGameHudController().updateNetworthLabel(newVal.getValue());
         }
 
         if (evt.getPropertyName().equals("cash")) {
             financeOverviewController.setCashLabel(String.valueOf(newVal.getValue()));
+            UIManager.getInstance().getGameHudController().updateCashLabel(newVal.getValue());
         }
 
         if (evt.getPropertyName().equals("assets")) {

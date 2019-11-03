@@ -1,21 +1,67 @@
 .background {
-	-fx-background-color: -fx-light-neutral;
+	-fx-background-color: none;
 }
 
 
 .overlayPane {	
 	-fx-background-color: -fx-transparent-background;
-	-fx-padding: 66;
+	-fx-padding: 66.0;
 }
 
 .hud_box {
 	-fx-background-color: -fx-dark;
-	-fx-pref-width: 120px;
+	-fx-pref-width: 120.0px;
 }
 
 .hud_label {
-	-fx-text-fill: white;
-	-fx-font-weight: bolder;
-	-fx-font-size: 15px;
+	-fx-text-fill: -fx-primary-light;
+	-fx-font-weight: bold;
 	-fx-text-alignment: center;
 }
+
+.hud_background {
+	-fx-background-color: -fx-primary-dark;
+	-fx-background-insets: -3.0;
+	-fx-border-insets: -8.0;
+	-fx-border-width: 3.0;
+	-fx-border-radius: 7.0;
+	-fx-border-color: -fx-primary-dark;
+	-fx-text-fill: -fx-primary-light;
+}
+
+.hud_icon_button {
+	-fx-cursor: hand;
+	-fx-text-fill: -fx-primary-light; 
+	-fx-fill: -fx-primary-light; 
+}
+.hud_icon_button:hover {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
+}
+
+.hud_department_button {
+	-fx-border-radius: 0 3 3 0;
+	-fx-background-radius: 0 3 3 0;
+	-fx-cursor: hand;
+	-fx-border-insets: 2 2 2 0;
+	-fx-border-width: 0.0 2.0 0.0 0.0;
+	-fx-background-color: -fx-primary-light;
+	-fx-border-color: -fx-primary-dark;
+}
+
+.hud_department_button:selected {
+}
+.hud_department_button:hover {
+	-fx-background-color: -fx-primary-dark;
+	-fx-border-color: -fx-primary-light;
+}
+.hud_department_button FontAwesomeIcon, .hud_icon_button FontAwesomeIcon {
+	-fx-fill: -fx-primary-dark;
+	-fx-text-fill: -fx-primary-dark;
+}
+	
+.hud_department_button:hover FontAwesomeIcon, .hud_icon_button:hover FontAwesomeIcon {
+	-fx-fill: -fx-primary-light;
+	-fx-text-fill: -fx-primary-ilght;
+}
+	
