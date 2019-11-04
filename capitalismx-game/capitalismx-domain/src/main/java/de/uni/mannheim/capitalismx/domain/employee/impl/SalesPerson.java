@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.domain.employee.impl;
 
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 /**
@@ -14,5 +15,6 @@ public class SalesPerson extends Employee {
 
     public SalesPerson(String firstName, String lastName, String gender, String title, int salary, int skillLevel) {
         super(firstName, lastName, gender, title, salary, skillLevel);
+        super.setEmployeeType(EmployeeType.SALESPERSON);
     }
 }
