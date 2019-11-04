@@ -110,30 +110,49 @@ public class FinanceOverviewController extends GameModuleController {
         });
 
         realEstateButton.setOnAction(e -> {
-            Investment investment = controller.generateInvestmentSelection(Double.parseDouble(realEstateTextField.getText())).get(0);
-            controller.addInvestment(investment);
-            realEstateLabel.setText("Amount: " + investment.getAmount());
-            realEstateTextField.clear();
-            //TODO update GUI
-            //controller.calculateNetWorth(GameState.getInstance().getGameDate());
+            ArrayList<Investment> investmentSelection = controller.generateInvestmentSelection(Double.parseDouble(realEstateTextField.getText()));
+            if(investmentSelection != null){
+                Investment investment = investmentSelection.get(0);
+                controller.addInvestment(investment);
+                realEstateLabel.setText("Amount: " + investment.getAmount());
+                realEstateTextField.clear();
+                //TODO update GUI
+                //controller.calculateNetWorth(GameState.getInstance().getGameDate());
+            }else{
+                //TODO popup
+                realEstateTextField.clear();
+            }
+
         });
 
         stocksButton.setOnAction(e -> {
-            Investment investment = controller.generateInvestmentSelection(Double.parseDouble(stocksTextField.getText())).get(1);
-            controller.addInvestment(investment);
-            stocksLabel.setText("Amount: " + investment.getAmount());
-            stocksTextField.clear();
-            //TODO update GUI
-            //controller.calculateNetWorth(GameState.getInstance().getGameDate());
+            ArrayList<Investment> investmentSelection = controller.generateInvestmentSelection(Double.parseDouble(stocksTextField.getText()));
+            if(investmentSelection != null){
+                Investment investment = investmentSelection.get(1);
+                controller.addInvestment(investment);
+                stocksLabel.setText("Amount: " + investment.getAmount());
+                stocksTextField.clear();
+                //TODO update GUI
+                //controller.calculateNetWorth(GameState.getInstance().getGameDate());
+            }else{
+                //TODO popup
+                stocksTextField.clear();
+            }
         });
 
         ventureCapitalButton.setOnAction(e -> {
-            Investment investment = controller.generateInvestmentSelection(Double.parseDouble(ventureCapitalTextField.getText())).get(2);
-            controller.addInvestment(investment);
-            ventureCapitalLabel.setText("Amount: " + investment.getAmount());
-            ventureCapitalTextField.clear();
-            //TODO update GUI
-            //controller.calculateNetWorth(GameState.getInstance().getGameDate());
+            ArrayList<Investment> investmentSelection = controller.generateInvestmentSelection(Double.parseDouble(ventureCapitalTextField.getText()));
+            if(investmentSelection != null){
+                Investment investment = investmentSelection.get(2);
+                controller.addInvestment(investment);
+                ventureCapitalLabel.setText("Amount: " + investment.getAmount());
+                ventureCapitalTextField.clear();
+                //TODO update GUI
+                //controller.calculateNetWorth(GameState.getInstance().getGameDate());
+            }else{
+                //TODO popup
+                ventureCapitalTextField.clear();
+            }
         });
     }
 
@@ -174,8 +193,12 @@ public class FinanceOverviewController extends GameModuleController {
     }
 
     public void addLoan(BankingSystem.Loan loan){
-        loanLabel.setText("" + loan.getLoanAmount() + "CC - Duration: " +
-                loan.getDuration() + " Months");
-        loanAmountTextField.clear();
+        Platform.runLater(new Runnable() {
+            public void run() {
+                loanLabel.setText("" + loan.getLoanAmount() + "CC - Duration: " +
+                        loan.getDuration() + " Months");
+                loanAmountTextField.clear();
+            }
+        });
     }
 }

@@ -3,9 +3,11 @@ package de.uni.mannheim.capitalismx.ui.controller.module.hr;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -51,7 +53,33 @@ public class HrStatisticsController extends GameModuleController {
 
 		hiringCost.setText((int) hrDep.getHiringCost() + "");
 		firingCost.setText((int) hrDep.getFiringCost() + "");
+	}
 
+	public void updateTeam(EmployeeType typeOfTeam, int numberOfTeamMembers) {
+		Platform.runLater(() -> {
+			switch (typeOfTeam) {
+			case ENGINEER:
+				updateNumberOfEngineers(numberOfTeamMembers);
+				break;
+			case SALESPERSON:
+				updateNumberOfEmployees(numberOfTeamMembers);
+				break;
+			default:
+				break;
+			}
+		});
+	}
+
+	private void updateNumberOfSalesPeople(int numberOfSalesPeople) {
+		numberEmployeesSales.setText(numberOfSalesPeople + "");
+	}
+
+	private void updateNumberOfEngineers(int numberOfEngineers) {
+		numberEmployeesProduction.setText(numberOfEngineers + "");
+	}
+
+	private void updateNumberOfEmployees(int numOfEmployees) {
+		numberEmployeesOverall.setText(numOfEmployees + "");
 	}
 
 }

@@ -11,11 +11,11 @@
 }
 
 .progress-bar .track {
-	-fx-background-color: -fx-neutral;
+	-fx-background-color: -fx-primary;
 }
 
 .progress-bar .bar {
-	-fx-background-color: -fx-primary;
+	-fx-background-color: linear-gradient(to right, -fx-primary-dark, -fx-primary-neutral);
 }
 
 .whitePane{
