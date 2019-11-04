@@ -13,9 +13,11 @@ import de.uni.mannheim.capitalismx.ui.components.GameScene;
 import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.controller.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
@@ -26,6 +28,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -59,6 +63,8 @@ public class UIManager {
 
 	// Controller for the main scene of the game.
 	private GamePageController gamePageController;
+	private GameHudController gameHudController;
+	private OverviewMap3DController gameMapController;
 
 	// Get information about the resolution of the game.
 	private GameResolution gameResolution;
@@ -90,6 +96,22 @@ public class UIManager {
 
 	public static UIManager getInstance() {
 		return instance;
+	}
+
+	public GameHudController getGameHudController() {
+		return gameHudController;
+	}
+
+	public void setGameHudController(GameHudController gameHudController) {
+		this.gameHudController = gameHudController;
+	}
+
+	public OverviewMap3DController getGameMapController() {
+		return gameMapController;
+	}
+
+	public void setGameMapController(OverviewMap3DController gameMapController) {
+		this.gameMapController = gameMapController;
 	}
 
 	public GamePageController getGamePageController() {
@@ -134,9 +156,7 @@ public class UIManager {
 
 		switchToScene(GameSceneType.LOADING_SCREEN);
 		// load all the modules and save them in the gameModules-list
-		preloadViewsAndModules();
-
-		initKeyboardControls();
+		prepareGamePage();
 
 	}
 
@@ -185,6 +205,15 @@ public class UIManager {
 
 			}
 		});
+
+		sceneGamePage.getScene().addEventHandler(ScrollEvent.SCROLL, gameMapController.getMouseEventHandler());
+		sceneGamePage.getScene().setOnMousePressed(gameMapController.getMouseEventHandler());
+		sceneGamePage.getScene().setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				gameMapController.getMouseEventHandler().handle(event);
+			}
+		});
 	}
 
 	/**
@@ -198,11 +227,6 @@ public class UIManager {
 			root = loader.load();
 			sceneMenuMain = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
-			root = loader.load();
-			gamePageController = (GamePageController) loader.getController();
-			sceneGamePage = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
-
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"));
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
@@ -215,17 +239,30 @@ public class UIManager {
 	/**
 	 * Preloads all the {@link GameModule}s and adds them to the list of modules.
 	 */
-	private void preloadViewsAndModules() {
+	private void prepareGamePage() {
 		// Create a task to load all the Modules without freezing the GUI
 		Task<Integer> task = new Task<Integer>() {
 
+			private double progress = 0.0;
+			int numOfComponents = GameModuleDefinition.values().length + 1;
+			
+			private void updateProgress() {
+				progress += 1.0 / numOfComponents;
+				this.updateProgress(progress, 1.0);
+			}
+			
 			@Override
 			protected Integer call() throws Exception {
-				double progress = 0.0;
-				this.updateProgress(0.0, 1.0);
-				int numOfComponents = GameModuleDefinition.values().length * 2;
 
 				try {
+					this.updateProgress(0.0, 1.0);
+					
+					// load GamePage
+					FXMLLoader gamePageLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
+					Parent gamePageRoot = gamePageLoader.load();
+					gamePageController = (GamePageController) gamePageLoader.getController();
+					sceneGamePage = new GameScene(gamePageRoot, GameSceneType.GAME_PAGE, gamePageLoader.getController());
+					
 					// init list of GameViews
 					gameViews = new ArrayList<GameView>();
 					// create a new GameView for each GameViewType
@@ -247,18 +284,17 @@ public class UIManager {
 						Parent root = loader.load();
 						GameModuleController controller = loader.getController();
 
-						// update the progressbar #1
-						progress += 1.0 / numOfComponents;
-						this.updateProgress(progress, 1.0);
+					
 
 						// create new GameModule from the type and add it to its view.
 						GameModule module = new GameModule(root, moduleDefinition, position, controller);
 						getGameView(moduleDefinition.viewType).addModule(module);
-
-						// update the progressbar #2
-						progress += 1.0 / numOfComponents;
-						this.updateProgress(progress, 1.0);
+						
+						// update the progressbar
+						updateProgress();
 					}
+
+					initKeyboardControls();
 					// start the game once everything is loaded
 					startGame();
 				} catch (IOException e) {
@@ -278,15 +314,17 @@ public class UIManager {
 	 * Start the Game by switching to the GamePage and starting the GameController
 	 */
 	private void startGame() {
-		Platform.runLater(() -> switchToScene(GameSceneType.GAME_PAGE));
-		Platform.runLater(() -> new Runnable() {
-			@Override
-			public void run() {
-				GameController.getInstance().start();
-			}
+		Platform.runLater(() -> {
+			gamePageController.switchView(GameViewType.OVERVIEW);
+			switchToScene(GameSceneType.GAME_PAGE);
 		});
-
-		((GamePageController) sceneGamePage.getController()).switchView(GameViewType.OVERVIEW);
+		Task task = new Task<Void>() {
+			@Override public Void call() {
+				GameController.getInstance().start();
+				return null;
+			}
+		};
+		new Thread(task).start();
 	}
 
 	/**

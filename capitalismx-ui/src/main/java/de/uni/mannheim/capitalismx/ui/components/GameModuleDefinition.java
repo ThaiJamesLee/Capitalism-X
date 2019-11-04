@@ -48,7 +48,7 @@ public enum GameModuleDefinition {
 
 	// The modules for HR. (61-70)
 	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 5, 0, 19),
-	FINANCE_OVERVIEW(62, "finance_overview.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OVERVIEW, 0, 5, 0, 19),
+	FINANCE_OVERVIEW(62, "finance_overview.fxml", GameViewType.FINANCES, GameOverlayDefinition.LOAN_REQUEST, UIElementType.FINANCE_OVERVIEW, 0, 5, 0, 19),
 	FINANCE_SALES_CHART(63, "finance_statistics_charts.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_SALES_CHART, 10, 5, 0, 19)
 
 	// The modules for HR. (71-80)

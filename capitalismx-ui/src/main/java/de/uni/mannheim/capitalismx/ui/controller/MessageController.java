@@ -95,7 +95,7 @@ public class MessageController implements Initializable {
 
 
 		messageClose.setOnAction(e -> {
-			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).removeMessagePane();
+			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleMessageWindow();
 		});
 	}
 

@@ -1,11 +1,19 @@
 /** Definition of colors */
 * {
-   -fx-primary: #DBA901;
-   -fx-light: #FAFAFA;
-   -fx-dark: #2E2E2E;
-   -fx-neutral: #848484;
-   -fx-light-neutral: #cccccc;
-   -fx-contrast: #ffd54f;
+   -fx-primary: rgb( 90, 15,  5,1);
+   -fx-primary-dark-transparent: rgb( 52,  6,  0, 0.5);
+   -fx-primary-dark: rgb( 52,  6,  0,1);
+   -fx-primary-light: rgb(255,209,204,1);
+   -fx-primary-neutral: rgb(223,141,131,1);
+   -fx-light: #EEE7D0;
+   -fx-dark: #141108;
+   -fx-neutral: #86794E;
+   -fx-light-neutral: #C0AD6F;
+   -fx-complement-light: rgb( 46, 83, 56,1);	/* Main Complement color */
+   -fx-complement-light-neutral:  rgb(166,208,177,1);
+   -fx-complement-neutral: rgb(8,166,116,1) ;
+   -fx-complement: rgb(  2, 65, 18,1);
+   -fx-complement-dark: rgb(  0, 35,  9,1);
    -fx-transparent-background: rgb(132, 132, 132, 0.6);
 }
 
@@ -228,6 +236,12 @@ FontAwesomeIcon {
  	-fx-border-width: 0.0 1.0 0.0 0.0;
  	-fx-border-color: -fx-dark;
  	-fx-border-insets: 0.0 -5.0 0.0 0.0;
+ }
+ 
+ .separator_horizontal {
+ 	-fx-border-width: 1.0 0.0 0.0 0.0;
+ 	-fx-border-color: -fx-dark;
+ 	-fx-border-insets: 0.0 5.0 0.0 5.0;
  }
 
 

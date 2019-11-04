@@ -31,19 +31,19 @@ public class IngameMenuController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		ingameContinue.setOnAction(e -> {
-			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).removeIngameMenuPane();
+			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleIngameMenu();
 		});
 		
 		ingameSave.setOnAction(e -> {
-			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).removeIngameMenuPane();
+			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleIngameMenu();
 		});
 		
 		ingameLoad.setOnAction(e -> {
-			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).removeIngameMenuPane();
+			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleIngameMenu();
 		});
 		
 		ingameSettings.setOnAction(e -> {
-			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).removeIngameMenuPane();
+			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleIngameMenu();
 		});
 		
 		ingameQuit.setOnAction(e -> {
