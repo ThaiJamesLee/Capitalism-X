@@ -62,19 +62,41 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
         return list;
     }
 
+    /**
+     *
+     * @param addPropertyName
+     */
     public void setAddPropertyName(String addPropertyName) {
         this.addPropertyName = addPropertyName;
     }
 
+    /**
+     *
+     * @param t the new element to add.
+     */
     public void add(T t) {
         copyList(oldList, list);
         list.add(t);
         propertyChangeSupport.firePropertyChange(addPropertyName, oldList, list);
     }
 
+    /**
+     *
+     * @param t the element to remove.
+     */
     public void remove(T t) {
         copyList(oldList, list);
         list.remove(t);
+        propertyChangeSupport.firePropertyChange(removePropertyName, oldList, list);
+    }
+
+    /**
+     *  Replaces the current list with a new list.
+     * @param newList the new list to replace.
+     */
+    public void setList(List<T> newList) {
+        copyList(oldList, list);
+        list = newList;
         propertyChangeSupport.firePropertyChange(removePropertyName, oldList, list);
     }
 

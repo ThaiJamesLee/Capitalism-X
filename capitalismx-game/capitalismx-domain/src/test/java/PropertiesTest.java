@@ -20,7 +20,7 @@ public class PropertiesTest {
         EmployeeType salesperson = EmployeeType.SALESPERSON;
         EmployeeType engineer = EmployeeType.ENGINEER;
 
-        Assert.assertEquals(salesperson.getName(Locale.GERMAN), "Verkäufer");
+        Assert.assertEquals(salesperson.getName(Locale.GERMAN), "Verkaeufer");
         Assert.assertEquals(engineer.getName(Locale.GERMAN), "Ingenieur");
     }
 }
