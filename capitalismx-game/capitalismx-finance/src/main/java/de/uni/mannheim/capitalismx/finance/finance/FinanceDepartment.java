@@ -121,7 +121,7 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO reset assetsSold and nopat of current day?
     protected double calculateCash(LocalDate gameDate){
         //this.cash += this.nopat + this.assetsSold;
-        this.cash.setValue(this.cash.getValue() +  this.calculateNopat() + this.calculateAssetsSold(gameDate));
+        this.cash.setValue(this.cash.getValue() +  this.calculateNopat(gameDate) + this.calculateAssetsSold(gameDate));
         return this.cash.getValue();
     }
 
@@ -199,17 +199,17 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     // corrected formula in documentation
-    public double calculateNopat(){
+    public double calculateNopat(LocalDate gameDate){
         //this.nopat = this.ebit - this.incomeTax;
-        this.nopat = ((this.calculateEbit() - this.calculateIncomeTax()) * (1 - this.decreaseNopatFactor)) - this.decreaseNopatConstant;
+        this.nopat = ((this.calculateEbit(gameDate) - this.calculateIncomeTax(gameDate)) * (1 - this.decreaseNopatFactor)) - this.decreaseNopatConstant;
         return this.nopat;
     }
 
     //TODO negative EBIT
-    protected double calculateIncomeTax(){
+    protected double calculateIncomeTax(LocalDate gameDate){
         //this.incomeTax = this.ebit * this.taxRate;
         this.incomeTax = 0;
-        if(this.calculateEbit() >= 0){
+        if(this.calculateEbit(gameDate) >= 0){
             this.incomeTax = this.ebit * this.taxRate;
         }
         return this.incomeTax;
@@ -228,16 +228,17 @@ public class FinanceDepartment extends DepartmentImpl {
         return 0.0;
     }
 
-    private double calculateTotalExpenses(){
+    private double calculateTotalExpenses(LocalDate gameDate){
         //this.totalExpenses = this.totalHRCosts + this.totalWarehouseCosts + this.totalLogisticsCosts + this.totalProductionCosts + this.totalMarketingCosts + this.totalSupportCosts;
-        this.totalExpenses = this.calculateTotalHRCosts() + this.calculateTotalWarehouseCosts() + this.calculateTotalLogisticsCosts() + this.calculateTotalProductionCosts()
+        this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts() + this.calculateTotalLogisticsCosts() + this.calculateTotalProductionCosts()
                 + this.calculateTotalMarketingCosts() + this.calculateTotalSupportCosts();
         return this.totalExpenses;
     }
 
-    protected double calculateTotalHRCosts(){
+    protected double calculateTotalHRCosts(LocalDate gameDate){
         double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
         double totalSalaries = HRDepartment.getInstance().calculateTotalSalaries();
+        totalSalaries /= gameDate.lengthOfYear();
         this.totalHRCosts = totalSalaries + totalTrainingCosts;
         return this.totalHRCosts;
     }
@@ -260,8 +261,8 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO
     protected double calculateTotalProductionCosts(){
         //double totalProductionCosts = Production.getInstance().calculateProductionVariableCosts() + Production.getInstance().calculateProductionFixCosts();
-        double totalProductionCosts = ProductionDepartment.getInstance().getProductionVariableCosts() + ProductionDepartment.getInstance().getProductionFixCosts();
-        return totalProductionCosts;
+        this.totalProductionCosts = ProductionDepartment.getInstance().getProductionVariableCosts() + ProductionDepartment.getInstance().getProductionFixCosts();
+        return this.totalProductionCosts;
     }
 
     //TODO
@@ -281,9 +282,9 @@ public class FinanceDepartment extends DepartmentImpl {
         return totalSupportCosts;
     }
 
-    protected double calculateEbit(){
+    protected double calculateEbit(LocalDate gameDate){
         //this.ebit = this.totalRevenue - this.totalExpenses;
-        this.ebit = this.calculateTotalRevenue() - this.calculateTotalExpenses();
+        this.ebit = this.calculateTotalRevenue() - this.calculateTotalExpenses(gameDate);
         return this.ebit;
     }
 
@@ -369,9 +370,9 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     //TODO decide on suitable consequences of acquisition, e.g., increase assets
-    public void acquireCompany(){
+    public void acquireCompany(LocalDate gameDate){
         this.increaseCash(10000);
-        this.decreaseCash(this.calculateNopat() * 0.70);
+        this.decreaseCash(this.calculateNopat(gameDate) * 0.70);
     }
 
     public void decreaseNopatRelPermanently(double amount){
@@ -392,7 +393,8 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     public void nopatFine(double amount){
-        this.decreaseCash(this.calculateNopat() * amount);
+        //this.decreaseCash(this.calculateNopat(gameDate) * amount);
+        this.decreaseCash(this.nopat * amount);
     }
 
     public void decreaseNopatConstant(double amount){
