@@ -8,6 +8,7 @@ import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,8 +95,8 @@ public class ExternalEvents implements Serializable {
         }
     }
 
-    private void checkEventCompanyOvertakesMarketShare(){
-        if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (FinanceDepartment.getInstance().calculateNopat() > 1000000)){
+    private void checkEventCompanyOvertakesMarketShare(LocalDate gameDate){
+        if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (FinanceDepartment.getInstance().calculateNopat(gameDate) > 1000000)){
             FinanceDepartment.getInstance().decreaseNopatRelPermanently(0.10);
             externalEvents.add(ExternalEvent.EVENT_4);
         }
@@ -230,12 +231,12 @@ public class ExternalEvents implements Serializable {
 
     }
 
-    public List<ExternalEvent> checkEvents(){
+    public List<ExternalEvent> checkEvents(LocalDate gameDate){
         this.externalEvents.clear();
         this.checkEventProductionProblems();
         this.checkEventNewTechnology();
         this.checkEventCompanyAcquisition();
-        this.checkEventCompanyOvertakesMarketShare();
+        this.checkEventCompanyOvertakesMarketShare(gameDate);
         this.checkEventBrandReputationPlunges();
         this.checkEventComputerVirusAttacks();
         this.checkEventTaxChanges();

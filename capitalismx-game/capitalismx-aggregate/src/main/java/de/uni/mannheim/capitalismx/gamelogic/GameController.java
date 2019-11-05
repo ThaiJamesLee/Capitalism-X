@@ -82,7 +82,7 @@ public class GameController {
 		// TODO update all values of the departments
 		this.updateCompanyEcoIndex();
 		this.updateCustomer();
-		this.updateExternalEvents();
+		this.updateExternalEvents(GameState.getInstance().getGameDate());
 		this.updateFinance();
 		this.updateHR();
 		this.updateLogistics();
@@ -129,8 +129,8 @@ public class GameController {
 		CompanyEcoIndex.getInstance().calculateAll();
 	}
 
-	private void updateExternalEvents() {
-		ExternalEvents.getInstance().checkEvents();
+	private void updateExternalEvents(LocalDate gameDate) {
+		ExternalEvents.getInstance().checkEvents(gameDate);
 	}
 
 	private void updateCustomer() {
