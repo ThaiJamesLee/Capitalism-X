@@ -10,7 +10,8 @@ public enum EmployeeType {
 
     ENGINEER("Engineer", "name.engineer"),
     SALESPERSON("Salesperson", "name.salesperson"),
-    PRODUCTION_WORKER("Production Worker", "name.productionworker");
+    PRODUCTION_WORKER("Production Worker", "name.productionworker"),
+    HR_WORKER("HR Worker", "name.hrworker");
 
     private String type;
     private String propertyKey;
