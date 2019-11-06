@@ -90,6 +90,14 @@ public class Contract implements Serializable {
         this.product = product;
     }
 
+    public LocalDate getContractStart() {
+        return contractStart;
+    }
+
+    public void setContractStart(LocalDate contractStart) {
+        this.contractStart = contractStart;
+    }
+
     /**
      *
      * @return Returns potential revenue when fulfilling the contract.
