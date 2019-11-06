@@ -151,6 +151,12 @@ FontAwesomeIcon {
 	-fx-background-color: -fx-primary-neutral;
 }
 	
+	
+.tooltip {
+	-fx-background-color: -fx-primary-dark-transparent;
+	-fx-text-fill: -fx-primary;
+}
+	
 
 /**
  * ToggleButtons
