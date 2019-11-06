@@ -95,7 +95,7 @@ public class ProductionDepartment extends DepartmentImpl {
             this.productionFixCosts += machinery.getPurchasePrice() + machinery.calculateMachineryDepreciation();
         }
         /* TODO placeholder for facility rent -> are they talking about the warehouses? */
-        int facilityRent = 2000;
+        int facilityRent = 0;
         this.productionFixCosts += facilityRent;
         return this.productionFixCosts;
     }

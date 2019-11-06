@@ -96,7 +96,7 @@ public class FinanceDepartmentTest {
     @Test
     public  void calculateTotalHRCostsTest(){
         FinanceDepartment financeDepartment = new FinanceDepartment();
-        Assert.assertEquals(financeDepartment.calculateTotalHRCosts(), 0.0);
+        Assert.assertEquals(financeDepartment.calculateTotalHRCosts(LocalDate.now()), 0.0);
     }
 
     @Test

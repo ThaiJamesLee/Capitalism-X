@@ -82,7 +82,7 @@ public class GameController {
 		// TODO update all values of the departments
 		this.updateCompanyEcoIndex();
 		this.updateCustomer();
-		this.updateExternalEvents();
+		this.updateExternalEvents(GameState.getInstance().getGameDate());
 		this.updateFinance();
 		this.updateHR();
 		this.updateLogistics();
@@ -129,8 +129,8 @@ public class GameController {
 		CompanyEcoIndex.getInstance().calculateAll();
 	}
 
-	private void updateExternalEvents() {
-		ExternalEvents.getInstance().checkEvents();
+	private void updateExternalEvents(LocalDate gameDate) {
+		ExternalEvents.getInstance().checkEvents(gameDate);
 	}
 
 	private void updateCustomer() {
@@ -180,6 +180,10 @@ public class GameController {
 
 	public void pauseGame() {
 		GameThread.getInstance().pause();
+	}
+
+	public void terminateGame() {
+		GameThread.getInstance().terminate();
 	}
 
 	public void resumeGame() {
@@ -387,6 +391,18 @@ public class GameController {
 
 	public void increaseCash(double amount) {
 		FinanceDepartment.getInstance().increaseCash(amount);
+	}
+
+	public void decreaseCash(double amount) {
+		FinanceDepartment.getInstance().decreaseCash(amount);
+	}
+
+	public void increaseNewWorth(double amount) {
+		FinanceDepartment.getInstance().increaseNetWorth(amount);
+	}
+
+	public void decreaseNetWorth(double amount) {
+		FinanceDepartment.getInstance().decreaseNetWorth(amount);
 	}
 
 	/*
