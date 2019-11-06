@@ -12,6 +12,8 @@ public abstract class DepartmentImpl implements Department, Serializable {
 
     private int level;
 
+    private LevelingMechanism levelingMechanism;
+
     public DepartmentImpl(String name) {
         this.name = name;
     }
@@ -21,12 +23,19 @@ public abstract class DepartmentImpl implements Department, Serializable {
         return name;
     }
 
+    @Override
     public void setLevel(int level) {
         this.level = level;
     }
 
+    @Override
     public int getLevel() {
         return level;
+    }
+
+    @Override
+    public LevelingMechanism getLevelingMechanism() {
+        return levelingMechanism;
     }
 
 }

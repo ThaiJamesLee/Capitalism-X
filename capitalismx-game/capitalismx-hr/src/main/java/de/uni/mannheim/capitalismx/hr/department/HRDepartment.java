@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.List;
@@ -62,8 +63,8 @@ public class HRDepartment extends DepartmentImpl {
         fired.setAddPropertyName("addFiredList");
         fired.setRemovePropertyName("removeFiredList");
 
-        teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER));
-        teams.put(EmployeeType.SALESPERSON, new Team(EmployeeType.SALESPERSON));
+        teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER).addPropertyName("engineerTeamChanged"));
+        teams.put(EmployeeType.SALESPERSON, new Team(EmployeeType.SALESPERSON).addPropertyName("salespersonTeamChanged"));
     }
 
     public static HRDepartment getInstance() {
@@ -319,5 +320,15 @@ public class HRDepartment extends DepartmentImpl {
 
     public static void setInstance(HRDepartment instance) {
         HRDepartment.instance = instance;
+    }
+
+    /**
+     * Register the propertychangelistener to all propertychangesupport objects.
+     * @param listener
+     */
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+        for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+            entry.getValue().addPropertyChangeListener(listener);
+        }
     }
 }
