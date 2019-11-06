@@ -133,6 +133,11 @@ public class GameHudController implements UpdateableController {
 		}
 	}
 
+	@FXML
+	public void skipDay() {
+		GameController.getInstance().nextDay();
+	}
+
 	public void updateCashLabel(double currentCash) {
 		Platform.runLater(new Runnable() {
 			public void run() {

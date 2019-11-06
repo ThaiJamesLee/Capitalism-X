@@ -168,7 +168,7 @@
                         </Label>
                         <Label fx:id="skipIconLabel" GridPane.columnIndex="1">
                            <graphic>
-                              <FontAwesomeIcon fx:id="skipIconButton" iconName="STEP_FORWARD" size="1.5em" styleClass="hud_icon_button" />
+                              <FontAwesomeIcon fx:id="skipIconButton" iconName="STEP_FORWARD" onMouseClicked="#skipDay" size="1.5em" styleClass="hud_icon_button" />
                            </graphic>
                         </Label>
                      </children>
