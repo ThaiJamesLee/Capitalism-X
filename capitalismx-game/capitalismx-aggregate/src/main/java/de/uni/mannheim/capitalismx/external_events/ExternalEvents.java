@@ -40,7 +40,7 @@ public class ExternalEvents implements Serializable {
         EVENT_16("Change of power"),
         EVENT_17("Eco activists block roads"),
         EVENT_18("Tensions between our country and others"),
-        EVENT_19("Game OVer");
+        EVENT_19("Game Over");
 
         private String title;
         private boolean increase;

@@ -8,6 +8,7 @@ import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
@@ -48,6 +49,7 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalExpenses;
     private double decreaseNopatFactor;
     private double decreaseNopatConstant;
+    private PropertyChangeSupportBoolean gameOver;
 
     private List<Warehouse> warehousesSold;
     private List<Truck> trucksSold;
@@ -60,6 +62,10 @@ public class FinanceDepartment extends DepartmentImpl {
 
     protected FinanceDepartment(){
         super("Finance");
+        this.gameOver = new PropertyChangeSupportBoolean();
+        this.gameOver.setValue(false);
+        this.gameOver.setPropertyChangedName("gameOver");
+
         this.cash = new PropertyChangeSupportDouble();
         this.cash.setValue(1000000.0);
         this.cash.setPropertyChangedName("cash");
@@ -96,6 +102,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
         // TODO add all property changelisteners here
+        this.gameOver.addPropertyChangeListener(propertyChangeListener);
         this.netWorth.addPropertyChangeListener(propertyChangeListener);
         this.cash.addPropertyChangeListener(propertyChangeListener);
         this.assets.addPropertyChangeListener(propertyChangeListener);
@@ -121,7 +128,12 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO reset assetsSold and nopat of current day?
     protected double calculateCash(LocalDate gameDate){
         //this.cash += this.nopat + this.assetsSold;
-        this.cash.setValue(this.cash.getValue() +  this.calculateNopat(gameDate) + this.calculateAssetsSold(gameDate));
+        double cash = this.cash.getValue() +  this.calculateNopat(gameDate) + this.calculateAssetsSold(gameDate);
+        if(cash < 0){
+            this.gameOver.setValue(true);
+        }else{
+            this.cash.setValue(cash);
+        }
         return this.cash.getValue();
     }
 
@@ -361,12 +373,25 @@ public class FinanceDepartment extends DepartmentImpl {
         return true;
     }
 
-    private void decreaseCash(double amount){
-        this.cash.setValue(this.cash.getValue() - amount);
+    public void decreaseCash(double amount){
+        double cash = this.cash.getValue() - amount;
+        if(cash < 0){
+            this.gameOver.setValue(true);
+        }else{
+            this.cash.setValue(cash);
+        }
     }
 
     public void increaseCash(double amount){
         this.cash.setValue(this.cash.getValue() + amount);
+    }
+
+    public void decreaseNetWorth(double amount){
+        this.netWorth.setValue(this.netWorth.getValue() - amount);
+    }
+
+    public void increaseNetWorth(double amount){
+        this.netWorth.setValue(this.netWorth.getValue() + amount);
     }
 
     //TODO decide on suitable consequences of acquisition, e.g., increase assets

@@ -182,6 +182,10 @@ public class GameController {
 		GameThread.getInstance().pause();
 	}
 
+	public void terminateGame() {
+		GameThread.getInstance().terminate();
+	}
+
 	public void resumeGame() {
 		GameThread.getInstance().unpause();
 	}
@@ -387,6 +391,18 @@ public class GameController {
 
 	public void increaseCash(double amount) {
 		FinanceDepartment.getInstance().increaseCash(amount);
+	}
+
+	public void decreaseCash(double amount) {
+		FinanceDepartment.getInstance().decreaseCash(amount);
+	}
+
+	public void increaseNewWorth(double amount) {
+		FinanceDepartment.getInstance().increaseNetWorth(amount);
+	}
+
+	public void decreaseNetWorth(double amount) {
+		FinanceDepartment.getInstance().decreaseNetWorth(amount);
 	}
 
 	/*

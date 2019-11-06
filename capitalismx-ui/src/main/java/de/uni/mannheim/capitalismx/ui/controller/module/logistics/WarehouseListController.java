@@ -41,7 +41,8 @@ public class WarehouseListController extends GameModuleController {
         GameController controller = GameController.getInstance();
 
         buyButton.setOnAction(e -> {
-            controller.buildWarehouse();
+            double costs = controller.buildWarehouse();
+            controller.decreaseCash(costs);
             List<Warehouse> warehouses = controller.getWarehouses();
             warehouseListView.getItems().add(warehouses.get(warehouses.size() - 1));
         });
