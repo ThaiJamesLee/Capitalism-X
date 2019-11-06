@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.domain.department;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Abstract class for departments.
@@ -13,6 +14,9 @@ public abstract class DepartmentImpl implements Department, Serializable {
     private int level;
 
     private LevelingMechanism levelingMechanism;
+
+    private Map<Integer, DepartmentSkill> skillMap;
+
 
     public DepartmentImpl(String name) {
         this.name = name;
@@ -36,6 +40,14 @@ public abstract class DepartmentImpl implements Department, Serializable {
     @Override
     public LevelingMechanism getLevelingMechanism() {
         return levelingMechanism;
+    }
+
+    /**
+     *
+     * @return Returns a HashMap of level and skill.
+     */
+    public Map<Integer, DepartmentSkill> getSkillMap() {
+        return skillMap;
     }
 
 }

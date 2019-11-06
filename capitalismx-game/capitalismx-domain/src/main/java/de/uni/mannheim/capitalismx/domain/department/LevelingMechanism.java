@@ -46,6 +46,10 @@ public class LevelingMechanism implements Serializable {
         return -1;
     }
 
+    /**
+     * Increments the level and returns the cost.
+     * @return Returns the cost of a level up.
+     */
     public int levelUp() {
         int currentLevel = department.getLevel();
         int cost = getNextLevelUpCost();
