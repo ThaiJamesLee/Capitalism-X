@@ -12,7 +12,7 @@
    <children>
       <VBox layoutX="-69.0" layoutY="-48.0" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label styleClass="header" text="Training" />
+            <Label styleClass="header" text="%training.title" />
             <GridPane fx:id="workshopGrid" styleClass="training_grid">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="70.0" />
@@ -23,9 +23,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="training1NameLabel" styleClass="label_medium" text="Workshop" />
-                  <Label fx:id="training1EffectLabel" styleClass="label_light" text="Skill +1, Salary +1%" GridPane.rowIndex="1" />
-                  <Label fx:id="training1CostLabel" styleClass="label_medium" text="3000 CC" GridPane.columnIndex="1" />
+                  <Label fx:id="training1NameLabel" styleClass="label_medium" text="%training.name1" />
+                  <Label fx:id="training1EffectLabel" styleClass="label_light" text="%training.effect1" GridPane.rowIndex="1" />
+                  <Label fx:id="training1CostLabel" styleClass="label_medium" text="%training.cost1" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <GridPane fx:id="courseGrid" styleClass="training_grid">
@@ -38,9 +38,9 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label fx:id="training2NameLabel" styleClass="label_medium" text="Course" />
-                  <Label fx:id="training2EffectLabel" styleClass="label_light" text="Skill +2, Salary +2%" GridPane.rowIndex="1" />
-                  <Label fx:id="training2CostLabel" styleClass="label_medium" text="5500 CC" GridPane.columnIndex="1" />
+                  <Label fx:id="training2NameLabel" styleClass="label_medium" text="%training.name2" />
+                  <Label fx:id="training2EffectLabel" styleClass="label_light" text="%training.effect2" GridPane.rowIndex="1" />
+                  <Label fx:id="training2CostLabel" styleClass="label_medium" text="%training.cost2" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>

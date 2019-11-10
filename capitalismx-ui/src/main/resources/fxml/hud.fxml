@@ -84,7 +84,7 @@
                   <VBox alignment="CENTER" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                      <children>
                         <FontAwesomeIcon iconName="DIAMOND" size="1.5em" styleClass="icon_light" />
-                        <Label text="Net Worth">
+                        <Label text="%hud.networth">
                            <styleClass>
                               <String fx:value="label_small" />
                               <String fx:value="hud_label" />
@@ -103,7 +103,7 @@
                   <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
                      <children>
                         <FontAwesomeIcon iconName="USERS" size="1.5em" styleClass="icon_light" />
-                        <Label text="Employees">
+                        <Label text="%hud.employees">
                            <styleClass>
                               <String fx:value="label_small" />
                               <String fx:value="hud_label" />
@@ -114,7 +114,7 @@
                   <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
                      <children>
                         <FontAwesomeIcon iconName="DOLLAR" size="1.5em" styleClass="icon_light" />
-                        <Label text="Cash">
+                        <Label text="%hud.cash">
                            <styleClass>
                               <String fx:value="label_small" />
                               <String fx:value="hud_label" />
@@ -140,7 +140,7 @@
          <children>
             <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label fx:id="dateLabel" text="01-01-1987">
+                  <Label fx:id="dateLabel" text="01-01-1990">
                      <styleClass>
                         <String fx:value="hud_label" />
                         <String fx:value="label_large" />

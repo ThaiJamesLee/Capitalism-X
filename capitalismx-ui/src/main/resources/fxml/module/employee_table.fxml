@@ -8,7 +8,7 @@
 
 <TabPane fx:id="employeeTabPane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.hr.EmployeeListController">
   <tabs>
-    <Tab text="Engineers">
+    <Tab text="%employee.tabEngineer">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -17,7 +17,7 @@
             </AnchorPane>
       </content>
     </Tab>
-    <Tab text="SalesPeople">
+    <Tab text="%employee.tabSalesperson">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>

@@ -19,11 +19,11 @@
                </image>
             </ImageView>
             <Label styleClass="title_label" text="Game Paused" />
-            <Button fx:id="ingameContinue" mnemonicParsing="false" styleClass="big_buttons" text="Continue" />
-            <Button fx:id="ingameSave" mnemonicParsing="false" styleClass="big_buttons" text="Save" />
-            <Button fx:id="ingameLoad" mnemonicParsing="false" styleClass="big_buttons" text="Load" />
-            <Button fx:id="ingameSettings" mnemonicParsing="false" styleClass="big_buttons" text="Settings" />
-            <Button fx:id="ingameQuit" mnemonicParsing="false" styleClass="big_buttons" text="Quit" />
+            <Button fx:id="ingameContinue" mnemonicParsing="false" styleClass="big_buttons" text="%menu.ingame.continueBtn" />
+            <Button fx:id="ingameSave" mnemonicParsing="false" styleClass="big_buttons" text="%menu.ingame.saveBtn" />
+            <Button fx:id="ingameLoad" mnemonicParsing="false" styleClass="big_buttons" text="%menu.ingame.loadBtn" />
+            <Button fx:id="ingameSettings" mnemonicParsing="false" styleClass="big_buttons" text="%menu.ingame.settingsBtn" />
+            <Button fx:id="ingameQuit" mnemonicParsing="false" styleClass="big_buttons" text="%menu.ingame.quitBtn" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

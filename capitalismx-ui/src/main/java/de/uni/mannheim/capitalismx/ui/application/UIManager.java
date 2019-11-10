@@ -60,6 +60,9 @@ public class UIManager {
 	private Stage window;
 
 	private String language;
+	
+	//Provide access to correct Resource Bundle
+	private static ResourceBundle resourceBundle;
 
 	// Controller for the main scene of the game.
 	private GamePageController gamePageController;
@@ -85,6 +88,8 @@ public class UIManager {
 		this.window = stage;
 		this.language = "EN";
 		this.gameResolution = calculatedResolution;
+		
+		resourceBundle =  ResourceBundle.getBundle("properties.main_en");
 
 		resetResolution();
 		// static loading of the scenes
@@ -222,12 +227,11 @@ public class UIManager {
 	private void loadScenes() {
 		Parent root;
 		try {
-			ResourceBundle bundle = ResourceBundle.getBundle("properties.main_en");
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), bundle);
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), resourceBundle);
 			root = loader.load();
 			sceneMenuMain = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"));
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
 		} catch (IOException e) {
@@ -258,7 +262,7 @@ public class UIManager {
 					this.updateProgress(0.0, 1.0);
 					
 					// load GamePage
-					FXMLLoader gamePageLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
+					FXMLLoader gamePageLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gamepage.fxml"), resourceBundle);
 					Parent gamePageRoot = gamePageLoader.load();
 					gamePageController = (GamePageController) gamePageLoader.getController();
 					sceneGamePage = new GameScene(gamePageRoot, GameSceneType.GAME_PAGE, gamePageLoader.getController());
@@ -274,7 +278,7 @@ public class UIManager {
 					// a new GameModule, that is stored in the list
 					for (GameModuleDefinition moduleDefinition : GameModuleDefinition.values()) {
 						FXMLLoader loader = new FXMLLoader(
-								getClass().getClassLoader().getResource("fxml/module/" + moduleDefinition.fxmlFile));
+								getClass().getClassLoader().getResource("fxml/module/" + moduleDefinition.fxmlFile), resourceBundle);
 						// create new GridPosition from the type.
 						GridPosition position = new GridPosition(moduleDefinition.gridColStart,
 								moduleDefinition.gridRowStart, moduleDefinition.gridColSpan,
@@ -339,13 +343,18 @@ public class UIManager {
 			newProperties = "properties.main_en";
 			this.language = "EN";
 		}
-		ResourceBundle bundle = ResourceBundle.getBundle(newProperties);
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), bundle);
+		//TODO refactoring
+		resourceBundle = ResourceBundle.getBundle(newProperties);
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), resourceBundle);
 		try {
 
 			Parent root = loader.load();
 			GameScene scene = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 			sceneMenuMain = scene;
+			
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
+			root = loader.load();
+			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
 			switchToScene(GameSceneType.MENU_MAIN);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -391,6 +400,10 @@ public class UIManager {
 	 */
 	public void quitGame() {
 		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+	}
+	
+	public static ResourceBundle getResourceBundle() {
+		return resourceBundle;
 	}
 
 }
