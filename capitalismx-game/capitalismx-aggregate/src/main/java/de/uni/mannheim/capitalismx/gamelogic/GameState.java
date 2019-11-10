@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.gamelogic;
 
 import de.uni.mannheim.capitalismx.customer.CustomerDemand;
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
+import de.uni.mannheim.capitalismx.domain.department.Department;
 import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
@@ -16,6 +17,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameState implements Serializable {
 
@@ -37,6 +40,7 @@ public class GameState implements Serializable {
     private CompanyEcoIndex companyEcoIndex;
     private InternalFleet internalFleet;
 
+
     private GameState() {
         this.gameDate = LocalDate.of(1990, 1, 1);
     }
@@ -50,6 +54,7 @@ public class GameState implements Serializable {
     }
 
     public void initiate() {
+
         hrDepartment = HRDepartment.getInstance();
         productionDepartment = ProductionDepartment.getInstance();
         warehousingDepartment = WarehousingDepartment.getInstance();

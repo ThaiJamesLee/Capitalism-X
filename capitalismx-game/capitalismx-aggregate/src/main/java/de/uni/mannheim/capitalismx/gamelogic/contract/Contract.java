@@ -9,6 +9,7 @@ import java.time.LocalDate;
  *
  * A contract to a contractor.
  * Accepting the contracts means the player must produce the number of specified product in the given timeToFinish.
+ * The variable timeToFinish defines the months.
  * The player then gets the price per product specified in the contract.
  * Otherwise he needs to pay the penalty.
  * @author duly

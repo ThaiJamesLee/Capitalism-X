@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.gamesave;
+package de.uni.mannheim.capitalismx.gamelogic.gamesave;
 
 
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
