@@ -9,19 +9,15 @@ import de.uni.mannheim.capitalismx.utils.data.Range;
  */
 public enum Salary {
 
-    TIER_0 ("worker", 0, 20, 38000, 45000),
-    TIER_1 ("student", 21, 40, 45000, 55000),
-    TIER_2 ("graduate", 41, 60, 55000, 70000),
-    TIER_3 ("specialist", 61, 80, 70000, 100000),
-    TIER_4 ("expert", 81, 100, 100000, 150000);
+    TIER_0 ("worker", 0,0, 20, 38000, 45000),
+    TIER_1 ("student", 1,21, 40, 45000, 55000),
+    TIER_2 ("graduate", 2,41, 60, 55000, 70000),
+    TIER_3 ("specialist", 3,61, 80, 70000, 100000),
+    TIER_4 ("expert", 4,81, 100, 100000, 150000);
 
     private String name;
 
-    private int lowerLevel;
-    private int upperLevel;
-
-    private int lowerSalary;
-    private int upperSalary;
+    private int tier;
 
     private Range salaryRange;
     private Range skillLevelRange;
@@ -33,10 +29,11 @@ public enum Salary {
      * @param lowerSalary lower bound of salary for this skill level range
      * @param upperSalary upper bound of salary for this skill level range
      */
-    Salary(String name, int lowerLevel, int upperLevel, int lowerSalary, int upperSalary) {
+    Salary(String name, int tier, int lowerLevel, int upperLevel, int lowerSalary, int upperSalary) {
         salaryRange = new Range(lowerSalary, upperSalary);
         skillLevelRange = new Range(lowerLevel, upperLevel);
         this.name = name;
+        this.tier = tier;
     }
 
     public Range getSkillLevelRange() { return skillLevelRange; }
@@ -53,6 +50,10 @@ public enum Salary {
 
     public double getUpperSalary() {
         return salaryRange.getUpperBound();
+    }
+
+    public int getTier() {
+        return tier;
     }
 
     public Salary getSalaryBySkillLevel(int skillLevel) {

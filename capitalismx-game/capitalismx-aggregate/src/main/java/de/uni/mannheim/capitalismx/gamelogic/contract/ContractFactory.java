@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author duly
  * A Factory to create contracts.
+ * @author duly
+ *
  */
 public class ContractFactory {
 
