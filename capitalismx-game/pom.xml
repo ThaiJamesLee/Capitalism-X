@@ -23,6 +23,7 @@
         <module>capitalismx-finance</module>
         <module>capitalismx-aggregate</module>
         <module>capitalismx-domain</module>
+        <module>capitalismx-resdev</module>
     </modules>
 
     <dependencies>
