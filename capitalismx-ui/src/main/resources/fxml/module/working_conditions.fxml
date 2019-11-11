@@ -34,74 +34,74 @@
          <children>
             <HBox alignment="CENTER_LEFT" spacing="15.0" GridPane.columnIndex="1">
                <children>
-                  <RadioButton fx:id="workTime1" mnemonicParsing="false" pickOnBounds="false" text="Fixed Hours" HBox.hgrow="ALWAYS">
+                  <RadioButton fx:id="workTime1" mnemonicParsing="false" pickOnBounds="false" text="%conditions.hours.fixed" HBox.hgrow="ALWAYS">
                      <toggleGroup>
                         <ToggleGroup fx:id="workTimeModelGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="workTime2" mnemonicParsing="false" pickOnBounds="false" text="Flextime" toggleGroup="$workTimeModelGroup" HBox.hgrow="ALWAYS" />
-                  <RadioButton fx:id="workTime3" mnemonicParsing="false" pickOnBounds="false" text="Trust-based" toggleGroup="$workTimeModelGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="workTime2" mnemonicParsing="false" pickOnBounds="false" text="%conditions.hours.flextime" toggleGroup="$workTimeModelGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="workTime3" mnemonicParsing="false" pickOnBounds="false" text="%conditions.hours.trust" toggleGroup="$workTimeModelGroup" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <RadioButton fx:id="hours6" mnemonicParsing="false" pickOnBounds="false" text="6 Hours" HBox.hgrow="ALWAYS">
+                  <RadioButton fx:id="hours6" mnemonicParsing="false" pickOnBounds="false" text="%conditions.hours.chilled" HBox.hgrow="ALWAYS">
                      <toggleGroup>
                         <ToggleGroup fx:id="workTimeGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="hours8" mnemonicParsing="false" pickOnBounds="false" text="8 Hours" toggleGroup="$workTimeGroup" HBox.hgrow="ALWAYS" />
-                  <RadioButton fx:id="hours10" mnemonicParsing="false" pickOnBounds="false" text="10 Hours" toggleGroup="$workTimeGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="hours8" mnemonicParsing="false" pickOnBounds="false" text="%conditions.hours.medium" toggleGroup="$workTimeGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="hours10" mnemonicParsing="false" pickOnBounds="false" text="%conditions.hours.hard" toggleGroup="$workTimeGroup" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <RadioButton fx:id="car1" mnemonicParsing="false" pickOnBounds="false" text="None" HBox.hgrow="ALWAYS">
+                  <RadioButton fx:id="car1" mnemonicParsing="false" pickOnBounds="false" text="%conditions.car.none" HBox.hgrow="ALWAYS">
                      <toggleGroup>
                         <ToggleGroup fx:id="carGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="car2" mnemonicParsing="false" pickOnBounds="false" text="Subcompact" toggleGroup="$carGroup" HBox.hgrow="ALWAYS" />
-                  <RadioButton fx:id="car3" mnemonicParsing="false" pickOnBounds="false" text="Sedan" toggleGroup="$carGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="car2" mnemonicParsing="false" pickOnBounds="false" text="%conditions.car.subcompact" toggleGroup="$carGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="car3" mnemonicParsing="false" pickOnBounds="false" text="%conditions.car.sedan" toggleGroup="$carGroup" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <RadioButton fx:id="it1" mnemonicParsing="false" text="Market average" HBox.hgrow="ALWAYS">
+                  <RadioButton fx:id="it1" mnemonicParsing="false" text="%conditions.it.average" HBox.hgrow="ALWAYS">
                      <toggleGroup>
                         <ToggleGroup fx:id="itGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="it2" mnemonicParsing="false" text="High-end" toggleGroup="$itGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="it2" mnemonicParsing="false" text="%conditions.it.good" toggleGroup="$itGroup" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <RadioButton fx:id="food1" mnemonicParsing="false" text="Market average" HBox.hgrow="ALWAYS">
+                  <RadioButton fx:id="food1" mnemonicParsing="false" text="%conditions.food.average" HBox.hgrow="ALWAYS">
                      <toggleGroup>
                         <ToggleGroup fx:id="foodGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="food2" mnemonicParsing="false" text="High-end" toggleGroup="$foodGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="food2" mnemonicParsing="false" text="%conditions.food.good" toggleGroup="$foodGroup" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
-                  <RadioButton fx:id="gym1" mnemonicParsing="false" text="None" HBox.hgrow="ALWAYS">
+                  <RadioButton fx:id="gym1" mnemonicParsing="false" text="%conditions.gym.none" HBox.hgrow="ALWAYS">
                      <toggleGroup>
                         <ToggleGroup fx:id="gymGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="gym2" mnemonicParsing="false" text="Subsidized" toggleGroup="$gymGroup" HBox.hgrow="ALWAYS" />
-                  <RadioButton fx:id="gym3" mnemonicParsing="false" text="Free" toggleGroup="$gymGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="gym2" mnemonicParsing="false" text="%conditions.gym.subsidized" toggleGroup="$gymGroup" HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="gym3" mnemonicParsing="false" text="%conditions.gym.free" toggleGroup="$gymGroup" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Label styleClass="label_medium" text="Working Time Model: " />
-            <Label styleClass="label_medium" text="Working Hours: " GridPane.rowIndex="1" />
-            <Label styleClass="label_medium" text="Company Car: " GridPane.rowIndex="2" />
-            <Label styleClass="label_medium" text="IT Equipment: " GridPane.rowIndex="3" />
-            <Label styleClass="label_medium" text="Food/Coffee: " GridPane.rowIndex="4" />
-            <Label styleClass="label_medium" text="Gym: " GridPane.rowIndex="5" />
+            <Label styleClass="label_medium" text="%conditions.type.timeModel" />
+            <Label styleClass="label_medium" text="%conditions.type.hours" GridPane.rowIndex="1" />
+            <Label styleClass="label_medium" text="%conditions.type.car" GridPane.rowIndex="2" />
+            <Label styleClass="label_medium" text="%conditions.type.it" GridPane.rowIndex="3" />
+            <Label styleClass="label_medium" text="%conditions.type.food" GridPane.rowIndex="4" />
+            <Label styleClass="label_medium" text="%conditions.type.gym" GridPane.rowIndex="5" />
             <Region styleClass="separator_right" GridPane.rowSpan="6" />
          </children>
       </GridPane>

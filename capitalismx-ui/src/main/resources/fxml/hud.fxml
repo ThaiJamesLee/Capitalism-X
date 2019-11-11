@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GameHudController">
+   <children>
+      <GridPane fx:id="moduleGrid" hgap="30.0" layoutX="10.0" layoutY="10.0" styleClass="background" vgap="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+      </GridPane>
+      <AnchorPane AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane hgap="15.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="16.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="50.0" percentWidth="20.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="14.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="50.0" percentWidth="20.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="16.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="50.0" percentWidth="14.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints />
+              </rowConstraints>
+               <children>
+                  <VBox alignment="CENTER" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+                     <children>
+                        <FontAwesomeIcon iconName="DIAMOND" size="1.5em" styleClass="icon_light" />
+                        <Label text="%hud.networth">
+                           <styleClass>
+                              <String fx:value="label_small" />
+                              <String fx:value="hud_label" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Label fx:id="netWorthLabel" styleClass="hud_label" text="0" GridPane.columnIndex="1" />
+                  <Label fx:id="cashLabel" styleClass="hud_label" text="0" GridPane.columnIndex="3" />
+                  <Label fx:id="employeeLabel" styleClass="hud_label" text="0" GridPane.columnIndex="5" />
+                  <Label fx:id="netWorthChangeLabel" styleClass="hud_label" text="+0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="cashChangeLabel" styleClass="hud_label" text="+0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Label fx:id="employeeChangeLabel" styleClass="hud_label" text="+0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <Region styleClass="separator_right" GridPane.columnIndex="1" GridPane.rowSpan="2" />
+                  <Region styleClass="separator_right" GridPane.columnIndex="3" GridPane.rowSpan="2" />
+                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
+                     <children>
+                        <FontAwesomeIcon iconName="USERS" size="1.5em" styleClass="icon_light" />
+                        <Label text="%hud.employees">
+                           <styleClass>
+                              <String fx:value="label_small" />
+                              <String fx:value="hud_label" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
+                     <children>
+                        <FontAwesomeIcon iconName="DOLLAR" size="1.5em" styleClass="icon_light" />
+                        <Label text="%hud.cash">
+                           <styleClass>
+                              <String fx:value="label_small" />
+                              <String fx:value="hud_label" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </GridPane>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <styleClass>
+            <String fx:value="hud_background" />
+            <String fx:value="hud_top" />
+         </styleClass>
+      </AnchorPane>
+      <AnchorPane layoutY="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="dateLabel" text="01-01-1990">
+                     <styleClass>
+                        <String fx:value="hud_label" />
+                        <String fx:value="label_large" />
+                     </styleClass>
+                  </Label>
+                  <GridPane hgap="5.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="20.0" percentWidth="33.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="20.0" percentWidth="33.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="20.0" percentWidth="34.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label fx:id="forwardIconLabel" GridPane.columnIndex="2">
+                           <graphic>
+                              <FontAwesomeIcon fx:id="forwardIconButton" iconName="FORWARD" size="1.5em" styleClass="hud_icon_button" />
+                           </graphic>
+                        </Label>
+                        <Label fx:id="playPauseIconLabel">
+                           <graphic>
+                              <FontAwesomeIcon fx:id="playPauseIconButton" iconName="PAUSE" onMouseClicked="#playPause" size="1.5em" styleClass="hud_icon_button" />
+                           </graphic>
+                        </Label>
+                        <Label fx:id="skipIconLabel" GridPane.columnIndex="1">
+                           <graphic>
+                              <FontAwesomeIcon fx:id="skipIconButton" iconName="STEP_FORWARD" onMouseClicked="#skipDay" size="1.5em" styleClass="hud_icon_button" />
+                           </graphic>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <styleClass>
+            <String fx:value="hud_background" />
+            <String fx:value="hud_bottom" />
+         </styleClass>
+      </AnchorPane>
+      <AnchorPane layoutY="283.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" spacing="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ToggleButton fx:id="btnOverview" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button">
+                     <graphic>
+                        <FontAwesomeIcon iconName="BUILDING" size="1.3em" styleClass="fontAwesomeButtonDark" />
+                     </graphic>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="departmentButtons" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="btnFinance" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
+                     <graphic>
+                        <FontAwesomeIcon iconName="MONEY" size="1.3em" styleClass="fontAwesomeButtonDark" />
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="btnHr" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
+                     <graphic>
+                        <FontAwesomeIcon iconName="USER" size="1.3em" styleClass="fontAwesomeButtonDark" />
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="btnProduction" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
+                     <graphic>
+                        <FontAwesomeIcon iconName="GEARS" size="1.3em" styleClass="fontAwesomeButtonDark" />
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="btnLogistics" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
+                     <graphic>
+                        <FontAwesomeIcon iconName="TRUCK" size="1.3em" styleClass="fontAwesomeButtonDark" />
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="btnWarehouse" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
+                     <graphic>
+                        <FontAwesomeIcon iconName="CUBES" size="1.3em" styleClass="fontAwesomeButtonDark" />
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="btnMarketing" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
+                     <graphic>
+                        <FontAwesomeIcon iconName="BULLHORN" size="1.3em" styleClass="fontAwesomeButtonDark" />
+                     </graphic>
+                  </ToggleButton>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="messageIconLabel" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <graphic>
+                  <FontAwesomeIcon iconName="ENVELOPE" onMousePressed="#toggleMessageWindow" size="2.5em" styleClass="hud_icon_button" />
+               </graphic>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <styleClass>
+            <String fx:value="hud_background" />
+            <String fx:value="hud_top" />
+         </styleClass>
+      </AnchorPane>
+      <AnchorPane layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label fx:id="settingsIconLabel" layoutX="9.0" layoutY="17.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <graphic>
+                  <FontAwesomeIcon iconName="GEAR" onMousePressed="#toggleMenu" size="2.5em" styleClass="hud_icon_button" />
+               </graphic>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <styleClass>
+            <String fx:value="hud_background" />
+            <String fx:value="hud_bottom" />
+         </styleClass>
+      </AnchorPane>
+      <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="departmentLabel" alignment="CENTER" contentDisplay="CENTER" text="OVERVIEW">
+               <styleClass>
+                  <String fx:value="title_label" />
+                  <String fx:value="hud_background" />
+                  <String fx:value="hud_top" />
+               </styleClass>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+   <stylesheets>
+      <URL value="@../css/general.css" />
+      <URL value="@../css/gamePage.css" />
+   </stylesheets>
+</AnchorPane>

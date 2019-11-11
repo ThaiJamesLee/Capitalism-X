@@ -52,8 +52,10 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 			setGraphic(null);
 		} else {
 			if (loader == null) {
+				//TODO richtiges ressourceBundle übergeben
+				ResourceBundle bundle = UIManager.getResourceBundle();
 				loader = new FXMLLoader(
-						getClass().getClassLoader().getResource("fxml/components/employee_list_cell.fxml"));
+						getClass().getClassLoader().getResource("fxml/components/employee_list_cell.fxml"), bundle);
 				loader.setController(this);
 
 				try {
@@ -76,7 +78,7 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 				});
 
 				FXMLLoader popoverLoader = new FXMLLoader(
-						getClass().getClassLoader().getResource("fxml/components/training_popover.fxml"));
+						getClass().getClassLoader().getResource("fxml/components/training_popover.fxml"), bundle);
 				PopOver trainPopover = new PopOver();
 				try {
 					trainPopover.setContentNode(popoverLoader.load());

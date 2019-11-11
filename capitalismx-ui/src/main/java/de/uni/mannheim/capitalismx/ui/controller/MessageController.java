@@ -46,7 +46,7 @@ public class MessageController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		messageClose.setOnAction(e -> {
-			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).removeMessagePane();
+			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleMessageWindow();
 		});
 	}
 

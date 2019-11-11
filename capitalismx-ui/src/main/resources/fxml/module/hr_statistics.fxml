@@ -29,11 +29,11 @@
                   <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label styleClass="label_large" text="Employees" GridPane.rowIndex="1" />
-                  <Label styleClass="label_large" text="Satisfaction" GridPane.rowIndex="2" />
-                  <Label styleClass="label_large" text="Productivity" GridPane.rowIndex="3" />
-                  <Label styleClass="label_large" text="Salespeople" GridPane.columnIndex="1" />
-                  <Label styleClass="label_large" text="Engineers" GridPane.columnIndex="2" />
+                  <Label styleClass="label_large" text="%hr.stats.employees" GridPane.rowIndex="1" />
+                  <Label styleClass="label_large" text="%hr.stats.satisfaction" GridPane.rowIndex="2" />
+                  <Label styleClass="label_large" text="%hr.stats.productivity" GridPane.rowIndex="3" />
+                  <Label styleClass="label_large" text="%hr.stats.salespeople" GridPane.columnIndex="1" />
+                  <Label styleClass="label_large" text="%hr.stats.engineers" GridPane.columnIndex="2" />
                   <Label fx:id="numberEmployeesSales" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label fx:id="numberEmployeesOverall" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <Label fx:id="employeeSatisfactionSales" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -61,8 +61,8 @@
                 <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label styleClass="label_large" text="Hiring Cost" />
-                  <Label styleClass="label_large" text="Firing Cost" GridPane.rowIndex="1" />
+                  <Label styleClass="label_large" text="%hr.stats.hiring" />
+                  <Label styleClass="label_large" text="%hr.stats.firing" GridPane.rowIndex="1" />
                   <Label fx:id="hiringCost" styleClass="label_large" text="Label" GridPane.columnIndex="1" />
                   <Label fx:id="firingCost" styleClass="label_large" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>

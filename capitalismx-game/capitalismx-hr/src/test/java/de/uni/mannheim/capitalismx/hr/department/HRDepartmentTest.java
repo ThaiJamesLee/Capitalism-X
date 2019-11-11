@@ -13,10 +13,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author duly
@@ -90,6 +87,7 @@ public class HRDepartmentTest {
 
         Assert.assertEquals(engineer1.getSkillLevel(), 27);
         Assert.assertEquals(engineer2.getSkillLevel(), 26);
+
     }
 
     @Test(dependsOnMethods = "trainingTest")

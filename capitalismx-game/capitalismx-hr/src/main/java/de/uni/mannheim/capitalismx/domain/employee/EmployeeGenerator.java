@@ -33,6 +33,33 @@ public class EmployeeGenerator {
     }
 
     /**
+     *
+     * @param skillLevel the skill level of the employee that is to be generated.
+     * @param type the employee type.
+     * @return Returns an employee with given skill level and employee type.
+     */
+    public Employee generateEmployee(int skillLevel, EmployeeType type) {
+        double salary = 0;
+        Employee employee = null;
+
+        try {
+            salary = SalaryGenerator.getInstance().getSalary(skillLevel);
+
+            PersonMeta newPerson = employeeMarketSample.randomChoosing();
+
+            employee = EmployeeFactory.getEmployee(type, newPerson);
+            employee.setSkillLevel(skillLevel);
+            employee.setSalary(salary);
+            employee.setEmployeeType(type);
+
+        } catch (NoDefinedTierException e) {
+            logger.error(e.getMessage());
+        }
+        return employee;
+
+    }
+
+    /**
      * Generate an engineer.
      * @param skillLevel generate the engineer with this skill level.
      * @return Returns a randomly generated engineer employee with set skill level

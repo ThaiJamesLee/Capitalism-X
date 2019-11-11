@@ -5,17 +5,103 @@
 
 .overlayPane {	
 	-fx-background-color: -fx-transparent-background;
-	-fx-padding: 66;
+	-fx-padding: 66.0;
+}
+
+.department_label {
+	-fx-text-fill: -fx-primary-dark;
 }
 
 .hud_box {
 	-fx-background-color: -fx-dark;
-	-fx-pref-width: 120px;
+	-fx-pref-width: 120.0px;
 }
 
 .hud_label {
-	-fx-text-fill: white;
-	-fx-font-weight: bolder;
-	-fx-font-size: 15px;
+	-fx-text-fill: -fx-primary;
 	-fx-text-alignment: center;
 }
+
+.hud_top {
+	-fx-padding-top: 5;
+}
+
+.hud_bottom {
+	-fx-padding-bottom: 5;
+}
+.hud_background {
+	-fx-text-fill: -fx-primary;
+	-fx-padding: 10;
+	-fx-background-color: -fx-complement-dark-transparent;
+	-fx-background-insets: -5.0;
+	-fx-border-insets: -5.0;
+	-fx-border-width: 1.0;
+	-fx-border-radius: 5.0;
+	-fx-background-radius: 5.0;
+	/**-fx-border-insets: -1;
+	-fx-border-width:1;**/
+	-fx-border-color: -fx-primary;
+	-fx-effect: dropshadow(gaussian, -fx-primary-dark-transparent, 10, 0.5, 0, 0);
+}
+
+.hud_icon_button {
+	-fx-cursor: hand;
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
+}
+.hud_icon_button:hover {
+	-fx-text-fill: -fx-primary-light; 
+	-fx-fill: -fx-primary-light; 
+}
+
+.hud_department_button {
+	-fx-font-size: 16;
+	-fx-background-radius: 0 3 3 0;
+	-fx-cursor: hand;
+	-fx-border-insets: 3 3 3 0;
+	-fx-border-width: 0.0 2.0 0.0 0.0;
+	-fx-background-color: -fx-complement-light-neutral;
+	-fx-border-color: -fx-primary;
+}
+
+.hud_department_button:selected {
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-complement-dark;
+}
+.hud_department_button:hover {
+	-fx-text-fill: -fx-primary;
+	-fx-background-color: -fx-complement-neutral;
+	-fx-border-color: -fx-primary;
+}
+.hud_department_button FontAwesomeIcon, .hud_icon_button FontAwesomeIcon {
+	-fx-padding: 15px;
+	-fx-fill: -fx-primary;
+	-fx-text-fill: -fx-primary;
+}
+	
+.hud_department_button:hover FontAwesomeIcon, .hud_icon_button:hover FontAwesomeIcon {
+	-fx-fill: -fx-primary;
+	-fx-text-fill: -fx-primary;
+}
+
+.hud_department_button:selected FontAwesomeIcon, .hud_icon_button:selected FontAwesomeIcon {
+	-fx-fill: -fx-complement-dark;
+	-fx-text-fill: -fx-complement-dark;
+}
+
+
+.hud_department_button:selected:hover FontAwesomeIcon, .hud_icon_button:selected FontAwesomeIcon {
+	-fx-fill: -fx-complement-dark;
+	-fx-text-fill: -fx-complement-dark;
+}
+.hud_department_button:selected:hover {
+	-fx-text-fill: -fx-complement-dark;
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-complement-dark;
+}
+
+.icon_light {
+	-fx-fill: -fx-primary;
+	-fx-text-fill: -fx-primary;
+}
+	

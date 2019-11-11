@@ -1,170 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="parentStackPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GamePageController">
+<StackPane fx:id="contentStack" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GamePageController">
    <children>
-      <BorderPane>
-         <center>
-            <StackPane fx:id="contentStack" BorderPane.alignment="CENTER">
-               <children>
-                  <AnchorPane fx:id="overlayPane" onMouseClicked="#resetOverlay" styleClass="overlayPane" />
-                  <GridPane fx:id="moduleGrid" hgap="20.0" styleClass="background" vgap="20.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                      <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                      <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <StackPane.margin>
-                        <Insets />
-                     </StackPane.margin>
-                     <padding>
-                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-                     </padding>
-                  </GridPane>
-               </children>
-            </StackPane>
-         </center>
-         <left>
-            <AnchorPane BorderPane.alignment="CENTER">
-               <children>
-                  <StackPane fx:id="sidemenuPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <fx:include source="sidemenu.fxml" />
-                     </children>
-                  </StackPane>
-               </children>
-            </AnchorPane>
-         </left>
-         <top>
-            <StackPane styleClass="sidemenu_color" BorderPane.alignment="CENTER">
-               <children>
-                  <AnchorPane prefHeight="75.0" stylesheets="@../css/general.css">
-                     <children>
-                        <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <HBox spacing="20.0">
-                                 <children>
-                                    <Button fx:id="btnMenu" mnemonicParsing="false" styleClass="fontAwesomeButtonDark">
-                                       <HBox.margin>
-                                          <Insets left="2.0" />
-                                       </HBox.margin>
-                                       <graphic>
-                                          <FontAwesomeIcon iconName="GEAR" size="4em" />
-                                       </graphic>
-                                    </Button>
-                                    <AnchorPane styleClass="hud_box">
-                                       <children>
-                                          <Label styleClass="hud_label" text="Net Worth" AnchorPane.topAnchor="1.0" />
-                                          <Label layoutY="17.0" styleClass="hud_label" text="1,000,000.00$" AnchorPane.bottomAnchor="5.0" />
-                                       </children>
-                                    </AnchorPane>
-                                    <AnchorPane styleClass="hud_box">
-                                       <children>
-                                          <Label styleClass="hud_label" text="Cashflow" AnchorPane.topAnchor="1.0" />
-                                          <Label layoutY="17.0" styleClass="hud_label" text="0.00$" AnchorPane.bottomAnchor="5.0" />
-                                       </children>
-                                    </AnchorPane>
-                                    <AnchorPane styleClass="hud_box">
-                                       <children>
-                                          <Label styleClass="hud_label" text="Bank Deposit" AnchorPane.topAnchor="1.0" />
-                                          <Label layoutY="17.0" styleClass="hud_label" text="1,000,000.00$" AnchorPane.bottomAnchor="5.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                              </HBox>
-                              <Label fx:id="viewTitleLabel" alignment="TOP_CENTER" styleClass="currentView_label" text="Current GameView" GridPane.columnIndex="1" />
-                              <HBox alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" spacing="10.0" GridPane.columnIndex="2">
-                                 <children>
-                                    <AnchorPane fx:id="notificationAnchor" />
-                                    <Button fx:id="btnMessages" mnemonicParsing="false">
-                                       <graphic>
-                                          <ImageView fx:id="iconMessages" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../icons/envelope.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                           </padding>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </StackPane>
-         </top>
-      </BorderPane>
+      <AnchorPane fx:id="menuLayer" />
+      <AnchorPane fx:id="messageLayer" StackPane.alignment="CENTER" />
+      <AnchorPane fx:id="mapLayer" />
+      <AnchorPane fx:id="moduleLayer" />
+      <AnchorPane fx:id="overlayLayer" />
+      <AnchorPane fx:id="hudLayer">
+         <children>
+            <fx:include source="hud.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
    </children>
-   <stylesheets>
-      <URL value="@../css/general.css" />
-      <URL value="@../css/gamePage.css" />
-   </stylesheets>
 </StackPane>

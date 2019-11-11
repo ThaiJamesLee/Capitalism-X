@@ -22,17 +22,17 @@ public class EmployeeListController extends GameModuleController {
 	@FXML
 	private TabPane employeeTabPane;
 
-	@FXML 
+	@FXML
 	private ListView<Employee> engineerList;
 	private ObservableList<Employee> engineers;
-	
-	@FXML 
+
+	@FXML
 	private ListView<Employee> salesList;
 	private ObservableList<Employee> salesPeople;
 
 	@Override
 	public void update() {
-		
+
 	}
 
 	@Override
@@ -43,17 +43,21 @@ public class EmployeeListController extends GameModuleController {
 		hrDep.hire(EmployeeGenerator.getInstance().generateEngineer(4));
 		engineers = FXCollections.observableArrayList(hrDep.getEngineerTeam().getTeam());
 		salesPeople = FXCollections.observableArrayList(hrDep.getSalesTeam().getTeam());
-		
+
 		engineerList.setItems(engineers);
 		engineerList.setCellFactory(employeeListView -> new EmployeeListViewCell());
 		salesList.setItems(salesPeople);
 		salesList.setCellFactory(employeeListView -> new EmployeeListViewCell());
 	}
-	
+
 	public void updateEngineerList(List<Employee> engineerTeam) {
 		engineers = FXCollections.observableArrayList(engineerTeam);
 		engineerList.setItems(engineers);
 	}
-	
+
+	public void updateSalesPeopleList(List<Employee> salesTeam) {
+		salesTeam = FXCollections.observableArrayList(salesTeam);
+		salesList.setItems(engineers);
+	}
 
 }

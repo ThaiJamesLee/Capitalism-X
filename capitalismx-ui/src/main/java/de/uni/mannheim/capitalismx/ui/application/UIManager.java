@@ -13,13 +13,14 @@ import de.uni.mannheim.capitalismx.ui.components.GameScene;
 import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.controller.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
-import de.uni.mannheim.capitalismx.ui.utils.Resolution;
-import de.uni.mannheim.capitalismx.ui.utils.SupportedGameResolution;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -27,58 +28,97 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * The UIManager is the central Singleton class of the UI. It manages all the UI
+ * components like the {@link GameScene}s, {@link GameView}s, the Controller of
+ * the GamePage, as well as some utilities like the {@link GameResolution} and
+ * the {@link Stage}. Additionally it provides some useful methods.
+ * 
+ * @author Jonathan
+ *
+ */
 public class UIManager {
 
-	private GameScene sceneMenuMain;
-	private GameScene sceneGamePage;
-	private GameScene sceneLoadingScreen;
-	private List<GameView> gameViews;
-
 	private static UIManager instance;
-
-	private Stage window;
-
-	private String language;
-
-	// Controller for the main scene of the game.
-	private GamePageController gamePageController;
-
-	private Resolution currentResolution;
-
-	public Resolution getCurrentResolution() {
-		return currentResolution;
-	}
-
-	/**
-	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
-	 * 
-	 * @param stage                The primary stage of the application.
-	 * @param calculatedResolution The {@link Resolution} that was initially
-	 *                             calculated for the game.
-	 */
-	public UIManager(Stage stage, Resolution calculatedResolution) {
-		instance = this;
-		this.window = stage;
-		this.language = "EN";
-		this.currentResolution = calculatedResolution;
-
-		resetResolution();
-		// static loading of the scenes
-		loadScenes();
-
-		// set the initial main menu scene as starting scene
-		window.setScene(new Scene(sceneMenuMain.getScene()));
-	}
+	// Provide access to correct Resource Bundle
+	private static ResourceBundle resourceBundle;
 
 	public static UIManager getInstance() {
 		return instance;
 	}
 
+	public static ResourceBundle getResourceBundle() {
+		return resourceBundle;
+	}
+
+	/**
+	 * The {@link GameScene}s of the game.
+	 */
+	private GameScene sceneMenuMain;
+
+	private GameScene sceneGamePage;
+
+	private GameScene sceneLoadingScreen;
+
+	// List containing all GameViews
+	private List<GameView> gameViews;
+
+	// The Stage object representing the window.
+	private Stage window;
+	private String language;
+	// Controller for the main scene of the game.
+	private GamePageController gamePageController;
+
+	private GameHudController gameHudController;
+
+	private OverviewMap3DController gameMapController;
+
+	// Get information about the resolution of the game.
+	private GameResolution gameResolution;
+
+	/**
+	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
+	 * 
+	 * @param stage                The primary stage of the application.
+	 * @param calculatedResolution The {@link GameResolution} that was initially
+	 *                             calculated for the game.
+	 */
+	public UIManager(Stage stage, GameResolution calculatedResolution) {
+		instance = this;
+		this.window = stage;
+		this.language = "EN";
+		this.gameResolution = calculatedResolution;
+
+		resourceBundle = ResourceBundle.getBundle("properties.main_en");
+
+		resetResolution();
+		// static loading of the scenes
+		loadScenes();
+		gameViews = new ArrayList<GameView>();
+
+		// set the initial main menu scene as starting scene
+		window.setScene(new Scene(sceneMenuMain.getScene()));
+	}
+
+	public GameHudController getGameHudController() {
+		return gameHudController;
+	}
+
+	public OverviewMap3DController getGameMapController() {
+		return gameMapController;
+	}
+
 	public GamePageController getGamePageController() {
 		return gamePageController;
+	}
+
+	public GameResolution getGameResolution() {
+		return gameResolution;
 	}
 
 	/**
@@ -96,11 +136,6 @@ public class UIManager {
 		// TODO error handling? Custom Exceptions?
 		return null;
 	}
-	
-	public void resetResolution() {
-		//TODO adjust/force size of Scene/Stage to given Resolution or just switch css
-		CssHelper.adjustCssToCurrentResolution();
-	}
 
 	public GameScene getSceneGame() {
 		return sceneGamePage;
@@ -108,21 +143,6 @@ public class UIManager {
 
 	public GameScene getSceneMenuMain() {
 		return sceneMenuMain;
-	}
-
-	/**
-	 * Initializes all components needed for a new Game.
-	 */
-	public void initGame() {
-
-		GameState.getInstance().initiate();
-
-		switchToScene(GameSceneType.LOADING_SCREEN);
-		// load all the modules and save them in the gameModules-list
-		preloadViewsAndModules();
-
-		initKeyboardControls();
-
 	}
 
 	/**
@@ -161,8 +181,16 @@ public class UIManager {
 				case F12:
 					UIManager.getInstance().toggleFullscreen();
 					break;
+				case F5:
+					GameController.getInstance().saveGame();
+					break;
+				case F9:
+					// TODO mechanism that stops loading when there is no saveGame!
+					stopGame();
+					loadGame();
+					break;
 				case ESCAPE:
-					//TODO open Menu
+					gamePageController.toggleIngameMenu();
 					break;
 				default:
 					break;
@@ -170,6 +198,24 @@ public class UIManager {
 
 			}
 		});
+
+		sceneGamePage.getScene().addEventHandler(ScrollEvent.SCROLL, gameMapController.getMouseEventHandler());
+		sceneGamePage.getScene().setOnMousePressed(gameMapController.getMouseEventHandler());
+		sceneGamePage.getScene().setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				gameMapController.getMouseEventHandler().handle(event);
+			}
+		});
+	}
+
+	/**
+	 * Loads an existing Game via the {@link GameController} and prepares all
+	 * necessary elements.
+	 */
+	public void loadGame() {
+		GameController.getInstance().loadGame();
+		prepareGame();
 	}
 
 	/**
@@ -178,17 +224,12 @@ public class UIManager {
 	private void loadScenes() {
 		Parent root;
 		try {
-			ResourceBundle bundle = ResourceBundle.getBundle("properties.main_en");
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), bundle);
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"),
+					resourceBundle);
 			root = loader.load();
 			sceneMenuMain = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gamepage.fxml"));
-			root = loader.load();
-			gamePageController = (GamePageController) loader.getController();
-			sceneGamePage = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
-
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"));
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
 		} catch (IOException e) {
@@ -198,19 +239,48 @@ public class UIManager {
 	}
 
 	/**
+	 * Starts a new Game by preparing all necessary resources.
+	 */
+	public void newGame() {
+		prepareGame();
+	}
+
+	/**
+	 * Initializes all components needed for a new Game.
+	 */
+	private void prepareGame() {
+		resetUIElements();
+		GameState.getInstance().initiate();
+
+		switchToScene(GameSceneType.LOADING_SCREEN);
+		// load all the modules and save them in the gameModules-list
+		prepareGamePage();
+	}
+
+	/**
 	 * Preloads all the {@link GameModule}s and adds them to the list of modules.
 	 */
-	private void preloadViewsAndModules() {
+	private void prepareGamePage() {
 		// Create a task to load all the Modules without freezing the GUI
 		Task<Integer> task = new Task<Integer>() {
 
+			private double progress = 0.0;
+			int numOfComponents = GameModuleDefinition.values().length + 1;
+
 			@Override
 			protected Integer call() throws Exception {
-				double progress = 0.0;
-				this.updateProgress(0.0, 1.0);
-				int numOfComponents = GameModuleDefinition.values().length * 2;
 
 				try {
+					this.updateProgress(0.0, 1.0);
+
+					// load GamePage
+					FXMLLoader gamePageLoader = new FXMLLoader(
+							getClass().getClassLoader().getResource("fxml/gamepage.fxml"), resourceBundle);
+					Parent gamePageRoot = gamePageLoader.load();
+					gamePageController = (GamePageController) gamePageLoader.getController();
+					sceneGamePage = new GameScene(gamePageRoot, GameSceneType.GAME_PAGE,
+							gamePageLoader.getController());
+
 					// init list of GameViews
 					gameViews = new ArrayList<GameView>();
 					// create a new GameView for each GameViewType
@@ -222,7 +292,8 @@ public class UIManager {
 					// a new GameModule, that is stored in the list
 					for (GameModuleDefinition moduleDefinition : GameModuleDefinition.values()) {
 						FXMLLoader loader = new FXMLLoader(
-								getClass().getClassLoader().getResource("fxml/module/" + moduleDefinition.fxmlFile));
+								getClass().getClassLoader().getResource("fxml/module/" + moduleDefinition.fxmlFile),
+								resourceBundle);
 						// create new GridPosition from the type.
 						GridPosition position = new GridPosition(moduleDefinition.gridColStart,
 								moduleDefinition.gridRowStart, moduleDefinition.gridColSpan,
@@ -232,18 +303,15 @@ public class UIManager {
 						Parent root = loader.load();
 						GameModuleController controller = loader.getController();
 
-						// update the progressbar #1
-						progress += 1.0 / numOfComponents;
-						this.updateProgress(progress, 1.0);
-
 						// create new GameModule from the type and add it to its view.
 						GameModule module = new GameModule(root, moduleDefinition, position, controller);
 						getGameView(moduleDefinition.viewType).addModule(module);
 
-						// update the progressbar #2
-						progress += 1.0 / numOfComponents;
-						this.updateProgress(progress, 1.0);
+						// update the progressbar
+						updateProgress();
 					}
+
+					initKeyboardControls();
 					// start the game once everything is loaded
 					startGame();
 				} catch (IOException e) {
@@ -253,6 +321,11 @@ public class UIManager {
 				return 1;
 			}
 
+			private void updateProgress() {
+				progress += 1.0 / numOfComponents;
+				this.updateProgress(progress, 1.0);
+			}
+
 		};
 		((LoadingScreenController) sceneLoadingScreen.getController()).initProgressBar(task.progressProperty());
 
@@ -260,18 +333,12 @@ public class UIManager {
 	}
 
 	/**
-	 * Start the Game by switching to the GamePage and starting the GameController
+	 * Quits the game: Triggers a new {@link WindowEvent}, containing a
+	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application. TODO
+	 * maybe handle more stuff when ingame. (eg autosave)
 	 */
-	private void startGame() {
-		Platform.runLater(() -> switchToScene(GameSceneType.GAME_PAGE));
-		Platform.runLater(() -> new Runnable() {
-			@Override
-			public void run() {
-				GameController.getInstance().start();
-			}
-		});
-
-		((GamePageController) sceneGamePage.getController()).switchView(GameViewType.OVERVIEW);
+	public void quitApplication() {
+		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 
 	/**
@@ -286,18 +353,73 @@ public class UIManager {
 			newProperties = "properties.main_en";
 			this.language = "EN";
 		}
-		ResourceBundle bundle = ResourceBundle.getBundle(newProperties);
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"), bundle);
+		// TODO refactoring
+		resourceBundle = ResourceBundle.getBundle(newProperties);
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"),
+				resourceBundle);
 		try {
 
 			Parent root = loader.load();
 			GameScene scene = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 			sceneMenuMain = scene;
+
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
+			root = loader.load();
+			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
 			switchToScene(GameSceneType.MENU_MAIN);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Resets all the UIElements and Controller that might still contain data from
+	 * previous games.
+	 */
+	private void resetUIElements() {
+		gameHudController = null;
+		gamePageController = null;
+		gameMapController = null;
+		gameViews.clear();
+	}
+
+	public void resetResolution() {
+		// TODO adjust/force size of Scene/Stage to given Resolution or just switch css
+		CssHelper.adjustCssToCurrentResolution();
+	}
+
+	public void setGameHudController(GameHudController gameHudController) {
+		this.gameHudController = gameHudController;
+	}
+
+	public void setGameMapController(OverviewMap3DController gameMapController) {
+		this.gameMapController = gameMapController;
+	}
+
+	/**
+	 * Start the Game by switching to the GamePage and starting the GameController
+	 */
+	private void startGame() {
+		Platform.runLater(() -> {
+			gamePageController.switchView(GameViewType.OVERVIEW);
+			switchToScene(GameSceneType.GAME_PAGE);
+		});
+		Task task = new Task<Void>() {
+			@Override
+			public Void call() {
+				GameController.getInstance().start();
+				return null;
+			}
+		};
+		new Thread(task).start();
+	}
+
+	/**
+	 * Stop the game and the {@link GameController}.
+	 */
+	public void stopGame() {
+		GameController.getInstance().terminateGame();
 	}
 
 	/**
@@ -329,15 +451,6 @@ public class UIManager {
 	 */
 	public void toggleFullscreen() {
 		window.setFullScreen(!window.isFullScreen());
-	}
-
-	/**
-	 * Quits the game: Triggers a new {@link WindowEvent}, containing a
-	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application. TODO
-	 * maybe handle more stuff when ingame. (eg autosave)
-	 */
-	public void quitGame() {
-		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 
 }

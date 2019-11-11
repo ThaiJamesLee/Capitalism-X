@@ -17,7 +17,7 @@
             </AnchorPane>
             <AnchorPane>
                <children>
-                  <Button fx:id="hireButton" mnemonicParsing="false" onAction="#hireEmployee" styleClass="button_module" text="Hire for 5000CC each" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Button fx:id="hireButton" mnemonicParsing="false" onAction="#hireEmployee" styleClass="button_module" text="%recruiting.list.hire" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </children>

@@ -5,6 +5,8 @@ import org.controlsfx.control.PopOver;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.stage.PopupWindow.AnchorLocation;
 import javafx.util.Duration;
 
 /**
@@ -31,6 +33,22 @@ public class TooltipFactory {
 	 * The {@link Duration} it takes until the tooltip shows up. (Default 0.5)
 	 */
 	private Duration fadeInDuration = Duration.seconds(0.1);
+
+	/**
+	 * The {@link AnchorLocation} of the Tooltip.
+	 */
+	private AnchorLocation anchorLocation = AnchorLocation.CONTENT_BOTTOM_LEFT;
+
+	public AnchorLocation getAnchorLocation() {
+		return anchorLocation;
+	}
+
+	/**
+	 * The {@link AnchorLocation} of the Tooltip.
+	 */
+	public void setAnchorLocation(AnchorLocation anchorLocation) {
+		this.anchorLocation = anchorLocation;
+	}
 
 	public PopOver.ArrowLocation getLocationOfArrow() {
 		return locationOfArrow;
@@ -73,7 +91,7 @@ public class TooltipFactory {
 	 */
 	public void addSimpleTooltipToNode(Node owner, String textToDisplay) {
 		Label defaultLabel = new Label(textToDisplay);
-		defaultLabel.setPadding(new Insets(5.0));
+		defaultLabel.setPadding(new Insets(3.0));
 		addComplexTooltipToNode(owner, defaultLabel);
 	}
 
@@ -90,6 +108,7 @@ public class TooltipFactory {
 		tooltip.setFadeOutDuration(fadeInDuration);
 		tooltip.setArrowLocation(locationOfArrow);
 		tooltip.setFadeInDuration(fadeInDuration);
+		tooltip.setAnchorLocation(anchorLocation);
 
 		// add listeners to the parent node
 		owner.setOnMouseEntered(e -> {
@@ -98,6 +117,21 @@ public class TooltipFactory {
 		owner.setOnMouseExited(e -> {
 			tooltip.hide();
 		});
+	}
+
+	/**
+	 * Create a new standard JavaFX-{@link Tooltip}. (Does not support arrows or
+	 * more complex nodes as content).
+	 * 
+	 * @param textToDisplay The text to display on the {@link Tooltip}.
+	 * @return The created {@link Tooltip}.
+	 */
+	public Tooltip createTooltip(String textToDisplay) {
+		Tooltip tooltip = new Tooltip();
+		tooltip.setText(textToDisplay);
+		tooltip.setShowDelay(fadeInDuration);
+		tooltip.setAnchorLocation(anchorLocation);
+		return tooltip;
 	}
 
 }

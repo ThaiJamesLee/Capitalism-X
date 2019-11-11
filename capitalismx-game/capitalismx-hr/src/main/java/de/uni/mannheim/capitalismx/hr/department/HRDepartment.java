@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.Team;
 import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
 import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.Logger;
@@ -62,8 +64,11 @@ public class HRDepartment extends DepartmentImpl {
         fired.setAddPropertyName("addFiredList");
         fired.setRemovePropertyName("removeFiredList");
 
-        teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER));
-        teams.put(EmployeeType.SALESPERSON, new Team(EmployeeType.SALESPERSON));
+        // Create the teams of employee types
+        teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER).addPropertyName("engineerTeamChanged"));
+        teams.put(EmployeeType.SALESPERSON, new Team(EmployeeType.SALESPERSON).addPropertyName("salespersonTeamChanged"));
+        teams.put(EmployeeType.PRODUCTION_WORKER, new Team(EmployeeType.PRODUCTION_WORKER).addPropertyName("productionworkerTeamChanged"));
+        teams.put(EmployeeType.HR_WORKER, new Team(EmployeeType.HR_WORKER).addPropertyName("hrworkerTeamChanged"));
     }
 
     public static HRDepartment getInstance() {
@@ -319,5 +324,32 @@ public class HRDepartment extends DepartmentImpl {
 
     public static void setInstance(HRDepartment instance) {
         HRDepartment.instance = instance;
+    }
+
+    /**
+     * Register the propertychangelistener to all propertychangesupport objects.
+     * @param listener
+     */
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+        for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+            entry.getValue().addPropertyChangeListener(listener);
+        }
+    }
+
+    /**
+     * Iterates through all HR Workers and sum up the capacity of each HR Worker.
+     * @return Returns the total capacity of the company for employees.
+     */
+    public int getTotalEmployeeCapacity() {
+        int capacity = 0;
+
+        Team hrTeam = teams.get(EmployeeType.HR_WORKER);
+        List<Employee> hrTeamList = hrTeam.getTeam();
+
+        for(Employee worker : hrTeamList) {
+            capacity += ((HRWorker) worker).getCapacity();
+        }
+
+        return capacity;
     }
 }

@@ -1,32 +1,33 @@
 package de.uni.mannheim.capitalismx.gamelogic;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.UIManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.uni.mannheim.capitalismx.customer.CustomerDemand;
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.domain.employee.Team;
+import de.uni.mannheim.capitalismx.domain.employee.Training;
 import de.uni.mannheim.capitalismx.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamesave.SaveGameHandler;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
-import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
-import de.uni.mannheim.capitalismx.production.*;
-import de.uni.mannheim.capitalismx.warehouse.Warehouse;
-import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
-import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
-import de.uni.mannheim.capitalismx.domain.employee.Training;
-
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
@@ -34,878 +35,917 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
+import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.ProductionInvestment;
+import de.uni.mannheim.capitalismx.production.ProductionTechnology;
+import de.uni.mannheim.capitalismx.warehouse.Warehouse;
+import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
+import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 public class GameController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
-
-    private static GameController instance;
-    private boolean isNewYear;
-
-    private GameController() {}
-
-    public static GameController getInstance() {
-        if(instance == null) {
-            instance = new GameController();
-        }
-        return instance;
-    }
-
-    public synchronized void nextDay() {
-        GameState state = GameState.getInstance();
-
-        LocalDate oldDate = state.getGameDate();
-        state.setGameDate(oldDate.plusDays(1));
-        LocalDate newDate = state.getGameDate();
-        if(oldDate.getMonth() != newDate.getMonth()) {
-            ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
-        }
-        this.updateAll();
-    }
-
-    private void updateAll() {
-        //TODO update all values of the departments
-        this.updateCompanyEcoIndex();
-        this.updateCustomer();
-        this.updateExternalEvents();
-        this.updateFinance();
-        this.updateHR();
-        this.updateLogistics();
-        this.updateMarketing();
-        this.updateWarehouse();
-        this.updateProcurement();
-        this.updateProduction();
-    }
-
-    /**
-     * Save GameState.
-     */
-    public void saveGame() {
-        new SaveGameHandler().saveGameState(GameState.getInstance());
-    }
-
-    /**
-     * Load existing GameState and restore singletons.
-     */
-    public void loadGame() {
-        try {
-            GameState state = new SaveGameHandler().loadGameState();
-            GameState.setInstance(state);
-
-            //initialize and restore singleton properties
-            HRDepartment.setInstance(state.getHrDepartment());
-            ProductionDepartment.setInstance(state.getProductionDepartment());
-            WarehousingDepartment.setInstance(state.getWarehousingDepartment());
-            FinanceDepartment.setInstance(state.getFinanceDepartment());
-            MarketingDepartment.setInstance(state.getMarketingDepartment());
-            LogisticsDepartment.setInstance(state.getLogisticsDepartment());
-            CustomerDemand.setInstance(state.getCustomerDemand());
-            CustomerSatisfaction.setInstance(state.getCustomerSatisfaction());
-            ExternalEvents.setInstance(state.getExternalEvents());
-            CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
-            InternalFleet.setInstance(state.getInternalFleet());
-
-        } catch (ClassNotFoundException e) {
-            LOGGER.error(e.getMessage());
-        }
-    }
-
-    private void updateCompanyEcoIndex() {
-        CompanyEcoIndex.getInstance().calculateAll();
-    }
-
-    private void updateExternalEvents() {
-        ExternalEvents.getInstance().checkEvents();
-    }
-
-    private void updateCustomer() {
-        LocalDate gameDate = GameState.getInstance().getGameDate();
-        CustomerSatisfaction.getInstance().calculateAll(gameDate);
-        CustomerDemand.getInstance().calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON), gameDate);
-    }
-
-    private void updateFinance() {
-        FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
-    }
-
-    private void updateHR() {
-
-    }
-
-    private void updateLogistics() {
-        InternalFleet.getInstance().calculateAll();
-        if(LogisticsDepartment.getInstance().getExternalPartner() != null){
-            LogisticsDepartment.getInstance().getExternalPartner().calculateExternalLogisticsIndex();
-        }
-        LogisticsDepartment.getInstance().calculateAll();
-        ProductSupport.getInstance().calculateAll();
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
+
+	private static GameController instance;
+	private boolean isNewYear;
+
+	private GameController() {
+	}
+
+	public static GameController getInstance() {
+		if (instance == null) {
+			instance = new GameController();
+		}
+		return instance;
+	}
+
+	public synchronized void nextDay() {
+		GameState state = GameState.getInstance();
+
+		LocalDate oldDate = state.getGameDate();
+		state.setGameDate(oldDate.plusDays(1));
+		LocalDate newDate = state.getGameDate();
+		if (oldDate.getMonth() != newDate.getMonth()) {
+			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
+		}
+		this.updateAll();
+	}
+
+	private void updateAll() {
+		// TODO update all values of the departments
+		this.updateCompanyEcoIndex();
+		this.updateCustomer();
+		this.updateExternalEvents(GameState.getInstance().getGameDate());
+		this.updateFinance();
+		this.updateHR();
+		this.updateLogistics();
+		this.updateMarketing();
+		this.updateWarehouse();
+		this.updateProcurement();
+		this.updateProduction();
+	}
+
+	/**
+	 * Save GameState.
+	 */
+	public void saveGame() {
+		new SaveGameHandler().saveGameState(GameState.getInstance());
+	}
+
+	/**
+	 * Load existing GameState and restore singletons.
+	 */
+	public void loadGame() {
+		try {
+			GameState state = new SaveGameHandler().loadGameState();
+			GameState.setInstance(state);
+
+			// initialize and restore singleton properties
+			HRDepartment.setInstance(state.getHrDepartment());
+			ProductionDepartment.setInstance(state.getProductionDepartment());
+			WarehousingDepartment.setInstance(state.getWarehousingDepartment());
+			FinanceDepartment.setInstance(state.getFinanceDepartment());
+			MarketingDepartment.setInstance(state.getMarketingDepartment());
+			LogisticsDepartment.setInstance(state.getLogisticsDepartment());
+			CustomerDemand.setInstance(state.getCustomerDemand());
+			CustomerSatisfaction.setInstance(state.getCustomerSatisfaction());
+			ExternalEvents.setInstance(state.getExternalEvents());
+			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
+			InternalFleet.setInstance(state.getInternalFleet());
+
+		} catch (ClassNotFoundException e) {
+			LOGGER.error(e.getMessage());
+		}
+	}
+
+	private void updateCompanyEcoIndex() {
+		CompanyEcoIndex.getInstance().calculateAll();
+	}
+
+	private void updateExternalEvents(LocalDate gameDate) {
+		ExternalEvents.getInstance().checkEvents(gameDate);
+	}
+
+	private void updateCustomer() {
+		LocalDate gameDate = GameState.getInstance().getGameDate();
+		CustomerSatisfaction.getInstance().calculateAll(gameDate);
+		CustomerDemand.getInstance().calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON),
+				gameDate);
+	}
+
+	private void updateFinance() {
+		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+	}
+
+	private void updateHR() {
+
+	}
+
+	private void updateLogistics() {
+		InternalFleet.getInstance().calculateAll();
+		if (LogisticsDepartment.getInstance().getExternalPartner() != null) {
+			LogisticsDepartment.getInstance().getExternalPartner().calculateExternalLogisticsIndex();
+		}
+		LogisticsDepartment.getInstance().calculateAll();
+		ProductSupport.getInstance().calculateAll();
+	}
 
-    private void updateMarketing() {
+	private void updateMarketing() {
 
-    }
+	}
 
-    // TODO once procurement implementation is ready
-    private void updateProcurement() {
+	// TODO once procurement implementation is ready
+	private void updateProcurement() {
 
-    }
+	}
 
-    private void updateProduction() {
-        ProductionDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
-    }
+	private void updateProduction() {
+		ProductionDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
+	}
 
-    private void updateWarehouse() {
-        WarehousingDepartment.getInstance().calculateAll();
-    }
+	private void updateWarehouse() {
+		WarehousingDepartment.getInstance().calculateAll();
+	}
 
-    public void start() {
-        GameThread.getInstance().run();
-    }
+	public void start() {
+		GameThread.getInstance().run();
+	}
 
-    public void pauseGame() {
-        GameThread.getInstance().pause();
-    }
+	public void pauseGame() {
+		GameThread.getInstance().pause();
+	}
 
-    public void resumeGame() {
-        GameThread.getInstance().unpause();
-    }
+	public void terminateGame() {
+		GameThread.getInstance().terminate();
+		GameState.getInstance().resetDepartments();
+		GameState.setInstance(null);
+	}
 
-    public void setSecondsPerDay(int seconds) {
-        GameThread.getInstance().setSecondsPerDay(seconds);
-    }
+	public void resumeGame() {
+		GameThread.getInstance().unpause();
+	}
 
-    // TODO load game state
+	public boolean isGamePaused() {
+		return GameThread.getInstance().isPause();
+	}
 
-    // TODO calculate initial values of respective modules/ departments
-    public void setInitialValues() {
-        this.setInitialCompanyEcoIndexValues();
-        this.setInitialCustomerValues();
-        this.setInitialExternalEventsValues();
-        this.setInitialFinanceValues();
-        this.setInitialHRValues();
-        this.setInitialLogisticsValues();
-        this.setInitialMarketingValues();
-        this.setInitialWarehouseValues();
-        this.setInitialProcurementValues();
-        this.setInitialProductionValues();
-    }
+	public void setSecondsPerDay(int seconds) {
+		GameThread.getInstance().setSecondsPerDay(seconds);
+	}
 
-    private void setInitialCompanyEcoIndexValues() {
+	// TODO load game state
 
-    }
+	// TODO calculate initial values of respective modules/ departments
+	public void setInitialValues() {
+		this.setInitialCompanyEcoIndexValues();
+		this.setInitialCustomerValues();
+		this.setInitialExternalEventsValues();
+		this.setInitialFinanceValues();
+		this.setInitialHRValues();
+		this.setInitialLogisticsValues();
+		this.setInitialMarketingValues();
+		this.setInitialWarehouseValues();
+		this.setInitialProcurementValues();
+		this.setInitialProductionValues();
+	}
 
-    private void setInitialExternalEventsValues() {
+	private void setInitialCompanyEcoIndexValues() {
 
-    }
+	}
 
-    private void setInitialCustomerValues() {
+	private void setInitialExternalEventsValues() {
 
-    }
+	}
 
-    private void setInitialFinanceValues() {
-        FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
-    }
+	private void setInitialCustomerValues() {
 
-    private void setInitialHRValues() {
+	}
 
-    }
+	private void setInitialFinanceValues() {
+		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+	}
 
-    private void setInitialLogisticsValues() {
-        //Logistics.getInstance().calculateAll();
-    }
+	private void setInitialHRValues() {
 
-    private void setInitialMarketingValues() {
+	}
 
-    }
+	private void setInitialLogisticsValues() {
+		// Logistics.getInstance().calculateAll();
+	}
 
-    // TODO once procurement implementation is ready
-    private void setInitialProcurementValues() {
+	private void setInitialMarketingValues() {
 
-    }
+	}
 
-    private void setInitialProductionValues() {
-        ProductionDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
-    }
+	// TODO once procurement implementation is ready
+	private void setInitialProcurementValues() {
 
-    private void setInitialWarehouseValues() {
-        // TODO really needed?
-        WarehousingDepartment.getInstance().calculateAll();
-    }
+	}
 
-    /* Finance */
+	private void setInitialProductionValues() {
+		ProductionDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
+	}
 
-    public double getCash() {
-        double cash = FinanceDepartment.getInstance().getCash();
-        return cash;
-    }
+	private void setInitialWarehouseValues() {
+		// TODO really needed?
+		WarehousingDepartment.getInstance().calculateAll();
+	}
 
-    public double getNetWorth() {
-        //double netWorth = Finance.getInstance().calculateNetWorth(gameDate);
-        double netWorth = FinanceDepartment.getInstance().getNetWorth();
-        return netWorth;
-    }
+	/* Finance */
 
-    public ArrayList<Investment> generateInvestmentSelection(double amount){
-        return FinanceDepartment.getInstance().generateInvestmentSelection(amount);
-    }
+	public double getCash() {
+		double cash = FinanceDepartment.getInstance().getCash();
+		return cash;
+	}
 
-    public void addInvestment(Investment investment){
-        FinanceDepartment.getInstance().addInvestment(investment);
-    }
+	public double getNetWorth() {
+		// double netWorth = Finance.getInstance().calculateNetWorth(gameDate);
+		double netWorth = FinanceDepartment.getInstance().getNetWorth();
+		return netWorth;
+	}
 
-    public void removeInvestment(Investment investment){
-        FinanceDepartment.getInstance().removeInvestment(investment);
-    }
+	public ArrayList<Investment> generateInvestmentSelection(double amount) {
+		return FinanceDepartment.getInstance().generateInvestmentSelection(amount);
+	}
 
-    public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount){
-        return FinanceDepartment.getInstance().generateLoanSelection(loanAmount);
-    }
+	public void addInvestment(Investment investment) {
+		FinanceDepartment.getInstance().addInvestment(investment);
+	}
 
-    public void addLoan(BankingSystem.Loan loan, LocalDate loanDate){
-        FinanceDepartment.getInstance().addLoan(loan, loanDate);
-    }
+	public void removeInvestment(Investment investment) {
+		FinanceDepartment.getInstance().removeInvestment(investment);
+	}
 
-    public BankingSystem.Loan getLoan(){
-        return FinanceDepartment.getInstance().getLoan();
-    }
+	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount) {
+		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount);
+	}
 
-    public ArrayList<ExternalPartner> generateExternalPartnerSelection(){
-        return LogisticsDepartment.getInstance().generateExternalPartnerSelection();
-    }
+	public void addLoan(BankingSystem.Loan loan, LocalDate loanDate) {
+		FinanceDepartment.getInstance().addLoan(loan, loanDate);
+	}
 
-    public ArrayList<Truck> generateTruckSelection(){
-        return LogisticsDepartment.getInstance().generateTruckSelection();
-    }
+	public BankingSystem.Loan getLoan() {
+		return FinanceDepartment.getInstance().getLoan();
+	}
 
-    public void addExternalPartner(ExternalPartner externalPartner){
-        LogisticsDepartment.getInstance().addExternalPartner(externalPartner);
-    }
+	public ArrayList<ExternalPartner> generateExternalPartnerSelection() {
+		return LogisticsDepartment.getInstance().generateExternalPartnerSelection();
+	}
 
-    public void removeExternalPartner(){
-        LogisticsDepartment.getInstance().removeExternalPartner();
-    }
+	public ArrayList<Truck> generateTruckSelection() {
+		return LogisticsDepartment.getInstance().generateTruckSelection();
+	}
 
-    public void addTruckToFleet(Truck truck, LocalDate gameDate){
-        LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
-    }
+	public void addExternalPartner(ExternalPartner externalPartner) {
+		LogisticsDepartment.getInstance().addExternalPartner(externalPartner);
+	}
 
-    public void removeTruckFromFleet(Truck truck){
-        LogisticsDepartment.getInstance().removeTruckFromFleet(truck);
-    }
+	public void removeExternalPartner() {
+		LogisticsDepartment.getInstance().removeExternalPartner();
+	}
 
-    public ArrayList<ProductSupport.SupportType> generateSupportTypeSelection(){
-        return ProductSupport.getInstance().generateSupportTypeSelection();
-    }
+	public void addTruckToFleet(Truck truck, LocalDate gameDate) {
+		LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
+	}
 
-    public void addSupport(ProductSupport.SupportType supportType){
-        ProductSupport.getInstance().addSupport(supportType);
-    }
+	public void removeTruckFromFleet(Truck truck) {
+		LogisticsDepartment.getInstance().removeTruckFromFleet(truck);
+	}
 
-    public void removeSupport(ProductSupport.SupportType supportType){
-        ProductSupport.getInstance().removeSupport(supportType);
-    }
+	public ArrayList<ProductSupport.SupportType> generateSupportTypeSelection() {
+		return ProductSupport.getInstance().generateSupportTypeSelection();
+	}
 
-    public ArrayList<ProductSupport.ExternalSupportPartner> generateExternalSupportPartnerSelection(){
-        return ProductSupport.getInstance().generateExternalSupportPartnerSelection();
-    }
+	public void addSupport(ProductSupport.SupportType supportType) {
+		ProductSupport.getInstance().addSupport(supportType);
+	}
 
-    public void addExternalSupportPartner(ProductSupport.ExternalSupportPartner externalSupportPartner){
-        ProductSupport.getInstance().addExternalSupportPartner(externalSupportPartner);
-    }
+	public void removeSupport(ProductSupport.SupportType supportType) {
+		ProductSupport.getInstance().removeSupport(supportType);
+	}
 
-    public void removeExternalSupportPartner(){
-        ProductSupport.getInstance().removeExternalSupportPartner();
-    }
+	public ArrayList<ProductSupport.ExternalSupportPartner> generateExternalSupportPartnerSelection() {
+		return ProductSupport.getInstance().generateExternalSupportPartnerSelection();
+	}
 
-    public ArrayList<ProductSupport.SupportType> getSupportTypes() {
-        return ProductSupport.getInstance().getSupportTypes();
-    }
+	public void addExternalSupportPartner(ProductSupport.ExternalSupportPartner externalSupportPartner) {
+		ProductSupport.getInstance().addExternalSupportPartner(externalSupportPartner);
+	}
 
-    public ProductSupport.ExternalSupportPartner getExternalSupportPartner() {
-        return ProductSupport.getInstance().getExternalSupportPartner();
-    }
+	public void removeExternalSupportPartner() {
+		ProductSupport.getInstance().removeExternalSupportPartner();
+	}
 
-    public int getTotalSupportTypeQuality() {
-        return ProductSupport.getInstance().getTotalSupportTypeQuality();
-    }
+	public ArrayList<ProductSupport.SupportType> getSupportTypes() {
+		return ProductSupport.getInstance().getSupportTypes();
+	}
 
-    public double getTotalSupportQuality() {
-        return ProductSupport.getInstance().getTotalSupportQuality();
-    }
+	public ProductSupport.ExternalSupportPartner getExternalSupportPartner() {
+		return ProductSupport.getInstance().getExternalSupportPartner();
+	}
 
-    public double getTotalSupportCosts() {
-        return ProductSupport.getInstance().getTotalSupportCosts();
-    }
+	public int getTotalSupportTypeQuality() {
+		return ProductSupport.getInstance().getTotalSupportTypeQuality();
+	}
 
-    public CompanyEcoIndex.EcoIndex getEcoIndex(){
-        return CompanyEcoIndex.getInstance().getEcoIndex();
-    }
+	public double getTotalSupportQuality() {
+		return ProductSupport.getInstance().getTotalSupportQuality();
+	}
 
-    public List<ExternalEvents.ExternalEvent> getExternalEvents() {
-        return ExternalEvents.getInstance().getExternalEvents();
-    }
+	public double getTotalSupportCosts() {
+		return ProductSupport.getInstance().getTotalSupportCosts();
+	}
 
-    public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed){
-        return FinanceDepartment.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
-    }
+	public CompanyEcoIndex.EcoIndex getEcoIndex() {
+		return CompanyEcoIndex.getInstance().getEcoIndex();
+	}
 
-    public void sellTruck(Truck truck){
-        FinanceDepartment.getInstance().sellTruck(truck);
-    }
+	public List<ExternalEvents.ExternalEvent> getExternalEvents() {
+		return ExternalEvents.getInstance().getExternalEvents();
+	}
 
-    public double getAssets(){
-        return FinanceDepartment.getInstance().getAssets();
-    }
+	public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed) {
+		return FinanceDepartment.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
+	}
 
-    public double getLiabilities(){
-        return FinanceDepartment.getInstance().getLiabilities();
-    }
+	public void sellTruck(Truck truck) {
+		FinanceDepartment.getInstance().sellTruck(truck);
+	}
 
-    public double calculateNetWorth(LocalDate gameDate){
-        return FinanceDepartment.getInstance().calculateNetWorth(gameDate);
-    }
+	public double getAssets() {
+		return FinanceDepartment.getInstance().getAssets();
+	}
 
-    public void increaseCash(double amount){
-        FinanceDepartment.getInstance().increaseCash(amount);
-    }
+	public double getLiabilities() {
+		return FinanceDepartment.getInstance().getLiabilities();
+	}
 
-    /*
-    LOGISTICS
-     */
+	public double calculateNetWorth(LocalDate gameDate) {
+		return FinanceDepartment.getInstance().calculateNetWorth(gameDate);
+	}
 
-    public ExternalPartner getExternalPartner(){
-        return LogisticsDepartment.getInstance().getExternalPartner();
-    }
+	public void increaseCash(double amount) {
+		FinanceDepartment.getInstance().increaseCash(amount);
+	}
 
-    public InternalFleet getInternalFleet(){
-        return LogisticsDepartment.getInstance().getInternalFleet();
-    }
+	public void decreaseCash(double amount) {
+		FinanceDepartment.getInstance().decreaseCash(amount);
+	}
 
+	public void increaseNewWorth(double amount) {
+		FinanceDepartment.getInstance().increaseNetWorth(amount);
+	}
 
-    /*
-    *  PROCUREMENT
-    * */
-    public String getComponentName(ComponentType component) {
-        return component.getComponentName();
-    }
+	public void decreaseNetWorth(double amount) {
+		FinanceDepartment.getInstance().decreaseNetWorth(amount);
+	}
 
-    public int getComponentLevel(ComponentType component) {
-        return component.getComponentLevel();
-    }
+	/*
+	 * LOGISTICS
+	 */
 
-    public double getInitialComponentPrice(ComponentType component) {
-        return component.getInitialComponentPrice();
-    }
+	public ExternalPartner getExternalPartner() {
+		return LogisticsDepartment.getInstance().getExternalPartner();
+	}
 
-    public int getComponentBaseUtility(ComponentType component) {
-        return component.getBaseUtility();
-    }
+	public InternalFleet getInternalFleet() {
+		return LogisticsDepartment.getInstance().getInternalFleet();
+	}
 
-    public int getComponentAvailabilityDate (ComponentType component) {
-        return component.getAvailabilityDate();
-    }
+	/*
+	 * PROCUREMENT
+	 */
+	public String getComponentName(ComponentType component) {
+		return component.getComponentName();
+	}
 
-    public SupplierCategory getComponentSupplierCategory(Component component) {
-        return component.getSupplierCategory();
-    }
+	public int getComponentLevel(ComponentType component) {
+		return component.getComponentLevel();
+	}
 
-    public double getComponentSupplierCostMultiplicator(Component component) {
-        return component.getSupplierCostMultiplicator();
-    }
+	public double getInitialComponentPrice(ComponentType component) {
+		return component.getInitialComponentPrice();
+	}
 
-    public int getComponentSupplierQuality(Component component) {
-        return component.getSupplierQuality();
-    }
+	public int getComponentBaseUtility(ComponentType component) {
+		return component.getBaseUtility();
+	}
 
-    public int getComponentSupplierEcoIndex(Component component) {
-        return component.getSupplierEcoIndex();
-    }
+	public int getComponentAvailabilityDate(ComponentType component) {
+		return component.getAvailabilityDate();
+	}
 
-    public double getComponentBaseCost(Component component) {
-        return component.getBaseCost();
-    }
+	public SupplierCategory getComponentSupplierCategory(Component component) {
+		return component.getSupplierCategory();
+	}
 
-    public List<ComponentType> getAllAvailableComponents() {
-        return ProductionDepartment.getInstance().getAllAvailableComponents(GameState.getInstance().getGameDate());
-    }
+	public double getComponentSupplierCostMultiplicator(Component component) {
+		return component.getSupplierCostMultiplicator();
+	}
 
-    public List<ComponentType> getAvailableComponentsOfComponentCategory(ComponentCategory componentCategory) {
-        return ProductionDepartment.getInstance().getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
-    }
+	public int getComponentSupplierQuality(Component component) {
+		return component.getSupplierQuality();
+	}
 
-    /*
-     *  PRODUCTION
-     * */
+	public int getComponentSupplierEcoIndex(Component component) {
+		return component.getSupplierEcoIndex();
+	}
 
-    /* Production getter */
-    public Map<Product, Integer> getProducedProducts() {
-        return ProductionDepartment.getInstance().getNumberProducedProducts();
-    }
+	public double getComponentBaseCost(Component component) {
+		return component.getBaseCost();
+	}
 
-    public List<Machinery> getMachines() {
-        return ProductionDepartment.getInstance().getMachines();
-    }
+	public List<ComponentType> getAllAvailableComponents() {
+		return ProductionDepartment.getInstance().getAllAvailableComponents(GameState.getInstance().getGameDate());
+	}
 
-    public ProductionTechnology getProductionTechnology() {
-        return ProductionDepartment.getInstance().getProductionTechnology();
-    }
+	public List<ComponentType> getAvailableComponentsOfComponentCategory(ComponentCategory componentCategory) {
+		return ProductionDepartment.getInstance()
+				.getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
+	}
 
-    public ProductionInvestment getResearchAndDevelopment() {
-        return ProductionDepartment.getInstance().getResearchAndDevelopment();
-    }
+	/*
+	 * PRODUCTION
+	 */
 
-    public ProductionInvestment getProcessAutomation() {
-        return ProductionDepartment.getInstance().getProcessAutomation();
-    }
+	/* Production getter */
+	public Map<Product, Integer> getProducedProducts() {
+		return ProductionDepartment.getInstance().getNumberProducedProducts();
+	}
 
-    public double getTotalEngineerProductivity() {
-        return ProductionDepartment.getInstance().getTotalEngineerProductivity();
-    }
+	public List<Machinery> getMachines() {
+		return ProductionDepartment.getInstance().getMachines();
+	}
 
-    public ProductionInvestment getSystemSecurity() {
-        return ProductionDepartment.getInstance().getSystemSecurity();
-    }
+	public ProductionTechnology getProductionTechnology() {
+		return ProductionDepartment.getInstance().getProductionTechnology();
+	}
 
-    public double getProductionVariableCosts() {
-        return ProductionDepartment.getInstance().getProductionVariableCosts();
-    }
+	public ProductionInvestment getResearchAndDevelopment() {
+		return ProductionDepartment.getInstance().getResearchAndDevelopment();
+	}
 
-    public double getProductionFixCosts() {
-        return ProductionDepartment.getInstance().getProductionFixCosts();
-    }
+	public ProductionInvestment getProcessAutomation() {
+		return ProductionDepartment.getInstance().getProcessAutomation();
+	}
 
-    public double getNumberUnitsProducedPerMonth() {
-        return ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth();
-    }
+	public double getTotalEngineerProductivity() {
+		return ProductionDepartment.getInstance().getTotalEngineerProductivity();
+	}
 
-    public double getMonthlyAvailableMachineCapacity() {
-        return ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity();
-    }
+	public ProductionInvestment getSystemSecurity() {
+		return ProductionDepartment.getInstance().getSystemSecurity();
+	}
 
-    public double getManufactureEfficiency() {
-        return ProductionDepartment.getInstance().getManufactureEfficiency();
-    }
+	public double getProductionVariableCosts() {
+		return ProductionDepartment.getInstance().getProductionVariableCosts();
+	}
 
-    public double getProductionProcessProductivity() {
-        return ProductionDepartment.getInstance().getProductionProcessProductivity();
-    }
+	public double getProductionFixCosts() {
+		return ProductionDepartment.getInstance().getProductionFixCosts();
+	}
 
-    public double getNormalizedProductionProcessProductivity() {
-        return ProductionDepartment.getInstance().getNormalizedProductionProcessProductivity();
-    }
+	public double getNumberUnitsProducedPerMonth() {
+		return ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth();
+	}
 
-    /* machinery game mechanics */
-    public double buyMachinery(Machinery machinery, LocalDate gameDate) {
-        return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
-    }
+	public double getMonthlyAvailableMachineCapacity() {
+		return ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity();
+	}
 
-    public double sellMachinery(Machinery machinery) {
-        return ProductionDepartment.getInstance().sellMachinery(machinery);
-    }
+	public double getManufactureEfficiency() {
+		return ProductionDepartment.getInstance().getManufactureEfficiency();
+	}
 
-    public Map<Machinery, Double> getMachineryResellPrices() {
-        return ProductionDepartment.getInstance().calculateMachineryResellPrices();
-    }
+	public double getProductionProcessProductivity() {
+		return ProductionDepartment.getInstance().getProductionProcessProductivity();
+	}
 
-    public double maintainAndRepairMachinery(Machinery machinery) {
-        return ProductionDepartment.getInstance().maintainAndRepairMachinery(machinery, GameState.getInstance().getGameDate());
-    }
+	public double getNormalizedProductionProcessProductivity() {
+		return ProductionDepartment.getInstance().getNormalizedProductionProcessProductivity();
+	}
 
-    public double updateMachinery(Machinery machinery) {
-        return ProductionDepartment.getInstance().upgradeMachinery(machinery, GameState.getInstance().getGameDate());
-    }
+	/* machinery game mechanics */
+	public double buyMachinery(Machinery machinery, LocalDate gameDate) {
+		return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+	}
 
-    public ProductionTechnology getMachineryProductionTechnology(Machinery machinery) {
-        return machinery.getProductionTechnology();
-    }
+	public double sellMachinery(Machinery machinery) {
+		return ProductionDepartment.getInstance().sellMachinery(machinery);
+	}
 
-    public int getMachineryCapacity(Machinery machinery) {
-        return machinery.getMachineryCapacity();
-    }
+	public Map<Machinery, Double> getMachineryResellPrices() {
+		return ProductionDepartment.getInstance().calculateMachineryResellPrices();
+	}
 
-    public double getMachineryPurchasePrice(Machinery machinery) {
-        return machinery.getPurchasePrice();
-    }
+	public double maintainAndRepairMachinery(Machinery machinery) {
+		return ProductionDepartment.getInstance().maintainAndRepairMachinery(machinery,
+				GameState.getInstance().getGameDate());
+	}
 
-    public double getMachineryResellPrice(Machinery machinery) {
-        return machinery.getResellPrice();
-    }
+	public double updateMachinery(Machinery machinery) {
+		return ProductionDepartment.getInstance().upgradeMachinery(machinery, GameState.getInstance().getGameDate());
+	}
 
-    public double getMachineryDepreciation(Machinery machinery) {
-        return machinery.getMachineryDepreciation();
-    }
+	public ProductionTechnology getMachineryProductionTechnology(Machinery machinery) {
+		return machinery.getProductionTechnology();
+	}
 
-    public LocalDate getMachineryLastInvestment(Machinery machinery) {
-        return machinery.getLastInvestmentDate();
-    }
+	public int getMachineryCapacity(Machinery machinery) {
+		return machinery.getMachineryCapacity();
+	}
 
-    public int getMachineryYearsSinceLastInvestment(Machinery machinery) {
-        return machinery.getYearsSinceLastInvestment();
-    }
+	public double getMachineryPurchasePrice(Machinery machinery) {
+		return machinery.getPurchasePrice();
+	}
 
-    public int getMachineryUsefulLife(Machinery machinery) {
-        return machinery.getUsefulLife();
-    }
+	public double getMachineryResellPrice(Machinery machinery) {
+		return machinery.getResellPrice();
+	}
 
-    public LocalDate getMachineryPurchaseDate(Machinery machinery) {
-        return machinery.getPurchaseDate();
-    }
+	public double getMachineryDepreciation(Machinery machinery) {
+		return machinery.getMachineryDepreciation();
+	}
 
-    /* product game mechanics */
-    public double launchProduct(Product product, int quantity) {
-        return ProductionDepartment.getInstance().launchProduct(product, quantity, WarehousingDepartment.getInstance().calculateFreeStorage());
-    }
+	public LocalDate getMachineryLastInvestment(Machinery machinery) {
+		return machinery.getLastInvestmentDate();
+	}
 
-    public double produceProduct(Product product, int quantity) {
-        return  ProductionDepartment.getInstance().produceProduct(product, quantity, WarehousingDepartment.getInstance().calculateFreeStorage());
-    }
+	public int getMachineryYearsSinceLastInvestment(Machinery machinery) {
+		return machinery.getYearsSinceLastInvestment();
+	}
 
-    public double getAmountProductInProduction(Product product) {
-        return ProductionDepartment.getInstance().getAmountInProduction(product);
-    }
+	public int getMachineryUsefulLife(Machinery machinery) {
+		return machinery.getUsefulLife();
+	}
 
-    public void setProductSalesPrice(Product product, double salesPrice) {
-        ProductionDepartment.getInstance().setProductSalesPrice(product, salesPrice);
-    }
+	public LocalDate getMachineryPurchaseDate(Machinery machinery) {
+		return machinery.getPurchaseDate();
+	}
 
-    public String getProductName(Product product) {
-        return product.getProductName();
-    }
+	/* product game mechanics */
+	public double launchProduct(Product product, int quantity) {
+		return ProductionDepartment.getInstance().launchProduct(product, quantity,
+				WarehousingDepartment.getInstance().calculateFreeStorage());
+	}
 
-    public ProductCategory getProductCategory(Product product) {
-        return product.getProductCategory();
-    }
+	public double produceProduct(Product product, int quantity) {
+		return ProductionDepartment.getInstance().produceProduct(product, quantity,
+				WarehousingDepartment.getInstance().calculateFreeStorage());
+	}
+
+	public double getAmountProductInProduction(Product product) {
+		return ProductionDepartment.getInstance().getAmountInProduction(product);
+	}
+
+	public void setProductSalesPrice(Product product, double salesPrice) {
+		ProductionDepartment.getInstance().setProductSalesPrice(product, salesPrice);
+	}
+
+	public String getProductName(Product product) {
+		return product.getProductName();
+	}
+
+	public ProductCategory getProductCategory(Product product) {
+		return product.getProductCategory();
+	}
+
+	public List<Component> getProductComponents(Product product) {
+		return product.getComponents();
+	}
+
+	public double getProductProcurementQuality(Product product) {
+		return product.getTotalProcurementQuality();
+	}
+
+	public double getProductTotalProductQuality(Product product) {
+		return product.getTotalProductQuality();
+	}
+
+	public LocalDate getProductLaunchDate(Product product) {
+		return product.getLaunchDate();
+	}
+
+	public double getProductComponentCosts(Product product) {
+		return product.getTotalComponentCosts();
+	}
+
+	public double getProductCosts(Product product) {
+		return product.getTotalProductCosts();
+	}
+
+	public double getProductsSalesPrice(Product product) {
+		return product.getSalesPrice();
+	}
+
+	public double getProductProfitMargin(Product product) {
+		return product.getProfitMargin();
+	}
+
+	public List<Product> getLaunchedProducts() {
+		return ProductionDepartment.getInstance().getLaunchedProducts();
+	}
+
+	/* production investment game mechanics */
+	public double investInSystemSecurity(int level, LocalDate gameDate) {
+		return ProductionDepartment.getInstance().investInSystemSecurity(level, gameDate);
+	}
+
+	public double investInResearchAndDevelopment(int level, LocalDate gameDate) {
+		return ProductionDepartment.getInstance().investInResearchAndDevelopment(level, gameDate);
+	}
+
+	public double investInProcessAutomation(int level, LocalDate gameDate) {
+		return ProductionDepartment.getInstance().investInProcessAutomation(level, gameDate);
+	}
+
+	public LocalDate getLastInvestmentDateSystemSecurity() {
+		return ProductionDepartment.getInstance().getSystemSecurity().getLastInvestmentDate();
+	}
+
+	public LocalDate getLastInvestmentDateResearchAndDevelopment() {
+		return ProductionDepartment.getInstance().getResearchAndDevelopment().getLastInvestmentDate();
+	}
+
+	public LocalDate getLastInvestmentDateProcessAutomation() {
+		return ProductionDepartment.getInstance().getProcessAutomation().getLastInvestmentDate();
+	}
+
+	public int getSystemSecurityLevel() {
+		return ProductionDepartment.getInstance().getSystemSecurity().getLevel();
+	}
+
+	public int getResearchAndDevelopmentLevel() {
+		return ProductionDepartment.getInstance().getResearchAndDevelopment().getLevel();
+	}
+
+	public int getProcessAutomationLevel() {
+		return ProductionDepartment.getInstance().getProcessAutomation().getLevel();
+	}
+
+	/*
+	 * WAREHOUSING
+	 */
 
-    public List<Component> getProductComponents(Product product) {
-        return product.getComponents();
-    }
-
-    public double getProductProcurementQuality(Product product) {
-        return product.getTotalProcurementQuality();
-    }
-
-    public double getProductTotalProductQuality(Product product) {
-        return product.getTotalProductQuality();
-    }
-
-    public LocalDate getProductLaunchDate(Product product) {
-        return product.getLaunchDate();
-    }
-
-    public double getProductComponentCosts(Product product) {
-        return product.getTotalComponentCosts();
-    }
-
-    public double getProductCosts(Product product) {
-        return product.getTotalProductCosts();
-    }
-
-    public double getProductsSalesPrice(Product product) {
-        return product.getSalesPrice();
-    }
-
-    public double getProductProfitMargin(Product product) {
-        return product.getProfitMargin();
-    }
-
-    public List<Product> getLaunchedProducts() {
-        return ProductionDepartment.getInstance().getLaunchedProducts();
-    }
-
-    /* production investment game mechanics*/
-    public double investInSystemSecurity(int level, LocalDate gameDate) {
-        return ProductionDepartment.getInstance().investInSystemSecurity(level, gameDate);
-    }
-
-    public double investInResearchAndDevelopment(int level, LocalDate gameDate) {
-        return ProductionDepartment.getInstance().investInResearchAndDevelopment(level, gameDate);
-    }
-
-    public double investInProcessAutomation(int level, LocalDate gameDate) {
-        return ProductionDepartment.getInstance().investInProcessAutomation(level, gameDate);
-    }
-
-    public LocalDate getLastInvestmentDateSystemSecurity() {
-        return ProductionDepartment.getInstance().getSystemSecurity().getLastInvestmentDate();
-    }
-
-    public LocalDate getLastInvestmentDateResearchAndDevelopment() {
-        return ProductionDepartment.getInstance().getResearchAndDevelopment().getLastInvestmentDate();
-    }
-
-    public LocalDate getLastInvestmentDateProcessAutomation() {
-        return ProductionDepartment.getInstance().getProcessAutomation().getLastInvestmentDate();
-    }
-
-    public int getSystemSecurityLevel() {
-        return ProductionDepartment.getInstance().getSystemSecurity().getLevel();
-    }
-
-    public int getResearchAndDevelopmentLevel() {
-        return ProductionDepartment.getInstance().getResearchAndDevelopment().getLevel();
-    }
-
-    public int getProcessAutomationLevel() {
-        return ProductionDepartment.getInstance().getProcessAutomation().getLevel();
-    }
-
-    /*
-    * WAREHOUSING
-    * */
-
-    /* warehousing getter and game mechanic */
-    // TODO SALE OF PRODUCTS
-    /*public double sellProducts() {
-        return Warehousing.getInstance().sellProducts()
-    }*/
-
-    public List<Warehouse> getWarehouses() {
-        return WarehousingDepartment.getInstance().getWarehouses();
-    }
-
-    public Map<Product, Integer> getWarehousingInventory() {
-        return WarehousingDepartment.getInstance().getInventory();
-    }
-
-    public int getTotalWarehousingCapacity() {
-        return WarehousingDepartment.getInstance().getTotalCapacity();
-    }
-
-    public int getFreeStorage() {
-        return WarehousingDepartment.getInstance().getFreeStorage();
-    }
-
-    public int getStoredUnits() {
-        return WarehousingDepartment.getInstance().getStoredUnits();
-    }
-
-    public double getMonthlyWarehousingCost() {
-        return WarehousingDepartment.getInstance().getMonthlyCostWarehousing();
-    }
-
-    public double getDailyWarehousingStorageCost() {
-        return WarehousingDepartment.getInstance().getDailyStorageCost();
-    }
-
-    public double getMonthlyWarehousingStorageCost() {
-        return WarehousingDepartment.getInstance().getMonthlyStorageCost();
-    }
-
-    public double getMonthlyTotalWarehousingCost() {
-        return WarehousingDepartment.getInstance().getMonthlyTotalCostWarehousing();
-    }
-
-    /* warehouse game mechanics*/
-    public double buildWarehouse() {
-        return WarehousingDepartment.getInstance().buildWarehouse(GameState.getInstance().getGameDate());
-    }
-
-    public double rentWarehouse() {
-        return WarehousingDepartment.getInstance().rentWarehouse();
-    }
-
-    public double sellWarehouse(Warehouse warehouse) {
-        return WarehousingDepartment.getInstance().sellWarehouse(warehouse);
-    }
-
-    public Map<Warehouse, Double> getAllWarehouseResaleValues() {
-        return WarehousingDepartment.getInstance().getAllWarehouseResaleValues();
-    }
-
-    public WarehouseType getWarehouseType(Warehouse warehouse) {
-        return warehouse.getWarehouseType();
-    }
-
-    public double getWarehouseBuildingCost(Warehouse warehouse) {
-        return warehouse.getBuildingCost();
-    }
-
-    public double getWarehouseMonthlyRentalCost(Warehouse warehouse) {
-        return warehouse.getMonthlyRentalCost();
-    }
-
-    public double getWarehouseVariableStorageCost(Warehouse warehouse) {
-        return warehouse.getVariableStorageCost();
-    }
-
-    public double getWarehouseMonthlyFixCost(Warehouse warehouse) {
-        return warehouse.getMonthlyFixCostWarehouse();
-    }
-
-    public double getWarehouseResaleValue(Warehouse warehouse) {
-        return warehouse.getResaleValue();
-    }
-
-    public LocalDate getWarehouseBuildDate(Warehouse warehouse) {
-        return warehouse.getBuildDate();
-    }
-
-    public double getWarehouseDepreciationRate(Warehouse warehouse) {
-        return warehouse.getDepreciationRateWarehouse();
-    }
-
-    public int getWarehouseUsefulLife(Warehouse warehouse) {
-        return warehouse.getUsefulLife();
-    }
-
-    /* Marketing */
-
-    /**
-     *
-     * @return Returns all pre defined marketing campaigns.
-     */
-    public List<Campaign> getAllMarketingCampaigns() {
-        return Campaign.getMarketingCampaigns();
-    }
-
-    /**
-     *
-     * @return Returns all pre defined social engagements.
-     */
-    public List<Campaign> getAllSocialEngagementCampaigns() {
-        return Campaign.getSocialEngagementCampaigns();
-    }
-
-    /**
-     *
-     * @return Returns all pre defined media types.
-     */
-    public Media[] getAllMedia() {
-        return Media.values();
-    }
-
-    /**
-     * Make a campaign with the specified campaign name and media type.
-     * But you are restricted to the predefined campaigns!
-     * @param campaignName the campaign name.
-     * @param media the media type.
-     */
-    public void makeCampaign(String campaignName, Media media) {
-        MarketingDepartment.getInstance().startCampaign(campaignName, media);
-    }
-
-    /**
-     *
-     * @return Returns all issued press releases.
-     */
-    public List<PressRelease> getPressReleases() {
-        return MarketingDepartment.getInstance().getPressReleases();
-    }
-
-    /**
-     * Makes a press release.
-     * @param pr a press release.
-     */
-    public void makePressRelease(PressRelease pr) {
-        MarketingDepartment.getInstance().makePressRelease(pr);
-    }
-
-    /**
-     *
-     * @return Returns an array of all defined press releases.
-     */
-    public PressRelease[] getAllPressReleases() {
-        return PressRelease.values();
-    }
-
-    /**
-     *
-     * @return Returns all pre defined market research report types.
-     */
-    public Reports[] getAllMarketResearchReports() {
-        return Reports.values();
-    }
-
-    /**
-     *
-     * @return Returns all pre defined survey types.
-     */
-    public SurveyTypes[] getAllSurveyTypes() {
-        return SurveyTypes.values();
-    }
-
-    /**
-     * Conduct a market research.
-     * @param internal if conduct market research internally then set true, else if you outsource then set false.
-     * @param report the report type you want to do.
-     * @param surveyType the survey methodology.
-     * @param data the data as a Map of string as key and double value pair.
-     */
-    public void conductMarketResearch(boolean internal, Reports report, SurveyTypes surveyType, Map<String, Double> data) {
-        MarketingDepartment.getInstance().issueMarketResearch(internal, report, surveyType, data);
-    }
-
-    /**
-     *
-     * @return Returns list of conducted market researches.
-     */
-    public List<MarketResearch> getConductedMarketResearch() {
-        return MarketingDepartment.getInstance().getMarketResearches();
-    }
-
-
-    /* Human Resources */
-
-    /**
-     * Hire the employee. He will be added to your team.
-     * @param e the employee you want to hire.
-     */
-    public void hireEmployee(Employee e) {
-        HRDepartment.getInstance().hire(e);
-    }
-
-    /**
-     * Fire the employee. He will be removed from the team.
-     * @param e the employee you want to fire.
-     */
-    public void fireEmployee(Employee e) {
-        HRDepartment.getInstance().fire(e);
-    }
-
-    /**
-     *
-     * @return Returns the engineer team.
-     */
-    public Team getEngineerTeam() {
-        return HRDepartment.getInstance().getEngineerTeam();
-    }
-
-    /**
-     *
-     * @return Returns the sales people team.
-     */
-    public Team getSalesPeopleTeam() {
-        return HRDepartment.getInstance().getSalesTeam();
-    }
-
-    /**
-     *
-     * @return Returns all pre defined trainings for your employee.
-     */
-    public Training[] getAllEmployeeTraining() {
-        return HRDepartment.getInstance().getAllTrainings();
-    }
-
-    /**
-     *  Train the employee.
-     *  Note: each employee maintains a list of trainings he did.
-     *
-     * @param e the employee you want to train.
-     * @param t the training he should do.
-     */
-    public void trainEmployee(Employee e, Training t) {
-        HRDepartment.getInstance().trainEmployee(e, t);
-    }
-
-    public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
-        return HRDepartment.getInstance().getTotalQualityOfWorkByEmployeeType(employeeType);
-    }
+	/* warehousing getter and game mechanic */
+	// TODO SALE OF PRODUCTS
+	/*
+	 * public double sellProducts() { return
+	 * Warehousing.getInstance().sellProducts() }
+	 */
+
+	public List<Warehouse> getWarehouses() {
+		return WarehousingDepartment.getInstance().getWarehouses();
+	}
+
+	public Map<Product, Integer> getWarehousingInventory() {
+		return WarehousingDepartment.getInstance().getInventory();
+	}
+
+	public int getTotalWarehousingCapacity() {
+		return WarehousingDepartment.getInstance().getTotalCapacity();
+	}
+
+	public int getFreeStorage() {
+		return WarehousingDepartment.getInstance().getFreeStorage();
+	}
+
+	public int getStoredUnits() {
+		return WarehousingDepartment.getInstance().getStoredUnits();
+	}
+
+	public double getMonthlyWarehousingCost() {
+		return WarehousingDepartment.getInstance().getMonthlyCostWarehousing();
+	}
+
+	public double getDailyWarehousingStorageCost() {
+		return WarehousingDepartment.getInstance().getDailyStorageCost();
+	}
+
+	public double getMonthlyWarehousingStorageCost() {
+		return WarehousingDepartment.getInstance().getMonthlyStorageCost();
+	}
+
+	public double getMonthlyTotalWarehousingCost() {
+		return WarehousingDepartment.getInstance().getMonthlyTotalCostWarehousing();
+	}
+
+	/* warehouse game mechanics */
+	public double buildWarehouse() {
+		return WarehousingDepartment.getInstance().buildWarehouse(GameState.getInstance().getGameDate());
+	}
+
+	public double rentWarehouse() {
+		return WarehousingDepartment.getInstance().rentWarehouse();
+	}
+
+	public double sellWarehouse(Warehouse warehouse) {
+		return WarehousingDepartment.getInstance().sellWarehouse(warehouse);
+	}
+
+	public Map<Warehouse, Double> getAllWarehouseResaleValues() {
+		return WarehousingDepartment.getInstance().getAllWarehouseResaleValues();
+	}
+
+	public WarehouseType getWarehouseType(Warehouse warehouse) {
+		return warehouse.getWarehouseType();
+	}
+
+	public double getWarehouseBuildingCost(Warehouse warehouse) {
+		return warehouse.getBuildingCost();
+	}
+
+	public double getWarehouseMonthlyRentalCost(Warehouse warehouse) {
+		return warehouse.getMonthlyRentalCost();
+	}
+
+	public double getWarehouseVariableStorageCost(Warehouse warehouse) {
+		return warehouse.getVariableStorageCost();
+	}
+
+	public double getWarehouseMonthlyFixCost(Warehouse warehouse) {
+		return warehouse.getMonthlyFixCostWarehouse();
+	}
+
+	public double getWarehouseResaleValue(Warehouse warehouse) {
+		return warehouse.getResaleValue();
+	}
+
+	public LocalDate getWarehouseBuildDate(Warehouse warehouse) {
+		return warehouse.getBuildDate();
+	}
+
+	public double getWarehouseDepreciationRate(Warehouse warehouse) {
+		return warehouse.getDepreciationRateWarehouse();
+	}
+
+	public int getWarehouseUsefulLife(Warehouse warehouse) {
+		return warehouse.getUsefulLife();
+	}
+
+	/* Marketing */
+
+	/**
+	 *
+	 * @return Returns all pre defined marketing campaigns.
+	 */
+	public List<Campaign> getAllMarketingCampaigns() {
+		return Campaign.getMarketingCampaigns();
+	}
+
+	/**
+	 *
+	 * @return Returns all pre defined social engagements.
+	 */
+	public List<Campaign> getAllSocialEngagementCampaigns() {
+		return Campaign.getSocialEngagementCampaigns();
+	}
+
+	/**
+	 *
+	 * @return Returns all pre defined media types.
+	 */
+	public Media[] getAllMedia() {
+		return Media.values();
+	}
+
+	/**
+	 * Make a campaign with the specified campaign name and media type. But you are
+	 * restricted to the predefined campaigns!
+	 * 
+	 * @param campaignName the campaign name.
+	 * @param media        the media type.
+	 */
+	public void makeCampaign(String campaignName, Media media) {
+		MarketingDepartment.getInstance().startCampaign(campaignName, media);
+	}
+
+	/**
+	 *
+	 * @return Returns all issued press releases.
+	 */
+	public List<PressRelease> getPressReleases() {
+		return MarketingDepartment.getInstance().getPressReleases();
+	}
+
+	/**
+	 * Makes a press release.
+	 * 
+	 * @param pr a press release.
+	 */
+	public void makePressRelease(PressRelease pr) {
+		MarketingDepartment.getInstance().makePressRelease(pr);
+	}
+
+	/**
+	 *
+	 * @return Returns an array of all defined press releases.
+	 */
+	public PressRelease[] getAllPressReleases() {
+		return PressRelease.values();
+	}
+
+	/**
+	 *
+	 * @return Returns all pre defined market research report types.
+	 */
+	public Reports[] getAllMarketResearchReports() {
+		return Reports.values();
+	}
+
+	/**
+	 *
+	 * @return Returns all pre defined survey types.
+	 */
+	public SurveyTypes[] getAllSurveyTypes() {
+		return SurveyTypes.values();
+	}
+
+	/**
+	 * Conduct a market research.
+	 * 
+	 * @param internal   if conduct market research internally then set true, else
+	 *                   if you outsource then set false.
+	 * @param report     the report type you want to do.
+	 * @param surveyType the survey methodology.
+	 * @param data       the data as a Map of string as key and double value pair.
+	 */
+	public void conductMarketResearch(boolean internal, Reports report, SurveyTypes surveyType,
+			Map<String, Double> data) {
+		MarketingDepartment.getInstance().issueMarketResearch(internal, report, surveyType, data);
+	}
+
+	/**
+	 *
+	 * @return Returns list of conducted market researches.
+	 */
+	public List<MarketResearch> getConductedMarketResearch() {
+		return MarketingDepartment.getInstance().getMarketResearches();
+	}
+
+	/* Human Resources */
+
+	/**
+	 * Hire the employee. He will be added to your team.
+	 * 
+	 * @param e the employee you want to hire.
+	 */
+	public void hireEmployee(Employee e) {
+		HRDepartment.getInstance().hire(e);
+	}
+
+	/**
+	 * Fire the employee. He will be removed from the team.
+	 * 
+	 * @param e the employee you want to fire.
+	 */
+	public void fireEmployee(Employee e) {
+		HRDepartment.getInstance().fire(e);
+	}
+
+	/**
+	 *
+	 * @return Returns the engineer team.
+	 */
+	public Team getEngineerTeam() {
+		return HRDepartment.getInstance().getEngineerTeam();
+	}
+
+	/**
+	 *
+	 * @return Returns the sales people team.
+	 */
+	public Team getSalesPeopleTeam() {
+		return HRDepartment.getInstance().getSalesTeam();
+	}
+
+	/**
+	 *
+	 * @return Returns all pre defined trainings for your employee.
+	 */
+	public Training[] getAllEmployeeTraining() {
+		return HRDepartment.getInstance().getAllTrainings();
+	}
+
+	/**
+	 * Train the employee. Note: each employee maintains a list of trainings he did.
+	 *
+	 * @param e the employee you want to train.
+	 * @param t the training he should do.
+	 */
+	public void trainEmployee(Employee e, Training t) {
+		HRDepartment.getInstance().trainEmployee(e, t);
+	}
+
+	public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
+		return HRDepartment.getInstance().getTotalQualityOfWorkByEmployeeType(employeeType);
+	}
 
 }
