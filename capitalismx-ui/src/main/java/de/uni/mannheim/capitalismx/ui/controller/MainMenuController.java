@@ -37,7 +37,7 @@ public class MainMenuController implements UpdateableController {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		newGameButton.setOnAction(e -> {
-			UIManager.getInstance().initGame();
+			UIManager.getInstance().newGame();
 		});
 		
 		
@@ -51,7 +51,7 @@ public class MainMenuController implements UpdateableController {
 		});
 		
 		quitButton.setOnAction(e -> {
-			UIManager.getInstance().quitGame();
+			UIManager.getInstance().quitApplication();
 		});
 	}
 

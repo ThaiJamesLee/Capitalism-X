@@ -5,11 +5,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 /**
- * A scene in the game, that contains the controller, the {@link GameSceneType}
+ * A scene in the game, that contains its controller, the {@link GameSceneType}
  * and the root-fxml-object ({@link Parent}) that simulates a {@link Scene}.
  * <br>
- * Note: The reason to not actually use a scene is that switching Scenes breaks
- * the Fullscreen-Mode to switch scenes.
+ * Note: The reason not to use actual {@link Scene}s is that switching between them breaks
+ * the Fullscreen-Mode.
  * 
  * @author Jonathan
  *

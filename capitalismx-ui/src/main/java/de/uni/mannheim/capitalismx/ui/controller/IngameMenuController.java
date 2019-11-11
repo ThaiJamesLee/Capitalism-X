@@ -40,9 +40,8 @@ public class IngameMenuController implements Initializable {
 		});
 
 		ingameLoad.setOnAction(e -> {
-			GameController.getInstance().loadGame();
-			UIManager.getInstance().initGame();
-			((GamePageController) (UIManager.getInstance().getSceneGame().getController())).toggleIngameMenu();
+			UIManager.getInstance().stopGame();
+			UIManager.getInstance().loadGame();
 		});
 
 		ingameSettings.setOnAction(e -> {
