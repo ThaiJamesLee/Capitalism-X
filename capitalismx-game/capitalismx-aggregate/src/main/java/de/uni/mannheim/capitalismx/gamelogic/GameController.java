@@ -184,6 +184,8 @@ public class GameController {
 
 	public void terminateGame() {
 		GameThread.getInstance().terminate();
+		GameState.getInstance().resetDepartments();
+		GameState.setInstance(null);
 	}
 
 	public void resumeGame() {

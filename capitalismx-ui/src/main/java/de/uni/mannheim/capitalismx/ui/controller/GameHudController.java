@@ -110,6 +110,7 @@ public class GameHudController implements UpdateableController {
 
 	@FXML
 	private void toggleMenu() {
+		GameController.getInstance().pauseGame();
 		UIManager.getInstance().getGamePageController().toggleIngameMenu();
 	}
 
