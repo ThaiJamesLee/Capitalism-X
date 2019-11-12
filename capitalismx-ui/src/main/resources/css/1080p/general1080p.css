@@ -304,7 +304,6 @@ FontAwesomeIcon {
 .list-cell:selected {
 	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-primary-dark;
-	-fx-cursor: open;
 }
 
 .list-cell:empty {

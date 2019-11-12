@@ -98,8 +98,7 @@
                   <Label fx:id="netWorthChangeLabel" styleClass="hud_label" text="+0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label fx:id="cashChangeLabel" styleClass="hud_label" text="+0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <Label fx:id="employeeChangeLabel" styleClass="hud_label" text="+0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                  <Region styleClass="separator_right" GridPane.columnIndex="1" GridPane.rowSpan="2" />
-                  <Region styleClass="separator_right" GridPane.columnIndex="3" GridPane.rowSpan="2" />
+                  <Region styleClass="hud_separator" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" />
                   <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
                      <children>
                         <FontAwesomeIcon iconName="USERS" size="1.5em" styleClass="icon_light" />
@@ -186,7 +185,7 @@
       </AnchorPane>
       <AnchorPane layoutY="283.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
          <children>
-            <VBox alignment="CENTER_LEFT" spacing="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox alignment="CENTER_LEFT" spacing="3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ToggleButton fx:id="btnOverview" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button">
                      <graphic>

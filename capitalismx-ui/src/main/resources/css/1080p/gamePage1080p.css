@@ -35,7 +35,7 @@
 	-fx-background-color: -fx-complement-dark-transparent;
 	-fx-background-insets: -5.0;
 	-fx-border-insets: -5.0;
-	-fx-border-width: 1.0;
+	-fx-border-width: 0.0;
 	-fx-border-radius: 5.0;
 	-fx-background-radius: 5.0;
 	/**-fx-border-insets: -1;
@@ -98,6 +98,12 @@
 	-fx-text-fill: -fx-complement-dark;
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-complement-dark;
+}
+
+.hud_separator {
+	-fx-border-color: -fx-primary;
+	-fx-border-width: 0 1 0 1;
+	-fx-border-insets: 0 -5 -3 -5;
 }
 
 .icon_light {
