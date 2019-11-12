@@ -17,7 +17,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 public class CssHelper {
 
 	/**
-	 * Method that copies the css-Files of the specified {@link SupportedResolution} to
+	 * Method that copies the css-Files of the specified {@link CssResolution} to
 	 * the css-Directory, where they will be used by the game.
 	 */
 	public static void adjustCssToCurrentResolution() {

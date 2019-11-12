@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.UIManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,6 +88,7 @@ public class GameController {
 		this.updateWarehouse();
 		this.updateProcurement();
 		this.updateProduction();
+		
 	}
 
 	/**

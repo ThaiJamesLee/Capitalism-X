@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.utils;
 
 /**
  * Contains information about the resolution of the device, as well as the
- * currently active {@link SupportedResolution}.
+ * currently active {@link CssResolution}.
  * 
  * @author Jonathan
  *
@@ -13,7 +13,7 @@ public class GameResolution {
 
 	private int height;
 
-	private SupportedResolution currentlyActiveResolution;
+	private CssResolution currentlyActiveResolution;
 
 	public int getWidth() {
 		return width;
@@ -31,15 +31,15 @@ public class GameResolution {
 		this.height = height;
 	}
 
-	public SupportedResolution getCurrentlyActiveResolution() {
+	public CssResolution getCurrentlyActiveResolution() {
 		return currentlyActiveResolution;
 	}
 
-	public void setCurrentlyActiveResolution(SupportedResolution currentlyActiveResolution) {
+	public void setCurrentlyActiveResolution(CssResolution currentlyActiveResolution) {
 		this.currentlyActiveResolution = currentlyActiveResolution;
 	}
 
-	public GameResolution(int width, int height, SupportedResolution activeResolution) {
+	public GameResolution(int width, int height, CssResolution activeResolution) {
 		this.currentlyActiveResolution = activeResolution;
 		this.height = height;
 		this.width = width;

@@ -3,7 +3,7 @@ package de.uni.mannheim.capitalismx.ui.application;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameThread;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
-import de.uni.mannheim.capitalismx.ui.utils.SupportedResolution;
+import de.uni.mannheim.capitalismx.ui.utils.CssResolution;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 /**
@@ -43,7 +43,7 @@ public class CapXApplication extends Application {
 
 			GameResolution resolution = new GameResolution((int) primaryScreenBounds.getWidth(),
 					(int) primaryScreenBounds.getHeight(),
-					SupportedResolution.getOptimalResolution(primaryScreenBounds));
+					CssResolution.getOptimalResolution(primaryScreenBounds));
 
 			new UIManager(primaryStage, resolution);
 
