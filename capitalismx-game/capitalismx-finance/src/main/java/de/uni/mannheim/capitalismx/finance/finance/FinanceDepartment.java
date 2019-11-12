@@ -34,6 +34,9 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalMachineValues;
     private double totalWarehousingValues;
     private double totalInvestmentAmount;
+    private PropertyChangeSupportDouble realEstateInvestmentAmount;
+    private PropertyChangeSupportDouble stocksInvestmentAmount;
+    private PropertyChangeSupportDouble ventureCapitalInvestmentAmount;
     private double nopat;
     private double assetsSold;
     private double ebit;
@@ -74,6 +77,26 @@ public class FinanceDepartment extends DepartmentImpl {
         this.netWorth.setValue(1000000.0);
         this.netWorth.setPropertyChangedName("netWorth");
 
+        this.assets = new PropertyChangeSupportDouble();
+        this.assets.setValue(0.0);
+        this.assets.setPropertyChangedName("assets");
+
+        this.liabilities = new PropertyChangeSupportDouble();
+        this.liabilities.setValue(0.0);
+        this.liabilities.setPropertyChangedName("liabilities");
+
+        this.realEstateInvestmentAmount = new PropertyChangeSupportDouble();
+        this.realEstateInvestmentAmount.setValue(0.0);
+        this.realEstateInvestmentAmount.setPropertyChangedName("realEstateInvestmentAmount");
+
+        this.stocksInvestmentAmount = new PropertyChangeSupportDouble();
+        this.stocksInvestmentAmount.setValue(0.0);
+        this.stocksInvestmentAmount.setPropertyChangedName("stocksInvestmentAmount");
+
+        this.ventureCapitalInvestmentAmount = new PropertyChangeSupportDouble();
+        this.ventureCapitalInvestmentAmount.setValue(0.0);
+        this.ventureCapitalInvestmentAmount.setPropertyChangedName("ventureCapitalInvestmentAmount");
+
         this.taxRate = 0.2;
         //this.bankingSystem = new BankingSystem();
         this.investments = new ArrayList<Investment>();
@@ -84,13 +107,6 @@ public class FinanceDepartment extends DepartmentImpl {
         this.machinesSold = new ArrayList<>();
         this.nopatLast5Years = new ArrayList<>();
         //this.bankingSystem = BankingSystem.getInstance();
-
-        this.assets = new PropertyChangeSupportDouble();
-        this.assets.setValue(0.0);
-        this.assets.setPropertyChangedName("assets");
-        this.liabilities = new PropertyChangeSupportDouble();
-        this.liabilities.setValue(0.0);
-        this.liabilities.setPropertyChangedName("liabilities");
     }
 
     public static synchronized FinanceDepartment getInstance() {
@@ -107,6 +123,9 @@ public class FinanceDepartment extends DepartmentImpl {
         this.cash.addPropertyChangeListener(propertyChangeListener);
         this.assets.addPropertyChangeListener(propertyChangeListener);
         this.liabilities.addPropertyChangeListener(propertyChangeListener);
+        this.realEstateInvestmentAmount.addPropertyChangeListener(propertyChangeListener);
+        this.stocksInvestmentAmount.addPropertyChangeListener(propertyChangeListener);
+        this.ventureCapitalInvestmentAmount.addPropertyChangeListener(propertyChangeListener);
     }
 
     // liabilities = loanAmount
@@ -326,18 +345,18 @@ public class FinanceDepartment extends DepartmentImpl {
         }
         ArrayList<Investment> investmentSelection = new ArrayList<Investment>();
         //Real Estate
-        investmentSelection.add(new Investment(amount, 0.07, 0.2));
+        investmentSelection.add(new Investment(amount, Investment.InvestmentType.REAL_ESTATE));
         //Stocks
-        investmentSelection.add(new Investment(amount, 0.1, 0.3));
+        investmentSelection.add(new Investment(amount, Investment.InvestmentType.STOCKS));
         //Venture Capital
-        investmentSelection.add(new Investment(amount, 0.142, 0.5));
+        investmentSelection.add(new Investment(amount, Investment.InvestmentType.VENTURE_CAPITAL));
         return  investmentSelection;
     }
 
-    //TODO update cash?
     public void addInvestment(Investment investment){
         this.investments.add(investment);
         this.cash.setValue(this.cash.getValue() - investment.getAmount());
+        this.assets.setValue(this.assets.getValue() + investment.getAmount());
         //this.calculateTotalInvestmentAmount();
     }
 
@@ -358,8 +377,24 @@ public class FinanceDepartment extends DepartmentImpl {
 
     protected double calculateTotalInvestmentAmount(){
         this.totalInvestmentAmount = 0;
+        this.realEstateInvestmentAmount.setValue(0.0);
+        this.stocksInvestmentAmount.setValue(0.0);
+        this.ventureCapitalInvestmentAmount.setValue(0.0);
         for(Investment investment : this.investments){
+            investment.updateAmount();
             this.totalInvestmentAmount += investment.getAmount();
+            switch(investment.getInvestmentType()){
+                case REAL_ESTATE:
+                    this.realEstateInvestmentAmount.setValue(this.realEstateInvestmentAmount.getValue() + investment.getAmount());
+                    break;
+                case STOCKS:
+                    this.stocksInvestmentAmount.setValue(this.stocksInvestmentAmount.getValue() + investment.getAmount());
+                    break;
+                case VENTURE_CAPITAL:
+                    this.ventureCapitalInvestmentAmount.setValue(this.ventureCapitalInvestmentAmount.getValue() + investment.getAmount());
+                    break;
+
+            }
         }
         return this.totalInvestmentAmount;
     }
@@ -392,6 +427,14 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public void increaseNetWorth(double amount){
         this.netWorth.setValue(this.netWorth.getValue() + amount);
+    }
+
+    public void increaseAssets(double amount){
+        this.assets.setValue(this.assets.getValue() + amount);
+    }
+
+    public void increaseLiabilities(double amount){
+        this.liabilities.setValue(this.liabilities.getValue() + amount);
     }
 
     //TODO decide on suitable consequences of acquisition, e.g., increase assets
@@ -456,5 +499,29 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public BankingSystem.Loan getLoan(){
         return BankingSystem.getInstance().getLoan();
+    }
+
+    public double getRealEstateInvestmentAmount() {
+        return this.realEstateInvestmentAmount.getValue();
+    }
+
+    public double getStocksInvestmentAmount() {
+        return this.stocksInvestmentAmount.getValue();
+    }
+
+    public double getVentureCapitalInvestmentAmount() {
+        return this.ventureCapitalInvestmentAmount.getValue();
+    }
+
+    public void increaseRealEstateInvestmentAmount(double amount){
+        this.realEstateInvestmentAmount.setValue(this.realEstateInvestmentAmount.getValue() + amount);
+    }
+
+    public void increaseStocksInvestmentAmount(double amount){
+        this.stocksInvestmentAmount.setValue(this.stocksInvestmentAmount.getValue() + amount);
+    }
+
+    public void increaseVentureCapitalInvestmentAmount(double amount){
+        this.ventureCapitalInvestmentAmount.setValue(this.ventureCapitalInvestmentAmount.getValue() + amount);
     }
 }

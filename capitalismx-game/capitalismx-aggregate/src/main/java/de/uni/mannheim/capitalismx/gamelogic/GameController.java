@@ -407,6 +407,38 @@ public class GameController {
 		FinanceDepartment.getInstance().decreaseNetWorth(amount);
 	}
 
+	public void increaseAssets(double amount) {
+		FinanceDepartment.getInstance().increaseAssets(amount);
+	}
+
+	public void increaseLiabilities(double amount) {
+		FinanceDepartment.getInstance().increaseLiabilities(amount);
+	}
+
+	public double getRealEstateInvestmentAmount() {
+		return FinanceDepartment.getInstance().getRealEstateInvestmentAmount();
+	}
+
+	public double getStocksInvestmentAmount() {
+		return FinanceDepartment.getInstance().getStocksInvestmentAmount();
+	}
+
+	public double getVentureCapitalInvestmentAmount() {
+		return FinanceDepartment.getInstance().getVentureCapitalInvestmentAmount();
+	}
+
+	public void increaseRealEstateInvestmentAmount(double amount){
+		FinanceDepartment.getInstance().increaseRealEstateInvestmentAmount(amount);
+	}
+
+	public void increaseStocksInvestmentAmount(double amount){
+		FinanceDepartment.getInstance().increaseStocksInvestmentAmount(amount);
+	}
+
+	public void increaseVentureCapitalInvestmentAmount(double amount){
+		FinanceDepartment.getInstance().increaseVentureCapitalInvestmentAmount(amount);
+	}
+
 	/*
 	 * LOGISTICS
 	 */

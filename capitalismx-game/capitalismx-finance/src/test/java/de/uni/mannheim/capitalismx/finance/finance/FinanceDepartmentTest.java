@@ -36,7 +36,7 @@ public class FinanceDepartmentTest {
     public void addInvestmentTest () {
         FinanceDepartment financeDepartment = new FinanceDepartment();
 
-        financeDepartment.addInvestment(new Investment(100, 0.1, 0.5));
+        financeDepartment.addInvestment(new Investment(100, Investment.InvestmentType.STOCKS));
 
         Assert.assertEquals(financeDepartment.getInvestments().size(), 1);
         Assert.assertEquals(financeDepartment.getCash(), 999900.0);

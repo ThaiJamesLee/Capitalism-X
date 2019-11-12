@@ -15,6 +15,7 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -92,10 +93,10 @@ public class FinanceOverviewController extends GameModuleController {
         FinanceDepartment f = GameState.getInstance().getFinanceDepartment();
         f.addPropertyChangeListener(financeEventListener);
 
-        cashLabel.setText(controller.getCash() + "");
-        assetsLabel.setText(controller.getAssets() + "");
-        liabilitiesLabel.setText(controller.getLiabilities() + "");
-        netWorthLabel.setText(controller.getNetWorth() + "");
+        cashLabel.setText(DecimalRound.round(controller.getCash(), 2) + "");
+        assetsLabel.setText(DecimalRound.round(controller.getAssets(), 2) + "");
+        liabilitiesLabel.setText(DecimalRound.round(controller.getLiabilities(), 2) + "");
+        netWorthLabel.setText(DecimalRound.round(controller.getNetWorth(), 2) + "");
 
         loanRequestButton.setOnAction(e -> {
             try {
@@ -114,7 +115,8 @@ public class FinanceOverviewController extends GameModuleController {
             if(investmentSelection != null){
                 Investment investment = investmentSelection.get(0);
                 controller.addInvestment(investment);
-                realEstateLabel.setText("Amount: " + investment.getAmount());
+                controller.increaseRealEstateInvestmentAmount(investment.getAmount());
+                realEstateLabel.setText("Amount: " + DecimalRound.round(controller.getRealEstateInvestmentAmount(), 2));
                 realEstateTextField.clear();
                 //TODO update GUI
                 //controller.calculateNetWorth(GameState.getInstance().getGameDate());
@@ -130,7 +132,8 @@ public class FinanceOverviewController extends GameModuleController {
             if(investmentSelection != null){
                 Investment investment = investmentSelection.get(1);
                 controller.addInvestment(investment);
-                stocksLabel.setText("Amount: " + investment.getAmount());
+                controller.increaseStocksInvestmentAmount(investment.getAmount());
+                stocksLabel.setText("Amount: " + DecimalRound.round(controller.getStocksInvestmentAmount(), 2));
                 stocksTextField.clear();
                 //TODO update GUI
                 //controller.calculateNetWorth(GameState.getInstance().getGameDate());
@@ -145,7 +148,8 @@ public class FinanceOverviewController extends GameModuleController {
             if(investmentSelection != null){
                 Investment investment = investmentSelection.get(2);
                 controller.addInvestment(investment);
-                ventureCapitalLabel.setText("Amount: " + investment.getAmount());
+                controller.increaseVentureCapitalInvestmentAmount(investment.getAmount());
+                ventureCapitalLabel.setText("Amount: " + DecimalRound.round(controller.getVentureCapitalInvestmentAmount(), 2));
                 ventureCapitalTextField.clear();
                 //TODO update GUI
                 //controller.calculateNetWorth(GameState.getInstance().getGameDate());
@@ -188,6 +192,30 @@ public class FinanceOverviewController extends GameModuleController {
         });
     }
 
+    public void setRealEstateLabel(String text){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                realEstateLabel.setText(text);
+            }
+        });
+    }
+
+    public void setStocksLabel(String text){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                stocksLabel.setText(text);
+            }
+        });
+    }
+
+    public void setVentureCapitalLabel(String text){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                ventureCapitalLabel.setText(text);
+            }
+        });
+    }
+
     public double getLoanAmount() {
         return this.loanAmount;
     }
@@ -195,7 +223,7 @@ public class FinanceOverviewController extends GameModuleController {
     public void addLoan(BankingSystem.Loan loan){
         Platform.runLater(new Runnable() {
             public void run() {
-                loanLabel.setText("" + loan.getLoanAmount() + "CC - Duration: " +
+                loanLabel.setText("" + DecimalRound.round(loan.getLoanAmount(), 2) + "CC - Duration: " +
                         loan.getDuration() + " Months");
                 loanAmountTextField.clear();
             }
