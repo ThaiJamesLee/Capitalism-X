@@ -22,14 +22,14 @@ public enum GameModuleDefinition {
 
 
 	// The modules for HR. (11-20)
-	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, GameOverlayDefinition.HR_EDIT_EMPLOYEE,
+	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, null,
 			UIElementType.HR_EMPLOYEES_OVERVIEW, 0, 7, 0, 15),
 	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, UIElementType.HR_RECRUITING_OVERVIEW, 7, 7,
 			0, 17),
 	HR_STATISTICS(13, "hr_statistics.fxml", GameViewType.HR, null, UIElementType.HR_STATISTICS, 14, 6,
-			0, 9),
+			0, 11),
 	HR_WORKING_CONDITIONS(14, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
-			10, 11),
+			12, 8),
 
 	// The modules for Logistics. (21-30)
 	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.LOGISTICS_PARTNER_DETAIL, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),

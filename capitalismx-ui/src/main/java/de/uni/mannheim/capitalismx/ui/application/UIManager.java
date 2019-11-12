@@ -224,7 +224,7 @@ public class UIManager {
 	private void loadScenes() {
 		Parent root;
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"),
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"),
 					resourceBundle);
 			root = loader.load();
 			sceneMenuMain = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
@@ -355,7 +355,7 @@ public class UIManager {
 		}
 		// TODO refactoring
 		resourceBundle = ResourceBundle.getBundle(newProperties);
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"),
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"),
 				resourceBundle);
 		try {
 
