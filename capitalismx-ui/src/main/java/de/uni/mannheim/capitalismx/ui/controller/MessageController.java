@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,6 +33,7 @@ public class MessageController implements Initializable {
 
 	private GamePageController controllerReference;
 
+	private ArrayList<MessageObject> messages = new ArrayList<MessageObject>();
 	private ArrayList<MessageSubjectController> messageSubjectList;
 	private ArrayList<MessageContentController> messageContentList;
 
@@ -46,30 +48,57 @@ public class MessageController implements Initializable {
 //		});
 //		
 //	}
-	
-	public void addMessage(String sender, String date, String message, String subject) {
+
+	public String langFileSwitcher(String lang){
+		String langFile;
+		switch (lang) {
+			case "EN":
+				langFile = "properties.messages_en";
+				break;
+			case "DE":
+				langFile = "properties.messages_de";
+				break;
+			default:
+				langFile = "properties.messages";
+		}
+		return langFile;
+	}
+
+	public void addMessage(String sender, String date, String subject, String message, boolean isInternal) {
 		Parent messageSubject;
 		Parent messageContent;
 		MessageSubjectController msc;
 		MessageContentController mcc;
+		String lang = UIManager.getInstance().getLanguage();
+		String langFile;
+		ResourceBundle langBundle;
+
+		messages.add(new MessageObject(sender, date, subject, message, isInternal));
+
+		langFile = langFileSwitcher(lang);
+		ResourceBundle bundle = ResourceBundle.getBundle(langFile);
 
 		FXMLLoader subjectLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePaneSubject.fxml"));
 		FXMLLoader contentLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePaneContent.fxml"));
-
+/*
+		bundle.getString("sen.event1");
+		bundle.getString("sub.event1");
+		bundle.getString("con.event1");
+*/
 		try {
 			messageSubject = subjectLoader.load();
 			msc = subjectLoader.getController();
-			msc.setSubjectSender(sender);
+			msc.setSubjectSender(bundle.getString("sen.event1"));
 			msc.setSubjectDate(date);
-			msc.setSubjectSubject(subject);
+			msc.setSubjectSubject(bundle.getString("sub.event1"));
 			messageList.getChildren().add(messageSubject);
 
 			messageContent = contentLoader.load();
 			mcc = contentLoader.getController();
-			mcc.setContentSender(sender);
+			mcc.setContentSender(bundle.getString("sen.event1"));
 			mcc.setContentDate(date);
-			mcc.setContentSubject(subject);
-			mcc.setContentContent(message);
+			mcc.setContentSubject(bundle.getString("sub.event1"));
+			mcc.setContentContent(bundle.getString("con.event1"));
 			messageContentPane.setContent(messageContent);
 			//messageContent = contentLoader.load();
 			//messageSubject.subject = "Hi!";
@@ -93,10 +122,11 @@ public class MessageController implements Initializable {
 
 
 
-
+		/*
 		messageClose.setOnAction(e -> {
 			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleMessageWindow();
 		});
+		*/
 	}
 
 }

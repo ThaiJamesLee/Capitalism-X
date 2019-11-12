@@ -73,8 +73,6 @@ public class GamePageController implements UpdateableController {
 	 * elements for the message-system
 	 */
 	private MessageController messageController;
-	// saves the added element so it can be addressed for removal
-	private Parent messagePaneReminder;
 	// flag to know whether message Pane is open or not: true=open false=closed.
 	private boolean openMessagePane = false;
 
@@ -82,8 +80,6 @@ public class GamePageController implements UpdateableController {
 	 * elements for the in-game menu
 	 */
 	private IngameMenuController ingameMenuController;
-	// saves the added element so it can be addressed for removal
-	private Parent menuPaneReminder;
 	// flag to know whether menu Pane is open or not: true=open false=closed.
 	private boolean openMenuPane = false;
 
@@ -120,12 +116,13 @@ public class GamePageController implements UpdateableController {
 
 		try {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/messagePane.fxml"));
+					getClass().getClassLoader().getResource("fxml/messagePane2.fxml"));
 			Parent rootC = loaderMessageWindow.load();
 			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 300);;
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
+			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.eent1", true);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -176,20 +173,6 @@ public class GamePageController implements UpdateableController {
 		for (GameModule m : currentActiveView.getModules()) {
 			m.getController().update();
 		}
-	}
-
-	public void removeMessagePane() {
-		contentStack.getChildren().remove(messagePaneReminder);
-		openMessagePane = false;
-	}
-
-	public void removeIngameMenuPane() {
-		parentStackPane.getChildren().remove(menuPaneReminder);
-		openMenuPane = false;
-	}
-
-	public Parent getMessagePaneReminder() {
-		return messagePaneReminder;
 	}
 
 	/**

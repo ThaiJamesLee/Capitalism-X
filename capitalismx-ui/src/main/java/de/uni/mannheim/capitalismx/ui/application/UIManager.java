@@ -354,6 +354,20 @@ public class UIManager {
 	}
 
 	/**
+	 * Returns the language file as string.
+	 * @return The requested language file as string.
+	 */
+	public String getLanguage() {
+		String lang;
+		if ("EN".equals(this.language)) {
+			lang = "EN";
+		} else {
+			lang = "DE";
+		}
+		return lang;
+	}
+
+	/**
 	 * Switch to the specified scene.
 	 * 
 	 * @param sceneType The type of the {@link GameScene} to switch to.
