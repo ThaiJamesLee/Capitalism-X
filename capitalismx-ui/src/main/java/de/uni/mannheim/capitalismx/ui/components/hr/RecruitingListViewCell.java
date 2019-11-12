@@ -52,7 +52,7 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 			nameLabel.setText(employee.getName());
 			wageLabel.setText((int) employee.getSalary() + " CC");
 			skillLabel.setText(employee.getSkillLevel() + "");
-			jobLabel.setText(employee.getEmployeeType().toString());
+			jobLabel.setText(employee.getEmployeeType().getName(UIManager.getResourceBundle().getLocale()));
 
 			setText(null);
 			setGraphic(gridPane);
