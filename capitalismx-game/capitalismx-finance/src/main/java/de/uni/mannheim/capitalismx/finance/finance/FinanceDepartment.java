@@ -10,14 +10,15 @@ import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author sdupper
@@ -59,6 +60,17 @@ public class FinanceDepartment extends DepartmentImpl {
     private List<Machinery> machinesSold;
     private List<Double> nopatLast5Years;
 
+    private TreeMap<LocalDate, Double> salesHistory;
+    private TreeMap<LocalDate, Double> salariesHistory;
+    private TreeMap<LocalDate, Double> logisticsHistory;
+    private TreeMap<LocalDate, Double> ebitHistory;
+    private TreeMap<LocalDate, Double> nopatHistory;
+    private Map<String, TreeMap<LocalDate, Double>> histories;
+    private TreeMap<String, String[]> quarterlyData;
+    //TODO just to notify gui to update finance table with new quarterlyData every day
+    private PropertyChangeSupportBoolean updatedQuarterlyData;
+
+
     //private BankingSystem bankingSystem;
     private List<Investment> investments;
 
@@ -97,6 +109,24 @@ public class FinanceDepartment extends DepartmentImpl {
         this.ventureCapitalInvestmentAmount.setValue(0.0);
         this.ventureCapitalInvestmentAmount.setPropertyChangedName("ventureCapitalInvestmentAmount");
 
+        this.salesHistory = new TreeMap<>();
+        this.salariesHistory = new TreeMap<>();
+        this.logisticsHistory = new TreeMap<>();
+        this.ebitHistory = new TreeMap<>();
+        this.nopatHistory = new TreeMap<>();
+        this.histories = new TreeMap<>();
+        this.histories.put("salesHistory", this.salesHistory);
+        this.histories.put("salariesHistory", this.salariesHistory);
+        this.histories.put("logisticsHistory", this.logisticsHistory);
+        this.histories.put("ebitHistory", this.ebitHistory);
+        this.histories.put("nopatHistory", this.nopatHistory);
+
+        this.quarterlyData = new TreeMap<>();
+
+        this.updatedQuarterlyData = new PropertyChangeSupportBoolean();
+        this.updatedQuarterlyData.setValue(false);
+        this.updatedQuarterlyData.setPropertyChangedName("updatedQuarterlyData");
+
         this.taxRate = 0.2;
         //this.bankingSystem = new BankingSystem();
         this.investments = new ArrayList<Investment>();
@@ -129,6 +159,7 @@ public class FinanceDepartment extends DepartmentImpl {
         this.realEstateInvestmentAmount.addPropertyChangeListener(propertyChangeListener);
         this.stocksInvestmentAmount.addPropertyChangeListener(propertyChangeListener);
         this.ventureCapitalInvestmentAmount.addPropertyChangeListener(propertyChangeListener);
+        this.updatedQuarterlyData.addPropertyChangeListener(propertyChangeListener);
     }
 
     // liabilities = loanAmount
@@ -235,7 +266,9 @@ public class FinanceDepartment extends DepartmentImpl {
     // corrected formula in documentation
     public double calculateNopat(LocalDate gameDate){
         //this.nopat = this.ebit - this.incomeTax;
-        this.nopat = ((this.calculateEbit(gameDate) - this.calculateIncomeTax(gameDate)) * (1 - this.decreaseNopatFactor)) - this.decreaseNopatConstant;
+        //TODO what to do when ebit is negative
+        this.nopat = ((this.calculateEbit(gameDate) - Math.max(this.calculateIncomeTax(gameDate), 0.0)) * (1 - this.decreaseNopatFactor)) - this.decreaseNopatConstant;
+        this.nopatHistory.put(gameDate, nopat);
         return this.nopat;
     }
 
@@ -264,7 +297,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     private double calculateTotalExpenses(LocalDate gameDate){
         //this.totalExpenses = this.totalHRCosts + this.totalWarehouseCosts + this.totalLogisticsCosts + this.totalProductionCosts + this.totalMarketingCosts + this.totalSupportCosts;
-        this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts() + this.calculateTotalLogisticsCosts() + this.calculateTotalProductionCosts()
+        this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts() + this.calculateTotalLogisticsCosts(gameDate) + this.calculateTotalProductionCosts()
                 + this.calculateTotalMarketingCosts() + this.calculateTotalSupportCosts();
         return this.totalExpenses;
     }
@@ -273,6 +306,7 @@ public class FinanceDepartment extends DepartmentImpl {
         double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
         double totalSalaries = HRDepartment.getInstance().calculateTotalSalaries();
         totalSalaries /= gameDate.lengthOfYear();
+        this.salariesHistory.put(gameDate, totalSalaries);
         this.totalHRCosts = totalSalaries + totalTrainingCosts;
         return this.totalHRCosts;
     }
@@ -287,8 +321,9 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     //TODO
-    protected double calculateTotalLogisticsCosts(){
+    protected double calculateTotalLogisticsCosts(LocalDate gameDate){
         this.totalLogisticsCosts = LogisticsDepartment.getInstance().getTotalLogisticsCosts();
+        this.logisticsHistory.put(gameDate, totalLogisticsCosts);
         return this.totalLogisticsCosts;
     }
 
@@ -319,6 +354,7 @@ public class FinanceDepartment extends DepartmentImpl {
     protected double calculateEbit(LocalDate gameDate){
         //this.ebit = this.totalRevenue - this.totalExpenses;
         this.ebit = this.calculateTotalRevenue() - this.calculateTotalExpenses(gameDate);
+        this.ebitHistory.put(gameDate, ebit);
         return this.ebit;
     }
 
@@ -548,5 +584,51 @@ public class FinanceDepartment extends DepartmentImpl {
         this.cash.setValue(this.cash.getValue() + amount);
         this.assets.setValue(this.assets.getValue() - amount);
         return true;
+    }
+
+    public void updateQuarterlyData(LocalDate gameDate){
+        String[] colNames = new String[4];
+        for(Map.Entry<String,TreeMap<LocalDate,Double>> history : histories.entrySet()){
+            TreeMap<LocalDate,Double> map = history.getValue();
+            double[] cols = {0.0, 0.0, 0.0, 0.0};
+            String[] colValues = new String[4];
+
+            //current quarter
+            int gameQuarter = ((gameDate.getMonthValue() - 1) / 3) + 1;
+            LocalDate quarterStart = LocalDate.of(gameDate.getYear(), ((gameQuarter - 1) * 3) + 1, 1);
+            LocalDate quarterEnd = quarterStart.withMonth(quarterStart.getMonthValue() + 2);
+            quarterEnd = quarterEnd.withDayOfMonth(quarterEnd.lengthOfMonth());
+            SortedMap<LocalDate,Double> submap = map.subMap(quarterStart, quarterEnd);
+            for (Map.Entry<LocalDate,Double> entry : submap.entrySet()) {
+                cols[3] += entry.getValue();
+            }
+            colNames[3] = new String("Q" + gameQuarter + "/" + quarterStart.getYear());
+
+            //previous quarters
+            for(int i = (cols.length - 2); i >= 0; i--){
+                quarterStart = quarterStart.minusMonths(3);
+                quarterEnd = quarterStart.withMonth(quarterStart.getMonthValue() + 2);
+                quarterEnd = quarterEnd.withDayOfMonth(quarterEnd.lengthOfMonth());
+                gameQuarter = ((quarterStart.getMonthValue() - 1) / 3) + 1;
+                submap = map.subMap(quarterStart, quarterEnd);
+                for (Map.Entry<LocalDate,Double> entry : submap.entrySet()) {
+                    cols[i] += entry.getValue();
+                }
+                colNames[i] = new String("Q" + gameQuarter + "/" + quarterStart.getYear());
+            }
+
+            for(int i = 0; i < colNames.length; i++){
+                colValues[i] = String.valueOf(DecimalRound.round(cols[i], 2));
+            }
+
+            this.quarterlyData.put(history.getKey().replace("History", "Quarterly"), colValues);
+        }
+        this.quarterlyData.put("colNames", colNames);
+        //TODO boolean toggle is only used to fire propertyChange event
+        this.updatedQuarterlyData.setValue(!this.updatedQuarterlyData.getValue());
+    }
+
+    public TreeMap<String, String[]> getQuarterlyData() {
+        return this.quarterlyData;
     }
 }

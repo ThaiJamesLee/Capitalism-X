@@ -1,17 +1,22 @@
 package de.uni.mannheim.capitalismx.ui.eventlisteners;
 
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
+import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.TruckFleetController;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.util.*;
 
 public class FinanceEventListener implements PropertyChangeListener {
 
@@ -23,6 +28,18 @@ public class FinanceEventListener implements PropertyChangeListener {
                 GameController.getInstance().terminateGame();
                 //TODO popup
                 System.out.println("Game Over");
+            }
+        }
+
+        if (evt.getPropertyName().equals("updatedQuarterlyData")) {
+            OperationsTableController operationsTableController = (OperationsTableController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OPERATIONS_TABLE).getController();
+
+            TreeMap<String, String[]> quarterlyData = GameController.getInstance().getQuarterlyData();
+            String[] colNames = quarterlyData.get("colNames");
+            for (Map.Entry<String,String[]> entry : quarterlyData.entrySet()) {
+                if(!entry.getKey().equals("colNames")){
+                    operationsTableController.updateTable(entry.getKey().replace("Quarterly", ""), entry.getValue(), colNames);
+                }
             }
         }
 

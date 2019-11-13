@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.UIManager;
 
@@ -142,6 +143,7 @@ public class GameController {
 
 	private void updateFinance() {
 		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
 	}
 
 	private void updateHR() {
@@ -426,6 +428,10 @@ public class GameController {
     public boolean decreaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
         return FinanceDepartment.getInstance().decreaseInvestmentAmount(amount, investmentType);
     }
+
+	public TreeMap<String, String[]> getQuarterlyData() {
+		return FinanceDepartment.getInstance().getQuarterlyData();
+	}
 
 	/*
 	 * LOGISTICS
