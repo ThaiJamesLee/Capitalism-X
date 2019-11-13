@@ -100,6 +100,9 @@ public class FinanceDepartment extends DepartmentImpl {
         this.taxRate = 0.2;
         //this.bankingSystem = new BankingSystem();
         this.investments = new ArrayList<Investment>();
+        this.investments.add(new Investment(0, Investment.InvestmentType.REAL_ESTATE));
+        this.investments.add(new Investment(0, Investment.InvestmentType.STOCKS));
+        this.investments.add(new Investment(0, Investment.InvestmentType.VENTURE_CAPITAL));
         this.decreaseNopatFactor = 0.0;
         this.decreaseNopatConstant = 0.0;
         this.warehousesSold = new ArrayList<>();
@@ -336,38 +339,6 @@ public class FinanceDepartment extends DepartmentImpl {
         this.cash.setValue(this.cash.getValue() + loan.getLoanAmount());
     }
 
-    //TODO update cash?
-    public ArrayList<Investment> generateInvestmentSelection(double amount){
-        if(amount > this.cash.getValue()){
-            //TODO popup
-            System.out.println("Not enough cash!");
-            return null;
-        }
-        ArrayList<Investment> investmentSelection = new ArrayList<Investment>();
-        //Real Estate
-        investmentSelection.add(new Investment(amount, Investment.InvestmentType.REAL_ESTATE));
-        //Stocks
-        investmentSelection.add(new Investment(amount, Investment.InvestmentType.STOCKS));
-        //Venture Capital
-        investmentSelection.add(new Investment(amount, Investment.InvestmentType.VENTURE_CAPITAL));
-        return  investmentSelection;
-    }
-
-    public void addInvestment(Investment investment){
-        this.investments.add(investment);
-        this.cash.setValue(this.cash.getValue() - investment.getAmount());
-        this.assets.setValue(this.assets.getValue() + investment.getAmount());
-        //this.calculateTotalInvestmentAmount();
-    }
-
-    //TODO taxes
-    //TODO update cash?
-    public void removeInvestment(Investment investment){
-        this.investments.remove(investment);
-        this.cash.setValue(this.cash.getValue() + investment.getAmount());
-        //this.calculateTotalInvestmentAmount();
-    }
-
     //TODO
     protected double calculateLiabilities(LocalDate gameDate){
         //this.liabilities = BankingSystem.getInstance().getAnnualPrincipalBalance();
@@ -513,15 +484,69 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.ventureCapitalInvestmentAmount.getValue();
     }
 
-    public void increaseRealEstateInvestmentAmount(double amount){
-        this.realEstateInvestmentAmount.setValue(this.realEstateInvestmentAmount.getValue() + amount);
+    public boolean increaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+        if(amount > this.cash.getValue()){
+            //TODO popup
+            System.out.println("Not enough cash!");
+            return false;
+        }
+
+        for(Investment investment : investments){
+            if(investment.getInvestmentType() == investmentType){
+                investment.increaseAmount(amount);
+                break;
+            }
+        }
+
+        switch(investmentType){
+            case REAL_ESTATE:
+                this.realEstateInvestmentAmount.setValue(this.realEstateInvestmentAmount.getValue() + amount);
+                break;
+            case STOCKS:
+                this.stocksInvestmentAmount.setValue(this.stocksInvestmentAmount.getValue() + amount);
+                break;
+            case VENTURE_CAPITAL:
+                this.ventureCapitalInvestmentAmount.setValue(this.ventureCapitalInvestmentAmount.getValue() + amount);
+                break;
+        }
+        this.cash.setValue(this.cash.getValue() - amount);
+        this.assets.setValue(this.assets.getValue() + amount);
+        return true;
     }
 
-    public void increaseStocksInvestmentAmount(double amount){
-        this.stocksInvestmentAmount.setValue(this.stocksInvestmentAmount.getValue() + amount);
-    }
+    public boolean decreaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+        if(amount < 0){
+            //TODO popup
+            return false;
+        }
 
-    public void increaseVentureCapitalInvestmentAmount(double amount){
-        this.ventureCapitalInvestmentAmount.setValue(this.ventureCapitalInvestmentAmount.getValue() + amount);
+        for(Investment investment : investments){
+            if(investment.getInvestmentType() == investmentType){
+                if(amount > investment.getAmount()){
+                    //return false;
+                    //TODO popup/notification
+                    System.out.println("Using max possible amount");
+                    amount = investment.getAmount();
+                }
+                investment.decreaseAmount(amount);
+                break;
+            }
+        }
+
+        switch(investmentType){
+            case REAL_ESTATE:
+                this.realEstateInvestmentAmount.setValue(this.realEstateInvestmentAmount.getValue() - amount);
+                break;
+            case STOCKS:
+                this.stocksInvestmentAmount.setValue(this.stocksInvestmentAmount.getValue() - amount);
+                break;
+            case VENTURE_CAPITAL:
+                this.ventureCapitalInvestmentAmount.setValue(this.ventureCapitalInvestmentAmount.getValue() - amount);
+                break;
+        }
+
+        this.cash.setValue(this.cash.getValue() + amount);
+        this.assets.setValue(this.assets.getValue() - amount);
+        return true;
     }
 }

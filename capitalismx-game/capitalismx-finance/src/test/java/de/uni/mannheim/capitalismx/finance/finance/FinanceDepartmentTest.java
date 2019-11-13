@@ -24,26 +24,6 @@ public class FinanceDepartmentTest {
     }
 
     @Test
-    public void generateInvestmentSelectionTest () {
-        FinanceDepartment financeDepartment = new FinanceDepartment();
-
-        Assert.assertNull(financeDepartment.generateInvestmentSelection(1000001));
-
-        Assert.assertNotNull(financeDepartment.generateInvestmentSelection(100));
-    }
-
-    @Test
-    public void addInvestmentTest () {
-        FinanceDepartment financeDepartment = new FinanceDepartment();
-
-        financeDepartment.addInvestment(new Investment(100, Investment.InvestmentType.STOCKS));
-
-        Assert.assertEquals(financeDepartment.getInvestments().size(), 1);
-        Assert.assertEquals(financeDepartment.getCash(), 999900.0);
-        Assert.assertEquals(financeDepartment.calculateTotalInvestmentAmount(), 100.0);
-    }
-
-    @Test
     public void calculateTotalWarehousingValuesTest() {
         FinanceDepartment financeDepartment = new FinanceDepartment();
         WarehousingDepartment.getInstance().buildWarehouse(LocalDate.of(2019,11, 30));

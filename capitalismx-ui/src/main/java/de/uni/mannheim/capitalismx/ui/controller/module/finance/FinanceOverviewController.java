@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
@@ -10,20 +11,14 @@ import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
-import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 
 public class FinanceOverviewController extends GameModuleController {
@@ -56,7 +51,10 @@ public class FinanceOverviewController extends GameModuleController {
     TextField realEstateTextField;
 
     @FXML
-    Button realEstateButton;
+    Button buyRealEstateButton;
+
+    @FXML
+    Button sellRealEstateButton;
 
     @FXML
     Label stocksLabel;
@@ -65,7 +63,10 @@ public class FinanceOverviewController extends GameModuleController {
     TextField stocksTextField;
 
     @FXML
-    Button stocksButton;
+    Button buyStocksButton;
+
+    @FXML
+    Button sellStocksButton;
 
     @FXML
     Label ventureCapitalLabel;
@@ -74,7 +75,10 @@ public class FinanceOverviewController extends GameModuleController {
     TextField ventureCapitalTextField;
 
     @FXML
-    Button ventureCapitalButton;
+    Button buyVentureCapitalButton;
+
+    @FXML
+    Button sellVentureCapitalButton;
 
     private FinanceEventListener financeEventListener;
 
@@ -110,53 +114,85 @@ public class FinanceOverviewController extends GameModuleController {
             }
         });
 
-        realEstateButton.setOnAction(e -> {
-            ArrayList<Investment> investmentSelection = controller.generateInvestmentSelection(Double.parseDouble(realEstateTextField.getText()));
-            if(investmentSelection != null){
-                Investment investment = investmentSelection.get(0);
-                controller.addInvestment(investment);
-                controller.increaseRealEstateInvestmentAmount(investment.getAmount());
-                realEstateLabel.setText("Amount: " + DecimalRound.round(controller.getRealEstateInvestmentAmount(), 2));
+        buyRealEstateButton.setOnAction(e -> {
+            try {
+                double amount = Double.parseDouble(realEstateTextField.getText());
+                boolean successful = controller.increaseInvestmentAmount(amount, Investment.InvestmentType.REAL_ESTATE);
+                if(!successful){
+                    //TODO popup not enough cash
+                }
                 realEstateTextField.clear();
-                //TODO update GUI
-                //controller.calculateNetWorth(GameState.getInstance().getGameDate());
-            }else{
-                //TODO popup
+            }catch (NumberFormatException exception) {
+                //TODO invalid input
+            }
+        });
+
+        buyStocksButton.setOnAction(e -> {
+            try {
+                double amount = Double.parseDouble(stocksTextField.getText());
+                boolean successful = controller.increaseInvestmentAmount(amount, Investment.InvestmentType.STOCKS);
+                if(!successful){
+                    //TODO popup not enough cash
+                }
+                stocksTextField.clear();
+            }catch (NumberFormatException exception) {
+                //TODO invalid input
+            }
+        });
+
+        buyVentureCapitalButton.setOnAction(e -> {
+            try {
+                double amount = Double.parseDouble(ventureCapitalTextField.getText());
+                boolean successful = controller.increaseInvestmentAmount(amount, Investment.InvestmentType.VENTURE_CAPITAL);
+                if(!successful){
+                    //TODO popup not enough cash
+                }
+                ventureCapitalTextField.clear();
+            }catch (NumberFormatException exception) {
+                //TODO invalid input
+            }
+        });
+
+        sellRealEstateButton.setOnAction(e -> {
+            try {
+                double amount = Double.parseDouble(realEstateTextField.getText());
+                boolean successful = controller.decreaseInvestmentAmount(amount, Investment.InvestmentType.REAL_ESTATE);
+                if(!successful){
+                    //TODO popup not enough cash
+                }
                 realEstateTextField.clear();
+            }catch (NumberFormatException exception) {
+                //TODO invalid input
             }
 
         });
 
-        stocksButton.setOnAction(e -> {
-            ArrayList<Investment> investmentSelection = controller.generateInvestmentSelection(Double.parseDouble(stocksTextField.getText()));
-            if(investmentSelection != null){
-                Investment investment = investmentSelection.get(1);
-                controller.addInvestment(investment);
-                controller.increaseStocksInvestmentAmount(investment.getAmount());
-                stocksLabel.setText("Amount: " + DecimalRound.round(controller.getStocksInvestmentAmount(), 2));
+        sellStocksButton.setOnAction(e -> {
+            try {
+                double amount = Double.parseDouble(stocksTextField.getText());
+                boolean successful = controller.decreaseInvestmentAmount(amount, Investment.InvestmentType.STOCKS);
+                if(!successful){
+                    //TODO popup not enough cash
+                }
                 stocksTextField.clear();
-                //TODO update GUI
-                //controller.calculateNetWorth(GameState.getInstance().getGameDate());
-            }else{
-                //TODO popup
-                stocksTextField.clear();
+            }catch (NumberFormatException exception) {
+                //TODO invalid input
             }
+
         });
 
-        ventureCapitalButton.setOnAction(e -> {
-            ArrayList<Investment> investmentSelection = controller.generateInvestmentSelection(Double.parseDouble(ventureCapitalTextField.getText()));
-            if(investmentSelection != null){
-                Investment investment = investmentSelection.get(2);
-                controller.addInvestment(investment);
-                controller.increaseVentureCapitalInvestmentAmount(investment.getAmount());
-                ventureCapitalLabel.setText("Amount: " + DecimalRound.round(controller.getVentureCapitalInvestmentAmount(), 2));
+        sellVentureCapitalButton.setOnAction(e -> {
+            try {
+                double amount = Double.parseDouble(ventureCapitalTextField.getText());
+                boolean successful = controller.decreaseInvestmentAmount(amount, Investment.InvestmentType.VENTURE_CAPITAL);
+                if(!successful){
+                    //TODO popup not enough cash
+                }
                 ventureCapitalTextField.clear();
-                //TODO update GUI
-                //controller.calculateNetWorth(GameState.getInstance().getGameDate());
-            }else{
-                //TODO popup
-                ventureCapitalTextField.clear();
+            }catch (NumberFormatException exception) {
+                //TODO invalid input
             }
+
         });
     }
 

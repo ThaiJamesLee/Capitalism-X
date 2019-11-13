@@ -16,7 +16,7 @@ public class Investment implements Serializable {
     private double dailyStandardDeviation;
     private double dailyReturn;
 
-    enum InvestmentType{
+    public enum InvestmentType{
         REAL_ESTATE(0.07, 0.2), STOCKS(0.1, 0.3), VENTURE_CAPITAL(0.142, 0.5);
 
         private double averageYearlyReturn;
@@ -73,5 +73,13 @@ public class Investment implements Serializable {
 
     public InvestmentType getInvestmentType() {
         return this.investmentType;
+    }
+
+    public void increaseAmount(double amount){
+        this.amount += amount;
+    }
+
+    public void decreaseAmount(double amount){
+        this.amount -= amount;
     }
 }

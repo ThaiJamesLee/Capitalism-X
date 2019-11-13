@@ -271,17 +271,9 @@ public class GameController {
 		return netWorth;
 	}
 
-	public ArrayList<Investment> generateInvestmentSelection(double amount) {
-		return FinanceDepartment.getInstance().generateInvestmentSelection(amount);
-	}
-
-	public void addInvestment(Investment investment) {
-		FinanceDepartment.getInstance().addInvestment(investment);
-	}
-
-	public void removeInvestment(Investment investment) {
-		FinanceDepartment.getInstance().removeInvestment(investment);
-	}
+    public List<Investment> getInvestments() {
+        return FinanceDepartment.getInstance().getInvestments();
+    }
 
 	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount) {
 		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount);
@@ -427,17 +419,13 @@ public class GameController {
 		return FinanceDepartment.getInstance().getVentureCapitalInvestmentAmount();
 	}
 
-	public void increaseRealEstateInvestmentAmount(double amount){
-		FinanceDepartment.getInstance().increaseRealEstateInvestmentAmount(amount);
+	public boolean increaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+		return FinanceDepartment.getInstance().increaseInvestmentAmount(amount, investmentType);
 	}
 
-	public void increaseStocksInvestmentAmount(double amount){
-		FinanceDepartment.getInstance().increaseStocksInvestmentAmount(amount);
-	}
-
-	public void increaseVentureCapitalInvestmentAmount(double amount){
-		FinanceDepartment.getInstance().increaseVentureCapitalInvestmentAmount(amount);
-	}
+    public boolean decreaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+        return FinanceDepartment.getInstance().decreaseInvestmentAmount(amount, investmentType);
+    }
 
 	/*
 	 * LOGISTICS
