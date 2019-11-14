@@ -106,6 +106,19 @@
 	-fx-border-insets: 0 -5 -3 -5;
 }
 
+.notification_sender {
+	-fx-text-fill: -fx-primary;
+}
+
+.notification_message {
+	-fx-text-fill: -fx-complement-light;
+}
+
+.notification_separator {
+	-fx-border-color: -fx-primary;
+	-fx-border-width: 1 0 0 0;
+}
+
 .icon_light {
 	-fx-fill: -fx-primary;
 	-fx-text-fill: -fx-primary;

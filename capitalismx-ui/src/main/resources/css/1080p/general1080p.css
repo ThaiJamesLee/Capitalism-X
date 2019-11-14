@@ -167,7 +167,7 @@ FontAwesomeIcon {
 	-fx-font-family: "Prime";
 	-fx-font-size: 10.0px;
 	-fx-border-width: 1.5;
-	-fx-background-color: -fx-primary-light-neutral;
+	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary;
 	-fx-text-fill: -fx-primary;
 	-fx-cursor: hand;
@@ -179,12 +179,12 @@ FontAwesomeIcon {
 }
 .toggle-button:selected {
 	-fx-border-radius: 2.0px;
-	-fx-background-color: -fx-primary;
+	-fx-background-color: linear-gradient(to bottom, derive(-fx-primary-light-neutral, -30%), -fx-primary);
 	-fx-border-color: -fx-primary-dark;
 	-fx-text-fill: -fx-primary-dark;
 }
 .toggle-button:hover {
-	-fx-background-color: -fx-primary-neutral;
+	-fx-background-color: -fx-primary-dark;
 	-fx-border-color: -fx-primary;
 	-fx-text-fill: -fx-primary;
 }
