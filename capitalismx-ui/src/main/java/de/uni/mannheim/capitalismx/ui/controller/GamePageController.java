@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
-import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
@@ -17,7 +14,6 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -183,7 +179,6 @@ public class GamePageController implements UpdateableController {
 	 */
 	public void switchView(GameViewType viewType) {
 		resetOverlay();
-//		viewTitleLabel.setText(viewType.getTitle());
 
 		if (currentActiveView != null) {
 			if (currentActiveView.getViewType().equals(GameViewType.OVERVIEW)) {
@@ -207,33 +202,6 @@ public class GamePageController implements UpdateableController {
 		if (viewType.equals(GameViewType.OVERVIEW)) {
 			mapControlsEnabled = true;
 		}
-	}
-
-	/**
-	 * Display a {@link GameNotification} on the GamePage. TODO create Queue of
-	 * {@link GameNotification}s, in case multiple are created at the same time.
-	 * (make this private and call in update once an update-Thread exists?)
-	 * 
-	 * @param notification The {@link GameNotification} to display.
-	 */
-	public void showNotification(GameNotification notification) {
-		Parent rootElement = notification.getRoot();
-		AnchorPaneHelper.snapNodeToAnchorPane(rootElement);
-		notificationAnchor.getChildren().add(rootElement);
-		// schedule removal of notification for two seconds later
-		new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Platform.runLater(() -> {
-					removeNotification();
-				});
-				this.cancel();
-			}
-		}, 2000);
-	}
-
-	private void removeNotification() {
-		notificationAnchor.getChildren().clear();
 	}
 
 	/**
