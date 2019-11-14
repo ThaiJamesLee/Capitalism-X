@@ -122,7 +122,7 @@ public class GameHudController implements UpdateableController {
 		// Set initial captions of the info labels at the top
 		GameState gameState = GameState.getInstance();
 		cashLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getCash()));
-		employeeLabel.setText(gameState.getHrDepartment().getEngineerTeam().getTeam().size() + "");
+		employeeLabel.setText(gameState.getHrDepartment().getTotalNumberOfEmployees() + "");
 		netWorthLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getNetWorth()));
 		GameState.getInstance().addPropertyChangeListener(new GameStateEventListener());
 
