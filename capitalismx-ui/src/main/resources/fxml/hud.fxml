@@ -10,8 +10,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GameHudController">
@@ -135,7 +137,7 @@
             <String fx:value="hud_top" />
          </styleClass>
       </AnchorPane>
-      <AnchorPane layoutY="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+      <AnchorPane layoutY="4.0" minWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
          <children>
             <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -189,7 +191,7 @@
                <children>
                   <ToggleButton fx:id="btnOverview" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button">
                      <graphic>
-                        <FontAwesomeIcon iconName="BUILDING" size="1.3em" styleClass="fontAwesomeButtonDark" />
+                        <FontAwesomeIcon iconName="COMPASS" size="1.3em" styleClass="fontAwesomeButtonDark" />
                      </graphic>
                      <toggleGroup>
                         <ToggleGroup fx:id="departmentButtons" />
@@ -231,11 +233,23 @@
       </AnchorPane>
       <AnchorPane AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="messageIconLabel" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-               <graphic>
-                  <FontAwesomeIcon iconName="ENVELOPE" onMousePressed="#toggleMessageWindow" size="2.5em" styleClass="hud_icon_button" />
-               </graphic>
-            </Label>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="messageIconLabel">
+                     <graphic>
+                        <FontAwesomeIcon iconName="ENVELOPE" onMousePressed="#toggleMessageWindow" size="2em" styleClass="hud_icon_button" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="settingsIconLabel">
+                     <graphic>
+                        <FontAwesomeIcon iconName="GEAR" onMousePressed="#toggleMenu" size="2em" styleClass="hud_icon_button" />
+                     </graphic>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -246,20 +260,9 @@
          </styleClass>
       </AnchorPane>
       <AnchorPane layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <Label fx:id="settingsIconLabel" layoutX="9.0" layoutY="17.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-               <graphic>
-                  <FontAwesomeIcon iconName="GEAR" onMousePressed="#toggleMenu" size="2.5em" styleClass="hud_icon_button" />
-               </graphic>
-            </Label>
-         </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
-         <styleClass>
-            <String fx:value="hud_background" />
-            <String fx:value="hud_bottom" />
-         </styleClass>
       </AnchorPane>
       <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -272,6 +275,7 @@
             </Label>
          </children>
       </VBox>
+      <StackPane fx:id="notificationPane" alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="80.0" prefWidth="300.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
    </children>
    <stylesheets>
       <URL value="@../css/general.css" />
