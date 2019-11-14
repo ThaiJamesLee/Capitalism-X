@@ -47,7 +47,7 @@ public class HREventListener implements PropertyChangeListener {
 			// Update statistics module
 			((HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS).getController())
 					.updateTeam(EmployeeType.ENGINEER, newTeam.size());
-
+			UIManager.getInstance().getGameHudController().updateNumOfEmployees();
 		} else if (evt.getPropertyName().equals("salespersonTeamChanged")) {
 			List<Employee> newTeam = (List<Employee>) evt.getNewValue();
 			EmployeeListController contr = (EmployeeListController) hrView
@@ -57,6 +57,7 @@ public class HREventListener implements PropertyChangeListener {
 			// Update statistics module
 			((HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS).getController())
 					.updateTeam(EmployeeType.SALESPERSON, newTeam.size());
+			UIManager.getInstance().getGameHudController().updateNumOfEmployees();
 
 		}
 	}
