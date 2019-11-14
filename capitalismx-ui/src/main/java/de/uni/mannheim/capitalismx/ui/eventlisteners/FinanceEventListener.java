@@ -1,16 +1,22 @@
 package de.uni.mannheim.capitalismx.ui.eventlisteners;
 
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
+import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.TruckFleetController;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.util.*;
 
 public class FinanceEventListener implements PropertyChangeListener {
 
@@ -25,28 +31,43 @@ public class FinanceEventListener implements PropertyChangeListener {
             }
         }
 
+        if (evt.getPropertyName().equals("updatedQuarterlyData")) {
+            OperationsTableController operationsTableController = (OperationsTableController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OPERATIONS_TABLE).getController();
+
+            TreeMap<String, String[]> quarterlyData = GameController.getInstance().getQuarterlyData();
+            String[] colNames = quarterlyData.get("colNames");
+            for (Map.Entry<String,String[]> entry : quarterlyData.entrySet()) {
+                if(!entry.getKey().equals("colNames")){
+                    operationsTableController.updateTable(entry.getKey().replace("Quarterly", ""), entry.getValue(), colNames);
+                }
+            }
+        }
+
         FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OVERVIEW).getController();
 
         if (evt.getPropertyName().equals("netWorth")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setNetWorthLabel(String.valueOf(newVal.getValue()));
+            financeOverviewController.setNetWorthLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
             UIManager.getInstance().getGameHudController().updateNetworthLabel(newVal.getValue());
-        }
-
-        if (evt.getPropertyName().equals("cash")) {
+        }else if (evt.getPropertyName().equals("cash")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setCashLabel(String.valueOf(newVal.getValue()));
+            financeOverviewController.setCashLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
             UIManager.getInstance().getGameHudController().updateCashLabel(newVal.getValue());
-        }
-
-        if (evt.getPropertyName().equals("assets")) {
+        }else if (evt.getPropertyName().equals("assets")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setAssetsLabel(String.valueOf(newVal.getValue()));
-        }
-
-        if (evt.getPropertyName().equals("liabilities")) {
+            financeOverviewController.setAssetsLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+        }else if (evt.getPropertyName().equals("liabilities")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setLiabilitiesLabel(String.valueOf(newVal.getValue()));
+            financeOverviewController.setLiabilitiesLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+        }else if (evt.getPropertyName().equals("realEstateInvestmentAmount")) {
+            PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
+            financeOverviewController.setRealEstateLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+        }else if (evt.getPropertyName().equals("stocksInvestmentAmount")) {
+            PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
+            financeOverviewController.setStocksLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+        }else if (evt.getPropertyName().equals("ventureCapitalInvestmentAmount")) {
+            PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
+            financeOverviewController.setVentureCapitalLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
         }
     }
 }
