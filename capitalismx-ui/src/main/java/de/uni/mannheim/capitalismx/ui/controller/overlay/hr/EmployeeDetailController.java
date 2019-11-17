@@ -57,7 +57,7 @@ public class EmployeeDetailController extends GameOverlayController {
 	}
 	
 	private void initTrainingPopover() {
-		FXMLLoader popoverLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/training_popover.fxml"));
+		FXMLLoader popoverLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/training_popover.fxml"), UIManager.getResourceBundle());
  		PopOver trainPopover = new PopOver();
 		try {
 			trainPopover.setContentNode(popoverLoader.load());

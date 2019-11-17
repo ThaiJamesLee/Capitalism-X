@@ -74,12 +74,12 @@ public class GameHudController implements UpdateableController {
 		TooltipFactory tooltipFactory = new TooltipFactory();
 		tooltipFactory.setFadeInDuration(Duration.millis(100));
 
-		playPauseIconLabel.setTooltip(tooltipFactory.createTooltip("Play/Pause"));
-		skipIconLabel.setTooltip(tooltipFactory.createTooltip("Skip"));
-		forwardIconLabel.setTooltip(tooltipFactory.createTooltip("Fast Forward"));
+		playPauseIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.playPause")));
+		skipIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.skip")));
+		forwardIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.faster")));
 		tooltipFactory.setAnchorLocation(AnchorLocation.WINDOW_TOP_RIGHT);
-		settingsIconLabel.setTooltip(tooltipFactory.createTooltip("Settings"));
-		messageIconLabel.setTooltip(tooltipFactory.createTooltip("Messages"));
+		settingsIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.settings")));
+		messageIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.messages")));
 
 		UIManager.getInstance().setGameHudController(this);
 	}

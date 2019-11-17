@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,7 +36,7 @@ public class WorkingConditionsController extends GameModuleController {
 	 * @param radio The {@link RadioButton} to get a custom {@link Tooltip} for.
 	 */
 	private void createCostTooltip(RadioButton radio) {
-		Tooltip tooltip = new Tooltip(((Benefit) radio.getUserData()).getMonetaryImpact() + "CC per Employee/Month");
+		Tooltip tooltip = new Tooltip(((Benefit) radio.getUserData()).getMonetaryImpact() + UIManager.getLocalisedString("conditions.tooltip.info"));
 		tooltip.setShowDelay(Duration.seconds(0.0));
 		radio.setTooltip(tooltip);
 	}

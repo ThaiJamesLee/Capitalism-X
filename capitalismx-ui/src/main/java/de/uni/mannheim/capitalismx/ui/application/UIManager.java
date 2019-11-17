@@ -52,10 +52,6 @@ public class UIManager {
 		return instance;
 	}
 
-	public static ResourceBundle getResourceBundle() {
-		return resourceBundle;
-	}
-
 	/**
 	 * The {@link GameScene}s of the game.
 	 */
@@ -353,7 +349,8 @@ public class UIManager {
 			newProperties = "properties.main_en";
 			this.language = "EN";
 		}
-		// TODO refactoring
+
+		//TODO refactoring
 		resourceBundle = ResourceBundle.getBundle(newProperties);
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu2.fxml"),
 				resourceBundle);
@@ -451,6 +448,24 @@ public class UIManager {
 	 */
 	public void toggleFullscreen() {
 		window.setFullScreen(!window.isFullScreen());
+	}
+
+
+	/**
+	 * Quits the game: Triggers a new {@link WindowEvent}, containing a
+	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application. TODO
+	 * maybe handle more stuff when ingame. (eg autosave)
+	 */
+	public void quitGame() {
+		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+	}
+	
+	public static ResourceBundle getResourceBundle() {
+		return resourceBundle;
+	}
+
+	public static String getLocalisedString(String key) {
+		return resourceBundle.getString(key);
 	}
 
 }
