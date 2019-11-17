@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
+    - name: Set up JDK 12
       uses: actions/setup-java@v1
       with:
         java-version: 12
@@ -17,3 +17,9 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Generate Documentation
       run: mvn -Pcreate-docs site
+  
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: capitalismx-docs
+        path: docs
