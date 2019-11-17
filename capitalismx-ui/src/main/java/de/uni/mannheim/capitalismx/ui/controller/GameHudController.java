@@ -74,13 +74,27 @@ public class GameHudController implements UpdateableController {
 	private StackPane notificationPane;
 
 	/**
+	 * Display a {@link GameNotification} on the GamePage, if another one is
+	 * currently being displayed, it will be added to a queue and displayed
+	 * afterwards.
+	 * 
+	 * @param notification The {@link GameNotification} to display.
+	 */
+	public void addNotification(GameNotification notification) {
+			notificationQueue.add(notification);
+			displayNextNotification();
+	}
+
+	/**
 	 * Display the notification by sliding it in from below.
 	 * 
 	 * @param notification
 	 */
-	private void displayNotification(GameNotification notification) {
+	private void displayNextNotification() {
+		if(displayingNotification) return;
 		// block display of other notifications
 		displayingNotification = true;
+		GameNotification notification = notificationQueue.poll();
 		Parent root = notification.getRoot();
 		AnchorPaneHelper.snapNodeToAnchorPane(root);
 		root.setTranslateY(200);
@@ -179,30 +193,14 @@ public class GameHudController implements UpdateableController {
 		Timeline moveOut = new Timeline(new KeyFrame(Duration.millis(500), e -> {
 			notificationPane.getChildren().remove(notification.getRoot());
 		}, keyDisappear), new KeyFrame(Duration.millis(500), keyMoveOut), new KeyFrame(Duration.millis(100), e -> {
+			displayingNotification = false;
 			if (!notificationQueue.isEmpty()) {
-				displayNotification(notificationQueue.poll());
-			} else {
-				displayingNotification = false;
+				displayNextNotification();
 			}
 		}));
 
 		moveOut.setCycleCount(1);
 		moveOut.play();
-	}
-
-	/**
-	 * Display a {@link GameNotification} on the GamePage, if another one is
-	 * currently being displayed, it will be added to a queue and displayed
-	 * afterwards.
-	 * 
-	 * @param notification The {@link GameNotification} to display.
-	 */
-	public void showNotification(GameNotification notification) {
-		if (displayingNotification) {
-			notificationQueue.add(notification);
-		} else {
-			displayNotification(notification);
-		}
 	}
 
 	@FXML
@@ -217,7 +215,7 @@ public class GameHudController implements UpdateableController {
 	 * @param viewType The {@link GameViewType} to display on the GamePage.
 	 */
 	private void switchView(GameViewType viewType) {
-		showNotification(new GameNotification(viewType.getTitle(),
+		addNotification(new GameNotification(viewType.getTitle(),
 				"Hello, please do not reply to this Message. If this is multiline, all is fine. If it is not, be sad a lot."));
 		UIManager.getInstance().getGamePageController().switchView(viewType);
 	}
