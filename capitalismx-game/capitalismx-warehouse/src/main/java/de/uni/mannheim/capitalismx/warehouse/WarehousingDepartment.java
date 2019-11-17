@@ -1,6 +1,10 @@
 package de.uni.mannheim.capitalismx.warehouse;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
+import de.uni.mannheim.capitalismx.procurement.component.Unit;
+import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 
@@ -14,7 +18,7 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     private static WarehousingDepartment instance;
     private List<Warehouse> warehouses;
-    private Map<Product, Integer> inventory;
+    private Map<Unit, Integer> inventory;
     private int totalCapacity;
     private int freeStorage;
     private int storedUnits;
@@ -46,8 +50,8 @@ public class WarehousingDepartment extends DepartmentImpl {
     }
 
     public void storeUnits() {
-        Map<Product, Integer> newUnits = ProductionDepartment.getInstance().getNumberProducedProducts();
-        for(HashMap.Entry<Product, Integer> entry : newUnits.entrySet()) {
+        Map<Product, Integer> newProducts = ProductionDepartment.getInstance().getNumberProducedProducts();
+        for(HashMap.Entry<Product, Integer> entry : newProducts.entrySet()) {
             if(this.inventory.get(entry.getKey()) != null) {
                 int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
                 this.inventory.put(entry.getKey(), aggregatedUnits);
@@ -56,11 +60,21 @@ public class WarehousingDepartment extends DepartmentImpl {
             }
         }
         ProductionDepartment.getInstance().clearInventory();
+        Map<Component, Integer> newComponents = ProcurementDepartment.getInstance().getOrderedComponents();
+        for(HashMap.Entry<Component, Integer> entry : newComponents.entrySet()) {
+            if(this.inventory.get(entry.getKey()) != null) {
+                int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
+                this.inventory.put(entry.getKey(), aggregatedUnits);
+            } else {
+                this.inventory.put(entry.getKey(), entry.getValue());
+            }
+        }
+        ProcurementDepartment.getInstance().clearOrderedComponents();
     }
 
     public int calculateStoredUnits() {
         this.storedUnits = 0;
-        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+        for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
             this.storedUnits += entry.getValue();
         }
         return this.storedUnits;
@@ -79,7 +93,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         return this.totalCapacity - this.storedUnits;
     }
 
-    public double sellProduct (HashMap.Entry<Product, Integer> soldProduct) {
+    public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
         if(this.inventory.get(soldProduct.getKey()) != null && this.inventory.get(soldProduct.getKey()) >= soldProduct.getValue()) {
             int newInventoryUnits = this.inventory.get(soldProduct.getKey()) - soldProduct.getValue();
             if(newInventoryUnits == 0) {
@@ -187,7 +201,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     }
 
     public void decreaseStoredUnitsRel(double percentage) {
-        for(HashMap.Entry<Product, Integer> entry : this.inventory.entrySet()) {
+        for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
             this.inventory.put(entry.getKey(), (int) (entry.getValue() * 0.7));
         }
     }
@@ -204,11 +218,13 @@ public class WarehousingDepartment extends DepartmentImpl {
         damagedWarehouse.setCapacity(damagedWarehouse.getCapacity() - capacity);
     }
 
-    public double sellProducts(Map<Product, Integer> sales) {
+    public double sellProducts(Map<Unit, Integer> sales) {
         double earnedMoney = 0;
-        for(Map.Entry<Product, Integer> entry : this.inventory.entrySet()) {
-            this.inventory.put(entry.getKey(), entry.getValue() - sales.get(entry.getKey()));
-            earnedMoney += entry.getKey().getSalesPrice() * sales.get(entry.getKey());
+        for(Map.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
+            if(entry.getKey().getUnitType() == UnitType.PRODUCT_UNIT) {
+                this.inventory.put(entry.getKey(), entry.getValue() - sales.get(entry.getKey()));
+                earnedMoney += entry.getKey().getSalesPrice() * sales.get(entry.getKey());
+            }
         }
         return earnedMoney;
     }
@@ -223,7 +239,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.calculateTotalMonthlyWarehousingCost();
     }
 
-    public Map<Product, Integer> getInventory() {
+    public Map<Unit, Integer> getInventory() {
         return this.inventory;
     }
 

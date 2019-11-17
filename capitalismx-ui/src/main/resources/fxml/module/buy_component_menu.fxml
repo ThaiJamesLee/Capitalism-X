@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import de.jensd.fx.glyphs.weathericons.WeatherIcon?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.procurement.BuyComponentController">
+   <stylesheets>
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/modul.css" />
+   </stylesheets>
+   <children>
+      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="1200.0">
+         <children>
+            <TabPane layoutX="79.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/general.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <tabs>
+                  <Tab text="%product.tab.tv">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane layoutX="-1.0" prefHeight="374.0" prefWidth="1191.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="87.0" minHeight="10.0" percentHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="74.0" minHeight="10.0" percentHeight="50.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <GridPane>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="92.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label styleClass="header" text="%product.tv.components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label text="%product.tv.supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane GridPane.rowIndex="1">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="%product.tv.screen" GridPane.columnIndex="1" />
+                                          <Label text="%product.tv.audio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <HBox prefHeight="13.0" prefWidth="918.0" GridPane.columnIndex="2">
+                                             <children>
+                                                <ToggleButton fx:id="tvScreenToggleButton0" mnemonicParsing="false" prefHeight="49.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvScreenToggleButton1" mnemonicParsing="false" prefHeight="53.0" prefWidth="89.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvScreenToggleButton2" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvScreenToggleButton3" mnemonicParsing="false" prefHeight="64.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvScreenToggleButton4" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvScreenToggleButton5" mnemonicParsing="false" prefHeight="68.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvScreenToggleButton6" mnemonicParsing="false" prefHeight="86.0" prefWidth="89.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                             <children>
+                                                <ToggleButton fx:id="tvAudioToggleButton0" mnemonicParsing="false" prefHeight="71.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvAudioToggleButton1" mnemonicParsing="false" prefHeight="72.0" prefWidth="89.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvAudioToggleButton2" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvAudioToggleButton3" mnemonicParsing="false" prefHeight="71.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvAudioToggleButton4" mnemonicParsing="false" prefHeight="77.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvAudioToggleButton5" mnemonicParsing="false" prefHeight="73.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvAudioToggleButton6" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <Label text="%product.tv.case" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                             <children>
+                                                <ToggleButton fx:id="tvCaseToggleButton0" mnemonicParsing="false" prefHeight="53.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvCaseToggleButton1" mnemonicParsing="false" prefHeight="59.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvCaseToggleButton2" mnemonicParsing="false" prefHeight="67.0" prefWidth="89.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvCaseToggleButton3" mnemonicParsing="false" prefHeight="63.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <Label text="%product.tv.os" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                             <children>
+                                                <ToggleButton fx:id="tvOSToggleButton0" mnemonicParsing="false" prefHeight="58.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvOSToggleButton1" mnemonicParsing="false" prefHeight="78.0" prefWidth="89.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvOSToggleButton2" mnemonicParsing="false" prefHeight="77.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvOSToggleButton3" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvOSToggleButton4" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvOSToggleButton5" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="tvOSToggleButton6" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <ChoiceBox fx:id="tvScreensChoiceBox" prefHeight="59.0" prefWidth="119.0" GridPane.columnIndex="3" />
+                                          <FontAwesomeIcon iconName="PHOTO" />
+                                          <FontAwesomeIcon iconName="VOLUME_UP" GridPane.rowIndex="1" />
+                                          <FontAwesomeIcon iconName="LINUX" GridPane.rowIndex="2" />
+                                          <FontAwesomeIcon iconName="CODEPEN" GridPane.rowIndex="3" />
+                                          <ChoiceBox fx:id="tvAudiosChoiceBox" prefHeight="60.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <ChoiceBox fx:id="tvOSsChoiceBox" prefHeight="60.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                          <ChoiceBox fx:id="tvCasesChoiceBox" prefHeight="78.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane GridPane.rowIndex="2">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="tvSalesPriceTextField" alignment="CENTER_RIGHT" promptText="%product.tv.promtPrice" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label styleClass="label_large" text="%product.tv.price" GridPane.rowIndex="1" />
+                                          <Label text="%product.tv.currency" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                                       <children>
+                                          <Button mnemonicParsing="false" styleClass="button_module" text="%product.tv.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="%product.tab.console">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane layoutX="-1.0" prefHeight="377.0" prefWidth="1192.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="87.0" minHeight="10.0" percentHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="74.0" minHeight="10.0" percentHeight="50.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <AnchorPane prefHeight="49.0" prefWidth="1229.0" GridPane.rowIndex="4">
+                                       <children>
+                                          <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="%product.console.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <GridPane GridPane.rowIndex="3">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="consoleSalesPriceTextField" alignment="CENTER_RIGHT" promptText="%product.console.promtPrice" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label styleClass="label_large" text="%product.console.price" GridPane.rowIndex="1" />
+                                          <Label text="%product.console.currency" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane GridPane.rowIndex="2">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                             <children>
+                                                <ToggleButton fx:id="consoleCPUToggleButton0" mnemonicParsing="false" prefHeight="51.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleCPUToggleButton1" mnemonicParsing="false" prefHeight="65.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleCPUToggleButton2" mnemonicParsing="false" prefHeight="72.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleCPUToggleButton3" mnemonicParsing="false" prefHeight="72.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleCPUToggleButton4" mnemonicParsing="false" prefHeight="78.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleCPUToggleButton5" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleCPUToggleButton6" mnemonicParsing="false" prefHeight="74.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                             <children>
+                                                <ToggleButton fx:id="consoleScreenToggleButton0" mnemonicParsing="false" prefHeight="53.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleScreenToggleButton1" mnemonicParsing="false" prefHeight="60.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleScreenToggleButton2" mnemonicParsing="false" prefHeight="58.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleScreenToggleButton3" mnemonicParsing="false" prefHeight="64.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                             <children>
+                                                <ToggleButton fx:id="consolePowersupplyToggleButton0" mnemonicParsing="false" prefHeight="56.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="consolePowersupplyToggleButton1" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consolePowersupplyToggleButton2" mnemonicParsing="false" prefHeight="56.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consolePowersupplyToggleButton3" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consolePowersupplyToggleButton4" mnemonicParsing="false" prefHeight="61.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consolePowersupplyToggleButton5" mnemonicParsing="false" prefHeight="65.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <Label text="%product.console.cpu" GridPane.columnIndex="1" />
+                                          <Label text="%product.console.screen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label text="%product.console.power" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="%product.console.camera" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                             <children>
+                                                <ToggleButton fx:id="consoleCameraToggleButton0" mnemonicParsing="false" prefHeight="63.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleCameraToggleButton1" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <Label text="%product.console.connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                             <children>
+                                                <ToggleButton fx:id="consoleConnectivityToggleButton0" mnemonicParsing="false" prefHeight="50.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleConnectivityToggleButton1" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="consoleConnectivityToggleButton2" mnemonicParsing="false" prefHeight="69.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <ChoiceBox fx:id="consoleCPUsChoiceBox" prefHeight="56.0" prefWidth="119.0" GridPane.columnIndex="3" />
+                                          <ChoiceBox fx:id="consoleScreensChoiceBox" prefHeight="64.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <ChoiceBox fx:id="consolePowersuppliesChoiceBox" prefHeight="53.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                          <ChoiceBox fx:id="consoleConnectivitiesChoiceBox" prefHeight="56.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                          <ChoiceBox fx:id="consoleCamerasChoiceBox" prefHeight="63.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                          <FontAwesomeIcon iconName="CALCULATOR" />
+                                          <FontAwesomeIcon iconName="PHOTO" GridPane.rowIndex="1" />
+                                          <FontAwesomeIcon iconName="WIFI" GridPane.rowIndex="3" />
+                                          <FontAwesomeIcon iconName="INSTAGRAM" GridPane.rowIndex="4" />
+                                          <WeatherIcon iconName="LIGHTNING" GridPane.rowIndex="2" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane GridPane.rowIndex="1">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label styleClass="header" text="%product.console.components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label text="%product.console.supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <TextField fx:id="consoleProductNameTextField" promptText="%product.console.promptName" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="%product.tab.notebook">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane layoutX="214.0" prefHeight="617.0" prefWidth="587.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="87.0" minHeight="10.0" percentHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="74.0" minHeight="10.0" percentHeight="50.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+                                       <children>
+                                          <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="%product.notebook.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <GridPane GridPane.rowIndex="3">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="notebookSalesPriceTextField" alignment="CENTER_RIGHT" promptText="%product.notebook.promtPrice" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label styleClass="label_large" text="%product.notebook.price" GridPane.rowIndex="1" />
+                                          <Label text="%product.notebook.currency" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane GridPane.rowIndex="2">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                             <children>
+                                                <ToggleButton fx:id="notebookCPUToggleButton0" mnemonicParsing="false" prefHeight="52.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookCPUToggleButton1" mnemonicParsing="false" prefHeight="60.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookCPUToggleButton2" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookCPUToggleButton3" mnemonicParsing="false" prefHeight="45.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookCPUToggleButton4" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookCPUToggleButton5" mnemonicParsing="false" prefHeight="52.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookCPUToggleButton6" mnemonicParsing="false" prefHeight="61.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookCPUToggleButton7" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                             <children>
+                                                <ToggleButton fx:id="notebookStorageToggleButton0" mnemonicParsing="false" prefHeight="46.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookStorageToggleButton1" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookStorageToggleButton2" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookStorageToggleButton3" mnemonicParsing="false" prefHeight="52.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookStorageToggleButton4" mnemonicParsing="false" prefHeight="46.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookStorageToggleButton5" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookStorageToggleButton6" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookStorageToggleButton7" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                             <children>
+                                                <ToggleButton fx:id="notebookScreenToggleButton0" mnemonicParsing="false" prefHeight="41.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookScreenToggleButton1" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookScreenToggleButton2" mnemonicParsing="false" prefHeight="52.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookScreenToggleButton3" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookScreenToggleButton4" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                             <children>
+                                                <ToggleButton fx:id="notebookSoftwareToggleButton0" mnemonicParsing="false" prefHeight="56.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookSoftwareToggleButton1" mnemonicParsing="false" prefHeight="48.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookSoftwareToggleButton2" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookSoftwareToggleButton3" mnemonicParsing="false" prefHeight="56.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookSoftwareToggleButton4" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="notebookSoftwareToggleButton5" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <Label text="%product.notebook.cpu" GridPane.columnIndex="1" />
+                                          <Label text="%product.notebook.storage" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label text="%product.notebook.screen" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="%product.notebook.software" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label text="%product.notebook.power" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <ToggleButton fx:id="notebookPowersupplyToggleButton0" mnemonicParsing="false" prefHeight="52.0" selected="true" text="ToggleButton" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                          <ChoiceBox fx:id="notebookCPUsChoiceBox" prefHeight="62.0" prefWidth="119.0" GridPane.columnIndex="3" />
+                                          <ChoiceBox fx:id="notebookStoragesChoiceBox" prefHeight="60.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <ChoiceBox fx:id="notebookScreensChoiceBox" prefHeight="63.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                          <ChoiceBox fx:id="notebookSoftwaresChoiceBox" prefHeight="57.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                          <ChoiceBox fx:id="notebookPowersuppliesChoiceBox" prefHeight="50.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                          <FontAwesomeIcon iconName="CALCULATOR" />
+                                          <FontAwesomeIcon iconName="FLOPPY_ALT" GridPane.rowIndex="1" />
+                                          <FontAwesomeIcon iconName="PHOTO" GridPane.rowIndex="2" />
+                                          <FontAwesomeIcon iconName="APPLE" GridPane.rowIndex="3" />
+                                          <WeatherIcon iconName="LIGHTNING" GridPane.rowIndex="4" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane GridPane.rowIndex="1">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label styleClass="header" text="%product.notebook.components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label text="%product.notebook.supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <TextField fx:id="notebookProductNameTextField" promptText="%product.notebook.promptName" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="%product.tab.phone">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane layoutX="-45.0" prefHeight="619.0" prefWidth="846.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="87.0" minHeight="10.0" percentHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="74.0" minHeight="10.0" percentHeight="50.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+                                       <children>
+                                          <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="%product.phone.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <GridPane GridPane.rowIndex="3">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints percentHeight="100.0" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label styleClass="label_large" text="%product.phone.price" />
+                                          <TextField fx:id="phoneSalesPriceTextField" alignment="CENTER_RIGHT" promptText="%product.phone.promtPrice" GridPane.columnIndex="1" />
+                                          <Label text="%product.phone.currency" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane GridPane.rowIndex="2">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                             <children>
+                                                <ToggleButton fx:id="phoneCPUToggleButton0" mnemonicParsing="false" prefHeight="48.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneCPUToggleButton1" mnemonicParsing="false" prefHeight="58.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneCPUToggleButton2" mnemonicParsing="false" prefHeight="59.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneCPUToggleButton3" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneCPUToggleButton4" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneCPUToggleButton5" mnemonicParsing="false" prefHeight="104.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                             <children>
+                                                <ToggleButton fx:id="phoneConnectivyToggleButton0" mnemonicParsing="false" prefHeight="35.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneConnectivyToggleButton1" mnemonicParsing="false" prefHeight="36.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneConnectivyToggleButton2" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                             <children>
+                                                <ToggleButton fx:id="phoneScreenToggleButton0" mnemonicParsing="false" prefHeight="47.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneScreenToggleButton1" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneScreenToggleButton2" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneScreenToggleButton3" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneScreenToggleButton4" mnemonicParsing="false" prefHeight="38.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneScreenToggleButton5" mnemonicParsing="false" prefHeight="48.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                             <children>
+                                                <ToggleButton fx:id="phoneCameraToggleButton0" mnemonicParsing="false" prefHeight="35.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneCameraToggleButton1" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneCameraToggleButton2" mnemonicParsing="false" prefHeight="41.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneCameraToggleButton3" mnemonicParsing="false" prefHeight="44.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneCameraToggleButton4" mnemonicParsing="false" prefHeight="38.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                             <children>
+                                                <ToggleButton fx:id="phonePowersupplyToggleButton0" mnemonicParsing="false" prefHeight="36.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="phonePowersupplyToggleButton1" mnemonicParsing="false" prefHeight="39.0" text="ToggleButton" />
+                                                <ToggleButton fx:id="phonePowersupplyToggleButton2" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <Label text="%product.phone.power" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Label text="%product.phone.camera" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="%product.phone.screen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label text="%product.phone.connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label prefHeight="17.0" prefWidth="25.0" text="%product.phone.cpu" GridPane.columnIndex="1" />
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                             <children>
+                                                <ToggleButton fx:id="phoneKeypadToggleButton0" mnemonicParsing="false" prefHeight="42.0" selected="true" text="ToggleButton" />
+                                                <ToggleButton fx:id="phoneKeypadToggleButton1" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
+                                             </children>
+                                          </HBox>
+                                          <Label text="%product.phone.keypad" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <ChoiceBox fx:id="phoneCPUsChoiceBox" prefHeight="55.0" prefWidth="119.0" GridPane.columnIndex="3" />
+                                          <ChoiceBox fx:id="phoneScreensChoiceBox" prefHeight="52.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <ChoiceBox fx:id="phoneCamerasChoiceBox" prefHeight="51.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                          <ChoiceBox fx:id="phoneConnectivitiesChoiceBox" prefHeight="59.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                          <ChoiceBox fx:id="phonePowersuppliesChoiceBox" prefHeight="58.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                          <ChoiceBox fx:id="phoneKeypadsChoiceBox" prefHeight="52.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                          <FontAwesomeIcon iconName="CALCULATOR" />
+                                          <FontAwesomeIcon iconName="PHOTO" GridPane.rowIndex="1" />
+                                          <FontAwesomeIcon iconName="INSTAGRAM" GridPane.rowIndex="2" />
+                                          <FontAwesomeIcon iconName="WIFI" GridPane.rowIndex="3" />
+                                          <FontAwesomeIcon iconName="KEYBOARD_ALT" GridPane.rowIndex="5" />
+                                          <WeatherIcon iconName="LIGHTNING" GridPane.rowIndex="4" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane GridPane.rowIndex="1">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label styleClass="header" text="%product.phone.components" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Label text="%product.phone.supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <TextField fx:id="phoneProductNameTextField" promptText="%product.phone.promptName" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </children>
+         <stylesheets>
+            <URL value="@../../css/general.css" />
+            <URL value="@../../css/modul.css" />
+         </stylesheets>
+      </AnchorPane>
+   </children>
+</AnchorPane>

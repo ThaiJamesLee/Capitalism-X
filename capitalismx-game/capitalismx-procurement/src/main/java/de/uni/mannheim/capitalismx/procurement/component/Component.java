@@ -2,10 +2,12 @@ package de.uni.mannheim.capitalismx.procurement.component;
 
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Component {
+public class Component extends Unit implements Serializable {
 
+    private UnitType unitType;
     private ComponentCategory componentCategory;
     private String componentName;
     private int componentLevel;
@@ -20,6 +22,7 @@ public class Component {
     private ComponentType componentType;
 
     public Component(ComponentType componentType) {
+        this.unitType = UnitType.COMPONENT_UNIT;
         this.componentCategory = componentType.getComponentCategory();
         this.componentName = componentType.getComponentName();
         this.componentLevel = componentType.getComponentLevel();
@@ -30,6 +33,7 @@ public class Component {
     }
 
     public Component(ComponentType componentType, SupplierCategory supplierCategory) {
+        this.unitType = UnitType.COMPONENT_UNIT;
         this.componentCategory = componentType.getComponentCategory();
         this.componentName = componentType.getComponentName();
         this.componentLevel = componentType.getComponentLevel();
@@ -138,6 +142,15 @@ public class Component {
                 + 142.7889;
         double tBCP = this.initialComponentPrice * (tBPM / 100);
         this.baseCost = tBCP * this.supplierCostMultiplicator;
+        this.baseCost = this.baseCost * RandomNumberGenerator.getRandomDouble(0.8, 1.5);
         return this.baseCost;
+    }
+
+    public UnitType getUnitType() {
+        return this.unitType;
+    }
+
+    public double getSalesPrice() {
+        return 0;
     }
 }

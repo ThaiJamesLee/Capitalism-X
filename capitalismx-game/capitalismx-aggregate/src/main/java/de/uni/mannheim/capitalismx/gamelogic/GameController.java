@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.UIManager;
 
+import de.uni.mannheim.capitalismx.procurement.component.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,10 +36,6 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
@@ -703,7 +700,7 @@ public class GameController {
 		return WarehousingDepartment.getInstance().getWarehouses();
 	}
 
-	public Map<Product, Integer> getWarehousingInventory() {
+	public Map<Unit, Integer> getWarehousingInventory() {
 		return WarehousingDepartment.getInstance().getInventory();
 	}
 
