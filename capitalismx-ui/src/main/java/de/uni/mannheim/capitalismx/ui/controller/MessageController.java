@@ -27,13 +27,14 @@ public class MessageController implements Initializable {
 	private Button messageClose;
 	
 	@FXML
-	private VBox messageList;
+	private ListView messageList;
+
+	private ObservableList<Parent> messages = FXCollections.observableArrayList();
 	@FXML
 	private ScrollPane messageContentPane;
 
 	private GamePageController controllerReference;
 
-	private ArrayList<MessageObject> messages = new ArrayList<MessageObject>();
 	private ArrayList<MessageSubjectController> messageSubjectList;
 	private ArrayList<MessageContentController> messageContentList;
 
@@ -48,7 +49,7 @@ public class MessageController implements Initializable {
 //		});
 //		
 //	}
-
+	
 	public String langFileSwitcher(String lang){
 		String langFile;
 		switch (lang) {
@@ -73,32 +74,27 @@ public class MessageController implements Initializable {
 		String langFile;
 		ResourceBundle langBundle;
 
-		messages.add(new MessageObject(sender, date, subject, message, isInternal));
-
 		langFile = langFileSwitcher(lang);
 		ResourceBundle bundle = ResourceBundle.getBundle(langFile);
 
 		FXMLLoader subjectLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePaneSubject.fxml"));
 		FXMLLoader contentLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePaneContent.fxml"));
-/*
-		bundle.getString("sen.event1");
-		bundle.getString("sub.event1");
-		bundle.getString("con.event1");
-*/
+
 		try {
 			messageSubject = subjectLoader.load();
 			msc = subjectLoader.getController();
-			msc.setSubjectSender(bundle.getString("sen.event1"));
+			msc.setSubjectSender(bundle.getString(sender));
 			msc.setSubjectDate(date);
-			msc.setSubjectSubject(bundle.getString("sub.event1"));
-			messageList.getChildren().add(messageSubject);
+			msc.setSubjectSubject(bundle.getString(subject));
+			messages.add(messageSubject);
+			messageList.setItems(messages);
 
 			messageContent = contentLoader.load();
 			mcc = contentLoader.getController();
-			mcc.setContentSender(bundle.getString("sen.event1"));
+			mcc.setContentSender(bundle.getString(sender));
 			mcc.setContentDate(date);
-			mcc.setContentSubject(bundle.getString("sub.event1"));
-			mcc.setContentContent(bundle.getString("con.event1"));
+			mcc.setContentSubject(bundle.getString(subject));
+			mcc.setContentContent(bundle.getString(message));
 			messageContentPane.setContent(messageContent);
 			//messageContent = contentLoader.load();
 			//messageSubject.subject = "Hi!";
