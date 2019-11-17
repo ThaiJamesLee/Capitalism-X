@@ -130,7 +130,6 @@ public class OverviewMap3DController extends GameModuleController {
 	}
 
 	private void buildCamera() {
-		System.out.println("buildCamera()");
 		root.getChildren().add(cameraXform);
 		cameraXform.getChildren().add(cameraXform2);
 		cameraXform2.getChildren().add(cameraXform3);
