@@ -21,11 +21,11 @@ public class CssHelper {
 	 * the css-Directory, where they will be used by the game.
 	 */
 	public static void adjustCssToCurrentResolution() {
-		File cssSourceDirectory = new File(CssHelper.class.getResource("/css/" + UIManager.getInstance().getGameResolution().getCurrentlyActiveResolution().getCssSourceFolder() + "/").getFile());
+		File cssSourceDirectory = new File(CssHelper.class.getResource("/css/" + UIManager.getInstance().getGameResolution().getCurrentCssSettings().getCssSourceFolder() + "/").getFile());
 		File cssTargetDirectory = new File(CssHelper.class.getResource("/css/").getFile());
 		for (File cssFile : cssSourceDirectory.listFiles()) {
 			File targetFile = new File(cssTargetDirectory.getAbsolutePath() + "/"
-					+ cssFile.getName().replace(UIManager.getInstance().getGameResolution().getCurrentlyActiveResolution().getCssSourceFolder(), ""));
+					+ cssFile.getName().replace(UIManager.getInstance().getGameResolution().getCurrentCssSettings().getCssSourceFolder(), ""));
 			if (!targetFile.exists()) {
 				targetFile.mkdirs();
 			}
