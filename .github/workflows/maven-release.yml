@@ -26,5 +26,5 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: "capitalismx-ui/target/capitalismx-ui-*.jar,docs"
-        token: ${{ secrets.workflow-token }}
+        token: ${{ secrets.GITHUB_TOKEN }}
       
