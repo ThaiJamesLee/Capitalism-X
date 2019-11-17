@@ -3,6 +3,8 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
@@ -35,7 +37,7 @@ public class MainMenuController implements UpdateableController {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		newGameButton.setOnAction(e -> {
-			UIManager.getInstance().initGame();
+			UIManager.getInstance().newGame();
 		});
 		
 		
@@ -49,7 +51,7 @@ public class MainMenuController implements UpdateableController {
 		});
 		
 		quitButton.setOnAction(e -> {
-			UIManager.getInstance().quitGame();
+			UIManager.getInstance().quitApplication();
 		});
 	}
 

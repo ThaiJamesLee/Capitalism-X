@@ -1,7 +1,9 @@
 package de.uni.mannheim.capitalismx.ui.components;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.fxml.FXMLLoader;
@@ -42,9 +44,12 @@ public class GameModule extends UIElement {
 
 		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.title, contentRoot, definition.elementType);
 
+		//TODO nutze richtiges RessourceBundle
+		ResourceBundle bundle = UIManager.getResourceBundle();
+		
 		// Init optional overlay if one is defined
 		if (definition.overlayDefinition != null) {
-			FXMLLoader overlayLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/overlay/" + definition.overlayDefinition.fxmlFile));
+			FXMLLoader overlayLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/overlay/" + definition.overlayDefinition.fxmlFile), bundle);
 			Parent overlayRoot = overlayLoader.load();
 			this.overlay = new GameOverlay(overlayRoot, definition.overlayDefinition, definition.viewType, gridPosition, overlayLoader.getController(), definition.elementType.title);
 		}

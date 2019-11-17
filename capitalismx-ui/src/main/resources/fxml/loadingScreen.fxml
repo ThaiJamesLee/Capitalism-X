@@ -35,7 +35,7 @@
             </StackPane>
             <AnchorPane styleClass="whitePane" GridPane.rowIndex="2">
                <children>
-                  <Label styleClass="progressLabel" text="Please wait while CapitalismX is loading..." AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
+                  <Label styleClass="progressLabel" text="%loadscreen.message" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
                </children>
             </AnchorPane>
          </children>

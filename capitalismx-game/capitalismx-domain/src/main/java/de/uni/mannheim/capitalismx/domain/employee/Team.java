@@ -2,6 +2,9 @@ package de.uni.mannheim.capitalismx.domain.employee;
 
 
 
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
+
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +15,20 @@ import java.util.List;
  */
 public class Team implements Serializable {
 
-    private List<Employee> team;
+    //private List<Employee> team;
     private EmployeeType type;
+
+    private PropertyChangeSupportList<Employee> team;
 
     public Team(EmployeeType type) {
         if (type == null) {
             throw new NullPointerException("EmployeeType can not be null!");
         }
         this.type = type;
-        team = new ArrayList<>();
+        team = new PropertyChangeSupportList<>();
     }
 
-    public Team(EmployeeType type, List<Employee> team) {
+    public Team(EmployeeType type, PropertyChangeSupportList<Employee> team) {
         if (type == null || team == null) {
             throw new NullPointerException("Null as parameter input is not allowed!");
         }
@@ -51,7 +56,7 @@ public class Team implements Serializable {
      */
     public double calculateTotalSalaries(){
         double totalSalaries = 0.0;
-        for(Employee employee : team){
+        for(Employee employee : team.getList()){
             totalSalaries += employee.getSalary();
         }
         return totalSalaries;
@@ -63,7 +68,7 @@ public class Team implements Serializable {
      */
     public double calculateTotalTrainingCosts(){
         double totalTrainingCosts = 0.0;
-        for(Employee employee : team){
+        for(Employee employee : team.getList()){
             for(Training training : employee.getTrainingsList()){
                 totalTrainingCosts += training.getPrice();
             }
@@ -75,9 +80,29 @@ public class Team implements Serializable {
     public EmployeeType getType() { return type; }
 
     public List<Employee> getTeam() {
-        return team;
+        return team.getList();
     }
 
-    public void setTeam (List<Employee> team) { this.team = team; }
+    public void setTeam (PropertyChangeSupportList<Employee> team) { this.team = team; }
+
+    /**
+     *
+     * @param eventName
+     * @return Returns this object.
+     */
+    public Team addPropertyName(String eventName) {
+        team.setAddPropertyName(eventName);
+        team.setRemovePropertyName(eventName);
+        return this;
+    }
+
+    /**
+     *
+     * @param listener the propertyChangeListener to add.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        team.addPropertyChangeListener(listener);
+    }
+    
 
 }

@@ -6,6 +6,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamelogic.GameThread;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
@@ -62,9 +65,9 @@ public class SideMenuController implements Initializable {
 	private Timeline timeline;
 
 	// TODO replace current mock implementation --> Lokalen gameDay löschen und Code wieder einkommentieren/eincoden (? wie nennt man das???)
-
+	// aktuell: Controller erhöht gameDay nicht???
 	private boolean isPaused;
-	private LocalDate gameDay;
+
 	DateTimeFormatter dtf;
 
 	// StringProperty containing the current Title string, bound to Lable in parent
@@ -77,16 +80,17 @@ public class SideMenuController implements Initializable {
 
 		// set up date and bind to timeLabel
 		this.isPaused = false;
-		this.gameDay = LocalDate.of(1990, 1, 1);
+		
 		dtf = DateTimeFormatter.ofPattern("MMM dd, \n yyyy").withLocale(Locale.ENGLISH);
 
 		// update once every second (as long as rate remains 1)
 		timeline = new Timeline(new KeyFrame(
 
 				Duration.seconds(1), event -> {
-					timeLabel.setText(dtf.format(gameDay));
-					gameDay.plusDays(1);
-					//timeLabel.setText(dtf.format(GameState.getInstance().getGameDate()));
+					//timeLabel.setText(dtf.format(gameDay));
+					//gameDay.plusDays(1);
+					timeLabel.setText(dtf.format(GameState.getInstance().getGameDate()));
+					System.out.println("Datum:  " + dtf.format(GameState.getInstance().getGameDate()) );
 				}));
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
@@ -128,18 +132,16 @@ public class SideMenuController implements Initializable {
 		});
 
 		btnSkip.setOnAction(e -> {
-//			GameState.getInstance().setGameDate(GameState.getInstance().getGameDate().plusDays(7));
-//			this.timeLabel.setText(dtf.format(GameState.getInstance().getGameDate()));
-			gameDay.plusDays(7);
-			this.timeLabel.setText(dtf.format(gameDay));
+			GameState.getInstance().setGameDate(GameState.getInstance().getGameDate().plusDays(7));
+			this.timeLabel.setText(dtf.format(GameState.getInstance().getGameDate()));
 		});
 
 		btnForward.setOnAction(e -> {
 			if (btnForward.isSelected()) {
-				//GameThread.getInstance().setSecondsPerDay(2);
+				GameThread.getInstance().setSecondsPerDay(2);
 				this.timeline.setRate(2); //TODO muss drinbleiben, damit doppelte Geschwindigkeit auch angezeigt wird!
 			} else {
-				//GameThread.getInstance().setSecondsPerDay(1);
+				GameThread.getInstance().setSecondsPerDay(1);
 				this.timeline.setRate(1);
 			}
 		});
@@ -161,13 +163,13 @@ public class SideMenuController implements Initializable {
 	private void pauseGame() {
 		this.isPaused = true;
 		this.timeline.pause();
-		//GameController.getInstance().pauseGame();
+		GameController.getInstance().pauseGame();
 	}
 
 	private void resumeGame() {
 		this.isPaused = false;
 		this.timeline.play();
-		//GameController.getInstance().resumeGame();
+		GameController.getInstance().resumeGame();
 	}
 
 	// Methods to set the current title, which is bound to the corresponding Label

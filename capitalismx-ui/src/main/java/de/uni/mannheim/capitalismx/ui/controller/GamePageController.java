@@ -117,7 +117,7 @@ public class GamePageController implements UpdateableController {
 
 		try {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"));
+					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
 			Parent rootC = loaderMessageWindow.load();
 			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);;
 			messageController = loaderMessageWindow.getController();
@@ -130,7 +130,7 @@ public class GamePageController implements UpdateableController {
 		}
 
 		try {
-			FXMLLoader loaderIngameMenu = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"));
+			FXMLLoader loaderIngameMenu = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"), UIManager.getResourceBundle());
 			Parent root = loaderIngameMenu.load();
 			AnchorPaneHelper.snapNodeToAnchorPane(root);
 			ingameMenuController = loaderIngameMenu.getController();

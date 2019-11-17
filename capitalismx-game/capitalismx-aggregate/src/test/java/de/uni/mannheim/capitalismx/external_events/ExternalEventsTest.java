@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
+
 public class ExternalEventsTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExternalEventsTest.class);
@@ -13,7 +15,7 @@ public class ExternalEventsTest {
     public void checkEventsTest () {
         ExternalEvents externalEvents = ExternalEvents.getInstance();
 
-        Assert.assertNotNull(externalEvents.checkEvents());
+        Assert.assertNotNull(externalEvents.checkEvents(LocalDate.now()));
     }
 
 }

@@ -84,7 +84,7 @@
                   <VBox alignment="CENTER" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                      <children>
                         <FontAwesomeIcon iconName="DIAMOND" size="1.5em" styleClass="icon_light" />
-                        <Label text="Net Worth">
+                        <Label text="%hud.networth">
                            <styleClass>
                               <String fx:value="label_small" />
                               <String fx:value="hud_label" />
@@ -103,7 +103,7 @@
                   <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
                      <children>
                         <FontAwesomeIcon iconName="USERS" size="1.5em" styleClass="icon_light" />
-                        <Label text="Employees">
+                        <Label text="%hud.employees">
                            <styleClass>
                               <String fx:value="label_small" />
                               <String fx:value="hud_label" />
@@ -114,7 +114,7 @@
                   <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
                      <children>
                         <FontAwesomeIcon iconName="DOLLAR" size="1.5em" styleClass="icon_light" />
-                        <Label text="Cash">
+                        <Label text="%hud.cash">
                            <styleClass>
                               <String fx:value="label_small" />
                               <String fx:value="hud_label" />
@@ -140,7 +140,7 @@
          <children>
             <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label fx:id="dateLabel" text="01-01-1987">
+                  <Label fx:id="dateLabel" text="01-01-1990">
                      <styleClass>
                         <String fx:value="hud_label" />
                         <String fx:value="label_large" />
@@ -156,9 +156,21 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <FontAwesomeIcon fx:id="forwardIconButton" iconName="FORWARD" size="1.5em" styleClass="hud_icon_button" GridPane.columnIndex="1" />
-                        <FontAwesomeIcon fx:id="playPauseIconButton" iconName="PAUSE" onMouseClicked="#playPause" size="1.5em" styleClass="hud_icon_button" />
-                        <FontAwesomeIcon fx:id="skipIconButton" iconName="STEP_FORWARD" size="1.5em" styleClass="hud_icon_button" GridPane.columnIndex="2" />
+                        <Label fx:id="forwardIconLabel" GridPane.columnIndex="2">
+                           <graphic>
+                              <FontAwesomeIcon fx:id="forwardIconButton" iconName="FORWARD" size="1.5em" styleClass="hud_icon_button" />
+                           </graphic>
+                        </Label>
+                        <Label fx:id="playPauseIconLabel">
+                           <graphic>
+                              <FontAwesomeIcon fx:id="playPauseIconButton" iconName="PAUSE" onMouseClicked="#playPause" size="1.5em" styleClass="hud_icon_button" />
+                           </graphic>
+                        </Label>
+                        <Label fx:id="skipIconLabel" GridPane.columnIndex="1">
+                           <graphic>
+                              <FontAwesomeIcon fx:id="skipIconButton" iconName="STEP_FORWARD" onMouseClicked="#skipDay" size="1.5em" styleClass="hud_icon_button" />
+                           </graphic>
+                        </Label>
                      </children>
                   </GridPane>
                </children>
@@ -220,7 +232,11 @@
       </AnchorPane>
       <AnchorPane AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <FontAwesomeIcon iconName="ENVELOPE" onMousePressed="#toggleMessageWindow" size="2.5em" styleClass="hud_icon_button" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+            <Label fx:id="messageIconLabel" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <graphic>
+                  <FontAwesomeIcon iconName="ENVELOPE" onMousePressed="#toggleMessageWindow" size="2.5em" styleClass="hud_icon_button" />
+               </graphic>
+            </Label>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -232,7 +248,11 @@
       </AnchorPane>
       <AnchorPane layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <FontAwesomeIcon iconName="GEAR" onMousePressed="#toggleMenu" size="2.5em" styleClass="hud_icon_button" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+            <Label fx:id="settingsIconLabel" layoutX="9.0" layoutY="17.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <graphic>
+                  <FontAwesomeIcon iconName="GEAR" onMousePressed="#toggleMenu" size="2.5em" styleClass="hud_icon_button" />
+               </graphic>
+            </Label>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

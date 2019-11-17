@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.application;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
+import de.uni.mannheim.capitalismx.gamelogic.GameThread;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.SupportedResolution;
 import javafx.application.Application;
@@ -69,6 +71,8 @@ public class CapXApplication extends Application {
 	}
 
 	private void closeStage(WindowEvent e, Stage primaryStage) {
+		//stop gameThread
+		GameController.getInstance().terminateGame();
 		if (!testMode) {
 			Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Do you really want to quit?", ButtonType.YES,
 					ButtonType.NO);
