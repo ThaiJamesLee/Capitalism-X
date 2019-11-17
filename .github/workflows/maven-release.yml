@@ -21,10 +21,14 @@ jobs:
       
     - name: Generate Documentation
       run: mvn -Pcreate-docs site
+    - uses: montudor/action-zip@v0.1.0
+      with:
+        args: zip -qq -r ./capitalismx-docs.zip ./docs
     
     - name: Publish Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "capitalismx-ui/target/capitalismx-ui-*.jar,docs"
+        artifacts: "capitalismx-ui/target/capitalismx-ui-*.jar,capitalismx-docs.zip"
+        draft: true
         token: ${{ secrets.GITHUB_TOKEN }}
       
