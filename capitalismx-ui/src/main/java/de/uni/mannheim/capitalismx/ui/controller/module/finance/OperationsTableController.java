@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.EmployeeListController;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
@@ -41,7 +42,7 @@ public class OperationsTableController  extends GameModuleController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        operationsTable.setPlaceholder(new Label("The table is currently empty!"));
+        operationsTable.setPlaceholder(new Label(UIManager.getLocalisedString("operations.table.placeholder")));
 
         TableColumn<Map.Entry<String, OperationsTableEntry>, String> rowName = new TableColumn<>("");
         TableColumn<Map.Entry<String, OperationsTableEntry>, String> col1 = new TableColumn<>("Q");
@@ -87,18 +88,19 @@ public class OperationsTableController  extends GameModuleController {
 
         operationsTable.getColumns().addAll(rowName, col1, col2, col3, col4);
 
+
         data = new LinkedHashMap<>();
-        data.put("sales", new OperationsTableEntry("Sales", 0, 0, 0 ,0));
-        data.put("salaries", new OperationsTableEntry("Salaries", 0, 0, 0 ,0));
-        data.put("material", new OperationsTableEntry("Material", 0, 0, 0 ,0));
-        data.put("machines", new OperationsTableEntry("Machines", 0, 0, 0 ,0));
-        data.put("logistics", new OperationsTableEntry("Logistics", 0, 0, 0 ,0));
-        data.put("lobbying", new OperationsTableEntry("Lobbying", 0, 0, 0 ,0));
-        data.put("marketing", new OperationsTableEntry("Marketing", 0, 0, 0 ,0));
-        data.put("ebit", new OperationsTableEntry("EBIT", 0, 0, 0 ,0));
-        data.put("loan_interest", new OperationsTableEntry("Loan Interest", 0, 0, 0 ,0));
-        data.put("taxes", new OperationsTableEntry("Taxes", 0, 0, 0 ,0));
-        data.put("nopat", new OperationsTableEntry("NOPAT", 0, 0, 0 ,0));
+        data.put("sales", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.sales"), 0, 0, 0 ,0));
+        data.put("salaries", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.salaries"), 0, 0, 0 ,0));
+        data.put("material", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.material"), 0, 0, 0 ,0));
+        data.put("machines", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.machines"), 0, 0, 0 ,0));
+        data.put("logistics", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.logistics"), 0, 0, 0 ,0));
+        data.put("lobbying", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.lobbying"), 0, 0, 0 ,0));
+        data.put("marketing", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.marketing"), 0, 0, 0 ,0));
+        data.put("ebit", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.ebit"), 0, 0, 0 ,0));
+        data.put("loan_interest", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.loanInterest"), 0, 0, 0 ,0));
+        data.put("taxes", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.taxes"), 0, 0, 0 ,0));
+        data.put("nopat", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.nopat"), 0, 0, 0 ,0));
 
         ObservableList<Map.Entry<String,OperationsTableEntry>> dataObservable = FXCollections.observableArrayList(data.entrySet());
         operationsTable.setItems(dataObservable);

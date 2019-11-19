@@ -65,6 +65,7 @@ public class GamePageController implements UpdateableController {
 
 	private boolean mapControlsEnabled = false;
 
+
 	/**
 	 * elements for the message-system
 	 */
@@ -112,12 +113,13 @@ public class GamePageController implements UpdateableController {
 
 		try {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/messagePane.fxml"), UIManager.getResourceBundle());
+					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
 			Parent rootC = loaderMessageWindow.load();
-			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 300);;
+			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);;
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
+			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.event1", true);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -247,6 +249,10 @@ public class GamePageController implements UpdateableController {
 	public void resetOverlay() {
 		overlayLayer.toBack();
 		overlayLayer.getChildren().clear();
+	}
+
+	public MessageController getMessageController() {
+		return messageController;
 	}
 
 }

@@ -23,10 +23,10 @@ public enum ComponentCategory implements Serializable {
     G_CONNECTIVITY ("Gameboy Connectivity"),
     G_CAMERA ("Gameboy Camera"),
 
-    T_DISPLAY ("Teleivsion Display"),
-    T_OS ("Teleivsion OS"),
-    T_SOUND ("Teleivsion Sound"),
-    T_CASE ("Teleivsion Case");
+    T_DISPLAY ("Television Display"),
+    T_OS ("Television OS"),
+    T_SOUND ("Television Sound"),
+    T_CASE ("Television Case");
 
     private String category;
 

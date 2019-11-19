@@ -67,7 +67,7 @@ public class SideMenuController implements Initializable {
 	// TODO replace current mock implementation --> Lokalen gameDay löschen und Code wieder einkommentieren/eincoden (? wie nennt man das???)
 	// aktuell: Controller erhöht gameDay nicht???
 	private boolean isPaused;
-	private LocalDate gameDay;
+
 	DateTimeFormatter dtf;
 
 	// StringProperty containing the current Title string, bound to Lable in parent
@@ -80,7 +80,7 @@ public class SideMenuController implements Initializable {
 
 		// set up date and bind to timeLabel
 		this.isPaused = false;
-		this.gameDay = LocalDate.of(1990, 1, 1);
+		
 		dtf = DateTimeFormatter.ofPattern("MMM dd, \n yyyy").withLocale(Locale.ENGLISH);
 
 		// update once every second (as long as rate remains 1)
@@ -134,8 +134,6 @@ public class SideMenuController implements Initializable {
 		btnSkip.setOnAction(e -> {
 			GameState.getInstance().setGameDate(GameState.getInstance().getGameDate().plusDays(7));
 			this.timeLabel.setText(dtf.format(GameState.getInstance().getGameDate()));
-//			gameDay.plusDays(7);
-//			this.timeLabel.setText(dtf.format(gameDay));
 		});
 
 		btnForward.setOnAction(e -> {
