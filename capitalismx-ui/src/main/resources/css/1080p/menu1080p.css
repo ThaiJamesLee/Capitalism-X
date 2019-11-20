@@ -12,7 +12,7 @@
 }
 
 .menu_image {
-	-fx-background-image: url("../img/Menuv1.jpg");	
+	-fx-background-image: url("../../img/Menuv1.jpg");	
 	-fx-background-size: contain;
 	-fx-background-position: center;
 	-fx-background-repeat: no-repeat;

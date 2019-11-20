@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.components;
 import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,6 +61,8 @@ public class GameNotification {
 		this.message = shortenMessage(message);
 		this.sender = sender;
 		this.root = loadRoot();
+		
+		CssHelper.replaceStylesheets(root.getStylesheets());
 	}
 
 	/**
@@ -81,6 +84,7 @@ public class GameNotification {
 
 		messageLabel.setText(message);
 		senderLabel.setText(UIManager.getResourceBundle().getString("notification.sender") + " " + sender);
+		
 		return loader.getRoot();
 	}
 

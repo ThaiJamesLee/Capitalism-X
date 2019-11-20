@@ -13,6 +13,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,8 +49,6 @@ public class GamePageController implements UpdateableController {
 	/**
 	 * Content elements
 	 */
-	@FXML
-	private StackPane parentStackPane;
 	@FXML
 	private StackPane contentStack;
 	// The GridPane that contains all the modules.
@@ -90,6 +89,8 @@ public class GamePageController implements UpdateableController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		CssHelper.replaceStylesheets(contentStack.getStylesheets());
+		
 		// Bind titleLabel to StringProperty in SideMenuController
 //		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/sidemenu.fxml"));
 //		Parent rootB;

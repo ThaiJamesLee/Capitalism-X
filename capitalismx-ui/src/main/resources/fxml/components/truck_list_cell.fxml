@@ -57,8 +57,4 @@
       <Button mnemonicParsing="false" text="Button" visible="false" GridPane.columnIndex="4" />
       <Button fx:id="sellButton" layoutX="161.0" layoutY="13.0" mnemonicParsing="false" style="-fx-background-color: red;" text="%truck.btnSell" GridPane.columnIndex="4" GridPane.rowSpan="2" />
     </children>
-    <stylesheets>
-        <URL value="@../../css/general.css" />
-        <URL value="@../../css/modul.css" />
-    </stylesheets>
 </GridPane>

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="trainingPopoverRoot" prefWidth="220.0" styleClass="popover" stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController">
+<AnchorPane fx:id="trainingPopoverRoot" prefWidth="220.0" styleClass="train_popover" stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController">
    <children>
       <VBox layoutX="-69.0" layoutY="-48.0" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

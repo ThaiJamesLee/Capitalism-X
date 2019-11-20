@@ -1,11 +1,10 @@
 package de.uni.mannheim.capitalismx.ui.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import javafx.scene.Parent;
 
 /**
  * This class provides some static methods that help with the automatic
@@ -17,25 +16,21 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 public class CssHelper {
 
 	/**
-	 * Method that copies the css-Files of the specified {@link CssResolution} to
-	 * the css-Directory, where they will be used by the game.
+	 * Replaces the given List of Styleheets with the Stylesheets of the current
+	 * {@link CssSettings} specified in the {@link UIManager}.
+	 * 
+	 * @param stylesheets {@link List} of Stylesheets to replace. (Obtainable by
+	 *                    calling getStylesheets() on a {@link Parent})
 	 */
-	public static void adjustCssToCurrentResolution() {
-		File cssSourceDirectory = new File(CssHelper.class.getResource("/css/" + UIManager.getInstance().getGameResolution().getCurrentCssSettings().getCssSourceFolder() + "/").getFile());
-		File cssTargetDirectory = new File(CssHelper.class.getResource("/css/").getFile());
-		for (File cssFile : cssSourceDirectory.listFiles()) {
-			File targetFile = new File(cssTargetDirectory.getAbsolutePath() + "/"
-					+ cssFile.getName().replace(UIManager.getInstance().getGameResolution().getCurrentCssSettings().getCssSourceFolder(), ""));
-			if (!targetFile.exists()) {
-				targetFile.mkdirs();
-			}
-			try {
-				Files.copy(cssFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public static void replaceStylesheets(List<String> stylesheets) {
+		ArrayList<String> newSheets = new ArrayList<String>();
+		CssSettings cssSettings = UIManager.getInstance().getGameResolution().getCurrentCssSettings();
+		for (String sheet : stylesheets) {
+			sheet = sheet.replaceAll("\\/css\\/(\\d+p\\/)?", "/css/" + cssSettings.getCssSourceFolder() + "/");
+			newSheets.add(sheet.replaceAll("(\\d+p)?\\.css", cssSettings.getCssSourceFolder() + ".css"));
 		}
+		stylesheets.clear();
+		stylesheets.addAll(newSheets);
 	}
 
 }

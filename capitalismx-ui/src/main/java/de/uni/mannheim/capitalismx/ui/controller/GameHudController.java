@@ -18,6 +18,7 @@ import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -27,6 +28,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.PopupWindow.AnchorLocation;
@@ -72,6 +74,9 @@ public class GameHudController implements UpdateableController {
 
 	@FXML
 	private StackPane notificationPane;
+	
+	@FXML
+	private AnchorPane root;
 
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
@@ -133,6 +138,7 @@ public class GameHudController implements UpdateableController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		CssHelper.replaceStylesheets(root.getStylesheets());
 		// Set initial captions of the info labels at the top
 		GameState gameState = GameState.getInstance();
 		cashLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getCash()));

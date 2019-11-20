@@ -5,9 +5,11 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Controller for the LoadingScreen-{@link GameScene}. Mainly manages the
@@ -19,11 +21,14 @@ import javafx.scene.control.ProgressBar;
 public class LoadingScreenController implements UpdateableController {
 
 	@FXML
+	private AnchorPane root;
+
+	@FXML
 	private ProgressBar progressBar;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		CssHelper.replaceStylesheets(root.getStylesheets());
 	}
 
 	/**

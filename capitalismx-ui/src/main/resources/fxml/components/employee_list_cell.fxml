@@ -41,10 +41,6 @@
          </font>
       </Label>
    </children>
-   <stylesheets>
-      <URL value="@../../css/general.css" />
-      <URL value="@../../css/modul.css" />
-   </stylesheets>
    <padding>
       <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
    </padding>

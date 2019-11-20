@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,10 +19,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class MessageController implements Initializable {
+	
+	@FXML
+	private AnchorPane root;
 	
 	@FXML
 	private Button messageClose;
@@ -114,7 +119,7 @@ public class MessageController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		CssHelper.replaceStylesheets(root.getStylesheets());
 
 
 

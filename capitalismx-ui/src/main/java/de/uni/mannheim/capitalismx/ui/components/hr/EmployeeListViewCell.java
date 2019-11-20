@@ -6,10 +6,8 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
 
-import de.jensd.fx.glyphs.GlyphIconName;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.Training;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
@@ -144,17 +142,17 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 		PopOver trainPopover = new PopOver();
 		try {
 			trainPopover.setContentNode(popoverLoader.load());
-			trainPopover.setFadeInDuration(Duration.ZERO);
+			trainPopover.setFadeInDuration(Duration.millis(50));
 			TrainingPopoverController popOverController = ((TrainingPopoverController) popoverLoader.getController());
 			popOverController.init(trainPopover, employee, this);
-		} catch (IOException e1) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 
 		trainButton.setOnAction(eTrain -> {
 			trainPopover.show(trainButton);
-			GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.COURSES);
+			trainPopover.setOpacity(1.0);
 		});
 	}
 

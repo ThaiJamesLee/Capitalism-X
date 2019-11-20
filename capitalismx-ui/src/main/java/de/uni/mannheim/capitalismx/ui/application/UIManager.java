@@ -383,7 +383,7 @@ public class UIManager {
 
 	public void resetResolution() {
 		// TODO adjust/force size of Scene/Stage to given Resolution or just switch css
-		CssHelper.adjustCssToCurrentResolution();
+//		CssHelper.adjustCssToCurrentResolution();
 	}
 
 	public void setGameHudController(GameHudController gameHudController) {

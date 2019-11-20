@@ -566,24 +566,25 @@ FontAwesomeIcon {
 
 
 /**
- *	Design for the Popover.
+ *	Design for the Train-Popover.
  */
-.popover {
+.train_popover {
 	-fx-border-radius: 5.0;
 	-fx-width: 150.0px;
 }
 
-.popover .training_grid {
+.train_popover .training_grid {
 	-fx-border-radius: 2.0px;
 	-fx-background-radius: 2.0px;
 	-fx-padding: 5.0px;
-	-fx-background-color: -fx-light-neutral;
+	-fx-background-color: -fx-complement-light-neutral;
 }
 
-.popover .training_grid:hover {
+.train_popover .training_grid:hover {
 	-fx-background-color: -fx-primary;
 }
-.popover .training_grid:pressed {
-	-fx-background-color: -fx-neutral;
+.train_popover .training_grid:pressed {
+	-fx-text-fill: -fx-primary;
+	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary;
 }
