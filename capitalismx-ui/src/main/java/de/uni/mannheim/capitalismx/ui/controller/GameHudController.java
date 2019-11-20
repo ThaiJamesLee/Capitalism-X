@@ -63,7 +63,7 @@ public class GameHudController implements UpdateableController {
 			netWorthChangeLabel, dateLabel;
 
 	@FXML
-	private ToggleButton btnOverview, btnFinance, btnHr, btnProduction, btnLogistics, btnWarehouse, btnRAndD;
+	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD;
 	@FXML
 	private ToggleGroup departmentButtons;
 	// The GridPane that contains all the modules.
@@ -170,6 +170,7 @@ public class GameHudController implements UpdateableController {
 		initDepartmentButton(btnOverview, GameViewType.OVERVIEW);
 		initDepartmentButton(btnFinance, GameViewType.FINANCES);
 		initDepartmentButton(btnHr, GameViewType.HR);
+		initDepartmentButton(btnSales, GameViewType.SALES);
 		initDepartmentButton(btnProduction, GameViewType.PRODUCTION);
 		initDepartmentButton(btnWarehouse, GameViewType.WAREHOUSE);
 		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
@@ -246,6 +247,12 @@ public class GameHudController implements UpdateableController {
 		UIManager.getInstance().getGamePageController().switchView(viewType);
 	}
 
+
+	@FXML
+	private void togglePressReleaseWindow() {
+		
+	}
+	
 	@FXML
 	private void toggleMenu() {
 		GameController.getInstance().pauseGame();

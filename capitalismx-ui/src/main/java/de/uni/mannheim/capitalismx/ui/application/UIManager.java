@@ -27,6 +27,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -145,6 +146,7 @@ public class UIManager {
 	 * Initialize the KeyboardControls on the GamePage.
 	 */
 	private void initKeyboardControls() {
+		
 		sceneGamePage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -350,7 +352,7 @@ public class UIManager {
 			this.language = "EN";
 		}
 
-		//TODO refactoring
+		// TODO refactoring
 		resourceBundle = ResourceBundle.getBundle(newProperties);
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"),
 				resourceBundle);
@@ -452,6 +454,7 @@ public class UIManager {
 
 	/**
 	 * Returns the language file as string.
+	 * 
 	 * @return The requested language file as string.
 	 */
 	public String getLanguage() {

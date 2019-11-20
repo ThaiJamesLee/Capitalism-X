@@ -207,6 +207,11 @@
                         <FontAwesomeIcon iconName="USER" size="1.3em" styleClass="fontAwesomeButtonDark" />
                      </graphic>
                   </ToggleButton>
+                  <ToggleButton fx:id="btnSales" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button">
+                     <graphic>
+                        <FontAwesomeIcon iconName="SHOPPING_CART" size="1.3em" />
+                     </graphic>
+                  </ToggleButton>
                   <ToggleButton fx:id="btnProduction" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
                      <graphic>
                         <FontAwesomeIcon iconName="GEARS" size="1.3em" styleClass="fontAwesomeButtonDark" />
@@ -235,9 +240,14 @@
          <children>
             <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label fx:id="messageIconLabel">
+                  <Label>
                      <graphic>
-                        <FontAwesomeIcon iconName="ENVELOPE" onMousePressed="#toggleMessageWindow" size="2em" styleClass="hud_icon_button" />
+                        <FontAwesomeIcon iconName="COMMENT_ALT" onMousePressed="#togglePressReleaseWindow" size="2em" styleClass="hud_icon_button" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="messageIconLabel" alignment="TOP_LEFT">
+                     <graphic>
+                        <FontAwesomeIcon iconName="ENVELOPE_ALT" onMousePressed="#toggleMessageWindow" size="2em" styleClass="hud_icon_button" wrappingWidth="24.0" />
                      </graphic>
                   </Label>
                   <Label fx:id="settingsIconLabel">
