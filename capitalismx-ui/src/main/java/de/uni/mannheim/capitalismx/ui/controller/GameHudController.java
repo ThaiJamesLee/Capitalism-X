@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.ResourceBundle;
@@ -55,12 +56,14 @@ public class GameHudController implements UpdateableController {
 	 */
 	private boolean displayingNotification = false;
 
+	private HashMap<GameViewType, ToggleButton> departmentButtonMap;
+
 	@FXML
 	private Label departmentLabel, cashLabel, cashChangeLabel, employeeLabel, employeeChangeLabel, netWorthLabel,
 			netWorthChangeLabel, dateLabel;
 
 	@FXML
-	private ToggleButton btnOverview, btnFinance, btnHr, btnProduction, btnLogistics, btnWarehouse, btnMarketing;
+	private ToggleButton btnOverview, btnFinance, btnHr, btnProduction, btnLogistics, btnWarehouse, btnRAndD;
 	@FXML
 	private ToggleGroup departmentButtons;
 	// The GridPane that contains all the modules.
@@ -74,7 +77,7 @@ public class GameHudController implements UpdateableController {
 
 	@FXML
 	private StackPane notificationPane;
-	
+
 	@FXML
 	private AnchorPane root;
 
@@ -86,8 +89,8 @@ public class GameHudController implements UpdateableController {
 	 * @param notification The {@link GameNotification} to display.
 	 */
 	public void addNotification(GameNotification notification) {
-			notificationQueue.add(notification);
-			displayNextNotification();
+		notificationQueue.add(notification);
+		displayNextNotification();
 	}
 
 	/**
@@ -96,7 +99,8 @@ public class GameHudController implements UpdateableController {
 	 * @param notification
 	 */
 	private void displayNextNotification() {
-		if(displayingNotification) return;
+		if (displayingNotification)
+			return;
 		// block display of other notifications
 		displayingNotification = true;
 		GameNotification notification = notificationQueue.poll();
@@ -125,6 +129,7 @@ public class GameHudController implements UpdateableController {
 	 * @param department The {@link GameViewType} to create EventHandlers for.
 	 */
 	private void initDepartmentButton(ToggleButton button, GameViewType department) {
+		departmentButtonMap.put(department, button);
 		button.setOnAction(e -> {
 			switchView(department);
 		});
@@ -134,6 +139,18 @@ public class GameHudController implements UpdateableController {
 		button.setOnMouseExited(e -> {
 			button.setText("");
 		});
+	}
+
+	public void selectDepartmentButton(GameViewType type) {
+		getDepartmentButton(type).setSelected(true);
+	}
+
+	public void deselectDepartmentButton(GameViewType type) {
+		getDepartmentButton(type).setSelected(false);
+	}
+
+	private ToggleButton getDepartmentButton(GameViewType departmentViewType) {
+		return departmentButtonMap.get(departmentViewType);
 	}
 
 	@Override
@@ -149,22 +166,25 @@ public class GameHudController implements UpdateableController {
 		// TODO Tooltip on the changelabels, with period described by the label
 
 		// Set the actions for the buttons that switch the views of the departments.
+		departmentButtonMap = new HashMap<GameViewType, ToggleButton>();
 		initDepartmentButton(btnOverview, GameViewType.OVERVIEW);
 		initDepartmentButton(btnFinance, GameViewType.FINANCES);
 		initDepartmentButton(btnHr, GameViewType.HR);
 		initDepartmentButton(btnProduction, GameViewType.PRODUCTION);
 		initDepartmentButton(btnWarehouse, GameViewType.WAREHOUSE);
 		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
-		initDepartmentButton(btnMarketing, GameViewType.MARKETING);
+		initDepartmentButton(btnRAndD, GameViewType.R_AND_D);
 
 		TooltipFactory tooltipFactory = new TooltipFactory();
 		tooltipFactory.setFadeInDuration(Duration.millis(100));
 
-		playPauseIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.playPause")));
+		playPauseIconLabel
+				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.playPause")));
 		skipIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.skip")));
 		forwardIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.faster")));
 		tooltipFactory.setAnchorLocation(AnchorLocation.WINDOW_TOP_RIGHT);
-		settingsIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.settings")));
+		settingsIconLabel
+				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.settings")));
 		messageIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.messages")));
 
 		UIManager.getInstance().setGameHudController(this);

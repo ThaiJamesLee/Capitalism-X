@@ -42,8 +42,6 @@ public class GamePageController implements UpdateableController {
 	@FXML
 	private Label viewTitleLabel;
 	@FXML
-	private SideMenuController sidemenuController;
-	@FXML
 	private AnchorPane notificationAnchor, messageLayer;
 
 	/**
@@ -191,8 +189,11 @@ public class GamePageController implements UpdateableController {
 			for (GameModule module : currentActiveView.getModules()) {
 				moduleGrid.getChildren().remove(module.getRootElement());
 			}
+			
+			UIManager.getInstance().getGameHudController().deselectDepartmentButton(currentActiveView.getViewType());
 		}
 		// change current view and add modules
+		UIManager.getInstance().getGameHudController().selectDepartmentButton(viewType);
 		currentActiveView = UIManager.getInstance().getGameView(viewType);
 		UIManager.getInstance().getGameHudController().updateGameViewLabel(viewType);
 		for (GameModule module : currentActiveView.getModules()) {

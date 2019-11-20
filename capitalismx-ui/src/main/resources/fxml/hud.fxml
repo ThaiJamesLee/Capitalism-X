@@ -222,9 +222,9 @@
                         <FontAwesomeIcon iconName="CUBES" size="1.3em" styleClass="fontAwesomeButtonDark" />
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="btnMarketing" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
+                  <ToggleButton fx:id="btnRAndD" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
                      <graphic>
-                        <FontAwesomeIcon iconName="BULLHORN" size="1.3em" styleClass="fontAwesomeButtonDark" />
+                        <FontAwesomeIcon iconName="FLASK" size="1.3em" styleClass="fontAwesomeButtonDark" />
                      </graphic>
                   </ToggleButton>
                </children>
