@@ -2,7 +2,8 @@ package de.uni.mannheim.capitalismx.ui.eventlisteners;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.time.LocalDate;
+
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 
 /**
  * Ein GameState Event Listener.
@@ -14,8 +15,7 @@ public class GameStateEventListener implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals("gameDate")) {
             //TODO do something with the changed value.
-            LocalDate newDate = ((LocalDate)evt.getSource());
-
+        	UIManager.getInstance().getGameHudController().update();
         }
     }
 }

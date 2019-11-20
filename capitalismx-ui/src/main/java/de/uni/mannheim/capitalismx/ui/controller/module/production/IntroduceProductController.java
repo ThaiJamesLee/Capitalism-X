@@ -28,6 +28,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.util.StringConverter;
 
+
+//TODO Komponenten lokalisieren
 public class IntroduceProductController extends GameModuleController {
 
     /****** Product Name Text Fields ******/

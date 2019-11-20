@@ -1,13 +1,13 @@
 package de.uni.mannheim.capitalismx.ui.components;
 
-import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
-import javafx.geometry.Insets;
+import java.io.IOException;
+
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.TextAlignment;
 
 /**
  * An ingame notification, that can be used for the Messaging-System and
@@ -19,7 +19,8 @@ import javafx.scene.text.TextAlignment;
 public class GameNotification {
 
 	/**
-	 * Max length of a message that can be displayed on the notification. TODO check length (also for different scales?)
+	 * Max length of a message that can be displayed on the notification. TODO check
+	 * length (also for different scales?)
 	 */
 	private final static int MAX_LENGTH_OF_MESSAGE = 120;
 
@@ -43,6 +44,9 @@ public class GameNotification {
 		return root;
 	}
 
+	@FXML
+	private Label senderLabel, messageLabel;
+
 	/**
 	 * Creates a new {@link GameNotification} for the given name of the sender and
 	 * message, that can than be displayed on the GamePage.
@@ -53,48 +57,35 @@ public class GameNotification {
 	 *                MAX_LENGTH_OF_MESSAGE, so that it fits on the notification.
 	 */
 	public GameNotification(String sender, String message) {
+		// TODO construct notification from Message-object, once implemented
 		this.message = shortenMessage(message);
 		this.sender = sender;
-		this.root = createRoot();
+		this.root = loadRoot();
+		
+		CssHelper.replaceStylesheets(root.getStylesheets());
 	}
 
-	private Parent createRoot() {
-		// create new GridPane as root for the notification
-		GridPane root = new GridPane();
+	/**
+	 * Loads the fxml-File specifying the structure of the notification and adds the
+	 * content. //TODO direct link to message necessary
+	 * 
+	 * @return The root-{@link Parent} of the {@link GameNotification}.
+	 */
+	private Parent loadRoot() {
+		FXMLLoader loader = new FXMLLoader(
+				getClass().getClassLoader().getResource("fxml/components/game_notification.fxml"));
+		loader.setController(this);
+		try {
+			loader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		// general styling the notification
-		root.getStylesheets().add(getClass().getClassLoader().getResource("css/general.css").toExternalForm());
-		root.getStylesheets().add(getClass().getClassLoader().getResource("css/notificationPane.css").toExternalForm());
-		root.getStyleClass().add("notificationBackground");
-		root.setPadding(new Insets(10, 10, 10, 10));
-		root.setHgap(10);
-
-		// Prepare label for the sender
-		Label senderLabel = new Label(this.sender);
-		senderLabel.getStyleClass().add("senderLabel");
-		senderLabel.setTextAlignment(TextAlignment.CENTER);
-		AnchorPaneHelper.snapNodeToAnchorPane(senderLabel);
-
-		// Prepare label for the message
-		Label messageLabel = new Label(this.message);
-		messageLabel.getStyleClass().add("messageLabel");
-		messageLabel.setWrapText(true);
-
-		// Prepare an anchorPane for the sender
-		AnchorPane senderPane = new AnchorPane();
-		senderPane.getChildren().add(senderLabel);
-
-		senderPane.getStyleClass().add("senderPane");
-		// add two columns for the sender and the message
-		ColumnConstraints col1 = new ColumnConstraints();
-		col1.setPercentWidth(20);
-		ColumnConstraints col2 = new ColumnConstraints();
-		col2.setPercentWidth(80);
-		root.getColumnConstraints().addAll(col1, col2);
-
-		root.add(senderPane, 0, 0);
-		root.add(messageLabel, 1, 0);
-		return root;
+		messageLabel.setText(message);
+		senderLabel.setText(UIManager.getResourceBundle().getString("notification.sender") + " " + sender);
+		
+		return loader.getRoot();
 	}
 
 	/**

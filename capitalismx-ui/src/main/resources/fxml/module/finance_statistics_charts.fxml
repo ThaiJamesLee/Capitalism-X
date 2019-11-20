@@ -16,7 +16,7 @@
                       <CategoryAxis side="BOTTOM" />
                   </xAxis>
                   <yAxis>
-                      <NumberAxis autoRanging="false" label="Sales" minorTickCount="20" minorTickLength="20.0" minorTickVisible="false" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickMarkVisible="false" tickUnit="20.0" />
+                      <NumberAxis autoRanging="false" label="%finance.charts.sales" minorTickCount="20" minorTickLength="20.0" minorTickVisible="false" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickMarkVisible="false" tickUnit="20.0" />
                   </yAxis>
               </BarChart>
             <BarChart fx:id="salariesChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" verticalGridLinesVisible="false">
@@ -24,7 +24,7 @@
                   <CategoryAxis side="BOTTOM" />
                </xAxis>
                <yAxis>
-                  <NumberAxis autoRanging="false" label="Salaries" minorTickCount="20" minorTickLength="20.0" minorTickVisible="false" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickMarkVisible="false" tickUnit="20.0" />
+                  <NumberAxis autoRanging="false" label="%finance.charts.salaries" minorTickCount="20" minorTickLength="20.0" minorTickVisible="false" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickMarkVisible="false" tickUnit="20.0" />
                </yAxis>
             </BarChart>
             <BarChart fx:id="loansChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutX="10.0" layoutY="410.0" verticalGridLinesVisible="false">
@@ -32,7 +32,7 @@
                   <CategoryAxis side="BOTTOM" />
                </xAxis>
                <yAxis>
-                  <NumberAxis autoRanging="false" label="Loans" minorTickCount="20" minorTickLength="20.0" minorTickVisible="false" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickMarkVisible="false" tickUnit="20.0" />
+                  <NumberAxis autoRanging="false" label="%finance.charts.loans" minorTickCount="20" minorTickLength="20.0" minorTickVisible="false" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickMarkVisible="false" tickUnit="20.0" />
                </yAxis>
             </BarChart>
          </children>

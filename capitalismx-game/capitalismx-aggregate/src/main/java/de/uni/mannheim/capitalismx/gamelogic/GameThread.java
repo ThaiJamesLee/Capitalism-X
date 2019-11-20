@@ -40,6 +40,7 @@ public class GameThread extends Thread {
 
     public void terminate() {
         this.running = false;
+        instance = null;
     }
 
     public void setSecondsPerDay(int secondsPerDay) {

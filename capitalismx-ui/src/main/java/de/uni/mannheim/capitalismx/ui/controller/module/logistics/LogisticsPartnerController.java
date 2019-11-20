@@ -31,9 +31,9 @@ public class LogisticsPartnerController  extends GameModuleController {
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
         if(controller.getExternalPartner() != null){
-            currentlyEmployingTextArea.setText("Currently employing\n" + controller.getExternalPartner().getName() + " " + controller.getExternalPartner().getContractualCost());
+            currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl") + controller.getExternalPartner().getName() + " " + controller.getExternalPartner().getContractualCost());
         }else{
-            currentlyEmployingTextArea.setText("Currently employing no external partner");
+            currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyNo"));
         }
 
         logisticsPartnerButton.setOnAction(e -> {
@@ -42,7 +42,7 @@ public class LogisticsPartnerController  extends GameModuleController {
     }
 
     public void addExternalPartner(ExternalPartner externalPartner){
-        currentlyEmployingTextArea.setText("Currently employing\n" + externalPartner.getName());
+        currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl") + externalPartner.getName());
     }
 
 }

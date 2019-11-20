@@ -18,9 +18,9 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
    <children>
-      <TabPane layoutX="79.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/general.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane layoutX="79.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
-          <Tab text="TV">
+          <Tab text="%product.tab.tv">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -45,11 +45,11 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="%product.tv.components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="%product.tv.supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <TextField fx:id="tvProductNameTextField" promptText="capTV" />
+                              <TextField fx:id="tvProductNameTextField" promptText="%product.tv.promptName" />
                               <GridPane GridPane.rowIndex="2">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" prefWidth="100.0" />
@@ -64,8 +64,8 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label text="Screen" GridPane.columnIndex="1" />
-                                    <Label text="Audio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="%product.tv.screen" GridPane.columnIndex="1" />
+                                    <Label text="%product.tv.audio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <HBox prefHeight="13.0" prefWidth="918.0" GridPane.columnIndex="2">
                                        <children>
                                           <ToggleButton fx:id="tvScreenToggleButton0" mnemonicParsing="false" prefHeight="49.0" selected="true" text="ToggleButton" />
@@ -88,7 +88,7 @@
                                           <ToggleButton fx:id="tvAudioToggleButton6" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Label text="Case" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="%product.tv.case" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
                                           <ToggleButton fx:id="tvCaseToggleButton0" mnemonicParsing="false" prefHeight="53.0" selected="true" text="ToggleButton" />
@@ -97,7 +97,7 @@
                                           <ToggleButton fx:id="tvCaseToggleButton3" mnemonicParsing="false" prefHeight="63.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Label text="OS" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="%product.tv.os" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
                                           <ToggleButton fx:id="tvOSToggleButton0" mnemonicParsing="false" prefHeight="58.0" selected="true" text="ToggleButton" />
@@ -130,14 +130,14 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <TextField fx:id="tvSalesPriceTextField" alignment="CENTER_RIGHT" promptText="400" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label styleClass="label_large" text="Price" GridPane.rowIndex="1" />
-                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <TextField fx:id="tvSalesPriceTextField" alignment="CENTER_RIGHT" promptText="%product.tv.promtPrice" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label styleClass="label_large" text="%product.tv.price" GridPane.rowIndex="1" />
+                                    <Label text="%product.tv.currency" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button mnemonicParsing="false" styleClass="button_module" text="Launch ($10,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button mnemonicParsing="false" styleClass="button_module" text="%product.tv.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -145,7 +145,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Console">
+          <Tab text="%product.tab.console">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -163,7 +163,7 @@
                            <children>
                               <AnchorPane prefHeight="49.0" prefWidth="1229.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="Launch ($50,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="%product.console.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                               <GridPane GridPane.rowIndex="3">
@@ -177,9 +177,9 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <TextField fx:id="consoleSalesPriceTextField" alignment="CENTER_RIGHT" promptText="600" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label styleClass="label_large" text="Price" GridPane.rowIndex="1" />
-                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <TextField fx:id="consoleSalesPriceTextField" alignment="CENTER_RIGHT" promptText="%product.console.promtPrice" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label styleClass="label_large" text="%product.console.price" GridPane.rowIndex="1" />
+                                    <Label text="%product.console.currency" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                               <GridPane GridPane.rowIndex="2">
@@ -226,17 +226,17 @@
                                           <ToggleButton fx:id="consolePowersupplyToggleButton5" mnemonicParsing="false" prefHeight="65.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Label text="CPU" GridPane.columnIndex="1" />
-                                    <Label text="Screen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Powersupply" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label text="Camera" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="%product.console.cpu" GridPane.columnIndex="1" />
+                                    <Label text="%product.console.screen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="%product.console.power" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="%product.console.camera" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                        <children>
                                           <ToggleButton fx:id="consoleCameraToggleButton0" mnemonicParsing="false" prefHeight="63.0" selected="true" text="ToggleButton" />
                                           <ToggleButton fx:id="consoleCameraToggleButton1" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Label text="Connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="%product.console.connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
                                           <ToggleButton fx:id="consoleConnectivityToggleButton0" mnemonicParsing="false" prefHeight="50.0" selected="true" text="ToggleButton" />
@@ -265,17 +265,17 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="%product.console.components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="%product.console.supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <TextField fx:id="consoleProductNameTextField" promptText="capConsole" />
+                              <TextField fx:id="consoleProductNameTextField" promptText="%product.console.promptName" />
                            </children>
                         </GridPane>
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="Notebook">
+            <Tab text="%product.tab.notebook">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -293,7 +293,7 @@
                            <children>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="Launch ($200,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="%product.notebook.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                               <GridPane GridPane.rowIndex="3">
@@ -307,9 +307,9 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <TextField fx:id="notebookSalesPriceTextField" alignment="CENTER_RIGHT" promptText="1500" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label styleClass="label_large" text="Price" GridPane.rowIndex="1" />
-                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <TextField fx:id="notebookSalesPriceTextField" alignment="CENTER_RIGHT" promptText="%product.notebook.promtPrice" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label styleClass="label_large" text="%product.notebook.price" GridPane.rowIndex="1" />
+                                    <Label text="%product.notebook.currency" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                               <GridPane GridPane.rowIndex="2">
@@ -370,11 +370,11 @@
                                           <ToggleButton fx:id="notebookSoftwareToggleButton5" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Label text="CPU" GridPane.columnIndex="1" />
-                                    <Label text="Storage" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Screen" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label text="Software" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <Label text="Powersupply" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="%product.notebook.cpu" GridPane.columnIndex="1" />
+                                    <Label text="%product.notebook.storage" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="%product.notebook.screen" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="%product.notebook.software" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="%product.notebook.power" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <ToggleButton fx:id="notebookPowersupplyToggleButton0" mnemonicParsing="false" prefHeight="52.0" selected="true" text="ToggleButton" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                     <ChoiceBox fx:id="notebookCPUsChoiceBox" prefHeight="62.0" prefWidth="119.0" GridPane.columnIndex="3" />
                                     <ChoiceBox fx:id="notebookStoragesChoiceBox" prefHeight="60.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
@@ -397,17 +397,17 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="%product.notebook.components" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label text="%product.notebook.supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <TextField fx:id="notebookProductNameTextField" promptText="capNotebook" />
+                              <TextField fx:id="notebookProductNameTextField" promptText="%product.notebook.promptName" />
                            </children>
                         </GridPane>
                      </children></AnchorPane>
               </content>
             </Tab>
-            <Tab text="Phone">
+            <Tab text="%product.tab.phone">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -425,7 +425,7 @@
                            <children>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="Launch ($500,000)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="%product.phone.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
                               <GridPane GridPane.rowIndex="3">
                                 <columnConstraints>
@@ -437,9 +437,9 @@
                                   <RowConstraints percentHeight="100.0" />
                                 </rowConstraints>
                                  <children>
-                                    <Label styleClass="label_large" text="Price" />
-                                    <TextField fx:id="phoneSalesPriceTextField" alignment="CENTER_RIGHT" promptText="700" GridPane.columnIndex="1" />
-                                    <Label text="\$" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Label styleClass="label_large" text="%product.phone.price" />
+                                    <TextField fx:id="phoneSalesPriceTextField" alignment="CENTER_RIGHT" promptText="%product.phone.promtPrice" GridPane.columnIndex="1" />
+                                    <Label text="%product.phone.currency" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                               <GridPane GridPane.rowIndex="2">
@@ -501,18 +501,18 @@
                                           <ToggleButton fx:id="phonePowersupplyToggleButton2" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Label text="Powersupply" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <Label text="Camera" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label text="Screen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <Label prefHeight="17.0" prefWidth="25.0" text="CPU" GridPane.columnIndex="1" />
+                                    <Label text="%product.phone.power" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="%product.phone.camera" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="%product.phone.screen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="%product.phone.connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label prefHeight="17.0" prefWidth="25.0" text="%product.phone.cpu" GridPane.columnIndex="1" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                                        <children>
                                           <ToggleButton fx:id="phoneKeypadToggleButton0" mnemonicParsing="false" prefHeight="42.0" selected="true" text="ToggleButton" />
                                           <ToggleButton fx:id="phoneKeypadToggleButton1" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
-                                    <Label text="Keypad" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label text="%product.phone.keypad" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                     <ChoiceBox fx:id="phoneCPUsChoiceBox" prefHeight="55.0" prefWidth="119.0" GridPane.columnIndex="3" />
                                     <ChoiceBox fx:id="phoneScreensChoiceBox" prefHeight="52.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                     <ChoiceBox fx:id="phoneCamerasChoiceBox" prefHeight="51.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
@@ -537,11 +537,11 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label styleClass="header" text="Components" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                    <Label text="Supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Label styleClass="header" text="%product.phone.components" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Label text="%product.phone.supplier" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
-                              <TextField fx:id="phoneProductNameTextField" promptText="capPhone" />
+                              <TextField fx:id="phoneProductNameTextField" promptText="%product.phone.promptName" />
                            </children>
                         </GridPane>
                      </children>

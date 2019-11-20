@@ -30,7 +30,7 @@ public class EmployeeBox {
 	private FXMLLoader loader;
 
 	public EmployeeBox(Employee employee) {
-		loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/recruiting_list_cell.fxml"));
+		loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/employee_list_cell.fxml"), UIManager.getResourceBundle());
 		loader.setController(this);
 
 		try {
@@ -43,6 +43,7 @@ public class EmployeeBox {
 		wageLabel.setText((int) employee.getSalary() + " CC");
 		skillLabel.setText(employee.getSkillLevel() + "");
 		
+		gridPane.setMinHeight(UIManager.getInstance().getGameResolution().getHeight()/25);
 		gridPane.setOnMouseClicked(e -> {
 			Properties prop = new Properties();
 			prop.setProperty("employeeId", employee.getID());

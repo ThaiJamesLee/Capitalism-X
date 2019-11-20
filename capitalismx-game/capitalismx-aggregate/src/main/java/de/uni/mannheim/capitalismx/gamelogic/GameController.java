@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.UIManager;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,6 +89,7 @@ public class GameController {
 		this.updateWarehouse();
 		this.updateProcurement();
 		this.updateProduction();
+		
 	}
 
 	/**
@@ -142,6 +142,7 @@ public class GameController {
 
 	private void updateFinance() {
 		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
 	}
 
 	private void updateHR() {
@@ -184,6 +185,8 @@ public class GameController {
 
 	public void terminateGame() {
 		GameThread.getInstance().terminate();
+		GameState.getInstance().resetDepartments();
+		GameState.setInstance(null);
 	}
 
 	public void resumeGame() {
@@ -269,17 +272,9 @@ public class GameController {
 		return netWorth;
 	}
 
-	public ArrayList<Investment> generateInvestmentSelection(double amount) {
-		return FinanceDepartment.getInstance().generateInvestmentSelection(amount);
-	}
-
-	public void addInvestment(Investment investment) {
-		FinanceDepartment.getInstance().addInvestment(investment);
-	}
-
-	public void removeInvestment(Investment investment) {
-		FinanceDepartment.getInstance().removeInvestment(investment);
-	}
+    public List<Investment> getInvestments() {
+        return FinanceDepartment.getInstance().getInvestments();
+    }
 
 	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount) {
 		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount);
@@ -403,6 +398,38 @@ public class GameController {
 
 	public void decreaseNetWorth(double amount) {
 		FinanceDepartment.getInstance().decreaseNetWorth(amount);
+	}
+
+	public void increaseAssets(double amount) {
+		FinanceDepartment.getInstance().increaseAssets(amount);
+	}
+
+	public void increaseLiabilities(double amount) {
+		FinanceDepartment.getInstance().increaseLiabilities(amount);
+	}
+
+	public double getRealEstateInvestmentAmount() {
+		return FinanceDepartment.getInstance().getRealEstateInvestmentAmount();
+	}
+
+	public double getStocksInvestmentAmount() {
+		return FinanceDepartment.getInstance().getStocksInvestmentAmount();
+	}
+
+	public double getVentureCapitalInvestmentAmount() {
+		return FinanceDepartment.getInstance().getVentureCapitalInvestmentAmount();
+	}
+
+	public boolean increaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+		return FinanceDepartment.getInstance().increaseInvestmentAmount(amount, investmentType);
+	}
+
+    public boolean decreaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+        return FinanceDepartment.getInstance().decreaseInvestmentAmount(amount, investmentType);
+    }
+
+	public TreeMap<String, String[]> getQuarterlyData() {
+		return FinanceDepartment.getInstance().getQuarterlyData();
 	}
 
 	/*

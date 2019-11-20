@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -37,7 +38,7 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 		} else {
 			if (loader == null) {
 				loader = new FXMLLoader(
-						getClass().getClassLoader().getResource("fxml/components/recruiting_list_cell.fxml"));
+						getClass().getClassLoader().getResource("fxml/components/recruiting_list_cell.fxml"), UIManager.getResourceBundle());
 				loader.setController(this);
 
 				try {
@@ -51,7 +52,7 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 			nameLabel.setText(employee.getName());
 			wageLabel.setText((int) employee.getSalary() + " CC");
 			skillLabel.setText(employee.getSkillLevel() + "");
-			jobLabel.setText(employee.getEmployeeType().toString());
+			jobLabel.setText(employee.getEmployeeType().getName(UIManager.getResourceBundle().getLocale()));
 
 			setText(null);
 			setGraphic(gridPane);

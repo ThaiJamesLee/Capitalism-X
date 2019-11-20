@@ -2,89 +2,126 @@ package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.net.URL;
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.ResourceBundle;
-
-import org.controlsfx.control.PopOver.ArrowLocation;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
+import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Tooltip;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.PopupWindow.AnchorLocation;
 import javafx.util.Duration;
 
+/**
+ * Controller for the hud on the GamePage. The hud consists of various elements
+ * on the borders of the Screen, that provide the user with useful information
+ * and functionalities.
+ * 
+ * @author Jonathan
+ *
+ */
 public class GameHudController implements UpdateableController {
+
+	/**
+	 * {@link Queue} of {@link GameNotification}s, that are currently waiting to be
+	 * displayed
+	 */
+	private Queue<GameNotification> notificationQueue = new LinkedList<GameNotification>();
+
+	/**
+	 * flag whether a notification is currently being displayed
+	 */
+	private boolean displayingNotification = false;
+
+	private HashMap<GameViewType, ToggleButton> departmentButtonMap;
 
 	@FXML
 	private Label departmentLabel, cashLabel, cashChangeLabel, employeeLabel, employeeChangeLabel, netWorthLabel,
 			netWorthChangeLabel, dateLabel;
 
 	@FXML
-	private ToggleButton btnOverview, btnFinance, btnHr, btnProduction, btnLogistics, btnWarehouse, btnMarketing;
+	private ToggleButton btnOverview, btnFinance, btnHr, btnProduction, btnLogistics, btnWarehouse, btnRAndD;
 	@FXML
 	private ToggleGroup departmentButtons;
 	// The GridPane that contains all the modules.
 	@FXML
 	private GridPane moduleGrid;
 
-	@FXML 
+	@FXML
 	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton;
 	@FXML
 	private Label playPauseIconLabel, forwardIconLabel, skipIconLabel, messageIconLabel, settingsIconLabel;
-	
+
+	@FXML
+	private StackPane notificationPane;
+
+	@FXML
+	private AnchorPane root;
+
+	/**
+	 * Display a {@link GameNotification} on the GamePage, if another one is
+	 * currently being displayed, it will be added to a queue and displayed
+	 * afterwards.
+	 * 
+	 * @param notification The {@link GameNotification} to display.
+	 */
+	public void addNotification(GameNotification notification) {
+		notificationQueue.add(notification);
+		displayNextNotification();
+	}
+
+	/**
+	 * Display the notification by sliding it in from below.
+	 * 
+	 * @param notification
+	 */
+	private void displayNextNotification() {
+		if (displayingNotification)
+			return;
+		// block display of other notifications
+		displayingNotification = true;
+		GameNotification notification = notificationQueue.poll();
+		Parent root = notification.getRoot();
+		AnchorPaneHelper.snapNodeToAnchorPane(root);
+		root.setTranslateY(200);
+		notificationPane.getChildren().add(root);
+		// Slide the notification in
+		KeyValue endOfSlide = new KeyValue(root.translateYProperty(), 0.0);
+		Timeline slideIn = new Timeline(new KeyFrame(Duration.millis(500), endOfSlide),
+				new KeyFrame(Duration.millis(3500), e -> {
+					removeNotification(notification);
+				}));
+		slideIn.setCycleCount(1);
+		slideIn.play();
+	}
+
 	public GridPane getModuleGrid() {
 		return moduleGrid;
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// Set initial captions of the info labels at the top
-		GameState gameState = GameState.getInstance();
-		cashLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getCash()));
-		employeeLabel.setText(gameState.getHrDepartment().getEngineerTeam().getTeam().size() + "");
-		netWorthLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getNetWorth()));
-
-		//TODO Tooltip on the changelabels, with period described by the label
-		
-		// Set the actions for the buttons that switch the views of the departments.
-		initDepartmentButton(btnOverview, GameViewType.OVERVIEW);
-		initDepartmentButton(btnFinance, GameViewType.FINANCES);
-		initDepartmentButton(btnHr, GameViewType.HR);
-		initDepartmentButton(btnProduction, GameViewType.PRODUCTION);
-		initDepartmentButton(btnWarehouse, GameViewType.WAREHOUSE);
-		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
-		initDepartmentButton(btnMarketing, GameViewType.MARKETING);
-
-		TooltipFactory tooltipFactory = new TooltipFactory();
-		tooltipFactory.setFadeInDuration(Duration.millis(100));
-		
-		playPauseIconLabel.setTooltip(tooltipFactory.createTooltip("Play/Pause"));
-		skipIconLabel.setTooltip(tooltipFactory.createTooltip("Skip"));
-		forwardIconLabel.setTooltip(tooltipFactory.createTooltip("Fast Forward"));
-		tooltipFactory.setAnchorLocation(AnchorLocation.WINDOW_TOP_RIGHT);
-		settingsIconLabel.setTooltip(tooltipFactory.createTooltip("Settings"));
-		messageIconLabel.setTooltip(tooltipFactory.createTooltip("Messages"));
-		
-		UIManager.getInstance().setGameHudController(this);
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
-	}
-	
 	/**
 	 * Initiates the department buttons by adding the necessary EventHandlers.
 	 * 
@@ -92,6 +129,7 @@ public class GameHudController implements UpdateableController {
 	 * @param department The {@link GameViewType} to create EventHandlers for.
 	 */
 	private void initDepartmentButton(ToggleButton button, GameViewType department) {
+		departmentButtonMap.put(department, button);
 		button.setOnAction(e -> {
 			switchView(department);
 		});
@@ -103,28 +141,63 @@ public class GameHudController implements UpdateableController {
 		});
 	}
 
+	public void selectDepartmentButton(GameViewType type) {
+		getDepartmentButton(type).setSelected(true);
+	}
+
+	public void deselectDepartmentButton(GameViewType type) {
+		getDepartmentButton(type).setSelected(false);
+	}
+
+	private ToggleButton getDepartmentButton(GameViewType departmentViewType) {
+		return departmentButtonMap.get(departmentViewType);
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		CssHelper.replaceStylesheets(root.getStylesheets());
+		// Set initial captions of the info labels at the top
+		GameState gameState = GameState.getInstance();
+		cashLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getCash()));
+		employeeLabel.setText(gameState.getHrDepartment().getTotalNumberOfEmployees() + "");
+		netWorthLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getNetWorth()));
+		GameState.getInstance().addPropertyChangeListener(new GameStateEventListener());
+
+		// TODO Tooltip on the changelabels, with period described by the label
+
+		// Set the actions for the buttons that switch the views of the departments.
+		departmentButtonMap = new HashMap<GameViewType, ToggleButton>();
+		initDepartmentButton(btnOverview, GameViewType.OVERVIEW);
+		initDepartmentButton(btnFinance, GameViewType.FINANCES);
+		initDepartmentButton(btnHr, GameViewType.HR);
+		initDepartmentButton(btnProduction, GameViewType.PRODUCTION);
+		initDepartmentButton(btnWarehouse, GameViewType.WAREHOUSE);
+		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
+		initDepartmentButton(btnRAndD, GameViewType.R_AND_D);
+
+		TooltipFactory tooltipFactory = new TooltipFactory();
+		tooltipFactory.setFadeInDuration(Duration.millis(100));
+
+		playPauseIconLabel
+				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.playPause")));
+		skipIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.skip")));
+		forwardIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.faster")));
+		tooltipFactory.setAnchorLocation(AnchorLocation.WINDOW_TOP_RIGHT);
+		settingsIconLabel
+				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.settings")));
+		messageIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.messages")));
+
+		UIManager.getInstance().setGameHudController(this);
+	}
+
+	/**
+	 * Checks whether the game is currently playing or paused, changes the state to
+	 * the other one and updates the hud accordingly.
+	 */
 	@FXML
-	private void toggleMessageWindow() {
-		UIManager.getInstance().getGamePageController().toggleMessageWindow();
-	}
-
-	@FXML
-	private void toggleMenu() {
-		UIManager.getInstance().getGamePageController().toggleIngameMenu();
-	}
-
-	private void switchView(GameViewType viewType) {
-		UIManager.getInstance().getGamePageController().switchView(viewType);
-	}
-
-	public void updateGameViewLabel(GameViewType viewType) {
-		this.departmentLabel.setText(viewType.getTitle());
-	}
-	
-	@FXML 
 	public void playPause() {
 		GameController controller = GameController.getInstance();
-		if(controller.isGamePaused()) {
+		if (controller.isGamePaused()) {
 			controller.resumeGame();
 			playPauseIconButton.setIcon(FontAwesomeIconName.PAUSE);
 		} else {
@@ -133,9 +206,66 @@ public class GameHudController implements UpdateableController {
 		}
 	}
 
+	/**
+	 * Remove the notification with an animation and display the next one waiting in
+	 * the queue.
+	 * 
+	 * @param notification The {@link GameNotification} to remove.
+	 */
+	private void removeNotification(GameNotification notification) {
+		KeyValue keyDisappear = new KeyValue(notification.getRoot().opacityProperty(), 0.0);
+		KeyValue keyMoveOut = new KeyValue(notification.getRoot().translateYProperty(), -200);
+
+		Timeline moveOut = new Timeline(new KeyFrame(Duration.millis(500), e -> {
+			notificationPane.getChildren().remove(notification.getRoot());
+		}, keyDisappear), new KeyFrame(Duration.millis(500), keyMoveOut), new KeyFrame(Duration.millis(100), e -> {
+			displayingNotification = false;
+			if (!notificationQueue.isEmpty()) {
+				displayNextNotification();
+			}
+		}));
+
+		moveOut.setCycleCount(1);
+		moveOut.play();
+	}
+
 	@FXML
 	public void skipDay() {
 		GameController.getInstance().nextDay();
+	}
+
+	/**
+	 * Switches to the given type of view, by calling the method in the
+	 * {@link GamePageController}.
+	 * 
+	 * @param viewType The {@link GameViewType} to display on the GamePage.
+	 */
+	private void switchView(GameViewType viewType) {
+		addNotification(new GameNotification(viewType.getTitle(),
+				"Hello, please do not reply to this Message. If this is multiline, all is fine. If it is not, be sad a lot."));
+		UIManager.getInstance().getGamePageController().switchView(viewType);
+	}
+
+	@FXML
+	private void toggleMenu() {
+		GameController.getInstance().pauseGame();
+		UIManager.getInstance().getGamePageController().toggleIngameMenu();
+	}
+
+	@FXML
+	private void toggleMessageWindow() {
+		UIManager.getInstance().getGamePageController().toggleMessageWindow();
+	}
+
+	@Override
+	public void update() {
+		Platform.runLater(() -> {
+			// update date
+			GameState gameState = GameState.getInstance();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd")
+					.withLocale(UIManager.getResourceBundle().getLocale());
+			dateLabel.setText(gameState.getGameDate().format(formatter));
+		});
 	}
 
 	public void updateCashLabel(double currentCash) {
@@ -146,12 +276,26 @@ public class GameHudController implements UpdateableController {
 		});
 	}
 
+	/**
+	 * Updates the {@link Label} displaying the currently active
+	 * {@link GameViewType}.
+	 * 
+	 * @param viewType The {@link GameViewType}, thats title should be displayed.
+	 */
+	public void updateGameViewLabel(GameViewType viewType) {
+		this.departmentLabel.setText(viewType.getTitle());
+	}
+
 	public void updateNetworthLabel(double currentNetWorth) {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				netWorthLabel.setText(NumberFormat.getIntegerInstance().format(currentNetWorth));
 			}
 		});
+	}
+
+	public void updateNumOfEmployees() {
+		employeeLabel.setText(GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees() + "");
 	}
 
 }
