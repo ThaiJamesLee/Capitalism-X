@@ -44,28 +44,4 @@ public enum CssSettings {
 		this.width = width;
 	}
 
-	/**
-	 * Given the bounds of a {@link Screen}. The method returns the
-	 * {@link CssSettings} that fits best to the screen. To calculate that, the
-	 * difference of the width and height of Resolution and screenbounds is
-	 * compared.
-	 * 
-	 * @param screenBounds The {@link Rectangle2D} describing the bounds of the
-	 *                     {@link Screen}.
-	 * @return The optimal {@link CssSettings} for the given bounds.
-	 */
-	public static CssSettings getOptimalResolution(Rectangle2D screenBounds) {
-		int minDiffToScreenBounds = 10000;
-		CssSettings resolutionWithSmallestDiff = null;
-		for (CssSettings resolution : CssSettings.values()) {
-			int diffToScreenBounds = (int) Math.abs(screenBounds.getWidth() - resolution.getWidth())
-					+ (int) Math.abs(screenBounds.getHeight() - resolution.getHeight());
-			if (diffToScreenBounds < minDiffToScreenBounds) {
-				minDiffToScreenBounds = diffToScreenBounds;
-				resolutionWithSmallestDiff = resolution;
-			}
-		}
-		return resolutionWithSmallestDiff;
-	}
-
 }
