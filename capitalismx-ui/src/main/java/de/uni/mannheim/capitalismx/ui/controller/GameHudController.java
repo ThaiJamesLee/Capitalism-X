@@ -20,6 +20,7 @@ import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -81,10 +82,12 @@ public class GameHudController implements UpdateableController {
 	@FXML
 	private AnchorPane root;
 
+	
+
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
 	 * currently being displayed, it will be added to a queue and displayed
-	 * afterwards.
+	 * afterwards. Notification will be displayed 4.5 seconds.
 	 * 
 	 * @param notification The {@link GameNotification} to display.
 	 */
@@ -105,13 +108,14 @@ public class GameHudController implements UpdateableController {
 		displayingNotification = true;
 		GameNotification notification = notificationQueue.poll();
 		Parent root = notification.getRoot();
+		//TODO set handler on root: do not remove while hover, show message on click
 		AnchorPaneHelper.snapNodeToAnchorPane(root);
 		root.setTranslateY(200);
 		notificationPane.getChildren().add(root);
 		// Slide the notification in
 		KeyValue endOfSlide = new KeyValue(root.translateYProperty(), 0.0);
 		Timeline slideIn = new Timeline(new KeyFrame(Duration.millis(500), endOfSlide),
-				new KeyFrame(Duration.millis(3500), e -> {
+				new KeyFrame(notification.getDisplayDuration(), e -> {
 					removeNotification(notification);
 				}));
 		slideIn.setCycleCount(1);
@@ -242,17 +246,18 @@ public class GameHudController implements UpdateableController {
 	 * @param viewType The {@link GameViewType} to display on the GamePage.
 	 */
 	private void switchView(GameViewType viewType) {
-		addNotification(new GameNotification(viewType.getTitle(),
-				"Hello, please do not reply to this Message. If this is multiline, all is fine. If it is not, be sad a lot."));
+		addNotification(new GameNotification(new MessageObject(viewType.getTitle(), "2019-01-05",
+				"Welcome in the department",
+				"Hello boss. Please let me show you the great possibilities this department offers you! It is vital for the company and there is no way, the company would survive shutting it down or outsourcing it, so I hope you will keep that in mind. Thank you! Sincerely, some guy from whatever dep this is.",
+				true)));
 		UIManager.getInstance().getGamePageController().switchView(viewType);
 	}
 
-
 	@FXML
 	private void togglePressReleaseWindow() {
-		
+
 	}
-	
+
 	@FXML
 	private void toggleMenu() {
 		GameController.getInstance().pauseGame();
