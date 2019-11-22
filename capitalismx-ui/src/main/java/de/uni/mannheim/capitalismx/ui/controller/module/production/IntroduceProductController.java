@@ -690,7 +690,7 @@ public class IntroduceProductController extends GameModuleController {
 
         for(Map<ToggleButton, Component> componentMap : allComponents) {
             for(Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
-                componentEntry.getKey().setText(componentEntry.getValue().getComponentName());
+                componentEntry.getKey().setText(componentEntry.getValue().getComponentName(UIManager.getInstance().getLanguage()));
                 if(!componentEntry.getValue().isAvailable(gameDate)) {
                     componentEntry.getKey().setDisable(true);
                 }
@@ -774,6 +774,7 @@ public class IntroduceProductController extends GameModuleController {
                 default:
                     break;
             }
+            
             this.tvScreenList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
@@ -1186,13 +1187,16 @@ public class IntroduceProductController extends GameModuleController {
         UIManager.getInstance().getGamePageController().showOverlay(UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
     }
 
+    
+    //TODO Refactoring für Lokalisierung
     class ComponentStringConverter extends StringConverter<Component> {
 
         @Override
         public String toString(Component component) {
             DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
-            LocalDate gameDate = GameState.getInstance().getGameDate();
-            return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
+           // LocalDate gameDate = GameState.getInstance().getGameDate();
+            return "" + UIManager.getLocalisedString(component.getSupplierCategory().name().toLowerCase()) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
+            //return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
         }
 
         @Override

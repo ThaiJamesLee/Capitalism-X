@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
@@ -24,6 +25,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class MessageController implements Initializable {
+	
+	private static final String LangFILE = "properties.messages";
 	
 	@FXML
 	private AnchorPane root;
@@ -55,32 +58,15 @@ public class MessageController implements Initializable {
 //		
 //	}
 	
-	public String langFileSwitcher(String lang){
-		String langFile;
-		switch (lang) {
-			case "EN":
-				langFile = "properties.messages_en";
-				break;
-			case "DE":
-				langFile = "properties.messages_de";
-				break;
-			default:
-				langFile = "properties.messages";
-		}
-		return langFile;
-	}
 
 	public void addMessage(String sender, String date, String subject, String message, boolean isInternal) {
 		Parent messageSubject;
 		Parent messageContent;
 		MessageSubjectController msc;
 		MessageContentController mcc;
-		String lang = UIManager.getInstance().getLanguage();
-		String langFile;
-		ResourceBundle langBundle;
+		Locale lang = UIManager.getInstance().getLanguage();
 
-		langFile = langFileSwitcher(lang);
-		ResourceBundle bundle = ResourceBundle.getBundle(langFile);
+		ResourceBundle bundle = ResourceBundle.getBundle(LangFILE, lang);
 
 		FXMLLoader subjectLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePaneSubject.fxml"));
 		FXMLLoader contentLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePaneContent.fxml"));
@@ -113,7 +99,6 @@ public class MessageController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		
 	}
 
@@ -121,13 +106,10 @@ public class MessageController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		CssHelper.replaceStylesheets(root.getStylesheets());
 
-
-
 		/*
 		messageClose.setOnAction(e -> {
 			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleMessageWindow();
 		});
 		*/
 	}
-
 }

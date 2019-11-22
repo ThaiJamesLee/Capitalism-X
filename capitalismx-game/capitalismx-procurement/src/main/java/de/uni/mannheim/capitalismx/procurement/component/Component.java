@@ -1,13 +1,16 @@
 package de.uni.mannheim.capitalismx.procurement.component;
 
-import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
-
 import java.time.LocalDate;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
 public class Component {
 
     private ComponentCategory componentCategory;
-    private String componentName;
+    //Wird für Internationalisierung aus ComponentType geladen in korrekter sprache
+    //private String componentName;
     private int componentLevel;
     private double initialComponentPrice;
     private int baseUtility;
@@ -21,7 +24,7 @@ public class Component {
 
     public Component(ComponentType componentType) {
         this.componentCategory = componentType.getComponentCategory();
-        this.componentName = componentType.getComponentName();
+        //this.componentName = componentType.getComponentName();
         this.componentLevel = componentType.getComponentLevel();
         this.initialComponentPrice = componentType.getInitialComponentPrice();
         this.baseUtility = componentType.getBaseUtility();
@@ -31,7 +34,7 @@ public class Component {
 
     public Component(ComponentType componentType, SupplierCategory supplierCategory) {
         this.componentCategory = componentType.getComponentCategory();
-        this.componentName = componentType.getComponentName();
+        //this.componentName = componentType.getComponentName();
         this.componentLevel = componentType.getComponentLevel();
         this.initialComponentPrice = componentType.getInitialComponentPrice();
         this.baseUtility = componentType.getBaseUtility();
@@ -80,8 +83,8 @@ public class Component {
         return this.componentCategory;
     }
 
-    public String getComponentName() {
-        return this.componentName;
+    public String getComponentName(Locale locale) {  
+    	return this.componentType.getName(locale);
     }
 
     public int getComponentLevel() {
