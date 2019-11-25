@@ -45,6 +45,7 @@ public enum GameModuleDefinition {
 
 	// The modules for the warehouse. (51-60)
 //	WAREHOUSE_PLACEHOLDER(51, "m_warehouse_placeholder.fxml", GameViewType.GAME_WAREHOUSE, 0, 1, 0, 1),
+	PROCUREMENT_BUY_COMPONENT_MENU(51, "buy_component_menu.fxml", GameViewType.WAREHOUSE, null, UIElementType.PROCUREMENT_BUY_COMPONENT_OVERVIEW, 0, 10, 0, 12),
 
 	// The modules for HR. (61-70)
 	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 5, 0, 19),

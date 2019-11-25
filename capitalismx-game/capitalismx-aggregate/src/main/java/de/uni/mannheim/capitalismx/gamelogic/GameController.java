@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.procurement.component.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,10 +35,6 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
@@ -496,6 +493,10 @@ public class GameController {
 				.getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
 	}
 
+	public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
+		return ProcurementDepartment.getInstance().buyComponents(gameDate, component, quantity, freeStorage);
+	}
+
 	/*
 	 * PRODUCTION
 	 */
@@ -555,6 +556,10 @@ public class GameController {
 
 	public double getNormalizedProductionProcessProductivity() {
 		return ProductionDepartment.getInstance().getNormalizedProductionProcessProductivity();
+	}
+
+	public int getDailyMachineCapacity() {
+		return ProductionDepartment.getInstance().getDailyMachineCapacity();
 	}
 
 	/* machinery game mechanics */
@@ -730,7 +735,7 @@ public class GameController {
 		return WarehousingDepartment.getInstance().getWarehouses();
 	}
 
-	public Map<Product, Integer> getWarehousingInventory() {
+	public Map<Unit, Integer> getWarehousingInventory() {
 		return WarehousingDepartment.getInstance().getInventory();
 	}
 
