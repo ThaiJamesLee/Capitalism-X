@@ -621,6 +621,10 @@ public class GameController {
 	}
 
 	/* product game mechanics */
+	public double getProductCosts(Product product) {
+		return product.getProductCosts(GameState.getInstance().getGameDate());
+	}
+
 	public double launchProduct(Product product, int quantity) {
 		return ProductionDepartment.getInstance().launchProduct(product, quantity,
 				WarehousingDepartment.getInstance().calculateFreeStorage());
@@ -667,7 +671,7 @@ public class GameController {
 		return product.getTotalComponentCosts();
 	}
 
-	public double getProductCosts(Product product) {
+	public double getTotalProductCosts(Product product) {
 		return product.getTotalProductCosts();
 	}
 

@@ -144,6 +144,14 @@ public class Product extends Unit implements Serializable {
         return this.unitType;
     }
 
+    public double getProductCosts(LocalDate gameDate) {
+        double productCosts = 0;
+        for(Component component : this.components) {
+            productCosts += component.calculateBaseCost(gameDate);
+        }
+        return productCosts;
+    }
+
     /*
     public List<Component> getNewestPossibleComponents(int currentYear) {
         Component[] components = Component.values();
