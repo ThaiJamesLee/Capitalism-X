@@ -493,6 +493,10 @@ public class GameController {
 				.getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
 	}
 
+	public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
+		return ProcurementDepartment.getInstance().buyComponents(gameDate, component, quantity, freeStorage);
+	}
+
 	/*
 	 * PRODUCTION
 	 */
@@ -552,6 +556,10 @@ public class GameController {
 
 	public double getNormalizedProductionProcessProductivity() {
 		return ProductionDepartment.getInstance().getNormalizedProductionProcessProductivity();
+	}
+
+	public int getDailyMachineCapacity() {
+		return ProductionDepartment.getInstance().getDailyMachineCapacity();
 	}
 
 	/* machinery game mechanics */
