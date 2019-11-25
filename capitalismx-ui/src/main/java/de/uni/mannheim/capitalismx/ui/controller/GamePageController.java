@@ -4,20 +4,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
-import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,15 +42,11 @@ public class GamePageController implements UpdateableController {
 	@FXML
 	private Label viewTitleLabel;
 	@FXML
-	private SideMenuController sidemenuController;
-	@FXML
 	private AnchorPane notificationAnchor, messageLayer;
 
 	/**
 	 * Content elements
 	 */
-	@FXML
-	private StackPane parentStackPane;
 	@FXML
 	private StackPane contentStack;
 	// The GridPane that contains all the modules.
@@ -68,6 +61,7 @@ public class GamePageController implements UpdateableController {
 	private GameView currentActiveView;
 
 	private boolean mapControlsEnabled = false;
+
 
 	/**
 	 * elements for the message-system
@@ -93,6 +87,8 @@ public class GamePageController implements UpdateableController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		CssHelper.replaceStylesheets(contentStack.getStylesheets());
+		
 		// Bind titleLabel to StringProperty in SideMenuController
 //		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/sidemenu.fxml"));
 //		Parent rootB;
@@ -116,12 +112,13 @@ public class GamePageController implements UpdateableController {
 
 		try {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/messagePane.fxml"), UIManager.getResourceBundle());
+					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
 			Parent rootC = loaderMessageWindow.load();
-			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 300);;
+			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);;
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
+			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.event1", true);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -183,7 +180,6 @@ public class GamePageController implements UpdateableController {
 	 */
 	public void switchView(GameViewType viewType) {
 		resetOverlay();
-//		viewTitleLabel.setText(viewType.getTitle());
 
 		if (currentActiveView != null) {
 			if (currentActiveView.getViewType().equals(GameViewType.OVERVIEW)) {
@@ -193,8 +189,11 @@ public class GamePageController implements UpdateableController {
 			for (GameModule module : currentActiveView.getModules()) {
 				moduleGrid.getChildren().remove(module.getRootElement());
 			}
+			
+			UIManager.getInstance().getGameHudController().deselectDepartmentButton(currentActiveView.getViewType());
 		}
 		// change current view and add modules
+		UIManager.getInstance().getGameHudController().selectDepartmentButton(viewType);
 		currentActiveView = UIManager.getInstance().getGameView(viewType);
 		UIManager.getInstance().getGameHudController().updateGameViewLabel(viewType);
 		for (GameModule module : currentActiveView.getModules()) {
@@ -207,33 +206,6 @@ public class GamePageController implements UpdateableController {
 		if (viewType.equals(GameViewType.OVERVIEW)) {
 			mapControlsEnabled = true;
 		}
-	}
-
-	/**
-	 * Display a {@link GameNotification} on the GamePage. TODO create Queue of
-	 * {@link GameNotification}s, in case multiple are created at the same time.
-	 * (make this private and call in update once an update-Thread exists?)
-	 * 
-	 * @param notification The {@link GameNotification} to display.
-	 */
-	public void showNotification(GameNotification notification) {
-		Parent rootElement = notification.getRoot();
-		AnchorPaneHelper.snapNodeToAnchorPane(rootElement);
-		notificationAnchor.getChildren().add(rootElement);
-		// schedule removal of notification for two seconds later
-		new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Platform.runLater(() -> {
-					removeNotification();
-				});
-				this.cancel();
-			}
-		}, 2000);
-	}
-
-	private void removeNotification() {
-		notificationAnchor.getChildren().clear();
 	}
 
 	/**
@@ -279,6 +251,10 @@ public class GamePageController implements UpdateableController {
 	public void resetOverlay() {
 		overlayLayer.toBack();
 		overlayLayer.getChildren().clear();
+	}
+
+	public MessageController getMessageController() {
+		return messageController;
 	}
 
 }

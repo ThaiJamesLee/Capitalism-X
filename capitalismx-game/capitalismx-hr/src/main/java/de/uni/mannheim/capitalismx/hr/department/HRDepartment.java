@@ -1,355 +1,383 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
 import java.beans.PropertyChangeListener;
-import java.io.Serializable;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.Team;
-import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
-import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
-import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
-import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.domain.employee.Team;
+import de.uni.mannheim.capitalismx.domain.employee.Training;
+import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
+import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.JobSatisfaction;
-import de.uni.mannheim.capitalismx.domain.employee.Training;
 import de.uni.mannheim.capitalismx.hr.training.EmployeeTraining;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
 
 /**
  * Based on the report on p.21 - 28
+ * 
  * @author duly
  */
 public class HRDepartment extends DepartmentImpl {
 
-    private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
-    
-    // base cost for hiring and firing
-    private static final int BASE_COST = 5000;
+	private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
 
-    private BenefitSettings benefitSettings;
+	// base cost for hiring and firing
+	private static final int BASE_COST = 5000;
 
-    private Map<EmployeeType, Team> teams;
+	private BenefitSettings benefitSettings;
 
-    // hired and fired employees.
+	private Map<EmployeeType, Team> teams;
 
-    private PropertyChangeSupportList<Employee> hired;
-    private PropertyChangeSupportList<Employee> fired;
+	// hired and fired employees.
 
-    private static HRDepartment instance = null;
+	private PropertyChangeSupportList<Employee> hired;
+	private PropertyChangeSupportList<Employee> fired;
 
-    private HRDepartment () {
-        super("HR");
-        this.benefitSettings = new BenefitSettings();
-        this.teams = new EnumMap<>(EmployeeType.class);
+	private static HRDepartment instance = null;
 
-        init();
-    }
+	private HRDepartment() {
+		super("HR");
+		this.benefitSettings = new BenefitSettings();
+		this.teams = new EnumMap<>(EmployeeType.class);
 
-    private void init() {
+		init();
+	}
 
-        hired = new PropertyChangeSupportList<>();
-        hired.setAddPropertyName("hireEmployee");
-        hired.setRemovePropertyName("fireEmployee");
+	private void init() {
 
-        fired = new PropertyChangeSupportList<>();
-        fired.setAddPropertyName("addFiredList");
-        fired.setRemovePropertyName("removeFiredList");
+		hired = new PropertyChangeSupportList<>();
+		hired.setAddPropertyName("hireEmployee");
+		hired.setRemovePropertyName("fireEmployee");
 
-        // Create the teams of employee types
-        teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER).addPropertyName("engineerTeamChanged"));
-        teams.put(EmployeeType.SALESPERSON, new Team(EmployeeType.SALESPERSON).addPropertyName("salespersonTeamChanged"));
-        teams.put(EmployeeType.PRODUCTION_WORKER, new Team(EmployeeType.PRODUCTION_WORKER).addPropertyName("productionworkerTeamChanged"));
-        teams.put(EmployeeType.HR_WORKER, new Team(EmployeeType.HR_WORKER).addPropertyName("hrworkerTeamChanged"));
-    }
+		fired = new PropertyChangeSupportList<>();
+		fired.setAddPropertyName("addFiredList");
+		fired.setRemovePropertyName("removeFiredList");
 
-    public static HRDepartment getInstance() {
-        if (instance == null) {
-           instance = new HRDepartment();
-        }
-        return instance;
-    }
+		// Create the teams of employee types
+		teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER).addPropertyName("engineerTeamChanged"));
+		teams.put(EmployeeType.SALESPERSON,
+				new Team(EmployeeType.SALESPERSON).addPropertyName("salespersonTeamChanged"));
+		teams.put(EmployeeType.PRODUCTION_WORKER,
+				new Team(EmployeeType.PRODUCTION_WORKER).addPropertyName("productionworkerTeamChanged"));
+		teams.put(EmployeeType.HR_WORKER, new Team(EmployeeType.HR_WORKER).addPropertyName("hrworkerTeamChanged"));
+	}
 
-    /**
-     * Iterates over all teams and get the skill level score of each employee.
-     * Calculate the average skill level.
-     *
-     * @return the average skill level.
-     */
-    public double getAverageSkillLevel() {
-        int totalEmployee = 0;
-        double avgSkill = 0; // total sum of skill level
-        for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
-            for (Employee e : entry.getValue().getTeam()) {
-                totalEmployee++;
-                avgSkill += e.getSkillLevel();
-            }
-        }
-        if (totalEmployee > 0) {
-            avgSkill /= totalEmployee;
-        }
-        return avgSkill;
-    }
+	public static HRDepartment getInstance() {
+		if (instance == null) {
+			instance = new HRDepartment();
+		}
+		return instance;
+	}
 
-    /**
-     * The report does not define the total job satisfaction score
-     * @return total job satisfaction score
-     */
-    public double getTotalJSS() {
-        double og = getOriginalScale();
-        double totalJss = 0;
-        try {
-            totalJss = new JobSatisfaction().getJobSatisfactionScore(og);
-        } catch (UnsupportedValueException e) {
-            logger.error(e.getMessage());
-        }
-        return totalJss;
-    }
+	/**
+	 * Iterates over all teams and get the skill level score of each employee.
+	 * Calculate the average skill level.
+	 *
+	 * @return the average skill level.
+	 */
+	public double getAverageSkillLevel() {
+		int totalEmployee = 0;
+		double avgSkill = 0; // total sum of skill level
+		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			for (Employee e : entry.getValue().getTeam()) {
+				totalEmployee++;
+				avgSkill += e.getSkillLevel();
+			}
+		}
+		if (totalEmployee > 0) {
+			avgSkill /= totalEmployee;
+		}
+		return avgSkill;
+	}
 
-    /**
-     * The scale is between 0 - 27
-     * @return Returns the sum of points of the current benefit settings.
-     */
-    private double getOriginalScale() {
-        double originalScale = 0;
-        for (Map.Entry<BenefitType, Benefit> entry : benefitSettings.getBenefits().entrySet()) {
-            originalScale += entry.getValue().getPoints();
-        }
-        return originalScale;
-    }
+	/**
+	 * The report does not define the total job satisfaction score
+	 * 
+	 * @return total job satisfaction score
+	 */
+	public double getTotalJSS() {
+		double og = getOriginalScale();
+		double totalJss = 0;
+		try {
+			totalJss = new JobSatisfaction().getJobSatisfactionScore(og);
+		} catch (UnsupportedValueException e) {
+			logger.error(e.getMessage());
+		}
+		return totalJss;
+	}
 
-    /**
-     * Update JSS and QoW for each employee.
-     */
-    public void calculateAndUpdateEmployeesMeta () {
-        double totalJSS = getTotalJSS();
-        for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
-            for (Employee e : entry.getValue().getTeam()) {
-                e.setQualityOfWork(totalJSS * 0.5 + e.getSkillLevel() * 0.5);
-                e.setJobSatisfaction(totalJSS);
-            }
-        }
-    }
+	/**
+	 * The scale is between 0 - 27
+	 * 
+	 * @return Returns the sum of points of the current benefit settings.
+	 */
+	private double getOriginalScale() {
+		double originalScale = 0;
+		for (Map.Entry<BenefitType, Benefit> entry : benefitSettings.getBenefits().entrySet()) {
+			originalScale += entry.getValue().getPoints();
+		}
+		return originalScale;
+	}
 
-    /**
-     * The report does not mention how to calculate the overall quality of work KPI.
-     * They only defined for single employee. We assume that the average QoW will reflect the total quality of work.
-     *
-     * It is defined as QoW = JSS * 0.5 + skillLevel * 0.5.
-     * @return The overall quality of work.
-     */
-    public double getTotalQualityOfWork () {
-        return getTotalJSS() * 0.5 + getAverageSkillLevel() * 0.5;
-    }
+	/**
+	 * Update JSS and QoW for each employee.
+	 */
+	public void calculateAndUpdateEmployeesMeta() {
+		double totalJSS = getTotalJSS();
+		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			for (Employee e : entry.getValue().getTeam()) {
+				e.setQualityOfWork(totalJSS * 0.5 + e.getSkillLevel() * 0.5);
+				e.setJobSatisfaction(totalJSS);
+			}
+		}
+	}
 
-    /**
-     * Gets the total quality of work by employee type. The score
-     * is the sum of quality of work over all employees with the specified employee type.
-     * @param employeeType The employee type of interest
-     * @return Returns the Quality of Work of the specified team.
-     */
-    public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
-        Team team = teams.get(employeeType);
-        List<Employee> teamList = team.getTeam();
-        double jss = getTotalJSS();
-        double totalQoW = 0.0;
+	/**
+	 * The report does not mention how to calculate the overall quality of work KPI.
+	 * They only defined for single employee. We assume that the average QoW will
+	 * reflect the total quality of work.
+	 *
+	 * It is defined as QoW = JSS * 0.5 + skillLevel * 0.5.
+	 * 
+	 * @return The overall quality of work.
+	 */
+	public double getTotalQualityOfWork() {
+		return getTotalJSS() * 0.5 + getAverageSkillLevel() * 0.5;
+	}
 
-        for (Employee e : teamList) {
-            totalQoW += 0.5 * e.getSkillLevel() + 0.5 * jss;
-        }
-        return totalQoW;
-    }
+	/**
+	 * Gets the total quality of work by employee type. The score is the sum of
+	 * quality of work over all employees with the specified employee type.
+	 * 
+	 * @param employeeType The employee type of interest
+	 * @return Returns the Quality of Work of the specified team.
+	 */
+	public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
+		Team team = teams.get(employeeType);
+		List<Employee> teamList = team.getTeam();
+		double jss = getTotalJSS();
+		double totalQoW = 0.0;
 
+		for (Employee e : teamList) {
+			totalQoW += 0.5 * e.getSkillLevel() + 0.5 * jss;
+		}
+		return totalQoW;
+	}
 
+	public void setTeams(Map<EmployeeType, Team> teams) {
+		this.teams = teams;
+	}
 
+	public Map<EmployeeType, Team> getTeams() {
+		return teams;
+	}
 
-    public void setTeams(Map<EmployeeType, Team> teams) {
-        this.teams = teams;
-    }
+	public Team getTeamByEmployeeType(EmployeeType type) {
+		return teams.get(type);
+	}
 
+	public Team getEngineerTeam() {
+		return teams.get(EmployeeType.ENGINEER);
+	}
 
-    public Map<EmployeeType, Team> getTeams() {
-        return teams;
-    }
+	public Team getSalesTeam() {
+		return teams.get(EmployeeType.SALESPERSON);
+	}
 
-    public Team getEngineerTeam() {
-        return teams.get(EmployeeType.ENGINEER);
-    }
+	/* Hiring and Firing */
 
-    public Team getSalesTeam() {
-        return teams.get(EmployeeType.SALESPERSON);
-    }
+	/**
+	 *
+	 * @return Returns list of hired employees.
+	 */
+	public PropertyChangeSupportList<Employee> getHired() {
+		return hired;
+	}
 
-    /* Hiring and Firing */
+	/**
+	 *
+	 * @return Returns list of fired employees.
+	 */
+	public PropertyChangeSupportList<Employee> getFired() {
+		return fired;
+	}
 
-    /**
-     *
-     * @return Returns list of hired employees.
-     */
-    public PropertyChangeSupportList<Employee> getHired() {
-        return hired;
-    }
+	/**
+	 * Hire the employee. Add the employee to the corresponding team list.
+	 * 
+	 * @param employee The employee to hire.
+	 * @return Returns the cost of hiring.
+	 */
+	public double hire(Employee employee) {
+		if (employee == null) {
+			throw new NullPointerException("Employee must be specified!");
+		}
+		if (employee instanceof Engineer) {
+			teams.get(EmployeeType.ENGINEER).addEmployee(employee);
+		} else if (employee instanceof SalesPerson) {
+			teams.get(EmployeeType.SALESPERSON).addEmployee(employee);
+		}
+		hired.add(employee);
+		// departmentBean.setHired(hired);
+		// TODO hiring cost should also be dependent on the skill level
+		return getHiringCost();
+	}
 
-    /**
-     *
-     * @return Returns list of fired employees.
-     */
-    public PropertyChangeSupportList<Employee> getFired() {
-        return fired;
-    }
+	/**
+	 * Fires the employee.
+	 * 
+	 * @param employee the employee to fire.
+	 * @return Returns the cost of the firing.
+	 */
+	public double fire(Employee employee) {
+		if (employee == null) {
+			throw new NullPointerException("Employee must be specified!");
+		}
+		if (employee instanceof Engineer) {
+			teams.get(EmployeeType.ENGINEER).removeEmployee(employee);
 
-    /**
-     * Hire the employee. Add the employee to the corresponding team list.
-     * @param employee The employee to hire.
-     * @return Returns the cost of hiring.
-     */
-    public double hire(Employee employee) {
-        if(employee == null) {
-            throw new NullPointerException("Employee must be specified!");
-        }
-        if(employee instanceof Engineer) {
-            teams.get(EmployeeType.ENGINEER).addEmployee(employee);
-        } else if (employee instanceof SalesPerson) {
-            teams.get(EmployeeType.SALESPERSON).addEmployee(employee);
-        }
-        hired.add(employee);
-        //departmentBean.setHired(hired);
-        //TODO hiring cost should also be dependent on the skill level
-        return getHiringCost();
-    }
+		} else if (employee instanceof SalesPerson) {
+			teams.get(EmployeeType.SALESPERSON).removeEmployee(employee);
+		}
+		// TODO firing cost should be also dependent on skill level
+		fired.add(employee);
+		return getFiringCost();
+	}
 
-    /**
-     * Fires the employee.
-     * @param employee the employee to fire.
-     * @return Returns the cost of the firing.
-     */
-    public double fire(Employee employee) {
-        if(employee == null) {
-            throw new NullPointerException("Employee must be specified!");
-        }
-        if(employee instanceof Engineer) {
-            teams.get(EmployeeType.ENGINEER).removeEmployee(employee);
+	/**
+	 * See p.24
+	 * 
+	 * @return Returns the actual hiring cost per employee.
+	 */
+	public double getHiringCost() {
+		double jss = getTotalJSS() / 100;
+		return BASE_COST + BASE_COST * (1 - jss);
+	}
 
-        } else if (employee instanceof SalesPerson) {
-            teams.get(EmployeeType.SALESPERSON).removeEmployee(employee);
-        }
-        //TODO firing cost should be also dependent on skill level
-        fired.add(employee);
-        return getFiringCost();
-    }
+	/**
+	 * See p.24
+	 * 
+	 * @return Returns the actual firing cost per employee.
+	 */
+	public double getFiringCost() {
+		return BASE_COST;
+	}
 
-    /**
-     * See p.24
-     * @return Returns the actual hiring cost per employee.
-     */
-    public double getHiringCost() {
-        double jss = getTotalJSS()/100;
-        return BASE_COST + BASE_COST*(1 - jss);
-    }
+	/* Benefits */
 
-    /**
-     * See p.24
-     * @return Returns the actual firing cost per employee.
-     */
-    public double getFiringCost() {
-        return BASE_COST;
-    }
+	public void changeBenefitSetting(Benefit benefit) {
+		benefitSettings.getBenefits().put(benefit.getType(), benefit);
+	}
 
-    /* Benefits */
+	public BenefitSettings getBenefitSettings() {
+		return benefitSettings;
+	}
 
-    public void changeBenefitSetting(Benefit benefit) {
-        benefitSettings.getBenefits().put(benefit.getType(), benefit);
-    }
+	public void setBenefitSettings(BenefitSettings benefitSettings) {
+		this.benefitSettings = benefitSettings;
+	}
 
-    public BenefitSettings getBenefitSettings() {
-        return benefitSettings;
-    }
+	/* Trainings */
 
-    public void setBenefitSettings(BenefitSettings benefitSettings) {
-        this.benefitSettings = benefitSettings;
-    }
+	/**
+	 *
+	 * @return Returns all possible Trainings.
+	 */
+	public Training[] getAllTrainings() {
+		return Training.values();
+	}
 
+	/**
+	 *
+	 * @param employee The employee to train.
+	 * @param training The type of training for the employee.
+	 * @return Returns the cost of the training.
+	 */
+	public double trainEmployee(Employee employee, Training training) {
+		return EmployeeTraining.getInstance().trainEmployee(employee, training);
+	}
 
-    /* Trainings */
+	/**
+	 *
+	 * @author sdupper
+	 */
+	public double calculateTotalSalaries() {
+		double totalSalaries = 0.0;
+		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			totalSalaries += entry.getValue().calculateTotalSalaries();
+		}
+		return totalSalaries;
+	}
 
-    /**
-     *
-     * @return Returns all possible Trainings.
-     */
-    public Training[] getAllTrainings() {
-        return Training.values();
-    }
+	/**
+	 *
+	 * @author sdupper
+	 */
+	public double calculateTotalTrainingCosts() {
+		double totalTrainingCosts = 0.0;
+		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			totalTrainingCosts += entry.getValue().calculateTotalTrainingCosts();
+		}
+		return totalTrainingCosts;
+	}
 
-    /**
-     *
-     * @param employee The employee to train.
-     * @param training The type of training for the employee.
-     * @return Returns the cost of the training.
-     */
-    public double trainEmployee (Employee employee, Training training) {
-        return EmployeeTraining.getInstance().trainEmployee(employee, training);
-    }
+	public static void setInstance(HRDepartment instance) {
+		HRDepartment.instance = instance;
+	}
 
-    /**
-     *
-     * @author sdupper
-     */
-    public double calculateTotalSalaries(){
-        double totalSalaries = 0.0;
-        for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
-            totalSalaries += entry.getValue().calculateTotalSalaries();
-        }
-        return totalSalaries;
-    }
+	/**
+	 * Register the propertychangelistener to all propertychangesupport objects.
+	 * 
+	 * @param listener
+	 */
+	public void registerPropertyChangeListener(PropertyChangeListener listener) {
+		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			entry.getValue().addPropertyChangeListener(listener);
+		}
+	}
 
-    /**
-     *
-     * @author sdupper
-     */
-    public double calculateTotalTrainingCosts(){
-        double totalTrainingCosts = 0.0;
-        for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
-            totalTrainingCosts += entry.getValue().calculateTotalTrainingCosts();
-        }
-        return totalTrainingCosts;
-    }
+	/**
+	 * Iterates through all HR Workers and sum up the capacity of each HR Worker.
+	 * 
+	 * @return Returns the total capacity of the company for employees.
+	 */
+	public int getTotalEmployeeCapacity() {
+		int capacity = 0;
 
-    public static void setInstance(HRDepartment instance) {
-        HRDepartment.instance = instance;
-    }
+		Team hrTeam = teams.get(EmployeeType.HR_WORKER);
+		List<Employee> hrTeamList = hrTeam.getTeam();
 
-    /**
-     * Register the propertychangelistener to all propertychangesupport objects.
-     * @param listener
-     */
-    public void registerPropertyChangeListener(PropertyChangeListener listener) {
-        for(Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
-            entry.getValue().addPropertyChangeListener(listener);
-        }
-    }
+		for (Employee worker : hrTeamList) {
+			capacity += ((HRWorker) worker).getCapacity();
+		}
 
-    /**
-     * Iterates through all HR Workers and sum up the capacity of each HR Worker.
-     * @return Returns the total capacity of the company for employees.
-     */
-    public int getTotalEmployeeCapacity() {
-        int capacity = 0;
+		return capacity;
+	}
 
-        Team hrTeam = teams.get(EmployeeType.HR_WORKER);
-        List<Employee> hrTeamList = hrTeam.getTeam();
-
-        for(Employee worker : hrTeamList) {
-            capacity += ((HRWorker) worker).getCapacity();
-        }
-
-        return capacity;
-    }
+	/**
+	 * Iterates through all teams and sums up the number of {@link Employee}s for
+	 * each {@link Team}.
+	 * 
+	 * @return Total number of {@link Employee}s.
+	 */
+	public int getTotalNumberOfEmployees() {
+		int numOfEmployees = 0;
+		for (Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			numOfEmployees += entry.getValue().getTeam().size();
+		}
+		return numOfEmployees;
+	}
 }

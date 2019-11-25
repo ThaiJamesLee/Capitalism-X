@@ -20,6 +20,7 @@
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints vgrow="SOMETIMES" />
@@ -29,25 +30,31 @@
                   <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label styleClass="label_large" text="%hr.stats.employees" GridPane.rowIndex="1" />
-                  <Label styleClass="label_large" text="%hr.stats.satisfaction" GridPane.rowIndex="2" />
-                  <Label styleClass="label_large" text="%hr.stats.productivity" GridPane.rowIndex="3" />
-                  <Label styleClass="label_large" text="%hr.stats.salespeople" GridPane.columnIndex="1" />
-                  <Label styleClass="label_large" text="%hr.stats.engineers" GridPane.columnIndex="2" />
+                  <Region styleClass="table_content" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4" />
+                  <Label styleClass="label_large" text="%hr.stats.employees" GridPane.columnIndex="1" />
+                  <Label styleClass="label_large" text="%hr.stats.satisfaction" GridPane.columnIndex="2" />
+                  <Label styleClass="label_large" text="%hr.stats.productivity" GridPane.columnIndex="3" />
+                  <Label styleClass="label_large" text="%hr.stats.salespeople" GridPane.rowIndex="1" />
+                  <Label styleClass="label_large" text="%hr.stats.engineers" GridPane.rowIndex="2" />
                   <Label fx:id="numberEmployeesSales" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="numberEmployeesOverall" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Label fx:id="employeeSatisfactionSales" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="employeeSatisfactionOverall" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <Label styleClass="label_large" text="Salaries" GridPane.rowIndex="4" />
-                  <Label styleClass="label_large" text="Overall" GridPane.columnIndex="3" />
-                  <Label fx:id="employeeSalariesProduction" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Label fx:id="employeeSalariesSales" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label fx:id="employeeProductivityProduction" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <Label fx:id="employeeProductivitySales" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="employeeProductivityOverall" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <Label fx:id="numberEmployeesOverall" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="employeeSatisfactionSales" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label fx:id="employeeSatisfactionOverall" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Label styleClass="label_large" text="Salaries" GridPane.columnIndex="4" />
+                  <Label styleClass="label_large" text="Overall" GridPane.rowIndex="4" />
+                  <Label fx:id="employeeSalariesProduction" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Label fx:id="employeeSalariesSales" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <Label fx:id="employeeProductivityProduction" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Label fx:id="employeeProductivitySales" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Label fx:id="employeeProductivityOverall" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                   <Label fx:id="employeeSatisfactionProduction" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Label fx:id="numberEmployeesProduction" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Label fx:id="employeeSalariesOverall" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Label fx:id="numberEmployeesProduction" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="employeeSalariesOverall" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Label styleClass="label_large" text="%hr.stats.hrpeople" GridPane.rowIndex="3" />
+                  <Label fx:id="numberEmployeesHr" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="employeeSatisfactionHr" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Label fx:id="employeeProductivityHr" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <Label fx:id="employeeSalariesHr" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="3" />
                </children>
             </GridPane>
             <Region styleClass="separator_horizontal" />
@@ -59,12 +66,15 @@
               <rowConstraints>
                 <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label styleClass="label_large" text="%hr.stats.hiring" />
                   <Label styleClass="label_large" text="%hr.stats.firing" GridPane.rowIndex="1" />
                   <Label fx:id="hiringCost" styleClass="label_large" text="Label" GridPane.columnIndex="1" />
                   <Label fx:id="firingCost" styleClass="label_large" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label styleClass="label_large" text="%hr.stats.capacity" GridPane.rowIndex="2" />
+                  <Label fx:id="hrCapacity" styleClass="label_large" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
                <padding>
                   <Insets left="15.0" right="15.0" />

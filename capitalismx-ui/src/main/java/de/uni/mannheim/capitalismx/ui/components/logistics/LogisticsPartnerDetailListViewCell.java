@@ -62,7 +62,7 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
             setGraphic(null);
         } else {
             if (loader == null) {
-                loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/logistics_partner_detail_list_cell.fxml"));
+                loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/logistics_partner_detail_list_cell.fxml"), UIManager.getResourceBundle());
                 loader.setController(this);
 
                 try {

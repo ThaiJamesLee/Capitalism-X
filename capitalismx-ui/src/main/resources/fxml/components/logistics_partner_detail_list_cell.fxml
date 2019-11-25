@@ -55,8 +55,4 @@
          </font>
       </Label>
     </children>
-    <stylesheets>
-        <URL value="@../../css/general.css" />
-        <URL value="@../../css/modul.css" />
-    </stylesheets>
 </GridPane>

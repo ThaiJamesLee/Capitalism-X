@@ -57,7 +57,7 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
             setGraphic(null);
         } else {
             if (loader == null) {
-                loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/truck_detail_list_cell.fxml"));
+                loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/truck_detail_list_cell.fxml"), UIManager.getResourceBundle());
                 loader.setController(this);
 
                 try {

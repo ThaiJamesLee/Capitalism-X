@@ -2,6 +2,8 @@ package de.uni.mannheim.capitalismx.procurement.component;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public enum ComponentType implements Serializable {
 
@@ -219,6 +221,16 @@ public enum ComponentType implements Serializable {
 
     public int getAvailabilityDate() {
         return this.availabilityDate;
+    }
+    
+    /**
+     * Reads the properties file.
+     * @param locale the locale of the properties file (English or German).
+     * @return Returns the name of the employee type.
+     */
+    public String getName(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle("procurement", locale);
+        return bundle.getString(this.name());
     }
 
     /*public SupplierCategory getSupplierCategory() {
