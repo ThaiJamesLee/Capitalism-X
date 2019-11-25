@@ -68,45 +68,45 @@
                                     <Label text="%product.tv.audio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <HBox prefHeight="13.0" prefWidth="918.0" GridPane.columnIndex="2">
                                        <children>
-                                          <ToggleButton fx:id="tvScreenToggleButton0" mnemonicParsing="false" prefHeight="49.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvScreenToggleButton1" mnemonicParsing="false" prefHeight="53.0" prefWidth="89.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvScreenToggleButton2" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvScreenToggleButton3" mnemonicParsing="false" prefHeight="64.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvScreenToggleButton4" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvScreenToggleButton5" mnemonicParsing="false" prefHeight="68.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvScreenToggleButton6" mnemonicParsing="false" prefHeight="86.0" prefWidth="89.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="49.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="53.0" prefWidth="89.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="53.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="64.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="70.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="68.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvScreenToggleButton6" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="86.0" prefWidth="89.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                          <ToggleButton fx:id="tvAudioToggleButton0" mnemonicParsing="false" prefHeight="71.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvAudioToggleButton1" mnemonicParsing="false" prefHeight="72.0" prefWidth="89.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvAudioToggleButton2" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvAudioToggleButton3" mnemonicParsing="false" prefHeight="71.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvAudioToggleButton4" mnemonicParsing="false" prefHeight="77.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvAudioToggleButton5" mnemonicParsing="false" prefHeight="73.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvAudioToggleButton6" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="71.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="72.0" prefWidth="89.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="70.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="71.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="77.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="73.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvAudioToggleButton6" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="70.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="%product.tv.case" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
-                                          <ToggleButton fx:id="tvCaseToggleButton0" mnemonicParsing="false" prefHeight="53.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvCaseToggleButton1" mnemonicParsing="false" prefHeight="59.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvCaseToggleButton2" mnemonicParsing="false" prefHeight="67.0" prefWidth="89.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvCaseToggleButton3" mnemonicParsing="false" prefHeight="63.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvCaseToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="53.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvCaseToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="59.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvCaseToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="67.0" prefWidth="89.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvCaseToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="63.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="%product.tv.os" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
-                                          <ToggleButton fx:id="tvOSToggleButton0" mnemonicParsing="false" prefHeight="58.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvOSToggleButton1" mnemonicParsing="false" prefHeight="78.0" prefWidth="89.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvOSToggleButton2" mnemonicParsing="false" prefHeight="77.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvOSToggleButton3" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvOSToggleButton4" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvOSToggleButton5" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="tvOSToggleButton6" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="58.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="78.0" prefWidth="89.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="77.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="57.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="53.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="55.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="tvOSToggleButton6" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="57.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <ChoiceBox fx:id="tvScreensChoiceBox" prefHeight="59.0" prefWidth="119.0" GridPane.columnIndex="3" />
@@ -137,7 +137,7 @@
                               </GridPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button mnemonicParsing="false" styleClass="button_module" text="%product.tv.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button mnemonicParsing="false" onAction="#launchTv" styleClass="button_module" text="%product.tv.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -163,7 +163,7 @@
                            <children>
                               <AnchorPane prefHeight="49.0" prefWidth="1229.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="%product.console.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchConsole" styleClass="button_module" text="%product.console.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                               <GridPane GridPane.rowIndex="3">
@@ -199,31 +199,31 @@
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                                        <children>
-                                          <ToggleButton fx:id="consoleCPUToggleButton0" mnemonicParsing="false" prefHeight="51.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleCPUToggleButton1" mnemonicParsing="false" prefHeight="65.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleCPUToggleButton2" mnemonicParsing="false" prefHeight="72.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleCPUToggleButton3" mnemonicParsing="false" prefHeight="72.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleCPUToggleButton4" mnemonicParsing="false" prefHeight="78.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleCPUToggleButton5" mnemonicParsing="false" prefHeight="70.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleCPUToggleButton6" mnemonicParsing="false" prefHeight="74.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="51.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="65.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="72.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="72.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="78.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="70.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCPUToggleButton6" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="74.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                          <ToggleButton fx:id="consoleScreenToggleButton0" mnemonicParsing="false" prefHeight="53.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleScreenToggleButton1" mnemonicParsing="false" prefHeight="60.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleScreenToggleButton2" mnemonicParsing="false" prefHeight="58.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleScreenToggleButton3" mnemonicParsing="false" prefHeight="64.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleScreenToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="53.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleScreenToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="60.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleScreenToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="58.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleScreenToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="64.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
-                                          <ToggleButton fx:id="consolePowersupplyToggleButton0" mnemonicParsing="false" prefHeight="56.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="consolePowersupplyToggleButton1" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consolePowersupplyToggleButton2" mnemonicParsing="false" prefHeight="56.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consolePowersupplyToggleButton3" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consolePowersupplyToggleButton4" mnemonicParsing="false" prefHeight="61.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consolePowersupplyToggleButton5" mnemonicParsing="false" prefHeight="65.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="56.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="53.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="56.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="61.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consolePowersupplyToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="65.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="%product.console.cpu" GridPane.columnIndex="1" />
@@ -232,16 +232,16 @@
                                     <Label text="%product.console.camera" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                        <children>
-                                          <ToggleButton fx:id="consoleCameraToggleButton0" mnemonicParsing="false" prefHeight="63.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleCameraToggleButton1" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCameraToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="63.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCameraToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="55.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="%product.console.connectivity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
-                                          <ToggleButton fx:id="consoleConnectivityToggleButton0" mnemonicParsing="false" prefHeight="50.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleConnectivityToggleButton1" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="consoleConnectivityToggleButton2" mnemonicParsing="false" prefHeight="69.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleConnectivityToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="50.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleConnectivityToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleConnectivityToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="69.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <ChoiceBox fx:id="consoleCPUsChoiceBox" prefHeight="56.0" prefWidth="119.0" GridPane.columnIndex="3" />
@@ -293,7 +293,7 @@
                            <children>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="%product.notebook.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchNotebook" styleClass="button_module" text="%product.notebook.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                               <GridPane GridPane.rowIndex="3">
@@ -329,45 +329,45 @@
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                                        <children>
-                                          <ToggleButton fx:id="notebookCPUToggleButton0" mnemonicParsing="false" prefHeight="52.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookCPUToggleButton1" mnemonicParsing="false" prefHeight="60.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookCPUToggleButton2" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookCPUToggleButton3" mnemonicParsing="false" prefHeight="45.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookCPUToggleButton4" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookCPUToggleButton5" mnemonicParsing="false" prefHeight="52.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookCPUToggleButton6" mnemonicParsing="false" prefHeight="61.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookCPUToggleButton7" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="52.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="60.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="54.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="45.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="47.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="52.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton6" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="61.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookCPUToggleButton7" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="50.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                          <ToggleButton fx:id="notebookStorageToggleButton0" mnemonicParsing="false" prefHeight="46.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookStorageToggleButton1" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookStorageToggleButton2" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookStorageToggleButton3" mnemonicParsing="false" prefHeight="52.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookStorageToggleButton4" mnemonicParsing="false" prefHeight="46.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookStorageToggleButton5" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookStorageToggleButton6" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookStorageToggleButton7" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="46.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="47.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="52.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="46.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="47.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton6" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="57.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookStorageToggleButton7" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="47.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
-                                          <ToggleButton fx:id="notebookScreenToggleButton0" mnemonicParsing="false" prefHeight="41.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookScreenToggleButton1" mnemonicParsing="false" prefHeight="53.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookScreenToggleButton2" mnemonicParsing="false" prefHeight="52.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookScreenToggleButton3" mnemonicParsing="false" prefHeight="47.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookScreenToggleButton4" mnemonicParsing="false" prefHeight="57.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="41.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="53.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="52.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="47.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookScreenToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="57.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
-                                          <ToggleButton fx:id="notebookSoftwareToggleButton0" mnemonicParsing="false" prefHeight="56.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookSoftwareToggleButton1" mnemonicParsing="false" prefHeight="48.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookSoftwareToggleButton2" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookSoftwareToggleButton3" mnemonicParsing="false" prefHeight="56.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookSoftwareToggleButton4" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="notebookSoftwareToggleButton5" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="56.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="48.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="50.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="56.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="notebookSoftwareToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="54.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="%product.notebook.cpu" GridPane.columnIndex="1" />
@@ -375,7 +375,7 @@
                                     <Label text="%product.notebook.screen" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <Label text="%product.notebook.software" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <Label text="%product.notebook.power" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <ToggleButton fx:id="notebookPowersupplyToggleButton0" mnemonicParsing="false" prefHeight="52.0" selected="true" text="ToggleButton" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <ToggleButton fx:id="notebookPowersupplyToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="52.0" selected="true" text="ToggleButton" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                     <ChoiceBox fx:id="notebookCPUsChoiceBox" prefHeight="62.0" prefWidth="119.0" GridPane.columnIndex="3" />
                                     <ChoiceBox fx:id="notebookStoragesChoiceBox" prefHeight="60.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                     <ChoiceBox fx:id="notebookScreensChoiceBox" prefHeight="63.0" prefWidth="119.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
@@ -425,7 +425,7 @@
                            <children>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                                  <children>
-                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" styleClass="button_module" text="%product.phone.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchPhone" styleClass="button_module" text="%product.phone.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
                               <GridPane GridPane.rowIndex="3">
                                 <columnConstraints>
@@ -460,45 +460,45 @@
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                                        <children>
-                                          <ToggleButton fx:id="phoneCPUToggleButton0" mnemonicParsing="false" prefHeight="48.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneCPUToggleButton1" mnemonicParsing="false" prefHeight="58.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneCPUToggleButton2" mnemonicParsing="false" prefHeight="59.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneCPUToggleButton3" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneCPUToggleButton4" mnemonicParsing="false" prefHeight="50.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneCPUToggleButton5" mnemonicParsing="false" prefHeight="104.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="48.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="58.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="59.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="50.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="50.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCPUToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="104.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                        <children>
-                                          <ToggleButton fx:id="phoneConnectivyToggleButton0" mnemonicParsing="false" prefHeight="35.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneConnectivyToggleButton1" mnemonicParsing="false" prefHeight="36.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneConnectivyToggleButton2" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneConnectivyToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="35.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneConnectivyToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="36.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneConnectivyToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="42.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                          <ToggleButton fx:id="phoneScreenToggleButton0" mnemonicParsing="false" prefHeight="47.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneScreenToggleButton1" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneScreenToggleButton2" mnemonicParsing="false" prefHeight="49.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneScreenToggleButton3" mnemonicParsing="false" prefHeight="54.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneScreenToggleButton4" mnemonicParsing="false" prefHeight="38.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneScreenToggleButton5" mnemonicParsing="false" prefHeight="48.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="47.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="42.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="49.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="54.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="38.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneScreenToggleButton5" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="48.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
-                                          <ToggleButton fx:id="phoneCameraToggleButton0" mnemonicParsing="false" prefHeight="35.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneCameraToggleButton1" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneCameraToggleButton2" mnemonicParsing="false" prefHeight="41.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneCameraToggleButton3" mnemonicParsing="false" prefHeight="44.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneCameraToggleButton4" mnemonicParsing="false" prefHeight="38.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="35.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="42.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="41.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton3" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="44.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton4" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="38.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                        <children>
-                                          <ToggleButton fx:id="phonePowersupplyToggleButton0" mnemonicParsing="false" prefHeight="36.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="phonePowersupplyToggleButton1" mnemonicParsing="false" prefHeight="39.0" text="ToggleButton" />
-                                          <ToggleButton fx:id="phonePowersupplyToggleButton2" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phonePowersupplyToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="36.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phonePowersupplyToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="39.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phonePowersupplyToggleButton2" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="42.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="%product.phone.power" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -508,8 +508,8 @@
                                     <Label prefHeight="17.0" prefWidth="25.0" text="%product.phone.cpu" GridPane.columnIndex="1" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                                        <children>
-                                          <ToggleButton fx:id="phoneKeypadToggleButton0" mnemonicParsing="false" prefHeight="42.0" selected="true" text="ToggleButton" />
-                                          <ToggleButton fx:id="phoneKeypadToggleButton1" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneKeypadToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="42.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneKeypadToggleButton1" mnemonicParsing="false" onAction="#updateSuppliers" prefHeight="55.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
                                     <Label text="%product.phone.keypad" GridPane.columnIndex="1" GridPane.rowIndex="5" />

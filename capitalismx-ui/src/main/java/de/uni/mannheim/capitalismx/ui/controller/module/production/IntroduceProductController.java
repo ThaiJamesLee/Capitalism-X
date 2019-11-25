@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
@@ -1154,7 +1155,7 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.tvOSsChoiceBox.getValue());
         this.tv = new Product(this.tvProductNameTextField.getText(), ProductCategory.TELEVISION, components);
         this.tv.setSalesPrice(Double.valueOf(this.tvSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.tv, 1, WarehousingDepartment.getInstance().getFreeStorage());
+        GameController.getInstance().launchProduct(this.tv, 1);
     }
 
     public void launchConsole() {
@@ -1168,7 +1169,7 @@ public class IntroduceProductController extends GameModuleController {
         }
         this.console = new Product(this.consoleProductNameTextField.getText(), ProductCategory.GAME_BOY, components);
         this.console.setSalesPrice(Double.valueOf(this.consoleSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.console, 1, WarehousingDepartment.getInstance().getFreeStorage());
+        GameController.getInstance().launchProduct(this.console, 1);
     }
 
     public void launchNotebook() {
@@ -1180,7 +1181,7 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.notebookPowersuppliesChoiceBox.getValue());
         this.notebook = new Product(this.notebookProductNameTextField.getText(), ProductCategory.NOTEBOOK, components);
         this.notebook.setSalesPrice(Double.valueOf(this.notebookSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.notebook, 1, WarehousingDepartment.getInstance().getFreeStorage());
+        GameController.getInstance().launchProduct(this.notebook, 1);
     }
 
     public void launchPhone() {
@@ -1195,7 +1196,7 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.phoneKeypadsChoiceBox.getValue());
         this.phone = new Product(this.phoneProductNameTextField.getText(), ProductCategory.PHONE, components);
         this.phone.setSalesPrice(Double.valueOf(this.phoneSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.phone, 1, WarehousingDepartment.getInstance().getFreeStorage());
+        GameController.getInstance().launchProduct(this.phone, 1);
     }
 
     public void showSupplierOptions() {
