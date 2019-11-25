@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public enum ComponentCategory implements Serializable {
 
+    DUMMY("Dummy Category"),
+
     N_CPU ("Notebook CPU"),
     N_DISPLAYCASE ("Notebook Display Case"),
     N_SOFTWARE ("Notebook Software"),

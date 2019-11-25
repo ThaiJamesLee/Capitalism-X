@@ -876,18 +876,20 @@ public class IntroduceProductController extends GameModuleController {
             this.consoleConnectivityList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = new Component(selectedConsoleCamera.getComponentType());
-            switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
-                    break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
-                    break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
-                    break;
-                default:
-                    break;
+            if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+                Component tmpComp = new Component(selectedConsoleCamera.getComponentType());
+                switch(i) {
+                    case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                        break;
+                    case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                        break;
+                    case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                        break;
+                    default:
+                        break;
+                }
+                this.consoleCameraList.add(tmpComp);
             }
-            this.consoleCameraList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookCPU.getComponentType());
@@ -988,18 +990,23 @@ public class IntroduceProductController extends GameModuleController {
             this.phoneScreenList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = new Component(selectedPhoneCamera.getComponentType());
-            switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
-                    break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
-                    break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
-                    break;
-                default:
-                    break;
+            if(GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+                Component tmpComp = new Component(selectedPhoneCamera.getComponentType());
+                switch (i) {
+                    case 0:
+                        tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                        break;
+                    case 1:
+                        tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                        break;
+                    case 2:
+                        tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                        break;
+                    default:
+                        break;
+                }
+                this.phoneCameraList.add(tmpComp);
             }
-            this.phoneCameraList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneConnectivity.getComponentType());
@@ -1121,7 +1128,9 @@ public class IntroduceProductController extends GameModuleController {
         this.consoleScreensChoiceBox.setValue(this.consoleScreenList.get(0));
         this.consolePowersuppliesChoiceBox.setValue(this.consolePowersupplyList.get(0));
         this.consoleConnectivitiesChoiceBox.setValue(this.consoleConnectivityList.get(0));
-        this.consoleCamerasChoiceBox.setValue(this.consoleCameraList.get(0));
+        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            this.consoleCamerasChoiceBox.setValue(this.consoleCameraList.get(0));
+        }
         this.notebookCPUsChoiceBox.setValue(this.notebookCPUList.get(0));
         this.notebookStoragesChoiceBox.setValue(this.notebookStorageList.get(0));
         this.notebookScreensChoiceBox.setValue(this.notebookScreenList.get(0));
@@ -1129,7 +1138,9 @@ public class IntroduceProductController extends GameModuleController {
         this.notebookPowersuppliesChoiceBox.setValue(this.notebookPowersupplyList.get(0));
         this.phoneCPUsChoiceBox.setValue(this.phoneCPUList.get(0));
         this.phoneScreensChoiceBox.setValue(this.phoneScreenList.get(0));
-        this.phoneCamerasChoiceBox.setValue(this.phoneCameraList.get(0));
+        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            this.phoneCamerasChoiceBox.setValue(this.phoneCameraList.get(0));
+        }
         this.phoneConnectivitiesChoiceBox.setValue(this.phoneConnectivityList.get(0));
         this.phonePowersuppliesChoiceBox.setValue(this.phonePowersupplyList.get(0));
         this.phoneKeypadsChoiceBox.setValue(this.phoneKeypadList.get(0));
@@ -1152,7 +1163,9 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.consoleScreensChoiceBox.getValue());
         components.add(this.consoleConnectivitiesChoiceBox.getValue());
         components.add(this.consolePowersuppliesChoiceBox.getValue());
-        components.add(this.consoleCamerasChoiceBox.getValue());
+        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            components.add(this.consoleCamerasChoiceBox.getValue());
+        }
         this.console = new Product(this.consoleProductNameTextField.getText(), ProductCategory.GAME_BOY, components);
         this.console.setSalesPrice(Double.valueOf(this.consoleSalesPriceTextField.getText()));
         GameState.getInstance().getProductionDepartment().launchProduct(this.console, 1, WarehousingDepartment.getInstance().getFreeStorage());
@@ -1176,7 +1189,9 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.phoneScreensChoiceBox.getValue());
         components.add(this.phoneConnectivitiesChoiceBox.getValue());
         components.add(this.phonePowersuppliesChoiceBox.getValue());
-        components.add(this.phoneCamerasChoiceBox.getValue());
+        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            components.add(this.phoneCamerasChoiceBox.getValue());
+        }
         components.add(this.phoneKeypadsChoiceBox.getValue());
         this.phone = new Product(this.phoneProductNameTextField.getText(), ProductCategory.PHONE, components);
         this.phone.setSalesPrice(Double.valueOf(this.phoneSalesPriceTextField.getText()));

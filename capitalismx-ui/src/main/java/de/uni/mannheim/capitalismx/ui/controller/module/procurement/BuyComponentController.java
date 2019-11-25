@@ -1,15 +1,18 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.procurement;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.util.StringConverter;
@@ -21,6 +24,11 @@ import java.util.*;
 
 public class BuyComponentController extends GameModuleController {
 
+    /****** Amount of Components ******/
+    @FXML
+    private TextField tvComponentAmountTextField, consoleComponentAmountTextField, notebookComponentAmountTextField, phoneComponentAmountTextField;
+
+    /****** Supplier Options ******/
     @FXML
     private ChoiceBox<Component> tvScreensChoiceBox;
     @FXML
@@ -651,7 +659,7 @@ public class BuyComponentController extends GameModuleController {
 
         for(Map<ToggleButton, Component> componentMap : allComponents) {
             for(Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
-                componentEntry.getKey().setText(componentEntry.getValue().getComponentName());
+                componentEntry.getKey().setText(componentEntry.getValue().getComponentName(UIManager.getInstance().getLanguage()));
                 if(!componentEntry.getValue().isAvailable(gameDate)) {
                     componentEntry.getKey().setDisable(true);
                 }
@@ -662,28 +670,27 @@ public class BuyComponentController extends GameModuleController {
     }
 
     public void updateSuppliers() {
-        //TODO NULL
-        Component selectedTvComponent = null;
+        Component selectedTvComponent = new Component(ComponentType.DUMMY);
         for(Map<ToggleButton, Component> tvComponentsMap : this.tvComponents) {
             if(tvComponentsMap.get(tvComponentsToggleGroup.getSelectedToggle()) != null) {
                 selectedTvComponent = tvComponentsMap.get(tvComponentsToggleGroup.getSelectedToggle());
             }
         }
 
-        Component selectedConsoleComponent = null;
+        Component selectedConsoleComponent = new Component(ComponentType.DUMMY);
         for(Map<ToggleButton, Component> consoleComponentsMap : this.consoleComponents) {
             if(consoleComponentsMap.get(consoleComponentsToggleGroup.getSelectedToggle()) != null) {
                 selectedConsoleComponent = consoleComponentsMap.get(consoleComponentsToggleGroup.getSelectedToggle());
             }
         }
 
-        Component selectedNotebookComponent = null;
+        Component selectedNotebookComponent = new Component(ComponentType.DUMMY);
         for(Map<ToggleButton, Component> notebookComponentsMap : this.notebookComponents) {
             if(notebookComponentsMap.get(notebookComponentsToggleGroup.getSelectedToggle()) != null) {
                 selectedNotebookComponent = notebookComponentsMap.get(notebookComponentsToggleGroup.getSelectedToggle());
             }
         }
-        Component selectedPhoneComponent = null;
+        Component selectedPhoneComponent = new Component(ComponentType.DUMMY);
         for(Map<ToggleButton, Component> phoneComponentsMap : this.phoneComponents) {
             if(phoneComponentsMap.get(phoneComponentsToggleGroup.getSelectedToggle()) != null) {
                 selectedPhoneComponent = phoneComponentsMap.get(phoneComponentsToggleGroup.getSelectedToggle());
@@ -775,18 +782,22 @@ public class BuyComponentController extends GameModuleController {
             case T_DISPLAY:
                 this.tvScreensChoiceBox.setItems(this.tvComponentList);
                 this.tvScreensChoiceBox.setConverter(componentStringConverter);
+                this.tvScreensChoiceBox.setValue(this.tvComponentList.get(0));
                 break;
             case T_OS:
                 this.tvOSsChoiceBox.setItems(this.tvComponentList);
                 this.tvOSsChoiceBox.setConverter(componentStringConverter);
+                this.tvOSsChoiceBox.setValue(this.tvComponentList.get(0));
                 break;
             case T_SOUND:
                 this.tvAudiosChoiceBox.setItems(this.tvComponentList);
                 this.tvAudiosChoiceBox.setConverter(componentStringConverter);
+                this.tvAudiosChoiceBox.setValue(this.tvComponentList.get(0));
                 break;
             case T_CASE:
                 this.tvCasesChoiceBox.setItems(this.tvComponentList);
                 this.tvCasesChoiceBox.setConverter(componentStringConverter);
+                this.tvCasesChoiceBox.setValue(this.tvComponentList.get(0));
                 break;
             default:
         }
@@ -795,22 +806,27 @@ public class BuyComponentController extends GameModuleController {
             case G_DISPLAYCASE:
                 this.consoleScreensChoiceBox.setItems(this.consoleComponentList);
                 this.consoleScreensChoiceBox.setConverter(componentStringConverter);
+                this.consoleScreensChoiceBox.setValue(this.consoleComponentList.get(0));
                 break;
             case G_POWERSUPPLY:
                 this.consolePowersuppliesChoiceBox.setItems(this.consoleComponentList);
                 this.consolePowersuppliesChoiceBox.setConverter(componentStringConverter);
+                this.consolePowersuppliesChoiceBox.setValue(this.consoleComponentList.get(0));
                 break;
             case G_CPU:
                 this.consoleCPUsChoiceBox.setItems(this.consoleComponentList);
                 this.consoleCPUsChoiceBox.setConverter(componentStringConverter);
+                this.consoleCPUsChoiceBox.setValue(this.consoleComponentList.get(0));
                 break;
             case G_CONNECTIVITY:
                 this.consoleConnectivitiesChoiceBox.setItems(this.consoleComponentList);
                 this.consoleConnectivitiesChoiceBox.setConverter(componentStringConverter);
+                this.consoleConnectivitiesChoiceBox.setValue(this.consoleComponentList.get(0));
                 break;
             case G_CAMERA:
                 this.consoleCamerasChoiceBox.setItems(this.consoleComponentList);
                 this.consoleCamerasChoiceBox.setConverter(componentStringConverter);
+                this.consoleCamerasChoiceBox.setValue(this.consoleComponentList.get(0));
                 break;
             default:
         }
@@ -819,22 +835,27 @@ public class BuyComponentController extends GameModuleController {
             case N_CPU:
                 this.notebookCPUsChoiceBox.setItems(this.notebookComponentList);
                 this.notebookCPUsChoiceBox.setConverter(componentStringConverter);
+                this.notebookCPUsChoiceBox.setValue(this.notebookComponentList.get(0));
                 break;
             case N_DISPLAYCASE:
                 this.notebookScreensChoiceBox.setItems(this.notebookComponentList);
                 this.notebookScreensChoiceBox.setConverter(componentStringConverter);
+                this.notebookScreensChoiceBox.setValue(this.notebookComponentList.get(0));
                 break;
             case N_SOFTWARE:
                 this.notebookSoftwaresChoiceBox.setItems(this.notebookComponentList);
                 this.notebookSoftwaresChoiceBox.setConverter(componentStringConverter);
+                this.notebookSoftwaresChoiceBox.setValue(this.notebookComponentList.get(0));
                 break;
             case N_STORAGE:
                 this.notebookStoragesChoiceBox.setItems(this.notebookComponentList);
                 this.notebookStoragesChoiceBox.setConverter(componentStringConverter);
+                this.notebookStoragesChoiceBox.setValue(this.notebookComponentList.get(0));
                 break;
             case N_POWERSUPPLY:
                 this.notebookPowersuppliesChoiceBox.setItems(this.notebookComponentList);
                 this.notebookPowersuppliesChoiceBox.setConverter(componentStringConverter);
+                this.notebookPowersuppliesChoiceBox.setValue(this.notebookComponentList.get(0));
                 break;
         }
 
@@ -842,33 +863,135 @@ public class BuyComponentController extends GameModuleController {
             case P_POWERSUPPLY:
                 this.phonePowersuppliesChoiceBox.setItems(this.phoneComponentList);
                 this.phonePowersuppliesChoiceBox.setConverter(componentStringConverter);
+                this.phonePowersuppliesChoiceBox.setValue(this.phoneComponentList.get(0));
                 break;
             case P_DISPLAYCASE:
                 this.phoneScreensChoiceBox.setItems(this.phoneComponentList);
                 this.phoneScreensChoiceBox.setConverter(componentStringConverter);
+                this.phoneScreensChoiceBox.setValue(this.phoneComponentList.get(0));
                 break;
             case P_KEYPAD:
                 this.phoneKeypadsChoiceBox.setItems(this.phoneComponentList);
                 this.phoneKeypadsChoiceBox.setConverter(componentStringConverter);
+                this.phoneKeypadsChoiceBox.setValue(this.phoneComponentList.get(0));
                 break;
             case P_CPU:
                 this.phoneCPUsChoiceBox.setItems(this.phoneComponentList);
                 this.phoneCPUsChoiceBox.setConverter(componentStringConverter);
+                this.phoneCPUsChoiceBox.setValue(this.phoneComponentList.get(0));
                 break;
             case P_CAMERA:
                 this.phoneCamerasChoiceBox.setItems(this.phoneComponentList);
                 this.phoneCamerasChoiceBox.setConverter(componentStringConverter);
+                this.phoneCamerasChoiceBox.setValue(this.phoneComponentList.get(0));
                 break;
             case P_CONNECTIVITY:
                 this.phoneConnectivitiesChoiceBox.setItems(this.phoneComponentList);
                 this.phoneConnectivitiesChoiceBox.setConverter(componentStringConverter);
+                this.phoneConnectivitiesChoiceBox.setValue(this.phoneComponentList.get(0));
                 break;
             default:
         }
     }
 
-    class ComponentStringConverter extends StringConverter<Component> {
+    public void buyTvComponents() {
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+        Component tmpComponent = new Component(ComponentType.DUMMY);
+        switch(tvComponentList.get(0).getComponentCategory()) {
+            case T_DISPLAY:
+                tmpComponent = this.tvScreensChoiceBox.getValue();
+                break;
+            case T_OS:
+                tmpComponent = this.tvOSsChoiceBox.getValue();
+                break;
+            case T_SOUND:
+                tmpComponent = this.tvAudiosChoiceBox.getValue();
+                break;
+            case T_CASE:
+                tmpComponent = this.tvCasesChoiceBox.getValue();
+                break;
+            default:
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(tvComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+    }
 
+    public void buyConsoleComponents() {
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+        Component tmpComponent = new Component(ComponentType.DUMMY);
+        switch(consoleComponentList.get(0).getComponentCategory()) {
+            case G_DISPLAYCASE:
+                tmpComponent = this.consoleScreensChoiceBox.getValue();
+                break;
+            case G_POWERSUPPLY:
+                tmpComponent = this.consolePowersuppliesChoiceBox.getValue();
+                break;
+            case G_CPU:
+                tmpComponent = this.consoleCPUsChoiceBox.getValue();
+                break;
+            case G_CONNECTIVITY:
+                tmpComponent = this.consoleConnectivitiesChoiceBox.getValue();
+                break;
+            case G_CAMERA:
+                tmpComponent = this.consoleCamerasChoiceBox.getValue();
+                break;
+            default:
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(consoleComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+    }
+
+    public void buyNotebookComponents() {
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+        Component tmpComponent = new Component(ComponentType.DUMMY);
+        switch(notebookComponentList.get(0).getComponentCategory()) {
+            case N_CPU:
+                tmpComponent = this.notebookCPUsChoiceBox.getValue();
+                break;
+            case N_DISPLAYCASE:
+                tmpComponent = this.notebookScreensChoiceBox.getValue();
+                break;
+            case N_SOFTWARE:
+                tmpComponent = this.notebookSoftwaresChoiceBox.getValue();
+                break;
+            case N_STORAGE:
+                tmpComponent = this.notebookStoragesChoiceBox.getValue();
+                break;
+            case N_POWERSUPPLY:
+                tmpComponent = this.notebookPowersuppliesChoiceBox.getValue();
+                break;
+            default:
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(notebookComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+    }
+
+    public void buyPhoneComponents() {
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+        Component tmpComponent = new Component(ComponentType.DUMMY);
+        switch(phoneComponentList.get(0).getComponentCategory()) {
+            case P_POWERSUPPLY:
+                tmpComponent = this.phonePowersuppliesChoiceBox.getValue();
+                break;
+            case P_DISPLAYCASE:
+                tmpComponent = this.phoneScreensChoiceBox.getValue();
+                break;
+            case P_KEYPAD:
+                tmpComponent = this.phoneKeypadsChoiceBox.getValue();
+                break;
+            case P_CPU:
+                tmpComponent = this.phoneCPUsChoiceBox.getValue();
+                break;
+            case P_CAMERA:
+                tmpComponent = this.phoneCamerasChoiceBox.getValue();
+                break;
+            case P_CONNECTIVITY:
+                tmpComponent = this.phoneConnectivitiesChoiceBox.getValue();
+                break;
+            default:
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(phoneComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+    }
+
+
+    class ComponentStringConverter extends StringConverter<Component> {
         @Override
         public String toString(Component component) {
             DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");

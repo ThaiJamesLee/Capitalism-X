@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 public enum ComponentType implements Serializable {
 
+    DUMMY(ComponentCategory.DUMMY, "Dummy Component", 1, 0, 0, 1990),
+
     N_CPU_LEVEL_1 (ComponentCategory.N_CPU,"Pentium Processor",1,550, 30, 1990),
     N_CPU_LEVEL_2 (ComponentCategory.N_CPU,"Pentium Pro",2,710, 50, 1995),
     N_CPU_LEVEL_3 (ComponentCategory.N_CPU,"Pentium II",3,570, 60, 1997),

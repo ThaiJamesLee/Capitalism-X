@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
+<AnchorPane prefHeight="400.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
    <children>
       <TabPane layoutX="79.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -232,7 +232,7 @@
                                     <Label text="%product.console.camera" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                        <children>
-                                          <ToggleButton fx:id="consoleCameraToggleButton0" mnemonicParsing="false" prefHeight="63.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="consoleCameraToggleButton0" mnemonicParsing="false" prefHeight="63.0" text="ToggleButton" />
                                           <ToggleButton fx:id="consoleCameraToggleButton1" mnemonicParsing="false" prefHeight="55.0" text="ToggleButton" />
                                        </children>
                                     </HBox>
@@ -487,7 +487,7 @@
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <children>
-                                          <ToggleButton fx:id="phoneCameraToggleButton0" mnemonicParsing="false" prefHeight="35.0" selected="true" text="ToggleButton" />
+                                          <ToggleButton fx:id="phoneCameraToggleButton0" mnemonicParsing="false" prefHeight="35.0" text="ToggleButton" />
                                           <ToggleButton fx:id="phoneCameraToggleButton1" mnemonicParsing="false" prefHeight="42.0" text="ToggleButton" />
                                           <ToggleButton fx:id="phoneCameraToggleButton2" mnemonicParsing="false" prefHeight="41.0" text="ToggleButton" />
                                           <ToggleButton fx:id="phoneCameraToggleButton3" mnemonicParsing="false" prefHeight="44.0" text="ToggleButton" />

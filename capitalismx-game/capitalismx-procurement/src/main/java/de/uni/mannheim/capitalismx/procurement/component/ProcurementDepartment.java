@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.procurement.component;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
