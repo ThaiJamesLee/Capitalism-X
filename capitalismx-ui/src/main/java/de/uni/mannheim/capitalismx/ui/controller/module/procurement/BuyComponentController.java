@@ -912,7 +912,13 @@ public class BuyComponentController extends GameModuleController {
                 break;
             default:
         }
-        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(tvComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+        int amount = 0;
+        if(tvComponentAmountTextField.getText().equals("")) {
+            amount = 5;
+        } else {
+            Integer.valueOf(tvComponentAmountTextField.getText());
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, amount, GameController.getInstance().getFreeStorage());
     }
 
     public void buyConsoleComponents() {
@@ -936,7 +942,13 @@ public class BuyComponentController extends GameModuleController {
                 break;
             default:
         }
-        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(consoleComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+        int amount = 0;
+        if(consoleComponentAmountTextField.getText().equals("")) {
+            amount = 5;
+        } else {
+            Integer.valueOf(consoleComponentAmountTextField.getText());
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, amount, GameController.getInstance().getFreeStorage());
     }
 
     public void buyNotebookComponents() {
@@ -960,7 +972,13 @@ public class BuyComponentController extends GameModuleController {
                 break;
             default:
         }
-        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(notebookComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+        int amount = 0;
+        if(notebookComponentAmountTextField.getText().equals("")) {
+            amount = 5;
+        } else {
+            Integer.valueOf(notebookComponentAmountTextField.getText());
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, amount, GameController.getInstance().getFreeStorage());
     }
 
     public void buyPhoneComponents() {
@@ -987,7 +1005,13 @@ public class BuyComponentController extends GameModuleController {
                 break;
             default:
         }
-        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(phoneComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+        int amount = 0;
+        if(phoneComponentAmountTextField.getText().equals("")) {
+            amount = 5;
+        } else {
+            Integer.valueOf(phoneComponentAmountTextField.getText());
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, amount, GameController.getInstance().getFreeStorage());
     }
 
 

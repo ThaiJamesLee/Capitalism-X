@@ -1153,8 +1153,18 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.tvAudiosChoiceBox.getValue());
         components.add(this.tvCasesChoiceBox.getValue());
         components.add(this.tvOSsChoiceBox.getValue());
-        this.tv = new Product(this.tvProductNameTextField.getText(), ProductCategory.TELEVISION, components);
-        this.tv.setSalesPrice(Double.valueOf(this.tvSalesPriceTextField.getText()));
+        String productName = this.tvProductNameTextField.getText();
+        if(productName.equals("")) {
+            productName = "capTV";
+        }
+        this.tv = new Product(productName, ProductCategory.TELEVISION, components);
+        double salesPrice = 0;
+        if(this.tvSalesPriceTextField.getText().equals("")) {
+            salesPrice = 400;
+        } else {
+            salesPrice = Double.valueOf(this.tvSalesPriceTextField.getText());
+        }
+        this.tv.setSalesPrice(salesPrice);
         GameController.getInstance().launchProduct(this.tv, 1);
     }
 
@@ -1167,8 +1177,18 @@ public class IntroduceProductController extends GameModuleController {
         if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
             components.add(this.consoleCamerasChoiceBox.getValue());
         }
-        this.console = new Product(this.consoleProductNameTextField.getText(), ProductCategory.GAME_BOY, components);
-        this.console.setSalesPrice(Double.valueOf(this.consoleSalesPriceTextField.getText()));
+        String productName = this.consoleSalesPriceTextField.getText();
+        if(productName.equals("")) {
+            productName = "capConsole";
+        }
+        this.console = new Product(productName, ProductCategory.GAME_BOY, components);
+        double salesPrice = 0;
+        if(this.consoleSalesPriceTextField.getText().equals("")) {
+            salesPrice = 600;
+        } else {
+            salesPrice = Double.valueOf(this.consoleSalesPriceTextField.getText());
+        }
+        this.console.setSalesPrice(salesPrice);
         GameController.getInstance().launchProduct(this.console, 1);
     }
 
@@ -1179,8 +1199,18 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.notebookStoragesChoiceBox.getValue());
         components.add(this.notebookSoftwaresChoiceBox.getValue());
         components.add(this.notebookPowersuppliesChoiceBox.getValue());
-        this.notebook = new Product(this.notebookProductNameTextField.getText(), ProductCategory.NOTEBOOK, components);
-        this.notebook.setSalesPrice(Double.valueOf(this.notebookSalesPriceTextField.getText()));
+        String productName = this.notebookSalesPriceTextField.getText();
+        if(productName.equals("")) {
+            productName = "capBook";
+        }
+        this.notebook = new Product(productName, ProductCategory.NOTEBOOK, components);
+        double salesPrice = 0;
+        if(this.notebookSalesPriceTextField.getText().equals("")) {
+            salesPrice = 1500;
+        } else {
+            salesPrice = Double.valueOf(this.notebookSalesPriceTextField.getText());
+        }
+        this.notebook.setSalesPrice(salesPrice);
         GameController.getInstance().launchProduct(this.notebook, 1);
     }
 
@@ -1194,8 +1224,18 @@ public class IntroduceProductController extends GameModuleController {
             components.add(this.phoneCamerasChoiceBox.getValue());
         }
         components.add(this.phoneKeypadsChoiceBox.getValue());
-        this.phone = new Product(this.phoneProductNameTextField.getText(), ProductCategory.PHONE, components);
-        this.phone.setSalesPrice(Double.valueOf(this.phoneSalesPriceTextField.getText()));
+        String productName = this.phoneSalesPriceTextField.getText();
+        if(productName.equals("")) {
+            productName = "capPhone";
+        }
+        this.phone = new Product(productName, ProductCategory.PHONE, components);
+        double salesPrice = 0;
+        if(this.phoneSalesPriceTextField.getText().equals("")) {
+            salesPrice = 700;
+        } else {
+            salesPrice = Double.valueOf(this.phoneSalesPriceTextField.getText());
+        }
+        this.phone.setSalesPrice(Double.valueOf(salesPrice));
         GameController.getInstance().launchProduct(this.phone, 1);
     }
 
