@@ -119,6 +119,7 @@ public class GamePageController implements UpdateableController {
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
 			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.event1", true);
+			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.event2", true);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

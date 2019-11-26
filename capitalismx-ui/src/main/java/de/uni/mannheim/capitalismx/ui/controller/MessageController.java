@@ -42,9 +42,7 @@ public class MessageController implements Initializable {
 	private ScrollPane messageContentPane;
 
 	private GamePageController controllerReference;
-
-	private ArrayList<MessageSubjectController> messageSubjectList;
-	private ArrayList<MessageContentController> messageContentList;
+	private ArrayList<MessageObject> messageSave;
 
 //	@Override
 //	public void initialize(URL location, ResourceBundle resources) {
@@ -57,7 +55,10 @@ public class MessageController implements Initializable {
 //		});
 //		
 //	}
-	
+	public MessageController(){
+		messageSave = new ArrayList<MessageObject>();
+	}
+
 
 	public void addMessage(String sender, String date, String subject, String message, boolean isInternal) {
 		Parent messageSubject;
@@ -87,24 +88,25 @@ public class MessageController implements Initializable {
 			mcc.setContentSubject(bundle.getString(subject));
 			mcc.setContentContent(bundle.getString(message));
 			messageContentPane.setContent(messageContent);
-			//messageContent = contentLoader.load();
-			//messageSubject.subject = "Hi!";
-			//system.out.print(messageSubject.subject);
 
-			//Label btn = (Label) messageSubject.lookup("#sender");
-			//((Label) messageSubject.lookup("#sender")).setText("Human Ressource Department");
-			//controllerReference = ((GamePageController)(UIManager.getInstance().getSceneGame().getController()));
-			//controllerReference.
-			//((VBox) controllerReference.getMessagePaneReminder().lookup("#messageList")).
+			MessageObject messageReference = new MessageObject(sender, date, subject, message, isInternal, messageSubject, messageContent);
+			messageSave.add(messageReference);
+			msc.setMessageReference(messageReference);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
 
+	public void setContent(MessageObject message){
+		messageContentPane.setContent(message.getMessageContent());
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CssHelper.replaceStylesheets(root.getStylesheets());
+
+
 
 		/*
 		messageClose.setOnAction(e -> {
