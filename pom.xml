@@ -7,7 +7,7 @@
 
   <!-- modules -->
   <modules>
-      <module>capitalismx-game</module>
+      <module>capitalismx-logic</module>
       <module>capitalismx-ui</module>
       <module>capitalismx-utils</module>
   </modules>

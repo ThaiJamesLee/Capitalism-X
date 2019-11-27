@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
@@ -19,7 +19,6 @@ import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

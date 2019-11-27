@@ -1,6 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.logistics;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;

@@ -1,23 +1,15 @@
 package de.uni.mannheim.capitalismx.ui.controller.overlay.finance;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
-import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.finance.LoanRequestListViewCell;
-import de.uni.mannheim.capitalismx.ui.components.logistics.TruckDetailListViewCell;
-import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
 
 import java.net.URL;
 import java.util.ArrayList;

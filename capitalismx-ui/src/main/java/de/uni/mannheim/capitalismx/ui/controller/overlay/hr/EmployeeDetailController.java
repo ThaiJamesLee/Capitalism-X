@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;

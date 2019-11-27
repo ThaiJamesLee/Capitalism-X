@@ -1,6 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.application;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import javafx.application.Application;

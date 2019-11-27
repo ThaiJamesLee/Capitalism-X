@@ -1,15 +1,13 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;

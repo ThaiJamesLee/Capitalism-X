@@ -1,9 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.components.logistics;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
-import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
