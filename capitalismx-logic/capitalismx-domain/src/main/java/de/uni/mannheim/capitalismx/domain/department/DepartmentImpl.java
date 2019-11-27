@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.domain.department;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,4 +87,9 @@ public abstract class DepartmentImpl implements Department, Serializable {
         return availableSkills;
     }
 
+    /**
+     * Implement how to add a property change listener.
+     * @param listener A PropertyChangeListener.
+     */
+    public abstract void registerPropertyChangeListener(PropertyChangeListener listener);
 }

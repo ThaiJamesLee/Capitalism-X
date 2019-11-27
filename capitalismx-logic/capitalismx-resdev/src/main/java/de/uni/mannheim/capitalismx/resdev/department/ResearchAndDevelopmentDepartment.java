@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.resdev.department.skills.ResDevSkillImpl;
 
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -68,5 +69,10 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
      */
     public boolean isCategoryUnlocked(ProductCategory category) {
         return unlockedCategories.contains(category);
+    }
+
+    @Override
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+
     }
 }

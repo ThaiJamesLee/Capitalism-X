@@ -166,7 +166,7 @@
                     <reportSet>
                         <reports><!-- select reports -->
                             <report>index</report>
-                            <report>licenses</report>
+                            <report>dependencies</report>
                             <report>modules</report>
                             <report>summary</report>
                         </reports>

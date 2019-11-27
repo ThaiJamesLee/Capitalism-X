@@ -631,4 +631,9 @@ public class FinanceDepartment extends DepartmentImpl {
     public TreeMap<String, String[]> getQuarterlyData() {
         return this.quarterlyData;
     }
+
+    @Override
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+
+    }
 }
