@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.components;
 
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+
 /**
  * Determines the type of GameView which is an abstraction of the displayed
  * GameElements of a department.
@@ -9,13 +11,14 @@ package de.uni.mannheim.capitalismx.ui.components;
  */
 public enum GameViewType {
 
-	OVERVIEW(1, "Overview"), 
-	FINANCES(2, "Finance"),
-	HR(3, "Human Resources"), 
-	PRODUCTION(4, "Production"), 
-	LOGISTIC(5, "Logistics"),
-	WAREHOUSE(6, "Warehouse"), 
-	MARKETING(7, "Marketing");
+	OVERVIEW(1, "view.overview"), 
+	FINANCES(2, "view.finance"),
+	HR(3, "view.hr"), 
+	SALES(4, "view.sales"),
+	PRODUCTION(5, "view.production"), 
+	LOGISTIC(6, "view.logistics"),
+	WAREHOUSE(7, "view.warehouse"), 
+	R_AND_D(8, "view.research");
 
 	private final String title;
 	private final int id;
@@ -26,7 +29,7 @@ public enum GameViewType {
 	}
 
 	public String getTitle() {
-		return title;
+		return UIManager.getLocalisedString(title);
 	}
 
 	/**

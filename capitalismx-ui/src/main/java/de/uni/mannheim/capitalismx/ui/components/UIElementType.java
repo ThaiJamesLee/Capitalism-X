@@ -23,7 +23,8 @@ public enum UIElementType {
 	LOGISTICS_WAREHOUSE_OVERVIEW("Warehouses"),
 	LOGISTICS_TRUCK_FLEET_OVERVIEW("Truck Fleet"),
 	PRODUCTION_NEW_PRODUCT_OVERVIEW("Introduce Product"),
-	PRODUCTION_MACHINERY_OVERVIEW("Machines");
+	PRODUCTION_MACHINERY_OVERVIEW("Machines"),
+	PROCUREMENT_BUY_COMPONENT_OVERVIEW("Buy Component");
 
 	// The title of the GameElement, that will be displayed on top.
 	public final String title;

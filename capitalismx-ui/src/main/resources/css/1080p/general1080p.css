@@ -167,7 +167,7 @@ FontAwesomeIcon {
 	-fx-font-family: "Prime";
 	-fx-font-size: 10.0px;
 	-fx-border-width: 1.5;
-	-fx-background-color: -fx-primary-light-neutral;
+	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary;
 	-fx-text-fill: -fx-primary;
 	-fx-cursor: hand;
@@ -179,12 +179,12 @@ FontAwesomeIcon {
 }
 .toggle-button:selected {
 	-fx-border-radius: 2.0px;
-	-fx-background-color: -fx-primary;
+	-fx-background-color: linear-gradient(to bottom, derive(-fx-primary-light-neutral, -30%), -fx-primary);
 	-fx-border-color: -fx-primary-dark;
 	-fx-text-fill: -fx-primary-dark;
 }
 .toggle-button:hover {
-	-fx-background-color: -fx-primary-neutral;
+	-fx-background-color: -fx-primary-dark;
 	-fx-border-color: -fx-primary;
 	-fx-text-fill: -fx-primary;
 }
@@ -304,7 +304,6 @@ FontAwesomeIcon {
 .list-cell:selected {
 	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-primary-dark;
-	-fx-cursor: open;
 }
 
 .list-cell:empty {
@@ -567,24 +566,25 @@ FontAwesomeIcon {
 
 
 /**
- *	Design for the Popover.
+ *	Design for the Train-Popover.
  */
-.popover {
+.train_popover {
 	-fx-border-radius: 5.0;
 	-fx-width: 150.0px;
 }
 
-.popover .training_grid {
+.train_popover .training_grid {
 	-fx-border-radius: 2.0px;
 	-fx-background-radius: 2.0px;
 	-fx-padding: 5.0px;
-	-fx-background-color: -fx-light-neutral;
+	-fx-background-color: -fx-complement-light-neutral;
 }
 
-.popover .training_grid:hover {
+.train_popover .training_grid:hover {
 	-fx-background-color: -fx-primary;
 }
-.popover .training_grid:pressed {
-	-fx-background-color: -fx-neutral;
+.train_popover .training_grid:pressed {
+	-fx-text-fill: -fx-primary;
+	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary;
 }

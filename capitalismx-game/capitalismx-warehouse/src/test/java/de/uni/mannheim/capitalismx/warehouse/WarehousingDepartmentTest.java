@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.warehouse;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
@@ -56,8 +57,8 @@ public class WarehousingDepartmentTest {
         ProductionDepartment.getInstance().launchProduct(notebook, 10, 200);
         WarehousingDepartment.getInstance().storeUnits();
         int numberStoredUnits = 0;
-        HashMap<Product, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
-        for(HashMap.Entry<Product, Integer> entry : inventory.entrySet()) {
+        HashMap<Unit, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
+        for(HashMap.Entry<Unit, Integer> entry : inventory.entrySet()) {
             numberStoredUnits += entry.getValue();
         }
         Assert.assertEquals(numberStoredUnits, 10);
@@ -78,11 +79,11 @@ public class WarehousingDepartmentTest {
 
     @Test
     public void sellProductTest() {
-        HashMap<Product, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
+        HashMap<Unit, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
         WarehousingDepartment.getInstance().sellProducts(inventory);
         inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
         int numberStoredUnits = 0;
-        for(HashMap.Entry<Product, Integer> entry : inventory.entrySet()) {
+        for(HashMap.Entry<Unit, Integer> entry : inventory.entrySet()) {
             numberStoredUnits += entry.getValue();
         }
         Assert.assertEquals(numberStoredUnits, 0);

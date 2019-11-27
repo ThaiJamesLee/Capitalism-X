@@ -2,12 +2,19 @@ package de.uni.mannheim.capitalismx.procurement.component;
 
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-public class Component {
+import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
+public class Component extends Unit implements Serializable {
+
+    private UnitType unitType;
     private ComponentCategory componentCategory;
-    private String componentName;
+    //Wird für Internationalisierung aus ComponentType geladen in korrekter sprache
+    //private String componentName;
     private int componentLevel;
     private double initialComponentPrice;
     private int baseUtility;
@@ -20,8 +27,9 @@ public class Component {
     private ComponentType componentType;
 
     public Component(ComponentType componentType) {
+        this.unitType = UnitType.COMPONENT_UNIT;
         this.componentCategory = componentType.getComponentCategory();
-        this.componentName = componentType.getComponentName();
+        //this.componentName = componentType.getComponentName();
         this.componentLevel = componentType.getComponentLevel();
         this.initialComponentPrice = componentType.getInitialComponentPrice();
         this.baseUtility = componentType.getBaseUtility();
@@ -30,8 +38,9 @@ public class Component {
     }
 
     public Component(ComponentType componentType, SupplierCategory supplierCategory) {
+        this.unitType = UnitType.COMPONENT_UNIT;
         this.componentCategory = componentType.getComponentCategory();
-        this.componentName = componentType.getComponentName();
+        //this.componentName = componentType.getComponentName();
         this.componentLevel = componentType.getComponentLevel();
         this.initialComponentPrice = componentType.getInitialComponentPrice();
         this.baseUtility = componentType.getBaseUtility();
@@ -80,8 +89,8 @@ public class Component {
         return this.componentCategory;
     }
 
-    public String getComponentName() {
-        return this.componentName;
+    public String getComponentName(Locale locale) {
+    	return this.componentType.getName(locale);
     }
 
     public int getComponentLevel() {
@@ -138,6 +147,15 @@ public class Component {
                 + 142.7889;
         double tBCP = this.initialComponentPrice * (tBPM / 100);
         this.baseCost = tBCP * this.supplierCostMultiplicator;
+        this.baseCost = this.baseCost * RandomNumberGenerator.getRandomDouble(0.8, 1.5);
         return this.baseCost;
+    }
+
+    public UnitType getUnitType() {
+        return this.unitType;
+    }
+
+    public double getSalesPrice() {
+        return 0;
     }
 }

@@ -22,186 +22,209 @@ import java.util.List;
 
 public class GameState implements Serializable {
 
-    private static GameState instance;
-    private LocalDate gameDate;
+	private static GameState instance;
+	private LocalDate gameDate;
 
-    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-    // Departments
-    private HRDepartment hrDepartment;
-    private ProductionDepartment productionDepartment;
-    private WarehousingDepartment warehousingDepartment;
-    private FinanceDepartment financeDepartment;
-    private MarketingDepartment marketingDepartment;
-    private LogisticsDepartment logisticsDepartment;
-    private CustomerSatisfaction customerSatisfaction;
-    private CustomerDemand customerDemand;
-    private ExternalEvents externalEvents;
-    private CompanyEcoIndex companyEcoIndex;
-    private InternalFleet internalFleet;
+	// Departments
+	private HRDepartment hrDepartment;
+	private ProductionDepartment productionDepartment;
+	private WarehousingDepartment warehousingDepartment;
+	private FinanceDepartment financeDepartment;
+	private MarketingDepartment marketingDepartment;
+	private LogisticsDepartment logisticsDepartment;
+	private CustomerSatisfaction customerSatisfaction;
+	private CustomerDemand customerDemand;
+	private ExternalEvents externalEvents;
+	private CompanyEcoIndex companyEcoIndex;
+	private InternalFleet internalFleet;
 
+	private GameState() {
+		this.gameDate = LocalDate.of(1990, 1, 1);
+	}
 
-    private GameState() {
-        this.gameDate = LocalDate.of(1990, 1, 1);
-    }
+	public static GameState getInstance() {
+		if (instance == null) {
+			instance = new GameState();
+		}
+		return instance;
+	}
 
+	public void initiate() {
+		hrDepartment = HRDepartment.getInstance();
+		productionDepartment = ProductionDepartment.getInstance();
+		warehousingDepartment = WarehousingDepartment.getInstance();
+		financeDepartment = FinanceDepartment.getInstance();
+		marketingDepartment = MarketingDepartment.getInstance();
+		logisticsDepartment = LogisticsDepartment.getInstance();
+		customerSatisfaction = CustomerSatisfaction.getInstance();
+		customerDemand = CustomerDemand.getInstance();
+		// TODO procurement once a procurement department is implemented where it is
+		// possible to buy components
+		externalEvents = ExternalEvents.getInstance();
+		companyEcoIndex = CompanyEcoIndex.getInstance();
+		internalFleet = InternalFleet.getInstance();
+	}
 
-    public static GameState getInstance() {
-        if(instance == null) {
-            instance = new GameState();
-        }
-        return instance;
-    }
+	/**
+	 * Sets all the Department-Singletons to null, so they will be recreated and
+	 * reset, when called again.
+	 */
+	public void resetDepartments() {
+		HRDepartment.setInstance(null);
+		ProductionDepartment.setInstance(null);
+		WarehousingDepartment.setInstance(null);
+		FinanceDepartment.setInstance(null);
+		MarketingDepartment.setInstance(null);
+		LogisticsDepartment.setInstance(null);
+		CustomerSatisfaction.setInstance(null);
+		CustomerDemand.setInstance(null);
+		// TODO procurement once a procurement department is implemented where it is
+		// possible to buy components
+		ExternalEvents.setInstance(null);
+		CompanyEcoIndex.setInstance(null);
+		InternalFleet.setInstance(null);
+	}
 
-    public void initiate() {
+	/**
+	 * Add a change listener that notifies, if a property has changed.
+	 *
+	 * @param listener A property change listener.
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.addPropertyChangeListener(listener);
+	}
 
-        hrDepartment = HRDepartment.getInstance();
-        productionDepartment = ProductionDepartment.getInstance();
-        warehousingDepartment = WarehousingDepartment.getInstance();
-        financeDepartment = FinanceDepartment.getInstance();
-        marketingDepartment = MarketingDepartment.getInstance();
-        logisticsDepartment = LogisticsDepartment.getInstance();
-        customerSatisfaction = CustomerSatisfaction.getInstance();
-        customerDemand = CustomerDemand.getInstance();
-        // TODO procurement once a procurement department is implemented where it is possible to buy components
-        externalEvents = ExternalEvents.getInstance();
-        companyEcoIndex = CompanyEcoIndex.getInstance();
-        internalFleet = InternalFleet.getInstance();
-    }
+	/**
+	 * Remove a change listener.
+	 *
+	 * @param listener The property listener that needs to be removed.
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		this.propertyChangeSupport.removePropertyChangeListener(listener);
+	}
 
-    /**
-     * Add a change listener that notifies, if a property has changed.
-     * @param listener A property change listener.
-     */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.propertyChangeSupport.addPropertyChangeListener(listener);
-    }
+	public LocalDate getGameDate() {
+		return this.gameDate;
+	}
 
-    /**
-     * Remove a change listener.
-     * @param listener The property listener that needs to be removed.
-     */
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.propertyChangeSupport.removePropertyChangeListener(listener);
-    }
+	/**
+	 * Sets the new game date and fires a property changed event.
+	 *
+	 * @param gameDate Sets new game date.
+	 */
+	public void setGameDate(LocalDate gameDate) {
+		LocalDate oldDate = this.gameDate;
+		this.gameDate = gameDate;
+		this.propertyChangeSupport.firePropertyChange("gameDate", oldDate, gameDate);
+	}
 
+	/**
+	 * Sets the new GameState instance as the singleton.
+	 *
+	 * @param state The new GameState.
+	 */
+	public static void setInstance(GameState state) {
+		GameState.instance = state;
+	}
 
-    public LocalDate getGameDate() {
-        return this.gameDate;
-    }
+	/**
+	 * This instance is not a singleton, and can not be called by the getInstance
+	 * method.
+	 *
+	 * @return Returns a newly created instance.
+	 */
+	public static GameState createInstance() {
+		return new GameState();
+	}
 
-    /**
-     * Sets the new game date and fires a property changed event.
-     * @param gameDate Sets new game date.
-     */
-    public void setGameDate(LocalDate gameDate) {
-        LocalDate oldDate = this.gameDate;
-        this.gameDate = gameDate;
-        this.propertyChangeSupport.firePropertyChange("gameDate", oldDate, gameDate);
-    }
+	public HRDepartment getHrDepartment() {
+		return hrDepartment;
+	}
 
-    /**
-     * Sets the new GameState instance as the singleton.
-     * @param state The new GameState.
-     */
-    public static void setInstance(GameState state) {
-        GameState.instance = state;
-    }
+	public void setHrDepartment(HRDepartment hrDepartment) {
+		this.hrDepartment = hrDepartment;
+	}
 
-    /**
-     * This instance is not a singleton, and can not be called by the getInstance method.
-     * @return Returns a newly created instance.
-     */
-    public static GameState createInstance() {
-        return new GameState();
-    }
+	public ProductionDepartment getProductionDepartment() {
+		return productionDepartment;
+	}
 
-    public HRDepartment getHrDepartment() {
-        return hrDepartment;
-    }
+	public void setProductionDepartment(ProductionDepartment productionDepartment) {
+		this.productionDepartment = productionDepartment;
+	}
 
-    public void setHrDepartment(HRDepartment hrDepartment) {
-        this.hrDepartment = hrDepartment;
-    }
+	public WarehousingDepartment getWarehousingDepartment() {
+		return warehousingDepartment;
+	}
 
-    public ProductionDepartment getProductionDepartment() {
-        return productionDepartment;
-    }
+	public void setWarehousingDepartment(WarehousingDepartment warehousingDepartment) {
+		this.warehousingDepartment = warehousingDepartment;
+	}
 
-    public void setProductionDepartment(ProductionDepartment productionDepartment) {
-        this.productionDepartment = productionDepartment;
-    }
+	public FinanceDepartment getFinanceDepartment() {
+		return financeDepartment;
+	}
 
-    public WarehousingDepartment getWarehousingDepartment() {
-        return warehousingDepartment;
-    }
+	public void setFinanceDepartment(FinanceDepartment financeDepartment) {
+		this.financeDepartment = financeDepartment;
+	}
 
-    public void setWarehousingDepartment(WarehousingDepartment warehousingDepartment) {
-        this.warehousingDepartment = warehousingDepartment;
-    }
+	public MarketingDepartment getMarketingDepartment() {
+		return marketingDepartment;
+	}
 
-    public FinanceDepartment getFinanceDepartment() {
-        return financeDepartment;
-    }
+	public void setMarketingDepartment(MarketingDepartment marketingDepartment) {
+		this.marketingDepartment = marketingDepartment;
+	}
 
-    public void setFinanceDepartment(FinanceDepartment financeDepartment) {
-        this.financeDepartment = financeDepartment;
-    }
+	public LogisticsDepartment getLogisticsDepartment() {
+		return logisticsDepartment;
+	}
 
-    public MarketingDepartment getMarketingDepartment() {
-        return marketingDepartment;
-    }
+	public void setLogisticsDepartment(LogisticsDepartment logisticsDepartment) {
+		this.logisticsDepartment = logisticsDepartment;
+	}
 
-    public void setMarketingDepartment(MarketingDepartment marketingDepartment) {
-        this.marketingDepartment = marketingDepartment;
-    }
+	public CustomerSatisfaction getCustomerSatisfaction() {
+		return customerSatisfaction;
+	}
 
-    public LogisticsDepartment getLogisticsDepartment() {
-        return logisticsDepartment;
-    }
+	public void setCustomerSatisfaction(CustomerSatisfaction customerSatisfaction) {
+		this.customerSatisfaction = customerSatisfaction;
+	}
 
-    public void setLogisticsDepartment(LogisticsDepartment logisticsDepartment) {
-        this.logisticsDepartment = logisticsDepartment;
-    }
+	public CustomerDemand getCustomerDemand() {
+		return customerDemand;
+	}
 
-    public CustomerSatisfaction getCustomerSatisfaction() {
-        return customerSatisfaction;
-    }
+	public void setCustomerDemand(CustomerDemand customerDemand) {
+		this.customerDemand = customerDemand;
+	}
 
-    public void setCustomerSatisfaction(CustomerSatisfaction customerSatisfaction) {
-        this.customerSatisfaction = customerSatisfaction;
-    }
+	public ExternalEvents getExternalEvents() {
+		return externalEvents;
+	}
 
-    public CustomerDemand getCustomerDemand() {
-        return customerDemand;
-    }
+	public void setExternalEvents(ExternalEvents externalEvents) {
+		this.externalEvents = externalEvents;
+	}
 
-    public void setCustomerDemand(CustomerDemand customerDemand) {
-        this.customerDemand = customerDemand;
-    }
+	public CompanyEcoIndex getCompanyEcoIndex() {
+		return companyEcoIndex;
+	}
 
-    public ExternalEvents getExternalEvents() {
-        return externalEvents;
-    }
+	public void setCompanyEcoIndex(CompanyEcoIndex companyEcoIndex) {
+		this.companyEcoIndex = companyEcoIndex;
+	}
 
-    public void setExternalEvents(ExternalEvents externalEvents) {
-        this.externalEvents = externalEvents;
-    }
+	public InternalFleet getInternalFleet() {
+		return internalFleet;
+	}
 
-    public CompanyEcoIndex getCompanyEcoIndex() {
-        return companyEcoIndex;
-    }
-
-    public void setCompanyEcoIndex(CompanyEcoIndex companyEcoIndex) {
-        this.companyEcoIndex = companyEcoIndex;
-    }
-
-    public InternalFleet getInternalFleet() {
-        return internalFleet;
-    }
-
-    public void setInternalFleet(InternalFleet internalFleet) {
-        this.internalFleet = internalFleet;
-    }
+	public void setInternalFleet(InternalFleet internalFleet) {
+		this.internalFleet = internalFleet;
+	}
 
 }

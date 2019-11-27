@@ -2,12 +2,24 @@
 	-fx-background-color: -fx-primary-dark;
 }
 
+#title {
+	-fx-font: bold 26 'Prime';
+	-fx-text-fill: -fx-primary;
+}
+
+.headerPane {
+	-fx-padding: 10;
+	-fx-background-radius: 5 5 0 0;
+	-fx-border-radius: 5 5 0 0;
+	-fx-background-color: -fx-complement-neutral;
+}
+
 .notificationBackground {
 	-fx-background-color: -fx-complement-light;	
 }
 
 .senderLabel {
-	-fx-text-fill: -fx--primary-dark;
+	-fx-text-fill: -fx-primary-dark;
 	-fx-font-size: 16px;
     -fx-font-family: 'Prime';
     -fx-font-wight: bold;

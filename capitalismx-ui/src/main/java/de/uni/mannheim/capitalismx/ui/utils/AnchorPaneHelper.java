@@ -3,6 +3,14 @@ package de.uni.mannheim.capitalismx.ui.utils;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Helper Class that provides some useful functionalities to automatically snap
+ * {@link Node}s to their parent {@link AnchorPane}, without having to set the
+ * distance for each anchor individually.
+ * 
+ * @author Jonathan
+ *
+ */
 public class AnchorPaneHelper {
 
 	/**

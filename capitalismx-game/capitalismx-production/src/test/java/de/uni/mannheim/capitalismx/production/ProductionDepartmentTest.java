@@ -54,7 +54,7 @@ public class ProductionDepartmentTest {
     @Test
     public void getAllAvailableComponentsTest() {
         ArrayList<ComponentType> components = new ArrayList<>(ProductionDepartment.getInstance().getAllAvailableComponents(LocalDate.of(1990,1,1)));
-        Assert.assertEquals(components.size(), 18);
+        Assert.assertEquals(components.size(), 19);
         components = new ArrayList<>(ProductionDepartment.getInstance().getAllAvailableComponents(LocalDate.of(2019,1,1)));
         ComponentType[] allComponents = ComponentType.values();
         Assert.assertEquals(components.size(), allComponents.length);

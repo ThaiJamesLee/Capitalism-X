@@ -22,14 +22,14 @@ public enum GameModuleDefinition {
 
 
 	// The modules for HR. (11-20)
-	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, GameOverlayDefinition.HR_EDIT_EMPLOYEE,
+	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, null,
 			UIElementType.HR_EMPLOYEES_OVERVIEW, 0, 7, 0, 15),
 	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, UIElementType.HR_RECRUITING_OVERVIEW, 7, 7,
 			0, 17),
 	HR_STATISTICS(13, "hr_statistics.fxml", GameViewType.HR, null, UIElementType.HR_STATISTICS, 14, 6,
-			0, 9),
+			0, 11),
 	HR_WORKING_CONDITIONS(14, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
-			10, 11),
+			12, 8),
 
 	// The modules for Logistics. (21-30)
 	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.LOGISTICS_PARTNER_DETAIL, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),
@@ -45,6 +45,7 @@ public enum GameModuleDefinition {
 
 	// The modules for the warehouse. (51-60)
 //	WAREHOUSE_PLACEHOLDER(51, "m_warehouse_placeholder.fxml", GameViewType.GAME_WAREHOUSE, 0, 1, 0, 1),
+	PROCUREMENT_BUY_COMPONENT_MENU(51, "buy_component_menu.fxml", GameViewType.WAREHOUSE, null, UIElementType.PROCUREMENT_BUY_COMPONENT_OVERVIEW, 0, 10, 0, 12),
 
 	// The modules for HR. (61-70)
 	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 5, 0, 19),

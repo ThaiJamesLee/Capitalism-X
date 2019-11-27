@@ -29,3 +29,9 @@
 	-fx-effect: dropshadow(gaussian, -fx-complement-dark-transparent, 10, 0.5, 0, 0);	
 }
 
+.table_content {
+	-fx-border-color:-fx-primary-neutral;
+	-fx-border-width : 2 0 0 2;
+	-fx-border-insets: -10 0 0 0;
+}
+

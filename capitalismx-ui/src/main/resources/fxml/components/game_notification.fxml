@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="hud_background" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane layoutX="181.0" layoutY="137.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints percentHeight="40.0" vgrow="SOMETIMES" />
+          <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="senderLabel" text="Label">
+               <styleClass>
+                  <String fx:value="label_large" />
+                  <String fx:value="notification_sender" />
+               </styleClass>
+               <padding>
+                  <Insets bottom="10.0" top="5.0" />
+               </padding>
+            </Label>
+            <Region styleClass="notification_separator" GridPane.rowIndex="1" />
+            <Label fx:id="messageLabel" maxWidth="350.0" styleClass="notification_message" text="Label" wrapText="true" GridPane.rowIndex="1">
+               <padding>
+                  <Insets bottom="5.0" top="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </GridPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/messagePane.css" />
+      <URL value="@../../css/gamePage.css" />
+   </stylesheets>
+</AnchorPane>

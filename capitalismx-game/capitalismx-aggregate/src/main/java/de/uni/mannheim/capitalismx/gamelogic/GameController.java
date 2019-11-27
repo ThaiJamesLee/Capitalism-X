@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.procurement.component.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,10 +35,6 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
@@ -140,6 +138,7 @@ public class GameController {
 
 	private void updateFinance() {
 		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
 	}
 
 	private void updateHR() {
@@ -182,6 +181,8 @@ public class GameController {
 
 	public void terminateGame() {
 		GameThread.getInstance().terminate();
+		GameState.getInstance().resetDepartments();
+		GameState.setInstance(null);
 	}
 
 	public void resumeGame() {
@@ -267,17 +268,9 @@ public class GameController {
 		return netWorth;
 	}
 
-	public ArrayList<Investment> generateInvestmentSelection(double amount) {
-		return FinanceDepartment.getInstance().generateInvestmentSelection(amount);
-	}
-
-	public void addInvestment(Investment investment) {
-		FinanceDepartment.getInstance().addInvestment(investment);
-	}
-
-	public void removeInvestment(Investment investment) {
-		FinanceDepartment.getInstance().removeInvestment(investment);
-	}
+    public List<Investment> getInvestments() {
+        return FinanceDepartment.getInstance().getInvestments();
+    }
 
 	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount) {
 		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount);
@@ -403,6 +396,38 @@ public class GameController {
 		FinanceDepartment.getInstance().decreaseNetWorth(amount);
 	}
 
+	public void increaseAssets(double amount) {
+		FinanceDepartment.getInstance().increaseAssets(amount);
+	}
+
+	public void increaseLiabilities(double amount) {
+		FinanceDepartment.getInstance().increaseLiabilities(amount);
+	}
+
+	public double getRealEstateInvestmentAmount() {
+		return FinanceDepartment.getInstance().getRealEstateInvestmentAmount();
+	}
+
+	public double getStocksInvestmentAmount() {
+		return FinanceDepartment.getInstance().getStocksInvestmentAmount();
+	}
+
+	public double getVentureCapitalInvestmentAmount() {
+		return FinanceDepartment.getInstance().getVentureCapitalInvestmentAmount();
+	}
+
+	public boolean increaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+		return FinanceDepartment.getInstance().increaseInvestmentAmount(amount, investmentType);
+	}
+
+    public boolean decreaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+        return FinanceDepartment.getInstance().decreaseInvestmentAmount(amount, investmentType);
+    }
+
+	public TreeMap<String, String[]> getQuarterlyData() {
+		return FinanceDepartment.getInstance().getQuarterlyData();
+	}
+
 	/*
 	 * LOGISTICS
 	 */
@@ -467,6 +492,10 @@ public class GameController {
 				.getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
 	}
 
+	public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
+		return ProcurementDepartment.getInstance().buyComponents(gameDate, component, quantity, freeStorage);
+	}
+
 	/*
 	 * PRODUCTION
 	 */
@@ -528,6 +557,10 @@ public class GameController {
 		return ProductionDepartment.getInstance().getNormalizedProductionProcessProductivity();
 	}
 
+	public int getDailyMachineCapacity() {
+		return ProductionDepartment.getInstance().getDailyMachineCapacity();
+	}
+
 	/* machinery game mechanics */
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) {
 		return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
@@ -587,6 +620,10 @@ public class GameController {
 	}
 
 	/* product game mechanics */
+	public double getProductCosts(Product product) {
+		return product.getProductCosts(GameState.getInstance().getGameDate());
+	}
+
 	public double launchProduct(Product product, int quantity) {
 		return ProductionDepartment.getInstance().launchProduct(product, quantity,
 				WarehousingDepartment.getInstance().calculateFreeStorage());
@@ -633,7 +670,7 @@ public class GameController {
 		return product.getTotalComponentCosts();
 	}
 
-	public double getProductCosts(Product product) {
+	public double getTotalProductCosts(Product product) {
 		return product.getTotalProductCosts();
 	}
 
@@ -701,7 +738,7 @@ public class GameController {
 		return WarehousingDepartment.getInstance().getWarehouses();
 	}
 
-	public Map<Product, Integer> getWarehousingInventory() {
+	public Map<Unit, Integer> getWarehousingInventory() {
 		return WarehousingDepartment.getInstance().getInventory();
 	}
 

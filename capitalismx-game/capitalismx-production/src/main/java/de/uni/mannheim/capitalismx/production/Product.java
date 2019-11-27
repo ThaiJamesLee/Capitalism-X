@@ -2,12 +2,17 @@ package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
+import de.uni.mannheim.capitalismx.procurement.component.Unit;
+import de.uni.mannheim.capitalismx.procurement.component.UnitType;
+import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Product implements Serializable {
+public class Product extends Unit implements Serializable {
+
+    private UnitType unitType;
     private String productName;
     private ProductCategory productCategory;
     private List<Component> components;
@@ -22,6 +27,7 @@ public class Product implements Serializable {
     private double averageProductQuality;
 
     public Product(String productName, ProductCategory productCategory, List<Component> components) {
+        this.unitType = UnitType.PRODUCT_UNIT;
         this.productName = productName;
         this.productCategory = productCategory;
         this.components = components;
@@ -132,6 +138,18 @@ public class Product implements Serializable {
 
     public double getAverageProductQuality() {
         return this.averageProductQuality;
+    }
+
+    public UnitType getUnitType() {
+        return this.unitType;
+    }
+
+    public double getProductCosts(LocalDate gameDate) {
+        double productCosts = 0;
+        for(Component component : this.components) {
+            productCosts += component.calculateBaseCost(gameDate);
+        }
+        return productCosts;
     }
 
     /*

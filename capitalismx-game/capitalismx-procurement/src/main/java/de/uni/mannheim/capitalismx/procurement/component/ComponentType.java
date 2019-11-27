@@ -2,8 +2,12 @@ package de.uni.mannheim.capitalismx.procurement.component;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public enum ComponentType implements Serializable {
+
+    DUMMY(ComponentCategory.DUMMY, "Dummy Component", 1, 0, 0, 1990),
 
     N_CPU_LEVEL_1 (ComponentCategory.N_CPU,"Pentium Processor",1,550, 30, 1990),
     N_CPU_LEVEL_2 (ComponentCategory.N_CPU,"Pentium Pro",2,710, 50, 1995),
@@ -219,6 +223,16 @@ public enum ComponentType implements Serializable {
 
     public int getAvailabilityDate() {
         return this.availabilityDate;
+    }
+    
+    /**
+     * Reads the properties file.
+     * @param locale the locale of the properties file (English or German).
+     * @return Returns the name of the employee type.
+     */
+    public String getName(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle("procurement", locale);
+        return bundle.getString(this.name());
     }
 
     /*public SupplierCategory getSupplierCategory() {

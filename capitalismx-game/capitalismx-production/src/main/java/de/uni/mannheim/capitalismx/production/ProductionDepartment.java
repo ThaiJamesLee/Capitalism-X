@@ -442,6 +442,14 @@ public class ProductionDepartment extends DepartmentImpl {
         this.calculateNormalizedProductionProcessProductivity();
     }
 
+    public int getDailyMachineCapacity() {
+        int capacity = 0;
+        for(Machinery machinery : this.machines) {
+            capacity += machinery.getMachineryCapacity();
+        }
+        return  capacity;
+    }
+
     public List<Product> getLaunchedProducts() {
         return this.launchedProducts;
     }

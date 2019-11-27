@@ -24,7 +24,7 @@
 
 .menu_button {
 	-fx-background-color: transparent;
-	-fx-text-fill: -fx-dark;
+	-fx-text-fill: -fx-primary-dark;
 	-fx-font-family: "Reckoner";
 }
 

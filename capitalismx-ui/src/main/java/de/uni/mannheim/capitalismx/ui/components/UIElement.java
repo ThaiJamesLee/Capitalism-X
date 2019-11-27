@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.components;
 import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.ui.controller.UIElementFrameController;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -27,7 +28,10 @@ public class UIElement {
 	private GameViewType owningViewType;
 
 	/**
-	 * Create a new {@link UIElement} and initialize its frame.
+	 * Create a new {@link UIElement} and automatically create a frame, that the
+	 * element will be placed in. </br>
+	 * This is done, in order to make redesigning the look of UIElements easier,
+	 * without having to edit every single fxml-File.
 	 * 
 	 * @param fxmlFileName The filename of the element's frame.
 	 * @param viewType     The type of view, this belongs to.
@@ -46,6 +50,10 @@ public class UIElement {
 		frameController.setTitleLabel(title);
 		this.type = elementType;
 		frameController.initContent(contentRoot, type);
+
+		// Use css of the current resolution
+		CssHelper.replaceStylesheets(this.rootElement.getStylesheets());
+		CssHelper.replaceStylesheets(contentRoot.getStylesheets());
 	}
 
 	public GameViewType getOwningViewType() {

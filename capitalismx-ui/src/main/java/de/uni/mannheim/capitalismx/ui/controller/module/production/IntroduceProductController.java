@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamelogic.GameController;
 import de.uni.mannheim.capitalismx.gamelogic.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
@@ -28,6 +29,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.util.StringConverter;
 
+
+//TODO Komponenten lokalisieren
 public class IntroduceProductController extends GameModuleController {
 
     /****** Product Name Text Fields ******/
@@ -688,7 +691,7 @@ public class IntroduceProductController extends GameModuleController {
 
         for(Map<ToggleButton, Component> componentMap : allComponents) {
             for(Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
-                componentEntry.getKey().setText(componentEntry.getValue().getComponentName());
+                componentEntry.getKey().setText(componentEntry.getValue().getComponentName(UIManager.getInstance().getLanguage()));
                 if(!componentEntry.getValue().isAvailable(gameDate)) {
                     componentEntry.getKey().setDisable(true);
                 }
@@ -772,6 +775,7 @@ public class IntroduceProductController extends GameModuleController {
                 default:
                     break;
             }
+            
             this.tvScreenList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
@@ -873,18 +877,20 @@ public class IntroduceProductController extends GameModuleController {
             this.consoleConnectivityList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = new Component(selectedConsoleCamera.getComponentType());
-            switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
-                    break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
-                    break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
-                    break;
-                default:
-                    break;
+            if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+                Component tmpComp = new Component(selectedConsoleCamera.getComponentType());
+                switch(i) {
+                    case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                        break;
+                    case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                        break;
+                    case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                        break;
+                    default:
+                        break;
+                }
+                this.consoleCameraList.add(tmpComp);
             }
-            this.consoleCameraList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookCPU.getComponentType());
@@ -985,18 +991,23 @@ public class IntroduceProductController extends GameModuleController {
             this.phoneScreenList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            Component tmpComp = new Component(selectedPhoneCamera.getComponentType());
-            switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
-                    break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
-                    break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
-                    break;
-                default:
-                    break;
+            if(GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+                Component tmpComp = new Component(selectedPhoneCamera.getComponentType());
+                switch (i) {
+                    case 0:
+                        tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                        break;
+                    case 1:
+                        tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                        break;
+                    case 2:
+                        tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                        break;
+                    default:
+                        break;
+                }
+                this.phoneCameraList.add(tmpComp);
             }
-            this.phoneCameraList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneConnectivity.getComponentType());
@@ -1118,7 +1129,9 @@ public class IntroduceProductController extends GameModuleController {
         this.consoleScreensChoiceBox.setValue(this.consoleScreenList.get(0));
         this.consolePowersuppliesChoiceBox.setValue(this.consolePowersupplyList.get(0));
         this.consoleConnectivitiesChoiceBox.setValue(this.consoleConnectivityList.get(0));
-        this.consoleCamerasChoiceBox.setValue(this.consoleCameraList.get(0));
+        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            this.consoleCamerasChoiceBox.setValue(this.consoleCameraList.get(0));
+        }
         this.notebookCPUsChoiceBox.setValue(this.notebookCPUList.get(0));
         this.notebookStoragesChoiceBox.setValue(this.notebookStorageList.get(0));
         this.notebookScreensChoiceBox.setValue(this.notebookScreenList.get(0));
@@ -1126,7 +1139,9 @@ public class IntroduceProductController extends GameModuleController {
         this.notebookPowersuppliesChoiceBox.setValue(this.notebookPowersupplyList.get(0));
         this.phoneCPUsChoiceBox.setValue(this.phoneCPUList.get(0));
         this.phoneScreensChoiceBox.setValue(this.phoneScreenList.get(0));
-        this.phoneCamerasChoiceBox.setValue(this.phoneCameraList.get(0));
+        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            this.phoneCamerasChoiceBox.setValue(this.phoneCameraList.get(0));
+        }
         this.phoneConnectivitiesChoiceBox.setValue(this.phoneConnectivityList.get(0));
         this.phonePowersuppliesChoiceBox.setValue(this.phonePowersupplyList.get(0));
         this.phoneKeypadsChoiceBox.setValue(this.phoneKeypadList.get(0));
@@ -1138,9 +1153,19 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.tvAudiosChoiceBox.getValue());
         components.add(this.tvCasesChoiceBox.getValue());
         components.add(this.tvOSsChoiceBox.getValue());
-        this.tv = new Product(this.tvProductNameTextField.getText(), ProductCategory.TELEVISION, components);
-        this.tv.setSalesPrice(Double.valueOf(this.tvSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.tv, 1, WarehousingDepartment.getInstance().getFreeStorage());
+        String productName = this.tvProductNameTextField.getText();
+        if(productName.equals("")) {
+            productName = "capTV";
+        }
+        this.tv = new Product(productName, ProductCategory.TELEVISION, components);
+        double salesPrice = 0;
+        if(this.tvSalesPriceTextField.getText().equals("")) {
+            salesPrice = 400;
+        } else {
+            salesPrice = Double.valueOf(this.tvSalesPriceTextField.getText());
+        }
+        this.tv.setSalesPrice(salesPrice);
+        GameController.getInstance().launchProduct(this.tv, 1);
     }
 
     public void launchConsole() {
@@ -1149,10 +1174,22 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.consoleScreensChoiceBox.getValue());
         components.add(this.consoleConnectivitiesChoiceBox.getValue());
         components.add(this.consolePowersuppliesChoiceBox.getValue());
-        components.add(this.consoleCamerasChoiceBox.getValue());
-        this.console = new Product(this.consoleProductNameTextField.getText(), ProductCategory.GAME_BOY, components);
-        this.console.setSalesPrice(Double.valueOf(this.consoleSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.console, 1, WarehousingDepartment.getInstance().getFreeStorage());
+        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            components.add(this.consoleCamerasChoiceBox.getValue());
+        }
+        String productName = this.consoleSalesPriceTextField.getText();
+        if(productName.equals("")) {
+            productName = "capConsole";
+        }
+        this.console = new Product(productName, ProductCategory.GAME_BOY, components);
+        double salesPrice = 0;
+        if(this.consoleSalesPriceTextField.getText().equals("")) {
+            salesPrice = 600;
+        } else {
+            salesPrice = Double.valueOf(this.consoleSalesPriceTextField.getText());
+        }
+        this.console.setSalesPrice(salesPrice);
+        GameController.getInstance().launchProduct(this.console, 1);
     }
 
     public void launchNotebook() {
@@ -1162,9 +1199,19 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.notebookStoragesChoiceBox.getValue());
         components.add(this.notebookSoftwaresChoiceBox.getValue());
         components.add(this.notebookPowersuppliesChoiceBox.getValue());
-        this.notebook = new Product(this.notebookProductNameTextField.getText(), ProductCategory.NOTEBOOK, components);
-        this.notebook.setSalesPrice(Double.valueOf(this.notebookSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.notebook, 1, WarehousingDepartment.getInstance().getFreeStorage());
+        String productName = this.notebookSalesPriceTextField.getText();
+        if(productName.equals("")) {
+            productName = "capBook";
+        }
+        this.notebook = new Product(productName, ProductCategory.NOTEBOOK, components);
+        double salesPrice = 0;
+        if(this.notebookSalesPriceTextField.getText().equals("")) {
+            salesPrice = 1500;
+        } else {
+            salesPrice = Double.valueOf(this.notebookSalesPriceTextField.getText());
+        }
+        this.notebook.setSalesPrice(salesPrice);
+        GameController.getInstance().launchProduct(this.notebook, 1);
     }
 
     public void launchPhone() {
@@ -1173,24 +1220,39 @@ public class IntroduceProductController extends GameModuleController {
         components.add(this.phoneScreensChoiceBox.getValue());
         components.add(this.phoneConnectivitiesChoiceBox.getValue());
         components.add(this.phonePowersuppliesChoiceBox.getValue());
-        components.add(this.phoneCamerasChoiceBox.getValue());
+        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            components.add(this.phoneCamerasChoiceBox.getValue());
+        }
         components.add(this.phoneKeypadsChoiceBox.getValue());
-        this.phone = new Product(this.phoneProductNameTextField.getText(), ProductCategory.PHONE, components);
-        this.phone.setSalesPrice(Double.valueOf(this.phoneSalesPriceTextField.getText()));
-        GameState.getInstance().getProductionDepartment().launchProduct(this.phone, 1, WarehousingDepartment.getInstance().getFreeStorage());
+        String productName = this.phoneSalesPriceTextField.getText();
+        if(productName.equals("")) {
+            productName = "capPhone";
+        }
+        this.phone = new Product(productName, ProductCategory.PHONE, components);
+        double salesPrice = 0;
+        if(this.phoneSalesPriceTextField.getText().equals("")) {
+            salesPrice = 700;
+        } else {
+            salesPrice = Double.valueOf(this.phoneSalesPriceTextField.getText());
+        }
+        this.phone.setSalesPrice(Double.valueOf(salesPrice));
+        GameController.getInstance().launchProduct(this.phone, 1);
     }
 
     public void showSupplierOptions() {
         UIManager.getInstance().getGamePageController().showOverlay(UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
     }
 
+    
+    //TODO Refactoring für Lokalisierung
     class ComponentStringConverter extends StringConverter<Component> {
 
         @Override
         public String toString(Component component) {
             DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
-            LocalDate gameDate = GameState.getInstance().getGameDate();
-            return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
+           // LocalDate gameDate = GameState.getInstance().getGameDate();
+            return "" + UIManager.getLocalisedString(component.getSupplierCategory().name().toLowerCase()) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
+            //return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
         }
 
         @Override

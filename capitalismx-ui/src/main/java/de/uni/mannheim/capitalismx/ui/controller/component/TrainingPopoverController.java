@@ -3,13 +3,14 @@ package de.uni.mannheim.capitalismx.ui.controller.component;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import org.controlsfx.control.PopOver;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
-import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.Training;
+import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -29,13 +30,15 @@ public class TrainingPopoverController implements Initializable {
 	private GridPane workshopGrid, courseGrid;
 
 	private Employee employee;
-	
+
 	private UpdateableController parentController;
 
 	private PopOver popover;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		CssHelper.replaceStylesheets(trainingPopoverRoot.getStylesheets());
+
 		workshopGrid.setOnMouseClicked(e -> {
 			trainEmployeeWorkshop();
 		});
@@ -46,17 +49,32 @@ public class TrainingPopoverController implements Initializable {
 		this.training2CostLabel.setText(Training.COURSES.getPrice() + "CC");
 		this.training1NameLabel.setText(Training.WORKSHOP.name());
 		this.training2NameLabel.setText(Training.COURSES.name());
-		this.training1EffectLabel.setText("Skill +" + Training.WORKSHOP.getSkillLevelImprove() + ", Salary " + (int)((Training.WORKSHOP.getSalaryIncreaseFactor() - 1)*100) + "%");
-		this.training2EffectLabel.setText("Skill +" + Training.COURSES.getSkillLevelImprove() + ", Salary " + (int)((Training.COURSES.getSalaryIncreaseFactor() - 1)*100) + "%");
+		this.training1EffectLabel.setText(UIManager.getLocalisedString("training.effect.skill")
+				+ Training.WORKSHOP.getSkillLevelImprove() + UIManager.getLocalisedString("training.effect.salary")
+				+ (int) ((Training.WORKSHOP.getSalaryIncreaseFactor() - 1) * 100) + "%");
+		this.training2EffectLabel.setText(UIManager.getLocalisedString("training.effect.skill")
+				+ Training.COURSES.getSkillLevelImprove() + UIManager.getLocalisedString("training.effect.salary")
+				+ (int) ((Training.COURSES.getSalaryIncreaseFactor() - 1) * 100) + "%");
 	}
 
-	public void init(PopOver popover, Employee employee, UpdateableController controller) {
+	/**
+	 * Initializes some attributes of the {@link PopOver}.
+	 * 
+	 * @param popover          The {@link PopOver} itself.
+	 * @param employee         The employee, the Popover is for.
+	 * @param parentController The parent {@link UpdateableController} that
+	 *                         initialized the Popover.
+	 */
+	public void init(PopOver popover, Employee employee, UpdateableController parentController) {
 		this.popover = popover;
 		this.employee = employee;
-		this.parentController = controller;
+		this.parentController = parentController;
 	}
 
 	@FXML
+	/**
+	 * Initiates a workshop for the Employee of the Popover.
+	 */
 	public void trainEmployeeWorkshop() {
 		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP);
 		parentController.update();
@@ -64,6 +82,9 @@ public class TrainingPopoverController implements Initializable {
 	}
 
 	@FXML
+	/**
+	 * Initiates a course for the Employee of the Popover.
+	 */
 	public void trainEmployeeCourse() {
 		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP);
 		parentController.update();

@@ -1,11 +1,12 @@
 package de.uni.mannheim.capitalismx.ui.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.stage.Screen;
 
 /**
  * This class provides some static methods that help with the automatic
@@ -17,25 +18,45 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 public class CssHelper {
 
 	/**
-	 * Method that copies the css-Files of the specified {@link SupportedResolution} to
-	 * the css-Directory, where they will be used by the game.
+	 * Replaces the given List of Styleheets with the Stylesheets of the current
+	 * {@link CssSettings} specified in the {@link UIManager}.
+	 * 
+	 * @param stylesheets {@link List} of Stylesheets to replace. (Obtainable by
+	 *                    calling getStylesheets() on a {@link Parent})
 	 */
-	public static void adjustCssToCurrentResolution() {
-		File cssSourceDirectory = new File(CssHelper.class.getResource("/css/" + UIManager.getInstance().getGameResolution().getCurrentlyActiveResolution().getCssSourceFolder() + "/").getFile());
-		File cssTargetDirectory = new File(CssHelper.class.getResource("/css/").getFile());
-		for (File cssFile : cssSourceDirectory.listFiles()) {
-			File targetFile = new File(cssTargetDirectory.getAbsolutePath() + "/"
-					+ cssFile.getName().replace(UIManager.getInstance().getGameResolution().getCurrentlyActiveResolution().getCssSourceFolder(), ""));
-			if (!targetFile.exists()) {
-				targetFile.mkdirs();
-			}
-			try {
-				Files.copy(cssFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	public static void replaceStylesheets(List<String> stylesheets) {
+		ArrayList<String> newSheets = new ArrayList<String>();
+		CssSettings cssSettings = UIManager.getInstance().getGameResolution().getCurrentCssSettings();
+		for (String sheet : stylesheets) {
+			sheet = sheet.replaceAll("\\/css\\/(\\d+p\\/)?", "/css/" + cssSettings.getCssSourceFolder() + "/");
+			newSheets.add(sheet.replaceAll("(\\d+p)?\\.css", cssSettings.getCssSourceFolder() + ".css"));
+		}
+		stylesheets.clear();
+		stylesheets.addAll(newSheets);
+	}
+	
+	/**
+	 * Given the bounds of a {@link Screen}. The method returns the
+	 * {@link CssSettings} that fits best to the screen. To calculate that, the
+	 * difference of the width and height of Resolution and screenbounds is
+	 * compared.
+	 * 
+	 * @param screenBounds The {@link Rectangle2D} describing the bounds of the
+	 *                     {@link Screen}.
+	 * @return The optimal {@link CssSettings} for the given bounds.
+	 */
+	public static CssSettings getOptimalResolution(Rectangle2D screenBounds) {
+		int minDiffToScreenBounds = 10000;
+		CssSettings resolutionWithSmallestDiff = null;
+		for (CssSettings resolution : CssSettings.values()) {
+			int diffToScreenBounds = (int) Math.abs(screenBounds.getWidth() - resolution.getWidth())
+					+ (int) Math.abs(screenBounds.getHeight() - resolution.getHeight());
+			if (diffToScreenBounds < minDiffToScreenBounds) {
+				minDiffToScreenBounds = diffToScreenBounds;
+				resolutionWithSmallestDiff = resolution;
 			}
 		}
+		return resolutionWithSmallestDiff;
 	}
 
 }
