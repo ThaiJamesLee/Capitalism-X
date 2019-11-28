@@ -7,7 +7,7 @@
 
   <!-- modules -->
   <modules>
-      <module>capitalismx-game</module>
+      <module>capitalismx-logic</module>
       <module>capitalismx-ui</module>
       <module>capitalismx-utils</module>
   </modules>
@@ -177,7 +177,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <additionalparam>-Xdoclint:none</additionalparam>
                     <doclint>none</doclint>
                     <show>public</show>
                 </configuration>
