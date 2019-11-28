@@ -31,14 +31,6 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
 
     private void init() {
         Map<Integer, DepartmentSkill> skillMap = getSkillMap();
-        skillMap.put(1, new ResDevSkillImpl(1, 1990));
-        skillMap.put(2, new ResDevSkillImpl(2, 1990));
-        skillMap.put(3, new ResDevSkillImpl(3, 1990));
-        skillMap.put(4, new ResDevSkillImpl(4, 1990));
-        skillMap.put(5, new ResDevSkillImpl(5, 1990));
-        skillMap.put(6, new ResDevSkillImpl(6, 1990));
-        skillMap.put(7, new ResDevSkillImpl(7, 1990));
-        skillMap.put(8, new ResDevSkillImpl(8, 1990));
     }
 
     /**

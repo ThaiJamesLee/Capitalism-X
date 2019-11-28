@@ -9,11 +9,10 @@ import java.util.List;
 
 /**
  * A class to define the basic body for a Research and Development skill.
+ * TODO: implement skills, unlockCategories, unlockComponents
  * @author duly
  */
-public class ResDevSkillImpl implements DepartmentSkill {
-
-    private List<ComponentType> unlockedComponents;
+public abstract class ResDevSkillImpl implements DepartmentSkill {
 
     private int level;
     private int year;
@@ -22,7 +21,6 @@ public class ResDevSkillImpl implements DepartmentSkill {
     public ResDevSkillImpl(int level, int year) {
         this.level = level;
         this.year = year;
-        this.unlockedComponents = new ArrayList<>();
     }
 
 
@@ -32,13 +30,5 @@ public class ResDevSkillImpl implements DepartmentSkill {
 
     public int getYear() {
         return year;
-    }
-
-    public List<ComponentType> getUnlockedComponents() {
-        return unlockedComponents;
-    }
-
-    public void setUnlockedComponents(List<ComponentType> unlockedComponents) {
-        this.unlockedComponents = unlockedComponents;
     }
 }

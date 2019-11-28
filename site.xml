@@ -11,4 +11,9 @@
         <menu ref="reports" />
         <menu ref="modules" />
     </body>
+
+    <poweredBy>
+        <logo name="University of Mannheim" href="https://www.uni-mannheim.de/"
+              img="https://www.uni-mannheim.de/typo3conf/ext/uma_site/Resources/Public/Images/Icons/logo-universitaet-mannheim.svg"/>
+    </poweredBy>
 </project>
