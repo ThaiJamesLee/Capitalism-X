@@ -1,11 +1,6 @@
-package de.uni.mannheim.capitalismx.resdev.department.skills;
+package de.uni.mannheim.capitalismx.resdev.skills;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A class to define the basic body for a Research and Development skill.

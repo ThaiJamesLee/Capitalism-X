@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.sales;
+package de.uni.mannheim.capitalismx.sales.department;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;

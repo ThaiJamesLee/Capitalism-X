@@ -3,7 +3,6 @@ package de.uni.mannheim.capitalismx.resdev.department;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.resdev.department.skills.ResDevSkillImpl;
 
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
