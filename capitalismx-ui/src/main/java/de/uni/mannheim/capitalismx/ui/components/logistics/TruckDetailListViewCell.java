@@ -37,9 +37,6 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
     @FXML
     private Label fixCostsLabel;
 
-    @FXML
-    private Button buyButton;
-
     private FXMLLoader loader;
 
     private ListView<Truck> truckDetailListView;
@@ -68,15 +65,17 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
             }
 
             GameController controller = GameController.getInstance();
-            nameLabel.setText("Name: " + truck.getName());
+            nameLabel.setText(truck.getName());
             priceLabel.setText("Price: " + truck.getPurchasePrice() + " CC");
             ecoIndexLabel.setText("Eco Index: " + truck.getEcoIndex());
             qualityIndexLabel.setText("Quality Index: " + truck.getQualityIndex());
-            fixCostsLabel.setText("Fix Costs Delivery: " + truck.getFixCostsDelivery());
-            buyButton.setOnAction(e -> {
+            fixCostsLabel.setText("Delivery Costs: " + truck.getFixCostsDelivery());
+            //add click listener to cell
+            gridPane.setOnMouseClicked(e -> {
                 controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
                 TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
                 uiController.addTruck(truck);
+                truckDetailListView.getSelectionModel().clearSelection();
             });
 
             setText(null);
