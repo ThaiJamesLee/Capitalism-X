@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.collections.FXCollections;
@@ -60,7 +61,7 @@ public class MessageController implements Initializable {
 	}
 
 
-	public void addMessage(String sender, String date, String subject, String message, boolean isInternal) {
+	public void addMessage(String sender, String date, String subject, String message, boolean isInternal, GameViewType jumpTo) {
 		Parent messageSubject;
 		Parent messageContent;
 		MessageSubjectController msc;
@@ -81,13 +82,20 @@ public class MessageController implements Initializable {
 			messages.add(messageSubject);
 			messageList.setItems(messages);
 
+
+
 			messageContent = contentLoader.load();
 			mcc = contentLoader.getController();
 			mcc.setContentSender(bundle.getString(sender));
 			mcc.setContentDate(date);
 			mcc.setContentSubject(bundle.getString(subject));
 			mcc.setContentContent(bundle.getString(message));
+			if(jumpTo!=null){
+				mcc.addJumpButton(jumpTo);
+			}
 			messageContentPane.setContent(messageContent);
+
+
 
 			MessageObject messageReference = new MessageObject(sender, date, subject, message, isInternal, messageSubject, messageContent);
 			messageSave.add(messageReference);

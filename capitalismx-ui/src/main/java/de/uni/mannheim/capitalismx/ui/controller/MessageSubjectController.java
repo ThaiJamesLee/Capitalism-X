@@ -24,7 +24,7 @@ public class MessageSubjectController implements Initializable {
 
     @FXML
     public void showContent(){
-        System.out.println("Hier ist der COntent");
+        System.out.println("Hier ist der Content");
         UIManager.getInstance().getGamePageController().getMessageController().setContent(messageReference);
     }
 

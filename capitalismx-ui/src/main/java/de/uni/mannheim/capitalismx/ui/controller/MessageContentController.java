@@ -1,7 +1,10 @@
 package de.uni.mannheim.capitalismx.ui.controller;
 
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 public class MessageContentController {
 
@@ -13,10 +16,10 @@ public class MessageContentController {
     private Label contentSubject;
     @FXML
     private Label contentContent;
+    @FXML
+    private VBox contentVBox;
 
-    public void setContentSender(String sender){
-        contentSender.setText(sender);
-    }
+    public void setContentSender(String sender){ contentSender.setText(sender); }
     public void setContentDate(String date){
         contentDate.setText(date);
     }
@@ -25,5 +28,12 @@ public class MessageContentController {
     }
     public void setContentContent(String content){
         contentContent.setText(content);
+    }
+
+    public void addJumpButton(GameViewType jumpToView){
+        Button btn = new Button("Jump to Menu");
+
+        contentVBox.getChildren().add(btn);
+
     }
 }

@@ -118,8 +118,8 @@ public class GamePageController implements UpdateableController {
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
-			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.event1", true);
-			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.event2", true);
+			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, null);
+			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.event2", true, GameViewType.FINANCES);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
