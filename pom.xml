@@ -18,6 +18,16 @@
         <slf4jVersion>1.6.1</slf4jVersion>
     </properties>
 
+    <organization>
+        <name>University of Mannheim</name>
+        <url>https://www.uni-mannheim.de</url>
+    </organization>
+
+    <url>https://www.capitalism-x.de</url>
+
+    <description>
+        Capitalism-X is a business simulation game, developed at the University of Mannheim in 2019.
+    </description>
 
     <dependencyManagement>
         <dependencies>
@@ -55,9 +65,20 @@
     </dependencyManagement>
 
   <build>
-  	<!-- plugins -->
-  	<pluginManagement>
+      <!-- plugins -->
+      <pluginManagement>
   		<plugins>
+            <!-- testing -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.0.0-M4</version>
+            </plugin>
 
             <!-- json parsing -->
             <plugin>
@@ -166,7 +187,7 @@
                     <reportSet>
                         <reports><!-- select reports -->
                             <report>index</report>
-                            <report>licenses</report>
+                            <report>dependencies</report>
                             <report>modules</report>
                             <report>summary</report>
                         </reports>
@@ -180,6 +201,21 @@
                     <doclint>none</doclint>
                     <show>public</show>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.0.0-M4</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report-only</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
     </reporting>

@@ -12,6 +12,7 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.beans.PropertyChangeListener;
 import java.util.*;
 
 /**
@@ -374,5 +375,10 @@ public class MarketingDepartment extends DepartmentImpl {
 
     public static void setInstance(MarketingDepartment instance) {
         MarketingDepartment.instance = instance;
+    }
+
+    @Override
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+
     }
 }

@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.procurement.component;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 
 import javax.swing.*;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,5 +71,10 @@ public class ProcurementDepartment extends DepartmentImpl {
 
     public Map<Component, Integer> getOrderedComponents() {
         return this.orderedComponents;
+    }
+
+    @Override
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+
     }
 }

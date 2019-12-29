@@ -8,6 +8,7 @@ import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -269,5 +270,10 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public static void setInstance(WarehousingDepartment instance) {
         WarehousingDepartment.instance = instance;
+    }
+
+    @Override
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+
     }
 }

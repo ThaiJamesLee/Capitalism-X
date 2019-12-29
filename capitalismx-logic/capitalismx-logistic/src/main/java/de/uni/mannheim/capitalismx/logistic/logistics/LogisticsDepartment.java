@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.logistic.logistics;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -221,5 +222,10 @@ public class LogisticsDepartment extends DepartmentImpl {
 
     public static void setInstance(LogisticsDepartment instance) {
         LogisticsDepartment.instance = instance;
+    }
+
+    @Override
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+
     }
 }

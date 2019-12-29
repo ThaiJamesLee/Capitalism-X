@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -520,5 +521,10 @@ public class ProductionDepartment extends DepartmentImpl {
 
     public static void setInstance(ProductionDepartment instance) {
         ProductionDepartment.instance = instance;
+    }
+
+    @Override
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+
     }
 }

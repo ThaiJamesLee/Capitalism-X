@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>capitalismx-game</artifactId>
+        <artifactId>capitalismx-logic</artifactId>
         <groupId>de.uni.mannheim</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -22,13 +22,11 @@
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <optional>true</optional>
         </dependency>
     </dependencies>
 
