@@ -62,3 +62,35 @@
 	-fx-text-fill: -fx-primary-dark;
 }
 
+.grid_button {
+	-fx-padding: 5;
+	-fx-background-color: -fx-primary-neutral;
+	-fx-background-radius: 3;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-border-radius: 3;
+	-fx-cursor: hand;
+}
+
+.grid_button .label {
+	-fx-text-fill: -fx-primary;
+	-fx-font-family: "Prime";
+	-fx-font-size: 14.0;	
+}
+
+.grid_button:hover {
+	-fx-background-color: -fx-primary-dark;
+}
+
+.grid_button:hover .label {
+	-fx-text-fill: -fx-primary-light;
+}
+
+.grid_button:pressed {
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-cursor: closed_hand;
+}
+
+.grid_button:pressed .label {
+	-fx-text-fill: -fx-primary-dark;
+}
