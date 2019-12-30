@@ -26,7 +26,7 @@ public class TradeComponentPopoverController implements Initializable {
 	private AnchorPane root;
 	
 	@FXML 
-	private Label componentName;
+	private Label componentName, supplierLabel;
 	
 	@FXML
 	private TextField buyAmountField, sellAmountField;
@@ -40,6 +40,7 @@ public class TradeComponentPopoverController implements Initializable {
 	
 	public void updateComponent(Component component) {
 		this.component = component;
+		supplierLabel.setText(component.getSupplierCategory().getName(UIManager.getResourceBundle().getLocale()));
 		componentName.setText(UIManager.getLocalisedString("component.trade") + component.getComponentName(UIManager.getResourceBundle().getLocale()));
 		buyAmountField.setText("0");
 		sellAmountField.setText("0");

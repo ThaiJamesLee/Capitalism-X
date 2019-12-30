@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
+import org.controlsfx.control.PopOver.ArrowLocation;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
@@ -37,9 +38,9 @@ public class StockManagementController extends GameModuleController {
 
 	private PopOver tradePopover;
 	private TradeComponentPopoverController tradePopoverController;
-	
+
 	private HashMap<ComponentType, ComponentStockCell> cells;
-	
+
 	@FXML
 	private TabPane productTabPane;
 
@@ -52,45 +53,59 @@ public class StockManagementController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		cells = new HashMap<ComponentType, ComponentStockCell>();
-		
-		for (ProductCategory productCat : ProductCategory.values()) {
-			productTabPane.getTabs().add(createProductTabContent(productCat));
-		}
 
+		for (ProductCategory productCat : ProductCategory.values()) {
+			productTabPane.getTabs().add(createTabForProduct(productCat));
+		}
 
 		// Prepare the Popover for the trade buttons
 		FXMLLoader popoverLoader = new FXMLLoader(
-				getClass().getClassLoader().getResource("fxml/components/trade_component_popover.fxml"), UIManager.getResourceBundle());
+				getClass().getClassLoader().getResource("fxml/components/trade_component_popover.fxml"),
+				UIManager.getResourceBundle());
 		tradePopover = new PopOver();
 		try {
 			tradePopover.setContentNode(popoverLoader.load());
+			tradePopover.setArrowLocation(ArrowLocation.TOP_LEFT);
 			tradePopover.setFadeInDuration(Duration.millis(50));
 			tradePopoverController = ((TradeComponentPopoverController) popoverLoader.getController());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	private Tab createProductTabContent(ProductCategory cat) {
+	/**
+	 * Creates and initializes the {@link Tab} for the given {@link ProductCategory}
+	 * and populates it.
+	 * 
+	 * @param productCategory The {@link ProductCategory} to create the content for.
+	 * @return The resulting {@link Tab}.
+	 */
+	private Tab createTabForProduct(ProductCategory productCategory) {
 		Accordion productAccordion = new Accordion();
-		for (ComponentCategory category : ProductCategory.getComponentCategories(cat)) {
-			TitledPane componentPane = new TitledPane(category.toString(), createComponentInformationPane(category));
+		for (ComponentCategory componentCategory : ProductCategory.getComponentCategories(productCategory)) {
+			TitledPane componentPane = new TitledPane(componentCategory.toString(),
+					createTitledPaneForComponent(componentCategory));
 			productAccordion.getPanes().add(componentPane);
 		}
 
 		AnchorPane anchor = new AnchorPane(productAccordion);
 		AnchorPaneHelper.snapNodeToAnchorPane(productAccordion);
-		Tab productTab = new Tab(cat.name());
+		Tab productTab = new Tab(productCategory.name());
 		productTab.setContent(anchor);
 		productAccordion.autosize();
 		return productTab;
 	}
-	
-	
 
-	private Node createComponentInformationPane(ComponentCategory category) {
+	/**
+	 * Creates and initializes the {@link TitledPane} inside the {@link Accordion}
+	 * for the given {@link ComponentCategory} and populates it with content.
+	 * 
+	 * @param category The {@link ComponentCategory} to generate the content for.
+	 * @return {@link TitledPane} for the component wrapped in an AnchorPane.
+	 */
+	private Node createTitledPaneForComponent(ComponentCategory category) {
 		// Create grid with 40%, 20%, 20%, 20% columns
 		GridPane grid = new GridPane();
 		ColumnConstraints c1 = new ColumnConstraints();
@@ -128,7 +143,13 @@ public class StockManagementController extends GameModuleController {
 		AnchorPaneHelper.snapNodeToAnchorPaneNoBottom(grid);
 		return gridAnchor;
 	}
-	
+
+	/**
+	 * Displays the {@link PopOver} for trading a component with a given supplier.
+	 * 
+	 * @param component The {@link Component} to trade.
+	 * @param node      The {@link Node} to display the {@link PopOver} on.
+	 */
 	public void showTradePopover(Component component, Node node) {
 		tradePopoverController.updateComponent(component);
 		tradePopover.show(node);
