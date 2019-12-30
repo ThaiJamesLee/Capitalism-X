@@ -31,7 +31,7 @@ import javafx.stage.WindowEvent;
  */
 public class CapXApplication extends Application {
 
-	private static final boolean testMode = false;
+	private static final boolean testMode = true;
 	private Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
 	@Override
