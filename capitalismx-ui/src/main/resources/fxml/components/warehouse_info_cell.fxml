@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="60.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="40.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="warehouseLabel" styleClass="label_large" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
+               <graphic>
+                  <FontAwesomeIcon iconName="CUBES" size="1.2em" />
+               </graphic>
+            </Label>
+            <AnchorPane GridPane.columnIndex="1">
+               <children>
+                  <Button fx:id="sellButton" mnemonicParsing="false" styleClass="button_module" text="%warehouse.buy.sell" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

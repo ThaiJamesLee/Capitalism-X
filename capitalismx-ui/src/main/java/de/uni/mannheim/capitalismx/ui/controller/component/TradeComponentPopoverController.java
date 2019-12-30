@@ -69,7 +69,6 @@ public class TradeComponentPopoverController implements Initializable {
 		String input = sellAmountField.getText();
 		try {
 			int amount = Integer.parseInt(input);
-			//TODO check capacity
 			//TODO implement selling?
 		} catch (NumberFormatException e) {
 			//ignore incorrect input and reset text

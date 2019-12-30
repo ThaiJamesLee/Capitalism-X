@@ -1,21 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.logistics.WarehouseListController">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.logistics.WarehouseListController">
     <children>
-        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <ListView fx:id="warehouseListView" />
-                <AnchorPane>
-                    <children>
-                        <Button fx:id="buyButton" mnemonicParsing="false" styleClass="button_module" text="%warehouse.list.buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                    </children>
-                </AnchorPane>
+                <ListView fx:id="warehouseListView">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin></ListView>
+            <GridPane vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="50.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane fx:id="buyGridButton" styleClass="grid_button" vgap="8.0" GridPane.rowIndex="1">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label styleClass="label_medium" text="%warehouse.list.buy" />
+                        <Label fx:id="buyCostLabel" styleClass="label_light" text="%warehouse.buy.cost" GridPane.rowIndex="1" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </GridPane>
+                  <GridPane fx:id="rentGridButton" styleClass="grid_button" vgap="8.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label styleClass="label_medium" text="%warehouse.list.rent" />
+                        <Label fx:id="rentCostLabel" styleClass="label_light" text="%warehouse.rent.cost" GridPane.rowIndex="1" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </GridPane>
+                  <VBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <children>
+                        <Label fx:id="capacityLabel" alignment="CENTER_RIGHT" text="%warehouse.list.capacity" VBox.vgrow="ALWAYS" />
+                        <Label fx:id="fixCostLabel" alignment="CENTER_RIGHT" text="%warehouse.list.fixcost" VBox.vgrow="ALWAYS" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <Label alignment="CENTER" styleClass="label_large" text="%warehouse.effects" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin></Label>
+                  <Label styleClass="label_very_large" text="%warehouse.list.acquire" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
+                  <Region styleClass="separator_horizontal" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets top="-5.0" />
+                     </GridPane.margin>
+                  </Region>
+               </children>
+            </GridPane>
             </children>
         </VBox>
     </children>
+   <stylesheets>
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/modul.css" />
+   </stylesheets>
 </AnchorPane>
