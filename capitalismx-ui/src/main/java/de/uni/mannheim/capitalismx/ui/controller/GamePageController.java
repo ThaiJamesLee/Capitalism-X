@@ -215,6 +215,8 @@ public class GamePageController implements UpdateableController {
 	 *                    display.
 	 * @param properties  Optional properties for the overlay.
 	 */
+	//TODO remove methods including overlay layer
+	@Deprecated
 	public void showOverlay(UIElementType elementType, Properties properties) {
 		resetOverlay();
 
@@ -222,16 +224,16 @@ public class GamePageController implements UpdateableController {
 		GameModule module = currentActiveView.getModule(elementType);
 		if (module == null)
 			return;
-		GameOverlay overlay = module.getOverlay();
-		if (overlay == null)
-			return;
-
-		overlay.getController().updateProperties(properties);
-		overlay.getController().update();
-		Parent rootElement = overlay.getRootElement();
-		AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootElement, 10.0);
-		overlayLayer.getChildren().add(rootElement);
-		overlayLayer.toFront();
+//		GameOverlay overlay = module.getOverlay();
+//		if (overlay == null)
+//			return;
+//
+//		overlay.getController().updateProperties(properties);
+//		overlay.getController().update();
+//		Parent rootElement = overlay.getRootElement();
+//		AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootElement, 10.0);
+//		overlayLayer.getChildren().add(rootElement);
+//		overlayLayer.toFront();
 	}
 
 	/**
@@ -240,6 +242,7 @@ public class GamePageController implements UpdateableController {
 	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
 	 *                    display.
 	 */
+	@Deprecated
 	public void showOverlay(UIElementType elementType) {
 		showOverlay(elementType, new Properties());
 	}

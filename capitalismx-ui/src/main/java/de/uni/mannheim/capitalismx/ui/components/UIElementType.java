@@ -20,7 +20,7 @@ public enum UIElementType {
     FINANCE_OPERATIONS_TABLE("Operations Table"),
 	FINANCE_SALES_CHART("Statistics"),
 	LOGISTICS_PARTNER_OVERVIEW("External Partner"),
-	LOGISTICS_WAREHOUSE_OVERVIEW("Warehouses"),
+	WAREHOUSE_LIST("Warehouses"),
 	LOGISTICS_TRUCK_FLEET_OVERVIEW("Truck Fleet"),
 	PRODUCTION_NEW_PRODUCT_OVERVIEW("Introduce Product"),
 	PRODUCTION_MACHINERY_OVERVIEW("Machines"),
