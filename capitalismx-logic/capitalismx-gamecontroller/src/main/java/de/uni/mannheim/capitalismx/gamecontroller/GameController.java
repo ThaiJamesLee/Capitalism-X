@@ -492,6 +492,11 @@ public class GameController {
 				.getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
 	}
 
+
+    public double buyComponents(Component component, int quantity) {
+		return ProcurementDepartment.getInstance().buyComponents(GameState.getInstance().getGameDate(), component, quantity, getFreeStorage());
+    }
+	
 	public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
 		return ProcurementDepartment.getInstance().buyComponents(gameDate, component, quantity, freeStorage);
 	}

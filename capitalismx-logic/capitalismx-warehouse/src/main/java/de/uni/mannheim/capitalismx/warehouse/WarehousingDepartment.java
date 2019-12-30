@@ -244,6 +244,19 @@ public class WarehousingDepartment extends DepartmentImpl {
         return this.inventory;
     }
 
+    /**
+	 * Returns the amount stored in the Warehouse for the given {@link Unit}.
+	 * 
+	 * @param unit The unit to check the warehouse for.
+	 * @return The amount stored.
+	 */
+	public int getAmountStored(Unit unit) {
+		if (!this.inventory.containsKey(unit)) {
+			return 0;
+		}
+		return this.inventory.get(unit);
+	}
+    
     public int getTotalCapacity() {
         return this.totalCapacity;
     }
