@@ -35,3 +35,30 @@
 	-fx-border-insets: -10 0 0 0;
 }
 
+.stock_edit_button {
+	-fx-border-width: 2;
+	-fx-cursor: hand;
+	-fx-border-color: -fx-primary-dark;
+	-fx-background-color: -fx-complement-light-neutral;
+}
+
+.stock_edit_button FontAwesomeIcon {
+	-fx-fill: -fx-primary;
+	-fx-text-fill: -fx-primary;
+}
+
+.stock_edit_button:hover {
+	-fx-border-color: -fx-primary;
+}
+
+.stock_edit_button:pressed {
+	-fx-border-color: -fx-primary-dark;
+	-fx-background-color: -fx-primary;
+}
+
+
+.stock_edit_button:pressed FontAwesomeIcon {
+	-fx-fill: -fx-primary-dark;
+	-fx-text-fill: -fx-primary-dark;
+}
+

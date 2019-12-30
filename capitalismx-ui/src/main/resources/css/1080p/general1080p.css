@@ -94,6 +94,7 @@ FontAwesomeIcon {
 
 .button_module {
 	-fx-background-color: -fx-primary-neutral;
+	-fx-border-color: -fx-primary-neutral;
 	-fx-border-radius: 2.0;
 	-fx-text-fill: -fx-primary;
 	-fx-font-family: "Prime";
@@ -195,11 +196,13 @@ FontAwesomeIcon {
  .text-field {
  	-fx-border-width: 0.0 0.0 1.0 0.0;
  	-fx-border-color: -fx-complement-dark;
- 	-fx-background-color: transparent;
+ 	-fx-border-insets: 0.0 5.0 0.0 5.0;
+ 	-fx-background-color: -fx-primary-light;
+ 	-fx-background-insets: 0.0 5.0 0.0 5.0;
+ 	-fx-background-radius: 0;
  	-fx-text-fill: -fx-primary-dark;
  	-fx-font-family: "Prime";
  	-fx-font-size: 12.0;
- 	-fx-border-insets: 0.0 5.0 0.0 5.0;
  }
 
 
@@ -476,6 +479,33 @@ FontAwesomeIcon {
 }
 
 
+/**
+ * Styling for the accordion control
+ */
+.accordion .titled-pane {
+	-fx-animated: false;
+	-fx-font-family: "Prime";
+	-fx-font-size: 16;
+	-fx-text-fill: -fx-primary-light;
+}
+
+.accordion .title {
+	-fx-background-color: -fx-primary-neutral;
+	-fx-border-color: -fx-primary-light;
+	-fx-border-width: 1;
+}
+
+.accordion .titled-pane:expanded {
+	-fx-text-fill: -fx-primary;
+	-fx-border-width: 2;
+}
+
+
+.accordion .content {
+	-fx-background-color: -fx-primary-light;
+	-fx-border-width: 0;
+}
+
 
 /**
  * TODO: in eigene Dateien für das jeweilige Element auslagern
@@ -563,11 +593,19 @@ FontAwesomeIcon {
 }
 
 
-
-
 /**
- *	Design for the Train-Popover.
+ *	Design for the PopOvers.
  */
+ .popover_pane {
+ 	-fx-padding: 25;
+ 	-fx-background-color: -fx-complement-light-neutral;
+	-fx-effect: dropshadow(gaussian, -fx-complement-dark-transparent, 15, 0.5, 0, 0);
+	-fx-border-color: -fx-primary-dark;
+	-fx-border-width: 1;
+	-fx-border-radius: 5;
+	-fx-background-radius: 5;
+ }
+ 
 .train_popover {
 	-fx-border-radius: 5.0;
 	-fx-width: 150.0px;
@@ -577,7 +615,7 @@ FontAwesomeIcon {
 	-fx-border-radius: 2.0px;
 	-fx-background-radius: 2.0px;
 	-fx-padding: 5.0px;
-	-fx-background-color: -fx-complement-light-neutral;
+ 	-fx-background-color: -fx-complement-light;
 }
 
 .train_popover .training_grid:hover {
@@ -588,3 +626,4 @@ FontAwesomeIcon {
 	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary;
 }
+
