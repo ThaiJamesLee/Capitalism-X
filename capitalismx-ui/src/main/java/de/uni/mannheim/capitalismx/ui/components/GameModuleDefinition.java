@@ -32,9 +32,9 @@ public enum GameModuleDefinition {
 			12, 8),
 
 	// The modules for Logistics. (21-30)
-	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.LOGISTICS_PARTNER_DETAIL, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),
-	LOGISTICS_TRUCK_FLEET(22, "truck_fleet_overview.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.TRUCK_DETAIL, UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, 5, 5, 0, 15),
-	LOGISTICS_WAREHOUSE_LIST(23, "warehouse_list.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_WAREHOUSE_OVERVIEW, 10, 5, 0, 15),
+	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),
+	LOGISTICS_TRUCK_FLEET(22, "truck_fleet_overview.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, 5, 5, 0, 15),
+	LOGISTICS_WAREHOUSE_LIST(23, "warehouse_list.fxml", GameViewType.WAREHOUSE, null, UIElementType.LOGISTICS_WAREHOUSE_OVERVIEW, 10, 5, 0, 15),
 
 	// The modules for Production. (31-40)
 //	PRODUCTION_PLACEHOLDER(31, "m_production_placeholder.fxml", GameViewType.GAME_PRODUCTION, 0, 1, 0, 1),
@@ -44,8 +44,8 @@ public enum GameModuleDefinition {
 //	PROCUREMENT_PLACEHOLDER(41, "m_procurement_placeholder.fxml", GameViewType.GAME_PROCUREMENT, 0, 1, 0, 1),
 
 	// The modules for the warehouse. (51-60)
-//	WAREHOUSE_PLACEHOLDER(51, "m_warehouse_placeholder.fxml", GameViewType.GAME_WAREHOUSE, 0, 1, 0, 1),
 	PROCUREMENT_BUY_COMPONENT_MENU(51, "buy_component_menu.fxml", GameViewType.WAREHOUSE, null, UIElementType.PROCUREMENT_BUY_COMPONENT_OVERVIEW, 0, 10, 0, 12),
+	WAREHOUSE_STOCK_MANAGEMENT(52, "stock_management.fxml", GameViewType.WAREHOUSE, null, UIElementType.WAREHOUSE_STOCK_MANAGEMENT, 11, 8, 0, 20),
 
 	// The modules for HR. (61-70)
 	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 5, 0, 19),
