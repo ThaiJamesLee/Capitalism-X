@@ -70,16 +70,18 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
             }
 
             GameController controller = GameController.getInstance();
-            nameLabel.setText("Name: " + externalPartner.getName());
-            reliabilityIndexLabel.setText("Reliability Index: " + externalPartner.getReliabilityIndexPartner());
+            nameLabel.setText(externalPartner.getName());
+            reliabilityIndexLabel.setText("Reliability: " + externalPartner.getReliabilityIndexPartner());
             ecoIndexLabel.setText("Eco Index: " + externalPartner.getEcoIndexPartner());
             qualityIndexLabel.setText("Quality Index: " + externalPartner.getQualityIndexPartner());
             contractualCostsLabel.setText("Contractual Costs: " + externalPartner.getContractualCost() + " CC");
-            variableCostsLabel.setText("Variable Delivery Costs: " + externalPartner.getVariableDeliveryCost() + " CC");
-            buyButton.setOnAction(e -> {
+            variableCostsLabel.setText("Delivery Costs: " + externalPartner.getVariableDeliveryCost() + " CC");
+            gridPane.setOnMouseClicked(e -> {
                 controller.addExternalPartner(externalPartner);
                 LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_PARTNER_OVERVIEW).getController();
                 uiController.addExternalPartner(externalPartner);
+                
+                logisticsPartnerDetailListView.getSelectionModel().clearSelection();
             });
 
             setText(null);

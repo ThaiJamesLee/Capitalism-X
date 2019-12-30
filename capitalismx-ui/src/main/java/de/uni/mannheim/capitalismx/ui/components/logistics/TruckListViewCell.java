@@ -17,9 +17,6 @@ import java.io.IOException;
 public class TruckListViewCell extends ListCell<Truck> {
 
     @FXML
-    private Label indexLabel;
-
-    @FXML
     private Label valueLabel;
 
     @FXML
@@ -59,7 +56,6 @@ public class TruckListViewCell extends ListCell<Truck> {
             }
 
             GameController controller = GameController.getInstance();
-            indexLabel.setText(controller.getInternalFleet().getTrucks().indexOf(truck) + "");
             valueLabel.setText(controller.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.calculateTimeUsed(GameState.getInstance().getGameDate())) + " CC");
             dateLabel.setText(truck.getPurchaseDate() + "");
             sellButton.setOnAction(e -> {

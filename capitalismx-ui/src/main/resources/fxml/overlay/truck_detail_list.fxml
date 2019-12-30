@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -8,9 +9,9 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.overlay.logistics.TruckDetailListController">
    <children>
-      <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label styleClass="label_very_large" text="Select a Truck to buy" />
+            <Label styleClass="header" text="%truckDetails.buyTitle" />
             <ListView fx:id="truckDetailListView" prefWidth="650.0" />
          </children>
          <padding>
@@ -18,4 +19,8 @@
          </padding>
       </VBox>
    </children>
+   <stylesheets>
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/overlay.css" />
+   </stylesheets>
 </AnchorPane>

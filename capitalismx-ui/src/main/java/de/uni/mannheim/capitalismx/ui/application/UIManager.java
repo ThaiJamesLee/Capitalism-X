@@ -474,4 +474,8 @@ public class UIManager {
 		return resourceBundle.getString(key);
 	}
 
+	public Stage getStage() {
+		return window;
+	}
+
 }

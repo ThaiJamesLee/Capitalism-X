@@ -13,11 +13,14 @@ import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
 public class TruckFleetController extends GameModuleController {
@@ -65,7 +68,7 @@ public class TruckFleetController extends GameModuleController {
 		// truckFleetListView.setItems(truckFleetListObservable);
 		truckFleetListView.setCellFactory(truckListView -> new TruckListViewCell(truckFleetListView));
 
-		preparePopover();
+		popover = PopOverHelper.createStandardOverlay("fxml/overlay/truck_detail_list.fxml");
 
 		buyTruckButton.setOnAction(e -> {
 			showPopover();
@@ -76,30 +79,9 @@ public class TruckFleetController extends GameModuleController {
 		truckFleetListView.getItems().add(truck);
 	}
 
-	/**
-	 * Prepare the {@link PopOver} displaying the choice of trucks to buy.
-	 */
-	private void preparePopover() {
-		FXMLLoader loader = new FXMLLoader(
-				this.getClass().getClassLoader().getResource("fxml/overlay/truck_detail_list.fxml"),
-				UIManager.getResourceBundle());
-		Parent root;
-		try {
-			root = loader.load();
-			popover = new PopOver(root);
-			popover.setArrowSize(0.0);
-			popover.setArrowLocation(ArrowLocation.TOP_CENTER);
-			popover.setArrowIndent(10.0);
-			popover.setFadeInDuration(Duration.millis(50));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 
 	private void showPopover() {
-		popover.show(truckFleetListView);
+		popover.show(UIManager.getInstance().getStage());
 	}
 
 }
