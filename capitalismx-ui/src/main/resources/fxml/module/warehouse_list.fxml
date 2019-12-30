@@ -13,24 +13,22 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.logistics.WarehouseListController">
     <children>
-        <VBox alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <ListView fx:id="warehouseListView">
-               <VBox.margin>
-                  <Insets bottom="15.0" />
-               </VBox.margin></ListView>
             <GridPane vgap="10.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="50.0" />
               </columnConstraints>
               <rowConstraints>
+                <RowConstraints percentHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
                   <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
                 <RowConstraints percentHeight="45.0" vgrow="SOMETIMES" />
-                <RowConstraints percentHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <GridPane fx:id="buyGridButton" styleClass="grid_button" vgap="8.0" GridPane.rowIndex="1">
+                  <GridPane fx:id="buyGridButton" styleClass="grid_button" vgap="8.0" GridPane.rowIndex="4">
                      <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="100.0" />
                      </columnConstraints>
@@ -49,7 +47,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </GridPane>
-                  <GridPane fx:id="rentGridButton" styleClass="grid_button" vgap="8.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <GridPane fx:id="rentGridButton" styleClass="grid_button" vgap="8.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="100.0" />
                      </columnConstraints>
@@ -68,27 +66,31 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </GridPane>
-                  <VBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <VBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <children>
                         <Label fx:id="capacityLabel" alignment="CENTER_RIGHT" text="%warehouse.list.capacity" VBox.vgrow="ALWAYS" />
                         <Label fx:id="fixCostLabel" alignment="CENTER_RIGHT" text="%warehouse.list.fixcost" VBox.vgrow="ALWAYS" />
                      </children>
                      <GridPane.margin>
-                        <Insets top="10.0" />
+                        <Insets />
                      </GridPane.margin>
                   </VBox>
-                  <Label alignment="CENTER" styleClass="label_large" text="%warehouse.effects" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                  <Label contentDisplay="CENTER" styleClass="label_large" text="%warehouse.effects" GridPane.halignment="CENTER">
                      <GridPane.margin>
-                        <Insets top="10.0" />
+                        <Insets />
                      </GridPane.margin></Label>
-                  <Label styleClass="label_very_large" text="%warehouse.list.acquire" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
+                  <Label styleClass="label_very_large" text="%warehouse.list.acquire" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
                   <Region styleClass="separator_horizontal" GridPane.columnSpan="2" GridPane.rowIndex="2">
                      <GridPane.margin>
-                        <Insets top="-5.0" />
+                        <Insets />
                      </GridPane.margin>
                   </Region>
                </children>
             </GridPane>
+                <ListView fx:id="warehouseListView">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin></ListView>
             </children>
         </VBox>
     </children>
