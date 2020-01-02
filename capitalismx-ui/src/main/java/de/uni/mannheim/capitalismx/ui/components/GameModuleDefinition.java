@@ -24,9 +24,9 @@ public enum GameModuleDefinition {
 
 	// The modules for Production.
 	PRODUCTION_INTRODUCE_PRODUCT_MENU("introduce_product_menu.fxml", GameViewType.PRODUCTION,
-			UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, 0, 12, 0, 14),
+			UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, 0, 15, 0, 18),
 	PRODUCTION_MACHINERY_LIST("machinery_list.fxml", GameViewType.PRODUCTION,
-			UIElementType.PRODUCTION_MACHINERY_OVERVIEW, 12, 5, 0, 15),
+			UIElementType.PRODUCTION_MACHINERY_OVERVIEW, 15, 5, 0, 15),
 
 	// The modules for the warehouse.
 	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, 5, 5, 0, 15),
@@ -36,10 +36,10 @@ public enum GameModuleDefinition {
 			20),
 
 	// The modules for HR.
-	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, 5,
-			5, 0, 19),
-	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, 0, 5, 0, 19),
-	FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, 10,
+	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, 7,
+			6, 0, 19),
+	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, 1, 5, 0, 19),
+	FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, 14,
 			5, 0, 19);
 
 	// The name of the fxml-file defining this type.
