@@ -698,7 +698,7 @@ public class IntroduceProductController extends GameModuleController {
         }
 
         this.updateSuppliers();
-
+        
         /*
         Component tvScreenCheap1 = Component.T_DISPLAY_LEVEL_1;
         Component tvScreenCheap2 = Component.T_DISPLAY_LEVEL_1;
