@@ -1,10 +1,11 @@
-package de.uni.mannheim.capitalismx.ui.controller.module.logistics;
+package de.uni.mannheim.capitalismx.ui.controller.module.warehouse;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.logistics.WarehouseListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
@@ -63,9 +64,9 @@ public class WarehouseListController extends GameModuleController {
 			List<Warehouse> warehouses = controller.getWarehouses();
 			warehouseListView.getItems().add(warehouses.get(warehouses.size() - 1));
 		});
-		
 
 		warehouseListView.setCellFactory(warehouseListView -> new WarehouseListViewCell(warehouseListView));
+		warehouseListView.getItems().addAll(GameState.getInstance().getWarehousingDepartment().getWarehouses());
 	}
 
 }
