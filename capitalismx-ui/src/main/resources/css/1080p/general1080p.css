@@ -13,6 +13,9 @@
    -fx-complement-dark: rgb(  2.0,  3.0,  7.0,1.0);
    -fx-complement-dark-transparent: rgb(  2.0,  3.0,  7.0,0.7);
    -fx-transparent-background: rgb(132.0, 132.0, 132.0, 0.6);
+   -fx-green: rgb(99,192, 70, 1);
+   -fx-red: rgb(216, 78, 97,1);
+   -fx-orange: rgb(227, 162, 82, 1);
 }
 
 * {
