@@ -79,6 +79,7 @@ public class ComponentStockCell {
 				getClass().getClassLoader().getResource("fxml/components/trade_component_popover.fxml"), UIManager.getResourceBundle());
 		tradePopover = new PopOver();
 		try {
+			tradePopover.setDetachable(false);
 			tradePopover.setContentNode(popoverLoader.load());
 			tradePopover.setFadeInDuration(Duration.millis(50));
 			TradeComponentPopoverController popOverController = ((TradeComponentPopoverController) popoverLoader.getController());
