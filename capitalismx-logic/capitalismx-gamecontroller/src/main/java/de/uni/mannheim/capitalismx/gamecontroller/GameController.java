@@ -70,6 +70,8 @@ public class GameController {
 		LocalDate newDate = state.getGameDate();
 		if (oldDate.getMonth() != newDate.getMonth()) {
 			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
+			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
+			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing();
 		}
 		this.updateAll();
 	}
