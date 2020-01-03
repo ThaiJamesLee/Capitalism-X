@@ -4,7 +4,6 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 
 /**
  * A class to define the basic body for a Research and Development skill.
- * TODO: implement skills, unlockCategories, unlockComponents
  * @author duly
  */
 public abstract class ResDevSkillImpl implements DepartmentSkill {
@@ -12,10 +11,12 @@ public abstract class ResDevSkillImpl implements DepartmentSkill {
     private int level;
     private int year;
 
+    private double cost;
 
-    public ResDevSkillImpl(int level, int year) {
+    public ResDevSkillImpl(int level, int year, double cost) {
         this.level = level;
         this.year = year;
+        this.cost = cost;
     }
 
 
@@ -25,5 +26,9 @@ public abstract class ResDevSkillImpl implements DepartmentSkill {
 
     public int getYear() {
         return year;
+    }
+
+    public double getCost() {
+        return cost;
     }
 }

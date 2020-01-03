@@ -14,8 +14,8 @@ public class UnlockProductCategorySkill extends ResDevSkillImpl {
 
     private List<ProductCategory> unlockedProductCategories;
 
-    public UnlockProductCategorySkill(int level, int year) {
-        super(level, year);
+    public UnlockProductCategorySkill(int level, int year, double cost) {
+        super(level, year, cost);
         unlockedProductCategories = new ArrayList<>();
     }
 
