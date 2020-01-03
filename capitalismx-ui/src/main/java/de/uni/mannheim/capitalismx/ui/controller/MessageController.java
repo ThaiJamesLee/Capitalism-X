@@ -82,8 +82,6 @@ public class MessageController implements Initializable {
 			messages.add(messageSubject);
 			messageList.setItems(messages);
 
-
-
 			messageContent = contentLoader.load();
 			mcc = contentLoader.getController();
 			mcc.setContentSender(bundle.getString(sender));
@@ -94,7 +92,6 @@ public class MessageController implements Initializable {
 				mcc.addJumpButton(jumpTo);
 			}
 			messageContentPane.setContent(messageContent);
-
 
 
 			MessageObject messageReference = new MessageObject(sender, date, subject, message, isInternal, messageSubject, messageContent);

@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.controller;
 
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,7 +33,10 @@ public class MessageContentController {
 
     public void addJumpButton(GameViewType jumpToView){
         Button btn = new Button("Jump to Menu");
-
+        btn.setOnAction(action -> {
+            UIManager.getInstance().getGamePageController().switchView(jumpToView);
+            UIManager.getInstance().getGamePageController().toggleMessageWindow();
+        });
         contentVBox.getChildren().add(btn);
 
     }
