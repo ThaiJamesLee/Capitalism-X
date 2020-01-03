@@ -91,7 +91,7 @@
                   </Label>
                   <GridPane hgap="5.0">
                     <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="20.0" percentWidth="33.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="20.0" percentWidth="33.0" />
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="20.0" percentWidth="33.0" />
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="20.0" percentWidth="34.0" />
                     </columnConstraints>
@@ -194,7 +194,7 @@
                   </Label>
                   <Label fx:id="settingsIconLabel">
                      <graphic>
-                        <FontAwesomeIcon iconName="GEAR" onMousePressed="#toggleMenu" selectionEnd="1" size="2em" styleClass="hud_icon_button" />
+                        <FontAwesomeIcon iconName="GEAR" onMousePressed="#toggleMenu" size="2em" styleClass="hud_icon_button" />
                      </graphic>
                   </Label>
                </children>
