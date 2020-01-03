@@ -19,7 +19,7 @@ public enum GameViewType {
 	LOGISTIC(6, "view.logistics"),
 	WAREHOUSE(7, "view.warehouse"), 
 	R_AND_D(8, "view.research");
-
+	
 	private final String title;
 	private final int id;
 

@@ -23,15 +23,15 @@
 }
 
 .hud_top {
-	-fx-padding-top: 5;
+	-fx-padding-top: 5.0;
 }
 
 .hud_bottom {
-	-fx-padding-bottom: 5;
+	-fx-padding-bottom: 5.0;
 }
 .hud_background {
 	-fx-text-fill: -fx-primary;
-	-fx-padding: 10;
+	-fx-padding: 10.0;
 	-fx-background-color: -fx-complement-dark-transparent;
 	-fx-background-insets: -5.0;
 	-fx-border-insets: -5.0;
@@ -41,7 +41,7 @@
 	/**-fx-border-insets: -1;
 	-fx-border-width:1;**/
 	-fx-border-color: -fx-primary;
-	-fx-effect: dropshadow(gaussian, -fx-primary-dark-transparent, 10, 0.5, 0, 0);
+	-fx-effect: dropshadow(gaussian, -fx-primary-dark-transparent, 10.0, 0.5, 0.0, 0.0);
 }
 
 .hud_icon_button {
@@ -55,10 +55,10 @@
 }
 
 .hud_department_button {
-	-fx-font-size: 16;
-	-fx-background-radius: 0 3 3 0;
+	-fx-font-size: 16.0;
+	-fx-background-radius: 0.0 3.0 3.0 0.0;
 	-fx-cursor: hand;
-	-fx-border-insets: 3 3 3 0;
+	-fx-border-insets: 3.0 3.0 3.0 0.0;
 	-fx-border-width: 0.0 2.0 0.0 0.0;
 	-fx-background-color: -fx-complement-light-neutral;
 	-fx-border-color: -fx-primary;
@@ -74,7 +74,7 @@
 	-fx-border-color: -fx-primary;
 }
 .hud_department_button FontAwesomeIcon, .hud_icon_button FontAwesomeIcon {
-	-fx-padding: 15px;
+	-fx-padding: 15.0px;
 	-fx-fill: -fx-primary;
 	-fx-text-fill: -fx-primary;
 }
@@ -102,25 +102,57 @@
 
 .hud_separator {
 	-fx-border-color: -fx-primary;
-	-fx-border-width: 0 1 0 1;
-	-fx-border-insets: 0 -5 -3 -5;
+	-fx-border-width: 0.0 1.0 0.0 0.0;
+	-fx-border-insets: -5.0 0.0 -5.0 0.0;
 }
 
 .notification_sender {
 	-fx-text-fill: -fx-primary;
 }
 
+.notification_subject {
+	-fx-text-fill: -fx-primary;
+	-fx-font-size: 13.0;
+}
+
 .notification_message {
 	-fx-text-fill: -fx-complement-light;
+	-fx-font-size: 11.0;
 }
 
 .notification_separator {
 	-fx-border-color: -fx-primary;
-	-fx-border-width: 1 0 0 0;
+	-fx-border-width: 1.0 0.0 0.0 0.0;
+}
+
+.notification_root:hover {
+	-fx-effect: dropshadow(gaussian, -fx-primary-light, 10.0, 0.5, 0.0, 0.0);
+	-fx-cursor: hand;
 }
 
 .icon_light {
 	-fx-fill: -fx-primary;
 	-fx-text-fill: -fx-primary;
+}
+
+.icon_red {
+	-fx-fill: -fx-red;
+	-fx-text-fill: -fx-red;
+}
+
+.icon_orange {
+	-fx-fill: -fx-orange;
+	-fx-text-fill: -fx-orange;
+}
+
+.icon_green {
+	-fx-fill: -fx-green;
+	-fx-text-fill: -fx-green;
+}
+
+.icon_button_invisible {
+	-fx-background-color: transparent;
+	-fx-border-width: 0 0 0 0;
+	-fx-border-color: -fx-primary;
 }
 	

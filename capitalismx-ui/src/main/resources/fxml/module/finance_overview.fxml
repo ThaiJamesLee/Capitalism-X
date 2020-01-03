@@ -9,15 +9,16 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController">
    <children>
       <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label styleClass="label_large" text="%finance.company.header">
+            <Label styleClass="label_very_large" text="%finance.company.header">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
@@ -42,13 +43,17 @@
                   <Label fx:id="liabilitiesLabel" layoutX="10.0" layoutY="17.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label fx:id="netWorthLabel" layoutX="10.0" layoutY="17.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
             </GridPane>
-            <Label layoutX="10.0" layoutY="10.0" styleClass="label_large" text="%finance.bank.header">
+            <Region styleClass="separator_horizontal" />
+            <Label layoutX="10.0" layoutY="10.0" styleClass="label_very_large" text="%finance.bank.header">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <VBox.margin>
-                  <Insets top="20.0" />
+                  <Insets top="15.0" />
                </VBox.margin>
             </Label>
             <Label layoutX="10.0" layoutY="147.0" styleClass="label_large" text="%finance.bank.currentLoan">
@@ -62,13 +67,17 @@
                <children>
                   <Button fx:id="loanRequestButton" mnemonicParsing="false" styleClass="button_module" text="%finance.bank.btnRequestLoan" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
             </AnchorPane>
-            <Label layoutX="10.0" layoutY="167.0" styleClass="label_large" text="%finance.investments.header">
+            <Region styleClass="separator_horizontal" />
+            <Label layoutX="10.0" layoutY="167.0" styleClass="label_very_large" text="%finance.investments.header">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <VBox.margin>
-                  <Insets top="20.0" />
+                  <Insets top="15.0" />
                </VBox.margin>
             </Label>
             <Label layoutX="10.0" layoutY="184.0" styleClass="label_large" text="%finance.investments.realEstate">

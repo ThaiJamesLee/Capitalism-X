@@ -20,11 +20,13 @@ public enum UIElementType {
     FINANCE_OPERATIONS_TABLE("Operations Table"),
 	FINANCE_SALES_CHART("Statistics"),
 	LOGISTICS_PARTNER_OVERVIEW("External Partner"),
-	LOGISTICS_WAREHOUSE_OVERVIEW("Warehouses"),
+	WAREHOUSE_LIST("Warehouses"),
 	LOGISTICS_TRUCK_FLEET_OVERVIEW("Truck Fleet"),
 	PRODUCTION_NEW_PRODUCT_OVERVIEW("Introduce Product"),
 	PRODUCTION_MACHINERY_OVERVIEW("Machines"),
-	PROCUREMENT_BUY_COMPONENT_OVERVIEW("Buy Component");
+	PROCUREMENT_BUY_COMPONENT_OVERVIEW("Buy Component"), 
+	WAREHOUSE_SEGMENTS("Partition"), 
+	WAREHOUSE_STOCK_MANAGEMENT("Stock Management");
 
 	// The title of the GameElement, that will be displayed on top.
 	public final String title;

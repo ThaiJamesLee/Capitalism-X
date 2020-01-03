@@ -1,5 +1,10 @@
 package de.uni.mannheim.capitalismx.ui.controller.overlay.finance;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -10,11 +15,6 @@ import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewC
 import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.ResourceBundle;
 
 public class LoanRequestListController extends GameOverlayController {
 

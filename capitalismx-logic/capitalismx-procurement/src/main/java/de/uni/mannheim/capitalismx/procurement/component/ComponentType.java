@@ -1,7 +1,8 @@
 package de.uni.mannheim.capitalismx.procurement.component;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -234,6 +235,23 @@ public enum ComponentType implements Serializable {
         ResourceBundle bundle = ResourceBundle.getBundle("procurement", locale);
         return bundle.getString(this.name());
     }
+    
+    /**
+	 * Get a {@link List} of {@link ComponentType}s for the given
+	 * {@link ComponentCategory}.
+	 * 
+	 * @param category The {@link ComponentCategory} to find types for.
+	 * @return List of {@link ComponentType}s, with the given category.
+	 */
+	public static List<ComponentType> getTypesByCategory(ComponentCategory category) {
+		List<ComponentType> types = new ArrayList<ComponentType>();
+		for (ComponentType type : ComponentType.values()) {
+			if (type.componentCategory == category) {
+				types.add(type);
+			}
+		}
+		return types;
+	}
 
     /*public SupplierCategory getSupplierCategory() {
         return this.supplierCategory;
