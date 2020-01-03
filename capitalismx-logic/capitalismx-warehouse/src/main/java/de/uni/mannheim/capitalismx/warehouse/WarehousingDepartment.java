@@ -236,7 +236,6 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.calculateTotalCapacity();
         this.calculateFreeStorage();
         this.calculateDailyStorageCost();
-        this.calculateMonthlyCostWarehousing();
         this.calculateTotalMonthlyWarehousingCost();
     }
 
