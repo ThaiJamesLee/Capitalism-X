@@ -13,6 +13,8 @@ public class UnlockComponentSkill extends ResDevSkillImpl {
 
     private List<Component> unlockedComponents;
 
+    private String description;
+
     public UnlockComponentSkill(int level, int year, double cost) {
         super(level, year, cost);
         unlockedComponents = new ArrayList<>();
@@ -24,5 +26,14 @@ public class UnlockComponentSkill extends ResDevSkillImpl {
 
     public void setUnlockedComponents(List<Component> unlockedComponents) {
         this.unlockedComponents = unlockedComponents;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
+ * Defines Employee types available.
  * @author duly
  */
 public enum EmployeeType {

@@ -75,6 +75,10 @@ public class HRDepartment extends DepartmentImpl {
 		teams.put(EmployeeType.HR_WORKER, new Team(EmployeeType.HR_WORKER).addPropertyName("hrworkerTeamChanged"));
 	}
 
+	private void initSkills() {
+
+	}
+
 	public static HRDepartment getInstance() {
 		if (instance == null) {
 			instance = new HRDepartment();

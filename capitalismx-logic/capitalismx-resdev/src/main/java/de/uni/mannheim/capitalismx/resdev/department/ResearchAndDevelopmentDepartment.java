@@ -29,7 +29,7 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
     }
 
     private void init() {
-        Map<Integer, DepartmentSkill> skillMap = getSkillMap();
+
     }
 
     /**

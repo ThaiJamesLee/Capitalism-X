@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.domain.department;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,14 +22,17 @@ public abstract class DepartmentImpl implements Department, Serializable {
 
     private LevelingMechanism levelingMechanism;
 
-    private Map<Integer, DepartmentSkill> skillMap;
+    protected Map<Integer, DepartmentSkill> skillMap;
 
+    /* Default max level is set to 8 */
     private int maxLevel;
 
 
     public DepartmentImpl(String name) {
         this.name = name;
         this.maxLevel = 8;
+
+        this.skillMap = new HashMap<>();
     }
 
     @Override

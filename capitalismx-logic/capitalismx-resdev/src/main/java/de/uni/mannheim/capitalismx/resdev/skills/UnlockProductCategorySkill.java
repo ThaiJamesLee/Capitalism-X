@@ -14,6 +14,8 @@ public class UnlockProductCategorySkill extends ResDevSkillImpl {
 
     private List<ProductCategory> unlockedProductCategories;
 
+    private String description;
+
     public UnlockProductCategorySkill(int level, int year, double cost) {
         super(level, year, cost);
         unlockedProductCategories = new ArrayList<>();
@@ -25,5 +27,10 @@ public class UnlockProductCategorySkill extends ResDevSkillImpl {
 
     public void setUnlockedProductCategories(List<ProductCategory> unlockedProductCategories) {
         this.unlockedProductCategories = unlockedProductCategories;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 }

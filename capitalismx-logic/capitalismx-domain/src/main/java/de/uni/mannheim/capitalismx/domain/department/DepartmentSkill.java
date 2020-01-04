@@ -5,4 +5,10 @@ package de.uni.mannheim.capitalismx.domain.department;
  * @author duly
  */
 public interface DepartmentSkill {
+
+    /**
+     *
+     * @return Returns a description String for the skill.
+     */
+    String getDescription();
 }
