@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
+import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
@@ -145,6 +146,21 @@ public class HRDepartmentTest {
     @Test(dependsOnMethods = "upgradeBenefitSettingsTest")
     public void checkJSSAfterUpgrade() {
         Assert.assertTrue(HRDepartment.getInstance().getTotalJSS() >= 1.0);
+    }
+
+    @Test
+    public void checkMaxLevel() {
+        Assert.assertEquals(HRDepartment.getInstance().getMaxLevel(), 8);
+    }
+
+    @Test
+    public void checkLevelingMechanism() {
+        HRDepartment department = HRDepartment.getInstance();
+        LevelingMechanism lM = department.getLevelingMechanism();
+        Map<Integer, Double> costMap = lM.getLevelCostMap();
+
+        Assert.assertEquals(costMap.size(), 8);
+
     }
 
 

@@ -24,10 +24,6 @@ public class HRSkill implements DepartmentSkill {
 
     private String description;
 
-    public HRSkill(int level, int newEmployeeCapacity) {
-        this.level = level;
-        this.newEmployeeCapacity = newEmployeeCapacity;
-    }
 
     public HRSkill(int level, int newEmployeeCapacity, Map<String, Double> skillDistribution) {
         this.level = level;

@@ -1,12 +1,13 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
 import java.beans.PropertyChangeListener;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
+import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.employee.impl.ProductionWorker;
+import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,9 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
 
 /**
+ * This class represents the HR Department.
+ * Here, employees are hired and fired.
+ * Additionally, the employee capacity is controlled in this department by controlling the number of HR employees.
  * Based on the report on p.21 - 28
  * 
  * @author duly
@@ -36,20 +40,25 @@ public class HRDepartment extends DepartmentImpl {
 
 	// base cost for hiring and firing
 	private static final int BASE_COST = 5000;
+	private static final String LEVELING_PROPERTIES = "hr-leveling-definition";
+	private static final String MAX_LEVEL_PROPERTY = "hr.department.max.level";
+	private static final String SKILL_COST_PROPERTY_PREFIX = "hr.skill.cost.";
+
 
 	private BenefitSettings benefitSettings;
 
 	private Map<EmployeeType, Team> teams;
 
-	// hired and fired employees.
-
+	// hired employees.
 	private PropertyChangeSupportList<Employee> hired;
+
+	// fired employees.
 	private PropertyChangeSupportList<Employee> fired;
 
 	private static HRDepartment instance = null;
 
 	private HRDepartment() {
-		super("HR");
+		super("Human Resources");
 		this.benefitSettings = new BenefitSettings();
 		this.teams = new EnumMap<>(EmployeeType.class);
 
@@ -57,6 +66,9 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	private void init() {
+		setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
+
+		initSkills();
 
 		hired = new PropertyChangeSupportList<>();
 		hired.setAddPropertyName("hireEmployee");
@@ -75,10 +87,54 @@ public class HRDepartment extends DepartmentImpl {
 		teams.put(EmployeeType.HR_WORKER, new Team(EmployeeType.HR_WORKER).addPropertyName("hrworkerTeamChanged"));
 	}
 
+	/**
+	 * Initialize HRSkills.
+	 */
 	private void initSkills() {
+		Map<Integer, Double> costMap = initCostMap();
+		try {
+			setLevelingMechanism(new LevelingMechanism(this, costMap));
+		} catch (InconsistentLevelException e) {
+			String error = "The costMap size " + costMap.size() +  " does not match the maximum level " + this.getMaxLevel() + " of this department!";
+			logger.error(error, e);
+		}
+
+		// TODO
+		//skillMap.put(1, new HRSkill(1, 5, ));
 
 	}
 
+	/**
+	 *
+	 * @return Returns the distribution for employees for generation.
+	 */
+	private Map<Integer, Map<String, Double>> initEmployeeDistribution() {
+		Map<Integer, Map<String, Double>> distributions = new HashMap<>();
+
+		return distributions;
+	}
+
+	/**
+	 * Initializes the cost map. This is used for the {@link LevelingMechanism}.
+	 */
+	private Map<Integer, Double> initCostMap() {
+		// init cost map
+		/* TODO BALANCING NEEDED*/
+		Map<Integer, Double> costMap = new HashMap<>();
+
+		ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+		for(int i = 1; i <= getMaxLevel(); i++) {
+			double cost = Integer.parseInt(bundle.getString(SKILL_COST_PROPERTY_PREFIX + i));
+			costMap.put(i, cost);
+		}
+
+		return costMap;
+	}
+
+	/**
+	 *
+	 * @return Returns this class.
+	 */
 	public static HRDepartment getInstance() {
 		if (instance == null) {
 			instance = new HRDepartment();
@@ -229,15 +285,38 @@ public class HRDepartment extends DepartmentImpl {
 		if (employee == null) {
 			throw new NullPointerException("Employee must be specified!");
 		}
+
+		// add employee to a team and add him to the hired list if successful.
+		if (addEmployeeToTeam(employee)) {
+			hired.add(employee);
+			// TODO hiring cost should also be dependent on the skill level
+			return getHiringCost();
+		}
+		return 0;
+	}
+
+	/**
+	 *
+	 * @param employee The employee to add to the respective team by type.
+	 * @return Returns true if employee was added successfully to a team. Return false otherwise.
+	 */
+	private boolean addEmployeeToTeam(Employee employee) {
+		boolean isAdded = true;
 		if (employee instanceof Engineer) {
 			teams.get(EmployeeType.ENGINEER).addEmployee(employee);
 		} else if (employee instanceof SalesPerson) {
 			teams.get(EmployeeType.SALESPERSON).addEmployee(employee);
+		} else if (employee instanceof HRWorker)  {
+			teams.get(EmployeeType.HR_WORKER).addEmployee(employee);
+		} else if (employee instanceof ProductionWorker) {
+			teams.get(EmployeeType.HR_WORKER).addEmployee(employee);
+		} else {
+			isAdded = false;
+
+			String warnMessage = "Could not assign " + employee + " to any team!";
+			logger.warn(warnMessage);
 		}
-		hired.add(employee);
-		// departmentBean.setHired(hired);
-		// TODO hiring cost should also be dependent on the skill level
-		return getHiringCost();
+		return isAdded;
 	}
 
 	/**
@@ -250,15 +329,39 @@ public class HRDepartment extends DepartmentImpl {
 		if (employee == null) {
 			throw new NullPointerException("Employee must be specified!");
 		}
+
+		if(removeEmployeeFromTeam(employee)) {
+			// TODO firing cost should be also dependent on skill level
+			fired.add(employee);
+			return getFiringCost();
+		}
+
+		return 0;
+	}
+
+	/**
+	 *
+	 * @param employee The employee to remove from the respective team.
+	 * @return Returns true when the employee was removed from the respective team. Returns false otherwise.
+	 */
+	private boolean removeEmployeeFromTeam(Employee employee) {
+		boolean isRemoved = true;
+
 		if (employee instanceof Engineer) {
 			teams.get(EmployeeType.ENGINEER).removeEmployee(employee);
-
 		} else if (employee instanceof SalesPerson) {
 			teams.get(EmployeeType.SALESPERSON).removeEmployee(employee);
+		} else if (employee instanceof  HRWorker) {
+			teams.get(EmployeeType.HR_WORKER).removeEmployee(employee);
+		} else if (employee instanceof ProductionWorker) {
+			teams.get(EmployeeType.PRODUCTION_WORKER).removeEmployee(employee);
+		} else {
+			isRemoved = false;
+
+			String warnMessage = "Could not remove " + employee + " from any team!";
+			logger.warn(warnMessage);
 		}
-		// TODO firing cost should be also dependent on skill level
-		fired.add(employee);
-		return getFiringCost();
+		return isRemoved;
 	}
 
 	/**
@@ -345,7 +448,7 @@ public class HRDepartment extends DepartmentImpl {
 	/**
 	 * Register the propertychangelistener to all propertychangesupport objects.
 	 * 
-	 * @param listener
+	 * @param listener The PropertyChangeListener to register to listen to all PropertyChangeSupport objects.
 	 */
 	public void registerPropertyChangeListener(PropertyChangeListener listener) {
 		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {

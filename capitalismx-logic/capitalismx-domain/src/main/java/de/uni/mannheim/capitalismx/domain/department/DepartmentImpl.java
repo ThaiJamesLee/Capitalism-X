@@ -55,6 +55,10 @@ public abstract class DepartmentImpl implements Department, Serializable {
         return levelingMechanism;
     }
 
+    public void setLevelingMechanism(LevelingMechanism levelingMechanism) {
+        this.levelingMechanism = levelingMechanism;
+    }
+
     /**
      * Override the maximum level of the department.
      * @param maxLevel the new maxLevel.

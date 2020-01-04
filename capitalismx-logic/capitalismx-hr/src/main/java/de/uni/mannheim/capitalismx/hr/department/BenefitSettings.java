@@ -15,6 +15,7 @@ public class BenefitSettings implements Serializable {
 
     private Map<BenefitType, Benefit> benefits;
 
+    /* Constructor */
     public BenefitSettings () {
         initBenefitSettings();
     }
