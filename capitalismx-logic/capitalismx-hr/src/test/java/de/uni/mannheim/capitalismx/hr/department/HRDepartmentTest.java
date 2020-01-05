@@ -1,9 +1,11 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
 import de.uni.mannheim.capitalismx.domain.employee.Training;
@@ -162,7 +164,26 @@ public class HRDepartmentTest {
         Assert.assertEquals(costMap.size(), 8);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkMaxLevelTest", "checkLevelingMechanismCostMapTest"})
+    public void skillMapTest() {
+        HRDepartment department = HRDepartment.getInstance();
+
+        Map<Integer, DepartmentSkill> skillMap = department.getSkillMap();
+
+        Assert.assertEquals(skillMap.size(), 8);
+
+        for(Map.Entry<Integer, DepartmentSkill> entry : skillMap.entrySet()) {
+            HRSkill skill = (HRSkill) entry.getValue();
+            Assert.assertTrue(skill.getNewEmployeeCapacity() > 0);
+            for(Map.Entry<String, Double> distribution : skill.getSkillDistribution().entrySet()) {
+                String info = "level: "+ entry.getKey()  +"; key:"+ distribution.getKey() + "; distribution: " + distribution.getValue();
+                LOGGER.info(info);
+                Assert.assertTrue(distribution.getValue() > 0);
+            }
+        }
+    }
+
+    @Test(dependsOnMethods = "skillMapTest")
     public void levelUpTest() {
 
     }

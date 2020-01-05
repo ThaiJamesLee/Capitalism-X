@@ -131,9 +131,8 @@ public class HRDepartment extends DepartmentImpl {
 		ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
 		for (int i=1; i <= getMaxLevel(); i++) {
 			int eCapacity = Integer.parseInt(skillBundle.getString(SKILL_CAPACITY_PREFIX + i));
-			// skillMap.put(i, new HRSkill(i, eCapacity, ))
+			skillMap.put(i, new HRSkill(i, eCapacity, getDistribution(i)));
 		}
-
 	}
 
 	private Map<String, Double> getDistribution(int level) {
@@ -143,15 +142,6 @@ public class HRDepartment extends DepartmentImpl {
 		return DataFormatter.stringToStringDoubleMap(keys, distributionString);
 	}
 
-	/**
-	 *
-	 * @return Returns the distribution for employees for generation.
-	 */
-	private Map<Integer, Map<String, Double>> initEmployeeDistribution() {
-		Map<Integer, Map<String, Double>> distributions = new HashMap<>();
-
-		return distributions;
-	}
 
 	/**
 	 * Initializes the cost map. This is used for the {@link LevelingMechanism}.
