@@ -98,7 +98,7 @@ public abstract class DepartmentImpl implements Department, Serializable {
         List<DepartmentSkill> availableSkills = new ArrayList<>();
 
         for (Map.Entry<Integer, DepartmentSkill> entry : skillMap.entrySet()) {
-            if(entry.getKey() >= level) {
+            if(level >= entry.getKey()) {
                 availableSkills.add(entry.getValue());
             }
         }

@@ -313,7 +313,7 @@ public class HRDepartment extends DepartmentImpl {
 	public double hire(Employee employee) {
 		if (employee == null) {
 			throw new NullPointerException("Employee must be specified!");
-		} else if (canHireEmployee()) {
+		} else if (canHireEmployee(employee.getEmployeeType())) {
 			// add employee to a team and add him to the hired list if successful.
 			if (addEmployeeToTeam(employee)) {
 				hired.add(employee);
@@ -527,7 +527,12 @@ public class HRDepartment extends DepartmentImpl {
 	 *
 	 * @return Returns true if still capacity to hire more employee. Return false otherwise.
 	 */
-	public boolean canHireEmployee() {
-		return getTotalEmployeeCapacity() > getTotalNumberOfEmployees();
+	public boolean canHireEmployee(EmployeeType type) {
+		if(!type.equals(EmployeeType.HR_WORKER)) {
+			return getTotalEmployeeCapacity() > getTotalNumberOfEmployees();
+		} else {
+			return hrCapacity > teams.get(EmployeeType.HR_WORKER).getTeam().size();
+		}
+
 	}
 }

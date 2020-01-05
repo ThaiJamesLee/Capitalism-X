@@ -3,7 +3,9 @@ package de.uni.mannheim.capitalismx.hr.department;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
 import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
@@ -26,14 +28,22 @@ public class HRDepartmentTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(HRDepartmentTest.class);
     private List<Employee> employeeStack;
 
+    /**
+     * Mock some data for test.
+     */
     private void mockEmployeeStack() {
-        employeeStack.add(new SalesPerson("SA", "NO1", "male", "mr", 3000, 20));
-        employeeStack.add(new SalesPerson("SAL", "NO2", "female", "mr", 3000, 20));
+        employeeStack.add(new HRWorker("HRW", "NO1", "male", "mr", 2000, 10).setEmployeeType(EmployeeType.HR_WORKER));
 
-        employeeStack.add(new Engineer("Eng", "NO1", "female", "ms", 4000, 25));
-        employeeStack.add(new Engineer("Engi", "NO2", "male", "ms", 4000, 25));
+        employeeStack.add(new SalesPerson("SA", "NO1", "male", "mr", 3000, 20).setEmployeeType(EmployeeType.SALESPERSON));
+        employeeStack.add(new SalesPerson("SAL", "NO2", "female", "mr", 3000, 20).setEmployeeType(EmployeeType.SALESPERSON));
+
+        employeeStack.add(new Engineer("Eng", "NO1", "female", "ms", 4000, 25).setEmployeeType(EmployeeType.ENGINEER));
+        employeeStack.add(new Engineer("Engi", "NO2", "male", "ms", 4000, 25).setEmployeeType(EmployeeType.ENGINEER));
     }
 
+    /**
+     * Setup environment for test.
+     */
     @BeforeTest
     public void setUp() {
         HRDepartment.getInstance();
@@ -41,13 +51,18 @@ public class HRDepartmentTest {
         mockEmployeeStack();
     }
 
+    /**
+     * Test hiring method.
+     */
     @Test
     public void hireTest() {
         Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(0)) > 5000);
         Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(1)) > 5000);
         Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(2)) > 5000);
         Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(3)) > 5000);
-        Assert.assertEquals(HRDepartment.getInstance().getHired().size(), 4);
+        Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(4)) > 5000);
+
+        Assert.assertEquals(HRDepartment.getInstance().getHired().size(), 5);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
@@ -93,6 +108,9 @@ public class HRDepartmentTest {
 
     }
 
+    /**
+     * Test training.
+     */
     @Test(dependsOnMethods = "trainingTest")
     public void getTotalQualityOfWorkByEmployeeTypeTest() {
         HRDepartment department = HRDepartment.getInstance();
@@ -164,6 +182,9 @@ public class HRDepartmentTest {
         Assert.assertEquals(costMap.size(), 8);
     }
 
+    /**
+     * Test the defined skills if they are loaded correctly.
+     */
     @Test(dependsOnMethods = {"checkMaxLevelTest", "checkLevelingMechanismCostMapTest"})
     public void skillMapTest() {
         HRDepartment department = HRDepartment.getInstance();
@@ -183,9 +204,23 @@ public class HRDepartmentTest {
         }
     }
 
+    /**
+     * Test the leveling mechanism.
+     */
     @Test(dependsOnMethods = "skillMapTest")
     public void levelUpTest() {
+        HRDepartment department = HRDepartment.getInstance();
 
+        LevelingMechanism mechanism = department.getLevelingMechanism();
+
+        for(int i = 0; i<department.getMaxLevel(); i++) {
+            Assert.assertTrue(mechanism.levelUp() > 0);
+            Assert.assertEquals(department.getAvailableSkills().size(), i+1);
+        }
+
+        Assert.assertEquals(department.getLevel(), 8);
+
+        Assert.assertNull(mechanism.levelUp());
     }
 
 

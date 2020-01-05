@@ -16,6 +16,11 @@ public class HRWorker extends Employee {
         capacity = 10;
     }
 
+    public HRWorker(String firstName, String lastName, String gender, String title, int salary, int skillLevel) {
+        super(firstName, lastName, gender, title, salary, skillLevel);
+        capacity = 10;
+    }
+
     public int getCapacity() {
         return capacity;
     }

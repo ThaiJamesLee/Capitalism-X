@@ -64,13 +64,13 @@ public class LevelingMechanism implements Serializable {
      */
     public Double levelUp() {
         int currentLevel = department.getLevel();
-        double cost = getNextLevelUpCost();
+        Double cost = getNextLevelUpCost();
 
-        if(cost > 0) {
+        if(cost != null && cost > 0) {
             department.setLevel(currentLevel + 1);
             return cost;
         } else {
-            LOGGER.info("No Level Up possible.");
+            LOGGER.error("No Level Up possible.");
             return null;
         }
     }
