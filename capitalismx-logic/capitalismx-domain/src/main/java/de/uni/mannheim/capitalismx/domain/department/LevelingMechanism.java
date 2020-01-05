@@ -5,13 +5,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * This class is a holder for leveling for each department.
+ * This class is a handler for leveling for each department.
+ * It contains a cost map for each level, which should be defined in the respective department, that holds class.
  * @author duly
+ *
+ * @since 1.0.0
  */
 public class LevelingMechanism implements Serializable {
 

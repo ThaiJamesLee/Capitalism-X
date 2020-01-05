@@ -1,10 +1,14 @@
 package de.uni.mannheim.capitalismx.domain.department;
 
+import java.io.Serializable;
+
 /**
  * The interface that all departments implement from.
  * @author duly
+ *
+ * @since 1.0.0
  */
-public interface Department {
+public interface Department extends Serializable {
 
     /**
      *
@@ -24,6 +28,12 @@ public interface Department {
      */
     void setLevel(int level);
 
+    /**
+     * Use this to access the leveling mechanism of the department.
+     * This class handles the level up. It also returns costs when leveling up.
+     *
+     * @return The leveling mechanism of the department.
+     */
     LevelingMechanism getLevelingMechanism();
 
     /**

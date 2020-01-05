@@ -13,13 +13,21 @@ import java.util.Map;
  * Each new level unlocks a new DepartmentSkill.
  * By default departments have a maxLevel 8.
  * @author duly
+ *
+ * @since 1.0.0
  */
 public abstract class DepartmentImpl implements Department, Serializable {
 
     private String name;
 
+    /**
+     * The level of the department. Initial value is 0.
+     */
     private int level;
 
+    /**
+     * Handles the leveling. Must be initialized with a cost map.
+     */
     private LevelingMechanism levelingMechanism;
 
     protected Map<Integer, DepartmentSkill> skillMap;
@@ -30,6 +38,8 @@ public abstract class DepartmentImpl implements Department, Serializable {
 
     public DepartmentImpl(String name) {
         this.name = name;
+
+        this.level = 0;
         this.maxLevel = 8;
 
         this.skillMap = new HashMap<>();

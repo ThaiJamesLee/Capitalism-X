@@ -6,12 +6,13 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class should hold the teams of this company.
- * @duly
+ * @author duly
+ *
+ * @since 1.0.0
  */
 public class Team implements Serializable {
 

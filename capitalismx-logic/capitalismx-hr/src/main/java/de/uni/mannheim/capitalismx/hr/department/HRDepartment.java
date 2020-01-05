@@ -8,6 +8,8 @@ import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.employee.impl.ProductionWorker;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
+import de.uni.mannheim.capitalismx.hr.domain.Salary;
+import de.uni.mannheim.capitalismx.utils.formatter.DataFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,11 +40,26 @@ public class HRDepartment extends DepartmentImpl {
 
 	private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
 
-	// base cost for hiring and firing
-	private static final int BASE_COST = 5000;
+	/**
+	 * Base Cost used for hiring and firing.
+	 * Loaded from LEVELING_PROPERTIES file.
+	 */
+	private int baseCost;
+
+	/**
+	 * HR worker capacity. You can not hire more HR Workers than this capacity.
+	 */
+	private int hrCapacity;
+
+
 	private static final String LEVELING_PROPERTIES = "hr-leveling-definition";
 	private static final String MAX_LEVEL_PROPERTY = "hr.department.max.level";
+	private static final String BASE_COST_PROPERTY = "hr.department.base.cost";
+	private static final String INITIAL_CAPACITY_PROPERTY = "hr.department.init.capacity";
+
 	private static final String SKILL_COST_PROPERTY_PREFIX = "hr.skill.cost.";
+	private static final String SKILL_CAPACITY_PREFIX = "hr.skill.capacity.";
+	private static final String EMPLOYEE_DISTRIBUTION_PROPERTY_PREFIX = "hr.skill.distribution.";
 
 
 	private BenefitSettings benefitSettings;
@@ -65,9 +82,12 @@ public class HRDepartment extends DepartmentImpl {
 		init();
 	}
 
+	/**
+	 * Init every necessary variable and properties.
+	 */
 	private void init() {
-		setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
 
+		initProperties();
 		initSkills();
 
 		hired = new PropertyChangeSupportList<>();
@@ -88,6 +108,15 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	/**
+	 * Init default values from properties.
+	 */
+	private void initProperties() {
+		setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
+		baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
+		hrCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+	}
+
+	/**
 	 * Initialize HRSkills.
 	 */
 	private void initSkills() {
@@ -99,9 +128,19 @@ public class HRDepartment extends DepartmentImpl {
 			logger.error(error, e);
 		}
 
-		// TODO
-		//skillMap.put(1, new HRSkill(1, 5, ));
+		ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+		for (int i=1; i <= getMaxLevel(); i++) {
+			int eCapacity = Integer.parseInt(skillBundle.getString(SKILL_CAPACITY_PREFIX + i));
+			// skillMap.put(i, new HRSkill(i, eCapacity, ))
+		}
 
+	}
+
+	private Map<String, Double> getDistribution(int level) {
+		String distributionString = ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(EMPLOYEE_DISTRIBUTION_PROPERTY_PREFIX + level);
+		List<String> keys = Salary.getSkillLevelNames();
+
+		return DataFormatter.stringToStringDoubleMap(keys, distributionString);
 	}
 
 	/**
@@ -279,18 +318,18 @@ public class HRDepartment extends DepartmentImpl {
 	 * Hire the employee. Add the employee to the corresponding team list.
 	 * 
 	 * @param employee The employee to hire.
-	 * @return Returns the cost of hiring.
+	 * @return Returns the cost of hiring. Returns 0, when employee was not added.
 	 */
 	public double hire(Employee employee) {
 		if (employee == null) {
 			throw new NullPointerException("Employee must be specified!");
-		}
-
-		// add employee to a team and add him to the hired list if successful.
-		if (addEmployeeToTeam(employee)) {
-			hired.add(employee);
-			// TODO hiring cost should also be dependent on the skill level
-			return getHiringCost();
+		} else if (canHireEmployee()) {
+			// add employee to a team and add him to the hired list if successful.
+			if (addEmployeeToTeam(employee)) {
+				hired.add(employee);
+				// TODO hiring cost should also be dependent on the skill level
+				return getHiringCost();
+			}
 		}
 		return 0;
 	}
@@ -306,8 +345,14 @@ public class HRDepartment extends DepartmentImpl {
 			teams.get(EmployeeType.ENGINEER).addEmployee(employee);
 		} else if (employee instanceof SalesPerson) {
 			teams.get(EmployeeType.SALESPERSON).addEmployee(employee);
+
 		} else if (employee instanceof HRWorker)  {
-			teams.get(EmployeeType.HR_WORKER).addEmployee(employee);
+			/* HR Worker capacity is fixed. */
+			if (hrCapacity > teams.get(EmployeeType.HR_WORKER).getTeam().size()) {
+				teams.get(EmployeeType.HR_WORKER).addEmployee(employee);
+			} else {
+				isAdded = false;
+			}
 		} else if (employee instanceof ProductionWorker) {
 			teams.get(EmployeeType.HR_WORKER).addEmployee(employee);
 		} else {
@@ -371,7 +416,7 @@ public class HRDepartment extends DepartmentImpl {
 	 */
 	public double getHiringCost() {
 		double jss = getTotalJSS() / 100;
-		return BASE_COST + BASE_COST * (1 - jss);
+		return baseCost + baseCost * (1 - jss);
 	}
 
 	/**
@@ -380,7 +425,7 @@ public class HRDepartment extends DepartmentImpl {
 	 * @return Returns the actual firing cost per employee.
 	 */
 	public double getFiringCost() {
-		return BASE_COST;
+		return baseCost;
 	}
 
 	/* Benefits */
@@ -462,16 +507,16 @@ public class HRDepartment extends DepartmentImpl {
 	 * @return Returns the total capacity of the company for employees.
 	 */
 	public int getTotalEmployeeCapacity() {
-		int capacity = 0;
+		int eCapacity = 0;
 
 		Team hrTeam = teams.get(EmployeeType.HR_WORKER);
 		List<Employee> hrTeamList = hrTeam.getTeam();
 
 		for (Employee worker : hrTeamList) {
-			capacity += ((HRWorker) worker).getCapacity();
+			eCapacity += ((HRWorker) worker).getCapacity();
 		}
 
-		return capacity;
+		return eCapacity;
 	}
 
 	/**
@@ -486,5 +531,13 @@ public class HRDepartment extends DepartmentImpl {
 			numOfEmployees += entry.getValue().getTeam().size();
 		}
 		return numOfEmployees;
+	}
+
+	/**
+	 *
+	 * @return Returns true if still capacity to hire more employee. Return false otherwise.
+	 */
+	public boolean canHireEmployee() {
+		return getTotalEmployeeCapacity() > getTotalNumberOfEmployees();
 	}
 }

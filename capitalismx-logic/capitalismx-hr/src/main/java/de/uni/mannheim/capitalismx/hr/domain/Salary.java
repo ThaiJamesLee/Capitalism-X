@@ -2,6 +2,9 @@ package de.uni.mannheim.capitalismx.hr.domain;
 
 import de.uni.mannheim.capitalismx.utils.data.Range;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class contains the salary and skill level ranges.
  * See p. 23
@@ -56,6 +59,11 @@ public enum Salary {
         return tier;
     }
 
+    /**
+     *
+     * @param skillLevel The skill level.
+     * @return Returns the salary by the specified skill level. Returns null if not exists.
+     */
     public Salary getSalaryBySkillLevel(int skillLevel) {
         Salary[] salaries = Salary.values();
 
@@ -65,6 +73,36 @@ public enum Salary {
             }
         }
         return null;
+    }
+
+    /**
+     *
+     * @param name The skill level name.
+     * @return Returns the salary by the specified skill level name. Returns null if not exists.
+     */
+    public Salary getSalaryByName(String name) {
+        Salary[] salaries = Salary.values();
+
+        for(Salary s : salaries) {
+            if (s.getName().equals(name)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * The list is sorted by the enum definition order.
+     * @return Returns a sorted list of all skill level names.
+     */
+    public static List<String> getSkillLevelNames() {
+        Salary[] salaries = Salary.values();
+        List<String> names = new ArrayList<>();
+
+        for(Salary s : salaries) {
+            names.add(s.getName());
+        }
+        return names;
     }
 
     public String getName() {

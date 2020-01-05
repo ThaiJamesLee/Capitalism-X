@@ -144,22 +144,26 @@ public class HRDepartmentTest {
     }
 
     @Test(dependsOnMethods = "upgradeBenefitSettingsTest")
-    public void checkJSSAfterUpgrade() {
+    public void checkJSSAfterUpgradeTest() {
         Assert.assertTrue(HRDepartment.getInstance().getTotalJSS() >= 1.0);
     }
 
     @Test
-    public void checkMaxLevel() {
+    public void checkMaxLevelTest() {
         Assert.assertEquals(HRDepartment.getInstance().getMaxLevel(), 8);
     }
 
     @Test
-    public void checkLevelingMechanism() {
+    public void checkLevelingMechanismCostMapTest() {
         HRDepartment department = HRDepartment.getInstance();
         LevelingMechanism lM = department.getLevelingMechanism();
         Map<Integer, Double> costMap = lM.getLevelCostMap();
 
         Assert.assertEquals(costMap.size(), 8);
+    }
+
+    @Test
+    public void levelUpTest() {
 
     }
 
