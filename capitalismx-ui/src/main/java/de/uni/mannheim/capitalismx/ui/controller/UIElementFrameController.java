@@ -35,7 +35,6 @@ public class UIElementFrameController implements Initializable {
 
 	}
 
-	// TODO include localization
 	/**
 	 * Set the title of the {@link UIElement}, so it can be displayed.
 	 * 

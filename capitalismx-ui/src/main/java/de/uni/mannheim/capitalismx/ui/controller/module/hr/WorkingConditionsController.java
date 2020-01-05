@@ -3,10 +3,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.hr;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.controlsfx.control.decoration.Decoration;
-import org.controlsfx.control.decoration.GraphicDecoration;
-
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;

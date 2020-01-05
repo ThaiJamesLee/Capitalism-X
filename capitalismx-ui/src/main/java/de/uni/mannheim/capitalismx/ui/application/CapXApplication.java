@@ -1,9 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.application;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameThread;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
-import de.uni.mannheim.capitalismx.ui.utils.CssSettings;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 /**
@@ -21,6 +20,7 @@ import javafx.scene.input.KeyCombination.ModifierValue;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 /**
@@ -42,11 +42,11 @@ public class CapXApplication extends Application {
 			prepareScreen(primaryStage);
 
 			GameResolution resolution = new GameResolution((int) primaryScreenBounds.getWidth(),
-					(int) primaryScreenBounds.getHeight(),
-					CssSettings.getOptimalResolution(primaryScreenBounds));
+					(int) primaryScreenBounds.getHeight(), CssHelper.getOptimalResolution(primaryScreenBounds));
 
 			new UIManager(primaryStage, resolution);
-
+			
+			primaryStage.setFullScreenExitHint(UIManager.getLocalisedString("hint.fullscreen"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,7 +61,6 @@ public class CapXApplication extends Application {
 		window.setHeight(primaryScreenBounds.getHeight());
 		// disable exiting the fullscreen with ESCAPE, set it to shift + escape for the
 		// Main menu
-		window.setFullScreenExitHint("You can toggle the Fullscreen by pressing 'F12' when ingame.");
 		window.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.ESCAPE, ModifierValue.DOWN,
 				ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY));
 //		window.setMaximized(true);
@@ -71,11 +70,14 @@ public class CapXApplication extends Application {
 	}
 
 	private void closeStage(WindowEvent e, Stage primaryStage) {
-		//stop gameThread
+		// stop gameThread
 		GameController.getInstance().terminateGame();
 		if (!testMode) {
 			Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Do you really want to quit?", ButtonType.YES,
 					ButtonType.NO);
+			closeConfirmation.initStyle(StageStyle.UNDECORATED);
+			closeConfirmation.getDialogPane().getStylesheets().add(CapXApplication.class.getResource("/css/1080p/general1080p.css").toExternalForm());
+			closeConfirmation.getDialogPane().getStylesheets().add(CapXApplication.class.getResource("/css/dialog.css").toExternalForm());
 			closeConfirmation.showAndWait();
 		}
 	}

@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.domain.employee.Team;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.hr.EmployeeListViewCell;
@@ -63,7 +63,7 @@ public class EmployeeListController extends GameModuleController {
 		ObservableList<Employee> teamList = FXCollections.observableArrayList(team.getTeam());
 		ListView<Employee> teamListView = new ListView<Employee>(teamList);
 		teamListView.setCellFactory(employeeListView -> new EmployeeListViewCell());
-		teamListView.setPlaceholder(new Label(UIManager.getResourceBundle().getString("hr.list.placeholder")));
+		teamListView.setPlaceholder(new Label(UIManager.getLocalisedString("hr.list.placeholder")));
 		listViews.put(team.getType(), teamListView);
 		AnchorPaneHelper.snapNodeToAnchorPane(teamListView);
 

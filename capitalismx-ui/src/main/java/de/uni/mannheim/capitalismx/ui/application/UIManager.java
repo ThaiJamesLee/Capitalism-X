@@ -3,10 +3,11 @@ package de.uni.mannheim.capitalismx.ui.application;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
@@ -18,7 +19,6 @@ import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
@@ -46,7 +46,7 @@ public class UIManager {
 
 	private static UIManager instance;
 	// Provide access to correct Resource Bundle
-	private static ResourceBundle resourceBundle;
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.main", Locale.ENGLISH);
 
 	public static UIManager getInstance() {
 		return instance;
@@ -66,7 +66,7 @@ public class UIManager {
 
 	// The Stage object representing the window.
 	private Stage window;
-	private String language;
+	private Locale language;
 	// Controller for the main scene of the game.
 	private GamePageController gamePageController;
 
@@ -87,10 +87,8 @@ public class UIManager {
 	public UIManager(Stage stage, GameResolution calculatedResolution) {
 		instance = this;
 		this.window = stage;
-		this.language = "EN";
+		this.language = Locale.ENGLISH;
 		this.gameResolution = calculatedResolution;
-
-		resourceBundle = ResourceBundle.getBundle("properties.main_en");
 
 		resetResolution();
 		// static loading of the scenes
@@ -145,6 +143,7 @@ public class UIManager {
 	 * Initialize the KeyboardControls on the GamePage.
 	 */
 	private void initKeyboardControls() {
+		
 		sceneGamePage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -342,16 +341,15 @@ public class UIManager {
 	 */
 	public void reloadProperties() {
 		String newProperties;
-		if ("EN".equals(this.language)) {
-			newProperties = "properties.main_de";
-			this.language = "DE";
+		if(this.language.equals(Locale.ENGLISH)){
+			newProperties = "properties.main";
+			this.language = Locale.GERMAN;	
 		} else {
-			newProperties = "properties.main_en";
-			this.language = "EN";
+			newProperties = "properties.main";
+			this.language = Locale.ENGLISH;
 		}
 
-		//TODO refactoring
-		resourceBundle = ResourceBundle.getBundle(newProperties);
+		resourceBundle = ResourceBundle.getBundle(newProperties, this.language);
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"),
 				resourceBundle);
 		try {
@@ -451,17 +449,12 @@ public class UIManager {
 	}
 
 	/**
-	 * Returns the language file as string.
-	 * @return The requested language file as string.
+	 * Returns the language file as java.util.locale.
+	 * 
+	 * @return The requested language file as Locale.
 	 */
-	public String getLanguage() {
-		String lang;
-		if ("EN".equals(this.language)) {
-			lang = "EN";
-		} else {
-			lang = "DE";
-		}
-		return lang;
+	public Locale getLanguage() {
+		return language;
 	}
 
 	/**
@@ -479,6 +472,10 @@ public class UIManager {
 
 	public static String getLocalisedString(String key) {
 		return resourceBundle.getString(key);
+	}
+
+	public Stage getStage() {
+		return window;
 	}
 
 }

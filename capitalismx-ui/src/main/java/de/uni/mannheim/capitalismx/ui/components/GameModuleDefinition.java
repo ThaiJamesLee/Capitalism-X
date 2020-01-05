@@ -9,62 +9,45 @@ package de.uni.mannheim.capitalismx.ui.components;
  */
 public enum GameModuleDefinition {
 
-	// TODO remove all the placeholder module types!
-	// The default type. Probably means something went wrong.
-//	UNKNOWN(0, "", GameViewType.GAME_OVERVIEW, 0, 0, 0, 0),
+	// The modules for HR.
+	HR_EMPLOYEES_TABLE("employee_table.fxml", GameViewType.HR, UIElementType.HR_EMPLOYEES_OVERVIEW, 0, 7, 0, 15),
+	HR_RECRUITING_LIST("recruiting_list.fxml", GameViewType.HR, UIElementType.HR_RECRUITING_OVERVIEW, 7, 7, 0, 17),
+	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, 14, 6, 0, 11),
+	HR_WORKING_CONDITIONS("working_conditions.fxml", GameViewType.HR, UIElementType.HR_WORKING_CONDITIONS, 14, 6, 12,
+			8),
 
-	// The modules for the overview. (1-10)
+	// The modules for Logistics.
+	LOGISTICS_PARTNER_SELECTION("logistics_partner_selection.fxml", GameViewType.LOGISTIC,
+			UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),
+	LOGISTICS_TRUCK_FLEET("truck_fleet_overview.fxml", GameViewType.LOGISTIC,
+			UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, 5, 5, 0, 15),
 
-	//OVERVIEW_PLACEHOLDER(1, "overview_map3D.fxml", GameViewType.OVERVIEW, null, UIElementType.OVERVIEW_MAP_3D, 1, 20, 1, 20),
+	// The modules for Production.
+	PRODUCTION_INTRODUCE_PRODUCT_MENU("introduce_product_menu.fxml", GameViewType.PRODUCTION,
+			UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, 0, 15, 0, 18),
+	PRODUCTION_MACHINERY_LIST("machinery_list.fxml", GameViewType.PRODUCTION,
+			UIElementType.PRODUCTION_MACHINERY_OVERVIEW, 15, 5, 0, 15),
 
-//	OVERVIEW_PLACEHOLDER(1, "overview_map3D.fxml", GameViewType.OVERVIEW,
-//			null, UIElementType.OVERVIEW_MAP_3D, 0, 20, 0, 20),
+	// The modules for the warehouse.
+	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, 5, 5, 0, 15),
+	WAREHOUSE_STOCK_MANAGEMENT("stock_management.fxml", GameViewType.WAREHOUSE,
+			UIElementType.WAREHOUSE_STOCK_MANAGEMENT, 12, 8, 0, 20),
+	WAREHOUSE_SEGMENTS("warehouse_information.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_SEGMENTS, 0, 4, 0,
+			20),
 
+	// The modules for HR.
+	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, 7,
+			6, 0, 19),
+	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, 1, 5, 0, 19),
+	FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, 14,
+			5, 0, 19);
 
-	// The modules for HR. (11-20)
-	HR_EMPLOYEES_TABLE(11, "employee_table.fxml", GameViewType.HR, null,
-			UIElementType.HR_EMPLOYEES_OVERVIEW, 0, 7, 0, 15),
-	HR_RECRUITING_LIST(12, "recruiting_list.fxml", GameViewType.HR, null, UIElementType.HR_RECRUITING_OVERVIEW, 7, 7,
-			0, 17),
-	HR_STATISTICS(13, "hr_statistics.fxml", GameViewType.HR, null, UIElementType.HR_STATISTICS, 14, 6,
-			0, 11),
-	HR_WORKING_CONDITIONS(14, "working_conditions.fxml", GameViewType.HR, null, UIElementType.HR_WORKING_CONDITIONS, 14, 6,
-			12, 8),
-
-	// The modules for Logistics. (21-30)
-	LOGISTICS_PARTNER_SELECTION(21, "logistics_partner_selection.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.LOGISTICS_PARTNER_DETAIL, UIElementType.LOGISTICS_PARTNER_OVERVIEW, 0, 5, 0, 15),
-	LOGISTICS_TRUCK_FLEET(22, "truck_fleet_overview.fxml", GameViewType.LOGISTIC, GameOverlayDefinition.TRUCK_DETAIL, UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, 5, 5, 0, 15),
-	LOGISTICS_WAREHOUSE_LIST(23, "warehouse_list.fxml", GameViewType.LOGISTIC, null, UIElementType.LOGISTICS_WAREHOUSE_OVERVIEW, 10, 5, 0, 15),
-
-	// The modules for Production. (31-40)
-//	PRODUCTION_PLACEHOLDER(31, "m_production_placeholder.fxml", GameViewType.GAME_PRODUCTION, 0, 1, 0, 1),
-	PRODUCTION_INTRODUCE_PRODUCT_MENU(31, "introduce_product_menu.fxml", GameViewType.PRODUCTION, GameOverlayDefinition.PRODUCTION_SUPPLIER_OPTIONS, UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, 0, 12, 0 ,14),
-	PRODUCTION_MACHINERY_LIST(32, "machinery_list.fxml", GameViewType.PRODUCTION, null, UIElementType.PRODUCTION_MACHINERY_OVERVIEW, 12, 5, 0, 15),
-	// The modules for Procurement. (41-50)
-//	PROCUREMENT_PLACEHOLDER(41, "m_procurement_placeholder.fxml", GameViewType.GAME_PROCUREMENT, 0, 1, 0, 1),
-
-	// The modules for the warehouse. (51-60)
-//	WAREHOUSE_PLACEHOLDER(51, "m_warehouse_placeholder.fxml", GameViewType.GAME_WAREHOUSE, 0, 1, 0, 1),
-
-	// The modules for HR. (61-70)
-	FINANCE_OPERATIONS_TABLE(61, "operations_table.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_OPERATIONS_TABLE, 5, 5, 0, 19),
-	FINANCE_OVERVIEW(62, "finance_overview.fxml", GameViewType.FINANCES, GameOverlayDefinition.LOAN_REQUEST, UIElementType.FINANCE_OVERVIEW, 0, 5, 0, 19),
-	FINANCE_SALES_CHART(63, "finance_statistics_charts.fxml", GameViewType.FINANCES, null, UIElementType.FINANCE_SALES_CHART, 10, 5, 0, 19)
-
-	// The modules for HR. (71-80)
-//	MARKETING_PLACEHOLDER(71, "m_marketing_placeholder.fxml", GameViewType.GAME_MARKETING, 0, 1, 0, 1)
-	;
-
-	// The unique id of the type.
-	public final int id;
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
 	// The contentType of the module.
 	public final GameViewType viewType;
 	// The contentType of the module.
 	public final UIElementType elementType;
-	// The type of the overlay of the module.
-	public final GameOverlayDefinition overlayDefinition;
 	// Starting column position in the grid.
 	public final int gridColStart;
 	// Number of columns spanned by the module in the grid.
@@ -78,24 +61,18 @@ public enum GameModuleDefinition {
 	 * Create a new {@link GameModuleDefinition} with default values for the actual
 	 * modules.
 	 * 
-	 * @param id                The unique id of the type.
-	 * @param fxmlFile          The name of the fxml-file defining this type.
-	 * @param viewType          The contentType of this module.
-	 * @param overlayDefinition The {@link GameOverlayDefinition} of the module's
-	 *                          overlay. (optional)
-	 * @param elementType       The {@link UIElementType} of the module.
-	 * @param colStart          Starting column position in the grid.
-	 * @param colSpan           Number of columns spanned by the module in the grid.
-	 * @param rowStart          Starting row position in the grid.
-	 * @param rowSpan           Number of rows spanned by the module in the grid.
+	 * @param fxmlFile    The name of the fxml-file defining this type.
+	 * @param viewType    The contentType of this module.
+	 * @param elementType The {@link UIElementType} of the module.
+	 * @param colStart    Starting column position in the grid.
+	 * @param colSpan     Number of columns spanned by the module in the grid.
+	 * @param rowStart    Starting row position in the grid.
+	 * @param rowSpan     Number of rows spanned by the module in the grid.
 	 * 
 	 */
-	private GameModuleDefinition(int id, String fxmlFile, GameViewType viewType,
-			GameOverlayDefinition overlayDefinition, UIElementType elementType, int colStart, int colSpan,
-			int rowStart, int rowSpan) {
-		this.id = id;
+	private GameModuleDefinition(String fxmlFile, GameViewType viewType, UIElementType elementType, int colStart,
+			int colSpan, int rowStart, int rowSpan) {
 		this.viewType = viewType;
-		this.overlayDefinition = overlayDefinition;
 		this.elementType = elementType;
 		this.fxmlFile = fxmlFile;
 		this.gridColStart = colStart;

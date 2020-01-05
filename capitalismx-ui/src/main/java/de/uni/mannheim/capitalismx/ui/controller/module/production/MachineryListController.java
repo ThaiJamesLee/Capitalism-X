@@ -1,9 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.production;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.ui.components.logistics.WarehouseListViewCell;
 import de.uni.mannheim.capitalismx.ui.components.production.MachineryListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.fxml.FXML;
