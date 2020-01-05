@@ -152,7 +152,7 @@ public class GameController {
 		if (LogisticsDepartment.getInstance().getExternalPartner() != null) {
 			LogisticsDepartment.getInstance().getExternalPartner().calculateExternalLogisticsIndex();
 		}
-		LogisticsDepartment.getInstance().calculateAll();
+		LogisticsDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
 		ProductSupport.getInstance().calculateAll();
 	}
 
@@ -400,6 +400,10 @@ public class GameController {
 
 	public void increaseAssets(double amount) {
 		FinanceDepartment.getInstance().increaseAssets(amount);
+	}
+
+	public void decreaseAssets(double amount) {
+		FinanceDepartment.getInstance().decreaseAssets(amount);
 	}
 
 	public void increaseLiabilities(double amount) {
