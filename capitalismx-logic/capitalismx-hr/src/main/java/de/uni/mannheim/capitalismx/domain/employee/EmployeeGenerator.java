@@ -28,6 +28,8 @@ public class EmployeeGenerator {
 
     private static EmployeeGenerator instance;
 
+    private HRDepartment department;
+
     private EmployeeGenerator() {
         employeeMarketSample = new EmployeeMarketSample();
     }
@@ -39,6 +41,14 @@ public class EmployeeGenerator {
         return instance;
     }
 
+    public static EmployeeGenerator createInstance() {
+        return new EmployeeGenerator();
+    }
+
+    public void setDepartment(HRDepartment department) {
+        this.department = department;
+    }
+
     /**
      * Create an employee randomly. The skill level is dependant on the distribution of the given skill level of the
      * HR Department.
@@ -47,7 +57,6 @@ public class EmployeeGenerator {
      * @return Returns a random employee by type.
      */
     public Employee createRandomEmployee(EmployeeType type) {
-        HRDepartment department = HRDepartment.getInstance();
         Map<String, Double> distribution = department.getCurrentEmployeeDistribution();
         int skillLevel = getRandomSkillLevel(distribution);
         

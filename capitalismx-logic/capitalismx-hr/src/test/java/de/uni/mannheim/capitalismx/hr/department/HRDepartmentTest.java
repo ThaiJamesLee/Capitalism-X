@@ -28,6 +28,8 @@ public class HRDepartmentTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(HRDepartmentTest.class);
     private List<Employee> employeeStack;
 
+    private HRDepartment department;
+
     /**
      * Mock some data for test.
      */
@@ -46,7 +48,7 @@ public class HRDepartmentTest {
      */
     @BeforeTest
     public void setUp() {
-        HRDepartment.getInstance();
+        department = HRDepartment.createInstance();
         employeeStack = new ArrayList<>();
         mockEmployeeStack();
     }
@@ -56,23 +58,23 @@ public class HRDepartmentTest {
      */
     @Test
     public void hireTest() {
-        Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(0)) > 5000);
-        Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(1)) > 5000);
-        Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(2)) > 5000);
-        Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(3)) > 5000);
-        Assert.assertTrue(HRDepartment.getInstance().hire(employeeStack.get(4)) > 5000);
+        Assert.assertTrue(department.hire(employeeStack.get(0)) > 5000);
+        Assert.assertTrue(department.hire(employeeStack.get(1)) > 5000);
+        Assert.assertTrue(department.hire(employeeStack.get(2)) > 5000);
+        Assert.assertTrue(department.hire(employeeStack.get(3)) > 5000);
+        Assert.assertTrue(department.hire(employeeStack.get(4)) > 5000);
 
-        Assert.assertEquals(HRDepartment.getInstance().getHired().size(), 5);
+        Assert.assertEquals(department.getHired().size(), 5);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void hireExceptionTest() {
-        HRDepartment.getInstance().hire(null);
+        department.hire(null);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void fireExceptionTest() {
-        HRDepartment.getInstance().fire(null);
+        department.fire(null);
     }
 
 
@@ -81,8 +83,6 @@ public class HRDepartmentTest {
      */
     @Test(dependsOnMethods = "hireTest")
     public void trainingTest() {
-        HRDepartment department = HRDepartment.getInstance();
-
         /*
         * Hired engineers are accessible through the teams.
         */
@@ -113,7 +113,7 @@ public class HRDepartmentTest {
      */
     @Test(dependsOnMethods = "trainingTest")
     public void getTotalQualityOfWorkByEmployeeTypeTest() {
-        HRDepartment department = HRDepartment.getInstance();
+        department = HRDepartment.getInstance();
 
         department.calculateAndUpdateEmployeesMeta();
 
@@ -130,7 +130,7 @@ public class HRDepartmentTest {
      */
     @Test
     public void benefitSettingsTest() {
-        HRDepartment department = HRDepartment.getInstance();
+        department = HRDepartment.getInstance();
         BenefitSettings benefitSettings = department.getBenefitSettings();
         Set<Map.Entry<BenefitType, Benefit>> setting = benefitSettings.getBenefits().entrySet();
 
@@ -143,7 +143,7 @@ public class HRDepartmentTest {
 
     @Test(dependsOnMethods = "benefitSettingsTest")
     public void upgradeBenefitSettingsTest() {
-        HRDepartment department = HRDepartment.getInstance();
+        department = HRDepartment.getInstance();
 
         department.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.SALARY));
         department.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.WORKING_TIME_MODEL));
@@ -165,17 +165,16 @@ public class HRDepartmentTest {
 
     @Test(dependsOnMethods = "upgradeBenefitSettingsTest")
     public void checkJSSAfterUpgradeTest() {
-        Assert.assertTrue(HRDepartment.getInstance().getTotalJSS() >= 1.0);
+        Assert.assertTrue(department.getTotalJSS() >= 1.0);
     }
 
     @Test
     public void checkMaxLevelTest() {
-        Assert.assertEquals(HRDepartment.getInstance().getMaxLevel(), 8);
+        Assert.assertEquals(department.getMaxLevel(), 8);
     }
 
     @Test
     public void checkLevelingMechanismCostMapTest() {
-        HRDepartment department = HRDepartment.getInstance();
         LevelingMechanism lM = department.getLevelingMechanism();
         Map<Integer, Double> costMap = lM.getLevelCostMap();
 
@@ -187,8 +186,6 @@ public class HRDepartmentTest {
      */
     @Test(dependsOnMethods = {"checkMaxLevelTest", "checkLevelingMechanismCostMapTest"})
     public void skillMapTest() {
-        HRDepartment department = HRDepartment.getInstance();
-
         Map<Integer, DepartmentSkill> skillMap = department.getSkillMap();
 
         Assert.assertEquals(skillMap.size(), 8);
@@ -209,8 +206,7 @@ public class HRDepartmentTest {
      */
     @Test(dependsOnMethods = "skillMapTest")
     public void levelUpTest() {
-        HRDepartment department = HRDepartment.getInstance();
-
+        HRDepartment department = HRDepartment.createInstance();
         LevelingMechanism mechanism = department.getLevelingMechanism();
 
         for(int i = 0; i<department.getMaxLevel(); i++) {

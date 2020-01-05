@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -58,10 +59,12 @@ public class EmployeeGeneratorTest {
 
     @Test
     public void employeeGeneratorTest() {
-        HRDepartment department = HRDepartment.getInstance();
+        HRDepartment department = HRDepartment.createInstance();
         department.getLevelingMechanism().levelUp();
 
         EmployeeGenerator generator = EmployeeGenerator.getInstance();
+        generator.setDepartment(department);
+        
         List<Employee> generated = new ArrayList<>();
 
         for(int i = 0; i < 20; i++) {
@@ -69,5 +72,10 @@ public class EmployeeGeneratorTest {
             System.out.println(e.getSkillLevel() + "; " + e.getSalary());
             generated.add(e);
         }
+    }
+
+    @AfterTest
+    public void cleanUp() {
+        HRDepartment.setInstance(null);
     }
 }

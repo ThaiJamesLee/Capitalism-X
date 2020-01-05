@@ -160,6 +160,10 @@ public class HRDepartment extends DepartmentImpl {
 		return costMap;
 	}
 
+	public static HRDepartment createInstance() {
+		return new HRDepartment();
+	}
+
 	/**
 	 *
 	 * @return Returns this class.
