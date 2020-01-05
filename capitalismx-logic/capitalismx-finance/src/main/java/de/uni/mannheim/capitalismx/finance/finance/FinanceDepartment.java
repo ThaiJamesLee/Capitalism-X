@@ -322,7 +322,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     //TODO
     protected double calculateTotalLogisticsCosts(LocalDate gameDate){
-        this.totalLogisticsCosts = LogisticsDepartment.getInstance().getTotalLogisticsCosts();
+        this.totalLogisticsCosts = LogisticsDepartment.getInstance().getTotalLogisticsCosts(gameDate);
         this.logisticsHistory.put(gameDate, totalLogisticsCosts);
         return this.totalLogisticsCosts;
     }
@@ -438,6 +438,10 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public void increaseAssets(double amount){
         this.assets.setValue(this.assets.getValue() + amount);
+    }
+
+    public void decreaseAssets(double amount){
+        this.assets.setValue(this.assets.getValue() - amount);
     }
 
     public void increaseLiabilities(double amount){

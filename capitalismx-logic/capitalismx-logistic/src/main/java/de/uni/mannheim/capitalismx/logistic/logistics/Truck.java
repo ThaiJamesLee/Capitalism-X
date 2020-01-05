@@ -25,12 +25,14 @@ public class Truck implements Serializable {
     public Truck(String name, double ecoIndexTruck, double qualityIndexTruck, double purchasePriceTruckFactor, double fixCostsDeliveryFactor){
         this.name = name;
         int basePrice = 100000;
+        int basePriceDelivery = 200;
         this.ecoIndex = DecimalRound.round(ecoIndexTruck, 2);
         this.qualityIndex = DecimalRound.round(qualityIndexTruck, 2);
         this.purchasePrice = DecimalRound.round(basePrice * purchasePriceTruckFactor, 2);
-        this.fixCostsDelivery = DecimalRound.round(basePrice * fixCostsDeliveryFactor, 2);
+        this.fixCostsDelivery = DecimalRound.round(basePriceDelivery * fixCostsDeliveryFactor, 2);
 
         this.capacity = 1000;
+        //monthly maintenance costs
         this.fixTruckCost = DecimalRound.round((this.purchasePrice * 0.01) / 12, 2);
         //TODO for 9 years
         this.depreciationRate = 1/9;
