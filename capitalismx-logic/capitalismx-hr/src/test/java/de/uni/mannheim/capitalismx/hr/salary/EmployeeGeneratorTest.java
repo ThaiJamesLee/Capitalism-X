@@ -1,10 +1,16 @@
 package de.uni.mannheim.capitalismx.hr.salary;
 
+import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.EmployeeGenerator;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class EmployeeGeneratorTest {
@@ -47,6 +53,21 @@ public class EmployeeGeneratorTest {
         for (int i = -10; i < -1; i++) {
             Assert.assertNull(generator.generateEngineer(i));
 
+        }
+    }
+
+    @Test
+    public void employeeGeneratorTest() {
+        HRDepartment department = HRDepartment.getInstance();
+        department.getLevelingMechanism().levelUp();
+
+        EmployeeGenerator generator = EmployeeGenerator.getInstance();
+        List<Employee> generated = new ArrayList<>();
+
+        for(int i = 0; i < 20; i++) {
+            Employee e = generator.createRandomEmployee(EmployeeType.ENGINEER);
+            System.out.println(e.getSkillLevel() + "; " + e.getSalary());
+            generated.add(e);
         }
     }
 }

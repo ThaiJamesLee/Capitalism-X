@@ -80,7 +80,7 @@ public enum Salary {
      * @param name The skill level name.
      * @return Returns the salary by the specified skill level name. Returns null if not exists.
      */
-    public Salary getSalaryByName(String name) {
+    public static Salary getSalaryByName(String name) {
         Salary[] salaries = Salary.values();
 
         for(Salary s : salaries) {

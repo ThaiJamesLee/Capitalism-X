@@ -533,6 +533,13 @@ public class HRDepartment extends DepartmentImpl {
 		} else {
 			return hrCapacity > teams.get(EmployeeType.HR_WORKER).getTeam().size();
 		}
+	}
 
+	/**
+	 * This returns the distribution with the current department level skill.
+	 * @return Returns the current skill distribution for random employee generation.
+	 */
+	public Map<String, Double> getCurrentEmployeeDistribution() {
+		return ((HRSkill) skillMap.get(getLevel())).getSkillDistribution();
 	}
 }
