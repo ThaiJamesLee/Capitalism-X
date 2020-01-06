@@ -110,14 +110,14 @@ public class WarehousingDepartment extends DepartmentImpl {
         Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
         warehouse.setBuildDate(gameDate);
         warehouses.add(warehouse);
-        this.calculateMonthlyCostWarehousing();
+        this.calculateMonthlyCostWarehousing(gameDate);
         return warehouse.getBuildingCost();
     }
 
-    public double rentWarehouse() {
+    public double rentWarehouse(LocalDate gameDate) {
         Warehouse warehouse = new Warehouse(WarehouseType.RENTED);
         warehouses.add(warehouse);
-        this.calculateMonthlyCostWarehousing();
+        this.calculateMonthlyCostWarehousing(gameDate);
         return warehouse.getMonthlyRentalCost();
     }
 
@@ -148,12 +148,15 @@ public class WarehousingDepartment extends DepartmentImpl {
         return resaleValue;
     }
 
-    public double calculateMonthlyCostWarehousing() {
+    public double calculateMonthlyCostWarehousing(LocalDate gameDate) {
         double fixCostWarehouses = 0;
         double rentalCostsWarehouses = 0;
-        for(Warehouse warehouse : this.warehouses) {
-            fixCostWarehouses += warehouse.getMonthlyFixCostWarehouse();
-            rentalCostsWarehouses += warehouse.getMonthlyRentalCost();
+        LocalDate oldDate = gameDate.plusDays(-1);
+        if(oldDate.getMonth() != gameDate.getMonth()) {
+            for(Warehouse warehouse : this.warehouses) {
+                fixCostWarehouses += warehouse.getMonthlyFixCostWarehouse();
+                rentalCostsWarehouses += warehouse.getMonthlyRentalCost();
+            }
         }
         this.monthlyCostWarehousing = fixCostWarehouses + rentalCostsWarehouses;
         return this.monthlyCostWarehousing;

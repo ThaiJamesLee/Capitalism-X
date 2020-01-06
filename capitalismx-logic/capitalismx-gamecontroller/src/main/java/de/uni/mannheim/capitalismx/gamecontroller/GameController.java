@@ -70,8 +70,8 @@ public class GameController {
 		LocalDate newDate = state.getGameDate();
 		if (oldDate.getMonth() != newDate.getMonth()) {
 			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
+			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(GameState.getInstance().getGameDate());
 			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
-			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing();
 		}
 		this.updateAll();
 	}
@@ -787,7 +787,7 @@ public class GameController {
 	}
 
 	public double rentWarehouse() {
-		return WarehousingDepartment.getInstance().rentWarehouse();
+		return WarehousingDepartment.getInstance().rentWarehouse(GameState.getInstance().getGameDate());
 	}
 
 	public double sellWarehouse(Warehouse warehouse) {

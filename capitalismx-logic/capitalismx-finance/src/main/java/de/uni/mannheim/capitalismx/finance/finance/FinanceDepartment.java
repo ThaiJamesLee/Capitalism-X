@@ -297,7 +297,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     private double calculateTotalExpenses(LocalDate gameDate){
         //this.totalExpenses = this.totalHRCosts + this.totalWarehouseCosts + this.totalLogisticsCosts + this.totalProductionCosts + this.totalMarketingCosts + this.totalSupportCosts;
-        this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts() + this.calculateTotalLogisticsCosts(gameDate) + this.calculateTotalProductionCosts()
+        this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts(gameDate) + this.calculateTotalLogisticsCosts(gameDate) + this.calculateTotalProductionCosts()
                 + this.calculateTotalMarketingCosts() + this.calculateTotalSupportCosts();
         return this.totalExpenses;
     }
@@ -312,8 +312,8 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     //TODO
-    protected double calculateTotalWarehouseCosts(){
-        double warehouseCosts = WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing();
+    protected double calculateTotalWarehouseCosts(LocalDate gameDate){
+        double warehouseCosts = WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(gameDate);
         double storageCosts = WarehousingDepartment.getInstance().calculateDailyStorageCost();
 
         this.totalWarehouseCosts = warehouseCosts + storageCosts;
