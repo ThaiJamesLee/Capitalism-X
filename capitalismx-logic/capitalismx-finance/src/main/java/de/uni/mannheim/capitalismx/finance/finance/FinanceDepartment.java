@@ -124,8 +124,6 @@ public class FinanceDepartment extends DepartmentImpl {
         this.histories.put("logisticsHistory", this.logisticsHistory);
         this.histories.put("ebitHistory", this.ebitHistory);
         this.histories.put("nopatHistory", this.nopatHistory);
-        this.histories.put("cashHistory", this.cashHistory);
-        this.histories.put("netWorthHistory", this.netWorthHistory);
 
         this.quarterlyData = new TreeMap<>();
 
@@ -629,8 +627,9 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public Double updateNetWorthDifference(LocalDate gameDate){
         Double oldNetWorth = this.netWorthHistory.get(gameDate.minusDays(30));
-        if(oldNetWorth != null){
-            return oldNetWorth - this.netWorthHistory.get(gameDate);
+        Double newNetWorth = this.netWorthHistory.get(gameDate);
+        if((oldNetWorth != null) && (newNetWorth != null)){
+            return oldNetWorth - newNetWorth;
         }else{
             return null;
         }
@@ -638,7 +637,8 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public Double updateCashDifference(LocalDate gameDate){
         Double oldCash = this.cashHistory.get(gameDate.minusDays(30));
-        if(oldCash != null){
+        Double newCash = this.cashHistory.get(gameDate);
+        if((oldCash != null) && (newCash != null)){
             return oldCash - this.cashHistory.get(gameDate);
         }else{
             return null;
