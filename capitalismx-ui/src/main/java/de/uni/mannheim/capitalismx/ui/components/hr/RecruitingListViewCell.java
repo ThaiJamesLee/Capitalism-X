@@ -3,14 +3,29 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
+import de.uni.mannheim.capitalismx.ui.utils.GraphicHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
+/**
+ * {@link ListCell} for the displaying lists of possible {@link Employee}.
+ * 
+ * @author Jonathan
+ *
+ */
 public class RecruitingListViewCell extends ListCell<Employee> {
+
+	private Employee employee;
 
 	@FXML
 	private Label nameLabel;
@@ -19,10 +34,7 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	private Label wageLabel;
 
 	@FXML
-	private Label skillLabel;
-
-	@FXML
-	private Label jobLabel;
+	private AnchorPane skillPane;
 
 	@FXML
 	private GridPane gridPane;
@@ -38,7 +50,8 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 		} else {
 			if (loader == null) {
 				loader = new FXMLLoader(
-						getClass().getClassLoader().getResource("fxml/components/recruiting_list_cell.fxml"), UIManager.getResourceBundle());
+						getClass().getClassLoader().getResource("fxml/components/recruiting_list_cell.fxml"),
+						UIManager.getResourceBundle());
 				loader.setController(this);
 
 				try {
@@ -49,14 +62,28 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 
 			}
 
+			this.employee = employee;
 			nameLabel.setText(employee.getName());
 			wageLabel.setText((int) employee.getSalary() + " CC");
-			skillLabel.setText(employee.getSkillLevel() + "");
-			jobLabel.setText(employee.getEmployeeType().getName(UIManager.getResourceBundle().getLocale()));
+			gridPane.setOnMouseClicked(e -> {
+				hireEmployee();
+			});
+			skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel()));
 
 			setText(null);
 			setGraphic(gridPane);
 		}
+	}
+
+	/**
+	 * Hire the selected employee and remove him from the lists.
+	 */
+	public void hireEmployee() {
+		if (GameState.getInstance().getHrDepartment().hire(employee) != 0) {
+			RecruitingListController recruitingController = (RecruitingListController) UIManager.getInstance()
+					.getGameView(GameViewType.HR).getModule(UIElementType.HR_RECRUITING_OVERVIEW).getController();
+			recruitingController.removeEmployee(employee);
+		} //TODO error message
 	}
 
 }
