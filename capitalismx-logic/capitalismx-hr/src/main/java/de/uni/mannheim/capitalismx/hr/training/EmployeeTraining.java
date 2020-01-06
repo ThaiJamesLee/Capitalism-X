@@ -32,14 +32,9 @@ public class EmployeeTraining {
     public Double trainEmployee(Employee e, Training t) {
 
         if(e.getSkillLevel() < Salary.getMaxTier().getUpperLevel()) {
-            if(e.getEmployeeType().equals(EmployeeType.HR_WORKER)) {
-                HRWorker hrWorker = (HRWorker)e;
-                int currentCapacity = hrWorker.getCapacity();
+            // increases the capacity of the HRWorker, if the object is an instance of HRWorker
+            increaseHRCapacity(e);
 
-                if(currentCapacity < hrWorker.getMaxCapacity()) {
-                    hrWorker.setCapacity(currentCapacity + 1);
-                }
-            }
             int skillLevel = e.getSkillLevel() + t.getSkillLevelImprove();
 
             e.setSkillLevel(skillLevel);
@@ -53,5 +48,22 @@ public class EmployeeTraining {
         }
         // TODO balance the price by increasing according to skill level. Currently price is the same for all.
         return null;
+    }
+
+    /**
+     * Increases the capacity if the Employee is of the type HRWorker and
+     * the maximum capacity is not reached.
+     *
+     * @param e {@link Employee} The HRWorker.
+     */
+    private void increaseHRCapacity(Employee e) {
+        if(e.getEmployeeType().equals(EmployeeType.HR_WORKER)) {
+            HRWorker hrWorker = (HRWorker)e;
+            int currentCapacity = hrWorker.getCapacity();
+
+            if(currentCapacity < hrWorker.getMaxCapacity()) {
+                hrWorker.setCapacity(currentCapacity + 1);
+            }
+        }
     }
 }
