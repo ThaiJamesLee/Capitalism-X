@@ -426,6 +426,7 @@ public class HRDepartment extends DepartmentImpl {
 
 	public void changeBenefitSetting(Benefit benefit) {
 		benefitSettings.getBenefits().put(benefit.getType(), benefit);
+		calculateAndUpdateEmployeesMeta();
 	}
 
 	public BenefitSettings getBenefitSettings() {
@@ -434,6 +435,7 @@ public class HRDepartment extends DepartmentImpl {
 
 	public void setBenefitSettings(BenefitSettings benefitSettings) {
 		this.benefitSettings = benefitSettings;
+		calculateAndUpdateEmployeesMeta();
 	}
 
 	/* Trainings */
@@ -528,12 +530,27 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	/**
+	 * Iterates through all teams and sums up number of {@link Employee}s for
+	 *  each {@link Team} excluding HR Workers.
+	 * @return Returns the total number of {@link Employee}s excluding HR employees.
+	 */
+	private int getTotalNumberOfEmployeesNotHR() {
+		int numOfEmployees = 0;
+		for (Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			if(!entry.getKey().equals(EmployeeType.HR_WORKER)) {
+				numOfEmployees += entry.getValue().getTeam().size();
+			}
+		}
+		return numOfEmployees;
+	}
+
+	/**
 	 *
 	 * @return Returns true if still capacity to hire more employee. Return false otherwise.
 	 */
 	public boolean canHireEmployee(EmployeeType type) {
 		if(!type.equals(EmployeeType.HR_WORKER)) {
-			return getTotalEmployeeCapacity() > getTotalNumberOfEmployees();
+			return  getTotalEmployeeCapacity() > getTotalNumberOfEmployeesNotHR();
 		} else {
 			return hrCapacity > teams.get(EmployeeType.HR_WORKER).getTeam().size();
 		}

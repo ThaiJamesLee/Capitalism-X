@@ -105,6 +105,26 @@ public enum Salary {
         return names;
     }
 
+    /**
+     *
+     * @return Returns the salary with the maximum tier.
+     */
+    public static Salary getMaxTier() {
+        Salary[] salaries = Salary.values();
+        Salary maxTier = null;
+
+        for(Salary s : salaries) {
+            if(maxTier == null) {
+                maxTier = s;
+            } else {
+                if(maxTier.getTier() < s.getTier()) {
+                    maxTier = s;
+                }
+            }
+        }
+        return maxTier;
+    }
+
     public String getName() {
         return name;
     }
