@@ -15,6 +15,7 @@ import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 /**
  * The {@link UIElementController} managing all actions on the GamePage.
@@ -62,7 +64,6 @@ public class GamePageController implements UpdateableController {
 
 	private boolean mapControlsEnabled = false;
 
-
 	/**
 	 * elements for the message-system
 	 */
@@ -88,7 +89,7 @@ public class GamePageController implements UpdateableController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CssHelper.replaceStylesheets(contentStack.getStylesheets());
-		
+
 		// Bind titleLabel to StringProperty in SideMenuController
 //		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/sidemenu.fxml"));
 //		Parent rootB;
@@ -114,7 +115,8 @@ public class GamePageController implements UpdateableController {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
 					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
 			Parent rootC = loaderMessageWindow.load();
-			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);;
+			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);
+			;
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
@@ -125,7 +127,8 @@ public class GamePageController implements UpdateableController {
 		}
 
 		try {
-			FXMLLoader loaderIngameMenu = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"), UIManager.getResourceBundle());
+			FXMLLoader loaderIngameMenu = new FXMLLoader(
+					getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"), UIManager.getResourceBundle());
 			Parent root = loaderIngameMenu.load();
 			AnchorPaneHelper.snapNodeToAnchorPane(root);
 			ingameMenuController = loaderIngameMenu.getController();
@@ -172,6 +175,79 @@ public class GamePageController implements UpdateableController {
 	}
 
 	/**
+	 * Removes a {@link GameModule} from the grid on the GamePage, if it is
+	 * currently displayed.
+	 * 
+	 * @param module The {@link GameModule} to remove.
+	 */
+	private void removeModuleFromGrid(GameModule module,boolean animated) {
+		if (animated) {
+			// Create a transition for fading out the module
+			FadeTransition fade = new FadeTransition(Duration.millis(700), module.getRootElement());
+			fade.setFromValue(1.0);
+			fade.setToValue(0.0);
+			fade.setCycleCount(1);
+			fade.play();
+			fade.setOnFinished(e -> {
+				moduleGrid.getChildren().remove(module.getRootElement());
+			});
+		} else {
+			moduleGrid.getChildren().remove(module.getRootElement());
+		}
+		
+	}
+
+	/**
+	 * Adds a {@link GameModule} to the grid on the GamePage, so that it is
+	 * displayed. (This will only display the module if it is activated)
+	 * 
+	 * @param module   The {@link GameModule} to add to the grid.
+	 * @param animated Whether the Module should be added with an animation.
+	 */
+	private void addModuleToGrid(GameModule module, boolean animated) {
+		GridPosition position = module.getGridPosition();
+		Parent root = module.getRootElement();
+		
+		module.getController().update();
+		if (module.isActivated()) {
+			moduleGrid.add(root, position.getxStart(), position.getyStart(), position.getxSpan(),
+					position.getySpan());
+		}
+
+		if (animated) {
+			// Create a transition for fading in the module
+			FadeTransition fade = new FadeTransition(Duration.millis(700), root);
+			fade.setFromValue(0.0);
+			fade.setToValue(1.0);
+			fade.setCycleCount(1);
+			fade.play();
+		}
+	}
+
+	/**
+	 * Checks whether all {@link GameModule} of the currently active
+	 * {@link GameView} are present on the grid, if it is the of the given
+	 * {@link GameViewType}. If the module is activated but not present, it will be
+	 * added. If it is deactivated but present on the grid, it will be removed.
+	 * 
+	 * @param viewType The {@link GameViewType} to update if it is currently
+	 *                 displayed.
+	 */
+	public void updateDisplayOfCurrentView(GameViewType viewType) {
+		// if the current view is not of the given type, do not update
+		if (currentActiveView.getViewType() != viewType)
+			return;
+
+		for (GameModule module : currentActiveView.getModules()) {
+			if (module.isActivated() && !moduleGrid.getChildren().contains(module.getRootElement())) {
+				addModuleToGrid(module, true);
+			} else if (!module.isActivated() && moduleGrid.getChildren().contains(module.getRootElement())) {
+				removeModuleFromGrid(module, true);
+			}
+		}
+	}
+
+	/**
 	 * Switches the displayed contentType by removing all {@link GameModule}s of
 	 * that type.
 	 * 
@@ -187,9 +263,9 @@ public class GamePageController implements UpdateableController {
 			}
 			// remove all modules of current view
 			for (GameModule module : currentActiveView.getModules()) {
-				moduleGrid.getChildren().remove(module.getRootElement());
+				removeModuleFromGrid(module, false);
 			}
-			
+
 			UIManager.getInstance().getGameHudController().deselectDepartmentButton(currentActiveView.getViewType());
 		}
 		// change current view and add modules
@@ -197,12 +273,9 @@ public class GamePageController implements UpdateableController {
 		currentActiveView = UIManager.getInstance().getGameView(viewType);
 		UIManager.getInstance().getGameHudController().updateGameViewLabel(viewType);
 		for (GameModule module : currentActiveView.getModules()) {
-			GridPosition position = module.getGridPosition();
-			module.getController().update();
-			moduleGrid.add(module.getRootElement(), position.getxStart(), position.getyStart(), position.getxSpan(),
-					position.getySpan());
+			addModuleToGrid(module, false);
 		}
-		//enable map controls if in GameView is OVERVIEW
+		// enable map controls if GameView is of type OVERVIEW
 		if (viewType.equals(GameViewType.OVERVIEW)) {
 			mapControlsEnabled = true;
 		}
@@ -215,7 +288,7 @@ public class GamePageController implements UpdateableController {
 	 *                    display.
 	 * @param properties  Optional properties for the overlay.
 	 */
-	//TODO remove methods including overlay layer
+	// TODO remove methods including overlay layer
 	@Deprecated
 	public void showOverlay(UIElementType elementType, Properties properties) {
 		resetOverlay();
@@ -250,6 +323,7 @@ public class GamePageController implements UpdateableController {
 	/**
 	 * Remove the displayed overlay from the view and hide it in the background.
 	 */
+	@Deprecated
 	@FXML
 	public void resetOverlay() {
 		overlayLayer.toBack();
