@@ -141,6 +141,8 @@ public class GameController {
 	private void updateFinance() {
 		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateNetWorthDifference(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateCashDifference(GameState.getInstance().getGameDate());
 	}
 
 	private void updateHR() {
