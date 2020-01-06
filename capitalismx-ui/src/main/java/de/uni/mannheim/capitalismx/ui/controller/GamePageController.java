@@ -206,7 +206,7 @@ public class GamePageController implements UpdateableController {
 	 * @param viewType The {@link GameViewType} to update if it is currently
 	 *                 displayed.
 	 */
-	public void updateCurrentView(GameViewType viewType) {
+	public void updateDisplayOfCurrentView(GameViewType viewType) {
 		// if the current view is not of the given type, do not update
 		if (currentActiveView.getViewType() != viewType)
 			return;

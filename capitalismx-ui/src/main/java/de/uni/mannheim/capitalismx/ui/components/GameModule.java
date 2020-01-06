@@ -31,17 +31,11 @@ public class GameModule extends UIElement {
 	}
 
 	/**
-	 * Activates the {@link GameModule}, so that it can be displayed to the user.
+	 * Sets activated-attribute of the {@link GameModule}, so that it can be
+	 * displayed to the user or hidden from him.
 	 */
-	public void activate() {
-		this.activated = true;
-	}
-
-	/**
-	 * Deactivates the {@link GameModule}, so that it is not displayed to the user.
-	 */
-	public void deactivate() {
-		this.activated = false;
+	public void setActivated(boolean activated) {
+		this.activated = activated;
 	}
 
 	/**
