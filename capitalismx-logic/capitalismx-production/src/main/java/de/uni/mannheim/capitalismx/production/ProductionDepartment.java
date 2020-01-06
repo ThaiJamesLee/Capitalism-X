@@ -6,6 +6,7 @@ import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
+import de.uni.mannheim.capitalismx.production.de.uni.mannheim.capitalismx.production.skill.ProductionSkill;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -66,10 +67,13 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionFixCosts = 0.0;
         this.productionVariableCosts = 0.0;
         this.launchedProducts = new ArrayList<>();
+
+        this.init();
     }
 
     private void init() {
-
+        this.initProperties();
+        this.initSkills();
     }
 
     private void initProperties() {
@@ -87,6 +91,11 @@ public class ProductionDepartment extends DepartmentImpl {
             logger.error(error, e);
         }
 
+        ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            int eCapacity = Integer.parseInt(skillBundle.getString(SKILL_CAPACITY_PREFIX + i));
+            skillMap.put(i, new ProductionSkill(i, eCapacity));
+        }
     }
 
     private Map<Integer, Double> initCostMap() {
