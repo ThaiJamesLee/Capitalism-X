@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxWidth="500.0" prefWidth="500.0" styleClass="rootPane" stylesheets="@../css/general.css, @../css/messagePane.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.MessageController">
+<AnchorPane fx:id="root" prefWidth="500.0" styleClass="rootPane" stylesheets="@../css/general.css, @../css/messagePane.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.MessageController">
    <children>
       <VBox layoutX="40.0" layoutY="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -27,7 +27,7 @@
                <children>
                   <HBox styleClass="messageTabBackground">
                      <children>
-                        <TabPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="400.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="400.0" prefHeight="465.0" prefWidth="400.0" tabClosingPolicy="UNAVAILABLE">
                            <tabs>
                               <Tab text="All">
                                  <content>
@@ -70,7 +70,11 @@
                               </Tab>
                            </tabs>
                         </TabPane>
-                        <ScrollPane fx:id="messageContentPane" hbarPolicy="NEVER" prefWidth="400.0" />
+                        <VBox>
+                           <children>
+                              <ScrollPane fx:id="messageContentPane" hbarPolicy="NEVER" minWidth="400.0" prefHeight="465.0" prefWidth="400.0" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>
