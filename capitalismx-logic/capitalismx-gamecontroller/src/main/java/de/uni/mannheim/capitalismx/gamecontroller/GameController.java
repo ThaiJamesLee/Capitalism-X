@@ -436,6 +436,14 @@ public class GameController {
 		return FinanceDepartment.getInstance().getQuarterlyData();
 	}
 
+	public Double getNetWorthDifference(){
+		return FinanceDepartment.getInstance().getNetWorthDifference();
+	}
+
+	public Double getCashDifference(){
+		return FinanceDepartment.getInstance().getCashDifference();
+	}
+
 	/*
 	 * LOGISTICS
 	 */
