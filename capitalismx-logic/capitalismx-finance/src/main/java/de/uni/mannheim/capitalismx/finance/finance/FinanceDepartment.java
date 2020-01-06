@@ -149,19 +149,6 @@ public class FinanceDepartment extends DepartmentImpl {
         return FinanceDepartment.instance;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
-        // TODO add all property changelisteners here
-        this.gameOver.addPropertyChangeListener(propertyChangeListener);
-        this.netWorth.addPropertyChangeListener(propertyChangeListener);
-        this.cash.addPropertyChangeListener(propertyChangeListener);
-        this.assets.addPropertyChangeListener(propertyChangeListener);
-        this.liabilities.addPropertyChangeListener(propertyChangeListener);
-        this.realEstateInvestmentAmount.addPropertyChangeListener(propertyChangeListener);
-        this.stocksInvestmentAmount.addPropertyChangeListener(propertyChangeListener);
-        this.ventureCapitalInvestmentAmount.addPropertyChangeListener(propertyChangeListener);
-        this.updatedQuarterlyData.addPropertyChangeListener(propertyChangeListener);
-    }
-
     // liabilities = loanAmount
     public double calculateNetWorth(LocalDate gameDate){
         //this.netWorth = this.cash + this.assets - this.liabilities;
@@ -638,6 +625,14 @@ public class FinanceDepartment extends DepartmentImpl {
 
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+        this.gameOver.addPropertyChangeListener(listener);
+        this.netWorth.addPropertyChangeListener(listener);
+        this.cash.addPropertyChangeListener(listener);
+        this.assets.addPropertyChangeListener(listener);
+        this.liabilities.addPropertyChangeListener(listener);
+        this.realEstateInvestmentAmount.addPropertyChangeListener(listener);
+        this.stocksInvestmentAmount.addPropertyChangeListener(listener);
+        this.ventureCapitalInvestmentAmount.addPropertyChangeListener(listener);
+        this.updatedQuarterlyData.addPropertyChangeListener(listener);
     }
 }

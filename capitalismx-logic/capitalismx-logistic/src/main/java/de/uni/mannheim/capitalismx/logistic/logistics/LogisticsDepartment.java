@@ -227,6 +227,6 @@ public class LogisticsDepartment extends DepartmentImpl {
 
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+        throw new UnsupportedOperationException();
     }
 }
