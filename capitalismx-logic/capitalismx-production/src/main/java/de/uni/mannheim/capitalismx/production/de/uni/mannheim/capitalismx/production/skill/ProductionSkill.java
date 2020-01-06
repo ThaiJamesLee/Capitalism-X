@@ -2,6 +2,8 @@ package de.uni.mannheim.capitalismx.production.de.uni.mannheim.capitalismx.produ
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 
+import java.util.Locale;
+
 public class ProductionSkill implements DepartmentSkill {
 
     private int level;
@@ -24,6 +26,11 @@ public class ProductionSkill implements DepartmentSkill {
 
     @Override
     public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public String getDescription(Locale l) {
         return null;
     }
 }
