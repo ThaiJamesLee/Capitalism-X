@@ -1,16 +1,17 @@
 package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductionDepartment extends DepartmentImpl {
 
@@ -37,6 +38,21 @@ public class ProductionDepartment extends DepartmentImpl {
     private List<ComponentType> allAvailableComponents;
     private List<Product> launchedProducts;
 
+    private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
+
+    private int baseCost;
+    private int productionCapacity;
+
+    private static final String LEVELING_PROPERTIES = "production-leveling-definition";
+    private static final String MAX_LEVEL_PROPERTY = "production.department.max.level";
+    private static final String BASE_COST_PROPERTY = "production.department.base.cost";
+    private static final String INITIAL_CAPACITY_PROPERTY = "production.department.init.capacity";
+
+    private static final String SKILL_COST_PROPERTY_PREFIX = "production.skill.cost.";
+    private static final String SKILL_CAPACITY_PREFIX = "production.skill.capacity.";
+
+
+
     private ProductionDepartment() {
         super("Production");
         this.numberUnitsProducedPerMonth = 0;
@@ -50,6 +66,39 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionFixCosts = 0.0;
         this.productionVariableCosts = 0.0;
         this.launchedProducts = new ArrayList<>();
+    }
+
+    private void init() {
+
+    }
+
+    private void initProperties() {
+        this.setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
+        this.baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
+        this.productionCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+    }
+
+    private void initSkills() {
+        Map<Integer, Double> costMap = initCostMap();
+        try {
+            setLevelingMechanism(new LevelingMechanism(this, costMap));
+        } catch (InconsistentLevelException e) {
+            String error = "The costMap size " + costMap.size() +  " does not match the maximum level " + this.getMaxLevel() + " of this department!";
+            logger.error(error, e);
+        }
+
+    }
+
+    private Map<Integer, Double> initCostMap() {
+        Map<Integer, Double> costMap = new HashMap<>();
+
+        ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            double cost = Integer.parseInt(bundle.getString(SKILL_COST_PROPERTY_PREFIX + i));
+            costMap.put(i, cost);
+        }
+
+        return costMap;
     }
 
     public static synchronized ProductionDepartment getInstance() {
