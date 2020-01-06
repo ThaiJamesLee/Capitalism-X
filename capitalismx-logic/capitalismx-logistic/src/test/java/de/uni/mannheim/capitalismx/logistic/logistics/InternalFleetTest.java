@@ -32,7 +32,7 @@ public class InternalFleetTest {
     public void calculateEcoIndexFleetTest() {
         InternalFleet internalFleet = new InternalFleet();
 
-        Assert.assertEquals(internalFleet.calculateEcoIndexFleet(), 0.0);
+        Assert.assertEquals(internalFleet.calculateEcoIndexFleet(), 100.0);
 
         internalFleet.addTruckToFleet(new Truck("Truck 1", 100, 100, 1.0, 1.0), LocalDate.now());
         Assert.assertEquals(internalFleet.calculateEcoIndexFleet(), 100.0);
