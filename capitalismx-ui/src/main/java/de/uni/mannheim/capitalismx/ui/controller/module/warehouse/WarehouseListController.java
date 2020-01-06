@@ -7,7 +7,10 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.logistics.WarehouseListViewCell;
+import de.uni.mannheim.capitalismx.ui.components.GameModule;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.warehouse.WarehouseListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
@@ -17,6 +20,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Controller for the GameModule managing the list of warehouses.
+ * 
+ * @author Jonathan
+ */
 public class WarehouseListController extends GameModuleController {
 
 	@FXML
@@ -31,15 +39,30 @@ public class WarehouseListController extends GameModuleController {
 	public WarehouseListController() {
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
+	/**
+	 * Adds the latest {@link Warehouse} to the {@link ListView}.
+	 */
+	private void addLatestWarehouseToList() {
+		List<Warehouse> warehouses = GameController.getInstance().getWarehouses();
+		warehouseListView.getItems().add(warehouses.get(warehouses.size() - 1));
+	}
+
+	/**
+	 * Initiates the purchase of a new {@link Warehouse}.
+	 */
+	private void buyWarehouse() {
+		GameController controller = GameController.getInstance();
+
+		boolean firstWarehouse = controller.getWarehouses().isEmpty();
+		double costs = controller.buildWarehouse();
+		controller.decreaseCash(costs);// TODO what if capacity reached? -> cannot just add the last one
+		addLatestWarehouseToList();
+		if (firstWarehouse)
+			activateWarehouseModules();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO buy rented warehouse?
-		GameController controller = GameController.getInstance();
 		Warehouse standardWarehouse = new Warehouse(WarehouseType.BUILT);
 
 		fixCostLabel.setText(UIManager.getLocalisedString("warehouse.list.fixcost").replace("XXX",
@@ -53,20 +76,45 @@ public class WarehouseListController extends GameModuleController {
 		warehouseListView.setPlaceholder(new Label(UIManager.getLocalisedString("warehouse.list.placeholder")));
 
 		buyGridButton.setOnMouseClicked(e -> {
-			double costs = controller.buildWarehouse();
-			controller.decreaseCash(costs);
-			List<Warehouse> warehouses = controller.getWarehouses();
-			warehouseListView.getItems().add(warehouses.get(warehouses.size() - 1));
+			buyWarehouse();
 		});
 
 		rentGridButton.setOnMouseClicked(e -> {
-			controller.rentWarehouse();
-			List<Warehouse> warehouses = controller.getWarehouses();
-			warehouseListView.getItems().add(warehouses.get(warehouses.size() - 1));
+			rentWarehouse();
 		});
 
 		warehouseListView.setCellFactory(warehouseListView -> new WarehouseListViewCell(warehouseListView));
 		warehouseListView.getItems().addAll(GameState.getInstance().getWarehousingDepartment().getWarehouses());
+	}
+
+	/**
+	 * Activates all the other {@link GameModule}s, that depend on the existence of
+	 * a Warehouse.
+	 */
+	private void activateWarehouseModules() {
+		UIManager manager = UIManager.getInstance();
+		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+				.setActivated(true);
+		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_SEGMENTS).setActivated(true);
+		manager.getGamePageController().updateDisplayOfCurrentView(GameViewType.WAREHOUSE);
+	}
+
+	/**
+	 * Initiates the rental of a new {@link Warehouse}.
+	 */
+	private void rentWarehouse() {
+		GameController controller = GameController.getInstance();
+
+		boolean firstWarehouse = controller.getWarehouses().isEmpty();
+		controller.rentWarehouse(); // TODO what if capacity reached? -> cannot just add the last one
+		addLatestWarehouseToList();
+		if (firstWarehouse)
+			activateWarehouseModules();
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
 	}
 
 }
