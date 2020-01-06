@@ -53,6 +53,8 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalExpenses;
     private double decreaseNopatFactor;
     private double decreaseNopatConstant;
+    private Double netWorthDifference;
+    private Double cashDifference;
     private PropertyChangeSupportBoolean gameOver;
 
     private List<Warehouse> warehousesSold;
@@ -65,6 +67,8 @@ public class FinanceDepartment extends DepartmentImpl {
     private TreeMap<LocalDate, Double> logisticsHistory;
     private TreeMap<LocalDate, Double> ebitHistory;
     private TreeMap<LocalDate, Double> nopatHistory;
+    private TreeMap<LocalDate, Double> cashHistory;
+    private TreeMap<LocalDate, Double> netWorthHistory;
     private Map<String, TreeMap<LocalDate, Double>> histories;
     private TreeMap<String, String[]> quarterlyData;
     //TODO just to notify gui to update finance table with new quarterlyData every day
@@ -114,6 +118,8 @@ public class FinanceDepartment extends DepartmentImpl {
         this.logisticsHistory = new TreeMap<>();
         this.ebitHistory = new TreeMap<>();
         this.nopatHistory = new TreeMap<>();
+        this.cashHistory = new TreeMap<>();
+        this.netWorthHistory = new TreeMap<>();
         this.histories = new TreeMap<>();
         this.histories.put("salesHistory", this.salesHistory);
         this.histories.put("salariesHistory", this.salariesHistory);
@@ -154,6 +160,7 @@ public class FinanceDepartment extends DepartmentImpl {
         //this.netWorth = this.cash + this.assets - this.liabilities;
         //TODO maybe getCash() instead of calculateCash(), because calculateCash() only once per day?
         this.netWorth.setValue(this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities(gameDate));
+        this.netWorthHistory.put(gameDate, this.netWorth.getValue());
         return this.netWorth.getValue();
     }
 
@@ -174,6 +181,7 @@ public class FinanceDepartment extends DepartmentImpl {
         }else{
             this.cash.setValue(cash);
         }
+        this.cashHistory.put(gameDate, this.cash.getValue());
         return this.cash.getValue();
     }
 
@@ -619,8 +627,44 @@ public class FinanceDepartment extends DepartmentImpl {
         this.updatedQuarterlyData.setValue(!this.updatedQuarterlyData.getValue());
     }
 
+    public void updateNetWorthDifference(LocalDate gameDate){
+        Double oldNetWorth = this.netWorthHistory.get(gameDate.minusDays(30));
+        Double newNetWorth = this.netWorthHistory.get(gameDate);
+        if((oldNetWorth != null) && (newNetWorth != null)){
+            this.netWorthDifference = oldNetWorth - newNetWorth;
+        }else{
+            this.netWorthDifference = null;
+        }
+    }
+
+    public void updateCashDifference(LocalDate gameDate){
+        Double oldCash = this.cashHistory.get(gameDate.minusDays(30));
+        Double newCash = this.cashHistory.get(gameDate);
+        if((oldCash != null) && (newCash != null)){
+            this.cashDifference = oldCash - this.cashHistory.get(gameDate);
+        }else{
+            this.cashDifference = null;
+        }
+    }
+
     public TreeMap<String, String[]> getQuarterlyData() {
         return this.quarterlyData;
+    }
+
+    public TreeMap<LocalDate, Double> getCashHistory() {
+        return this.cashHistory;
+    }
+
+    public TreeMap<LocalDate, Double> getNetWorthHistory() {
+        return this.netWorthHistory;
+    }
+
+    public Double getNetWorthDifference(){
+        return this.netWorthDifference;
+    }
+
+    public Double getCashDifference(){
+        return this.cashDifference;
     }
 
     @Override

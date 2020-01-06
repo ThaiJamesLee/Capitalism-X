@@ -141,6 +141,8 @@ public class GameController {
 	private void updateFinance() {
 		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateNetWorthDifference(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateCashDifference(GameState.getInstance().getGameDate());
 	}
 
 	private void updateHR() {
@@ -432,6 +434,14 @@ public class GameController {
 
 	public TreeMap<String, String[]> getQuarterlyData() {
 		return FinanceDepartment.getInstance().getQuarterlyData();
+	}
+
+	public Double getNetWorthDifference(){
+		return FinanceDepartment.getInstance().getNetWorthDifference();
+	}
+
+	public Double getCashDifference(){
+		return FinanceDepartment.getInstance().getCashDifference();
 	}
 
 	/*

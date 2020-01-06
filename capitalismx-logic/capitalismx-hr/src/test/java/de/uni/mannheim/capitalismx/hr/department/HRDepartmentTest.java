@@ -130,8 +130,8 @@ public class HRDepartmentTest {
      */
     @Test
     public void benefitSettingsTest() {
-        department = HRDepartment.getInstance();
-        BenefitSettings benefitSettings = department.getBenefitSettings();
+        HRDepartment testDepartment = HRDepartment.createInstance();
+        BenefitSettings benefitSettings = testDepartment.getBenefitSettings();
         Set<Map.Entry<BenefitType, Benefit>> setting = benefitSettings.getBenefits().entrySet();
 
         double totalBenefit = 0;
@@ -143,17 +143,17 @@ public class HRDepartmentTest {
 
     @Test(dependsOnMethods = "benefitSettingsTest")
     public void upgradeBenefitSettingsTest() {
-        department = HRDepartment.getInstance();
+        HRDepartment testDepartment = HRDepartment.createInstance();
 
-        department.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.SALARY));
-        department.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.WORKING_TIME_MODEL));
-        department.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.COMPANY_CAR));
-        department.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.GYM_AND_SPORTS));
-        department.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.IT_EQUIPMENT));
-        department.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.WORKTIME));
-        department.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.FOOD_AND_COFFEE));
+        testDepartment.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.SALARY));
+        testDepartment.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.WORKING_TIME_MODEL));
+        testDepartment.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.COMPANY_CAR));
+        testDepartment.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.GYM_AND_SPORTS));
+        testDepartment.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.IT_EQUIPMENT));
+        testDepartment.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.WORKTIME));
+        testDepartment.changeBenefitSetting(Benefit.getMaxTierBenefitByType(BenefitType.FOOD_AND_COFFEE));
 
-        BenefitSettings benefitSettings = department.getBenefitSettings();
+        BenefitSettings benefitSettings = testDepartment.getBenefitSettings();
         Set<Map.Entry<BenefitType, Benefit>> setting = benefitSettings.getBenefits().entrySet();
 
         double totalBenefit = 0;
@@ -161,11 +161,8 @@ public class HRDepartmentTest {
             totalBenefit += entry.getValue().getPoints();
         }
         Assert.assertEquals(totalBenefit, 28.0);
-    }
 
-    @Test(dependsOnMethods = "upgradeBenefitSettingsTest")
-    public void checkJSSAfterUpgradeTest() {
-        Assert.assertTrue(department.getTotalJSS() >= 1.0);
+        Assert.assertTrue(testDepartment.getTotalJSS() >= 1.0);
     }
 
     @Test
@@ -186,7 +183,8 @@ public class HRDepartmentTest {
      */
     @Test(dependsOnMethods = {"checkMaxLevelTest", "checkLevelingMechanismCostMapTest"})
     public void skillMapTest() {
-        Map<Integer, DepartmentSkill> skillMap = department.getSkillMap();
+        HRDepartment testDepartment = HRDepartment.createInstance();
+        Map<Integer, DepartmentSkill> skillMap = testDepartment.getSkillMap();
 
         Assert.assertEquals(skillMap.size(), 8);
 
@@ -206,15 +204,15 @@ public class HRDepartmentTest {
      */
     @Test(dependsOnMethods = "skillMapTest")
     public void levelUpTest() {
-        HRDepartment department = HRDepartment.createInstance();
-        LevelingMechanism mechanism = department.getLevelingMechanism();
+        HRDepartment testDepartment = HRDepartment.createInstance();
+        LevelingMechanism mechanism = testDepartment.getLevelingMechanism();
 
-        for(int i = 0; i<department.getMaxLevel(); i++) {
+        for(int i = 0; i<testDepartment.getMaxLevel(); i++) {
             Assert.assertTrue(mechanism.levelUp() > 0);
-            Assert.assertEquals(department.getAvailableSkills().size(), i+1);
+            Assert.assertEquals(testDepartment.getAvailableSkills().size(), i+1);
         }
 
-        Assert.assertEquals(department.getLevel(), 8);
+        Assert.assertEquals(testDepartment.getLevel(), 8);
 
         Assert.assertNull(mechanism.levelUp());
     }
