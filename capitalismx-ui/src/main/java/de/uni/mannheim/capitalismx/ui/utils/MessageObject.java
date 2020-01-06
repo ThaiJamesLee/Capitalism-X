@@ -18,6 +18,24 @@ public class MessageObject {
     Parent subjectPanel;
     Parent messageContent;
 
+    /**
+     * Use this object constructor to pass messages system wide. It has no jummp to view button.
+     * @param sender
+     * @param date
+     * @param subject
+     * @param content
+     * @param isInternal
+     */
+    public MessageObject(String sender, String date, String subject, String content, boolean isInternal){
+        this.content = content;
+        this.sender = sender;
+        this.subject = subject;
+        this.date = date;
+        this.isInternal = isInternal;
+        this.jumpTo =  null;
+        this.subjectPanel = null;
+        this.messageContent = null;
+    }
 
     /**
      * Use this object constructor to pass messages system wide.
@@ -76,6 +94,8 @@ public class MessageObject {
     }
 
     public Parent getMessageContent() { return messageContent; }
+
+    public void setJumpTo(GameViewType jumpTo) { this.jumpTo = jumpTo; }
 
     public void setSubjectPanel(Parent subjectPanel) { this.subjectPanel = subjectPanel; }
 
