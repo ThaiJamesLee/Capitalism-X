@@ -15,6 +15,7 @@ import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 /**
  * The {@link UIElementController} managing all actions on the GamePage.
@@ -178,22 +180,47 @@ public class GamePageController implements UpdateableController {
 	 * 
 	 * @param module The {@link GameModule} to remove.
 	 */
-	private void removeModuleFromGrid(GameModule module) {
-		moduleGrid.getChildren().remove(module.getRootElement());
+	private void removeModuleFromGrid(GameModule module,boolean animated) {
+		if (animated) {
+			// Create a transition for fading out the module
+			FadeTransition fade = new FadeTransition(Duration.millis(700), module.getRootElement());
+			fade.setFromValue(1.0);
+			fade.setToValue(0.0);
+			fade.setCycleCount(1);
+			fade.play();
+			fade.setOnFinished(e -> {
+				moduleGrid.getChildren().remove(module.getRootElement());
+			});
+		} else {
+			moduleGrid.getChildren().remove(module.getRootElement());
+		}
+		
 	}
 
 	/**
 	 * Adds a {@link GameModule} to the grid on the GamePage, so that it is
 	 * displayed. (This will only display the module if it is activated)
 	 * 
-	 * @param module The {@link GameModule} to add to the grid.
+	 * @param module   The {@link GameModule} to add to the grid.
+	 * @param animated Whether the Module should be added with an animation.
 	 */
-	private void addModuleToGrid(GameModule module) {
+	private void addModuleToGrid(GameModule module, boolean animated) {
 		GridPosition position = module.getGridPosition();
+		Parent root = module.getRootElement();
+		
 		module.getController().update();
 		if (module.isActivated()) {
-			moduleGrid.add(module.getRootElement(), position.getxStart(), position.getyStart(), position.getxSpan(),
+			moduleGrid.add(root, position.getxStart(), position.getyStart(), position.getxSpan(),
 					position.getySpan());
+		}
+
+		if (animated) {
+			// Create a transition for fading in the module
+			FadeTransition fade = new FadeTransition(Duration.millis(700), root);
+			fade.setFromValue(0.0);
+			fade.setToValue(1.0);
+			fade.setCycleCount(1);
+			fade.play();
 		}
 	}
 
@@ -213,9 +240,9 @@ public class GamePageController implements UpdateableController {
 
 		for (GameModule module : currentActiveView.getModules()) {
 			if (module.isActivated() && !moduleGrid.getChildren().contains(module.getRootElement())) {
-				addModuleToGrid(module);
+				addModuleToGrid(module, true);
 			} else if (!module.isActivated() && moduleGrid.getChildren().contains(module.getRootElement())) {
-				removeModuleFromGrid(module);
+				removeModuleFromGrid(module, true);
 			}
 		}
 	}
@@ -236,7 +263,7 @@ public class GamePageController implements UpdateableController {
 			}
 			// remove all modules of current view
 			for (GameModule module : currentActiveView.getModules()) {
-				removeModuleFromGrid(module);
+				removeModuleFromGrid(module, false);
 			}
 
 			UIManager.getInstance().getGameHudController().deselectDepartmentButton(currentActiveView.getViewType());
@@ -246,7 +273,7 @@ public class GamePageController implements UpdateableController {
 		currentActiveView = UIManager.getInstance().getGameView(viewType);
 		UIManager.getInstance().getGameHudController().updateGameViewLabel(viewType);
 		for (GameModule module : currentActiveView.getModules()) {
-			addModuleToGrid(module);
+			addModuleToGrid(module, false);
 		}
 		// enable map controls if GameView is of type OVERVIEW
 		if (viewType.equals(GameViewType.OVERVIEW)) {
