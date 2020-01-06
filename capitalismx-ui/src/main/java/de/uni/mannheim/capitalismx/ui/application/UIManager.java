@@ -289,17 +289,13 @@ public class UIManager {
 						FXMLLoader loader = new FXMLLoader(
 								getClass().getClassLoader().getResource("fxml/module/" + moduleDefinition.fxmlFile),
 								resourceBundle);
-						// create new GridPosition from the type.
-						GridPosition position = new GridPosition(moduleDefinition.gridColStart,
-								moduleDefinition.gridRowStart, moduleDefinition.gridColSpan,
-								moduleDefinition.gridRowSpan);
 
 						// load root and controller of the module from the fxml
 						Parent root = loader.load();
 						GameModuleController controller = loader.getController();
 
 						// create new GameModule from the type and add it to its view.
-						GameModule module = new GameModule(root, moduleDefinition, position, controller);
+						GameModule module = new GameModule(root, moduleDefinition, controller);
 						getGameView(moduleDefinition.viewType).addModule(module);
 
 						// update the progressbar
