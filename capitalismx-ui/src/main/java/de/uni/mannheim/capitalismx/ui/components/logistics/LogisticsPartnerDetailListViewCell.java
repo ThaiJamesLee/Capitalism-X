@@ -1,15 +1,11 @@
 package de.uni.mannheim.capitalismx.ui.components.logistics;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
-import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
-import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.LogisticsPartnerController;
-import de.uni.mannheim.capitalismx.ui.controller.module.logistics.TruckFleetController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -74,16 +70,18 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
             }
 
             GameController controller = GameController.getInstance();
-            nameLabel.setText("Name: " + externalPartner.getName());
-            reliabilityIndexLabel.setText("Reliability Index: " + externalPartner.getReliabilityIndexPartner());
+            nameLabel.setText(externalPartner.getName());
+            reliabilityIndexLabel.setText("Reliability: " + externalPartner.getReliabilityIndexPartner());
             ecoIndexLabel.setText("Eco Index: " + externalPartner.getEcoIndexPartner());
             qualityIndexLabel.setText("Quality Index: " + externalPartner.getQualityIndexPartner());
             contractualCostsLabel.setText("Contractual Costs: " + externalPartner.getContractualCost() + " CC");
-            variableCostsLabel.setText("Variable Delivery Costs: " + externalPartner.getVariableDeliveryCost() + " CC");
-            buyButton.setOnAction(e -> {
+            variableCostsLabel.setText("Delivery Costs: " + externalPartner.getVariableDeliveryCost() + " CC");
+            gridPane.setOnMouseClicked(e -> {
                 controller.addExternalPartner(externalPartner);
                 LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_PARTNER_OVERVIEW).getController();
                 uiController.addExternalPartner(externalPartner);
+                
+                logisticsPartnerDetailListView.getSelectionModel().clearSelection();
             });
 
             setText(null);

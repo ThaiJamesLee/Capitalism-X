@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.util.Duration;
 
 /**
  * An ingame notification, that can be used for the Messaging-System and
@@ -19,10 +21,19 @@ import javafx.scene.control.Label;
 public class GameNotification {
 
 	/**
+	 * The {@link MessageObject} the notification should display.
+	 */
+	private MessageObject message;
+
+	/**
 	 * Max length of a message that can be displayed on the notification. TODO check
 	 * length (also for different scales?)
 	 */
-	private final static int MAX_LENGTH_OF_MESSAGE = 120;
+	private final static int MAX_LENGTH_OF_MESSAGE = 140;
+	/**
+	 * The standard Duration to display a notification for.
+	 */
+	public final static Duration STANDARD_DISPLAY_DURATION = Duration.millis(4500);
 
 	/**
 	 * The root object of the fx-content.
@@ -30,38 +41,55 @@ public class GameNotification {
 	private Parent root;
 
 	/**
-	 * The message to display.
+	 * The {@link Duration} to display this notification for.
 	 */
-	private String message;
+	private Duration displayDuration;
 
-	/**
-	 * The sender, that the message is from.
-	 */
-	private String sender;
 	// TODO add some icon/image?
 
 	public Parent getRoot() {
 		return root;
 	}
 
+	public Duration getDisplayDuration() {
+		return displayDuration;
+	}
+
 	@FXML
-	private Label senderLabel, messageLabel;
+	private Label senderLabel, subjectLabel, messageLabel;
 
 	/**
-	 * Creates a new {@link GameNotification} for the given name of the sender and
-	 * message, that can than be displayed on the GamePage.
+	 * Creates a new {@link GameNotification} for the given message, that can than
+	 * be displayed on the GamePage.
 	 * 
-	 * @param sender  The name of the sender the message is from.
-	 * @param message The message to display a preview of. <b>Note</b>: The message
-	 *                will be abbreviated if it exceeds the given length limit
-	 *                MAX_LENGTH_OF_MESSAGE, so that it fits on the notification.
+	 * @param message The message to display a preview of. <b>Note</b>: The text of
+	 *                the message will be abbreviated if it exceeds the given length
+	 *                limit MAX_LENGTH_OF_MESSAGE, so that it fits on the
+	 *                notification.
 	 */
-	public GameNotification(String sender, String message) {
-		// TODO construct notification from Message-object, once implemented
-		this.message = shortenMessage(message);
-		this.sender = sender;
-		this.root = loadRoot();
-		
+	public GameNotification(MessageObject message) {
+		this.message = message;
+		this.root = createRoot();
+		this.displayDuration = STANDARD_DISPLAY_DURATION;
+
+		CssHelper.replaceStylesheets(root.getStylesheets());
+	}
+
+	/**
+	 * Creates a new {@link GameNotification} for the given message, that can than
+	 * be displayed on the GamePage.
+	 * 
+	 * @param message         The message to display a preview of. <b>Note</b>: The
+	 *                        text of the message will be abbreviated if it exceeds
+	 *                        the given length limit MAX_LENGTH_OF_MESSAGE, so that
+	 *                        it fits on the notification.
+	 * @param displayDuration The {@link Duration} to display this notification for.
+	 */
+	public GameNotification(MessageObject message, Duration displayDuration) {
+		this.message = message;
+		this.root = createRoot();
+		this.displayDuration = displayDuration;
+
 		CssHelper.replaceStylesheets(root.getStylesheets());
 	}
 
@@ -71,7 +99,7 @@ public class GameNotification {
 	 * 
 	 * @return The root-{@link Parent} of the {@link GameNotification}.
 	 */
-	private Parent loadRoot() {
+	private Parent createRoot() {
 		FXMLLoader loader = new FXMLLoader(
 				getClass().getClassLoader().getResource("fxml/components/game_notification.fxml"));
 		loader.setController(this);
@@ -82,9 +110,10 @@ public class GameNotification {
 			e.printStackTrace();
 		}
 
-		messageLabel.setText(message);
-		senderLabel.setText(UIManager.getResourceBundle().getString("notification.sender") + " " + sender);
-		
+		messageLabel.setText(shortenMessage(message.getContent()));
+		subjectLabel.setText(message.getSubject());
+		senderLabel.setText(UIManager.getResourceBundle().getString("notification.sender") + " " + message.getSender());
+
 		return loader.getRoot();
 	}
 

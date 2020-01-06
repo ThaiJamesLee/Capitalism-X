@@ -9,13 +9,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ *
+ * This class is responsible for the API calls.
+ * It handles requests and returns the raw json Strings.
+ * @author duly
+ *
+ * @since 1.0.0
+ */
 public class ServiceAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(ServiceAdapter.class);
 
     /**
-     * Makes a get request to an api service.
-     * @return Returns a json String containing some fakedata
+     * Makes a GET request to an api service.
+     * @return Returns a json String containing some fakedata if request was successful. Return empty String otherwise.
      * @throws IOException throws Exception if no connection, or URL not resolvable.
      */
     public String getGeneratedUser(String apiUrl) throws IOException {
@@ -23,7 +31,7 @@ public class ServiceAdapter {
 
         URL urlForGetRequest = new URL(apiUrl);
 
-        String readLine = null;
+        String readLine;
         HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
         connection.setRequestMethod("GET");
 
@@ -37,7 +45,8 @@ public class ServiceAdapter {
             in .close();
             userJson = response.toString();
         } else {
-            logger.error("GET NOT WORKED");
+            String errorMessage = "Failed GET Request to " + apiUrl;
+            logger.error(errorMessage);
         }
         return userJson;
     }

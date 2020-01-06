@@ -1,13 +1,12 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.procurement;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -912,7 +911,13 @@ public class BuyComponentController extends GameModuleController {
                 break;
             default:
         }
-        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(tvComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+        int amount = 0;
+        if(tvComponentAmountTextField.getText().equals("")) {
+            amount = 5;
+        } else {
+            Integer.valueOf(tvComponentAmountTextField.getText());
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, amount, GameController.getInstance().getFreeStorage());
     }
 
     public void buyConsoleComponents() {
@@ -936,7 +941,13 @@ public class BuyComponentController extends GameModuleController {
                 break;
             default:
         }
-        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(consoleComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+        int amount = 0;
+        if(consoleComponentAmountTextField.getText().equals("")) {
+            amount = 5;
+        } else {
+            Integer.valueOf(consoleComponentAmountTextField.getText());
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, amount, GameController.getInstance().getFreeStorage());
     }
 
     public void buyNotebookComponents() {
@@ -960,7 +971,13 @@ public class BuyComponentController extends GameModuleController {
                 break;
             default:
         }
-        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(notebookComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+        int amount = 0;
+        if(notebookComponentAmountTextField.getText().equals("")) {
+            amount = 5;
+        } else {
+            Integer.valueOf(notebookComponentAmountTextField.getText());
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, amount, GameController.getInstance().getFreeStorage());
     }
 
     public void buyPhoneComponents() {
@@ -987,7 +1004,13 @@ public class BuyComponentController extends GameModuleController {
                 break;
             default:
         }
-        GameController.getInstance().buyComponents(gameDate, tmpComponent, Integer.valueOf(phoneComponentAmountTextField.getText()), GameController.getInstance().getFreeStorage());
+        int amount = 0;
+        if(phoneComponentAmountTextField.getText().equals("")) {
+            amount = 5;
+        } else {
+            Integer.valueOf(phoneComponentAmountTextField.getText());
+        }
+        GameController.getInstance().buyComponents(gameDate, tmpComponent, amount, GameController.getInstance().getFreeStorage());
     }
 
 

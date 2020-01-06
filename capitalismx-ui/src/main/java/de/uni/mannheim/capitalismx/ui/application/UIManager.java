@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
@@ -19,7 +19,6 @@ import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
@@ -28,7 +27,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -291,17 +289,13 @@ public class UIManager {
 						FXMLLoader loader = new FXMLLoader(
 								getClass().getClassLoader().getResource("fxml/module/" + moduleDefinition.fxmlFile),
 								resourceBundle);
-						// create new GridPosition from the type.
-						GridPosition position = new GridPosition(moduleDefinition.gridColStart,
-								moduleDefinition.gridRowStart, moduleDefinition.gridColSpan,
-								moduleDefinition.gridRowSpan);
 
 						// load root and controller of the module from the fxml
 						Parent root = loader.load();
 						GameModuleController controller = loader.getController();
 
 						// create new GameModule from the type and add it to its view.
-						GameModule module = new GameModule(root, moduleDefinition, position, controller);
+						GameModule module = new GameModule(root, moduleDefinition, controller);
 						getGameView(moduleDefinition.viewType).addModule(module);
 
 						// update the progressbar
@@ -474,6 +468,10 @@ public class UIManager {
 
 	public static String getLocalisedString(String key) {
 		return resourceBundle.getString(key);
+	}
+
+	public Stage getStage() {
+		return window;
 	}
 
 }

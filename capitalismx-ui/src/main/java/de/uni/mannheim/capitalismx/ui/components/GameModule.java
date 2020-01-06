@@ -17,45 +17,48 @@ import javafx.scene.Parent;
  *
  */
 public class GameModule extends UIElement {
-	
+
 	private GameModuleController controller;
 
 	// The module's position on the grid.
 	private GridPosition gridPosition;
 
-	// The overlay containing the detailed menu for the module.
-	private GameOverlay overlay;
+	// Whether the module is currently being displayed and accessible for the user.
+	private boolean activated;
+
+	public boolean isActivated() {
+		return activated;
+	}
+
+	/**
+	 * Sets activated-attribute of the {@link GameModule}, so that it can be
+	 * displayed to the user or hidden from him.
+	 */
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}
 
 	/**
 	 * Constructor for a {@link GameModule}.
 	 * 
-	 * @param contentRoot  The root element of the module's content.
-	 * @param definition         The {@link GameModuleDefinition} of the module.
-	 * @param viewType     The {@link GameViewType} of the {@link GameView} owning
-	 *                     the module.
-	 * @param overlayDefinition  The {@link GameOverlayDefinition} of the {@link GameOverlay} of
-	 *                     the module.
-	 * @param gridPosition The {@link GridPosition} of the module.
-	 * @param controller   The {@link GameModuleController} of this module.
-	 * @throws IOException
+	 * @param contentRoot The root element of the module's content.
+	 * @param definition  The {@link GameModuleDefinition} of the module.
+	 * @param controller  The {@link GameModuleController} of this module.
+	 * @throws IOException If the {@link FXMLLoader}could not read the fxml-file
+	 *                     correctly.
 	 */
-	public GameModule(Parent contentRoot, GameModuleDefinition definition,
-			GridPosition gridPosition, GameModuleController controller) throws IOException {
+	public GameModule(Parent contentRoot, GameModuleDefinition definition, GameModuleController controller)
+			throws IOException {
 
-		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.title, contentRoot, definition.elementType);
+		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.title, contentRoot,
+				definition.elementType);
 
-		//TODO nutze richtiges RessourceBundle
+		// TODO nutze richtiges ResourceBundle
 		ResourceBundle bundle = UIManager.getResourceBundle();
-		
-		// Init optional overlay if one is defined
-		if (definition.overlayDefinition != null) {
-			FXMLLoader overlayLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/overlay/" + definition.overlayDefinition.fxmlFile), bundle);
-			Parent overlayRoot = overlayLoader.load();
-			this.overlay = new GameOverlay(overlayRoot, definition.overlayDefinition, definition.viewType, gridPosition, overlayLoader.getController(), definition.elementType.title);
-		}
 
 		// Initialize the module with the title
-		this.setGridPosition(gridPosition);
+		this.setGridPosition(definition.gridPosition);
+		this.activated = definition.activated;
 		this.controller = controller;
 	}
 
@@ -67,10 +70,6 @@ public class GameModule extends UIElement {
 		this.gridPosition = gridPosition;
 	}
 
-	public GameOverlay getOverlay() {
-		return overlay;
-	}
-	
 	public GameModuleController getController() {
 		return controller;
 	}

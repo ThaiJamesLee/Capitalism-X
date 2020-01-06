@@ -8,15 +8,17 @@ import org.controlsfx.control.PopOver;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.utils.GraphicHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
@@ -41,7 +43,7 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 	private Button trainButton, fireButton;
 
 	@FXML
-	private Label skillLabel;
+	private AnchorPane skillPane;
 
 	@FXML
 	private GridPane gridPane;
@@ -88,6 +90,7 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 				}
 
 				prepareExtendedCell();
+				skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel()));
 			}
 
 			update();
@@ -103,7 +106,7 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 	 */
 	private void displayExtended() {
 		if (isSelected()) {
-			gridPane.add(fireButton, 5, 1, 2, 1);
+			gridPane.add(fireButton, 4, 1, 2, 1);
 			gridPane.add(trainButton, 3, 1, 1, 1);
 			gridPane.add(satisfactionLabel, 1, 1);
 			gridPane.add(satisfactionIcon, 0, 1);
@@ -166,7 +169,8 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 	public void update() {
 		nameLabel.setText(employee.getName());
 		wageLabel.setText((int) employee.getSalary() + " CC");
-		skillLabel.setText(employee.getSkillLevel() + "");
+		skillPane.getChildren().clear();
+		skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel()));
 		satisfactionLabel.setText(employee.getJobSatisfaction() + "");
 	}
 

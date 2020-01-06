@@ -1,7 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.components.logistics;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import javafx.fxml.FXML;
@@ -15,9 +15,6 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 
 public class TruckListViewCell extends ListCell<Truck> {
-
-    @FXML
-    private Label indexLabel;
 
     @FXML
     private Label valueLabel;
@@ -59,7 +56,6 @@ public class TruckListViewCell extends ListCell<Truck> {
             }
 
             GameController controller = GameController.getInstance();
-            indexLabel.setText(controller.getInternalFleet().getTrucks().indexOf(truck) + "");
             valueLabel.setText(controller.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.calculateTimeUsed(GameState.getInstance().getGameDate())) + " CC");
             dateLabel.setText(truck.getPurchaseDate() + "");
             sellButton.setOnAction(e -> {

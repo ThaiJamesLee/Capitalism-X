@@ -10,8 +10,10 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
+import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex.EcoIndex;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
@@ -20,15 +22,18 @@ import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -71,10 +76,13 @@ public class GameHudController implements UpdateableController {
 	private GridPane moduleGrid;
 
 	@FXML
-	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton;
+	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton, ecoIcon;
 	@FXML
 	private Label playPauseIconLabel, forwardIconLabel, skipIconLabel, messageIconLabel, settingsIconLabel;
-
+	
+	@FXML
+	private Button ecoButton; private Tooltip ecoTooltip;
+	
 	@FXML
 	private StackPane notificationPane;
 
@@ -84,13 +92,17 @@ public class GameHudController implements UpdateableController {
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
 	 * currently being displayed, it will be added to a queue and displayed
-	 * afterwards.
+	 * afterwards. Notification will be displayed 4.5 seconds.
 	 * 
 	 * @param notification The {@link GameNotification} to display.
 	 */
 	public void addNotification(GameNotification notification) {
 		notificationQueue.add(notification);
 		displayNextNotification();
+	}
+
+	public void deselectDepartmentButton(GameViewType type) {
+		getDepartmentButton(type).setSelected(false);
 	}
 
 	/**
@@ -105,17 +117,22 @@ public class GameHudController implements UpdateableController {
 		displayingNotification = true;
 		GameNotification notification = notificationQueue.poll();
 		Parent root = notification.getRoot();
+		// TODO set handler on root: do not remove while hover, show message on click
 		AnchorPaneHelper.snapNodeToAnchorPane(root);
 		root.setTranslateY(200);
 		notificationPane.getChildren().add(root);
 		// Slide the notification in
 		KeyValue endOfSlide = new KeyValue(root.translateYProperty(), 0.0);
 		Timeline slideIn = new Timeline(new KeyFrame(Duration.millis(500), endOfSlide),
-				new KeyFrame(Duration.millis(3500), e -> {
+				new KeyFrame(notification.getDisplayDuration(), e -> {
 					removeNotification(notification);
 				}));
 		slideIn.setCycleCount(1);
 		slideIn.play();
+	}
+
+	private ToggleButton getDepartmentButton(GameViewType departmentViewType) {
+		return departmentButtonMap.get(departmentViewType);
 	}
 
 	public GridPane getModuleGrid() {
@@ -141,27 +158,22 @@ public class GameHudController implements UpdateableController {
 		});
 	}
 
-	public void selectDepartmentButton(GameViewType type) {
-		getDepartmentButton(type).setSelected(true);
-	}
-
-	public void deselectDepartmentButton(GameViewType type) {
-		getDepartmentButton(type).setSelected(false);
-	}
-
-	private ToggleButton getDepartmentButton(GameViewType departmentViewType) {
-		return departmentButtonMap.get(departmentViewType);
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CssHelper.replaceStylesheets(root.getStylesheets());
-		// Set initial captions of the info labels at the top
+
 		GameState gameState = GameState.getInstance();
+		TooltipFactory tooltipFactory = new TooltipFactory();
+		tooltipFactory.setFadeInDuration(Duration.millis(100));
+
+		// Set initial captions of the info labels at the top
 		cashLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getCash()));
 		employeeLabel.setText(gameState.getHrDepartment().getTotalNumberOfEmployees() + "");
 		netWorthLabel.setText(NumberFormat.getIntegerInstance().format(gameState.getFinanceDepartment().getNetWorth()));
-		GameState.getInstance().addPropertyChangeListener(new GameStateEventListener());
+		gameState.addPropertyChangeListener(new GameStateEventListener());
+		ecoTooltip = tooltipFactory.createTooltip("");
+		ecoButton.setTooltip(ecoTooltip);
+		updateEcoIndexIcon(gameState.getCompanyEcoIndex().getEcoIndex());
 
 		// TODO Tooltip on the changelabels, with period described by the label
 
@@ -175,9 +187,6 @@ public class GameHudController implements UpdateableController {
 		initDepartmentButton(btnWarehouse, GameViewType.WAREHOUSE);
 		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
 		initDepartmentButton(btnRAndD, GameViewType.R_AND_D);
-
-		TooltipFactory tooltipFactory = new TooltipFactory();
-		tooltipFactory.setFadeInDuration(Duration.millis(100));
 
 		playPauseIconLabel
 				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.playPause")));
@@ -230,6 +239,10 @@ public class GameHudController implements UpdateableController {
 		moveOut.play();
 	}
 
+	public void selectDepartmentButton(GameViewType type) {
+		getDepartmentButton(type).setSelected(true);
+	}
+
 	@FXML
 	public void skipDay() {
 		GameController.getInstance().nextDay();
@@ -242,17 +255,13 @@ public class GameHudController implements UpdateableController {
 	 * @param viewType The {@link GameViewType} to display on the GamePage.
 	 */
 	private void switchView(GameViewType viewType) {
-		addNotification(new GameNotification(viewType.getTitle(),
-				"Hello, please do not reply to this Message. If this is multiline, all is fine. If it is not, be sad a lot."));
+		addNotification(new GameNotification(new MessageObject(viewType.getTitle(), "2019-01-05",
+				"Welcome in the department",
+				"Hello boss. Please let me show you the great possibilities this department offers you! It is vital for the company and there is no way, the company would survive shutting it down or outsourcing it, so I hope you will keep that in mind. Thank you! Sincerely, some guy from whatever dep this is.",
+				true)));
 		UIManager.getInstance().getGamePageController().switchView(viewType);
 	}
 
-
-	@FXML
-	private void togglePressReleaseWindow() {
-		
-	}
-	
 	@FXML
 	private void toggleMenu() {
 		GameController.getInstance().pauseGame();
@@ -262,6 +271,11 @@ public class GameHudController implements UpdateableController {
 	@FXML
 	private void toggleMessageWindow() {
 		UIManager.getInstance().getGamePageController().toggleMessageWindow();
+	}
+
+	@FXML
+	private void togglePressReleaseWindow() {
+
 	}
 
 	@Override
@@ -281,6 +295,41 @@ public class GameHudController implements UpdateableController {
 				cashLabel.setText(NumberFormat.getIntegerInstance().format(currentCash));
 			}
 		});
+	}
+
+	/**
+	 * This method updates the icon displaying the company's {@link EcoIndex}.
+	 * 
+	 * @param index The {@link EcoIndex} of the current {@link CompanyEcoIndex}.
+	 */
+	public void updateEcoIndexIcon(EcoIndex index) {
+		// TODO Create and use actual localised name
+		ecoTooltip.setText(index.name());
+		switch (index) {
+		case GOOD:
+			ecoIcon.getStyleClass().clear();
+			ecoIcon.getStyleClass().add("icon_green");
+			break;
+		case MODERATE:
+			ecoIcon.getStyleClass().clear();
+			ecoIcon.getStyleClass().add("icon_light");
+			break;
+		case UNHEALTHY:
+			ecoIcon.getStyleClass().clear();
+			ecoIcon.getStyleClass().add("icon_orange");
+			break;
+		case VERY_UNHEALTHY:
+			ecoIcon.getStyleClass().clear();
+			ecoIcon.getStyleClass().add("icon_red");
+			break;
+		case HAZARDOUS:
+			ecoIcon.getStyleClass().clear();
+			ecoIcon.setStyle("-fx-background-color: -fx-red;");
+			break;
+		default:
+			break;
+		}
+		;
 	}
 
 	/**

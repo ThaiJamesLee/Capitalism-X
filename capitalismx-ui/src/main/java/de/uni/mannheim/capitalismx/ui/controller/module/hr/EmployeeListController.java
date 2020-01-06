@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.domain.employee.Team;
-import de.uni.mannheim.capitalismx.gamelogic.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.hr.EmployeeListViewCell;

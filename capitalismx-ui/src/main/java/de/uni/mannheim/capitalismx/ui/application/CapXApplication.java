@@ -1,6 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.application;
 
-import de.uni.mannheim.capitalismx.gamelogic.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import javafx.application.Application;
@@ -20,6 +20,7 @@ import javafx.scene.input.KeyCombination.ModifierValue;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 /**
@@ -74,6 +75,9 @@ public class CapXApplication extends Application {
 		if (!testMode) {
 			Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Do you really want to quit?", ButtonType.YES,
 					ButtonType.NO);
+			closeConfirmation.initStyle(StageStyle.UNDECORATED);
+			closeConfirmation.getDialogPane().getStylesheets().add(CapXApplication.class.getResource("/css/1080p/general1080p.css").toExternalForm());
+			closeConfirmation.getDialogPane().getStylesheets().add(CapXApplication.class.getResource("/css/dialog.css").toExternalForm());
 			closeConfirmation.showAndWait();
 		}
 	}

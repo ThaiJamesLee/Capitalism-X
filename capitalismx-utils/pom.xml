@@ -10,6 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>capitalismx-utils</artifactId>
 
+    <description>
+        This module provides generic classes and functions that can be used in any other module.
+    </description>
+
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
