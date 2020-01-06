@@ -3,7 +3,9 @@ package de.uni.mannheim.capitalismx.hr.department.skill;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -21,9 +23,8 @@ public class HRSkill implements DepartmentSkill {
     /* Defines the distribution of probabilities for employee skill level. */
     private Map<String, Double> skillDistribution;
 
-
-    private String description;
-
+    private static final String LANG_PROPERTIES = "hr-module";
+    private static final String DESCRIPTION_PROPERTY_PREFIX = "hr.skill.description.";
 
     public HRSkill(int level, int newEmployeeCapacity, Map<String, Double> skillDistribution) {
         this.level = level;
@@ -53,6 +54,12 @@ public class HRSkill implements DepartmentSkill {
 
     @Override
     public String getDescription() {
-        return description;
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getDescription(Locale l) {
+        ResourceBundle langBundle = ResourceBundle.getBundle(LANG_PROPERTIES, l);
+        return langBundle.getString(DESCRIPTION_PROPERTY_PREFIX + level);
     }
 }
