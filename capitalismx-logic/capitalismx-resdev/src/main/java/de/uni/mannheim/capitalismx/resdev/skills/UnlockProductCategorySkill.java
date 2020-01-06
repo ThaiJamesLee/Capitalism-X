@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.production.ProductCategory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author duly
@@ -31,6 +32,11 @@ public class UnlockProductCategorySkill extends ResDevSkillImpl {
 
     @Override
     public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public String getDescription(Locale l) {
         return null;
     }
 }
