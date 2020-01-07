@@ -18,6 +18,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -221,6 +222,48 @@ public class HRDepartmentTest {
         Assert.assertNull(mechanism.levelUp());
     }
 
+    /**
+     * Test when there is a entry that is 30 days ago.
+     */
+    @Test
+    public void employeeHistoryTestI() {
+        HRDepartment testDepartment = HRDepartment.createInstance();
+
+        // hire some employees
+        testDepartment.hire(employeeStack.get(0));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(30));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(29));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(28));
+        testDepartment.hire(employeeStack.get(1));
+        testDepartment.hire(employeeStack.get(2));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(27));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(26));
+        testDepartment.hire(employeeStack.get(3));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(25));
+        testDepartment.hire(employeeStack.get(4));
+        testDepartment.updateEmployeeHistory(LocalDate.now());
+
+        Assert.assertEquals(testDepartment.getEmployeeDifference(LocalDate.now()), 4);
+    }
+
+    @Test
+    public void employeeHistoryTestII() {
+        HRDepartment testDepartment = HRDepartment.createInstance();
+
+        // hire some employees
+        testDepartment.hire(employeeStack.get(0));
+        testDepartment.hire(employeeStack.get(1));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(28));
+        testDepartment.hire(employeeStack.get(2));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(27));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(26));
+        testDepartment.hire(employeeStack.get(3));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(25));
+        testDepartment.hire(employeeStack.get(4));
+        testDepartment.updateEmployeeHistory(LocalDate.now());
+
+        Assert.assertEquals(testDepartment.getEmployeeDifference(LocalDate.now()), 3);
+    }
 
 
 }
