@@ -63,7 +63,7 @@ public class HrStatisticsController extends GameModuleController {
 		hrCapacity.setText((int) hrDep.getTotalEmployeeCapacity() + "");
 
 		Tooltip hrCapTooltip = new Tooltip(resourceBundle.getString("hr.stats.capacity.tooltip"));
-		hrCapTooltip.setShowDelay(Duration.millis(50));
+		//hrCapTooltip.setShowDelay(Duration.millis(50));
 		hrCapacity.setTooltip(hrCapTooltip);
 
 	}

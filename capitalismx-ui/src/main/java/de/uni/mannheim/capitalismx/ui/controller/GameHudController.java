@@ -68,7 +68,7 @@ public class GameHudController implements UpdateableController {
 			netWorthChangeLabel, dateLabel;
 
 	@FXML
-	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD;
+	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD, btnMarketing;
 	@FXML
 	private ToggleGroup departmentButtons;
 	// The GridPane that contains all the modules.
@@ -187,6 +187,7 @@ public class GameHudController implements UpdateableController {
 		initDepartmentButton(btnWarehouse, GameViewType.WAREHOUSE);
 		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
 		initDepartmentButton(btnRAndD, GameViewType.R_AND_D);
+		initDepartmentButton(btnMarketing, GameViewType.MARKETING);
 
 		playPauseIconLabel
 				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.playPause")));

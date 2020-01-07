@@ -26,7 +26,8 @@ public enum UIElementType {
 	PRODUCTION_MACHINERY_OVERVIEW("Machines"),
 	PROCUREMENT_BUY_COMPONENT_OVERVIEW("Buy Component"), 
 	WAREHOUSE_SEGMENTS("Partition"), 
-	WAREHOUSE_STOCK_MANAGEMENT("Stock Management");
+	WAREHOUSE_STOCK_MANAGEMENT("Stock Management"),
+	MARKETING_PRESSRELEASES_LIST("Press Releases");
 
 	// The title of the GameElement, that will be displayed on top.
 	public final String title;

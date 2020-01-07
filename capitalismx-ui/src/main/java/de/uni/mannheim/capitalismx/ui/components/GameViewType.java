@@ -18,7 +18,8 @@ public enum GameViewType {
 	PRODUCTION(5, "view.production"), 
 	LOGISTIC(6, "view.logistics"),
 	WAREHOUSE(7, "view.warehouse"), 
-	R_AND_D(8, "view.research");
+	R_AND_D(8, "view.research"),
+	MARKETING(9, "view.marketing");
 	
 	private final String title;
 	private final int id;

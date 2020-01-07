@@ -379,6 +379,6 @@ public class MarketingDepartment extends DepartmentImpl {
 
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+    	//this.pressReleases.addPropertyChangeListener(listener);
     }
 }
