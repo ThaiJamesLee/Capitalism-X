@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.Map.Entry;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.employee.impl.ProductionWorker;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
@@ -48,8 +49,14 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * HR worker capacity. You can not hire more HR Workers than this capacity.
+	 * The player can increase this value by leveling up this department.
 	 */
 	private int hrCapacity;
+
+	/**
+	 * The initial value of the hrCapacity.
+	 */
+	private int initialHrCapacity;
 
 
 	private static final String LEVELING_PROPERTIES = "hr-leveling-definition";
@@ -112,8 +119,9 @@ public class HRDepartment extends DepartmentImpl {
 	 */
 	private void initProperties() {
 		setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
-		baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
-		hrCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+		this.baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
+		this.initialHrCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+		this.hrCapacity = initialHrCapacity;
 	}
 
 	/**
@@ -160,13 +168,37 @@ public class HRDepartment extends DepartmentImpl {
 		return costMap;
 	}
 
+	/**
+	 * Calculates the current capacity and updates the variable.
+	 */
+	private void updateHRCapacity() {
+		int newCapacity = this.initialHrCapacity;
+		List<DepartmentSkill> availableSkills = getAvailableSkills();
+
+		for(DepartmentSkill skill : availableSkills) {
+			newCapacity += ((HRSkill) skill).getNewEmployeeCapacity();
+		}
+
+		this.hrCapacity = newCapacity;
+	}
+
+	@Override
+	public void setLevel(int level) {
+		super.setLevel(level);
+		updateHRCapacity();
+	}
+
+	/**
+	 * Use for Tests.
+	 * @return Returns a new HRDepartment instance.
+	 */
 	public static HRDepartment createInstance() {
 		return new HRDepartment();
 	}
 
 	/**
 	 *
-	 * @return Returns this class.
+	 * @return Returns the singleton instance.
 	 */
 	public static HRDepartment getInstance() {
 		if (instance == null) {
@@ -562,5 +594,13 @@ public class HRDepartment extends DepartmentImpl {
 	 */
 	public Map<String, Double> getCurrentEmployeeDistribution() {
 		return ((HRSkill) skillMap.get(getLevel())).getSkillDistribution();
+	}
+
+	/**
+	 *
+	 * @return Returns the total number of HR Worker you can have.
+	 */
+	public int getHrCapacity() {
+		return hrCapacity;
 	}
 }

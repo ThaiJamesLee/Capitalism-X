@@ -130,7 +130,7 @@ public abstract class Employee implements Person, Serializable {
     }
 
     /**
-     * @return Returns "firstname lastname"
+     * @return Returns "<firstname> <lastname>"
      */
     public String getName(){
         return firstName + " " + lastName;
@@ -157,5 +157,5 @@ public abstract class Employee implements Person, Serializable {
     }
 
     @Override
-    public String toString() { return getName() + "; " + getPosition(); }
+    public String toString() { return getName() + "; " + getEmployeeType().toString(); }
 }

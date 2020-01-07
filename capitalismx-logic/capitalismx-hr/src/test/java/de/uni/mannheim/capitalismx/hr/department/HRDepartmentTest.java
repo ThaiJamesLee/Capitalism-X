@@ -207,9 +207,13 @@ public class HRDepartmentTest {
         HRDepartment testDepartment = HRDepartment.createInstance();
         LevelingMechanism mechanism = testDepartment.getLevelingMechanism();
 
+        int tmpCapacity = 0;
+
         for(int i = 0; i<testDepartment.getMaxLevel(); i++) {
             Assert.assertTrue(mechanism.levelUp() > 0);
             Assert.assertEquals(testDepartment.getAvailableSkills().size(), i+1);
+            Assert.assertTrue(testDepartment.getHrCapacity() > tmpCapacity );
+            tmpCapacity = testDepartment.getHrCapacity();
         }
 
         Assert.assertEquals(testDepartment.getLevel(), 8);
