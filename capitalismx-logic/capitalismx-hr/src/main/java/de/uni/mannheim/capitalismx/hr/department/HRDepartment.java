@@ -189,7 +189,7 @@ public class HRDepartment extends DepartmentImpl {
 	private Map<Integer, Double> initCostMap() {
 		// init cost map
 		/* TODO BALANCING NEEDED*/
-		Map<Integer, Double> costMap = new HashMap<>();
+		Map<Integer, Double> costMap = new ConcurrentHashMap<>();
 
 		ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
 		for(int i = 1; i <= getMaxLevel(); i++) {

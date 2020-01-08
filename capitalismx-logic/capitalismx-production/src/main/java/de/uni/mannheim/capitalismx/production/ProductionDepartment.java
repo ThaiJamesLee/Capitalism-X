@@ -1,12 +1,13 @@
 package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.production.de.uni.mannheim.capitalismx.production.skill.ProductionSkill;
+import de.uni.mannheim.capitalismx.production.skill.ProductionSkill;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -38,20 +39,21 @@ public class ProductionDepartment extends DepartmentImpl {
     private double averageProductBaseQuality;
     private List<ComponentType> allAvailableComponents;
     private List<Product> launchedProducts;
-    private boolean machineSpaceAvailable;
+    private boolean machineSlotsAvailable;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
 
+    private int initialProductionSlots;
+
     private int baseCost;
-    private int machinesCapacity;
+    private int productionSlots;
 
     private static final String LEVELING_PROPERTIES = "production-leveling-definition";
     private static final String MAX_LEVEL_PROPERTY = "production.department.max.level";
-    private static final String BASE_COST_PROPERTY = "production.department.base.cost";
-    private static final String INITIAL_CAPACITY_PROPERTY = "production.department.init.capacity";
+    private static final String INITIAL_SLOTS_PROPERTY = "production.department.init.slots";
 
     private static final String SKILL_COST_PROPERTY_PREFIX = "production.skill.cost.";
-    private static final String SKILL_CAPACITY_PREFIX = "production.skill.capacity.";
+    private static final String SKILL_SLOTS_PREFIX = "production.skill.slots.";
 
 
     private ProductionDepartment() {
@@ -67,7 +69,8 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionFixCosts = 0.0;
         this.productionVariableCosts = 0.0;
         this.launchedProducts = new ArrayList<>();
-        this.machineSpaceAvailable = true;
+        this.machineSlotsAvailable = true;
+        this.productionSlots = 0;
 
         this.init();
     }
@@ -79,8 +82,7 @@ public class ProductionDepartment extends DepartmentImpl {
 
     private void initProperties() {
         this.setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
-        this.baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
-        this.machinesCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+        this.initialProductionSlots = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_SLOTS_PROPERTY));
     }
 
     private void initSkills() {
@@ -94,21 +96,35 @@ public class ProductionDepartment extends DepartmentImpl {
 
         ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
         for(int i = 1; i <= getMaxLevel(); i++) {
-            int eCapacity = Integer.parseInt(skillBundle.getString(SKILL_CAPACITY_PREFIX + i));
-            skillMap.put(i, new ProductionSkill(i, eCapacity));
+            int slots = Integer.parseInt(skillBundle.getString(SKILL_SLOTS_PREFIX + i));
+            skillMap.put(i, new ProductionSkill(i, slots));
         }
     }
 
     private Map<Integer, Double> initCostMap() {
         Map<Integer, Double> costMap = new HashMap<>();
-
         ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
         for(int i = 1; i <= getMaxLevel(); i++) {
             double cost = Integer.parseInt(bundle.getString(SKILL_COST_PROPERTY_PREFIX + i));
             costMap.put(i, cost);
         }
-
         return costMap;
+    }
+
+    private void updateProductionSlots() {
+        int numberOfSlots = this.initialProductionSlots;
+        List<DepartmentSkill> availableSkills = getAvailableSkills();
+
+        for(DepartmentSkill skill : availableSkills) {
+            numberOfSlots += ((ProductionSkill) skill).getNewProductionSlots();
+        }
+        this.productionSlots = numberOfSlots;
+        this.machineSlotsAvailable = true;
+    }
+
+    public void setLevel(int level) {
+        super.setLevel(level);
+        this.updateProductionSlots();
     }
 
     public static synchronized ProductionDepartment getInstance() {
@@ -184,13 +200,16 @@ public class ProductionDepartment extends DepartmentImpl {
     }
 
     public double buyMachinery(Machinery machinery, LocalDate gameDate) {
-        if(this.machinesCapacity >= this.machines.size()) {
+        if(this.productionSlots > this.machines.size()) {
             machinery.setPurchaseDate(gameDate);
             this.machines.add(machinery);
             this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
+            if(this.productionSlots == this.machines.size()) {
+                this.machineSlotsAvailable = false;
+            }
             return machinery.calculatePurchasePrice();
         }
-        this.machineSpaceAvailable = false;
+        this.machineSlotsAvailable = false;
         return 0;
     }
 
@@ -582,16 +601,13 @@ public class ProductionDepartment extends DepartmentImpl {
         return this.averageProductBaseQuality;
     }
 
-    public int getBaseCost() {
-        return baseCost;
+    public int getProductionSlots() {
+        return productionSlots;
     }
 
-    public int getMachinesCapacity() {
-        return machinesCapacity;
-    }
-
-    public boolean getMachineSpaceAvailable() {
-        return this.machinesCapacity > this.machines.size();
+    public boolean getMachineSlotsAvailable() {
+        this.machineSlotsAvailable = this.productionSlots > this.machines.size();
+        return this.machineSlotsAvailable;
     }
 
     public static void setInstance(ProductionDepartment instance) {
