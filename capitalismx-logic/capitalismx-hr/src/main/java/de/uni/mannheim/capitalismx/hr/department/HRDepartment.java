@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
@@ -137,7 +138,7 @@ public class HRDepartment extends DepartmentImpl {
 		teams.put(production, new Team(production).addPropertyName(production.getTeamEventPropertyChangedKey()));
 		teams.put(hr, new Team(hr).addPropertyName(hr.getTeamEventPropertyChangedKey()));
 
-		employeeNumberHistory = new HashMap<>();
+		employeeNumberHistory = new ConcurrentHashMap<>();
 	}
 
 	/**
@@ -674,8 +675,10 @@ public class HRDepartment extends DepartmentImpl {
 	 * Removes from history entries that are older than 30 days.
 	 * @param currentDate The current game date.
 	 */
-	private void cleanEmployeeHistory(LocalDate currentDate) {
-		for(Entry<LocalDate, Integer> entry : employeeNumberHistory.entrySet()) {
+	private synchronized void cleanEmployeeHistory(LocalDate currentDate) {
+		Iterator<Map.Entry<LocalDate, Integer>> historyIterator = employeeNumberHistory.entrySet().iterator();
+		while(historyIterator.hasNext()) {
+			Entry<LocalDate, Integer> entry = historyIterator.next();
 			if(entry.getKey().plusDays(30).isBefore(currentDate)) {
 				employeeNumberHistory.remove(entry.getKey());
 			}
