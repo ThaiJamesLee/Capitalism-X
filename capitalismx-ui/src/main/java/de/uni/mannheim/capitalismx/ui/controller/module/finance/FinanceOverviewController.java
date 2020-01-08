@@ -1,6 +1,5 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -12,18 +11,16 @@ import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
-import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.overlay.finance.LoanRequestListController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.util.Duration;
 
 public class FinanceOverviewController extends GameModuleController {
 
@@ -85,6 +82,7 @@ public class FinanceOverviewController extends GameModuleController {
 	Button sellVentureCapitalButton;
 
 	private FinanceEventListener financeEventListener;
+	private LoanRequestListController loanRequestListController;
 
 	private double loanAmount;
 
@@ -109,21 +107,16 @@ public class FinanceOverviewController extends GameModuleController {
 		netWorthLabel.setText(DecimalRound.round(controller.getNetWorth(), 2) + "");
 
 		// Prepare the Popover for the trainButton
-		FXMLLoader popoverLoader = new FXMLLoader(
-				getClass().getClassLoader().getResource("fxml/overlay/loan_request_list.fxml"), UIManager.getResourceBundle());
-		loanRequestPopover = new PopOver();
-		try {
-			loanRequestPopover.setContentNode(popoverLoader.load());
-			loanRequestPopover.setFadeInDuration(Duration.millis(50));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PopOverFactory factory = new PopOverFactory();
+		factory.createStandardOverlay("fxml/overlay/loan_request_list.fxml");
+		loanRequestPopover = factory.getPopover();
+		loanRequestListController = (LoanRequestListController)factory.getPopoverController();
 
 		loanRequestButton.setOnAction(e -> {
 			try {
 				this.loanAmount = Double.parseDouble(loanAmountTextField.getText());
-				this.loanRequestPopover.show(loanRequestButton);
+				loanRequestListController.setLoanAmount(loanAmount);
+				this.loanRequestPopover.show(UIManager.getInstance().getStage());
 				// this.loanAmount = NULL;
 				loanAmountTextField.clear();
 			} catch (NumberFormatException exception) {

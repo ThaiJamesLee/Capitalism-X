@@ -20,27 +20,33 @@ public class LoanRequestListController extends GameOverlayController {
 
     @FXML
     ListView<BankingSystem.Loan> loanRequestListView;
+    
+    private double loanAmount;
 
     @Override
     public void update() {
-        loanRequestListView.getItems().clear();
+    	loanRequestListView.getItems().clear();
         GameController controller = GameController.getInstance();
-        //loanRequestListView.setCellFactory(loanRequestListView -> new LoanRequestListViewCell(loanRequestListView));
-        FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OVERVIEW).getController();
-        double loanAmount = financeOverviewController.getLoanAmount();
 
         ArrayList<BankingSystem.Loan> loans = controller.generateLoanSelection(loanAmount);
 
         for(BankingSystem.Loan loan : loans) {
-            //controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
             loanRequestListView.getItems().add(loan);
         }
+    }
+    
+    public void setLoanAmount(double amount) {
+    	this.loanAmount = amount;
+    	update();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loanRequestListView.setCellFactory(loanRequestListView -> new LoanRequestListViewCell(loanRequestListView));
+    
+        update();
     }
+    
 
     @Override
     public Properties getProperties() {

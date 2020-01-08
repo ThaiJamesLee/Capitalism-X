@@ -80,7 +80,7 @@
             </Label>
          </children>
       </VBox>
-      <AnchorPane layoutY="4.0" minWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+      <AnchorPane layoutY="4.0" minWidth="110.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -125,7 +125,7 @@
          </padding>
          <styleClass>
             <String fx:value="hud_background" />
-            <String fx:value="hud_bottom" />
+            <String fx:value="hud_top" />
          </styleClass>
       </AnchorPane>
       <AnchorPane layoutY="283.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
@@ -281,11 +281,6 @@
          <children>
             <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label>
-                     <graphic>
-                        <FontAwesomeIcon iconName="COMMENT_ALT" onMousePressed="#togglePressReleaseWindow" size="2em" styleClass="hud_icon_button" />
-                     </graphic>
-                  </Label>
                   <Label fx:id="messageIconLabel" alignment="TOP_LEFT">
                      <graphic>
                         <FontAwesomeIcon iconName="ENVELOPE_ALT" onMousePressed="#toggleMessageWindow" size="2em" styleClass="hud_icon_button" wrappingWidth="24.0" />
