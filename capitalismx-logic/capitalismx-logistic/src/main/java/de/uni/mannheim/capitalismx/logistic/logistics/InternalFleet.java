@@ -56,6 +56,8 @@ public class InternalFleet implements Serializable {
         }
         if(trucks.size() > 0){
             this.ecoIndexFleet = ecoIndexSum / trucks.size();
+        }else{
+            this.ecoIndexFleet = 100; // Perfect eco index if no trucks owned
         }
         return this.ecoIndexFleet;
     }
@@ -87,6 +89,10 @@ public class InternalFleet implements Serializable {
         return this.fixCostsDelivery;
     }
 
+    /**
+     * Monthly costs for the entire fleet
+     * @return
+     */
     private double calculateTotalTruckCost(){
         double fixTruckCostSum = 0;
         for(Truck t:trucks){
@@ -149,7 +155,11 @@ public class InternalFleet implements Serializable {
 
     //TODO only for two months
     void decreaseCapacityFleetRel(double amount){
-        this.decreaseCapacityFactor += amount;
+        if((this.decreaseCapacityFactor + amount) <= 1.0){
+            this.decreaseCapacityFactor += amount;
+        }else{
+            this.decreaseCapacityFactor = 1.0;
+        }
     }
 
     public static void setInstance(InternalFleet instance) {

@@ -22,6 +22,8 @@ import java.util.List;
 /**
  * The NameGenerator contains functions to make an API-call and generates random persons.
  * @author duly
+ *
+ * @since 1.0.0
  */
 public class NameGenerator {
 

@@ -17,6 +17,9 @@ public class Machinery implements Serializable {
     private int yearsSinceLastInvestment;
     private int usefulLife;
     private LocalDate purchaseDate;
+    private int level;
+    private boolean upgradeable;
+    private static final int MAX_LEVEL = 5;
 
     public Machinery(LocalDate gameDate) {
         this.productionTechnology = ProductionTechnology.BRANDNEW;
@@ -27,6 +30,8 @@ public class Machinery implements Serializable {
         this.machineryCapacity = 500;
         this.lastInvestmentDate = gameDate;
         this.yearsSinceLastInvestment = 0;
+        this.level = 1;
+        this.upgradeable = true;
     }
 
     public boolean depreciateMachinery(boolean naturalDisaster, LocalDate gameDate) {
@@ -103,28 +108,36 @@ public class Machinery implements Serializable {
 
     /* costs 5,000cc */
     public double upgradeMachinery(LocalDate gameDate) {
-        this.machineryCapacity *= 1.2;
-        switch(this.productionTechnology) {
-            case DEPRECIATED:
-                this.productionTechnology = ProductionTechnology.GOOD_CONDITIONS;
-                break;
-            case OLD:
-                this.productionTechnology = ProductionTechnology.PURCHASED_MORE_THAN_FIVE_YEARS_AGO;
-                break;
-            case GOOD_CONDITIONS:
-                this.productionTechnology = ProductionTechnology.BRANDNEW;
-                break;
-            case PURCHASED_MORE_THAN_FIVE_YEARS_AGO:
-                this.productionTechnology = ProductionTechnology.BRANDNEW;
-                break;
-            case BRANDNEW:
-                this.productionTechnology = ProductionTechnology.BRANDNEW;
-                break;
-            default: // Do nothing
-                break;
+        if(this.level < MAX_LEVEL) {
+            this.level += 1;
+            this.machineryCapacity *= 1.2;
+            switch(this.productionTechnology) {
+                case DEPRECIATED:
+                    this.productionTechnology = ProductionTechnology.GOOD_CONDITIONS;
+                    break;
+                case OLD:
+                    this.productionTechnology = ProductionTechnology.PURCHASED_MORE_THAN_FIVE_YEARS_AGO;
+                    break;
+                case GOOD_CONDITIONS:
+                    this.productionTechnology = ProductionTechnology.BRANDNEW;
+                    break;
+                case PURCHASED_MORE_THAN_FIVE_YEARS_AGO:
+                    this.productionTechnology = ProductionTechnology.BRANDNEW;
+                    break;
+                case BRANDNEW:
+                    this.productionTechnology = ProductionTechnology.BRANDNEW;
+                    break;
+                default: // Do nothing
+                    break;
+            }
+            if(this.level == MAX_LEVEL) {
+                this.upgradeable = false;
+            }
+            this.lastInvestmentDate = gameDate;
+            return 5000;
         }
-        this.lastInvestmentDate = gameDate;
-        return 5000;
+        this.upgradeable = false;
+        return 0;
     }
 
     public int getYearsSinceLastInvestment() {

@@ -70,8 +70,8 @@ public class GameController {
 		LocalDate newDate = state.getGameDate();
 		if (oldDate.getMonth() != newDate.getMonth()) {
 			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
+			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(GameState.getInstance().getGameDate());
 			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
-			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing();
 		}
 		this.updateAll();
 	}
@@ -141,10 +141,13 @@ public class GameController {
 	private void updateFinance() {
 		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateNetWorthDifference(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateCashDifference(GameState.getInstance().getGameDate());
 	}
 
 	private void updateHR() {
-
+		HRDepartment.getInstance().updateEmployeeHistory(GameState.getInstance().getGameDate());
+		HRDepartment.getInstance().calculateAndUpdateEmployeesMeta();
 	}
 
 	private void updateLogistics() {
@@ -152,7 +155,7 @@ public class GameController {
 		if (LogisticsDepartment.getInstance().getExternalPartner() != null) {
 			LogisticsDepartment.getInstance().getExternalPartner().calculateExternalLogisticsIndex();
 		}
-		LogisticsDepartment.getInstance().calculateAll();
+		LogisticsDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
 		ProductSupport.getInstance().calculateAll();
 	}
 
@@ -382,24 +385,28 @@ public class GameController {
 		return FinanceDepartment.getInstance().calculateNetWorth(gameDate);
 	}
 
-	public void increaseCash(double amount) {
-		FinanceDepartment.getInstance().increaseCash(amount);
+	public void increaseCash(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().increaseCash(gameDate, amount);
 	}
 
 	public void decreaseCash(double amount) {
 		FinanceDepartment.getInstance().decreaseCash(amount);
 	}
 
-	public void increaseNewWorth(double amount) {
-		FinanceDepartment.getInstance().increaseNetWorth(amount);
+	public void increaseNewWorth(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().increaseNetWorth(gameDate, amount);
 	}
 
-	public void decreaseNetWorth(double amount) {
-		FinanceDepartment.getInstance().decreaseNetWorth(amount);
+	public void decreaseNetWorth(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().decreaseNetWorth(gameDate, amount);
 	}
 
 	public void increaseAssets(double amount) {
 		FinanceDepartment.getInstance().increaseAssets(amount);
+	}
+
+	public void decreaseAssets(double amount) {
+		FinanceDepartment.getInstance().decreaseAssets(amount);
 	}
 
 	public void increaseLiabilities(double amount) {
@@ -428,6 +435,14 @@ public class GameController {
 
 	public TreeMap<String, String[]> getQuarterlyData() {
 		return FinanceDepartment.getInstance().getQuarterlyData();
+	}
+
+	public Double getNetWorthDifference(){
+		return FinanceDepartment.getInstance().getNetWorthDifference();
+	}
+
+	public Double getCashDifference(){
+		return FinanceDepartment.getInstance().getCashDifference();
 	}
 
 	/*
@@ -569,6 +584,18 @@ public class GameController {
 	}
 
 	/* machinery game mechanics */
+	public boolean getMachineSpaceAvailable() {
+		return ProductionDepartment.getInstance().getMachineSpaceAvailable();
+	}
+
+	public int getMachinesCapacity() {
+		return ProductionDepartment.getInstance().getMachinesCapacity();
+	}
+
+	public int getBaseCost() {
+		return ProductionDepartment.getInstance().getBaseCost();
+	}
+
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) {
 		return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
 	}
@@ -783,7 +810,7 @@ public class GameController {
 	}
 
 	public double rentWarehouse() {
-		return WarehousingDepartment.getInstance().rentWarehouse();
+		return WarehousingDepartment.getInstance().rentWarehouse(GameState.getInstance().getGameDate());
 	}
 
 	public double sellWarehouse(Warehouse warehouse) {

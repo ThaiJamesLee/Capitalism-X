@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
@@ -29,8 +30,12 @@ public class WarehousingDepartment extends DepartmentImpl {
     private double monthlyTotalCostWarehousing;
     private int daysSinceFreeStorageThreshold;
 
+    private PropertyChangeSupportMap inventoryChange;
+
+
     private WarehousingDepartment() {
         super("Warehousing");
+
         this.warehouses = new ArrayList<>();
         this.inventory = new HashMap<>();
         this.totalCapacity = 0;
@@ -41,6 +46,10 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.monthlyStorageCost = 0;
         this.monthlyTotalCostWarehousing = 0;
         this.daysSinceFreeStorageThreshold = 0;
+
+        this.inventoryChange = new PropertyChangeSupportMap();
+        this.inventoryChange.setMap(this.inventory);
+        this.inventoryChange.setAddPropertyName("inventoryChange");
     }
 
     public static synchronized WarehousingDepartment getInstance() {
@@ -110,14 +119,14 @@ public class WarehousingDepartment extends DepartmentImpl {
         Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
         warehouse.setBuildDate(gameDate);
         warehouses.add(warehouse);
-        this.calculateMonthlyCostWarehousing();
+        this.calculateMonthlyCostWarehousing(gameDate);
         return warehouse.getBuildingCost();
     }
 
-    public double rentWarehouse() {
+    public double rentWarehouse(LocalDate gameDate) {
         Warehouse warehouse = new Warehouse(WarehouseType.RENTED);
         warehouses.add(warehouse);
-        this.calculateMonthlyCostWarehousing();
+        this.calculateMonthlyCostWarehousing(gameDate);
         return warehouse.getMonthlyRentalCost();
     }
 
@@ -148,12 +157,15 @@ public class WarehousingDepartment extends DepartmentImpl {
         return resaleValue;
     }
 
-    public double calculateMonthlyCostWarehousing() {
+    public double calculateMonthlyCostWarehousing(LocalDate gameDate) {
         double fixCostWarehouses = 0;
         double rentalCostsWarehouses = 0;
-        for(Warehouse warehouse : this.warehouses) {
-            fixCostWarehouses += warehouse.getMonthlyFixCostWarehouse();
-            rentalCostsWarehouses += warehouse.getMonthlyRentalCost();
+        LocalDate oldDate = gameDate.plusDays(-1);
+        if(oldDate.getMonth() != gameDate.getMonth()) {
+            for(Warehouse warehouse : this.warehouses) {
+                fixCostWarehouses += warehouse.getMonthlyFixCostWarehouse();
+                rentalCostsWarehouses += warehouse.getMonthlyRentalCost();
+            }
         }
         this.monthlyCostWarehousing = fixCostWarehouses + rentalCostsWarehouses;
         return this.monthlyCostWarehousing;
@@ -286,6 +298,6 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+        this.inventoryChange.addPropertyChangeListener(listener);
     }
 }

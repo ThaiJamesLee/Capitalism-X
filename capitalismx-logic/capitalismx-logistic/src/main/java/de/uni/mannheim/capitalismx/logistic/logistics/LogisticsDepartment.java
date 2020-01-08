@@ -29,7 +29,7 @@ public class LogisticsDepartment extends DepartmentImpl {
         //this.internalFleet = new InternalFleet();
         this.shippingFee = 15;
         this.deliveredProducts = 0;
-        this.calculateAll();
+        this.calculateAll(LocalDate.now());
     }
 
     public static synchronized LogisticsDepartment getInstance() {
@@ -39,11 +39,11 @@ public class LogisticsDepartment extends DepartmentImpl {
         return LogisticsDepartment.instance;
     }
 
-    public void calculateAll(){
+    public void calculateAll(LocalDate gameDate){
         this.calculateCostsLogistics();
         this.calculateLogisticsIndex();
         this.calculateTotalDeliveryCosts();
-        this.calculateTotalLogisticsCosts();
+        this.calculateTotalLogisticsCosts(gameDate);
     }
 
     private double calculateCostsLogistics(){
@@ -94,8 +94,8 @@ public class LogisticsDepartment extends DepartmentImpl {
         return this.costsExternalDelivery;
     }
 
-    private double calculateTotalLogisticsCosts(){
-        this.totalLogisticsCosts = (this.calculateCostsLogistics() / 30) + this.calculateTotalDeliveryCosts();
+    private double calculateTotalLogisticsCosts(LocalDate gameDate){
+        this.totalLogisticsCosts = (this.calculateCostsLogistics() / gameDate.lengthOfMonth()) + this.calculateTotalDeliveryCosts();
         return this.totalLogisticsCosts;
     }
 
@@ -158,22 +158,22 @@ public class LogisticsDepartment extends DepartmentImpl {
 
     public void addExternalPartner(ExternalPartner externalPartner){
         this.externalPartner = externalPartner;
-        this.calculateAll();
+        //this.calculateAll();
     }
 
     public void removeExternalPartner(){
         this.externalPartner = null;
-        this.calculateAll();
+        //this.calculateAll();
     }
 
     public void addTruckToFleet(Truck truck, LocalDate gameDate){
         InternalFleet.getInstance().addTruckToFleet(truck, gameDate);
-        this.calculateAll();
+        //this.calculateAll();
     }
 
     public void removeTruckFromFleet(Truck truck){
         InternalFleet.getInstance().removeTruckFromFleet(truck);
-        this.calculateAll();
+        //this.calculateAll();
     }
 
     public InternalFleet getInternalFleet() {
@@ -204,8 +204,9 @@ public class LogisticsDepartment extends DepartmentImpl {
         return this.costsExternalDelivery;
     }
 
-    public double getTotalLogisticsCosts() {
-        return this.totalLogisticsCosts;
+    public double getTotalLogisticsCosts(LocalDate gameDate) {
+        //return this.totalLogisticsCosts;
+        return this.calculateTotalLogisticsCosts(gameDate);
     }
 
     public int getDeliveredProducts() {
@@ -226,6 +227,6 @@ public class LogisticsDepartment extends DepartmentImpl {
 
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+        throw new UnsupportedOperationException();
     }
 }

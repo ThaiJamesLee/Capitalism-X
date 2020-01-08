@@ -2,11 +2,16 @@ package de.uni.mannheim.capitalismx.domain.employee;
 
 import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
 import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
 import de.uni.mannheim.capitalismx.hr.salary.SalaryGenerator;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
+import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * Use this class to generate employees with random name, and other meta data.
@@ -21,6 +26,8 @@ public class EmployeeGenerator {
 
     private static EmployeeGenerator instance;
 
+    private HRDepartment department;
+
     private EmployeeGenerator() {
         employeeMarketSample = new EmployeeMarketSample();
     }
@@ -32,13 +39,56 @@ public class EmployeeGenerator {
         return instance;
     }
 
+    public static EmployeeGenerator createInstance() {
+        return new EmployeeGenerator();
+    }
+
+    public void setDepartment(HRDepartment department) {
+        this.department = department;
+    }
+
     /**
+     * Create an employee randomly. The skill level is dependant on the distribution of the given skill level of the
+     * HR Department.
      *
+     * @param type The employee type.
+     * @return Returns a random employee by type.
+     */
+    public Employee createRandomEmployee(EmployeeType type) {
+        Map<String, Double> distribution = department.getCurrentEmployeeDistribution();
+        int skillLevel = getRandomSkillLevel(distribution);
+        
+        return generateEmployee(skillLevel, type);
+    }
+
+    /**
+     * Creates a pot according to the distribution to draw randomly a skill level.
+     * @param distribution The employee distribution.
+     * @return Returns the lower-bound skill level.
+     */
+    private int getRandomSkillLevel(Map<String, Double> distribution) {
+        List<EmployeeTier> randomPot = new ArrayList<>();
+        for(Map.Entry<String, Double> entry : distribution.entrySet()) {
+            int number = (int) (entry.getValue() * 100);
+            for(int i=0; i<number; i++) {
+                randomPot.add(EmployeeTier.getEmployeeTierByName(entry.getKey()));
+            }
+        }
+        Collections.shuffle(randomPot);
+        int drawNumber = RandomNumberGenerator.getRandomInt(0, randomPot.size() - 1);
+        EmployeeTier draw = randomPot.get(drawNumber);
+
+        return ((int) draw.getLowerLevel());
+}
+
+
+    /**
+     * This methods creates an employee using the {@link EmployeeFactory} and adds skill level and salary afterwards.
      * @param skillLevel the skill level of the employee that is to be generated.
      * @param type the employee type.
      * @return Returns an employee with given skill level and employee type.
      */
-    public Employee generateEmployee(int skillLevel, EmployeeType type) {
+    private Employee generateEmployee(int skillLevel, EmployeeType type) {
         double salary = 0;
         Employee employee = null;
 

@@ -73,7 +73,7 @@ public class WarehousingDepartmentTest {
 
     @Test
     public void rentWarehouseTest() {
-        WarehousingDepartment.getInstance().rentWarehouse();
+        WarehousingDepartment.getInstance().rentWarehouse(LocalDate.of(1990,1,1));
         Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 2);
     }
 

@@ -72,10 +72,17 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
             fixCostsLabel.setText("Delivery Costs: " + truck.getFixCostsDelivery());
             //add click listener to cell
             gridPane.setOnMouseClicked(e -> {
-                controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
-                TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
-                uiController.addTruck(truck);
-                truckDetailListView.getSelectionModel().clearSelection();
+                if(truck.getPurchasePrice() > GameController.getInstance().getCash()){
+                    //TODO popup
+                    System.out.println("Not enough cash!");
+                }else{
+                    GameController.getInstance().decreaseCash(truck.getPurchasePrice());
+                    GameController.getInstance().increaseAssets(truck.getPurchasePrice());
+                    controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
+                    TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
+                    uiController.addTruck(truck);
+                    truckDetailListView.getSelectionModel().clearSelection();
+                }
             });
 
             setText(null);

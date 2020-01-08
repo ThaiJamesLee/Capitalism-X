@@ -77,6 +77,6 @@ public class SaveGameHandlerTest {
         if(f.delete()) {
             LOGGER.info("Savegame file deleted.");
         }
-        LOGGER.info("Clean Uo: Destroy GameState Singleton.");
+        LOGGER.info("Clean Up: Destroy GameState Singleton.");
     }
 }

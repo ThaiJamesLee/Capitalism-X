@@ -4,22 +4,26 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
+ * Defines Employee types available.
  * @author duly
  */
 public enum EmployeeType {
 
-    ENGINEER("Engineer", "name.engineer"),
-    SALESPERSON("Salesperson", "name.salesperson"),
-    PRODUCTION_WORKER("Production Worker", "name.productionworker"),
-    HR_WORKER("HR Worker", "name.hrworker");
+    ENGINEER("Engineer", "name.engineer", "engineerTeamChanged"),
+    SALESPERSON("Salesperson", "name.salesperson", "salespersonTeamChanged"),
+    PRODUCTION_WORKER("Production Worker", "name.productionworker", "productionworkerTeamChanged"),
+    HR_WORKER("HR Worker", "name.hrworker", "hrworkerTeamChanged");
 
     private String type;
     private String propertyKey;
 
-    EmployeeType (String type, String propertyKey) {
+    private String teamEventPropertyChangedKey;
+
+    EmployeeType (String type, String propertyKey, String teamEventPropertyChangedKey) {
 
         this.type = type;
         this.propertyKey = propertyKey;
+        this.teamEventPropertyChangedKey = teamEventPropertyChangedKey;
     }
 
     @Override
@@ -35,5 +39,9 @@ public enum EmployeeType {
     public String getName(Locale locale) {
         ResourceBundle bundle = ResourceBundle.getBundle("domain-module", locale);
         return bundle.getString(propertyKey);
+    }
+
+    public String getTeamEventPropertyChangedKey() {
+        return teamEventPropertyChangedKey;
     }
 }

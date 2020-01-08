@@ -29,7 +29,7 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
     }
 
     private void init() {
-        Map<Integer, DepartmentSkill> skillMap = getSkillMap();
+
     }
 
     /**
@@ -62,8 +62,13 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
         return unlockedCategories.contains(category);
     }
 
+    /**
+     * This method is not supported.
+     * @throws UnsupportedOperationException This department does not contain PropertyChangeSupport variables.
+     * @param listener A PropertyChangeListener.
+     */
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+        throw new UnsupportedOperationException();
     }
 }

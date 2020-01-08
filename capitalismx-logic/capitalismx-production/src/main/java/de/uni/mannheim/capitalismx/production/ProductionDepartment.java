@@ -1,16 +1,18 @@
 package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
+import de.uni.mannheim.capitalismx.production.de.uni.mannheim.capitalismx.production.skill.ProductionSkill;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductionDepartment extends DepartmentImpl {
 
@@ -36,6 +38,21 @@ public class ProductionDepartment extends DepartmentImpl {
     private double averageProductBaseQuality;
     private List<ComponentType> allAvailableComponents;
     private List<Product> launchedProducts;
+    private boolean machineSpaceAvailable;
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
+
+    private int baseCost;
+    private int machinesCapacity;
+
+    private static final String LEVELING_PROPERTIES = "production-leveling-definition";
+    private static final String MAX_LEVEL_PROPERTY = "production.department.max.level";
+    private static final String BASE_COST_PROPERTY = "production.department.base.cost";
+    private static final String INITIAL_CAPACITY_PROPERTY = "production.department.init.capacity";
+
+    private static final String SKILL_COST_PROPERTY_PREFIX = "production.skill.cost.";
+    private static final String SKILL_CAPACITY_PREFIX = "production.skill.capacity.";
+
 
     private ProductionDepartment() {
         super("Production");
@@ -50,6 +67,48 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionFixCosts = 0.0;
         this.productionVariableCosts = 0.0;
         this.launchedProducts = new ArrayList<>();
+        this.machineSpaceAvailable = true;
+
+        this.init();
+    }
+
+    private void init() {
+        this.initProperties();
+        this.initSkills();
+    }
+
+    private void initProperties() {
+        this.setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
+        this.baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
+        this.machinesCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+    }
+
+    private void initSkills() {
+        Map<Integer, Double> costMap = initCostMap();
+        try {
+            setLevelingMechanism(new LevelingMechanism(this, costMap));
+        } catch (InconsistentLevelException e) {
+            String error = "The costMap size " + costMap.size() +  " does not match the maximum level " + this.getMaxLevel() + " of this department!";
+            logger.error(error, e);
+        }
+
+        ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            int eCapacity = Integer.parseInt(skillBundle.getString(SKILL_CAPACITY_PREFIX + i));
+            skillMap.put(i, new ProductionSkill(i, eCapacity));
+        }
+    }
+
+    private Map<Integer, Double> initCostMap() {
+        Map<Integer, Double> costMap = new HashMap<>();
+
+        ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            double cost = Integer.parseInt(bundle.getString(SKILL_COST_PROPERTY_PREFIX + i));
+            costMap.put(i, cost);
+        }
+
+        return costMap;
     }
 
     public static synchronized ProductionDepartment getInstance() {
@@ -125,10 +184,14 @@ public class ProductionDepartment extends DepartmentImpl {
     }
 
     public double buyMachinery(Machinery machinery, LocalDate gameDate) {
-        machinery.setPurchaseDate(gameDate);
-        this.machines.add(machinery);
-        this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
-        return machinery.calculatePurchasePrice();
+        if(this.machinesCapacity >= this.machines.size()) {
+            machinery.setPurchaseDate(gameDate);
+            this.machines.add(machinery);
+            this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
+            return machinery.calculatePurchasePrice();
+        }
+        this.machineSpaceAvailable = false;
+        return 0;
     }
 
     public double sellMachinery(Machinery machinery) {
@@ -517,6 +580,18 @@ public class ProductionDepartment extends DepartmentImpl {
 
     public double getAverageProductBaseQuality() {
         return this.averageProductBaseQuality;
+    }
+
+    public int getBaseCost() {
+        return baseCost;
+    }
+
+    public int getMachinesCapacity() {
+        return machinesCapacity;
+    }
+
+    public boolean getMachineSpaceAvailable() {
+        return this.machinesCapacity > this.machines.size();
     }
 
     public static void setInstance(ProductionDepartment instance) {

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="385.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.MessageContentController">
+<VBox fx:id="contentVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="385.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.MessageContentController">
    <children>
       <HBox alignment="CENTER_LEFT" prefWidth="385.0">
          <children>
@@ -20,7 +20,7 @@
          <VBox.margin>
             <Insets left="3.0" />
          </VBox.margin></Label>
-      <Label id="content" fx:id="contentContent" prefWidth="385.0" text="Label">
+      <Label id="content" fx:id="contentContent" alignment="TOP_LEFT" minHeight="400.0" prefWidth="385.0" text="Label">
          <VBox.margin>
             <Insets left="3.0" />
          </VBox.margin></Label>
