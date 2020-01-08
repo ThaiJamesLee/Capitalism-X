@@ -68,14 +68,14 @@
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </padding>
       </GridPane>
-      <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
          <children>
             <Label fx:id="departmentLabel" alignment="CENTER" contentDisplay="CENTER" text="OVERVIEW">
                <styleClass>
                   <String fx:value="hud_label" />
                   <String fx:value="title_label" />
                   <String fx:value="hud_background" />
-                  <String fx:value="hud_top" />
+                  <String fx:value="hud_bottom" />
                </styleClass>
             </Label>
          </children>

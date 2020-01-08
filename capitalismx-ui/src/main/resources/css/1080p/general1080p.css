@@ -522,7 +522,7 @@ FontAwesomeIcon {
 }
 
 .title_label {
-    -fx-margin: 10.0 20.0 10.0 20.0;
+    -fx-margin: 5.0 20.0 5.0 20.0;
     -fx-font-family: "Prime";
     -fx-font-size: 28.0px;
     -fx-font-weight: bold;
