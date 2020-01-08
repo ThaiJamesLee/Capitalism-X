@@ -4,7 +4,7 @@ import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.domain.employee.Training;
 import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
-import de.uni.mannheim.capitalismx.hr.domain.Salary;
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
 
 /**
  * Handles training an employee.
@@ -25,13 +25,13 @@ public class EmployeeTraining {
     }
 
     /**
-     *
+     * If the employee is already max level, then you pay his salary as punishment.
      * @param e employee to train to the next level.
      * @return price for the chosen training.
      */
     public Double trainEmployee(Employee e, Training t) {
 
-        if(e.getSkillLevel() < Salary.getMaxTier().getUpperLevel()) {
+        if(e.getSkillLevel() < EmployeeTier.getMaxTier().getUpperLevel()) {
             // increases the capacity of the HRWorker, if the object is an instance of HRWorker
             increaseHRCapacity(e);
 
@@ -46,8 +46,9 @@ public class EmployeeTraining {
 
             return (double)t.getPrice();
         }
+
         // TODO balance the price by increasing according to skill level. Currently price is the same for all.
-        return null;
+        return e.getSalary();
     }
 
     /**

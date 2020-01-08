@@ -4,13 +4,14 @@ import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.employee.impl.ProductionWorker;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
-import de.uni.mannheim.capitalismx.hr.domain.Salary;
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
 import de.uni.mannheim.capitalismx.utils.formatter.DataFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,14 +128,17 @@ public class HRDepartment extends DepartmentImpl {
 		fired.setRemovePropertyName("removeFiredList");
 
 		// Create the teams of employee types
-		teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER).addPropertyName("engineerTeamChanged"));
-		teams.put(EmployeeType.SALESPERSON,
-				new Team(EmployeeType.SALESPERSON).addPropertyName("salespersonTeamChanged"));
-		teams.put(EmployeeType.PRODUCTION_WORKER,
-				new Team(EmployeeType.PRODUCTION_WORKER).addPropertyName("productionworkerTeamChanged"));
-		teams.put(EmployeeType.HR_WORKER, new Team(EmployeeType.HR_WORKER).addPropertyName("hrworkerTeamChanged"));
+		EmployeeType engineer = EmployeeType.ENGINEER;
+		EmployeeType sales = EmployeeType.SALESPERSON;
+		EmployeeType hr = EmployeeType.HR_WORKER;
+		EmployeeType production = EmployeeType.PRODUCTION_WORKER;
 
-		employeeNumberHistory = new HashMap<>();
+		teams.put(engineer, new Team(engineer).addPropertyName(engineer.getTeamEventPropertyChangedKey()));
+		teams.put(sales, new Team(sales).addPropertyName(sales.getTeamEventPropertyChangedKey()));
+		teams.put(production, new Team(production).addPropertyName(production.getTeamEventPropertyChangedKey()));
+		teams.put(hr, new Team(hr).addPropertyName(hr.getTeamEventPropertyChangedKey()));
+
+		employeeNumberHistory = new ConcurrentHashMap<>();
 	}
 
 	/**
@@ -173,7 +177,7 @@ public class HRDepartment extends DepartmentImpl {
 	 */
 	private Map<String, Double> getDistribution(int level) {
 		String distributionString = ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(EMPLOYEE_DISTRIBUTION_PROPERTY_PREFIX + level);
-		List<String> keys = Salary.getSkillLevelNames();
+		List<String> keys = EmployeeTier.getSkillLevelNames();
 
 		return DataFormatter.stringToStringDoubleMap(keys, distributionString);
 	}
@@ -257,7 +261,9 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	/**
-	 * The report does not define the total job satisfaction score
+	 * The report does not define the total job satisfaction score.
+	 * p.24 mentioned that the job satisfaction score depends on each employee skill level.
+	 * But the defined function does not provide that.
 	 *
 	 * @return total job satisfaction score
 	 */
@@ -273,7 +279,7 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	/**
-	 * The scale is between 0 - 27
+	 * The scale is between 0 - 27 (incorrectly defined in p.24 + p.26)
 	 *
 	 * @return Returns the sum of points of the current benefit settings.
 	 */
@@ -287,15 +293,37 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * Update JSS and QoW for each employee.
+	 * Since it was stated that the jss depends on the skill level, but is not defined,
+	 * we define it as (1 - skillLevel/100) * totalJSS.
 	 */
 	public void calculateAndUpdateEmployeesMeta() {
 		double totalJSS = getTotalJSS();
 		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
 			for (Employee e : entry.getValue().getTeam()) {
-				e.setQualityOfWork(totalJSS * 0.5 + e.getSkillLevel() * 0.5);
-				e.setJobSatisfaction(totalJSS);
+				e.setJobSatisfaction(totalJSS * (1.0 - e.getSkillLevel()/100.0));
+				e.setQualityOfWork(e.getJobSatisfaction() * 0.5 + e.getSkillLevel() * 0.5);
 			}
 		}
+	}
+
+	/**
+	 * Iterates over all employees and calculate the avg. jss.
+	 * @return Returns the average jss.
+	 */
+	private double getAverageJSS() {
+		double totalJSS = 0.0;
+		int totalEmployees = 0;
+		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			totalEmployees += entry.getValue().getTeam().size();
+			for (Employee e : entry.getValue().getTeam()) {
+				totalJSS += e.getJobSatisfaction();
+			}
+		}
+		if (totalEmployees > 0) {
+			return totalJSS/totalEmployees;
+		}
+
+		return 0.0;
 	}
 
 	/**
@@ -305,10 +333,12 @@ public class HRDepartment extends DepartmentImpl {
 	 *
 	 * It is defined as QoW = JSS * 0.5 + skillLevel * 0.5.
 	 *
+	 * We use the average jss of all employees.
+	 *
 	 * @return The overall quality of work.
 	 */
 	public double getTotalQualityOfWork() {
-		return getTotalJSS() * 0.5 + getAverageSkillLevel() * 0.5;
+		return getAverageJSS() * 0.5 + getAverageSkillLevel() * 0.5;
 	}
 
 	/**
@@ -645,8 +675,10 @@ public class HRDepartment extends DepartmentImpl {
 	 * Removes from history entries that are older than 30 days.
 	 * @param currentDate The current game date.
 	 */
-	private void cleanEmployeeHistory(LocalDate currentDate) {
-		for(Entry<LocalDate, Integer> entry : employeeNumberHistory.entrySet()) {
+	private synchronized void cleanEmployeeHistory(LocalDate currentDate) {
+		Iterator<Map.Entry<LocalDate, Integer>> historyIterator = employeeNumberHistory.entrySet().iterator();
+		while(historyIterator.hasNext()) {
+			Entry<LocalDate, Integer> entry = historyIterator.next();
 			if(entry.getKey().plusDays(30).isBefore(currentDate)) {
 				employeeNumberHistory.remove(entry.getKey());
 			}
