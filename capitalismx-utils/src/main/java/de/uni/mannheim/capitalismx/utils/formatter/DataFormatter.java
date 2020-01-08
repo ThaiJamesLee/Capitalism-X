@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class DataFormatter {
 
+    private DataFormatter() {}
+
     /**
      * Number of doubles must match the number of keys.
      * @param value The string that contains comma separated doubles.
@@ -34,6 +36,11 @@ public class DataFormatter {
         }
     }
 
+    /**
+     * Parse the String array to double array.
+     * @param array The String array that contains doubles as string.
+     * @return Returns an Double array object.
+     */
     public static Double[] stringArrayToDoubleArray(String[] array) {
         Double[] dArray = new Double[array.length];
 
