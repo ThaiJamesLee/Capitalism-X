@@ -3,9 +3,9 @@ package de.uni.mannheim.capitalismx.domain.department;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Abstract class for departments. It implements the {@link Department} interface.
@@ -42,7 +42,7 @@ public abstract class DepartmentImpl implements Department, Serializable {
         this.level = 0;
         this.maxLevel = 8;
 
-        this.skillMap = new HashMap<>();
+        this.skillMap = new ConcurrentHashMap<>();
     }
 
     @Override
