@@ -1,6 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.salary;
 
-import de.uni.mannheim.capitalismx.hr.domain.Salary;
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
 import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
 
 import java.security.SecureRandom;
@@ -31,9 +31,9 @@ public class SalaryGenerator {
 
         SecureRandom random = new SecureRandom();
 
-        Salary[] tiers = Salary.values();
+        EmployeeTier[] tiers = EmployeeTier.values();
 
-        for (Salary tier : tiers) {
+        for (EmployeeTier tier : tiers) {
 
             if (inRange(skillLevel, tier.getLowerLevel(), tier.getUpperLevel())) {
 
