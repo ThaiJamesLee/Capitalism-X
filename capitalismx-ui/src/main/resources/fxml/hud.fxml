@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GameHudController">
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GameHudController">
    <children>
       <GridPane fx:id="moduleGrid" hgap="30.0" layoutX="10.0" layoutY="10.0" styleClass="background" vgap="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
          <columnConstraints>
@@ -232,7 +232,7 @@
                   <RowConstraints />
               </rowConstraints>
                <children>
-                  <VBox alignment="CENTER" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+                  <VBox fx:id="netWorthVBox" alignment="CENTER" spacing="5.0" styleClass="cursor-clickable" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                      <children>
                         <FontAwesomeIcon iconName="DIAMOND" size="1.5em" styleClass="icon_light" />
                         <Label text="%hud.networth">
@@ -253,7 +253,7 @@
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin></Region>
-                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="6" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
+                  <VBox fx:id="employeeVBox" alignment="CENTER" spacing="5.0" styleClass="cursor-clickable" GridPane.columnIndex="6" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
                      <children>
                         <FontAwesomeIcon iconName="USERS" size="1.5em" styleClass="icon_light" />
                         <Label text="%hud.employees">
@@ -264,7 +264,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
+                  <VBox fx:id="cashVBox" alignment="CENTER" spacing="5.0" styleClass="cursor-clickable" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
                      <children>
                         <FontAwesomeIcon iconName="DOLLAR" size="1.5em" styleClass="icon_light" />
                         <Label text="%hud.cash">

@@ -36,6 +36,9 @@
     src: url('../fonts/Reckoner-Bold.ttf');
 }
 
+.cursor-clickable {
+	-fx-cursor: hand;
+}
 
 .label {
 	-fx-font-family: "Prime";

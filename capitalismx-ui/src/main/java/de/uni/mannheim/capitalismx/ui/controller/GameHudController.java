@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
+import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
@@ -21,12 +22,14 @@ import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -34,9 +37,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.PopupWindow.AnchorLocation;
 import javafx.util.Duration;
 
@@ -79,15 +84,19 @@ public class GameHudController implements UpdateableController {
 	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton, ecoIcon;
 	@FXML
 	private Label playPauseIconLabel, forwardIconLabel, skipIconLabel, messageIconLabel, settingsIconLabel;
-	
+
 	@FXML
-	private Button ecoButton; private Tooltip ecoTooltip;
-	
+	private Button ecoButton;
+	private Tooltip ecoTooltip;
+
 	@FXML
 	private StackPane notificationPane;
 
 	@FXML
 	private AnchorPane root;
+
+	@FXML
+	private VBox netWorthVBox, cashVBox, employeeVBox;
 
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
@@ -99,6 +108,30 @@ public class GameHudController implements UpdateableController {
 	public void addNotification(GameNotification notification) {
 		notificationQueue.add(notification);
 		displayNextNotification();
+	}
+
+	/**
+	 * Colors a label either green, red or yellow, depending on the difference
+	 * provided.
+	 * 
+	 * @param diff  The difference in the displayed value. (< 0 -> red, 0 -> yellow,
+	 *              > 0 -> green)
+	 * @param label The label to change the color of.
+	 */
+	private void colorHudLabel(double diff, Label label) {
+		if (diff < 0) {
+			label.getStyleClass().remove("hud_label");
+			label.getStyleClass().remove("hud_label_green");
+			label.getStyleClass().add("hud_label_red");
+		} else if (diff > 0) {
+			label.getStyleClass().remove("hud_label");
+			label.getStyleClass().add("hud_label_green");
+			label.getStyleClass().remove("hud_label_red");
+		} else {
+			label.getStyleClass().add("hud_label");
+			label.getStyleClass().remove("hud_label_green");
+			label.getStyleClass().remove("hud_label_red");
+		}
 	}
 
 	public void deselectDepartmentButton(GameViewType type) {
@@ -197,6 +230,17 @@ public class GameHudController implements UpdateableController {
 				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.settings")));
 		messageIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.messages")));
 
+		// Switch to view when clicking on hud info labels
+		cashVBox.setOnMouseClicked(e -> {
+			switchView(GameViewType.FINANCES);
+		});
+		netWorthVBox.setOnMouseClicked(e -> {
+			switchView(GameViewType.FINANCES);
+		});
+		employeeVBox.setOnMouseClicked(e -> {
+			switchView(GameViewType.HR);
+		});
+
 		UIManager.getInstance().setGameHudController(this);
 	}
 
@@ -292,7 +336,12 @@ public class GameHudController implements UpdateableController {
 	public void updateCashLabel(double currentCash) {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				cashLabel.setText(NumberFormat.getIntegerInstance().format(currentCash));
+				cashLabel.setText(CapCoinFormatter.getCapCoins(currentCash));
+				Double diff = GameState.getInstance().getFinanceDepartment().getCashDifference();
+				if (diff != null) {
+					colorHudLabel(diff, cashChangeLabel);
+					cashChangeLabel.setText((diff > 0) ? "+" : "" + CapCoinFormatter.getCapCoins(diff));
+				}
 			}
 		});
 	}
@@ -345,13 +394,27 @@ public class GameHudController implements UpdateableController {
 	public void updateNetworthLabel(double currentNetWorth) {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				netWorthLabel.setText(NumberFormat.getIntegerInstance().format(currentNetWorth));
+				netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
+				Double diff = GameState.getInstance().getFinanceDepartment().getNetWorthDifference();
+				if (diff != null) {
+					colorHudLabel(diff, netWorthChangeLabel);
+					netWorthChangeLabel.setText((diff > 0) ? "+" : "" + CapCoinFormatter.getCapCoins(diff));
+				}
 			}
 		});
 	}
 
 	public void updateNumOfEmployees() {
-		employeeLabel.setText(GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees() + "");
+		Platform.runLater(new Runnable() {
+			public void run() {
+				employeeLabel.setText(GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees() + "");
+
+				int diff = GameState.getInstance().getHrDepartment()
+						.getEmployeeDifference(GameState.getInstance().getGameDate());
+				colorHudLabel(diff, employeeChangeLabel);
+				employeeChangeLabel.setText((diff > 0) ? "+" : "" + diff + "");
+			}
+		});
 	}
 
 }
