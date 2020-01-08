@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
 /**
@@ -24,6 +25,10 @@ import javafx.util.Duration;
  */
 public class HrStatisticsController extends GameModuleController {
 
+	@FXML
+	private GridPane statGrid;
+	
+	
 	@FXML
 	private Label numberEmployeesSales, employeeSatisfactionSales, employeeProductivitySales, employeeSalariesSales;
 
@@ -48,6 +53,9 @@ public class HrStatisticsController extends GameModuleController {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		
+		
+		
 		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
 		employeeProductivityOverall.setText(hrDep.getTotalQualityOfWork() + "");
 		employeeSatisfactionOverall.setText(hrDep.getTotalJSS() + "");
@@ -66,6 +74,10 @@ public class HrStatisticsController extends GameModuleController {
 		hrCapTooltip.setShowDelay(Duration.millis(50));
 		hrCapacity.setTooltip(hrCapTooltip);
 
+	}
+	
+	private void createStatGrid() {
+		int numOfRows = EmployeeType.values().length + 2;
 	}
 
 	/**

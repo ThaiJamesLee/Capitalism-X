@@ -35,47 +35,6 @@ public class HREventListener implements PropertyChangeListener {
 			}
 		}
 		
-//		if (evt.getPropertyName().equals("engineerChange")) {
-//			// Update list of engineers
-//			EmployeeListController contr = (EmployeeListController) hrView
-//					.getModule(UIElementType.HR_EMPLOYEES_OVERVIEW).getController();
-////			contr.updateEngineerList(((Team) evt.getNewValue()).getTeam());
-//
-//			// Update statistics module
-//			((HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS).getController())
-//					.updateTeam(EmployeeType.ENGINEER, ((Team) evt.getNewValue()).getTeam().size());
-//			System.out.println("old e-team: " + evt.getOldValue() + ", new e-Team: " + evt.getNewValue().toString());
-//		} else if (evt.getPropertyName().equals("salesPersonChange")) {
-//			// Update list of salespeople
-//			EmployeeListController contr = (EmployeeListController) hrView
-//					.getModule(UIElementType.HR_EMPLOYEES_OVERVIEW).getController();
-////			contr.updateEngineerList(((Team) evt.getNewValue()).getTeam());
-//
-//			// Update statistics module
-//			((HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS).getController())
-//					.updateTeam(EmployeeType.SALESPERSON, ((Team) evt.getNewValue()).getTeam().size());
-//			System.out.println("old s-team: " + evt.getOldValue() + ", new s-Team: " + evt.getNewValue().toString());
-//		} else if (evt.getPropertyName().equals("engineerTeamChanged")) {
-//			List<Employee> newTeam = (List<Employee>) evt.getNewValue();
-//			EmployeeListController contr = (EmployeeListController) hrView
-//					.getModule(UIElementType.HR_EMPLOYEES_OVERVIEW).getController();
-//			contr.updateEngineerList(newTeam);
-//			// Update statistics module
-//			((HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS).getController())
-//					.updateTeam(EmployeeType.ENGINEER, newTeam.size());
-//			UIManager.getInstance().getGameHudController().updateNumOfEmployees();
-//		} else if (evt.getPropertyName().equals("salespersonTeamChanged")) {
-//			List<Employee> newTeam = (List<Employee>) evt.getNewValue();
-//			EmployeeListController contr = (EmployeeListController) hrView
-//					.getModule(UIElementType.HR_EMPLOYEES_OVERVIEW).getController();
-//			contr.updateSalesPeopleList(newTeam);
-//
-//			// Update statistics module
-//			((HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS).getController())
-//					.updateTeam(EmployeeType.SALESPERSON, newTeam.size());
-//			UIManager.getInstance().getGameHudController().updateNumOfEmployees();
-//
-//		}
 	}
 
 }

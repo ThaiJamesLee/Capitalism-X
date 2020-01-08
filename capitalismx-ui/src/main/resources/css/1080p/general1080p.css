@@ -522,11 +522,10 @@ FontAwesomeIcon {
 }
 
 .title_label {
-    -fx-margin: 15.0 30.0 15.0 30.0;
+    -fx-margin: 10.0 20.0 10.0 20.0;
     -fx-font-family: "Prime";
-    -fx-font-size: 37.0px;
+    -fx-font-size: 28.0px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333333; 
 }
 
 .subtitle_label {
@@ -534,7 +533,7 @@ FontAwesomeIcon {
     -fx-background-radius: 9.0,8.0,5.0,4.0;
     /*-fx-padding: 15 30 15 30;*/
     -fx-font-family: "Prime";
-    -fx-font-size: 24.0px;
+    -fx-font-size: 28.0px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;     
 }
@@ -591,9 +590,9 @@ FontAwesomeIcon {
 }
 
 .currentView_label {
-	-fx-text-fill: -fx-light;
+	-fx-text-fill: -fx-primary;
     -fx-font-family: "Prime";
-    -fx-font-size: 33.0px;
+    -fx-font-size: 20.0px;
     -fx-font-weight: bold;
 
 }

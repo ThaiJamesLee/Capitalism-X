@@ -68,10 +68,11 @@
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </padding>
       </GridPane>
-      <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="departmentLabel" alignment="CENTER" contentDisplay="CENTER" text="OVERVIEW">
                <styleClass>
+                  <String fx:value="hud_label" />
                   <String fx:value="title_label" />
                   <String fx:value="hud_background" />
                   <String fx:value="hud_top" />
@@ -178,48 +179,15 @@
             </VBox>
          </children>
       </AnchorPane>
-      <AnchorPane AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="-8.0" layoutY="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label>
-                     <graphic>
-                        <FontAwesomeIcon iconName="COMMENT_ALT" onMousePressed="#togglePressReleaseWindow" size="2em" styleClass="hud_icon_button" />
-                     </graphic>
-                  </Label>
-                  <Label fx:id="messageIconLabel" alignment="TOP_LEFT">
-                     <graphic>
-                        <FontAwesomeIcon iconName="ENVELOPE_ALT" onMousePressed="#toggleMessageWindow" size="2em" styleClass="hud_icon_button" wrappingWidth="24.0" />
-                     </graphic>
-                  </Label>
-                  <Label fx:id="settingsIconLabel">
-                     <graphic>
-                        <FontAwesomeIcon iconName="GEAR" onMousePressed="#toggleMenu" size="2em" styleClass="hud_icon_button" />
-                     </graphic>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-         <styleClass>
-            <String fx:value="hud_background" />
-            <String fx:value="hud_top" />
-         </styleClass>
-      </AnchorPane>
-      <AnchorPane AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <GridPane hgap="10.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <GridPane hgap="10.0" vgap="5.0">
               <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="14.0" />
-                <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" percentWidth="16.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="12.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" percentWidth="16.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" percentWidth="18.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" percentWidth="18.0" />
                   <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="13.0" />
                   <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="10.0" />
@@ -252,7 +220,8 @@
                   <Region styleClass="hud_separator" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
                      <GridPane.margin>
                         <Insets />
-                     </GridPane.margin></Region>
+                     </GridPane.margin>
+                  </Region>
                   <VBox fx:id="employeeVBox" alignment="CENTER" spacing="5.0" styleClass="cursor-clickable" GridPane.columnIndex="6" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
                      <children>
                         <FontAwesomeIcon iconName="USERS" size="1.5em" styleClass="icon_light" />
@@ -301,7 +270,37 @@
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
+               <styleClass>
+                  <String fx:value="hud_background" />
+                  <String fx:value="hud_top" />
+               </styleClass>
             </GridPane>
+         </children>
+      </HBox>
+      <AnchorPane AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label>
+                     <graphic>
+                        <FontAwesomeIcon iconName="COMMENT_ALT" onMousePressed="#togglePressReleaseWindow" size="2em" styleClass="hud_icon_button" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="messageIconLabel" alignment="TOP_LEFT">
+                     <graphic>
+                        <FontAwesomeIcon iconName="ENVELOPE_ALT" onMousePressed="#toggleMessageWindow" size="2em" styleClass="hud_icon_button" wrappingWidth="24.0" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="settingsIconLabel">
+                     <graphic>
+                        <FontAwesomeIcon iconName="GEAR" onMousePressed="#toggleMenu" size="2em" styleClass="hud_icon_button" />
+                     </graphic>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
