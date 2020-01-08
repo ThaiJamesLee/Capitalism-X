@@ -146,7 +146,8 @@ public class GameController {
 	}
 
 	private void updateHR() {
-
+		HRDepartment.getInstance().updateEmployeeHistory(GameState.getInstance().getGameDate());
+		HRDepartment.getInstance().calculateAndUpdateEmployeesMeta();
 	}
 
 	private void updateLogistics() {
@@ -384,20 +385,20 @@ public class GameController {
 		return FinanceDepartment.getInstance().calculateNetWorth(gameDate);
 	}
 
-	public void increaseCash(double amount) {
-		FinanceDepartment.getInstance().increaseCash(amount);
+	public void increaseCash(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().increaseCash(gameDate, amount);
 	}
 
 	public void decreaseCash(double amount) {
 		FinanceDepartment.getInstance().decreaseCash(amount);
 	}
 
-	public void increaseNewWorth(double amount) {
-		FinanceDepartment.getInstance().increaseNetWorth(amount);
+	public void increaseNewWorth(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().increaseNetWorth(gameDate, amount);
 	}
 
-	public void decreaseNetWorth(double amount) {
-		FinanceDepartment.getInstance().decreaseNetWorth(amount);
+	public void decreaseNetWorth(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().decreaseNetWorth(gameDate, amount);
 	}
 
 	public void increaseAssets(double amount) {

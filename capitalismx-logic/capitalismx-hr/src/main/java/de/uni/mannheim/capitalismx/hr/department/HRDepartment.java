@@ -1,14 +1,17 @@
 package de.uni.mannheim.capitalismx.hr.department;
 
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
+import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.employee.impl.ProductionWorker;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
-import de.uni.mannheim.capitalismx.hr.domain.Salary;
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
 import de.uni.mannheim.capitalismx.utils.formatter.DataFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,12 +36,17 @@ import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
  * Here, employees are hired and fired.
  * Additionally, the employee capacity is controlled in this department by controlling the number of HR employees.
  * Based on the report on p.21 - 28
- * 
+ *
  * @author duly
  */
 public class HRDepartment extends DepartmentImpl {
 
 	private static final Logger logger = LoggerFactory.getLogger(HRDepartment.class);
+
+	/**
+	 * Contains the history of the employee number for each day.
+	 */
+	private Map<LocalDate, Integer> employeeNumberHistory;
 
 	/**
 	 * Base Cost used for hiring and firing.
@@ -48,8 +56,14 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * HR worker capacity. You can not hire more HR Workers than this capacity.
+	 * The player can increase this value by leveling up this department.
 	 */
 	private int hrCapacity;
+
+	/**
+	 * The initial value of the hrCapacity.
+	 */
+	private int initialHrCapacity;
 
 
 	private static final String LEVELING_PROPERTIES = "hr-leveling-definition";
@@ -62,16 +76,31 @@ public class HRDepartment extends DepartmentImpl {
 	private static final String EMPLOYEE_DISTRIBUTION_PROPERTY_PREFIX = "hr.skill.distribution.";
 
 
+	/**
+	 * This contains the settings for the employee benefits.
+	 * It controls the job satisfaction factor of the employees.
+	 */
 	private BenefitSettings benefitSettings;
 
+	/**
+	 * A map of teams. The key is the {@link EmployeeType}, with a {@link Team} as a value.
+	 * Hence, each Team contains only Employees of the corresponding EmployeeType.
+	 */
 	private Map<EmployeeType, Team> teams;
 
-	// hired employees.
+	/**
+	 * List of hired employees.
+	 */
 	private PropertyChangeSupportList<Employee> hired;
 
-	// fired employees.
+	/**
+	 * List of fired employees.
+	 */
 	private PropertyChangeSupportList<Employee> fired;
 
+	/**
+	 * The singleton pointer.
+	 */
 	private static HRDepartment instance = null;
 
 	private HRDepartment() {
@@ -99,12 +128,17 @@ public class HRDepartment extends DepartmentImpl {
 		fired.setRemovePropertyName("removeFiredList");
 
 		// Create the teams of employee types
-		teams.put(EmployeeType.ENGINEER, new Team(EmployeeType.ENGINEER).addPropertyName("engineerTeamChanged"));
-		teams.put(EmployeeType.SALESPERSON,
-				new Team(EmployeeType.SALESPERSON).addPropertyName("salespersonTeamChanged"));
-		teams.put(EmployeeType.PRODUCTION_WORKER,
-				new Team(EmployeeType.PRODUCTION_WORKER).addPropertyName("productionworkerTeamChanged"));
-		teams.put(EmployeeType.HR_WORKER, new Team(EmployeeType.HR_WORKER).addPropertyName("hrworkerTeamChanged"));
+		EmployeeType engineer = EmployeeType.ENGINEER;
+		EmployeeType sales = EmployeeType.SALESPERSON;
+		EmployeeType hr = EmployeeType.HR_WORKER;
+		EmployeeType production = EmployeeType.PRODUCTION_WORKER;
+
+		teams.put(engineer, new Team(engineer).addPropertyName(engineer.getTeamEventPropertyChangedKey()));
+		teams.put(sales, new Team(sales).addPropertyName(sales.getTeamEventPropertyChangedKey()));
+		teams.put(production, new Team(production).addPropertyName(production.getTeamEventPropertyChangedKey()));
+		teams.put(hr, new Team(hr).addPropertyName(hr.getTeamEventPropertyChangedKey()));
+
+		employeeNumberHistory = new ConcurrentHashMap<>();
 	}
 
 	/**
@@ -112,8 +146,9 @@ public class HRDepartment extends DepartmentImpl {
 	 */
 	private void initProperties() {
 		setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
-		baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
-		hrCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+		this.baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
+		this.initialHrCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+		this.hrCapacity = initialHrCapacity;
 	}
 
 	/**
@@ -135,9 +170,14 @@ public class HRDepartment extends DepartmentImpl {
 		}
 	}
 
+	/**
+	 *
+	 * @param level The Department level.
+	 * @return Returns a map of probability distributions for employee generation.
+	 */
 	private Map<String, Double> getDistribution(int level) {
 		String distributionString = ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(EMPLOYEE_DISTRIBUTION_PROPERTY_PREFIX + level);
-		List<String> keys = Salary.getSkillLevelNames();
+		List<String> keys = EmployeeTier.getSkillLevelNames();
 
 		return DataFormatter.stringToStringDoubleMap(keys, distributionString);
 	}
@@ -160,13 +200,37 @@ public class HRDepartment extends DepartmentImpl {
 		return costMap;
 	}
 
+	/**
+	 * Calculates the current capacity and updates the variable.
+	 */
+	private void updateHRCapacity() {
+		int newCapacity = this.initialHrCapacity;
+		List<DepartmentSkill> availableSkills = getAvailableSkills();
+
+		for(DepartmentSkill skill : availableSkills) {
+			newCapacity += ((HRSkill) skill).getNewEmployeeCapacity();
+		}
+
+		this.hrCapacity = newCapacity;
+	}
+
+	@Override
+	public void setLevel(int level) {
+		super.setLevel(level);
+		updateHRCapacity();
+	}
+
+	/**
+	 * Use for Tests.
+	 * @return Returns a new HRDepartment instance.
+	 */
 	public static HRDepartment createInstance() {
 		return new HRDepartment();
 	}
 
 	/**
 	 *
-	 * @return Returns this class.
+	 * @return Returns the singleton instance.
 	 */
 	public static HRDepartment getInstance() {
 		if (instance == null) {
@@ -197,8 +261,10 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	/**
-	 * The report does not define the total job satisfaction score
-	 * 
+	 * The report does not define the total job satisfaction score.
+	 * p.24 mentioned that the job satisfaction score depends on each employee skill level.
+	 * But the defined function does not provide that.
+	 *
 	 * @return total job satisfaction score
 	 */
 	public double getTotalJSS() {
@@ -213,8 +279,8 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	/**
-	 * The scale is between 0 - 27
-	 * 
+	 * The scale is between 0 - 27 (incorrectly defined in p.24 + p.26)
+	 *
 	 * @return Returns the sum of points of the current benefit settings.
 	 */
 	private double getOriginalScale() {
@@ -227,15 +293,37 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * Update JSS and QoW for each employee.
+	 * Since it was stated that the jss depends on the skill level, but is not defined,
+	 * we define it as (1 - skillLevel/100) * totalJSS.
 	 */
 	public void calculateAndUpdateEmployeesMeta() {
 		double totalJSS = getTotalJSS();
 		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
 			for (Employee e : entry.getValue().getTeam()) {
-				e.setQualityOfWork(totalJSS * 0.5 + e.getSkillLevel() * 0.5);
-				e.setJobSatisfaction(totalJSS);
+				e.setJobSatisfaction(totalJSS * (1.0 - e.getSkillLevel()/100.0));
+				e.setQualityOfWork(e.getJobSatisfaction() * 0.5 + e.getSkillLevel() * 0.5);
 			}
 		}
+	}
+
+	/**
+	 * Iterates over all employees and calculate the avg. jss.
+	 * @return Returns the average jss.
+	 */
+	private double getAverageJSS() {
+		double totalJSS = 0.0;
+		int totalEmployees = 0;
+		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			totalEmployees += entry.getValue().getTeam().size();
+			for (Employee e : entry.getValue().getTeam()) {
+				totalJSS += e.getJobSatisfaction();
+			}
+		}
+		if (totalEmployees > 0) {
+			return totalJSS/totalEmployees;
+		}
+
+		return 0.0;
 	}
 
 	/**
@@ -244,17 +332,19 @@ public class HRDepartment extends DepartmentImpl {
 	 * reflect the total quality of work.
 	 *
 	 * It is defined as QoW = JSS * 0.5 + skillLevel * 0.5.
-	 * 
+	 *
+	 * We use the average jss of all employees.
+	 *
 	 * @return The overall quality of work.
 	 */
 	public double getTotalQualityOfWork() {
-		return getTotalJSS() * 0.5 + getAverageSkillLevel() * 0.5;
+		return getAverageJSS() * 0.5 + getAverageSkillLevel() * 0.5;
 	}
 
 	/**
 	 * Gets the total quality of work by employee type. The score is the sum of
 	 * quality of work over all employees with the specified employee type.
-	 * 
+	 *
 	 * @param employeeType The employee type of interest
 	 * @return Returns the Quality of Work of the specified team.
 	 */
@@ -310,7 +400,7 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * Hire the employee. Add the employee to the corresponding team list.
-	 * 
+	 *
 	 * @param employee The employee to hire.
 	 * @return Returns the cost of hiring. Returns 0, when employee was not added.
 	 */
@@ -360,7 +450,7 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * Fires the employee.
-	 * 
+	 *
 	 * @param employee the employee to fire.
 	 * @return Returns the cost of the firing.
 	 */
@@ -405,7 +495,7 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * See p.24
-	 * 
+	 *
 	 * @return Returns the actual hiring cost per employee.
 	 */
 	public double getHiringCost() {
@@ -415,7 +505,7 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * See p.24
-	 * 
+	 *
 	 * @return Returns the actual firing cost per employee.
 	 */
 	public double getFiringCost() {
@@ -488,7 +578,7 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * Register the propertychangelistener to all propertychangesupport objects.
-	 * 
+	 *
 	 * @param listener The PropertyChangeListener to register to listen to all PropertyChangeSupport objects.
 	 */
 	public void registerPropertyChangeListener(PropertyChangeListener listener) {
@@ -499,7 +589,7 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * Iterates through all HR Workers and sum up the capacity of each HR Worker.
-	 * 
+	 *
 	 * @return Returns the total capacity of the company for employees.
 	 */
 	public int getTotalEmployeeCapacity() {
@@ -518,7 +608,7 @@ public class HRDepartment extends DepartmentImpl {
 	/**
 	 * Iterates through all teams and sums up the number of {@link Employee}s for
 	 * each {@link Team}.
-	 * 
+	 *
 	 * @return Total number of {@link Employee}s.
 	 */
 	public int getTotalNumberOfEmployees() {
@@ -562,5 +652,74 @@ public class HRDepartment extends DepartmentImpl {
 	 */
 	public Map<String, Double> getCurrentEmployeeDistribution() {
 		return ((HRSkill) skillMap.get(getLevel())).getSkillDistribution();
+	}
+
+	/**
+	 *
+	 * @return Returns the total number of HR Worker you can have.
+	 */
+	public int getHrCapacity() {
+		return hrCapacity;
+	}
+
+	/**
+	 * Adds to the history the current number of employees.
+	 * @param currentDate The current date of the game.
+	 */
+	public void updateEmployeeHistory(LocalDate currentDate) {
+		employeeNumberHistory.put(currentDate, getTotalNumberOfEmployees());
+		cleanEmployeeHistory(currentDate);
+	}
+
+	/**
+	 * Removes from history entries that are older than 30 days.
+	 * @param currentDate The current game date.
+	 */
+	private synchronized void cleanEmployeeHistory(LocalDate currentDate) {
+		Iterator<Map.Entry<LocalDate, Integer>> historyIterator = employeeNumberHistory.entrySet().iterator();
+		while(historyIterator.hasNext()) {
+			Entry<LocalDate, Integer> entry = historyIterator.next();
+			if(entry.getKey().plusDays(30).isBefore(currentDate)) {
+				employeeNumberHistory.remove(entry.getKey());
+			}
+		}
+	}
+
+	/**
+	 * If there is no entry of 30 days in the past, then take the oldest entry for comparison.
+	 * @param currentDate The current date of the game.
+	 * @return Returns the difference in number of employees from today and 30 days ago.
+	 */
+	public int getEmployeeDifference(LocalDate currentDate) {
+		Integer oldValue = employeeNumberHistory.get(currentDate.minusDays(30));
+
+		if(oldValue == null) {
+			oldValue = employeeNumberHistory.get(getOldestEmployeeHistoryEntry());
+		}
+		return getTotalNumberOfEmployees() - oldValue;
+	}
+
+	/**
+	 * Gets the key that is the oldest {@link LocalDate}.
+	 * @return Returns from the employeeNumberHistory the oldest date.
+	 */
+	private LocalDate getOldestEmployeeHistoryEntry() {
+		Set<LocalDate> dates = employeeNumberHistory.keySet();
+
+		LocalDate tmp = null;
+		for(LocalDate date : dates) {
+			if(tmp == null || date.isBefore(tmp)) {
+				tmp = date;
+			}
+		}
+		return tmp;
+	}
+
+	/**
+	 *
+	 * @return Returns the map that contains the history number of employees.
+	 */
+	public Map<LocalDate, Integer> getEmployeeNumberHistory() {
+		return employeeNumberHistory;
 	}
 }

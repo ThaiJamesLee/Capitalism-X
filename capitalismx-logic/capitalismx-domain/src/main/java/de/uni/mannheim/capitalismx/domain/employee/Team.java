@@ -104,6 +104,17 @@ public class Team implements Serializable {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         team.addPropertyChangeListener(listener);
     }
-    
+
+    /**
+     *
+     * @return Returns the average jss score for the team.
+     */
+    public double getAverageJobSatisfactionScore() {
+        double totalSum = 0.0;
+        for(Employee employee : team.getList()){
+            totalSum += employee.getJobSatisfaction();
+        }
+        return totalSum / team.size();
+    }
 
 }

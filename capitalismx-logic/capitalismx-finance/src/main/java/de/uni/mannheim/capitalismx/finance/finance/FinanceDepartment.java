@@ -419,16 +419,19 @@ public class FinanceDepartment extends DepartmentImpl {
         }
     }
 
-    public void increaseCash(double amount){
+    public void increaseCash(LocalDate gameDate, double amount){
         this.cash.setValue(this.cash.getValue() + amount);
+        this.cashHistory.put(gameDate, this.cash.getValue());
     }
 
-    public void decreaseNetWorth(double amount){
+    public void decreaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() - amount);
+        this.netWorthHistory.put(gameDate, this.netWorth.getValue());
     }
 
-    public void increaseNetWorth(double amount){
+    public void increaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() + amount);
+        this.netWorthHistory.put(gameDate, this.netWorth.getValue());
     }
 
     public void increaseAssets(double amount){
@@ -445,7 +448,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     //TODO decide on suitable consequences of acquisition, e.g., increase assets
     public void acquireCompany(LocalDate gameDate){
-        this.increaseCash(10000);
+        this.increaseCash(gameDate, 10000);
         this.decreaseCash(this.calculateNopat(gameDate) * 0.70);
     }
 
@@ -631,7 +634,7 @@ public class FinanceDepartment extends DepartmentImpl {
         Double oldNetWorth = this.netWorthHistory.get(gameDate.minusDays(30));
         Double newNetWorth = this.netWorthHistory.get(gameDate);
         if((oldNetWorth != null) && (newNetWorth != null)){
-            this.netWorthDifference = oldNetWorth - newNetWorth;
+            this.netWorthDifference = newNetWorth - oldNetWorth;
         }else{
             this.netWorthDifference = null;
         }
@@ -641,7 +644,7 @@ public class FinanceDepartment extends DepartmentImpl {
         Double oldCash = this.cashHistory.get(gameDate.minusDays(30));
         Double newCash = this.cashHistory.get(gameDate);
         if((oldCash != null) && (newCash != null)){
-            this.cashDifference = oldCash - this.cashHistory.get(gameDate);
+            this.cashDifference = this.cashHistory.get(gameDate) - oldCash;
         }else{
             this.cashDifference = null;
         }

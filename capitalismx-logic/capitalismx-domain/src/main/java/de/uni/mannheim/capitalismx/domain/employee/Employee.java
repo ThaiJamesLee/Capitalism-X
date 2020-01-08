@@ -13,25 +13,59 @@ import java.util.List;
  */
 public abstract class Employee implements Person, Serializable {
 
+    /**
+     * The current salary of the employee.
+     * The salary depends on the skill level.
+     */
     private double salary;
+
+    /**
+     * The skill level of the employee.
+     */
     private int skillLevel;
 
+    /**
+     * The job satisfaction score for the employee.
+     */
     private double jobSatisfaction;
+
+    /**
+     * The quality of work.
+     */
     private double qualityOfWork;
 
+    /**
+     * The unique id. Currently not supported.
+     */
     private String id;
 
     private String firstName;
     private String lastName;
+
+    /**
+     * Title are like mr oder mrs.
+     */
     private String title;
     private String gender;
 
     private String position;
 
     private String eMail;
+
+    /**
+     * The employee type which must correspond to the class that inherits this class.
+     */
     private EmployeeType employeeType;
+
+    /**
+     * The location data contains address of the employee.
+     * In the current generation, this is not set.
+     */
     private LocationData locationData;
 
+    /**
+     * The trainings this employee has received.
+     */
     private List<Training> trainingsList;
 
     public Employee(PersonMeta metaData) {
@@ -130,7 +164,7 @@ public abstract class Employee implements Person, Serializable {
     }
 
     /**
-     * @return Returns "firstname lastname"
+     * @return Returns "<firstname> <lastname>"
      */
     public String getName(){
         return firstName + " " + lastName;
@@ -157,5 +191,5 @@ public abstract class Employee implements Person, Serializable {
     }
 
     @Override
-    public String toString() { return getName() + "; " + getPosition(); }
+    public String toString() { return getName() + "; " + getEmployeeType().toString(); }
 }
