@@ -634,7 +634,7 @@ public class FinanceDepartment extends DepartmentImpl {
         Double oldNetWorth = this.netWorthHistory.get(gameDate.minusDays(30));
         Double newNetWorth = this.netWorthHistory.get(gameDate);
         if((oldNetWorth != null) && (newNetWorth != null)){
-            this.netWorthDifference = oldNetWorth - newNetWorth;
+            this.netWorthDifference = newNetWorth - oldNetWorth;
         }else{
             this.netWorthDifference = null;
         }
@@ -644,7 +644,7 @@ public class FinanceDepartment extends DepartmentImpl {
         Double oldCash = this.cashHistory.get(gameDate.minusDays(30));
         Double newCash = this.cashHistory.get(gameDate);
         if((oldCash != null) && (newCash != null)){
-            this.cashDifference = oldCash - this.cashHistory.get(gameDate);
+            this.cashDifference = this.cashHistory.get(gameDate) - oldCash;
         }else{
             this.cashDifference = null;
         }
