@@ -146,7 +146,7 @@ public class GameController {
 	}
 
 	private void updateHR() {
-
+		HRDepartment.getInstance().updateEmployeeHistory(GameState.getInstance().getGameDate());
 	}
 
 	private void updateLogistics() {
