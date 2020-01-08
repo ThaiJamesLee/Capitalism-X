@@ -324,12 +324,20 @@ public class GameHudController implements UpdateableController {
 
 	@Override
 	public void update() {
+		//called every ingame day
 		Platform.runLater(() -> {
 			// update date
 			GameState gameState = GameState.getInstance();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd")
 					.withLocale(UIManager.getResourceBundle().getLocale());
 			dateLabel.setText(gameState.getGameDate().format(formatter));
+			
+			// update employee change label
+			int diff = GameState.getInstance().getHrDepartment()
+					.getEmployeeDifference(GameState.getInstance().getGameDate());
+			colorHudLabel(diff, employeeChangeLabel);
+			String diffText = ((diff > 0) ? "+" : "") + diff;
+			employeeChangeLabel.setText(diffText);
 		});
 	}
 
@@ -407,14 +415,11 @@ public class GameHudController implements UpdateableController {
 	public void updateNumOfEmployees() {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				employeeLabel.setText(GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees() + "");
-
-				int diff = GameState.getInstance().getHrDepartment()
-						.getEmployeeDifference(GameState.getInstance().getGameDate());
-				colorHudLabel(diff, employeeChangeLabel);
-				employeeChangeLabel.setText((diff > 0) ? "+" : "" + diff + "");
+				int numOfEmployees = GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees();
+				int capacity = GameState.getInstance().getHrDepartment().getTotalEmployeeCapacity();
+				employeeLabel.setText(numOfEmployees + "/" + capacity);
 			}
 		});
 	}
-
+	
 }

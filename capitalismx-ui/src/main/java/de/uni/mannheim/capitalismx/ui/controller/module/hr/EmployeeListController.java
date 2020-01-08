@@ -88,7 +88,7 @@ public class EmployeeListController extends GameModuleController {
 	 * @param type      The {@link EmployeeType} to update the ListView for.
 	 * @param employees {@link List} of {@link Employee}s containing the new items.
 	 */
-	private void updateEmployeeListView(EmployeeType type, List<Employee> employees) {
+	public void updateEmployeeListView(EmployeeType type, List<Employee> employees) {
 		ListView<Employee> listview = listViews.get(type);
 		listview.setItems(FXCollections.observableArrayList(employees));
 	}

@@ -216,13 +216,13 @@
             <GridPane hgap="10.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="14.0" />
-                <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" percentWidth="18.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" percentWidth="16.0" />
                   <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="12.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" percentWidth="18.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="100.0" percentWidth="16.0" />
                   <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="13.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="6.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="10.0" />
                   <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="13.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="6.0" />

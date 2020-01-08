@@ -65,10 +65,12 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 			this.employee = employee;
 			nameLabel.setText(employee.getName());
 			wageLabel.setText((int) employee.getSalary() + " CC");
+			//add skill graphic
+			skillPane.getChildren().clear();
+			skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel()));
 			gridPane.setOnMouseClicked(e -> {
 				hireEmployee();
 			});
-			skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel()));
 
 			setText(null);
 			setGraphic(gridPane);
