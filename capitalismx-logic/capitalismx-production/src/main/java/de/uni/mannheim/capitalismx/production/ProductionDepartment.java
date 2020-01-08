@@ -43,7 +43,7 @@ public class ProductionDepartment extends DepartmentImpl {
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
 
     private int baseCost;
-    private int machinesCapacity;
+    private int productionSlots;
 
     private static final String LEVELING_PROPERTIES = "production-leveling-definition";
     private static final String MAX_LEVEL_PROPERTY = "production.department.max.level";
@@ -51,7 +51,7 @@ public class ProductionDepartment extends DepartmentImpl {
     private static final String INITIAL_CAPACITY_PROPERTY = "production.department.init.capacity";
 
     private static final String SKILL_COST_PROPERTY_PREFIX = "production.skill.cost.";
-    private static final String SKILL_CAPACITY_PREFIX = "production.skill.capacity.";
+    private static final String SKILL_CAPACITY_PREFIX = "production.skill.slots.";
 
 
     private ProductionDepartment() {
@@ -80,7 +80,7 @@ public class ProductionDepartment extends DepartmentImpl {
     private void initProperties() {
         this.setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
         this.baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
-        this.machinesCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+        this.productionSlots = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
     }
 
     private void initSkills() {
@@ -184,7 +184,7 @@ public class ProductionDepartment extends DepartmentImpl {
     }
 
     public double buyMachinery(Machinery machinery, LocalDate gameDate) {
-        if(this.machinesCapacity >= this.machines.size()) {
+        if(this.productionSlots >= this.machines.size()) {
             machinery.setPurchaseDate(gameDate);
             this.machines.add(machinery);
             this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
@@ -586,12 +586,12 @@ public class ProductionDepartment extends DepartmentImpl {
         return baseCost;
     }
 
-    public int getMachinesCapacity() {
-        return machinesCapacity;
+    public int getProductionSlots() {
+        return productionSlots;
     }
 
     public boolean getMachineSpaceAvailable() {
-        return this.machinesCapacity > this.machines.size();
+        return this.productionSlots > this.machines.size();
     }
 
     public static void setInstance(ProductionDepartment instance) {

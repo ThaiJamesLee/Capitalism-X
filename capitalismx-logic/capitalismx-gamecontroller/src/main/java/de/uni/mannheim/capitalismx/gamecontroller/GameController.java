@@ -588,8 +588,8 @@ public class GameController {
 		return ProductionDepartment.getInstance().getMachineSpaceAvailable();
 	}
 
-	public int getMachinesCapacity() {
-		return ProductionDepartment.getInstance().getMachinesCapacity();
+	public int getProductionSlots() {
+		return ProductionDepartment.getInstance().getProductionSlots();
 	}
 
 	public int getBaseCost() {
