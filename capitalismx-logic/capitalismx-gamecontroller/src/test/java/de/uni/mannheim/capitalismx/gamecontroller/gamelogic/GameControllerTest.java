@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 public class GameControllerTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameControllerTest.class);
 
     @BeforeTest
     public void setUp() {
