@@ -3,7 +3,7 @@ package de.uni.mannheim.capitalismx.domain.employee;
 import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
-import de.uni.mannheim.capitalismx.hr.domain.Salary;
+import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
 import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
 import de.uni.mannheim.capitalismx.hr.salary.SalaryGenerator;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
@@ -11,9 +11,7 @@ import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Use this class to generate employees with random name, and other meta data.
@@ -65,22 +63,23 @@ public class EmployeeGenerator {
 
     /**
      * Creates a pot according to the distribution to draw randomly a skill level.
-     * @param distribution
-     * @return
+     * @param distribution The employee distribution.
+     * @return Returns the lower-bound skill level.
      */
     private int getRandomSkillLevel(Map<String, Double> distribution) {
-        List<Salary> randomPot = new ArrayList<>();
+        List<EmployeeTier> randomPot = new ArrayList<>();
         for(Map.Entry<String, Double> entry : distribution.entrySet()) {
             int number = (int) (entry.getValue() * 100);
             for(int i=0; i<number; i++) {
-                randomPot.add(Salary.getSalaryByName(entry.getKey()));
+                randomPot.add(EmployeeTier.getEmployeeTierByName(entry.getKey()));
             }
         }
+        Collections.shuffle(randomPot);
         int drawNumber = RandomNumberGenerator.getRandomInt(0, randomPot.size() - 1);
-        Salary draw = randomPot.get(drawNumber);
+        EmployeeTier draw = randomPot.get(drawNumber);
 
-        return RandomNumberGenerator.getRandomInt((int)draw.getLowerLevel(), (int)draw.getUpperLevel());
-    }
+        return ((int) draw.getLowerLevel());
+}
 
 
     /**

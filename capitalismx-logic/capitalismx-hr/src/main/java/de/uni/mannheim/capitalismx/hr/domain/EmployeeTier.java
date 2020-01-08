@@ -10,7 +10,7 @@ import java.util.List;
  * See p. 23
  * @author duly
  */
-public enum Salary {
+public enum EmployeeTier {
 
     TIER_0 ("worker", 0,0, 20, 38000, 45000),
     TIER_1 ("student", 1,21, 40, 45000, 55000),
@@ -32,7 +32,7 @@ public enum Salary {
      * @param lowerSalary lower bound of salary for this skill level range
      * @param upperSalary upper bound of salary for this skill level range
      */
-    Salary(String name, int tier, int lowerLevel, int upperLevel, int lowerSalary, int upperSalary) {
+    EmployeeTier(String name, int tier, int lowerLevel, int upperLevel, int lowerSalary, int upperSalary) {
         salaryRange = new Range(lowerSalary, upperSalary);
         skillLevelRange = new Range(lowerLevel, upperLevel);
         this.name = name;
@@ -64,10 +64,10 @@ public enum Salary {
      * @param skillLevel The skill level.
      * @return Returns the salary by the specified skill level. Returns null if not exists.
      */
-    public Salary getSalaryBySkillLevel(int skillLevel) {
-        Salary[] salaries = Salary.values();
+    public EmployeeTier getSalaryBySkillLevel(int skillLevel) {
+        EmployeeTier[] salaries = EmployeeTier.values();
 
-        for(Salary s : salaries) {
+        for(EmployeeTier s : salaries) {
             if (s.getSkillLevelRange().isInRange(skillLevel)) {
                 return s;
             }
@@ -80,10 +80,10 @@ public enum Salary {
      * @param name The skill level name.
      * @return Returns the salary by the specified skill level name. Returns null if not exists.
      */
-    public static Salary getSalaryByName(String name) {
-        Salary[] salaries = Salary.values();
+    public static EmployeeTier getEmployeeTierByName(String name) {
+        EmployeeTier[] salaries = EmployeeTier.values();
 
-        for(Salary s : salaries) {
+        for(EmployeeTier s : salaries) {
             if (s.getName().equals(name)) {
                 return s;
             }
@@ -96,10 +96,10 @@ public enum Salary {
      * @return Returns a sorted list of all skill level names.
      */
     public static List<String> getSkillLevelNames() {
-        Salary[] salaries = Salary.values();
+        EmployeeTier[] salaries = EmployeeTier.values();
         List<String> names = new ArrayList<>();
 
-        for(Salary s : salaries) {
+        for(EmployeeTier s : salaries) {
             names.add(s.getName());
         }
         return names;
@@ -109,11 +109,11 @@ public enum Salary {
      *
      * @return Returns the salary with the maximum tier.
      */
-    public static Salary getMaxTier() {
-        Salary[] salaries = Salary.values();
-        Salary maxTier = null;
+    public static EmployeeTier getMaxTier() {
+        EmployeeTier[] salaries = EmployeeTier.values();
+        EmployeeTier maxTier = null;
 
-        for(Salary s : salaries) {
+        for(EmployeeTier s : salaries) {
             if(maxTier == null) {
                 maxTier = s;
             } else {
