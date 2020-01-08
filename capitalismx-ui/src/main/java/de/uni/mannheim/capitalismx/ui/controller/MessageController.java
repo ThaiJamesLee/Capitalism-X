@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.collections.FXCollections;
@@ -42,9 +43,7 @@ public class MessageController implements Initializable {
 	private ScrollPane messageContentPane;
 
 	private GamePageController controllerReference;
-
-	private ArrayList<MessageSubjectController> messageSubjectList;
-	private ArrayList<MessageContentController> messageContentList;
+	private ArrayList<MessageObject> messageSave;
 
 //	@Override
 //	public void initialize(URL location, ResourceBundle resources) {
@@ -57,9 +56,11 @@ public class MessageController implements Initializable {
 //		});
 //		
 //	}
-	
+	public MessageController(){
+		messageSave = new ArrayList<MessageObject>();
+	}
 
-	public void addMessage(String sender, String date, String subject, String message, boolean isInternal) {
+	public void addMessage(MessageObject m) {
 		Parent messageSubject;
 		Parent messageContent;
 		MessageSubjectController msc;
@@ -74,37 +75,50 @@ public class MessageController implements Initializable {
 		try {
 			messageSubject = subjectLoader.load();
 			msc = subjectLoader.getController();
-			msc.setSubjectSender(bundle.getString(sender));
-			msc.setSubjectDate(date);
-			msc.setSubjectSubject(bundle.getString(subject));
-			messages.add(messageSubject);
+			msc.setSubjectSender(bundle.getString(m.getSender()));
+			msc.setSubjectDate(m.getDate());
+			msc.setSubjectSubject(bundle.getString(m.getSubject()));
+			messages.add(0, messageSubject);
 			messageList.setItems(messages);
 
 			messageContent = contentLoader.load();
 			mcc = contentLoader.getController();
-			mcc.setContentSender(bundle.getString(sender));
-			mcc.setContentDate(date);
-			mcc.setContentSubject(bundle.getString(subject));
-			mcc.setContentContent(bundle.getString(message));
+			mcc.setContentSender(bundle.getString(m.getSender()));
+			mcc.setContentDate(m.getDate());
+			mcc.setContentSubject(bundle.getString(m.getSubject()));
+			mcc.setContentContent(bundle.getString(m.getContent()));
+			if(m.getJumpTo()!=null){
+				mcc.addJumpButton(m.getJumpTo());
+			}
 			messageContentPane.setContent(messageContent);
-			//messageContent = contentLoader.load();
-			//messageSubject.subject = "Hi!";
-			//system.out.print(messageSubject.subject);
 
-			//Label btn = (Label) messageSubject.lookup("#sender");
-			//((Label) messageSubject.lookup("#sender")).setText("Human Ressource Department");
-			//controllerReference = ((GamePageController)(UIManager.getInstance().getSceneGame().getController()));
-			//controllerReference.
-			//((VBox) controllerReference.getMessagePaneReminder().lookup("#messageList")).
+			m.setSubjectPanel(messageSubject);
+			m.setMessageContent(messageContent);
+			messageSave.add(0, m);
+			msc.setMessageReference(m);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
 
+	public void setContent(MessageObject message){
+		messageContentPane.setContent(message.getMessageContent());
+	}
+
+	//todo:
+	public void showMessage(MessageObject messageToShow){
+		int index = messageSave.indexOf(messageToShow);
+		messageList.getSelectionModel().select(index);
+		setContent(messageToShow);
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CssHelper.replaceStylesheets(root.getStylesheets());
+
+
 
 		/*
 		messageClose.setOnAction(e -> {

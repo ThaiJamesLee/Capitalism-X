@@ -53,6 +53,8 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalExpenses;
     private double decreaseNopatFactor;
     private double decreaseNopatConstant;
+    private Double netWorthDifference;
+    private Double cashDifference;
     private PropertyChangeSupportBoolean gameOver;
 
     private List<Warehouse> warehousesSold;
@@ -625,23 +627,23 @@ public class FinanceDepartment extends DepartmentImpl {
         this.updatedQuarterlyData.setValue(!this.updatedQuarterlyData.getValue());
     }
 
-    public Double updateNetWorthDifference(LocalDate gameDate){
+    public void updateNetWorthDifference(LocalDate gameDate){
         Double oldNetWorth = this.netWorthHistory.get(gameDate.minusDays(30));
         Double newNetWorth = this.netWorthHistory.get(gameDate);
         if((oldNetWorth != null) && (newNetWorth != null)){
-            return oldNetWorth - newNetWorth;
+            this.netWorthDifference = oldNetWorth - newNetWorth;
         }else{
-            return null;
+            this.netWorthDifference = null;
         }
     }
 
-    public Double updateCashDifference(LocalDate gameDate){
+    public void updateCashDifference(LocalDate gameDate){
         Double oldCash = this.cashHistory.get(gameDate.minusDays(30));
         Double newCash = this.cashHistory.get(gameDate);
         if((oldCash != null) && (newCash != null)){
-            return oldCash - this.cashHistory.get(gameDate);
+            this.cashDifference = oldCash - this.cashHistory.get(gameDate);
         }else{
-            return null;
+            this.cashDifference = null;
         }
     }
 
@@ -655,6 +657,14 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public TreeMap<LocalDate, Double> getNetWorthHistory() {
         return this.netWorthHistory;
+    }
+
+    public Double getNetWorthDifference(){
+        return this.netWorthDifference;
+    }
+
+    public Double getCashDifference(){
+        return this.cashDifference;
     }
 
     @Override

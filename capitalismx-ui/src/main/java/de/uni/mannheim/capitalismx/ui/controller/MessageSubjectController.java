@@ -1,9 +1,18 @@
 package de.uni.mannheim.capitalismx.ui.controller;
 
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-public class MessageSubjectController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MessageSubjectController implements Initializable {
 
     @FXML
     private Label subjectSender;
@@ -11,6 +20,25 @@ public class MessageSubjectController {
     private Label subjectDate;
     @FXML
     private Label subjectSubject;
+    private MessageObject messageReference;
+
+    @FXML
+    public void showContent(){
+        UIManager.getInstance().getGamePageController().getMessageController().setContent(messageReference);
+        System.out.println(messageReference.getContent());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    public MessageObject getMessageReference() {
+        return messageReference;
+    }
+
+    public void setMessageReference(MessageObject messageReference) {
+        this.messageReference = messageReference;
+    }
 
     public void setSubjectSender(String sender){
         subjectSender.setText(sender);

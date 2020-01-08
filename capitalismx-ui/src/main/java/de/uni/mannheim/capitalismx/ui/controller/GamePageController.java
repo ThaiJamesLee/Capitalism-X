@@ -15,6 +15,7 @@ import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
+import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -115,12 +116,16 @@ public class GamePageController implements UpdateableController {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
 					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
 			Parent rootC = loaderMessageWindow.load();
-			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);
-			;
+			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);;
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
-			messageController.addMessage("sen.event1", "01.01.1990", "sub.event1", "con.event1", true);
+			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, null);
+			MessageObject m2 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event2", true, GameViewType.PRODUCTION);
+			messageController.addMessage(m1);
+			messageController.addMessage(m2);
+			//messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, null);
+			//messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1", "con.event2", true, GameViewType.PRODUCTION);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -167,6 +172,25 @@ public class GamePageController implements UpdateableController {
 		}
 	}
 
+	/**
+	 * Use this method to open the message window and to display a specific message. The displayed message must already exist in the message list.
+	 * @param messageToShow The mMessageObject that should be shown.
+	 */
+	public void showMessage(MessageObject messageToShow){
+		toggleMessageWindow();
+		messageController.showMessage(messageToShow);
+	}
+
+	/**
+	 * Use this method to add a message to the message list and to open the message window. It will display the just added message.
+	 * @param messageToShow The MessageObject that should be added and shown.
+	 */
+	public void addAndShowMessage(MessageObject messageToShow){
+		messageController.addMessage(messageToShow);
+		toggleMessageWindow();
+		messageController.showMessage(messageToShow);
+	}
+
 	@Override
 	public void update() {
 		for (GameModule m : currentActiveView.getModules()) {
@@ -177,7 +201,7 @@ public class GamePageController implements UpdateableController {
 	/**
 	 * Removes a {@link GameModule} from the grid on the GamePage, if it is
 	 * currently displayed.
-	 * 
+	 *
 	 * @param module The {@link GameModule} to remove.
 	 */
 	private void removeModuleFromGrid(GameModule module,boolean animated) {
@@ -194,20 +218,20 @@ public class GamePageController implements UpdateableController {
 		} else {
 			moduleGrid.getChildren().remove(module.getRootElement());
 		}
-		
+
 	}
 
 	/**
 	 * Adds a {@link GameModule} to the grid on the GamePage, so that it is
 	 * displayed. (This will only display the module if it is activated)
-	 * 
+	 *
 	 * @param module   The {@link GameModule} to add to the grid.
 	 * @param animated Whether the Module should be added with an animation.
 	 */
 	private void addModuleToGrid(GameModule module, boolean animated) {
 		GridPosition position = module.getGridPosition();
 		Parent root = module.getRootElement();
-		
+
 		module.getController().update();
 		if (module.isActivated()) {
 			moduleGrid.add(root, position.getxStart(), position.getyStart(), position.getxSpan(),
@@ -229,7 +253,7 @@ public class GamePageController implements UpdateableController {
 	 * {@link GameView} are present on the grid, if it is the of the given
 	 * {@link GameViewType}. If the module is activated but not present, it will be
 	 * added. If it is deactivated but present on the grid, it will be removed.
-	 * 
+	 *
 	 * @param viewType The {@link GameViewType} to update if it is currently
 	 *                 displayed.
 	 */

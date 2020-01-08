@@ -6,6 +6,8 @@ import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 /**
  * @author duly
+ *
+ * @since 1.0.0
  */
 public class SalesPerson extends Employee {
 

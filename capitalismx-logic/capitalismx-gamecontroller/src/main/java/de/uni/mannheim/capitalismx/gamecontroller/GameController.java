@@ -146,7 +146,7 @@ public class GameController {
 	}
 
 	private void updateHR() {
-
+		HRDepartment.getInstance().updateEmployeeHistory(GameState.getInstance().getGameDate());
 	}
 
 	private void updateLogistics() {
@@ -434,6 +434,14 @@ public class GameController {
 
 	public TreeMap<String, String[]> getQuarterlyData() {
 		return FinanceDepartment.getInstance().getQuarterlyData();
+	}
+
+	public Double getNetWorthDifference(){
+		return FinanceDepartment.getInstance().getNetWorthDifference();
+	}
+
+	public Double getCashDifference(){
+		return FinanceDepartment.getInstance().getCashDifference();
 	}
 
 	/*

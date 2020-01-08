@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
@@ -29,8 +30,12 @@ public class WarehousingDepartment extends DepartmentImpl {
     private double monthlyTotalCostWarehousing;
     private int daysSinceFreeStorageThreshold;
 
+    private PropertyChangeSupportMap inventoryChange;
+
+
     private WarehousingDepartment() {
         super("Warehousing");
+
         this.warehouses = new ArrayList<>();
         this.inventory = new HashMap<>();
         this.totalCapacity = 0;
@@ -41,6 +46,10 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.monthlyStorageCost = 0;
         this.monthlyTotalCostWarehousing = 0;
         this.daysSinceFreeStorageThreshold = 0;
+
+        this.inventoryChange = new PropertyChangeSupportMap();
+        this.inventoryChange.setMap(this.inventory);
+        this.inventoryChange.setAddPropertyName("inventoryChange");
     }
 
     public static synchronized WarehousingDepartment getInstance() {
@@ -289,6 +298,6 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+        this.inventoryChange.addPropertyChangeListener(listener);
     }
 }
