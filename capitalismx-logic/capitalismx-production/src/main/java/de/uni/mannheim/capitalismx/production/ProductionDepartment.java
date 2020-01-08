@@ -38,11 +38,12 @@ public class ProductionDepartment extends DepartmentImpl {
     private double averageProductBaseQuality;
     private List<ComponentType> allAvailableComponents;
     private List<Product> launchedProducts;
+    private boolean machineSpaceAvailable;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
 
     private int baseCost;
-    private int productionCapacity;
+    private int machinesCapacity;
 
     private static final String LEVELING_PROPERTIES = "production-leveling-definition";
     private static final String MAX_LEVEL_PROPERTY = "production.department.max.level";
@@ -51,7 +52,6 @@ public class ProductionDepartment extends DepartmentImpl {
 
     private static final String SKILL_COST_PROPERTY_PREFIX = "production.skill.cost.";
     private static final String SKILL_CAPACITY_PREFIX = "production.skill.capacity.";
-
 
 
     private ProductionDepartment() {
@@ -67,6 +67,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionFixCosts = 0.0;
         this.productionVariableCosts = 0.0;
         this.launchedProducts = new ArrayList<>();
+        this.machineSpaceAvailable = true;
 
         this.init();
     }
@@ -79,7 +80,7 @@ public class ProductionDepartment extends DepartmentImpl {
     private void initProperties() {
         this.setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
         this.baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
-        this.productionCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+        this.machinesCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
     }
 
     private void initSkills() {
@@ -183,10 +184,14 @@ public class ProductionDepartment extends DepartmentImpl {
     }
 
     public double buyMachinery(Machinery machinery, LocalDate gameDate) {
-        machinery.setPurchaseDate(gameDate);
-        this.machines.add(machinery);
-        this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
-        return machinery.calculatePurchasePrice();
+        if(this.machinesCapacity >= this.machines.size()) {
+            machinery.setPurchaseDate(gameDate);
+            this.machines.add(machinery);
+            this.monthlyAvailableMachineCapacity += machinery.getMachineryCapacity();
+            return machinery.calculatePurchasePrice();
+        }
+        this.machineSpaceAvailable = false;
+        return 0;
     }
 
     public double sellMachinery(Machinery machinery) {
@@ -575,6 +580,18 @@ public class ProductionDepartment extends DepartmentImpl {
 
     public double getAverageProductBaseQuality() {
         return this.averageProductBaseQuality;
+    }
+
+    public int getBaseCost() {
+        return baseCost;
+    }
+
+    public int getMachinesCapacity() {
+        return machinesCapacity;
+    }
+
+    public boolean getMachineSpaceAvailable() {
+        return this.machinesCapacity > this.machines.size();
     }
 
     public static void setInstance(ProductionDepartment instance) {

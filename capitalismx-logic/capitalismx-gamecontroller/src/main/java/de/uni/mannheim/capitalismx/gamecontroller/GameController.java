@@ -583,6 +583,18 @@ public class GameController {
 	}
 
 	/* machinery game mechanics */
+	public boolean getMachineSpaceAvailable() {
+		return ProductionDepartment.getInstance().getMachineSpaceAvailable();
+	}
+
+	public int getMachinesCapacity() {
+		return ProductionDepartment.getInstance().getMachinesCapacity();
+	}
+
+	public int getBaseCost() {
+		return ProductionDepartment.getInstance().getBaseCost();
+	}
+
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) {
 		return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
 	}
