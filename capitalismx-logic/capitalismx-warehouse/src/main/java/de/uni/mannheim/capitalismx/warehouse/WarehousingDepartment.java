@@ -63,7 +63,6 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.monthlyStorageCost = 0;
         this.monthlyTotalCostWarehousing = 0;
         this.daysSinceFreeStorageThreshold = 0;
-        this.warehouseSlots = 0;
         this.warehouseSlotsAvailable = true;
 
         this.inventoryChange = new PropertyChangeSupportMap();
@@ -88,6 +87,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     private void initProperties() {
         setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
         this.initialWarehouseSlots = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_SLOTS_PROPERTY));
+        this.warehouseSlots = this.initialWarehouseSlots;
     }
 
     private void initSkills() {
