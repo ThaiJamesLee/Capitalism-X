@@ -1,17 +1,24 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
+import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * @author sdupper
  */
 public class LogisticsDepartment extends DepartmentImpl {
     private static LogisticsDepartment instance;
+
+    private static final Logger logger = LoggerFactory.getLogger(LogisticsDepartment.class);
 
     //private InternalFleet internalFleet;
     private ExternalPartner externalPartner;
@@ -23,6 +30,25 @@ public class LogisticsDepartment extends DepartmentImpl {
     private double totalLogisticsCosts;
     //delivered products per day
     private int deliveredProducts;
+
+    /**
+     * Internal (Truck) Fleet capacity. You can not buy more trucks than this capacity.
+     * The player can increase this value by leveling up this department.
+     */
+    private int logisticsCapacity;
+
+    /**
+     * The initial value of the logistics Capacity.
+     */
+    private int initialLogisticsCapacity;
+
+
+    private static final String LEVELING_PROPERTIES = "logistics-leveling-definition";
+    private static final String MAX_LEVEL_PROPERTY = "logistics.department.max.level";
+    private static final String INITIAL_CAPACITY_PROPERTY = "logistics.department.init.capacity";
+
+    private static final String SKILL_COST_PROPERTY_PREFIX = "logistics.skill.cost.";
+    private static final String SKILL_CAPACITY_PREFIX = "logistics.skill.capacity.";
 
     private LogisticsDepartment(){
         super("Logistics");
@@ -37,6 +63,71 @@ public class LogisticsDepartment extends DepartmentImpl {
             LogisticsDepartment.instance = new LogisticsDepartment();
         }
         return LogisticsDepartment.instance;
+    }
+
+    /**
+     * Init default values from properties.
+     */
+    private void initProperties() {
+        setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
+        this.initialLogisticsCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+        this.logisticsCapacity = initialLogisticsCapacity;
+    }
+
+    /**
+     * Initialize Logistics Skills.
+     */
+    private void initSkills() {
+        Map<Integer, Double> costMap = initCostMap();
+        try {
+            setLevelingMechanism(new LevelingMechanism(this, costMap));
+        } catch (InconsistentLevelException e) {
+            String error = "The costMap size " + costMap.size() +  " does not match the maximum level " + this.getMaxLevel() + " of this department!";
+            logger.error(error, e);
+        }
+
+        ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for (int i=1; i <= getMaxLevel(); i++) {
+            int fleetCapacity = Integer.parseInt(skillBundle.getString(SKILL_CAPACITY_PREFIX + i));
+            skillMap.put(i, new LogisticsSkill(i, fleetCapacity));
+        }
+    }
+
+    /**
+     * Initializes the cost map. This is used for the {@link LevelingMechanism}.
+     */
+    private Map<Integer, Double> initCostMap() {
+        // init cost map
+        /* TODO BALANCING NEEDED*/
+        Map<Integer, Double> costMap = new HashMap<>();
+
+        ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            double cost = Integer.parseInt(bundle.getString(SKILL_COST_PROPERTY_PREFIX + i));
+            costMap.put(i, cost);
+        }
+
+        return costMap;
+    }
+
+    /**
+     * Calculates the current capacity and updates the variable.
+     */
+    private void updateLogisticsCapacity() {
+        int newCapacity = this.initialLogisticsCapacity;
+        List<DepartmentSkill> availableSkills = getAvailableSkills();
+
+        for(DepartmentSkill skill : availableSkills) {
+            newCapacity += ((LogisticsSkill) skill).getNewFleetCapacity();
+        }
+
+        this.logisticsCapacity = newCapacity;
+    }
+
+    @Override
+    public void setLevel(int level) {
+        super.setLevel(level);
+        updateLogisticsCapacity();
     }
 
     public void calculateAll(LocalDate gameDate){
