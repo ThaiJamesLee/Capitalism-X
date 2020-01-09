@@ -14,11 +14,16 @@ public class CustomerSatisfactionTest {
 
     @BeforeTest
     public void setUp() {
-        CustomerSatisfaction.getInstance();
+
     }
 
     @Test
     public void calculateCustomerSatisfactionTest() {
-        Assert.assertNotNull(CustomerSatisfaction.getInstance().calculateCustomerSatisfaction(LocalDate.of(1990,1,1)));
+        CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.createInstance();
+        double custSatistfactionScore = customerSatisfaction.calculateCustomerSatisfaction(LocalDate.of(1990,1,1));
+        String message = "CustomerSatisfaction: " +custSatistfactionScore;
+
+        LOGGER.info(message);
+        Assert.assertNotNull(custSatistfactionScore);
     }
 }
