@@ -1,27 +1,27 @@
-package de.uni.mannheim.capitalismx.production.de.uni.mannheim.capitalismx.production.skill;
+package de.uni.mannheim.capitalismx.warehouse.skill;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 
 import java.util.Locale;
 
-public class ProductionSkill implements DepartmentSkill {
+public class WarehouseSkill implements DepartmentSkill {
 
     private int level;
-    private int newMachineCapacity;
+    private int newWarehouseSlots;
 
     private String description;
 
-    public ProductionSkill(int level, int newMachineCapacity) {
+    public WarehouseSkill(int level, int newWarehouseSlots) {
         this.level = level;
-        this.newMachineCapacity = newMachineCapacity;
+        this.newWarehouseSlots = newWarehouseSlots;
     }
 
     public int getLevel() {
         return level;
     }
 
-    public int getNewMachineCapacity() {
-        return newMachineCapacity;
+    public int getNewWarehouseSlots() {
+        return newWarehouseSlots;
     }
 
     @Override

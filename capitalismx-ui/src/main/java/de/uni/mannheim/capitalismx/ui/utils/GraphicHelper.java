@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.PopupWindow.AnchorLocation;
 import javafx.util.Duration;
 
 public class GraphicHelper {
@@ -26,10 +27,12 @@ public class GraphicHelper {
 			starGrid.add(icon, i, 0);
 		}
 		
-		TooltipFactory factory = new TooltipFactory();
-		factory.setFadeInDuration(Duration.millis(100));
-		factory.addSimpleTooltipToNode(starGrid, "Skill: " + skillLevel); //TODO local.
 		AnchorPaneHelper.snapNodeToAnchorPane(starGrid);
+
+		TooltipFactory factory = new TooltipFactory();
+		factory.setAnchorLocation(AnchorLocation.CONTENT_BOTTOM_RIGHT);
+		factory.setFadeInDuration(Duration.millis(100));
+		factory.addSimpleTooltipToNode(starGrid, "Skill: " + skillLevel);
 		
 		return starGrid;
 	}

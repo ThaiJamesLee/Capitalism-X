@@ -14,7 +14,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -68,7 +68,9 @@ public class TruckFleetController extends GameModuleController {
 		// truckFleetListView.setItems(truckFleetListObservable);
 		truckFleetListView.setCellFactory(truckListView -> new TruckListViewCell(truckFleetListView));
 
-		popover = PopOverHelper.createStandardOverlay("fxml/overlay/truck_detail_list.fxml");
+		PopOverFactory helper = new PopOverFactory();
+		helper.createStandardOverlay("fxml/overlay/truck_detail_list.fxml");
+		popover = helper.getPopover();
 
 		buyTruckButton.setOnAction(e -> {
 			showPopover();
@@ -78,7 +80,6 @@ public class TruckFleetController extends GameModuleController {
 	public void addTruck(Truck truck) {
 		truckFleetListView.getItems().add(truck);
 	}
-
 
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());

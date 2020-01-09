@@ -17,5 +17,5 @@ public class CapCoinFormatter {
 	public static String getCapCoins(double amount) {
 		return NumberFormat.getIntegerInstance().format(amount) + CURRENCY_SYMBOL;
 	}
-
+	
 }

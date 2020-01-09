@@ -440,7 +440,7 @@ public class HRDepartment extends DepartmentImpl {
 				isAdded = false;
 			}
 		} else if (employee instanceof ProductionWorker) {
-			teams.get(EmployeeType.HR_WORKER).addEmployee(employee);
+			teams.get(EmployeeType.PRODUCTION_WORKER).addEmployee(employee);
 		} else {
 			isAdded = false;
 

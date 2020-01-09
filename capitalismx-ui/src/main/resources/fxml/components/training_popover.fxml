@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -11,9 +12,12 @@
 
 <AnchorPane fx:id="trainingPopoverRoot" prefWidth="220.0" stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController">
    <children>
-      <VBox layoutX="-69.0" layoutY="-48.0" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="-69.0" layoutY="-48.0" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label styleClass="header" text="%training.title" />
+            <Label styleClass="header" text="%training.title">
+               <graphic>
+                  <FontAwesomeIcon iconName="GRADUATION_CAP" />
+               </graphic></Label>
             <GridPane fx:id="workshopGrid" styleClass="training_grid">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="70.0" />

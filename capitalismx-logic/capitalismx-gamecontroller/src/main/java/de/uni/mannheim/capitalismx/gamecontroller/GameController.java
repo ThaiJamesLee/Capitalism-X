@@ -614,16 +614,12 @@ public class GameController {
 	}
 
 	/* machinery game mechanics */
-	public boolean getMachineSpaceAvailable() {
-		return ProductionDepartment.getInstance().getMachineSpaceAvailable();
+	public boolean getMachineSlotsAvailable() {
+		return ProductionDepartment.getInstance().getMachineSlotsAvailable();
 	}
 
 	public int getProductionSlots() {
 		return ProductionDepartment.getInstance().getProductionSlots();
-	}
-
-	public int getBaseCost() {
-		return ProductionDepartment.getInstance().getBaseCost();
 	}
 
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) {
@@ -797,6 +793,14 @@ public class GameController {
 	 * public double sellProducts() { return
 	 * Warehousing.getInstance().sellProducts() }
 	 */
+
+	public int getWarehouseSlots() {
+		return WarehousingDepartment.getInstance().getWarehouseSlots();
+	}
+
+	public boolean getWarehouseSlotsAvailable() {
+		return WarehousingDepartment.getInstance().getWarehouseSlotsAvailable();
+	}
 
 	public List<Warehouse> getWarehouses() {
 		return WarehousingDepartment.getInstance().getWarehouses();
