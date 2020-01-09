@@ -85,6 +85,8 @@ public class WarehouseListController extends GameModuleController {
 
 		warehouseListView.setCellFactory(warehouseListView -> new WarehouseListViewCell(warehouseListView));
 		warehouseListView.getItems().addAll(GameState.getInstance().getWarehousingDepartment().getWarehouses());
+		
+		GameState.getInstance().getWarehousingDepartment().getLevelingMechanism().levelUp(); //TODO remove. Only for testing
 	}
 
 	/**
