@@ -108,7 +108,8 @@ public class FinanceOverviewController extends GameModuleController {
 
 		// Prepare the Popover for the trainButton
 		PopOverFactory factory = new PopOverFactory();
-		factory.createStandardOverlay("fxml/overlay/loan_request_list.fxml");
+		
+		factory.createStandardPopover("fxml/overlay/loan_request_list.fxml");
 		loanRequestPopover = factory.getPopover();
 		loanRequestListController = (LoanRequestListController)factory.getPopoverController();
 
@@ -116,7 +117,7 @@ public class FinanceOverviewController extends GameModuleController {
 			try {
 				this.loanAmount = Double.parseDouble(loanAmountTextField.getText());
 				loanRequestListController.setLoanAmount(loanAmount);
-				this.loanRequestPopover.show(UIManager.getInstance().getStage());
+				this.loanRequestPopover.show(loanRequestButton);
 				// this.loanAmount = NULL;
 				loanAmountTextField.clear();
 			} catch (NumberFormatException exception) {
