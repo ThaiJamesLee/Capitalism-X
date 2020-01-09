@@ -34,13 +34,6 @@ public class FinanceStatisticsChartsController extends GameModuleController {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        //final CategoryAxis xAxisCash = new CategoryAxis();
-        //final NumberAxis yAxisCash = new NumberAxis();
-        //xAxisCash.setLabel("Last 12 Months");
-        //cashChart = new LineChart<>(xAxisCash, yAxisCash);
-        //XYChart.Series cashSeries = new XYChart.Series<Number, Number>();
-        //cashSeries.setName("Test");
-
         cashSeries = new XYChart.Series();
         for(int i = 1; i < 13; i++){
             cashSeries.getData().add(new XYChart.Data(String.valueOf(i), 0));
@@ -57,6 +50,11 @@ public class FinanceStatisticsChartsController extends GameModuleController {
         for(int i = 1; i < 13; i++){
             netWorthSeries.getData().add(new XYChart.Data(String.valueOf(i), 0));
         }
+
+        cashChart.setAnimated(false);
+        assetsChart.setAnimated(false);
+        liabilitiesChart.setAnimated(false);
+        netWorthChart.setAnimated(false);
 
         cashChart.getData().add(cashSeries);
         assetsChart.getData().add(assetsSeries);

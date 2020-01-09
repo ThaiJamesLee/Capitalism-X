@@ -438,37 +438,44 @@ public class FinanceDepartment extends DepartmentImpl {
         }else{
             this.cash.setValue(cash);
             this.cashHistory.put(gameDate, this.cash.getValue());
+            this.updateMonthlyData(gameDate);
         }
     }
 
     public void increaseCash(LocalDate gameDate, double amount){
         this.cash.setValue(this.cash.getValue() + amount);
         this.cashHistory.put(gameDate, this.cash.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
     public void decreaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() - amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
     public void increaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() + amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
     public void increaseAssets(LocalDate gameDate, double amount){
         this.assets.setValue(this.assets.getValue() + amount);
         this.assetsHistory.put(gameDate, this.assets.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
     public void decreaseAssets(LocalDate gameDate, double amount){
         this.assets.setValue(this.assets.getValue() - amount);
         this.assetsHistory.put(gameDate, this.assets.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
     public void increaseLiabilities(LocalDate gameDate, double amount){
         this.liabilities.setValue(this.liabilities.getValue() + amount);
         this.liabilitiesHistory.put(gameDate, this.liabilities.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
     //TODO decide on suitable consequences of acquisition, e.g., increase assets
@@ -573,7 +580,7 @@ public class FinanceDepartment extends DepartmentImpl {
                 break;
         }
         this.decreaseCash(gameDate, amount);
-        this.assets.setValue(this.assets.getValue() + amount);
+        this.increaseAssets(gameDate, amount);
         return true;
     }
 
@@ -609,7 +616,7 @@ public class FinanceDepartment extends DepartmentImpl {
         }
 
         this.increaseCash(gameDate, amount);
-        this.assets.setValue(this.assets.getValue() - amount);
+        this.decreaseAssets(gameDate, amount);
         return true;
     }
 

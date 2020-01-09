@@ -294,11 +294,17 @@ FontAwesomeIcon {
 }
 
 .chart-plot-background{
-	-fx-background-color: -fx-light-neutral;	
+		-fx-background-color: -fx-primary-dark-transparent;
 }
 
 .chart-alternative-row-fill {
-    -fx-fill: -fx-light;
+    -fx-fill: -fx-primary-light;
+}
+
+.default-color0.chart-series-line { -fx-stroke: -fx-primary; }
+
+.default-color0.chart-line-symbol{
+    -fx-background-color: -fx-primary, white;
 }
  
  .axis {
@@ -354,7 +360,7 @@ FontAwesomeIcon {
 
 
 /**
- * TODO: in eigene Dateien für das jeweilige Element auslagern
+ * TODO: in eigene Dateien fï¿½r das jeweilige Element auslagern
  */
 .sidemenu_color {
 	-fx-background-color: -fx-dark;
