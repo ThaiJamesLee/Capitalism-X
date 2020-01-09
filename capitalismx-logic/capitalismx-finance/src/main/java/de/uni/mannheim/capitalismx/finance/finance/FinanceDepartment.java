@@ -67,6 +67,8 @@ public class FinanceDepartment extends DepartmentImpl {
     private TreeMap<LocalDate, Double> ebitHistory;
     private TreeMap<LocalDate, Double> nopatHistory;
     private TreeMap<LocalDate, Double> cashHistory;
+    private TreeMap<LocalDate, Double> assetsHistory;
+    private TreeMap<LocalDate, Double> liabilitiesHistory;
     private TreeMap<LocalDate, Double> netWorthHistory;
     private Map<String, TreeMap<LocalDate, Double>> histories;
     private Map<String, TreeMap<LocalDate, Double>> historiesForQuarterlyData;
@@ -116,10 +118,14 @@ public class FinanceDepartment extends DepartmentImpl {
         this.ventureCapitalInvestmentAmount.setPropertyChangedName("ventureCapitalInvestmentAmount");
 
         this.cashHistory = new TreeMap<>();
+        this.assetsHistory = new TreeMap<>();
+        this.liabilitiesHistory = new TreeMap<>();
         this.netWorthHistory = new TreeMap<>();
 
         this.histories = new TreeMap<>();
         this.histories.put("cashHistory", this.cashHistory);
+        this.histories.put("assetsHistory", this.assetsHistory);
+        this.histories.put("liabilitiesHistory", this.liabilitiesHistory);
         this.histories.put("netWorthHistory", this.netWorthHistory);
 
         this.salesHistory = new TreeMap<>();
@@ -181,6 +187,7 @@ public class FinanceDepartment extends DepartmentImpl {
         //this.assets = this.totalTruckValues + this.totalMachineValues + this.totalWarehousingValues + this.totalInvestmentAmount;
         this.assets.setValue(this.calculateTotalTruckValues(gameDate) + this.calculateTotalMachineValues(gameDate) +
                 this.calculateTotalWarehousingValues(gameDate) + this.calculateTotalInvestmentAmount());
+        this.assetsHistory.put(gameDate, this.assets.getValue());
         return this.assets.getValue();
     }
 
@@ -387,6 +394,7 @@ public class FinanceDepartment extends DepartmentImpl {
     protected double calculateLiabilities(LocalDate gameDate){
         //this.liabilities = BankingSystem.getInstance().getAnnualPrincipalBalance();
         this.liabilities.setValue(BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate));
+        this.liabilitiesHistory.put(gameDate, this.liabilities.getValue());
         return this.liabilities.getValue();
     }
 
@@ -448,16 +456,19 @@ public class FinanceDepartment extends DepartmentImpl {
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
     }
 
-    public void increaseAssets(double amount){
+    public void increaseAssets(LocalDate gameDate, double amount){
         this.assets.setValue(this.assets.getValue() + amount);
+        this.assetsHistory.put(gameDate, this.assets.getValue());
     }
 
-    public void decreaseAssets(double amount){
+    public void decreaseAssets(LocalDate gameDate, double amount){
         this.assets.setValue(this.assets.getValue() - amount);
+        this.assetsHistory.put(gameDate, this.assets.getValue());
     }
 
-    public void increaseLiabilities(double amount){
+    public void increaseLiabilities(LocalDate gameDate, double amount){
         this.liabilities.setValue(this.liabilities.getValue() + amount);
+        this.liabilitiesHistory.put(gameDate, this.liabilities.getValue());
     }
 
     //TODO decide on suitable consequences of acquisition, e.g., increase assets
@@ -651,43 +662,29 @@ public class FinanceDepartment extends DepartmentImpl {
             double[] values = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
             String[] yValues = new String[12];
 
-            //current month
-            LocalDate monthStart = LocalDate.of(gameDate.getYear(), gameDate.getMonthValue(), 1);
-            //monthStart = monthStart.minusMonths(1);
-            int gameMonth = monthStart.getMonthValue();
-            LocalDate monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
-            /*SortedMap<LocalDate,Double> submap = map.subMap(monthStart, monthEnd);
-            for (Map.Entry<LocalDate,Double> entry : submap.entrySet()) {
-                values[11] += entry.getValue();
-            }*/
+            //current value
+            LocalDate monthEnd = LocalDate.of(gameDate.getYear(), gameDate.getMonthValue(), gameDate.lengthOfMonth());;
 
-            //SortedMap<LocalDate,Double> submap = map.subMap(monthStart, monthEnd);
-            //Double value = (Double) submap.entrySet().toArray()[submap.entrySet().size() - 1];
-            //Double value = map.get(monthEnd);
             Double value = map.get(gameDate);
             if(value == null){
-                values[11] = 0;
+                values[11] = 0.0;
             }else{
                 values[11] = value;
             }
-            xNames[11] = monthStart.getYear() + "-" + gameMonth;
+            xNames[11] = gameDate.getYear() + "-" + String.format("%02d", gameDate.getMonthValue());
 
-            //previous months
+            //last day of previous months
             for(int i = (values.length - 2); i >= 0; i--){
-                monthStart = monthStart.minusMonths(1);
-                monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
-                gameMonth = monthStart.getMonthValue();
-                /*submap = map.subMap(monthStart, monthEnd);
-                for (Map.Entry<LocalDate,Double> entry : submap.entrySet()) {
-                    values[i] += entry.getValue();
-                }*/
+                monthEnd = monthEnd.minusMonths(1);
+                monthEnd = monthEnd.withDayOfMonth(monthEnd.lengthOfMonth());
+
                 value = map.get(monthEnd);
                 if(value == null){
-                    values[i] = 0;
+                    values[i] = 0.0;
                 }else{
                     values[i] = map.get(monthEnd);
                 }
-                xNames[i] = new String(monthStart.getYear() + "-" + gameMonth);
+                xNames[i] = monthEnd.getYear() + "-" + String.format("%02d", monthEnd.getMonthValue());
             }
 
             for(int i = 0; i < xNames.length; i++){

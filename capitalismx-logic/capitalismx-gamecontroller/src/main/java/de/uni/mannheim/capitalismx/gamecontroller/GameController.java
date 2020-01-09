@@ -402,16 +402,16 @@ public class GameController {
 		FinanceDepartment.getInstance().decreaseNetWorth(gameDate, amount);
 	}
 
-	public void increaseAssets(double amount) {
-		FinanceDepartment.getInstance().increaseAssets(amount);
+	public void increaseAssets(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().increaseAssets(gameDate, amount);
 	}
 
-	public void decreaseAssets(double amount) {
-		FinanceDepartment.getInstance().decreaseAssets(amount);
+	public void decreaseAssets(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().decreaseAssets(gameDate, amount);
 	}
 
-	public void increaseLiabilities(double amount) {
-		FinanceDepartment.getInstance().increaseLiabilities(amount);
+	public void increaseLiabilities(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().increaseLiabilities(gameDate, amount);
 	}
 
 	public double getRealEstateInvestmentAmount() {

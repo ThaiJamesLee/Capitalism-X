@@ -77,7 +77,7 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
                     System.out.println("Not enough cash!");
                 }else{
                     GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), truck.getPurchasePrice());
-                    GameController.getInstance().increaseAssets(truck.getPurchasePrice());
+                    GameController.getInstance().increaseAssets(GameState.getInstance().getGameDate(), truck.getPurchasePrice());
                     controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
                     TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
                     uiController.addTruck(truck);
