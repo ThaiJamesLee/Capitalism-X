@@ -70,7 +70,6 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionVariableCosts = 0.0;
         this.launchedProducts = new ArrayList<>();
         this.machineSlotsAvailable = true;
-        this.productionSlots = 0;
 
         this.init();
     }
@@ -83,6 +82,7 @@ public class ProductionDepartment extends DepartmentImpl {
     private void initProperties() {
         this.setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
         this.initialProductionSlots = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_SLOTS_PROPERTY));
+        this.productionSlots = initialProductionSlots;
     }
 
     private void initSkills() {

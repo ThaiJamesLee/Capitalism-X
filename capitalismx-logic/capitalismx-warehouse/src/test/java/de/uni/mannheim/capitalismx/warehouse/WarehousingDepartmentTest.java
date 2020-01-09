@@ -72,12 +72,6 @@ public class WarehousingDepartmentTest {
     }
 
     @Test
-    public void rentWarehouseTest() {
-        WarehousingDepartment.getInstance().rentWarehouse(LocalDate.of(1990,1,1));
-        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 2);
-    }
-
-    @Test
     public void sellProductTest() {
         HashMap<Unit, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
         WarehousingDepartment.getInstance().sellProducts(inventory);
@@ -97,6 +91,12 @@ public class WarehousingDepartmentTest {
                 WarehousingDepartment.getInstance().sellWarehouse(w);
             }
         }
+        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 0);
+    }
+
+    @Test
+    public void rentWarehouseTest() {
+        WarehousingDepartment.getInstance().rentWarehouse(LocalDate.of(1990,1,1));
         Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
     }
 }
