@@ -319,11 +319,6 @@ public class GameHudController implements UpdateableController {
 		UIManager.getInstance().getGamePageController().toggleMessageWindow();
 	}
 
-	@FXML
-	private void togglePressReleaseWindow() {
-
-	}
-
 	@Override
 	public void update() {
 		//called every ingame day
@@ -351,6 +346,8 @@ public class GameHudController implements UpdateableController {
 				if (diff != null) {
 					colorHudLabel(diff, cashChangeLabel);
 					cashChangeLabel.setText((diff >= 0) ? "+" : "" + CapCoinFormatter.getCapCoins(diff));
+				} else {
+					cashChangeLabel.setText("+0 CC");
 				}
 			}
 		});

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GameHudController">
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GameHudController">
    <children>
       <GridPane fx:id="moduleGrid" hgap="30.0" layoutX="10.0" layoutY="10.0" styleClass="background" vgap="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
          <columnConstraints>
@@ -68,14 +68,13 @@
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </padding>
       </GridPane>
-      <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
+      <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="departmentLabel" alignment="CENTER" contentDisplay="CENTER" text="OVERVIEW">
                <styleClass>
-                  <String fx:value="hud_label" />
                   <String fx:value="title_label" />
                   <String fx:value="hud_background" />
-                  <String fx:value="hud_bottom" />
+                  <String fx:value="hud_top" />
                </styleClass>
             </Label>
          </children>
@@ -179,7 +178,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <HBox alignment="CENTER" layoutX="-8.0" layoutY="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="-8.0" layoutY="-8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <GridPane hgap="10.0" vgap="5.0">
               <columnConstraints>
@@ -272,7 +271,7 @@
                </padding>
                <styleClass>
                   <String fx:value="hud_background" />
-                  <String fx:value="hud_top" />
+                  <String fx:value="hud_bottom" />
                </styleClass>
             </GridPane>
          </children>
