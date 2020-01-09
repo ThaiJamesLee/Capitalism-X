@@ -45,12 +45,19 @@ import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
+/**
+ * This class is the entry point for the UI.
+ * It aggregates the game-logic and allows all objects to be updated.
+ *
+ * @author duly
+ * @author dzhao
+ * @author sdupper
+ */
 public class GameController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
 	private static GameController instance;
-	private boolean isNewYear;
 
 	private GameController() {
 	}
@@ -117,10 +124,8 @@ public class GameController {
 			ExternalEvents.setInstance(state.getExternalEvents());
 			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
 			InternalFleet.setInstance(state.getInternalFleet());
-
-
 		} catch (ClassNotFoundException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 

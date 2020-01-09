@@ -59,7 +59,7 @@ public class CustomerDemand implements Serializable {
         return this.productCustomerSatisfactionOverallAppeal;
     }
 
-    private Map<Product, Double> calculateOverallAppealDemand(double totalSalesQualityOfWork, LocalDate gameDate) {
+    public Map<Product, Double> calculateOverallAppealDemand(double totalSalesQualityOfWork, LocalDate gameDate) {
         this.totalSalesQualityOfWork = totalSalesQualityOfWork;
         Map<Product, Double> overallAppealDemand = new ConcurrentHashMap<>();
         Map<Product, Double> productOverallAppeal = this.calculateProductOverallAppeal(gameDate);
@@ -70,7 +70,7 @@ public class CustomerDemand implements Serializable {
         return this.overallAppealDemand;
     }
 
-    private Map<Product, Double> calculateDemandPercentage(double totalSalesQualityOfWork, LocalDate gameDate) {
+    public Map<Product, Double> calculateDemandPercentage(double totalSalesQualityOfWork, LocalDate gameDate) {
         this.calculateOverallAppealDemand(totalSalesQualityOfWork, gameDate);
         Map<Product, Double> demandPercentage = new ConcurrentHashMap<>();
         for(Map.Entry<Product, Double> entry : this.overallAppealDemand.entrySet()) {
@@ -133,5 +133,9 @@ public class CustomerDemand implements Serializable {
 
     public static void setInstance(CustomerDemand instance) {
         CustomerDemand.instance = instance;
+    }
+
+    public Map<Product, Double> getDemandPercentage() {
+        return demandPercentage;
     }
 }
