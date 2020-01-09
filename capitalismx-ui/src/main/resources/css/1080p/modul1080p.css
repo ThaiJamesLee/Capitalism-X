@@ -27,6 +27,7 @@
 
 .header FontAwesomeIcon {
 	-fx-fill: -fx-primary;
+	-fx-margin: 5;
 }
 
 .modulePane {
