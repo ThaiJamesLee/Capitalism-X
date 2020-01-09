@@ -140,6 +140,7 @@ public class GameController {
 
 	private void updateFinance() {
 		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateMonthlyData(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateNetWorthDifference(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateCashDifference(GameState.getInstance().getGameDate());
@@ -389,8 +390,8 @@ public class GameController {
 		FinanceDepartment.getInstance().increaseCash(gameDate, amount);
 	}
 
-	public void decreaseCash(double amount) {
-		FinanceDepartment.getInstance().decreaseCash(amount);
+	public void decreaseCash(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().decreaseCash(gameDate, amount);
 	}
 
 	public void increaseNewWorth(LocalDate gameDate, double amount) {
@@ -425,13 +426,17 @@ public class GameController {
 		return FinanceDepartment.getInstance().getVentureCapitalInvestmentAmount();
 	}
 
-	public boolean increaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
-		return FinanceDepartment.getInstance().increaseInvestmentAmount(amount, investmentType);
+	public boolean increaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
+		return FinanceDepartment.getInstance().increaseInvestmentAmount(gameDate, amount, investmentType);
 	}
 
-    public boolean decreaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
-        return FinanceDepartment.getInstance().decreaseInvestmentAmount(amount, investmentType);
+    public boolean decreaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
+        return FinanceDepartment.getInstance().decreaseInvestmentAmount(gameDate, amount, investmentType);
     }
+
+	public TreeMap<String, String[]> getMonthlyData() {
+		return FinanceDepartment.getInstance().getMonthlyData();
+	}
 
 	public TreeMap<String, String[]> getQuarterlyData() {
 		return FinanceDepartment.getInstance().getQuarterlyData();

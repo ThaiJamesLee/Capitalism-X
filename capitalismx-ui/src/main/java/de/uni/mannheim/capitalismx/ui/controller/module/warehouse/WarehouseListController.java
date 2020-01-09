@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.warehouse;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -50,12 +51,12 @@ public class WarehouseListController extends GameModuleController {
 	/**
 	 * Initiates the purchase of a new {@link Warehouse}.
 	 */
-	private void buyWarehouse() {
+	private void buyWarehouse(LocalDate gameDate) {
 		GameController controller = GameController.getInstance();
 
 		boolean firstWarehouse = controller.getWarehouses().isEmpty();
 		double costs = controller.buildWarehouse();
-		controller.decreaseCash(costs);// TODO what if capacity reached? -> cannot just add the last one
+		controller.decreaseCash(gameDate, costs);// TODO what if capacity reached? -> cannot just add the last one
 		addLatestWarehouseToList();
 		if (firstWarehouse)
 			activateWarehouseModules();
@@ -76,7 +77,7 @@ public class WarehouseListController extends GameModuleController {
 		warehouseListView.setPlaceholder(new Label(UIManager.getLocalisedString("warehouse.list.placeholder")));
 
 		buyGridButton.setOnMouseClicked(e -> {
-			buyWarehouse();
+			buyWarehouse(GameState.getInstance().getGameDate());
 		});
 
 		rentGridButton.setOnMouseClicked(e -> {

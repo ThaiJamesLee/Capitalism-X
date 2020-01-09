@@ -135,7 +135,7 @@ public class FinanceOverviewController extends GameModuleController {
 		buyRealEstateButton.setOnAction(e -> {
 			try {
 				double amount = Double.parseDouble(realEstateTextField.getText());
-				boolean successful = controller.increaseInvestmentAmount(amount, Investment.InvestmentType.REAL_ESTATE);
+				boolean successful = controller.increaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.REAL_ESTATE);
 				if (!successful) {
 					// TODO popup not enough cash
 				}
@@ -157,7 +157,7 @@ public class FinanceOverviewController extends GameModuleController {
 		buyStocksButton.setOnAction(e -> {
 			try {
 				double amount = Double.parseDouble(stocksTextField.getText());
-				boolean successful = controller.increaseInvestmentAmount(amount, Investment.InvestmentType.STOCKS);
+				boolean successful = controller.increaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.STOCKS);
 				if (!successful) {
 					// TODO popup not enough cash
 				}
@@ -170,7 +170,7 @@ public class FinanceOverviewController extends GameModuleController {
 		buyVentureCapitalButton.setOnAction(e -> {
 			try {
 				double amount = Double.parseDouble(ventureCapitalTextField.getText());
-				boolean successful = controller.increaseInvestmentAmount(amount,
+				boolean successful = controller.increaseInvestmentAmount(GameState.getInstance().getGameDate(), amount,
 						Investment.InvestmentType.VENTURE_CAPITAL);
 				if (!successful) {
 					// TODO popup not enough cash
@@ -184,7 +184,7 @@ public class FinanceOverviewController extends GameModuleController {
 		sellRealEstateButton.setOnAction(e -> {
 			try {
 				double amount = Double.parseDouble(realEstateTextField.getText());
-				boolean successful = controller.decreaseInvestmentAmount(amount, Investment.InvestmentType.REAL_ESTATE);
+				boolean successful = controller.decreaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.REAL_ESTATE);
 				if (!successful) {
 					// TODO popup not enough cash
 				}
@@ -198,7 +198,7 @@ public class FinanceOverviewController extends GameModuleController {
 		sellStocksButton.setOnAction(e -> {
 			try {
 				double amount = Double.parseDouble(stocksTextField.getText());
-				boolean successful = controller.decreaseInvestmentAmount(amount, Investment.InvestmentType.STOCKS);
+				boolean successful = controller.decreaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.STOCKS);
 				if (!successful) {
 					// TODO popup not enough cash
 				}
@@ -225,7 +225,7 @@ public class FinanceOverviewController extends GameModuleController {
 		sellVentureCapitalButton.setOnAction(e -> {
 			try {
 				double amount = Double.parseDouble(ventureCapitalTextField.getText());
-				boolean successful = controller.decreaseInvestmentAmount(amount,
+				boolean successful = controller.decreaseInvestmentAmount(GameState.getInstance().getGameDate(), amount,
 						Investment.InvestmentType.VENTURE_CAPITAL);
 				if (!successful) {
 					// TODO popup not enough cash
