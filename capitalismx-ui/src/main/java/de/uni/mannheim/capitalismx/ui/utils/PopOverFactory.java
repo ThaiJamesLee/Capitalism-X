@@ -36,13 +36,7 @@ public class PopOverFactory {
 		return popoverController;
 	}
 
-	/**
-	 * Create a standard overlay using the {@link PopOver}.
-	 * 
-	 * @param fxmlFile The path of the fxml-File, starting at the resource
-	 *                 directory.
-	 */
-	public void createStandardOverlay(String fxmlFile) {
+	public void createStandardPopover(String fxmlFile) {
 		FXMLLoader loader = new FXMLLoader(PopOverFactory.class.getClassLoader().getResource(fxmlFile),
 				UIManager.getResourceBundle());
 		Parent root;
@@ -53,13 +47,23 @@ public class PopOverFactory {
 			root.getStyleClass().add("popover_pane");
 			popover = new PopOver(root);
 			popover.setDetachable(false);
-			popover.setArrowSize(0.0);
-			popover.centerOnScreen();
 			popover.setFadeInDuration(Duration.millis(50));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Create a standard overlay, that is centered on screen, using the {@link PopOver}.
+	 * 
+	 * @param fxmlFile The path of the fxml-File, starting at the resource
+	 *                 directory.
+	 */
+	public void createStandardOverlay(String fxmlFile) {
+		createStandardPopover(fxmlFile);
+		popover.centerOnScreen();
+		popover.setArrowSize(0.0);
 	}
 
 }
