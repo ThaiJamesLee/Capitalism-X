@@ -25,6 +25,10 @@
 	-fx-text-fill: -fx-primary;
 }
 
+.header FontAwesomeIcon {
+	-fx-fill: -fx-primary;
+}
+
 .modulePane {
 	-fx-effect: dropshadow(gaussian, -fx-complement-dark-transparent, 10, 0.5, 0, 0);	
 }

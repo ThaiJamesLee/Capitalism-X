@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -11,7 +12,10 @@
    <children>
       <VBox alignment="CENTER" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label styleClass="header" text="%truckDetails.buyTitle" />
+            <Label styleClass="header" text="%truckDetails.buyTitle">
+               <graphic>
+                  <FontAwesomeIcon iconName="TRUCK" />
+               </graphic></Label>
             <ListView fx:id="truckDetailListView" prefWidth="650.0" />
          </children>
          <padding>
