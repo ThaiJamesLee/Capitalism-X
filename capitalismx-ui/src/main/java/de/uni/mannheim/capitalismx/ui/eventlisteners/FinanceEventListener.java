@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
+import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceStatisticsChartsController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableController;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
@@ -24,6 +25,18 @@ public class FinanceEventListener implements PropertyChangeListener {
                 GameController.getInstance().terminateGame();
                 //TODO popup
                 System.out.println("Game Over");
+            }
+        }
+
+        if (evt.getPropertyName().equals("updatedMonthlyData")) {
+            FinanceStatisticsChartsController financeStatisticsChartsController = (FinanceStatisticsChartsController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_SALES_CHART).getController();
+
+            TreeMap<String, String[]> monthlyData = GameController.getInstance().getMonthlyData();
+            String[] xNames = monthlyData.get("xNames");
+            for (Map.Entry<String,String[]> entry : monthlyData.entrySet()) {
+                if(!entry.getKey().equals("xNames")){
+                    financeStatisticsChartsController.updateCharts(entry.getKey().replace("Monthly", ""), entry.getValue(), xNames);
+                }
             }
         }
 
