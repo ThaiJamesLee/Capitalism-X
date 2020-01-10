@@ -345,7 +345,9 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO
     protected double calculateTotalProductionCosts(){
         //double totalProductionCosts = Production.getInstance().calculateProductionVariableCosts() + Production.getInstance().calculateProductionFixCosts();
-        this.totalProductionCosts = ProductionDepartment.getInstance().getProductionVariableCosts() + ProductionDepartment.getInstance().getProductionFixCosts();
+
+        this.totalProductionCosts = ProductionDepartment.getInstance().getTotalProductionCosts();
+        //ProductionDepartment.getInstance().getProductionVariableCosts() + ProductionDepartment.getInstance().getProductionFixCosts();
         return this.totalProductionCosts;
     }
 

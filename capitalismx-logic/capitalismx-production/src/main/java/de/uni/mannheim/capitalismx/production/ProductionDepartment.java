@@ -300,6 +300,15 @@ public class ProductionDepartment extends DepartmentImpl {
         return product.getTotalProductCosts();
     }
 
+    public double getTotalProductionCosts() {
+        this.setProductsTotalProductCost();
+        double totalProductionCosts = 0;
+        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+            totalProductionCosts += entry.getKey().getTotalProductCosts();
+        }
+        return totalProductionCosts;
+    }
+
     public void setProductSalesPrice(Product product, double salesPrice) {
         /* TODO check for DecimalFormat ##,###.00 in GUI */
         if(salesPrice > 0 && salesPrice < 100000) {
