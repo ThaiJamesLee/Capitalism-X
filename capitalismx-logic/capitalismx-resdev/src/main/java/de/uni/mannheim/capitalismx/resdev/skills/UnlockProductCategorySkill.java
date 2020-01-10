@@ -17,8 +17,11 @@ public class UnlockProductCategorySkill extends ResDevSkillImpl {
 
     private String description;
 
-    public UnlockProductCategorySkill(int level, int year, double cost) {
-        super(level, year, cost);
+    private static final String PROPERTIES_FILE = "resdev-module";
+    private static final String DESCRIPTION_PROPERTY_PREFIX = "resdev.skill.category.description.";
+
+    public UnlockProductCategorySkill(int year, double cost) {
+        super(year, cost);
         unlockedProductCategories = new ArrayList<>();
     }
 
