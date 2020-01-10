@@ -74,7 +74,7 @@ public class WarehouseListController extends GameModuleController {
 				CapCoinFormatter.getCapCoins(new Warehouse(WarehouseType.BUILT).getBuildingCost())));
 		rentCostLabel.setText(UIManager.getLocalisedString("warehouse.rent.cost").replace("XXX",
 				CapCoinFormatter.getCapCoins(new Warehouse(WarehouseType.RENTED).getMonthlyRentalCost())));
-		warehouseListView.setPlaceholder(new Label(UIManager.getLocalisedString("warehouse.list.placeholder")));
+		warehouseListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.warehouse")));
 
 		buyGridButton.setOnMouseClicked(e -> {
 			buyWarehouse(GameState.getInstance().getGameDate());

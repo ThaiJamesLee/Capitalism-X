@@ -85,7 +85,7 @@ public class RecruitingListController extends GameModuleController {
 
 		ListView<Employee> recruitingList = new ListView<Employee>();
 		listViews.put(employeeType, recruitingList);
-		Label placeholder = new Label(UIManager.getLocalisedString("hr.prospects.placeholder"));
+		Label placeholder = new Label(UIManager.getLocalisedString("list.placeholder.recruiting"));
 		placeholder.setWrapText(true);
 		recruitingList.setPlaceholder(placeholder);
 		ObservableList<Employee> prospectList = FXCollections.observableArrayList();

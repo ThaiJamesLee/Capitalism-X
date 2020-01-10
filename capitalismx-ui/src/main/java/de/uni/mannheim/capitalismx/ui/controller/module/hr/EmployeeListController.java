@@ -71,7 +71,7 @@ public class EmployeeListController extends GameModuleController {
 		ObservableList<Employee> teamList = FXCollections.observableArrayList(team.getTeam());
 		ListView<Employee> teamListView = new ListView<Employee>(teamList);
 		teamListView.setCellFactory(employeeListView -> new EmployeeListViewCell());
-		teamListView.setPlaceholder(new Label(UIManager.getLocalisedString("hr.list.placeholder")));
+		teamListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.employee")));
 		listViews.put(team.getType(), teamListView);
 		AnchorPaneHelper.snapNodeToAnchorPane(teamListView);
 
