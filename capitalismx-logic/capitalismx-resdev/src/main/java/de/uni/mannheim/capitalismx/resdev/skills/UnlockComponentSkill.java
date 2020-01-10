@@ -8,36 +8,26 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Skill to unlock component.
+ * Skill to unlock components of the specified year.
  * Set the unlocked components, when this skill is unlocked and the current year is fulfilled.
  */
 public class UnlockComponentSkill extends ResDevSkillImpl {
 
     private List<Component> unlockedComponents;
 
-    private String description;
-
+    /**
+     * The level required to unlock this skill.
+     */
     private int level;
+
+
 
     private static final String PROPERTIES_FILE = "resdev-module";
     private static final String DESCRIPTION_PROPERTY_PREFIX = "resdev.skill.components.description.";
 
-    public UnlockComponentSkill(int level, int year, double cost) {
-        super(year, cost);
+    public UnlockComponentSkill(int level, int year) {
+        super(year, 0);
         this.level = level;
-        unlockedComponents = new ArrayList<>();
-    }
-
-    public List<Component> getUnlockedComponents() {
-        return unlockedComponents;
-    }
-
-    public void setUnlockedComponents(List<Component> unlockedComponents) {
-        this.unlockedComponents = unlockedComponents;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override
@@ -62,5 +52,16 @@ public class UnlockComponentSkill extends ResDevSkillImpl {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    /**
+     *
+     * @return This method is not supported for this class.
+     *
+     * @throws UnsupportedOperationException Not supported for this skill.
+     */
+    @Override
+    public double getCost() {
+        throw new UnsupportedOperationException();
     }
 }
