@@ -25,7 +25,7 @@ public class CustomerSatisfactionTest {
 
     @BeforeTest
     public void setUp() {
-        initDate = LocalDate.of(1990,11,1);
+        initDate = LocalDate.of(2005,11,1);
     }
 
     @Test
@@ -54,7 +54,6 @@ public class CustomerSatisfactionTest {
         components.add(new Component(ComponentType.G_POWERSUPPLY_LEVEL_1,SupplierCategory.CHEAP));
         components.add(new Component(ComponentType.G_CPU_LEVEL_1, SupplierCategory.CHEAP));
         components.add(new Component(ComponentType.G_CONNECTIVITY_LEVEL_1, SupplierCategory.CHEAP));
-        components.add(new Component(ComponentType.G_CAMERA_LEVEL_1, SupplierCategory.CHEAP));
 
         Product p = new Product("test", ProductCategory.GAME_BOY, components);
         p.setLaunchDate(LocalDate.of(1990,1,1));

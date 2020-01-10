@@ -28,6 +28,7 @@ public class Product extends Unit implements Serializable {
     private double averageProductQuality;
 
     public Product(String productName, ProductCategory productCategory, List<Component> components) {
+        //TODO check if there is a full set of components
         this.unitType = UnitType.PRODUCT_UNIT;
         this.productName = productName;
         this.productCategory = productCategory;
