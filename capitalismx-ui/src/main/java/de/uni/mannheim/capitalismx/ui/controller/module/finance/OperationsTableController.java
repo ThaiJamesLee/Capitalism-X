@@ -1,29 +1,22 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
+import java.net.URL;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.controller.module.hr.EmployeeListController;
-import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-
-import java.net.URL;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
 
 public class OperationsTableController  extends GameModuleController {
 

@@ -13,19 +13,14 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
-import de.uni.mannheim.capitalismx.ui.components.hr.EmployeeListViewCell;
 import de.uni.mannheim.capitalismx.ui.components.hr.TeamDetails;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.HREventListener;
-import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * Controller for the {@link GameModule}, listing the {@link Employee}s of the
@@ -34,7 +29,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Jonathan
  *
  */
-public class EmployeeListController extends GameModuleController {
+public class TeamDetailController extends GameModuleController {
 
 	@FXML
 	private TabPane employeeTabPane;

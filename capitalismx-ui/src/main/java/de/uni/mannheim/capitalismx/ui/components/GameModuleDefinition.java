@@ -12,7 +12,7 @@ import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 public enum GameModuleDefinition {
 
 	// The modules for HR.
-	HR_EMPLOYEES_TABLE("employee_table.fxml", GameViewType.HR, UIElementType.HR_EMPLOYEES_OVERVIEW, new GridPosition(0, 6, 0, 20), true),
+	HR_TEAM_DETAIL("team_details.fxml", GameViewType.HR, UIElementType.HR_TEAM_DETAIL, new GridPosition(0, 6, 0, 20), true),
 	HR_RECRUITING_LIST("recruiting_list.fxml", GameViewType.HR, UIElementType.HR_RECRUITING_OVERVIEW, new GridPosition(6, 7, 0, 17),
 			true),
 	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(14, 5, 10, 10), true),
