@@ -159,10 +159,4 @@
 	-fx-fill: -fx-green;
 	-fx-text-fill: -fx-green;
 }
-
-.icon_button_invisible {
-	-fx-background-color: transparent;
-	-fx-border-width: 0 0 0 0;
-	-fx-border-color: -fx-primary;
-}
 	

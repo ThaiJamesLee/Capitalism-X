@@ -125,6 +125,16 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-dark;
 }
 
+.icon_button_invisible {
+	-fx-background-color: transparent;
+	-fx-border-width: 0 0 0 0;
+	-fx-border-color: -fx-primary;
+}
+
+
+/**
+ * Styling for the choice box
+ */
 .choice-box {
 	-fx-background-color: -fx-primary-neutral;
 	-fx-border-radius: 2.0;
