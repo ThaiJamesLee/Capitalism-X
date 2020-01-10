@@ -61,6 +61,7 @@ public class LogisticsPartnerController extends GameModuleController {
 	public void addExternalPartner(ExternalPartner externalPartner) {
 		currentlyEmployingTextArea
 				.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl") + externalPartner.getName());
+		popover.hide();
 	}
 
 	private void showPopover() {

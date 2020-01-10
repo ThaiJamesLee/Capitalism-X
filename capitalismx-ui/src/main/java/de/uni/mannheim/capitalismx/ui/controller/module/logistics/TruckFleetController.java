@@ -79,6 +79,7 @@ public class TruckFleetController extends GameModuleController {
 
 	public void addTruck(Truck truck) {
 		truckFleetListView.getItems().add(truck);
+		popover.hide();
 	}
 
 	private void showPopover() {

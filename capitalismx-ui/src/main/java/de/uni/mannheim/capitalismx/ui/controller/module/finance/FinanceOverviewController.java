@@ -315,6 +315,7 @@ public class FinanceOverviewController extends GameModuleController {
 						+ " " + UIManager.getLocalisedString("finance.loanLabel.durationUnit"));
 
 				loanAmountTextField.clear();
+				loanRequestPopover.hide();
 			}
 		});
 	}
