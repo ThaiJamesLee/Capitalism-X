@@ -443,7 +443,7 @@ FontAwesomeIcon {
 .default-color0.chart-series-line { -fx-stroke: -fx-primary; }
 
 .default-color0.chart-line-symbol{
-    -fx-background-color: -fx-primary, white;
+    -fx-background-color: -fx-primary, -fx-primary;
 }
  
  .axis {

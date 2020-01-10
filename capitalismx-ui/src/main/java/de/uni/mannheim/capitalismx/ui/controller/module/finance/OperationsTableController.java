@@ -50,6 +50,20 @@ public class OperationsTableController  extends GameModuleController {
         TableColumn<Map.Entry<String, OperationsTableEntry>, String> col3 = new TableColumn<>("Q");
         TableColumn<Map.Entry<String, OperationsTableEntry>, String> col4 = new TableColumn<>("Q");
 
+        rowName.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
+        col1.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
+        col2.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
+        col3.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
+        col4.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
+
+        //TODO ensures that height specified in GameModuleDefinition is used
+        operationsTable.setPrefHeight(1000);
+
+        col1.setStyle( "-fx-alignment: CENTER;");
+        col2.setStyle( "-fx-alignment: CENTER;");
+        col3.setStyle( "-fx-alignment: CENTER;");
+        col4.setStyle( "-fx-alignment: CENTER;");
+
         rowName.setCellValueFactory(
                 new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
                     @Override
@@ -91,16 +105,16 @@ public class OperationsTableController  extends GameModuleController {
 
         data = new LinkedHashMap<>();
         data.put("sales", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.sales"), 0, 0, 0 ,0));
-        data.put("salaries", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.salaries"), 0, 0, 0 ,0));
-        data.put("material", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.material"), 0, 0, 0 ,0));
-        data.put("machines", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.machines"), 0, 0, 0 ,0));
-        data.put("logistics", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.logistics"), 0, 0, 0 ,0));
-        data.put("lobbying", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.lobbying"), 0, 0, 0 ,0));
-        data.put("marketing", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.marketing"), 0, 0, 0 ,0));
+        data.put("hrCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.hrCosts"), 0, 0, 0 ,0));
+        data.put("warehouseCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.warehouseCosts"), 0, 0, 0 ,0));
+        data.put("logisticsCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.logisticsCosts"), 0, 0, 0 ,0));
+        data.put("productionCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.productionCosts"), 0, 0, 0 ,0));
+        data.put("marketingCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.marketingCosts"), 0, 0, 0 ,0));
+        data.put("supportCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.supportCosts"), 0, 0, 0 ,0));
         data.put("ebit", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.ebit"), 0, 0, 0 ,0));
-        data.put("loan_interest", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.loanInterest"), 0, 0, 0 ,0));
-        data.put("taxes", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.taxes"), 0, 0, 0 ,0));
+        data.put("tax", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.tax"), 0, 0, 0 ,0));
         data.put("nopat", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.nopat"), 0, 0, 0 ,0));
+        //data.put("loan_interest", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.loanInterest"), 0, 0, 0 ,0));
 
         ObservableList<Map.Entry<String,OperationsTableEntry>> dataObservable = FXCollections.observableArrayList(data.entrySet());
         operationsTable.setItems(dataObservable);
