@@ -28,6 +28,7 @@ import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
+import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
@@ -856,6 +857,14 @@ public class GameController {
 
 	/**
 	 *
+	 * @return Returns all marketing campaigns that the player did issue.
+	 */
+	public List<Campaign> getIssuedMarketingCampaigns() {
+		return MarketingDepartment.getInstance().getCampaignsWithDates();
+	}
+	
+	/**
+	 *
 	 * @return Returns all pre defined social engagements.
 	 */
 	public List<Campaign> getAllSocialEngagementCampaigns() {
@@ -944,6 +953,26 @@ public class GameController {
 		return MarketingDepartment.getInstance().getMarketResearches();
 	}
 
+	//TODO tSQ ist immer 0, lI = ???, pT = [1-5], cI = [0-100], mE = [0-1],tJS nicht definiert, 
+//	public String orderConsultantReport(ConsultancyType conType) 
+////			double totalSupportQuality,	double logisticIndex, double companyImage, double productionTechnology, 
+////			double manufactureEfficiency, double totalJobSatisfaction) 
+//	{
+//		String weakest = "Yolo";
+//		double totalSupportQuality = getTotalSupportQuality();
+//		double logisticIndex = getL
+//		double companyImage = getCom
+//		double productionTechnology = getProductionTechnology();
+//		double manufactureEfficiency
+//		double totalJobSatisfaction
+//		
+//		MarketingDepartment.getInstance().orderConsultantReport(conType, 
+//				totalSupportQuality, logisticIndex, companyImage, productionTechnology, 
+//				manufactureEfficiency, totalJobSatisfaction);
+//		
+//		return weakest;	
+//	}
+	
 	/* Human Resources */
 
 	/**

@@ -57,7 +57,8 @@ public class PressReleaseListController extends GameModuleController {
 //			pressReleaseListObservable.add(pr);
 //		}
 		
-		popover = PopOverHelper.createStandardOverlay("fxml/overlay/new_pressrelease_options.fxml");	
+		popover = PopOverHelper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");	
+//		popover.setCloseButtonEnabled(true);
 		
 		newReleaseBtn.setOnAction(e -> {
 			showPopover();

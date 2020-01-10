@@ -1,5 +1,17 @@
 package de.uni.mannheim.capitalismx.marketing.department;
 
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.sun.tools.javac.util.Pair;
+
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.domain.Action;
@@ -9,11 +21,6 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.beans.PropertyChangeListener;
-import java.util.*;
 
 /**
  * This class represents the marketing department.
@@ -23,6 +30,11 @@ import java.util.*;
  */
 public class MarketingDepartment extends DepartmentImpl {
 
+	
+	//TODO CSR campaigns score relative to profit of the year, 
+	//the others on quantitiy of this type of campaign per year, mechanism cant deal with this yet...
+	//TODO Consultancy is seriously flawed...
+	
     private static final Logger logger = LoggerFactory.getLogger(MarketingDepartment.class);
 
     private static final String[] SOCIAL_ENGAGEMENT = {"CSR", "Support refugee projects"};
@@ -32,8 +44,13 @@ public class MarketingDepartment extends DepartmentImpl {
 
     // campaigns that the department issued
     private Map<String, List<Campaign>> issuedActions;
+    
+    //campaigns that the department issued orderer by release date
+    private List<Campaign> campaignsWithDates;
 
-    // press releases the company made
+
+
+	// press releases the company made
     private List<PressRelease> pressReleases;
 
     // consultancy services the company used
@@ -56,6 +73,7 @@ public class MarketingDepartment extends DepartmentImpl {
             issuedActions.put(c, new ArrayList<>());
         }
 
+        campaignsWithDates = new ArrayList<Campaign>();
         pressReleases = new ArrayList<>();
         consultancies = new ArrayList<>();
         marketResearches = new ArrayList<>();
@@ -92,6 +110,7 @@ public class MarketingDepartment extends DepartmentImpl {
 
         if (c != null) {
             issuedActions.get(campaignName).add(c);
+            campaignsWithDates.add(c);
             return c.getMedia().getCost();
         } else {
             throw new NullPointerException("There exist not such a campaign!");
@@ -231,6 +250,14 @@ public class MarketingDepartment extends DepartmentImpl {
     }
 
     /**
+     * 
+     * @return Returns list of all campaigns that were run
+     */
+    public List<Campaign> getCampaignsWithDates() {
+		return campaignsWithDates;
+	}
+    
+    /**
      * Delete all campaigns that were issued.
      */
     public void resetIssuedActions() {
@@ -308,6 +335,25 @@ public class MarketingDepartment extends DepartmentImpl {
         return ConsultancyType.values();
     }
 
+//    /**
+//     * TODO
+//     * @param conType
+//     * @param totalSupportQuality
+//     * @param logisticIndex
+//     * @param companyImage
+//     * @param productionTechnology
+//     * @param manufactureEfficiency
+//     * @param totalJobSatisfaction
+//     * @return
+//     */
+//    public String orderConsultantReport(ConsultancyType conType, 
+//			double totalSupportQuality,	double logisticIndex, double companyImage, double productionTechnology, 
+//			double manufactureEfficiency, double totalJobSatisfaction) {
+//    	
+//    	
+//    	
+//    }
+    
     /* Market Research */
 
     /**

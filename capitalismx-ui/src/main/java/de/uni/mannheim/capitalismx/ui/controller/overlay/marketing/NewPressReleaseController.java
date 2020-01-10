@@ -62,7 +62,7 @@ public class NewPressReleaseController extends GameOverlayController {
     		controller.makePressRelease(pr);
     		
     		//update PressReleases Module
-    		PressReleaseListController uiController = (PressReleaseListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_PRESSRELEASES_LIST).getController();
+    		PressReleaseListController uiController = (PressReleaseListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_PRESSRELEASE).getController();
     		uiController.updateList();
     		uiController.hidePopover();
     	});

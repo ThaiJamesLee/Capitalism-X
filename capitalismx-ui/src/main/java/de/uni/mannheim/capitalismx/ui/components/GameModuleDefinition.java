@@ -45,8 +45,14 @@ public enum GameModuleDefinition {
 	FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, new GridPosition(14,
 			5, 0, 19), true),
 	
-	MARKETING_PRESSRELEASE_LIST("press_release_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_PRESSRELEASES_LIST, new GridPosition(0, 5, 0, 10), true);
-
+	//The modules for Marketing
+	MARKETING_PRESSRELEASE_LIST("mkt_pressReleases_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_PRESSRELEASE, new GridPosition(0, 7, 6, 12), true),
+	MARKETING_CAMPAIGNS_LIST("mkt_campaigns_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_CAMPAIGNS, new GridPosition(7, 7, 6, 12), true),
+	//MARKETING_MARKETRESEARCH_LIST("mkt_pressReleases_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_MARKETRESEARCH, new GridPosition(14, 6, 7, 10), true),
+	//MARKETING_OVERVIEW("mkt_campaigns_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(0, 10, 0, 6), true);
+	;
+	
+	
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
 	// The contentType of the module.

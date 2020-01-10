@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.components.marketing;
 
 import java.io.IOException;
 
+import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.marketing.NewPressReleaseController;
@@ -25,37 +26,39 @@ import javafx.scene.text.TextAlignment;
  *
  */
 
-public class NewPressReleaseViewCell extends ListCell<PressRelease> {
+public class CampaignsCell extends ListCell<Campaign> {
 
     @FXML
     private Label titleLabel;
 
     @FXML
+    private Label mediaLabel;
+    
+    @FXML
     private Label costLabel;
 
     @FXML
     private GridPane gridPane;
-//
-//    @FXML
-//    private Button sellButton;
+
+    @FXML
+    private Button sellButton;
 
     private FXMLLoader loader;
 
-    private ListView<PressRelease> pressReleaseList;
+   // private ListView<Campaign> campaignsList;
 
-    public NewPressReleaseViewCell(ListView<PressRelease> pressReleaseList){
-        this.pressReleaseList = pressReleaseList;
+    public CampaignsCell(){
     }
 
     @Override
-    protected void updateItem(PressRelease pr, boolean empty) {
-        super.updateItem(pr, empty);
-        if(empty || pr == null) {
+    protected void updateItem(Campaign camp, boolean empty) {
+        super.updateItem(camp, empty);
+        if(empty || camp == null) {
             setText(null);
             setGraphic(null);
         } else {
             if (loader == null) {
-                loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/mkt_newPR_cell.fxml"), UIManager.getResourceBundle());
+                loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/mkt_campaigns_cell.fxml"), UIManager.getResourceBundle());
                 loader.setController(this);
 
                 try {
@@ -66,9 +69,13 @@ public class NewPressReleaseViewCell extends ListCell<PressRelease> {
 
             }
             
-            titleLabel.setText(pr.getName());
+            titleLabel.setText(camp.getName());
             titleLabel.setTextAlignment(TextAlignment.LEFT);
-            costLabel.setText(pr.getCost() + " CC");
+            titleLabel.setStyle("-fx-font-weight: bold");
+            
+            mediaLabel.setText(camp.getMedia().getName());
+            costLabel.setText(camp.getMedia().getCost() + " CC");
+//            costLabel.setText(camp.getCost() + " CC");
 
             setText(null);
             setGraphic(gridPane);

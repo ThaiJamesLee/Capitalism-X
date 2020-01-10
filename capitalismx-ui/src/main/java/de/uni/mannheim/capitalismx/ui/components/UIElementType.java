@@ -27,7 +27,11 @@ public enum UIElementType {
 	PROCUREMENT_BUY_COMPONENT_OVERVIEW("Buy Component"), 
 	WAREHOUSE_SEGMENTS("Partition"), 
 	WAREHOUSE_STOCK_MANAGEMENT("Stock Management"),
-	MARKETING_PRESSRELEASES_LIST("Press Releases");
+	MARKETING_PRESSRELEASE("Press Releases"),
+	MARKETING_CAMPAIGNS("Marketing Campaigns"),
+	MARKETING_MARKETRESEARCH("Market Researches"),
+	MARKETING_CONSULTANCIES("Consultancies"),
+	MARKETING_OVERVIEW("Overview");
 
 	// The title of the GameElement, that will be displayed on top.
 	public final String title;
