@@ -64,7 +64,7 @@ public class RecruitingListController extends GameModuleController {
 		for (EmployeeType employeeType : EmployeeType.values()) {
 			recruitingTabPane.getTabs().add(createEmployeeTypeTab(employeeType));
 
-			//TODO change number of prospects with level of department
+			//TODO change number of prospects with level of department?
 			for (int i = 0; i < 10; i++) {
 				observableLists.get(employeeType).add(generator.createRandomEmployee(employeeType));
 			}

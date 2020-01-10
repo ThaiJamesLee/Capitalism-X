@@ -27,17 +27,6 @@ public class HrStatisticsController extends GameModuleController {
 
 	@FXML
 	private GridPane statGrid;
-	
-	
-	@FXML
-	private Label numberEmployeesSales, employeeSatisfactionSales, employeeProductivitySales, employeeSalariesSales;
-
-	@FXML
-	private Label numberEmployeesProduction, employeeSatisfactionProduction, employeeProductivityProduction,
-			employeeSalariesProduction;
-
-	@FXML
-	private Label numberEmployeesHr, employeeSatisfactionHr, employeeProductivityHr, employeeSalariesHr;
 
 	@FXML
 	private Label numberEmployeesOverall, employeeSatisfactionOverall, employeeProductivityOverall,
@@ -53,17 +42,13 @@ public class HrStatisticsController extends GameModuleController {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		
-		
-		
+
 		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
 		employeeProductivityOverall.setText(hrDep.getTotalQualityOfWork() + "");
 		employeeSatisfactionOverall.setText(hrDep.getTotalJSS() + "");
 
 		int numOfSalesPeople = hrDep.getSalesTeam().getTeam().size();
 		int numOfEngineers = hrDep.getEngineerTeam().getTeam().size();
-		numberEmployeesSales.setText(numOfSalesPeople + "");
-		numberEmployeesProduction.setText(numOfEngineers + "");
 		numberEmployeesOverall.setText((numOfEngineers + numOfSalesPeople) + "");
 
 		hiringCost.setText((int) hrDep.getHiringCost() + "");
@@ -75,41 +60,9 @@ public class HrStatisticsController extends GameModuleController {
 		hrCapacity.setTooltip(hrCapTooltip);
 
 	}
-	
+
 	private void createStatGrid() {
 		int numOfRows = EmployeeType.values().length + 2;
-	}
-
-	/**
-	 * Update the stats of the given team, that changed.
-	 * 
-	 * @param typeOfTeam          The {@link EmployeeType} of the updated
-	 *                            {@link Team}.
-	 * @param numberOfTeamMembers The number of {@link Employee}s in the
-	 *                            {@link Team}.
-	 */
-	public void updateTeam(EmployeeType typeOfTeam, int numberOfTeamMembers) {
-		Platform.runLater(() -> {
-			updateNumberOfEmployees();
-			switch (typeOfTeam) {
-			case ENGINEER:
-				updateNumberOfEngineers(numberOfTeamMembers);
-				break;
-			case SALESPERSON:
-				updateNumberOfSalesPeople(numberOfTeamMembers);
-				break;
-			default:
-				break;
-			}
-		});
-	}
-
-	private void updateNumberOfSalesPeople(int numberOfSalesPeople) {
-		numberEmployeesSales.setText(numberOfSalesPeople + "");
-	}
-
-	private void updateNumberOfEngineers(int numberOfEngineers) {
-		numberEmployeesProduction.setText(numberOfEngineers + "");
 	}
 
 	private void updateNumberOfEmployees() {

@@ -111,6 +111,9 @@ public class Team implements Serializable {
      */
     public double getAverageJobSatisfactionScore() {
         double totalSum = 0.0;
+        if(team.size() == 0) {
+        	return 0.0;
+        }
         for(Employee employee : team.getList()){
             totalSum += employee.getJobSatisfaction();
         }

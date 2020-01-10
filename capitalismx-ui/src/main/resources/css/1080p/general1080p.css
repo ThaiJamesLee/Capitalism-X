@@ -72,6 +72,11 @@ FontAwesomeIcon {
 	-fx-fill: -fx-primary-dark; 
 }
 
+.icon_primary {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
+}
+
 /**
  * Various button designs
  */

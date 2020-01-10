@@ -36,7 +36,7 @@ public class GraphicHelper {
 
 		for (int i = 0; i < 5; i++) {
 			FontAwesomeIcon icon = new FontAwesomeIcon();
-			icon.setStyle("-fx-text-fill:-fx-primary");
+			icon.setStyle("-fx-text-fill:-fx-primary; -fx-fill:-fx-primary");
 			if (skillLevel <= i * 20) {
 				icon.setIcon(FontAwesomeIconName.STAR_ALT);
 			} else if (skillLevel <= i * 20 + 10) {

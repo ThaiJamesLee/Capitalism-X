@@ -12,11 +12,11 @@ import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 public enum GameModuleDefinition {
 
 	// The modules for HR.
-	HR_EMPLOYEES_TABLE("employee_table.fxml", GameViewType.HR, UIElementType.HR_EMPLOYEES_OVERVIEW, new GridPosition(0, 7, 0, 15), true),
-	HR_RECRUITING_LIST("recruiting_list.fxml", GameViewType.HR, UIElementType.HR_RECRUITING_OVERVIEW, new GridPosition(7, 7, 0, 17),
+	HR_EMPLOYEES_TABLE("employee_table.fxml", GameViewType.HR, UIElementType.HR_EMPLOYEES_OVERVIEW, new GridPosition(0, 6, 0, 20), true),
+	HR_RECRUITING_LIST("recruiting_list.fxml", GameViewType.HR, UIElementType.HR_RECRUITING_OVERVIEW, new GridPosition(6, 7, 0, 17),
 			true),
-	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(14, 6, 0, 11), true),
-	HR_WORKING_CONDITIONS("working_conditions.fxml", GameViewType.HR, UIElementType.HR_WORKING_CONDITIONS, new GridPosition(14, 6, 12, 8),
+	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(14, 5, 10, 10), true),
+	HR_WORKING_CONDITIONS("working_conditions.fxml", GameViewType.HR, UIElementType.HR_WORKING_CONDITIONS, new GridPosition(13, 7, 0, 8),
 			true),
 
 	// The modules for Logistics.

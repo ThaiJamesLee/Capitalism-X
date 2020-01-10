@@ -14,6 +14,7 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.hr.EmployeeListViewCell;
+import de.uni.mannheim.capitalismx.ui.components.hr.TeamDetails;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.HREventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
@@ -39,6 +40,7 @@ public class EmployeeListController extends GameModuleController {
 	private TabPane employeeTabPane;
 
 	private Map<EmployeeType, ListView<Employee>> listViews;
+	private Map<EmployeeType, TeamDetails> employeeTypeDetails;
 
 	@Override
 	public void update() {
@@ -49,9 +51,17 @@ public class EmployeeListController extends GameModuleController {
 	public void initialize(URL location, ResourceBundle resources) {
 		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
 		listViews = new HashMap<EmployeeType, ListView<Employee>>();
+		employeeTypeDetails = new HashMap<EmployeeType, TeamDetails>();
 
 		for (EmployeeType type : EmployeeType.values()) {
-			prepareTeamTab(hrDep.getTeamByEmployeeType(type));
+			Team team = hrDep.getTeamByEmployeeType(type);
+			TeamDetails teamDetails = new TeamDetails(team);
+			employeeTypeDetails.put(type, teamDetails);
+			prepareTeamTab(hrDep.getTeamByEmployeeType(type)); // TODO
+
+			Tab teamTab = new Tab(team.getType().getName(UIManager.getResourceBundle().getLocale()));
+			employeeTabPane.getTabs().add(teamTab);
+			teamTab.setContent(teamDetails.getRoot());
 		}
 
 		HREventListener hrEventListener = new HREventListener();
@@ -65,21 +75,7 @@ public class EmployeeListController extends GameModuleController {
 	 * @param team The {@link Team} to prepare the {@link Tab} for.
 	 */
 	private void prepareTeamTab(Team team) {
-		Tab teamTab = new Tab(team.getType().getName(UIManager.getResourceBundle().getLocale()));
-		employeeTabPane.getTabs().add(teamTab);
-
-		ObservableList<Employee> teamList = FXCollections.observableArrayList(team.getTeam());
-		ListView<Employee> teamListView = new ListView<Employee>(teamList);
-		teamListView.setCellFactory(employeeListView -> new EmployeeListViewCell());
-		teamListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.employee")));
-		listViews.put(team.getType(), teamListView);
-		AnchorPaneHelper.snapNodeToAnchorPane(teamListView);
-
-		AnchorPane rootNode = new AnchorPane();
-		rootNode.getChildren().add(teamListView);
-		teamTab.setContent(rootNode);
-
-		updateEmployeeListView(team.getType(), team.getTeam());
+		updateTeamList(team.getType(), team.getTeam());
 	}
 
 	/**
@@ -88,28 +84,22 @@ public class EmployeeListController extends GameModuleController {
 	 * @param type      The {@link EmployeeType} to update the ListView for.
 	 * @param employees {@link List} of {@link Employee}s containing the new items.
 	 */
-	public void updateEmployeeListView(EmployeeType type, List<Employee> employees) {
-		ListView<Employee> listview = listViews.get(type);
+	public void updateTeamList(EmployeeType type, List<Employee> employees) {
+		ListView<Employee> listview = employeeTypeDetails.get(type).getTeamList();
 		listview.setItems(FXCollections.observableArrayList(employees));
+		
+		updateTeamStats(type);
 	}
 
+	// TODO update when single employee changes
 	/**
-	 * Update the {@link Team} of engineers with the List of teammembers.
+	 * Updates the Statistics displayed in the {@link TeamDetails} of the given
+	 * {@link EmployeeType}.
 	 * 
-	 * @param engineerTeam {@link List} of {@link Employee}s that are now in the
-	 *                     Team.
+	 * @param type The {@link EmployeeType} to update the {@link TeamDetails} for.
 	 */
-	public void updateEngineerList(List<Employee> engineerTeam) {
-		updateEmployeeListView(EmployeeType.ENGINEER, engineerTeam);
-	}
-
-	/**
-	 * Update the {@link Team} of salesPeople with the List of teammembers.
-	 * 
-	 * @param salesTeam {@link List} of {@link Employee}s that are now in the Team.
-	 */
-	public void updateSalesPeopleList(List<Employee> salesTeam) {
-		updateEmployeeListView(EmployeeType.SALESPERSON, salesTeam);
+	public void updateTeamStats(EmployeeType type) {
+		employeeTypeDetails.get(type).updateStats();
 	}
 
 }
