@@ -70,6 +70,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionVariableCosts = 0.0;
         this.launchedProducts = new ArrayList<>();
         this.machineSlotsAvailable = true;
+        this.productionTechnology = ProductionTechnology.DEPRECIATED;
 
         this.init();
     }
@@ -415,6 +416,10 @@ public class ProductionDepartment extends DepartmentImpl {
         for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             entry.getKey().calculateTotalProductQuality(this.calculateProductionTechnologyFactor(), this.calculateTotalEngineerProductivity(), this.calculateResearchAndDevelopmentFactor());
         }
+    }
+
+    public void setTotalProductQualityOfProduct(Product product) {
+        product.calculateTotalProductQuality(this.calculateProductionTechnologyFactor(), this.calculateTotalEngineerProductivity(), this.calculateResearchAndDevelopmentFactor());
     }
 
     public ProductionTechnology getProductionTechnology() {

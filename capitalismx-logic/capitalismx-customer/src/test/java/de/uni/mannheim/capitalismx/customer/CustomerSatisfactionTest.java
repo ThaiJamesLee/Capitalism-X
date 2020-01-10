@@ -2,8 +2,10 @@ package de.uni.mannheim.capitalismx.customer;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
+import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -46,11 +48,13 @@ public class CustomerSatisfactionTest {
         double totalSupportQuality = 100;
 
         List<Component> components = new ArrayList<>();
-        components.add(new Component(ComponentType.G_DISPLAYCASE_LEVEL_1));
-        components.add(new Component(ComponentType.G_POWERSUPPLY_LEVEL_1));
-        components.add(new Component(ComponentType.G_CPU_LEVEL_1));
-        components.add(new Component(ComponentType.G_CONNECTIVITY_LEVEL_1));
-        components.add(new Component(ComponentType.G_CAMERA_LEVEL_1));
+
+        // set supplier category to be able to calculate procurement quality and therefore product quality
+        components.add(new Component(ComponentType.G_DISPLAYCASE_LEVEL_1, SupplierCategory.CHEAP));
+        components.add(new Component(ComponentType.G_POWERSUPPLY_LEVEL_1,SupplierCategory.CHEAP));
+        components.add(new Component(ComponentType.G_CPU_LEVEL_1, SupplierCategory.CHEAP));
+        components.add(new Component(ComponentType.G_CONNECTIVITY_LEVEL_1, SupplierCategory.CHEAP));
+        components.add(new Component(ComponentType.G_CAMERA_LEVEL_1, SupplierCategory.CHEAP));
 
         Product p = new Product("test", ProductCategory.GAME_BOY, components);
         p.setLaunchDate(LocalDate.of(1990,1,1));
@@ -71,6 +75,13 @@ public class CustomerSatisfactionTest {
 
 
         double salesQoW = 100;
+
+        // calculateAll to calculate some of the needed variables (calculateTotalEngineerProductivity -> calculateTotalEngineerQualityOfWork)
+        ProductionDepartment.getInstance().calculateAll(initDate);
+        // set totalProductQuality (needs production technology factor, research and dev factor and total engineer productivity)
+        // is usually automated through setTotalProductQuality which sets the quality for each product that is produced in the production department
+        ProductionDepartment.getInstance().setTotalProductQualityOfProduct(p);
+
         customerDemand.calculateOverallAppealDemand(salesQoW, initDate);
         customerDemand.calculateDemandPercentage(salesQoW, initDate);
 

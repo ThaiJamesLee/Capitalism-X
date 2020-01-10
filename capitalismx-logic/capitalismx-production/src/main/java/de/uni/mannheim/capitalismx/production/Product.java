@@ -16,6 +16,7 @@ public class Product extends Unit implements Serializable {
     private String productName;
     private ProductCategory productCategory;
     private List<Component> components;
+    private double initProcurementQuality;
     private double totalProcurementQuality;
     private double totalProductQuality;
     private LocalDate launchDate;
@@ -32,6 +33,7 @@ public class Product extends Unit implements Serializable {
         this.productCategory = productCategory;
         this.components = components;
         this.totalComponentCosts = 0;
+        this.initProcurementQuality = 0;
         for(Component c : components) {
             this.totalComponentCosts += c.getBaseCost();
         }
@@ -56,17 +58,18 @@ public class Product extends Unit implements Serializable {
     }
 
     public double calculateTotalProcurementQuality() {
-        for(Component c : components) {
-            this.totalProcurementQuality += (0.4 * c.getSupplierEcoIndex() + 0.6 * c.getSupplierQuality()) * c.getBaseUtility();
+        for(Component c : this.components) {
+            this.initProcurementQuality += (0.4 * c.getSupplierEcoIndex() + 0.6 * c.getSupplierQuality()) * c.getBaseUtility();
         }
-        this.totalProcurementQuality = this.totalProcurementQuality / this.components.size();
+        this.totalProcurementQuality = this.initProcurementQuality / this.components.size();
+        this.initProcurementQuality = 0;
         return this.totalProcurementQuality;
         // return this.totalProcurementQuality / this.components.size();
     }
 
     public double calculateTotalProductQuality(double productionTechnologyFactor, double totalEngineerProductivity, double researchAndDevelopmentFactor) {
-        /* the math.pow operation calculates the 10th root of totalEignineerProductivity*/
-        this.totalProductQuality = this.totalProcurementQuality * productionTechnologyFactor * researchAndDevelopmentFactor * Math.pow(Math.E, Math.log(totalEngineerProductivity)/10);
+        /* the math.pow operation calculates the 10th root of totalEngineerProductivity*/
+        this.totalProductQuality = this.calculateTotalProcurementQuality() * productionTechnologyFactor * researchAndDevelopmentFactor * Math.pow(Math.E, Math.log(totalEngineerProductivity)/10);
         return this.totalProductQuality;
     }
 
