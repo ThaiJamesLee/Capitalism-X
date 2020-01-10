@@ -9,6 +9,7 @@ import de.uni.mannheim.capitalismx.domain.employee.Team;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -37,23 +38,21 @@ public class HrStatisticsController extends GameModuleController {
 
 	@Override
 	public void update() {
-
+		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
+		employeeProductivityOverall.setText(hrDep.getTotalQualityOfWork() + "");
+		employeeSatisfactionOverall.setText(hrDep.getTotalJSS() + "");
+		numberEmployeesOverall.setText(hrDep.getTotalNumberOfEmployees() + "");
+		employeeSalariesOverall.setText(CapCoinFormatter.getCapCoins(hrDep.calculateTotalSalaries()));
+		
+		hiringCost.setText((int) hrDep.getHiringCost() + "");
+		firingCost.setText((int) hrDep.getFiringCost() + "");
+		hrCapacity.setText((int) hrDep.getTotalEmployeeCapacity() + "");
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 
-		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
-		employeeProductivityOverall.setText(hrDep.getTotalQualityOfWork() + "");
-		employeeSatisfactionOverall.setText(hrDep.getTotalJSS() + "");
-
-		int numOfSalesPeople = hrDep.getSalesTeam().getTeam().size();
-		int numOfEngineers = hrDep.getEngineerTeam().getTeam().size();
-		numberEmployeesOverall.setText((numOfEngineers + numOfSalesPeople) + "");
-
-		hiringCost.setText((int) hrDep.getHiringCost() + "");
-		firingCost.setText((int) hrDep.getFiringCost() + "");
-		hrCapacity.setText((int) hrDep.getTotalEmployeeCapacity() + "");
+		update();
 
 		Tooltip hrCapTooltip = new Tooltip(resourceBundle.getString("hr.stats.capacity.tooltip"));
 		hrCapTooltip.setShowDelay(Duration.millis(50));
@@ -61,12 +60,5 @@ public class HrStatisticsController extends GameModuleController {
 
 	}
 
-	private void createStatGrid() {
-		int numOfRows = EmployeeType.values().length + 2;
-	}
-
-	private void updateNumberOfEmployees() {
-		numberEmployeesOverall.setText(GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees() + "");
-	}
 
 }
