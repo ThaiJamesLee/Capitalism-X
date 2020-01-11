@@ -25,7 +25,6 @@ public class Product extends Unit implements Serializable {
     private double averageProductQuality;
 
     public Product(String productName, ProductCategory productCategory, List<Component> components) throws InvalidSetOfComponentsException {
-        //TODO check if there is a full set of components
         if(hasValidSetOfComponents(productCategory, components)) {
             this.unitType = UnitType.PRODUCT_UNIT;
             this.productName = productName;
@@ -53,7 +52,7 @@ public class Product extends Unit implements Serializable {
     }
 
     public boolean hasValidSetOfComponents(ProductCategory productCategory, List<Component> components) {
-        boolean fullSet = true;
+        boolean validSet = true;
         List<ComponentCategory> neededComponentCategories = ProductCategory.getComponentCategories(productCategory);
         if(productCategory == ProductCategory.PHONE) {
             neededComponentCategories.remove(ComponentCategory.P_CAMERA);
@@ -64,9 +63,9 @@ public class Product extends Unit implements Serializable {
         for(ComponentCategory componentCategory : neededComponentCategories) {
             for(Component component : components) {
                 if(component.getComponentCategory() != componentCategory) {
-                    fullSet = false;
+                    validSet = false;
                 } else {
-                    fullSet = true;
+                    validSet = true;
                     break;
                 }
             }
@@ -74,12 +73,12 @@ public class Product extends Unit implements Serializable {
         List<ComponentCategory> allComponentCategories = ProductCategory.getComponentCategories(productCategory);
         for(Component component : components) {
             if(!allComponentCategories.contains(component.getComponentCategory())) {
-                fullSet = false;
+                validSet = false;
             } else {
                 allComponentCategories.remove(component.getComponentCategory());
             }
         }
-        return fullSet;
+        return validSet;
     }
 
     public double calculateTotalVariableCosts() {
