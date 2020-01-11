@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
+import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -852,12 +853,20 @@ public class GameController {
 	}
 
 	/* warehouse game mechanics */
-	public double buildWarehouse() {
-		return WarehousingDepartment.getInstance().buildWarehouse(GameState.getInstance().getGameDate());
+	public double buildWarehouse() throws NoWarehouseSlotsAvailableException {
+		try {
+			return WarehousingDepartment.getInstance().buildWarehouse(GameState.getInstance().getGameDate());
+		} catch (NoWarehouseSlotsAvailableException e) {
+			throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
+		}
 	}
 
-	public double rentWarehouse() {
-		return WarehousingDepartment.getInstance().rentWarehouse(GameState.getInstance().getGameDate());
+	public double rentWarehouse() throws NoWarehouseSlotsAvailableException{
+		try {
+			return WarehousingDepartment.getInstance().rentWarehouse(GameState.getInstance().getGameDate());
+		} catch	(NoWarehouseSlotsAvailableException e) {
+			throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
+		}
 	}
 
 	public double sellWarehouse(Warehouse warehouse) {
