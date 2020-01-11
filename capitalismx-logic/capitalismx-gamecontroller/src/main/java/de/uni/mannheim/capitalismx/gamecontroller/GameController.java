@@ -201,7 +201,7 @@ public class GameController {
 
 	// TODO once procurement implementation is ready
 	private void updateProcurement() {
-
+		ProcurementDepartment.getInstance().updateAll(GameState.getInstance().getGameDate());
 	}
 
 	private void updateProduction() {

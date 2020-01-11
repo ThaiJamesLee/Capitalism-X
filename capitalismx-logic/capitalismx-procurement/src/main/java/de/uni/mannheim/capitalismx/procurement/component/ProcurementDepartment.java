@@ -14,12 +14,17 @@ public class ProcurementDepartment extends DepartmentImpl {
 
     private static ProcurementDepartment instance;
     private List<ComponentType> allAvailableComponents;
-    private Map<Component, Integer> orderedComponents;
+    private List<ComponentOrder> componentOrders;
+    private Map<Component, Integer> receivedComponents;
+    //private Map<Component, Integer> orderedComponents;
+    private static final int DELIVERY_TIME = 3;
 
     private ProcurementDepartment() {
         super("Procurement");
         this.allAvailableComponents = new ArrayList<>();
-        this.orderedComponents = new HashMap<>();
+        this.componentOrders = new ArrayList<>();
+        this.receivedComponents = new HashMap<>();
+        //this.orderedComponents = new HashMap<>();
     }
 
     public static synchronized  ProcurementDepartment getInstance() {
@@ -52,7 +57,7 @@ public class ProcurementDepartment extends DepartmentImpl {
         return availableComponentsOfComponentType;
     }
 
-    public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
+    /*public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
         if (freeStorage >= quantity) {
             int newQuantity = quantity;
             for(HashMap.Entry<Component, Integer> entry : this.orderedComponents.entrySet()) {
@@ -63,14 +68,53 @@ public class ProcurementDepartment extends DepartmentImpl {
             this.orderedComponents.put(component, newQuantity);
         }
         return quantity * component.calculateBaseCost(gameDate);
+    }*/
+
+    public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
+        if (freeStorage >= (quantity + this.getQuantityOfOrderedComponents())) {
+            ComponentOrder componentOrder = new ComponentOrder(gameDate, component, quantity);
+            this.componentOrders.add(componentOrder);
+        }
+        //TODO get or calculateBaseCost? Difference due to randomized factor
+        return quantity * component.calculateBaseCost(gameDate);
     }
 
-    public void clearOrderedComponents() {
-        this.orderedComponents.clear();
+    public void receiveComponents(LocalDate gameDate) {
+        for(ComponentOrder componentOrder : this.componentOrders) {
+            if(gameDate == componentOrder.getOrderDate().plusDays(DELIVERY_TIME)) {
+                int newQuantity = componentOrder.getOrderedQuantity();
+                for(Map.Entry<Component, Integer> entry : this.receivedComponents.entrySet()) {
+                    if(entry.getKey() == componentOrder.getOrderedComponent()) {
+                        newQuantity += entry.getValue();
+                    }
+                }
+                this.receivedComponents.put(componentOrder.getOrderedComponent(), newQuantity);
+            }
+        }
     }
 
-    public Map<Component, Integer> getOrderedComponents() {
-        return this.orderedComponents;
+    public int getQuantityOfOrderedComponents() {
+        int orderedQuantities = 0;
+        for(ComponentOrder componentOrder : this.componentOrders) {
+            orderedQuantities += componentOrder.getOrderedQuantity();
+        }
+        return orderedQuantities;
+    }
+
+    public void clearReceivedComponents() {
+        this.receivedComponents.clear();
+    }
+
+    public Map<Component, Integer> getReceivedComponents() {
+        return this.receivedComponents;
+    }
+
+    public List<ComponentOrder> getComponentOrders() {
+        return this.componentOrders;
+    }
+
+    public void updateAll(LocalDate gameDate) {
+        this.receiveComponents(gameDate);
     }
 
     @Override

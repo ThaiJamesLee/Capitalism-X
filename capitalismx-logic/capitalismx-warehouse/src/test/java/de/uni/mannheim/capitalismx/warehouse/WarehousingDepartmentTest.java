@@ -4,10 +4,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -53,16 +50,20 @@ public class WarehousingDepartmentTest {
         components.add(storage);
 
         ProductionDepartment.getInstance().buyMachinery(new Machinery(gameDate), gameDate);
-        Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, components);
-        ProductionDepartment.getInstance().launchProduct(notebook, 10, 200);
-        WarehousingDepartment.getInstance().storeUnits();
-        int numberStoredUnits = 0;
-        HashMap<Unit, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
-        for(HashMap.Entry<Unit, Integer> entry : inventory.entrySet()) {
-            numberStoredUnits += entry.getValue();
+        try {
+            Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, components);
+            ProductionDepartment.getInstance().launchProduct(notebook, 10, 200);
+            WarehousingDepartment.getInstance().storeUnits();
+            int numberStoredUnits = 0;
+            HashMap<Unit, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
+            for (HashMap.Entry<Unit, Integer> entry : inventory.entrySet()) {
+                numberStoredUnits += entry.getValue();
+            }
+            Assert.assertEquals(numberStoredUnits, 10);
+            Assert.assertEquals(WarehousingDepartment.getInstance().calculateStoredUnits(), 10);
+        } catch (InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
         }
-        Assert.assertEquals(numberStoredUnits, 10);
-        Assert.assertEquals(WarehousingDepartment.getInstance().calculateStoredUnits(), 10);
     }
 
     @Test
