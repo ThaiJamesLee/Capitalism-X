@@ -62,10 +62,16 @@ public class FinanceDepartment extends DepartmentImpl {
     private List<Double> nopatLast5Years;
 
     private TreeMap<LocalDate, Double> salesHistory;
-    private TreeMap<LocalDate, Double> salariesHistory;
-    private TreeMap<LocalDate, Double> logisticsHistory;
+    private TreeMap<LocalDate, Double> hrCostsHistory;
+    private TreeMap<LocalDate, Double> warehouseCostsHistory;
+    private TreeMap<LocalDate, Double> logisticsCostsHistory;
+    private TreeMap<LocalDate, Double> productionCostsHistory;
+    private TreeMap<LocalDate, Double> marketingCostsHistory;
+    private TreeMap<LocalDate, Double> supportCostsHistory;
     private TreeMap<LocalDate, Double> ebitHistory;
+    private TreeMap<LocalDate, Double> taxHistory;
     private TreeMap<LocalDate, Double> nopatHistory;
+
     private TreeMap<LocalDate, Double> cashHistory;
     private TreeMap<LocalDate, Double> assetsHistory;
     private TreeMap<LocalDate, Double> liabilitiesHistory;
@@ -129,16 +135,26 @@ public class FinanceDepartment extends DepartmentImpl {
         this.histories.put("netWorthHistory", this.netWorthHistory);
 
         this.salesHistory = new TreeMap<>();
-        this.salariesHistory = new TreeMap<>();
-        this.logisticsHistory = new TreeMap<>();
+        this.hrCostsHistory = new TreeMap<>();
+        this.warehouseCostsHistory = new TreeMap<>();
+        this.logisticsCostsHistory = new TreeMap<>();
+        this.productionCostsHistory = new TreeMap<>();
+        this.marketingCostsHistory = new TreeMap<>();
+        this.supportCostsHistory = new TreeMap<>();
         this.ebitHistory = new TreeMap<>();
+        this.taxHistory = new TreeMap<>();
         this.nopatHistory = new TreeMap<>();
 
         this.historiesForQuarterlyData = new TreeMap<>();
         this.historiesForQuarterlyData.put("salesHistory", this.salesHistory);
-        this.historiesForQuarterlyData.put("salariesHistory", this.salariesHistory);
-        this.historiesForQuarterlyData.put("logisticsHistory", this.logisticsHistory);
+        this.historiesForQuarterlyData.put("hrCostsHistory", this.hrCostsHistory);
+        this.historiesForQuarterlyData.put("warehouseCostsHistory", this.warehouseCostsHistory);
+        this.historiesForQuarterlyData.put("logisticsCostsHistory", this.logisticsCostsHistory);
+        this.historiesForQuarterlyData.put("productionCostsHistory", this.productionCostsHistory);
+        this.historiesForQuarterlyData.put("marketingCostsHistory", this.marketingCostsHistory);
+        this.historiesForQuarterlyData.put("supportCostsHistory", this.supportCostsHistory);
         this.historiesForQuarterlyData.put("ebitHistory", this.ebitHistory);
+        this.historiesForQuarterlyData.put("taxHistory", this.taxHistory);
         this.historiesForQuarterlyData.put("nopatHistory", this.nopatHistory);
 
         this.monthlyData = new TreeMap<>();
@@ -193,6 +209,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     // calculated daily
     //TODO reset assetsSold and nopat of current day?
+    //TODO consider liabilities for cash calculation?
     protected double calculateCash(LocalDate gameDate){
         //this.cash += this.nopat + this.assetsSold;
         double cash = this.cash.getValue() +  this.calculateNopat(gameDate) + this.calculateAssetsSold(gameDate);
@@ -282,8 +299,9 @@ public class FinanceDepartment extends DepartmentImpl {
     public double calculateNopat(LocalDate gameDate){
         //this.nopat = this.ebit - this.incomeTax;
         //TODO what to do when ebit is negative
+        //TODO display decreaseNopatFactor/decreaseNopatConstant in operations table (finance ui)
         this.nopat = ((this.calculateEbit(gameDate) - Math.max(this.calculateIncomeTax(gameDate), 0.0)) * (1 - this.decreaseNopatFactor)) - this.decreaseNopatConstant;
-        this.nopatHistory.put(gameDate, nopat);
+        this.nopatHistory.put(gameDate, this.nopat);
         return this.nopat;
     }
 
@@ -294,11 +312,12 @@ public class FinanceDepartment extends DepartmentImpl {
         if(this.calculateEbit(gameDate) >= 0){
             this.incomeTax = this.ebit * this.taxRate;
         }
+        this.taxHistory.put(gameDate, this.incomeTax);
         return this.incomeTax;
     }
 
     //TODO
-    private double calculateTotalRevenue(){
+    private double calculateTotalRevenue(LocalDate gameDate){
         /**
         ArrayList<Product> productsSold = null;
         this.totalRevenue = 0;
@@ -307,13 +326,16 @@ public class FinanceDepartment extends DepartmentImpl {
         }
          **/
         //return this.totalRevenue;
+        //TODO
+        //this.salesHistory.put(gameDate, this.totalRevenue);
+        this.salesHistory.put(gameDate, 0.0);
         return 0.0;
     }
 
     private double calculateTotalExpenses(LocalDate gameDate){
         //this.totalExpenses = this.totalHRCosts + this.totalWarehouseCosts + this.totalLogisticsCosts + this.totalProductionCosts + this.totalMarketingCosts + this.totalSupportCosts;
-        this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts(gameDate) + this.calculateTotalLogisticsCosts(gameDate) + this.calculateTotalProductionCosts()
-                + this.calculateTotalMarketingCosts() + this.calculateTotalSupportCosts();
+        this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts(gameDate) + this.calculateTotalLogisticsCosts(gameDate) + this.calculateTotalProductionCosts(gameDate)
+                + this.calculateTotalMarketingCosts(gameDate) + this.calculateTotalSupportCosts(gameDate);
         return this.totalExpenses;
     }
 
@@ -321,8 +343,8 @@ public class FinanceDepartment extends DepartmentImpl {
         double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
         double totalSalaries = HRDepartment.getInstance().calculateTotalSalaries();
         totalSalaries /= gameDate.lengthOfYear();
-        this.salariesHistory.put(gameDate, totalSalaries);
         this.totalHRCosts = totalSalaries + totalTrainingCosts;
+        this.hrCostsHistory.put(gameDate, this.totalHRCosts);
         return this.totalHRCosts;
     }
 
@@ -332,27 +354,29 @@ public class FinanceDepartment extends DepartmentImpl {
         double storageCosts = WarehousingDepartment.getInstance().calculateDailyStorageCost();
 
         this.totalWarehouseCosts = warehouseCosts + storageCosts;
+        this.warehouseCostsHistory.put(gameDate, this.totalWarehouseCosts);
         return this.totalWarehouseCosts;
     }
 
     //TODO
     protected double calculateTotalLogisticsCosts(LocalDate gameDate){
         this.totalLogisticsCosts = LogisticsDepartment.getInstance().getTotalLogisticsCosts(gameDate);
-        this.logisticsHistory.put(gameDate, totalLogisticsCosts);
+        this.logisticsCostsHistory.put(gameDate, this.totalLogisticsCosts);
         return this.totalLogisticsCosts;
     }
 
     //TODO
-    protected double calculateTotalProductionCosts(){
+    protected double calculateTotalProductionCosts(LocalDate gameDate){
         //double totalProductionCosts = Production.getInstance().calculateProductionVariableCosts() + Production.getInstance().calculateProductionFixCosts();
 
         this.totalProductionCosts = ProductionDepartment.getInstance().getTotalProductionCosts();
         //ProductionDepartment.getInstance().getProductionVariableCosts() + ProductionDepartment.getInstance().getProductionFixCosts();
+        this.productionCostsHistory.put(gameDate, this.totalProductionCosts);
         return this.totalProductionCosts;
     }
 
     //TODO
-    private double calculateTotalMarketingCosts(){
+    private double calculateTotalMarketingCosts(LocalDate gameDate){
         /**
         double priceManagementConsultancy = ;
         double priceMarketResearch = ;
@@ -360,18 +384,22 @@ public class FinanceDepartment extends DepartmentImpl {
         double priceLobbyist = ;
         this.totalMarketingCosts = priceManagementConsultancy + priceMarketResearch + priceCampaign + priceLobbyist;
         return this.totalMarketingCosts;**/
+        //TODO
+        this.marketingCostsHistory.put(gameDate, this.totalMarketingCosts);
+        this.marketingCostsHistory.put(gameDate, 0.0);
         return 0.0;
     }
 
-    private double calculateTotalSupportCosts(){
+    private double calculateTotalSupportCosts(LocalDate gameDate){
         double totalSupportCosts = ProductSupport.getInstance().calculateTotalSupportCosts();
+        this.supportCostsHistory.put(gameDate, this.totalSupportCosts);
         return totalSupportCosts;
     }
 
     protected double calculateEbit(LocalDate gameDate){
         //this.ebit = this.totalRevenue - this.totalExpenses;
-        this.ebit = this.calculateTotalRevenue() - this.calculateTotalExpenses(gameDate);
-        this.ebitHistory.put(gameDate, ebit);
+        this.ebit = this.calculateTotalRevenue(gameDate) - this.calculateTotalExpenses(gameDate);
+        this.ebitHistory.put(gameDate, this.ebit);
         return this.ebit;
     }
 
