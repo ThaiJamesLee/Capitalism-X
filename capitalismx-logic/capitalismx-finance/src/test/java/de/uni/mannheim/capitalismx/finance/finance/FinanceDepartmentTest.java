@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.finance.finance;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.NoMachinerySlotsAvailableException;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
@@ -52,12 +53,16 @@ public class FinanceDepartmentTest {
     @Test
     public void calculateTotalMachineValuesTest() {
         FinanceDepartment financeDepartment = new FinanceDepartment();
-        ProductionDepartment.getInstance().buyMachinery(new Machinery(LocalDate.of(2019,11, 30)),
-                LocalDate.of(2019,11, 30));
-        Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2019,11, 30)), (100000.0 + 500) * 1.2);
-        Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2020,11, 30)),
-                financeDepartment.calculateResellPrice((100000.0 + 500) * 1.2, 20, 1));
-        Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2020,11, 29)), (100000.0 + 500) * 1.2);
+        try {
+            ProductionDepartment.getInstance().buyMachinery(new Machinery(LocalDate.of(2019, 11, 30)),
+                    LocalDate.of(2019, 11, 30));
+            Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2019, 11, 30)), (100000.0 + 500) * 1.2);
+            Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2020, 11, 30)),
+                    financeDepartment.calculateResellPrice((100000.0 + 500) * 1.2, 20, 1));
+            Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2020, 11, 29)), (100000.0 + 500) * 1.2);
+        } catch (NoMachinerySlotsAvailableException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test

@@ -200,7 +200,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.manufactureEfficiency = 0;
     }
 
-    public double buyMachinery(Machinery machinery, LocalDate gameDate) {
+    public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
         if(this.productionSlots > this.machines.size()) {
             machinery.setPurchaseDate(gameDate);
             this.machines.add(machinery);
@@ -211,7 +211,7 @@ public class ProductionDepartment extends DepartmentImpl {
             return machinery.calculatePurchasePrice();
         }
         this.machineSlotsAvailable = false;
-        return 0;
+        throw new NoMachinerySlotsAvailableException("No more Capacity available to buy new Machine.");
     }
 
     public double sellMachinery(Machinery machinery) {

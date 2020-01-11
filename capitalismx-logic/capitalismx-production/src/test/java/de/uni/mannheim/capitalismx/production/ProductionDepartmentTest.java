@@ -70,9 +70,13 @@ public class ProductionDepartmentTest {
 
     @Test
     public void buyMachineryTest() {
-        ProductionDepartment.getInstance().buyMachinery(this.machinery, LocalDate.of(1990,1,1));
-        Assert.assertEquals(ProductionDepartment.getInstance().getMachines().size(), 1);
-        Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 500.0);
+        try {
+            ProductionDepartment.getInstance().buyMachinery(this.machinery, LocalDate.of(1990, 1, 1));
+            Assert.assertEquals(ProductionDepartment.getInstance().getMachines().size(), 1);
+            Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 500.0);
+        } catch (NoMachinerySlotsAvailableException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test

@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.production;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.NoMachinerySlotsAvailableException;
 import de.uni.mannheim.capitalismx.ui.components.production.MachineryListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.fxml.FXML;
@@ -34,9 +35,13 @@ public class MachineryListController extends GameModuleController {
 
         buyButton.setOnAction(e -> {
             LocalDate gameDate = GameState.getInstance().getGameDate();
-            controller.buyMachinery(new Machinery(gameDate), gameDate);
-            List<Machinery> machines = controller.getMachines();
-            machineryListView.getItems().add(machines.get(machines.size() - 1));
+            try {
+                controller.buyMachinery(new Machinery(gameDate), gameDate);
+                List<Machinery> machines = controller.getMachines();
+                machineryListView.getItems().add(machines.get(machines.size() - 1));
+            } catch (NoMachinerySlotsAvailableException exception) {
+                System.out.println(exception.getMessage());
+            }
         });
 
         machineryListView.setCellFactory(machineryListView -> new MachineryListViewCell(machineryListView));

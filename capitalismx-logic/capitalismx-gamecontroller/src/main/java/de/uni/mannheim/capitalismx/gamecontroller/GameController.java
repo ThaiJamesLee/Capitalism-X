@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import de.uni.mannheim.capitalismx.procurement.component.*;
+import de.uni.mannheim.capitalismx.production.*;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import org.slf4j.Logger;
@@ -37,12 +38,6 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
-import de.uni.mannheim.capitalismx.production.ProductionInvestment;
-import de.uni.mannheim.capitalismx.production.ProductionTechnology;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
@@ -636,8 +631,12 @@ public class GameController {
 		return ProductionDepartment.getInstance().getProductionSlots();
 	}
 
-	public double buyMachinery(Machinery machinery, LocalDate gameDate) {
-		return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+	public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
+		try {
+			return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+		} catch (NoMachinerySlotsAvailableException e) {
+			throw new NoMachinerySlotsAvailableException("No more Capacity available to buy new Machine.");
+		}
 	}
 
 	public double sellMachinery(Machinery machinery) {
