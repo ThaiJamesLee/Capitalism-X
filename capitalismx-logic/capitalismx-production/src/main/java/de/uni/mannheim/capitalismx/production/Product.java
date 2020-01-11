@@ -38,6 +38,7 @@ public class Product extends Unit implements Serializable {
             /* placeholder for ecoCost TODO*/
             int ecoCostPerProduct = 3000;
             this.totalProductVariableCosts = this.totalComponentCosts + ecoCostPerProduct;
+            this.salesPrice = 1;
         } else {
             throw new InvalidSetOfComponentsException("Set of Components is not valid for this Type of Product.");
         }
