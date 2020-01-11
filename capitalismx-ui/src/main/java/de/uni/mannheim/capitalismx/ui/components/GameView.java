@@ -3,6 +3,8 @@ package de.uni.mannheim.capitalismx.ui.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+
 /**
  * The view of a department in the game and its {@link GameModule}s. TODO
  * implement differentiation between active and inactive modules (different

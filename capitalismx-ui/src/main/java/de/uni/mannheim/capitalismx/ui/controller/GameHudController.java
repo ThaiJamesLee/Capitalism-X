@@ -1,7 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.net.URL;
-import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,7 +9,6 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
-import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
@@ -29,7 +27,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -37,7 +34,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -76,6 +72,7 @@ public class GameHudController implements UpdateableController {
 	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD;
 	@FXML
 	private ToggleGroup departmentButtons;
+
 	// The GridPane that contains all the modules.
 	@FXML
 	private GridPane moduleGrid;
@@ -175,10 +172,13 @@ public class GameHudController implements UpdateableController {
 	/**
 	 * Initiates the department buttons by adding the necessary EventHandlers.
 	 * 
-	 * @param button     The {@link ToggleButton} to inititate.
+	 * @param button     The {@link ToggleButton} to initiate.
 	 * @param department The {@link GameViewType} to create EventHandlers for.
 	 */
 	private void initDepartmentButton(ToggleButton button, GameViewType department) {
+		// prepare the icon for the button
+		button.setGraphic(department.getGameViewIcon("1.5em"));
+
 		departmentButtonMap.put(department, button);
 		button.setOnAction(e -> {
 			switchView(department);
@@ -321,14 +321,14 @@ public class GameHudController implements UpdateableController {
 
 	@Override
 	public void update() {
-		//called every ingame day
+		// called every ingame day
 		Platform.runLater(() -> {
 			// update date
 			GameState gameState = GameState.getInstance();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd")
 					.withLocale(UIManager.getResourceBundle().getLocale());
 			dateLabel.setText(gameState.getGameDate().format(formatter));
-			
+
 			// update employee change label
 			int diff = GameState.getInstance().getHrDepartment()
 					.getEmployeeDifference(GameState.getInstance().getGameDate());
@@ -396,6 +396,7 @@ public class GameHudController implements UpdateableController {
 	 */
 	public void updateGameViewLabel(GameViewType viewType) {
 		this.departmentLabel.setText(viewType.getTitle());
+		this.departmentLabel.setGraphic(viewType.getGameViewIcon("1.8em"));
 	}
 
 	public void updateNetworthLabel(double currentNetWorth) {
@@ -420,5 +421,5 @@ public class GameHudController implements UpdateableController {
 			}
 		});
 	}
-	
+
 }
