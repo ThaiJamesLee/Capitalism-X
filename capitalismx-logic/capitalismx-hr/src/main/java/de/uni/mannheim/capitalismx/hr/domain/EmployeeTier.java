@@ -1,5 +1,8 @@
 package de.uni.mannheim.capitalismx.hr.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Define the employee tiers.
  *
@@ -75,4 +78,17 @@ public enum EmployeeTier {
         }
         return null;
     }
-}
+
+    /**
+     * The list is sorted by the enum definition order.
+     * @return Returns a sorted list of all skill level names.
+     */
+    public static List<String> getSkillLevelNames() {
+        EmployeeTier[] employeeTiers = EmployeeTier.values();
+        List<String> names = new ArrayList<>();
+
+        for(EmployeeTier e : employeeTiers) {
+            names.add(e.getName());
+        }
+        return names;
+    }}

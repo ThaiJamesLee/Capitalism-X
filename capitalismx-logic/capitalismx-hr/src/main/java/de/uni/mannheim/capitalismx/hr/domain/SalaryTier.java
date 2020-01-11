@@ -12,13 +12,11 @@ import java.util.List;
  */
 public enum SalaryTier {
 
-    TIER_0 ("worker", 0,0, 20, 38000, 45000),
-    TIER_1 ("student", 1,21, 40, 45000, 55000),
-    TIER_2 ("graduate", 2,41, 60, 55000, 70000),
-    TIER_3 ("specialist", 3,61, 80, 70000, 100000),
-    TIER_4 ("expert", 4,81, 100, 100000, 150000);
-
-    private String name;
+    TIER_0 (0,0, 20, 38000, 45000),
+    TIER_1 (1,21, 40, 45000, 55000),
+    TIER_2 (2,41, 60, 55000, 70000),
+    TIER_3 (3,61, 80, 70000, 100000),
+    TIER_4 (4,81, 100, 100000, 150000);
 
     private int tier;
 
@@ -32,10 +30,9 @@ public enum SalaryTier {
      * @param lowerSalary lower bound of salary for this skill level range
      * @param upperSalary upper bound of salary for this skill level range
      */
-    SalaryTier(String name, int tier, int lowerLevel, int upperLevel, int lowerSalary, int upperSalary) {
+    SalaryTier(int tier, int lowerLevel, int upperLevel, int lowerSalary, int upperSalary) {
         salaryRange = new Range(lowerSalary, upperSalary);
         skillLevelRange = new Range(lowerLevel, upperLevel);
-        this.name = name;
         this.tier = tier;
     }
 
@@ -77,36 +74,6 @@ public enum SalaryTier {
 
     /**
      *
-     * @param name The skill level name.
-     * @return Returns the salary by the specified skill level name. Returns null if not exists.
-     */
-    public static SalaryTier getSalaryTierByName(String name) {
-        SalaryTier[] salaries = SalaryTier.values();
-
-        for(SalaryTier s : salaries) {
-            if (s.getName().equals(name)) {
-                return s;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * The list is sorted by the enum definition order.
-     * @return Returns a sorted list of all skill level names.
-     */
-    public static List<String> getSkillLevelNames() {
-        SalaryTier[] salaries = SalaryTier.values();
-        List<String> names = new ArrayList<>();
-
-        for(SalaryTier s : salaries) {
-            names.add(s.getName());
-        }
-        return names;
-    }
-
-    /**
-     *
      * @return Returns the salary with the maximum tier.
      */
     public static SalaryTier getMaxTier() {
@@ -125,7 +92,4 @@ public enum SalaryTier {
         return maxTier;
     }
 
-    public String getName() {
-        return name;
-    }
 }
