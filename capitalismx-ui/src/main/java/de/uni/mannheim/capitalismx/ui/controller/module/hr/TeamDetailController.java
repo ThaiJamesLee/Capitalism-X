@@ -34,7 +34,6 @@ public class TeamDetailController extends GameModuleController {
 	@FXML
 	private TabPane employeeTabPane;
 
-	private Map<EmployeeType, ListView<Employee>> listViews;
 	private Map<EmployeeType, TeamDetails> employeeTypeDetails;
 
 	@Override
@@ -45,7 +44,6 @@ public class TeamDetailController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
-		listViews = new HashMap<EmployeeType, ListView<Employee>>();
 		employeeTypeDetails = new HashMap<EmployeeType, TeamDetails>();
 
 		for (EmployeeType type : EmployeeType.values()) {

@@ -16,9 +16,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Creates a new panel with information about a given {@link Team}. Includes a
+ * {@link ListView} listing all of the team's employees and a few labels giving
+ * more information about some team statistics.
+ * 
+ * @author Jonathan
+ *
+ */
 public class TeamDetails {
 
 	private Team team;
@@ -60,7 +67,7 @@ public class TeamDetails {
 		teamBenefits.setText(
 				"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
 		teamBenefits.setWrapText(true);
-		
+
 		updateStats();
 
 		teamList = FXCollections.observableArrayList(team.getTeam());
@@ -72,10 +79,13 @@ public class TeamDetails {
 		listAnchor.getChildren().add(teamListView);
 	}
 
+	/**
+	 * Update all of the {@link Team}'s statistics.
+	 */
 	public void updateStats() {
 		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
-		
-		//TODO init with Tooltip explaining kpi
+
+		// TODO init with Tooltip explaining kpi
 		number.setText(team.getTeam().size() + "");
 		satisfaction.setText(team.getAverageJobSatisfactionScore() + "");
 		salary.setText(CapCoinFormatter.getCapCoins(0));
