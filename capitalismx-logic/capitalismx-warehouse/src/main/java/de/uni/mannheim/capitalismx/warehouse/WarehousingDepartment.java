@@ -189,7 +189,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
     }
 
-    public double buildWarehouse(LocalDate gameDate) {
+    public double buildWarehouse(LocalDate gameDate) throws NoWarehouseSlotsAvailableException {
         if(this.warehouseSlots > this.warehouses.size()) {
             Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
             warehouse.setBuildDate(gameDate);
@@ -201,10 +201,10 @@ public class WarehousingDepartment extends DepartmentImpl {
             return warehouse.getBuildingCost();
         }
         this.warehouseSlotsAvailable = false;
-        return 0;
+        throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
     }
 
-    public double rentWarehouse(LocalDate gameDate) {
+    public double rentWarehouse(LocalDate gameDate) throws NoWarehouseSlotsAvailableException{
         if(this.warehouseSlots > this.warehouses.size()) {
             Warehouse warehouse = new Warehouse(WarehouseType.RENTED);
             warehouses.add(warehouse);
@@ -215,7 +215,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             return warehouse.getMonthlyRentalCost();
         }
         this.warehouseSlotsAvailable = false;
-        return 0;
+        throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
     }
 
     public void depreciateAllWarehouseResaleValues(LocalDate gameDate) {
@@ -242,6 +242,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             resaleValue = warehouse.getResaleValue();
         }
         warehouses.remove(warehouse);
+        this.warehouseSlotsAvailable = true;
         return resaleValue;
     }
 

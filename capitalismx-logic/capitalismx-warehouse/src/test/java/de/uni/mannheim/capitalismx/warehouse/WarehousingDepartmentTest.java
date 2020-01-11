@@ -68,8 +68,12 @@ public class WarehousingDepartmentTest {
 
     @Test
     public void buildWarehouseTest() {
-        WarehousingDepartment.getInstance().buildWarehouse(LocalDate.of(1990,1,1));
-        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
+        try {
+            WarehousingDepartment.getInstance().buildWarehouse(LocalDate.of(1990, 1, 1));
+            Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
+        } catch (NoWarehouseSlotsAvailableException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -97,7 +101,11 @@ public class WarehousingDepartmentTest {
 
     @Test
     public void rentWarehouseTest() {
-        WarehousingDepartment.getInstance().rentWarehouse(LocalDate.of(1990,1,1));
-        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
+        try {
+            WarehousingDepartment.getInstance().rentWarehouse(LocalDate.of(1990, 1, 1));
+            Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
+        } catch (NoWarehouseSlotsAvailableException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
