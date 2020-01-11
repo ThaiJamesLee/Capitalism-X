@@ -17,6 +17,7 @@ public enum UIElementType {
 	HR_WORKING_CONDITIONS("Working Conditions"), 
 	HR_RECRUITING_OVERVIEW("Recruiting"),
 	FINANCE_OVERVIEW("Finance Overview"),
+	FINANCE_BANKING_SYSTEM("Banking System"),
     FINANCE_OPERATIONS_TABLE("Operations"),
 	FINANCE_SALES_CHART("Statistics"),
 	LOGISTICS_PARTNER_OVERVIEW("External Partner"),
