@@ -11,6 +11,10 @@
 
     <artifactId>capitalismx-resdev</artifactId>
 
+    <description>
+        This department is the Research and Development. Here the player needs to unlock Components and ProductCategories
+        before he can produce or advance with newer technology.
+    </description>
 
     <dependencies>
         <dependency>
