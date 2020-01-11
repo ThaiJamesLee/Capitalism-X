@@ -19,21 +19,52 @@ import java.time.LocalDate;
  */
 public class Contract implements Serializable {
 
+    /**
+     * The name of the contractor.
+     */
     private String contractor;
 
+    /**
+     * The number of products to produce, to fulfill the contract.
+     */
     private int numProducts;
 
+    /**
+     * The price for each product (wholesale price).
+     */
     private double pricePerProd;
 
+    /**
+     * The penalty, if the contract is not fulfilled and timeToFinish is due.
+     */
     private double penalty;
 
+    /**
+     * The time to fulfill the contract from the point of accepting this contract.
+     */
     private int timeToFinish;
 
+    /**
+     * The product to sell. This influences the price per product.
+     */
     private Product product;
 
+    /**
+     * The start date of the contract.
+     */
     private LocalDate contractStart;
 
 
+    /**
+     *
+     * @param contractor The name of the contractor.
+     * @param contractStart The number of products to produce, to fulfill the contract.
+     * @param product The product to sell. This influences the price per product.
+     * @param numProducts The number of products to produce, to fulfill the contract.
+     * @param pricePerProd The price for each product (wholesale price).
+     * @param timeToFinish The time to fulfill the contract from the point of accepting this contract.
+     * @param penalty The penalty, if the contract is not fulfilled and timeToFinish is due.
+     */
     public Contract(String contractor, LocalDate contractStart, Product product, int numProducts, double pricePerProd, int timeToFinish, double penalty) {
         this.contractor = contractor;
         this.product = product;

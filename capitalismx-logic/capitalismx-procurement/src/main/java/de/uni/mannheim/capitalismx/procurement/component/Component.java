@@ -139,14 +139,15 @@ public class Component extends Unit implements Serializable {
 
     public double calculateBaseCost(LocalDate gameDate) {
         int gameYear = gameDate.getYear();
-        double tBPM = 0.0001 * Math.pow((gameYear - this.availabilityDate + 1), 5)
-                - 0.0112 * Math.pow((gameYear - this.availabilityDate + 1), 4)
-                - 0.4239 * Math.pow((gameYear - this.availabilityDate + 1), 3)
-                + 7.3219 * Math.pow((gameYear - this.availabilityDate + 1), 2)
-                - 49.698 * (gameYear - this.availabilityDate + 1)
-                + 142.7889;
+        double tBPM = -0.00011199 * Math.pow((gameYear - this.availabilityDate + 1), 5)
+                + 0.01117974 * Math.pow((gameYear - this.availabilityDate + 1), 4)
+                - 0.42393538 * Math.pow((gameYear - this.availabilityDate + 1), 3)
+                + 7.32188889 * Math.pow((gameYear - this.availabilityDate + 1), 2)
+                - 49.69789098 * (gameYear - this.availabilityDate + 1)
+                + 143.3244916;
         double tBCP = this.initialComponentPrice * (tBPM / 100);
         this.baseCost = tBCP * this.supplierCostMultiplicator;
+        //TODO NORMAL FUNCTION
         this.baseCost = this.baseCost * RandomNumberGenerator.getRandomDouble(0.8, 1.5);
         return this.baseCost;
     }

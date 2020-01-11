@@ -1,9 +1,6 @@
 package de.uni.mannheim.capitalismx.production;
 
-import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-import de.uni.mannheim.capitalismx.procurement.component.Unit;
-import de.uni.mannheim.capitalismx.procurement.component.UnitType;
+import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 
 import java.io.Serializable;
@@ -16,6 +13,7 @@ public class Product extends Unit implements Serializable {
     private String productName;
     private ProductCategory productCategory;
     private List<Component> components;
+    private double initProcurementQuality;
     private double totalProcurementQuality;
     private double totalProductQuality;
     private LocalDate launchDate;
@@ -26,18 +24,23 @@ public class Product extends Unit implements Serializable {
     private double profitMargin;
     private double averageProductQuality;
 
-    public Product(String productName, ProductCategory productCategory, List<Component> components) {
-        this.unitType = UnitType.PRODUCT_UNIT;
-        this.productName = productName;
-        this.productCategory = productCategory;
-        this.components = components;
-        this.totalComponentCosts = 0;
-        for(Component c : components) {
-            this.totalComponentCosts += c.getBaseCost();
+    public Product(String productName, ProductCategory productCategory, List<Component> components) throws InvalidSetOfComponentsException {
+        if(hasValidSetOfComponents(productCategory, components)) {
+            this.unitType = UnitType.PRODUCT_UNIT;
+            this.productName = productName;
+            this.productCategory = productCategory;
+            this.components = components;
+            this.totalComponentCosts = 0;
+            this.initProcurementQuality = 0;
+            for (Component c : components) {
+                this.totalComponentCosts += c.getBaseCost();
+            }
+            /* placeholder for ecoCost TODO*/
+            int ecoCostPerProduct = 3000;
+            this.totalProductVariableCosts = this.totalComponentCosts + ecoCostPerProduct;
+        } else {
+            throw new InvalidSetOfComponentsException("Set of Components is not valid for this Type of Product.");
         }
-        /* placeholder for ecoCost TODO*/
-        int ecoCostPerProduct = 3000;
-        this.totalProductVariableCosts = this.totalComponentCosts + ecoCostPerProduct;
     }
 
     public String toString() {
@@ -48,6 +51,36 @@ public class Product extends Unit implements Serializable {
         return this.productCategory;
     }
 
+    public boolean hasValidSetOfComponents(ProductCategory productCategory, List<Component> components) {
+        boolean validSet = true;
+        List<ComponentCategory> neededComponentCategories = ProductCategory.getComponentCategories(productCategory);
+        if(productCategory == ProductCategory.PHONE) {
+            neededComponentCategories.remove(ComponentCategory.P_CAMERA);
+        }
+        if(productCategory == ProductCategory.GAME_BOY) {
+            neededComponentCategories.remove(ComponentCategory.G_CAMERA);
+        }
+        for(ComponentCategory componentCategory : neededComponentCategories) {
+            for(Component component : components) {
+                if(component.getComponentCategory() != componentCategory) {
+                    validSet = false;
+                } else {
+                    validSet = true;
+                    break;
+                }
+            }
+        }
+        List<ComponentCategory> allComponentCategories = ProductCategory.getComponentCategories(productCategory);
+        for(Component component : components) {
+            if(!allComponentCategories.contains(component.getComponentCategory())) {
+                validSet = false;
+            } else {
+                allComponentCategories.remove(component.getComponentCategory());
+            }
+        }
+        return validSet;
+    }
+
     public double calculateTotalVariableCosts() {
         /* TODO placeholder for ecoCost */
         int ecoCostPerProduct = 30;
@@ -56,17 +89,18 @@ public class Product extends Unit implements Serializable {
     }
 
     public double calculateTotalProcurementQuality() {
-        for(Component c : components) {
-            this.totalProcurementQuality += (0.4 * c.getSupplierEcoIndex() + 0.6 * c.getSupplierQuality()) * c.getBaseUtility();
+        for(Component c : this.components) {
+            this.initProcurementQuality += (0.4 * c.getSupplierEcoIndex() + 0.6 * c.getSupplierQuality()) * c.getBaseUtility();
         }
-        this.totalProcurementQuality = this.totalProcurementQuality / this.components.size();
+        this.totalProcurementQuality = this.initProcurementQuality / this.components.size();
+        this.initProcurementQuality = 0;
         return this.totalProcurementQuality;
         // return this.totalProcurementQuality / this.components.size();
     }
 
     public double calculateTotalProductQuality(double productionTechnologyFactor, double totalEngineerProductivity, double researchAndDevelopmentFactor) {
-        /* the math.pow operation calculates the 10th root of totalEignineerProductivity*/
-        this.totalProductQuality = this.totalProcurementQuality * productionTechnologyFactor * researchAndDevelopmentFactor * Math.pow(Math.E, Math.log(totalEngineerProductivity)/10);
+        /* the math.pow operation calculates the 10th root of totalEngineerProductivity*/
+        this.totalProductQuality = this.calculateTotalProcurementQuality() * productionTechnologyFactor * researchAndDevelopmentFactor * Math.pow(Math.E, Math.log(totalEngineerProductivity)/10);
         return this.totalProductQuality;
     }
 

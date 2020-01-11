@@ -45,12 +45,19 @@ import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
+/**
+ * This class is the entry point for the UI.
+ * It aggregates the game-logic and allows all objects to be updated.
+ *
+ * @author duly
+ * @author dzhao
+ * @author sdupper
+ */
 public class GameController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
 	private static GameController instance;
-	private boolean isNewYear;
 
 	private GameController() {
 	}
@@ -117,9 +124,8 @@ public class GameController {
 			ExternalEvents.setInstance(state.getExternalEvents());
 			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
 			InternalFleet.setInstance(state.getInternalFleet());
-
 		} catch (ClassNotFoundException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
@@ -133,9 +139,38 @@ public class GameController {
 
 	private void updateCustomer() {
 		LocalDate gameDate = GameState.getInstance().getGameDate();
-		CustomerSatisfaction.getInstance().calculateAll(gameDate);
-		CustomerDemand.getInstance().calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON),
-				gameDate);
+		CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.getInstance();
+		CustomerDemand customerDemand = CustomerDemand.getInstance();
+
+		// get launched products from production department
+		ProductionDepartment productionDepartment = ProductionDepartment.getInstance();
+		customerSatisfaction.setProducts(productionDepartment.getLaunchedProducts());
+
+		// get totalSupportQuality score from Logistics
+		ProductSupport productSupport = ProductSupport.getInstance();
+		customerSatisfaction.setTotalSupportQuality(productSupport.getTotalSupportQuality());
+
+		// get companyImage score from Marketing
+		MarketingDepartment marketingDepartment = MarketingDepartment.getInstance();
+		double companyImage = marketingDepartment.getCompanyImageScore();
+		customerSatisfaction.setCompanyImage(companyImage);
+
+		// get jobSatisfaction score from HR
+		HRDepartment hrDepartment = HRDepartment.getInstance();
+		double jss = hrDepartment.getTotalJSS();
+
+		// get employerBranding score
+		double employerBranding = jss * 0.6 + companyImage * 0.4;
+		customerSatisfaction.setEmployerBranding(employerBranding);
+
+		// get logisticsIndex from Logistics
+		LogisticsDepartment logisticsDepartment = LogisticsDepartment.getInstance();
+		customerSatisfaction.setLogisticIndex(logisticsDepartment.getLogisticsIndex());
+
+		customerSatisfaction.calculateAll(gameDate);
+		customerDemand.calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON), gameDate);
+		/*String message = "jss= " + jss + "; companyImage=" + companyImage + "; employerBranding=" + employerBranding;
+		LOGGER.info(message);*/
 	}
 
 	private void updateFinance() {
@@ -166,7 +201,7 @@ public class GameController {
 
 	// TODO once procurement implementation is ready
 	private void updateProcurement() {
-
+		ProcurementDepartment.getInstance().updateAll(GameState.getInstance().getGameDate());
 	}
 
 	private void updateProduction() {

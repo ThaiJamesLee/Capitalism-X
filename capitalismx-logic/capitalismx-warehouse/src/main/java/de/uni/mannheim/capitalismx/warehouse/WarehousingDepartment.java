@@ -144,7 +144,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             }
         }
         ProductionDepartment.getInstance().clearInventory();
-        Map<Component, Integer> newComponents = ProcurementDepartment.getInstance().getOrderedComponents();
+        Map<Component, Integer> newComponents = ProcurementDepartment.getInstance().getReceivedComponents();
         for(HashMap.Entry<Component, Integer> entry : newComponents.entrySet()) {
             if(this.inventory.get(entry.getKey()) != null) {
                 int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
@@ -153,7 +153,7 @@ public class WarehousingDepartment extends DepartmentImpl {
                 this.inventory.put(entry.getKey(), entry.getValue());
             }
         }
-        ProcurementDepartment.getInstance().clearOrderedComponents();
+        ProcurementDepartment.getInstance().clearReceivedComponents();
     }
 
     public int calculateStoredUnits() {
