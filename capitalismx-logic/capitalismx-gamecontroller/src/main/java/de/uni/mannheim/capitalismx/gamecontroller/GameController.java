@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import de.uni.mannheim.capitalismx.procurement.component.*;
+import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -124,6 +125,8 @@ public class GameController {
 			ExternalEvents.setInstance(state.getExternalEvents());
 			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
 			InternalFleet.setInstance(state.getInternalFleet());
+			ResearchAndDevelopmentDepartment.setInstance(state.getResearchAndDevelopmentDepartment());
+
 		} catch (ClassNotFoundException e) {
 			LOGGER.error(e.getMessage(), e);
 		}

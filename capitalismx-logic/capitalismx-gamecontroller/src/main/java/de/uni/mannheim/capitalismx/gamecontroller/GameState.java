@@ -11,6 +11,7 @@ import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
@@ -46,6 +47,7 @@ public class GameState implements Serializable {
 	private ExternalEvents externalEvents;
 	private CompanyEcoIndex companyEcoIndex;
 	private InternalFleet internalFleet;
+	private ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment;
 	private ProductSupport productSupport;
 
 	private GameState() {
@@ -76,6 +78,7 @@ public class GameState implements Serializable {
 		externalEvents = ExternalEvents.getInstance();
 		companyEcoIndex = CompanyEcoIndex.getInstance();
 		internalFleet = InternalFleet.getInstance();
+		researchAndDevelopmentDepartment = ResearchAndDevelopmentDepartment.getInstance();
 		productSupport = ProductSupport.getInstance();
 	}
 
@@ -241,6 +244,13 @@ public class GameState implements Serializable {
 		this.internalFleet = internalFleet;
 	}
 
+	public ResearchAndDevelopmentDepartment getResearchAndDevelopmentDepartment() {
+		return researchAndDevelopmentDepartment;
+	}
+
+	public void setResearchAndDevelopmentDepartment(ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment) {
+		this.researchAndDevelopmentDepartment = researchAndDevelopmentDepartment;
+	}
 	public ProductSupport getProductSupport() {
 		return productSupport;
 	}
