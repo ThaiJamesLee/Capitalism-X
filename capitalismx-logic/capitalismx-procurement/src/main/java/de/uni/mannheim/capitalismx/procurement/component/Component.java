@@ -145,7 +145,6 @@ public class Component extends Unit implements Serializable {
                 + 7.32188889 * Math.pow((gameYear - this.availabilityDate + 1), 2)
                 - 49.69789098 * (gameYear - this.availabilityDate + 1)
                 + 143.3244916;
-        System.out.println(tBPM);
         double tBCP = this.initialComponentPrice * (tBPM / 100);
         this.baseCost = tBCP * this.supplierCostMultiplicator;
         //TODO NORMAL FUNCTION

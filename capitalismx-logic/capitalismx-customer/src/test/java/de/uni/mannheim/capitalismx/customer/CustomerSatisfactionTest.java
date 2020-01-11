@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.customer;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.InvalidSetOfComponentsException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
@@ -55,41 +56,44 @@ public class CustomerSatisfactionTest {
         components.add(new Component(ComponentType.G_CPU_LEVEL_1, SupplierCategory.CHEAP));
         components.add(new Component(ComponentType.G_CONNECTIVITY_LEVEL_1, SupplierCategory.CHEAP));
 
-        Product p = new Product("test", ProductCategory.GAME_BOY, components);
-        p.setLaunchDate(LocalDate.of(1990,1,1));
+        try {
+            Product p = new Product("test", ProductCategory.GAME_BOY, components);
+            p.setLaunchDate(LocalDate.of(1990, 1, 1));
 
-        List<Product> launchedProducts = new ArrayList<>();
-        launchedProducts.add(p);
+            List<Product> launchedProducts = new ArrayList<>();
+            launchedProducts.add(p);
 
-        CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.getInstance();
-        customerSatisfaction.setLogisticIndex(logisticIndex);
-        customerSatisfaction.setEmployerBranding(employerBranding);
-        customerSatisfaction.setCompanyImage(maxCompanyImage);
-        customerSatisfaction.setTotalSupportQuality(totalSupportQuality);
-        customerSatisfaction.setProducts(launchedProducts);
+            CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.getInstance();
+            customerSatisfaction.setLogisticIndex(logisticIndex);
+            customerSatisfaction.setEmployerBranding(employerBranding);
+            customerSatisfaction.setCompanyImage(maxCompanyImage);
+            customerSatisfaction.setTotalSupportQuality(totalSupportQuality);
+            customerSatisfaction.setProducts(launchedProducts);
 
-        customerSatisfaction.calculateAll(initDate);
+            customerSatisfaction.calculateAll(initDate);
 
-        CustomerDemand customerDemand = CustomerDemand.createInstance();
+            CustomerDemand customerDemand = CustomerDemand.createInstance();
 
 
-        double salesQoW = 100;
+            double salesQoW = 100;
 
-        // calculateAll to calculate some of the needed variables (calculateTotalEngineerProductivity -> calculateTotalEngineerQualityOfWork)
-        ProductionDepartment.getInstance().calculateAll(initDate);
-        // set totalProductQuality (needs production technology factor, research and dev factor and total engineer productivity)
-        // is usually automated through setTotalProductQuality which sets the quality for each product that is produced in the production department
-        ProductionDepartment.getInstance().setTotalProductQualityOfProduct(p);
+            // calculateAll to calculate some of the needed variables (calculateTotalEngineerProductivity -> calculateTotalEngineerQualityOfWork)
+            ProductionDepartment.getInstance().calculateAll(initDate);
+            // set totalProductQuality (needs production technology factor, research and dev factor and total engineer productivity)
+            // is usually automated through setTotalProductQuality which sets the quality for each product that is produced in the production department
+            ProductionDepartment.getInstance().setTotalProductQualityOfProduct(p);
 
-        customerDemand.calculateOverallAppealDemand(salesQoW, initDate);
-        customerDemand.calculateDemandPercentage(salesQoW, initDate);
+            customerDemand.calculateOverallAppealDemand(salesQoW, initDate);
+            customerDemand.calculateDemandPercentage(salesQoW, initDate);
 
-        Map<Product, Double> demandPercentage = customerDemand.getDemandPercentage();
+            Map<Product, Double> demandPercentage = customerDemand.getDemandPercentage();
 
-        for(Map.Entry<Product, Double> entry : demandPercentage.entrySet()) {
-            System.out.println(entry.getKey().toString() + "; " + entry.getValue());
+            for (Map.Entry<Product, Double> entry : demandPercentage.entrySet()) {
+                System.out.println(entry.getKey().toString() + "; " + entry.getValue());
+            }
+        } catch (InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
         }
-
 
     }
 }

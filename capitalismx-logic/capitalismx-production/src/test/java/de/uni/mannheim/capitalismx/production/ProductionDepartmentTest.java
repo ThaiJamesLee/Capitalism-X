@@ -84,11 +84,15 @@ public class ProductionDepartmentTest {
 
     @Test
     public void launchProductTest() {
-        Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
-        Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, 10, 9), -1.0);
-        ProductionDepartment.getInstance().launchProduct(notebook, 10, 10);
-        Assert.assertEquals(ProductionDepartment.getInstance().getNumberProducedProducts().size(), 1);
-        Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 10);
+        try {
+            Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
+            Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, 10, 9), -1.0);
+            ProductionDepartment.getInstance().launchProduct(notebook, 10, 10);
+            Assert.assertEquals(ProductionDepartment.getInstance().getNumberProducedProducts().size(), 1);
+            Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 10);
+        } catch(InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
