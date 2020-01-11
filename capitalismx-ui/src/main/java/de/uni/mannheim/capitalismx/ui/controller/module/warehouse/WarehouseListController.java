@@ -14,6 +14,7 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.WarehouseListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import javafx.fxml.FXML;
@@ -55,11 +56,15 @@ public class WarehouseListController extends GameModuleController {
 		GameController controller = GameController.getInstance();
 
 		boolean firstWarehouse = controller.getWarehouses().isEmpty();
-		double costs = controller.buildWarehouse();
-		controller.decreaseCash(gameDate, costs);// TODO what if capacity reached? -> cannot just add the last one
-		addLatestWarehouseToList();
-		if (firstWarehouse)
-			activateWarehouseModules();
+		try {
+			double costs = controller.buildWarehouse();
+			controller.decreaseCash(gameDate, costs);// TODO what if capacity reached? -> cannot just add the last one
+			addLatestWarehouseToList();
+			if (firstWarehouse)
+				activateWarehouseModules();
+		} catch (NoWarehouseSlotsAvailableException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Override
@@ -109,10 +114,14 @@ public class WarehouseListController extends GameModuleController {
 		GameController controller = GameController.getInstance();
 
 		boolean firstWarehouse = controller.getWarehouses().isEmpty();
-		controller.rentWarehouse(); // TODO what if capacity reached? -> cannot just add the last one
-		addLatestWarehouseToList();
-		if (firstWarehouse)
-			activateWarehouseModules();
+		try {
+			controller.rentWarehouse(); // TODO what if capacity reached? -> cannot just add the last one
+			addLatestWarehouseToList();
+			if (firstWarehouse)
+				activateWarehouseModules();
+		} catch (NoWarehouseSlotsAvailableException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Override

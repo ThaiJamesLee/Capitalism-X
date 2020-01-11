@@ -26,7 +26,7 @@ public class CustomerSatisfactionTest {
 
     @BeforeTest
     public void setUp() {
-        initDate = LocalDate.of(2005,11,1);
+        initDate = LocalDate.of(1990,11,1);
     }
 
     @Test
@@ -59,6 +59,8 @@ public class CustomerSatisfactionTest {
         try {
             Product p = new Product("test", ProductCategory.GAME_BOY, components);
             p.setLaunchDate(LocalDate.of(1990, 1, 1));
+            // set sales price to be able to use priceAppeal
+            p.setSalesPrice(100);
 
             List<Product> launchedProducts = new ArrayList<>();
             launchedProducts.add(p);
