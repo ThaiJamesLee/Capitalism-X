@@ -22,4 +22,10 @@ public interface DepartmentSkill extends Serializable {
      * @return Returns a description String for the skill.
      */
     String getDescription(Locale l);
+
+    /**
+     *
+     * @return Returns the level required to unlock this skill.
+     */
+    int getLevel();
 }

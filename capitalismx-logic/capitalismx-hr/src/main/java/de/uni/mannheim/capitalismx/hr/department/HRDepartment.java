@@ -349,13 +349,15 @@ public class HRDepartment extends DepartmentImpl {
 	 * @return Returns the Quality of Work of the specified team.
 	 */
 	public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
+		// update first in case changes happened.
+		calculateAndUpdateEmployeesMeta();
+
 		Team team = teams.get(employeeType);
 		List<Employee> teamList = team.getTeam();
-		double jss = getTotalJSS();
 		double totalQoW = 0.0;
 
 		for (Employee e : teamList) {
-			totalQoW += 0.5 * e.getSkillLevel() + 0.5 * jss;
+			totalQoW += 0.5 * e.getSkillLevel() + 0.5 * e.getJobSatisfaction();
 		}
 		return totalQoW;
 	}
