@@ -4,7 +4,7 @@ import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.domain.employee.Training;
 import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
-import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
+import de.uni.mannheim.capitalismx.hr.domain.SalaryTier;
 
 /**
  * Handles training an employee.
@@ -31,7 +31,7 @@ public class EmployeeTraining {
      */
     public Double trainEmployee(Employee e, Training t) {
 
-        if(e.getSkillLevel() < EmployeeTier.getMaxTier().getUpperLevel()) {
+        if(e.getSkillLevel() < SalaryTier.getMaxTier().getUpperLevel()) {
             // increases the capacity of the HRWorker, if the object is an instance of HRWorker
             increaseHRCapacity(e);
 

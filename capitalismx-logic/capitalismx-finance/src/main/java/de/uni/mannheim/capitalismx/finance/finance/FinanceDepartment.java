@@ -10,7 +10,6 @@ import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
-import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
@@ -68,10 +67,15 @@ public class FinanceDepartment extends DepartmentImpl {
     private TreeMap<LocalDate, Double> ebitHistory;
     private TreeMap<LocalDate, Double> nopatHistory;
     private TreeMap<LocalDate, Double> cashHistory;
+    private TreeMap<LocalDate, Double> assetsHistory;
+    private TreeMap<LocalDate, Double> liabilitiesHistory;
     private TreeMap<LocalDate, Double> netWorthHistory;
     private Map<String, TreeMap<LocalDate, Double>> histories;
+    private Map<String, TreeMap<LocalDate, Double>> historiesForQuarterlyData;
+    private TreeMap<String, String[]> monthlyData;
     private TreeMap<String, String[]> quarterlyData;
-    //TODO just to notify gui to update finance table with new quarterlyData every day
+    //TODO just to notify gui to update finance table with new monthlyData / quarterlyData every day
+    private PropertyChangeSupportBoolean updatedMonthlyData;
     private PropertyChangeSupportBoolean updatedQuarterlyData;
 
 
@@ -113,21 +117,36 @@ public class FinanceDepartment extends DepartmentImpl {
         this.ventureCapitalInvestmentAmount.setValue(0.0);
         this.ventureCapitalInvestmentAmount.setPropertyChangedName("ventureCapitalInvestmentAmount");
 
+        this.cashHistory = new TreeMap<>();
+        this.assetsHistory = new TreeMap<>();
+        this.liabilitiesHistory = new TreeMap<>();
+        this.netWorthHistory = new TreeMap<>();
+
+        this.histories = new TreeMap<>();
+        this.histories.put("cashHistory", this.cashHistory);
+        this.histories.put("assetsHistory", this.assetsHistory);
+        this.histories.put("liabilitiesHistory", this.liabilitiesHistory);
+        this.histories.put("netWorthHistory", this.netWorthHistory);
+
         this.salesHistory = new TreeMap<>();
         this.salariesHistory = new TreeMap<>();
         this.logisticsHistory = new TreeMap<>();
         this.ebitHistory = new TreeMap<>();
         this.nopatHistory = new TreeMap<>();
-        this.cashHistory = new TreeMap<>();
-        this.netWorthHistory = new TreeMap<>();
-        this.histories = new TreeMap<>();
-        this.histories.put("salesHistory", this.salesHistory);
-        this.histories.put("salariesHistory", this.salariesHistory);
-        this.histories.put("logisticsHistory", this.logisticsHistory);
-        this.histories.put("ebitHistory", this.ebitHistory);
-        this.histories.put("nopatHistory", this.nopatHistory);
 
+        this.historiesForQuarterlyData = new TreeMap<>();
+        this.historiesForQuarterlyData.put("salesHistory", this.salesHistory);
+        this.historiesForQuarterlyData.put("salariesHistory", this.salariesHistory);
+        this.historiesForQuarterlyData.put("logisticsHistory", this.logisticsHistory);
+        this.historiesForQuarterlyData.put("ebitHistory", this.ebitHistory);
+        this.historiesForQuarterlyData.put("nopatHistory", this.nopatHistory);
+
+        this.monthlyData = new TreeMap<>();
         this.quarterlyData = new TreeMap<>();
+
+        this.updatedMonthlyData = new PropertyChangeSupportBoolean();
+        this.updatedMonthlyData.setValue(false);
+        this.updatedMonthlyData.setPropertyChangedName("updatedMonthlyData");
 
         this.updatedQuarterlyData = new PropertyChangeSupportBoolean();
         this.updatedQuarterlyData.setValue(false);
@@ -168,6 +187,7 @@ public class FinanceDepartment extends DepartmentImpl {
         //this.assets = this.totalTruckValues + this.totalMachineValues + this.totalWarehousingValues + this.totalInvestmentAmount;
         this.assets.setValue(this.calculateTotalTruckValues(gameDate) + this.calculateTotalMachineValues(gameDate) +
                 this.calculateTotalWarehousingValues(gameDate) + this.calculateTotalInvestmentAmount());
+        this.assetsHistory.put(gameDate, this.assets.getValue());
         return this.assets.getValue();
     }
 
@@ -325,7 +345,9 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO
     protected double calculateTotalProductionCosts(){
         //double totalProductionCosts = Production.getInstance().calculateProductionVariableCosts() + Production.getInstance().calculateProductionFixCosts();
-        this.totalProductionCosts = ProductionDepartment.getInstance().getProductionVariableCosts() + ProductionDepartment.getInstance().getProductionFixCosts();
+
+        this.totalProductionCosts = ProductionDepartment.getInstance().getTotalProductionCosts();
+        //ProductionDepartment.getInstance().getProductionVariableCosts() + ProductionDepartment.getInstance().getProductionFixCosts();
         return this.totalProductionCosts;
     }
 
@@ -374,6 +396,7 @@ public class FinanceDepartment extends DepartmentImpl {
     protected double calculateLiabilities(LocalDate gameDate){
         //this.liabilities = BankingSystem.getInstance().getAnnualPrincipalBalance();
         this.liabilities.setValue(BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate));
+        this.liabilitiesHistory.put(gameDate, this.liabilities.getValue());
         return this.liabilities.getValue();
     }
 
@@ -410,46 +433,57 @@ public class FinanceDepartment extends DepartmentImpl {
         return true;
     }
 
-    public void decreaseCash(double amount){
+    public void decreaseCash(LocalDate gameDate, double amount){
         double cash = this.cash.getValue() - amount;
         if(cash < 0){
             this.gameOver.setValue(true);
         }else{
             this.cash.setValue(cash);
+            this.cashHistory.put(gameDate, this.cash.getValue());
+            this.updateMonthlyData(gameDate);
         }
     }
 
     public void increaseCash(LocalDate gameDate, double amount){
         this.cash.setValue(this.cash.getValue() + amount);
         this.cashHistory.put(gameDate, this.cash.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
     public void decreaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() - amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
     public void increaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() + amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
-    public void increaseAssets(double amount){
+    public void increaseAssets(LocalDate gameDate, double amount){
         this.assets.setValue(this.assets.getValue() + amount);
+        this.assetsHistory.put(gameDate, this.assets.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
-    public void decreaseAssets(double amount){
+    public void decreaseAssets(LocalDate gameDate, double amount){
         this.assets.setValue(this.assets.getValue() - amount);
+        this.assetsHistory.put(gameDate, this.assets.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
-    public void increaseLiabilities(double amount){
+    public void increaseLiabilities(LocalDate gameDate, double amount){
         this.liabilities.setValue(this.liabilities.getValue() + amount);
+        this.liabilitiesHistory.put(gameDate, this.liabilities.getValue());
+        this.updateMonthlyData(gameDate);
     }
 
     //TODO decide on suitable consequences of acquisition, e.g., increase assets
     public void acquireCompany(LocalDate gameDate){
         this.increaseCash(gameDate, 10000);
-        this.decreaseCash(this.calculateNopat(gameDate) * 0.70);
+        this.decreaseCash(gameDate, this.calculateNopat(gameDate) * 0.70);
     }
 
     public void decreaseNopatRelPermanently(double amount){
@@ -469,9 +503,9 @@ public class FinanceDepartment extends DepartmentImpl {
         this.taxRate -= amount;
     }
 
-    public void nopatFine(double amount){
+    public void nopatFine(LocalDate gameDate, double amount){
         //this.decreaseCash(this.calculateNopat(gameDate) * amount);
-        this.decreaseCash(this.nopat * amount);
+        this.decreaseCash(gameDate, this.nopat * amount);
     }
 
     public void decreaseNopatConstant(double amount){
@@ -522,7 +556,7 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.ventureCapitalInvestmentAmount.getValue();
     }
 
-    public boolean increaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+    public boolean increaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
         if(amount > this.cash.getValue()){
             //TODO popup
             System.out.println("Not enough cash!");
@@ -547,12 +581,12 @@ public class FinanceDepartment extends DepartmentImpl {
                 this.ventureCapitalInvestmentAmount.setValue(this.ventureCapitalInvestmentAmount.getValue() + amount);
                 break;
         }
-        this.cash.setValue(this.cash.getValue() - amount);
-        this.assets.setValue(this.assets.getValue() + amount);
+        this.decreaseCash(gameDate, amount);
+        this.increaseAssets(gameDate, amount);
         return true;
     }
 
-    public boolean decreaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
+    public boolean decreaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
         if(amount < 0){
             //TODO popup
             return false;
@@ -583,14 +617,14 @@ public class FinanceDepartment extends DepartmentImpl {
                 break;
         }
 
-        this.cash.setValue(this.cash.getValue() + amount);
-        this.assets.setValue(this.assets.getValue() - amount);
+        this.increaseCash(gameDate, amount);
+        this.decreaseAssets(gameDate, amount);
         return true;
     }
 
     public void updateQuarterlyData(LocalDate gameDate){
         String[] colNames = new String[4];
-        for(Map.Entry<String,TreeMap<LocalDate,Double>> history : histories.entrySet()){
+        for(Map.Entry<String,TreeMap<LocalDate,Double>> history : historiesForQuarterlyData.entrySet()){
             TreeMap<LocalDate,Double> map = history.getValue();
             double[] cols = {0.0, 0.0, 0.0, 0.0};
             String[] colValues = new String[4];
@@ -616,7 +650,7 @@ public class FinanceDepartment extends DepartmentImpl {
                 for (Map.Entry<LocalDate,Double> entry : submap.entrySet()) {
                     cols[i] += entry.getValue();
                 }
-                colNames[i] = new String("Q" + gameQuarter + "/" + quarterStart.getYear());
+                colNames[i] = "Q" + gameQuarter + "/" + quarterStart.getYear();
             }
 
             for(int i = 0; i < colNames.length; i++){
@@ -628,6 +662,49 @@ public class FinanceDepartment extends DepartmentImpl {
         this.quarterlyData.put("colNames", colNames);
         //TODO boolean toggle is only used to fire propertyChange event
         this.updatedQuarterlyData.setValue(!this.updatedQuarterlyData.getValue());
+    }
+
+    public void updateMonthlyData(LocalDate gameDate){
+        String[] xNames = new String[12];
+        for(Map.Entry<String,TreeMap<LocalDate,Double>> history : histories.entrySet()){
+            TreeMap<LocalDate,Double> map = history.getValue();
+            double[] values = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+            String[] yValues = new String[12];
+
+            //current value
+            LocalDate monthEnd = LocalDate.of(gameDate.getYear(), gameDate.getMonthValue(), gameDate.lengthOfMonth());;
+
+            Double value = map.get(gameDate);
+            if(value == null){
+                values[11] = 0.0;
+            }else{
+                values[11] = value;
+            }
+            xNames[11] = gameDate.getYear() + "-" + String.format("%02d", gameDate.getMonthValue());
+
+            //last day of previous months
+            for(int i = (values.length - 2); i >= 0; i--){
+                monthEnd = monthEnd.minusMonths(1);
+                monthEnd = monthEnd.withDayOfMonth(monthEnd.lengthOfMonth());
+
+                value = map.get(monthEnd);
+                if(value == null){
+                    values[i] = 0.0;
+                }else{
+                    values[i] = map.get(monthEnd);
+                }
+                xNames[i] = monthEnd.getYear() + "-" + String.format("%02d", monthEnd.getMonthValue());
+            }
+
+            for(int i = 0; i < xNames.length; i++){
+                yValues[i] = String.valueOf(DecimalRound.round(values[i], 2));
+            }
+
+            this.monthlyData.put(history.getKey().replace("History", "Monthly"), yValues);
+        }
+        this.monthlyData.put("xNames", xNames);
+        //TODO boolean toggle is only used to fire propertyChange event
+        this.updatedMonthlyData.setValue(!this.updatedMonthlyData.getValue());
     }
 
     public void updateNetWorthDifference(LocalDate gameDate){
@@ -648,6 +725,10 @@ public class FinanceDepartment extends DepartmentImpl {
         }else{
             this.cashDifference = null;
         }
+    }
+
+    public TreeMap<String, String[]> getMonthlyData() {
+        return this.monthlyData;
     }
 
     public TreeMap<String, String[]> getQuarterlyData() {
@@ -680,6 +761,7 @@ public class FinanceDepartment extends DepartmentImpl {
         this.realEstateInvestmentAmount.addPropertyChangeListener(listener);
         this.stocksInvestmentAmount.addPropertyChangeListener(listener);
         this.ventureCapitalInvestmentAmount.addPropertyChangeListener(listener);
+        this.updatedMonthlyData.addPropertyChangeListener(listener);
         this.updatedQuarterlyData.addPropertyChangeListener(listener);
     }
 }

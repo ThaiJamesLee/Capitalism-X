@@ -3,14 +3,17 @@ package de.uni.mannheim.capitalismx.hr.salary;
 import de.uni.mannheim.capitalismx.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -18,9 +21,21 @@ public class EmployeeGeneratorTest {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeGeneratorTest.class);
 
+    private List<Integer> validInitLevels;
+
+    @BeforeTest
+    public void setUp() {
+        Integer[] tmp = {20, 30, 40, 60, 80};
+        validInitLevels = Arrays.asList(tmp);
+
+    }
+
     @Test
     public void generateEngineerTest () {
         EmployeeGenerator generator = EmployeeGenerator.getInstance();
+        HRDepartment hrDepartment = HRDepartment.createInstance();
+        hrDepartment.getLevelingMechanism().levelUp();
+        generator.setDepartment(hrDepartment);
 
         for (int i = 0; i < 5 ; i++) {
             try {
@@ -28,7 +43,8 @@ public class EmployeeGeneratorTest {
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
             }
-            Assert.assertNotNull(generator.generateEngineer(i*10));
+            Engineer engineer = (Engineer) generator.createRandomEmployee(EmployeeType.ENGINEER);
+            Assert.assertNotNull(engineer);
 
         }
     }
@@ -71,6 +87,10 @@ public class EmployeeGeneratorTest {
             Employee e = generator.createRandomEmployee(EmployeeType.ENGINEER);
             System.out.println(e.getSkillLevel() + "; " + e.getSalary());
             generated.add(e);
+        }
+
+        for(Employee e : generated) {
+            Assert.assertTrue(validInitLevels.contains(e.getSkillLevel()));
         }
     }
 

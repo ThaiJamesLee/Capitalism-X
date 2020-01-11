@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
+import de.uni.mannheim.capitalismx.hr.domain.SalaryTier;
 import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
 import de.uni.mannheim.capitalismx.hr.salary.SalaryGenerator;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
@@ -78,7 +79,7 @@ public class EmployeeGenerator {
         int drawNumber = RandomNumberGenerator.getRandomInt(0, randomPot.size() - 1);
         EmployeeTier draw = randomPot.get(drawNumber);
 
-        return ((int) draw.getLowerLevel());
+        return draw.getInitLevel();
 }
 
 
