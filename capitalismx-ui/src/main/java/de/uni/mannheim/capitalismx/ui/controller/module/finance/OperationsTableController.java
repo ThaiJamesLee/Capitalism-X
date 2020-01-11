@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.finance.OperationsTableViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.EmployeeListController;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
@@ -12,25 +13,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class OperationsTableController  extends GameModuleController {
 
     @FXML
-    private TableView<Map.Entry<String, OperationsTableEntry>> operationsTable;
+    private VBox operationsVBox;
 
-    private Map<String, OperationsTableEntry> data;
+    private Map<String, OperationsTableViewCell> controllers;
 
     public OperationsTableController() {
     }
@@ -42,112 +39,127 @@ public class OperationsTableController  extends GameModuleController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        operationsTable.setPlaceholder(new Label(UIManager.getLocalisedString("operations.table.placeholder")));
+        controllers = new HashMap<>();
 
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> rowName = new TableColumn<>("");
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> col1 = new TableColumn<>("Q");
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> col2 = new TableColumn<>("Q");
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> col3 = new TableColumn<>("Q");
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> col4 = new TableColumn<>("Q");
+        ListView<String[]> headerListView = new ListView<>();
+        ObservableList<String[]> headerList = FXCollections.observableArrayList();
+        headerListView.setItems(headerList);
+        headerListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        headerList.add(new String[]{"header", "", "0", "0", "0", "0"});
 
-        rowName.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
-        col1.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
-        col2.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
-        col3.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
-        col4.prefWidthProperty().bind(operationsTable.widthProperty().divide(5));
+        ListView<String[]> revenueListView = new ListView<>();
+        ObservableList<String[]> revenueList = FXCollections.observableArrayList();
+        revenueListView.setItems(revenueList);
+        revenueListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        revenueList.add(new String[]{"sales", UIManager.getLocalisedString("operations.table.sales"), "0", "0", "0", "0"});
 
-        //TODO ensures that height specified in GameModuleDefinition is used
-        operationsTable.setPrefHeight(1000);
+        /*ListView<String[]> expensesListView = new ListView<>();
+        ObservableList<String[]> expensesList = FXCollections.observableArrayList();
+        expensesListView.setItems(expensesList);
+        expensesListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        expensesList.add(new String[]{"hrCosts", UIManager.getLocalisedString("operations.table.hrCosts"), "0", "0", "0", "0"});
+        expensesList.add(new String[]{"warehouseCosts", UIManager.getLocalisedString("operations.table.warehouseCosts"), "0", "0", "0", "0"});
+        expensesList.add(new String[]{"logisticsCosts", UIManager.getLocalisedString("operations.table.logisticsCosts"), "0", "0", "0", "0"});
+        expensesList.add(new String[]{"productionCosts", UIManager.getLocalisedString("operations.table.productionCosts"), "0", "0", "0", "0"});
+        expensesList.add(new String[]{"marketingCosts", UIManager.getLocalisedString("operations.table.marketingCosts"), "0", "0", "0", "0"});
+        expensesList.add(new String[]{"supportCosts", UIManager.getLocalisedString("operations.table.supportCosts"), "0", "0", "0", "0"});*/
 
-        col1.setStyle( "-fx-alignment: CENTER;");
-        col2.setStyle( "-fx-alignment: CENTER;");
-        col3.setStyle( "-fx-alignment: CENTER;");
-        col4.setStyle( "-fx-alignment: CENTER;");
+        ListView<String[]> hrCostsListView = new ListView<>();
+        ObservableList<String[]> hrCostsList = FXCollections.observableArrayList();
+        hrCostsListView.setItems(hrCostsList);
+        hrCostsListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        hrCostsList.add(new String[]{"hrCosts", UIManager.getLocalisedString("operations.table.hrCosts"), "0", "0", "0", "0"});
 
-        rowName.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().rowName;
-                    }
-                });
-        col1.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().col1;
-                    }
-                });
-        col2.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().col2;
-                    }
-                });
-        col3.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().col3;
-                    }
-                });
-        col4.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().col4;
-                    }
-                });
+        ListView<String[]> warehouseCostsListView = new ListView<>();
+        ObservableList<String[]> warehouseCostsList = FXCollections.observableArrayList();
+        warehouseCostsListView.setItems(warehouseCostsList);
+        warehouseCostsListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        warehouseCostsList.add(new String[]{"warehouseCosts", UIManager.getLocalisedString("operations.table.warehouseCosts"), "0", "0", "0", "0"});
 
-        operationsTable.getColumns().addAll(rowName, col1, col2, col3, col4);
+        ListView<String[]> logisticsCostsListView = new ListView<>();
+        ObservableList<String[]> logisticsCostsList = FXCollections.observableArrayList();
+        logisticsCostsListView.setItems(logisticsCostsList);
+        logisticsCostsListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        logisticsCostsList.add(new String[]{"logisticsCosts", UIManager.getLocalisedString("operations.table.logisticsCosts"), "0", "0", "0", "0"});
 
+        ListView<String[]> productionCostsListView = new ListView<>();
+        ObservableList<String[]> productionCostsList = FXCollections.observableArrayList();
+        productionCostsListView.setItems(productionCostsList);
+        productionCostsListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        productionCostsList.add(new String[]{"productionCosts", UIManager.getLocalisedString("operations.table.productionCosts"), "0", "0", "0", "0"});
 
-        data = new LinkedHashMap<>();
-        data.put("sales", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.sales"), 0, 0, 0 ,0));
-        data.put("hrCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.hrCosts"), 0, 0, 0 ,0));
-        data.put("warehouseCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.warehouseCosts"), 0, 0, 0 ,0));
-        data.put("logisticsCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.logisticsCosts"), 0, 0, 0 ,0));
-        data.put("productionCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.productionCosts"), 0, 0, 0 ,0));
-        data.put("marketingCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.marketingCosts"), 0, 0, 0 ,0));
-        data.put("supportCosts", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.supportCosts"), 0, 0, 0 ,0));
-        data.put("ebit", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.ebit"), 0, 0, 0 ,0));
-        data.put("tax", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.tax"), 0, 0, 0 ,0));
-        data.put("nopat", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.nopat"), 0, 0, 0 ,0));
-        //data.put("loan_interest", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.loanInterest"), 0, 0, 0 ,0));
+        ListView<String[]> marketingCostsListView = new ListView<>();
+        ObservableList<String[]> marketingCostsList = FXCollections.observableArrayList();
+        marketingCostsListView.setItems(marketingCostsList);
+        marketingCostsListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        marketingCostsList.add(new String[]{"marketingCosts", UIManager.getLocalisedString("operations.table.marketingCosts"), "0", "0", "0", "0"});
 
-        ObservableList<Map.Entry<String,OperationsTableEntry>> dataObservable = FXCollections.observableArrayList(data.entrySet());
-        operationsTable.setItems(dataObservable);
+        ListView<String[]> supportCostsListView = new ListView<>();
+        ObservableList<String[]> supportCostsList = FXCollections.observableArrayList();
+        supportCostsListView.setItems(supportCostsList);
+        supportCostsListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        supportCostsList.add(new String[]{"supportCosts", UIManager.getLocalisedString("operations.table.supportCosts"), "0", "0", "0", "0"});
+
+        ListView<String[]> ebitListView = new ListView<>();
+        ObservableList<String[]> ebitList = FXCollections.observableArrayList();
+        ebitListView.setItems(ebitList);
+        ebitListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        ebitList.add(new String[]{"ebit", UIManager.getLocalisedString("operations.table.ebit"), "0", "0", "0", "0"});
+
+        ListView<String[]> taxListView = new ListView<>();
+        ObservableList<String[]> taxList = FXCollections.observableArrayList();
+        taxListView.setItems(taxList);
+        taxListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        taxList.add(new String[]{"tax", UIManager.getLocalisedString("operations.table.tax"), "0", "0", "0", "0"});
+
+        ListView<String[]> nopatListView = new ListView<>();
+        ObservableList<String[]> nopatList = FXCollections.observableArrayList();
+        nopatListView.setItems(nopatList);
+        nopatListView.setCellFactory(operationsListView -> new OperationsTableViewCell(operationsVBox, controllers));
+        nopatList.add(new String[]{"nopat", UIManager.getLocalisedString("operations.table.nopat"), "0", "0", "0", "0"});
+
+        /*revenueListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
+        expensesListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
+        ebitListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
+        taxListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
+        nopatListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));*/
+        //revenueListView.setPrefHeight(50);
+        //taxListView.setPrefHeight(200);
+        //taxListView.setStyle("-fx-background-color: red;");
+
+        operationsVBox.getChildren().add(headerListView);
+        operationsVBox.getChildren().add(revenueListView);
+        //operationsVBox.getChildren().add(expensesListView);
+        operationsVBox.getChildren().add(hrCostsListView);
+        operationsVBox.getChildren().add(warehouseCostsListView);
+        operationsVBox.getChildren().add(logisticsCostsListView);
+        operationsVBox.getChildren().add(productionCostsListView);
+        operationsVBox.getChildren().add(marketingCostsListView);
+        operationsVBox.getChildren().add(supportCostsListView);
+
+        operationsVBox.getChildren().add(ebitListView);
+        operationsVBox.getChildren().add(taxListView);
+        operationsVBox.getChildren().add(nopatListView);
     }
 
-
-    class OperationsTableEntry{
-        final SimpleStringProperty rowName;
-        final SimpleStringProperty col1;
-        final SimpleStringProperty col2;
-        final SimpleStringProperty col3;
-        final SimpleStringProperty col4;
-
-        public OperationsTableEntry(String rowName, double col1, double col2, double col3, double col4){
-            this.rowName = new SimpleStringProperty(rowName);
-            this.col1 = new SimpleStringProperty(String.valueOf(col1));
-            this.col2 = new SimpleStringProperty(String.valueOf(col2));
-            this.col3 = new SimpleStringProperty(String.valueOf(col3));
-            this.col4 = new SimpleStringProperty(String.valueOf(col4));
-        }
-
-    }
 
     public void updateTable(String rowName, String[] cols, String[] colNames){
         Platform.runLater(new Runnable() {
             public void run() {
-                data.get(rowName).col1.setValue(cols[0]);
-                data.get(rowName).col2.setValue(cols[1]);
-                data.get(rowName).col3.setValue(cols[2]);
-                data.get(rowName).col4.setValue(cols[3]);
+                OperationsTableViewCell controllerHeader = controllers.get("header");
+                if(controllerHeader != null){
+                    controllerHeader.setLabel2(colNames[0]);
+                    controllerHeader.setLabel3(colNames[1]);
+                    controllerHeader.setLabel4(colNames[2]);
+                    controllerHeader.setLabel5(colNames[3]);
+                }
 
-                for(int i = 0; i < colNames.length; i++){
-                    operationsTable.getColumns().get(i + 1).setText(colNames[i]);
+                OperationsTableViewCell controller = controllers.get(rowName);
+                if(controller != null){
+                    controller.setLabel2(cols[0]);
+                    controller.setLabel3(cols[1]);
+                    controller.setLabel4(cols[2]);
+                    controller.setLabel5(cols[3]);
                 }
             }
         });
