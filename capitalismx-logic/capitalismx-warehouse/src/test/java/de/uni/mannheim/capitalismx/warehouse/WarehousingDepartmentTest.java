@@ -49,7 +49,12 @@ public class WarehousingDepartmentTest {
         storage.calculateBaseCost(gameDate);
         components.add(storage);
 
-        ProductionDepartment.getInstance().buyMachinery(new Machinery(gameDate), gameDate);
+        try {
+            ProductionDepartment.getInstance().buyMachinery(new Machinery(gameDate), gameDate);
+        } catch (NoMachinerySlotsAvailableException e) {
+            System.out.println(e.getMessage());
+        }
+
         try {
             Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, components);
             ProductionDepartment.getInstance().launchProduct(notebook, 10, 200);
