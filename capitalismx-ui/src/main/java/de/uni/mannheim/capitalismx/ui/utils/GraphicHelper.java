@@ -32,7 +32,6 @@ public class GraphicHelper {
 	 */
 	public static Node createSkillGraphic(int skillLevel) {
 		GridPane starGrid = createStarGrid();
-		starGrid.add(createTooltipAnchor(skillLevel), 0, 0, 5, 1);
 
 		for (int i = 0; i < 5; i++) {
 			FontAwesomeIcon icon = new FontAwesomeIcon();
@@ -47,6 +46,7 @@ public class GraphicHelper {
 			starGrid.add(icon, i, 0);
 		}
 
+		starGrid.add(createTooltipAnchor(skillLevel), 0, 0, 5, 1);
 		AnchorPaneHelper.snapNodeToAnchorPane(starGrid);
 
 		return starGrid;
