@@ -11,7 +11,7 @@ import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.employee.impl.ProductionWorker;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
-import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
+import de.uni.mannheim.capitalismx.hr.domain.SalaryTier;
 import de.uni.mannheim.capitalismx.utils.formatter.DataFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,7 +177,7 @@ public class HRDepartment extends DepartmentImpl {
 	 */
 	private Map<String, Double> getDistribution(int level) {
 		String distributionString = ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(EMPLOYEE_DISTRIBUTION_PROPERTY_PREFIX + level);
-		List<String> keys = EmployeeTier.getSkillLevelNames();
+		List<String> keys = SalaryTier.getSkillLevelNames();
 
 		return DataFormatter.stringToStringDoubleMap(keys, distributionString);
 	}
