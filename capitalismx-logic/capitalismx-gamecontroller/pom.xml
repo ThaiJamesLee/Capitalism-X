@@ -57,6 +57,16 @@
             <artifactId>capitalismx-customer</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>de.uni.mannheim</groupId>
+            <artifactId>capitalismx-resdev</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.uni.mannheim</groupId>
+            <artifactId>capitalismx-sales</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- test & logging -->
         <dependency>

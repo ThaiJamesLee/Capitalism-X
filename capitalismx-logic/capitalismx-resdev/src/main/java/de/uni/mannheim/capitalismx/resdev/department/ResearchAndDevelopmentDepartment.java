@@ -6,8 +6,8 @@ import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.resdev.skills.UnlockComponentSkill;
-import de.uni.mannheim.capitalismx.resdev.skills.UnlockProductCategorySkill;
+import de.uni.mannheim.capitalismx.resdev.skills.ComponentSkill;
+import de.uni.mannheim.capitalismx.resdev.skills.ProductCategorySkill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,24 +27,21 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
 
     /**
-     * List of all {@link UnlockProductCategorySkill}.
+     * List of all {@link ProductCategorySkill}.
      */
-    private List<UnlockProductCategorySkill> allCategoriesSkills;
+    private List<ProductCategorySkill> allProductCategoriesSkills;
 
     /**
-     * List of unlocked {@link UnlockProductCategorySkill}s.
+     * List of unlocked {@link ProductCategorySkill}s.
      */
-    private List<UnlockProductCategorySkill> unlockedProductCategorySkills;
+    private List<ProductCategorySkill> unlockedProductCategorySkills;
 
-    /**
-     * Map that contains all {@link de.uni.mannheim.capitalismx.resdev.skills.UnlockComponentSkill}s.
-     */
-    private Map<Integer, DepartmentSkill> allComponentSkills;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResearchAndDevelopmentDepartment.class);
 
     private static final String PROPERTIES_FILE = "resdev-module";
     private static final String MAX_LEVEL_PROPERTY = "resdev.department.max.level";
+    private static final String DEFAULT_UNLOCKED_PRODUCT_CATEGORY = "resdev.department.default.product.category";
 
     private static final String COST_PROPERTY_PREFIX = "resdev.skill.cost.";
     private static final String UNLOCK_YEAR_PROPERTY_PREFIX = "resdev,skill.components.unlock.year.";
@@ -55,17 +52,18 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
 
     private ResearchAndDevelopmentDepartment() {
         super("Research and Development");
-        this.allCategoriesSkills = new ArrayList<>();
-        this.allComponentSkills = new ConcurrentHashMap<>();
+        this.allProductCategoriesSkills = new ArrayList<>();
         this.unlockedProductCategorySkills = new ArrayList<>();
         init();
     }
 
     private void init() {
-        int maxLevel = Integer.parseInt(ResourceBundle.getBundle(PROPERTIES_FILE).getString(MAX_LEVEL_PROPERTY));
+        ResourceBundle bundle = ResourceBundle.getBundle(PROPERTIES_FILE);
+        int maxLevel = Integer.parseInt(bundle.getString(MAX_LEVEL_PROPERTY));
         setMaxLevel(maxLevel);
 
         initProperties();
+        initProductCategorySkills();
     }
 
 
@@ -84,7 +82,7 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
 
             // init skills
             int year = Integer.parseInt(bundle.getString(UNLOCK_YEAR_PROPERTY_PREFIX + i));
-            skillMap.put(i, new UnlockComponentSkill(i, year));
+            skillMap.put(i, new ComponentSkill(i, year));
         }
         try {
             setLevelingMechanism(new LevelingMechanism(this, costMap));
@@ -93,13 +91,24 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
         }
     }
 
-    private void initUnlockProductCategorySkills() {
+    private void initProductCategorySkills() {
+        // init ProductCategory skills.
         ProductCategory[] productCategories = ProductCategory.values();
         ResourceBundle bundle = ResourceBundle.getBundle(PROPERTIES_FILE);
-        double cost = Integer.parseInt(bundle.getString(UNLOCK_CATEGORY_DEFAULT_COST));
-        for(ProductCategory productCategory : productCategories) {
 
-           // allCategoriesSkills.add(new UnlockProductCategorySkill())
+        String productCategoryName = bundle.getString(DEFAULT_UNLOCKED_PRODUCT_CATEGORY);
+        ProductCategory defaultProductCategory = ProductCategory.getProductCategoryByName(productCategoryName);
+
+        double cost = Integer.parseInt(bundle.getString(UNLOCK_CATEGORY_DEFAULT_COST));
+
+        for(ProductCategory productCategory : productCategories) {
+            ProductCategorySkill skill = new ProductCategorySkill(cost).setUnlockedProductCategory(productCategory);
+            allProductCategoriesSkills.add(skill);
+
+            // add the skill to the unlocked skill, if it is the default skill
+            if(productCategory.equals(defaultProductCategory)) {
+                unlockedProductCategorySkills.add(skill);
+            }
         }
     }
 
@@ -108,6 +117,10 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
             return new ResearchAndDevelopmentDepartment();
         }
         return instance;
+    }
+
+    public static void setInstance(ResearchAndDevelopmentDepartment instance) {
+        ResearchAndDevelopmentDepartment.instance = instance;
     }
 
     /**
@@ -119,11 +132,6 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
         return new ResearchAndDevelopmentDepartment();
     }
 
-    public List<ProductCategory> getUnlockableProductCategories() {
-        List<ProductCategory> unlockables = new ArrayList<>();
-
-        return unlockables;
-    }
 
     /**
      *
@@ -134,9 +142,9 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
         List<DepartmentSkill> unlockedSkills = getAvailableSkills();
 
         for(DepartmentSkill skill : unlockedSkills) {
-            UnlockComponentSkill unlockComponentSkill = (UnlockComponentSkill) skill;
+            ComponentSkill componentSkill = (ComponentSkill) skill;
 
-            if(unlockComponentSkill.getYear() >= component.getAvailabilityDate()) {
+            if(componentSkill.getYear() >= component.getAvailabilityDate()) {
                 return true;
             }
         }
@@ -145,11 +153,47 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
 
     /**
      *
+     * @return Returns all {@link ProductCategorySkill}s.
+     */
+    public List<ProductCategorySkill> getAllProductCategoriesSkills() {
+        return allProductCategoriesSkills;
+    }
+
+    /**
+     *
+     * @return Returns the list of unlocked
+     */
+    public List<ProductCategorySkill> getUnlockedProductCategorySkills() {
+        return unlockedProductCategorySkills;
+    }
+
+    /**
+     *
+     * @param productCategory The {@link ProductCategory} to unlock.
+     * @return Returns the cost, if it was unlocked. Returns if no matching skill or already unlocked.
+     */
+    public Double unlockProductCategory(ProductCategory productCategory) {
+        for(ProductCategorySkill productCategorySkill : allProductCategoriesSkills) {
+            if(productCategorySkill.getUnlockedProductCategory().equals(productCategory) && !unlockedProductCategorySkills.contains(productCategorySkill)) {
+                unlockedProductCategorySkills.add(productCategorySkill);
+                return productCategorySkill.getCost();
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
      * @param category The productCategory of interest
      * @return Returns true, if category is unlocked, else return false.
      */
     public boolean isCategoryUnlocked(ProductCategory category) {
-        return allCategoriesSkills.contains(category);
+       for(ProductCategorySkill skill : unlockedProductCategorySkills) {
+           if (skill.getUnlockedProductCategory().equals(category)) {
+               return true;
+           }
+       }
+       return false;
     }
 
     /**

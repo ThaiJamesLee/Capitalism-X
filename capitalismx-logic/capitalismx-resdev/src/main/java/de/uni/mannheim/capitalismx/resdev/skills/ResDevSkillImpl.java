@@ -8,20 +8,23 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
  */
 public abstract class ResDevSkillImpl implements DepartmentSkill {
 
-    private int year;
-
+    /**
+     * The cost of unlocking this skill.
+     * This is only necessary, when you are not using the {@link de.uni.mannheim.capitalismx.domain.department.LevelingMechanism}
+     * to unlock skills.
+     */
     private double cost;
 
-    public ResDevSkillImpl(int year, double cost) {
-        this.year = year;
+    public ResDevSkillImpl(double cost) {
         this.cost = cost;
     }
 
-
-    public int getYear() {
-        return year;
-    }
-
+    /**
+     * Get the cost of unlocking this skill.
+     * This is only necessary, when you are not using the {@link de.uni.mannheim.capitalismx.domain.department.LevelingMechanism}
+     * to unlock skills.
+     *
+     */
     public double getCost() {
         return cost;
     }

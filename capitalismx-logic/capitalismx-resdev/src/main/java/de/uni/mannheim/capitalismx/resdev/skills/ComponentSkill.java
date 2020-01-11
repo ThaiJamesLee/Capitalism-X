@@ -11,23 +11,22 @@ import java.util.ResourceBundle;
  * Skill to unlock components of the specified year.
  * Set the unlocked components, when this skill is unlocked and the current year is fulfilled.
  */
-public class UnlockComponentSkill extends ResDevSkillImpl {
-
-    private List<Component> unlockedComponents;
+public class ComponentSkill extends ResDevSkillImpl {
 
     /**
      * The level required to unlock this skill.
      */
     private int level;
 
-
+    private int year;
 
     private static final String PROPERTIES_FILE = "resdev-module";
     private static final String DESCRIPTION_PROPERTY_PREFIX = "resdev.skill.components.description.";
 
-    public UnlockComponentSkill(int level, int year) {
-        super(year, 0);
+    public ComponentSkill(int level, int year) {
+        super(0);
         this.level = level;
+        this.year = year;
     }
 
     @Override
@@ -52,6 +51,14 @@ public class UnlockComponentSkill extends ResDevSkillImpl {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    /**
+     *
+     * @return Returns the year of the components to be unlocked.
+     */
+    public int getYear() {
+        return year;
     }
 
     /**

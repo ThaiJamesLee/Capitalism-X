@@ -11,27 +11,27 @@ import java.util.ResourceBundle;
  *
  * @since 1.0.0
  */
-public class UnlockProductCategorySkill extends ResDevSkillImpl {
+public class ProductCategorySkill extends ResDevSkillImpl {
 
     private ProductCategory unlockedProductCategory;
 
     private static final String PROPERTIES_FILE = "resdev-module";
     private static final String DESCRIPTION_PROPERTY_PREFIX = "resdev.skill.category.description.";
 
-    public UnlockProductCategorySkill(int year, double cost) {
-        super(year, cost);
+    public ProductCategorySkill(double cost) {
+        super(cost);
     }
 
     @Override
     public String getDescription() {
         ResourceBundle bundle = ResourceBundle.getBundle(PROPERTIES_FILE);
-        return bundle.getString(DESCRIPTION_PROPERTY_PREFIX + unlockedProductCategory.toString());
+        return bundle.getString(DESCRIPTION_PROPERTY_PREFIX + unlockedProductCategory.toString().replace(" ",  "_"));
     }
 
     @Override
     public String getDescription(Locale l) {
         ResourceBundle bundle = ResourceBundle.getBundle(PROPERTIES_FILE, l);
-        return bundle.getString(DESCRIPTION_PROPERTY_PREFIX + unlockedProductCategory.toString());
+        return bundle.getString(DESCRIPTION_PROPERTY_PREFIX + unlockedProductCategory.toString().replace(" ",  "_"));
     }
 
     /**
@@ -39,7 +39,7 @@ public class UnlockProductCategorySkill extends ResDevSkillImpl {
      * @param productCategory Set the {@link ProductCategory} to unlock with this skill.
      * @return Returns this instance.
      */
-    public UnlockProductCategorySkill setUnlockedProductCategory(ProductCategory productCategory) {
+    public ProductCategorySkill setUnlockedProductCategory(ProductCategory productCategory) {
         this.unlockedProductCategory = productCategory;
         return this;
     }
