@@ -22,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
@@ -53,6 +54,7 @@ public class OperationsTableController  extends GameModuleController {
             headerLoader.setController(new OperationsTableViewCell(new String[]{"header", "", "0", "0", "0", "0"}, operationsVBox, controllers));
             Parent headerRow = headerLoader.load();
             OperationsTableViewCell headerController = headerLoader.getController();
+            headerController.setHeaderRow();
             operationsVBox.getChildren().add(headerRow);
             controllers.put("header", headerController);
         } catch (IOException e) {
@@ -67,12 +69,35 @@ public class OperationsTableController  extends GameModuleController {
                 loader.setController(new OperationsTableViewCell(new String[]{rowName, UIManager.getLocalisedString("operations.table." + rowName), "0", "0", "0", "0"}, operationsVBox, controllers));
                 Parent headerRow = loader.load();
                 OperationsTableViewCell controller = loader.getController();
+
+                if(rowName.contains("Costs") || rowName.equals("tax")){
+                    controller.setColor("-fx-red");
+                }else if(rowName.equals("sales")){
+                    controller.setColor("-fx-green");
+                }
+
                 operationsVBox.getChildren().add(headerRow);
                 controllers.put(rowName, controller);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        Region[] regions = new Region[5];
+        for(int i = 0; i < regions.length; i++){
+            regions[i] = new Region();
+            regions[i].getStyleClass().add("separator_horizontal");
+        }
+        operationsVBox.getChildren().add(10, regions[0]);
+        operationsVBox.getChildren().add(9, regions[1]);
+        operationsVBox.getChildren().add(8, regions[2]);
+        operationsVBox.getChildren().add(2, regions[3]);
+        operationsVBox.getChildren().add(1, regions[4]);
+
+
+        //Region region = new Region();
+        //region.getStyleClass().add("separator_horizontal");
+        //operationsVBox.getChildren().add(region);
 
         /*revenueListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
         expensesListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
