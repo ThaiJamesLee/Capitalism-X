@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
@@ -101,6 +102,8 @@ public class MessageController implements Initializable {
 			e.printStackTrace();
 		}
 		
+		GameNotification notification = new GameNotification(m);
+		UIManager.getInstance().getGameHudController().addNotification(notification);
 	}
 
 	public void setContent(MessageObject message){

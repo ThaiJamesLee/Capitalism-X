@@ -160,6 +160,7 @@ public class GamePageController implements UpdateableController {
 			messageLayer.toBack();
 			openMessagePane = false;
 		}
+		
 	}
 
 	public void toggleIngameMenu() {
