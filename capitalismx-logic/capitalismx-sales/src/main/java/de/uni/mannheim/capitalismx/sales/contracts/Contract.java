@@ -54,6 +54,11 @@ public class Contract implements Serializable {
      */
     private LocalDate contractStart;
 
+    /**
+     * The date when the contract is done.
+     */
+    private LocalDate contractDone;
+
 
     /**
      *
@@ -193,6 +198,22 @@ public class Contract implements Serializable {
      */
     public double getRevenue() {
         return numProducts * pricePerProd;
+    }
+
+    /**
+     *
+     * @return Returns the date when the contract is done. Returns null if it is not done yet.
+     */
+    public LocalDate getContractDone() {
+        return contractDone;
+    }
+
+    /**
+     *
+     * @param contractDone The date the contract is done.
+     */
+    public void setContractDone(LocalDate contractDone) {
+        this.contractDone = contractDone;
     }
 
     /**

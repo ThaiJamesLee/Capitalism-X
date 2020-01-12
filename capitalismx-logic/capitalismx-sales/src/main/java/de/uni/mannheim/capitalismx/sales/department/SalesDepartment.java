@@ -42,10 +42,16 @@ public class SalesDepartment extends DepartmentImpl {
      */
     private PropertyChangeSupportList<Contract> availableContracts;
 
+    /**
+     * List of finish contracts.
+     */
+    private PropertyChangeSupportList<Contract> doneContracts;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesDepartment.class);
 
     public static final String ACTIVE_CONTRACTS_EVENT = "activeContractListChanged";
     public static final String AVAILABLE_CONTRACTS_EVENT = "availableContractListChanged";
+    public static final String DONE_CONTRACTS_EVENT = "doneContractsListChanged";
 
     private static final String SALES_PROPERTY_FILE = "sales-module";
     private static final String MAX_LEVEL_PROPERTY = "sales.department.level.max";
@@ -61,6 +67,7 @@ public class SalesDepartment extends DepartmentImpl {
         setLevel(1);
         activeContracts = new PropertyChangeSupportList<>();
         availableContracts = new PropertyChangeSupportList<>();
+        doneContracts = new PropertyChangeSupportList<>();
         init();
     }
 
@@ -73,6 +80,9 @@ public class SalesDepartment extends DepartmentImpl {
 
         this.availableContracts.setAddPropertyName(AVAILABLE_CONTRACTS_EVENT);
         this.availableContracts.setRemovePropertyName(AVAILABLE_CONTRACTS_EVENT);
+
+        this.doneContracts.setAddPropertyName(DONE_CONTRACTS_EVENT);
+        this.doneContracts.setRemovePropertyName(DONE_CONTRACTS_EVENT);
         initProperties();
     }
 
@@ -137,8 +147,13 @@ public class SalesDepartment extends DepartmentImpl {
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.activeContracts.addPropertyChangeListener(listener);
         this.availableContracts.addPropertyChangeListener(listener);
+        this.doneContracts.addPropertyChangeListener(listener);
     }
 
+    /**
+     *
+     * @return Returns all currently active contracts.
+     */
     public PropertyChangeSupportList<Contract> getActiveContracts() {
         return activeContracts;
     }
@@ -147,8 +162,20 @@ public class SalesDepartment extends DepartmentImpl {
         this.activeContracts = activeContracts;
     }
 
+    /**
+     *
+     * @return Returns all available contracts.
+     */
     public PropertyChangeSupportList<Contract> getAvailableContracts() {
         return availableContracts;
+    }
+
+    /**
+     *
+     * @return Returns contracts finished.
+     */
+    public PropertyChangeSupportList<Contract> getDoneContracts() {
+        return doneContracts;
     }
 
     /**
@@ -158,6 +185,17 @@ public class SalesDepartment extends DepartmentImpl {
         contract.setContractStart(contractStart);
         this.activeContracts.add(contract);
         this.availableContracts.remove(contract);
+    }
+
+    /**
+     * Removes the contract from the active contracts and adds it to the done contracts.
+     * @param contract The contract that is finished.
+     * @param doneDate The date when the contract was finished.
+     */
+    public void contractDone(Contract contract, LocalDate doneDate) {
+        contract.setContractDone(doneDate);
+        this.activeContracts.remove(contract);
+        this.doneContracts.add(contract);
     }
 
     /**
