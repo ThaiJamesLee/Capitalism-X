@@ -54,6 +54,9 @@ public class MainMenuController implements UpdateableController {
 			UIManager.getInstance().switchToScene(GameSceneType.CREDITS_PAGE);
 		});
 		
+		leaderboardButton.setOnAction(e -> {
+			UIManager.getInstance().switchToScene(GameSceneType.LEADERBOARD_PAGE);
+		});
 		
 		switchButton.setOnAction(e -> {
 			UIManager.getInstance().reloadProperties();
