@@ -75,7 +75,7 @@ public class CustomerSatisfaction implements Serializable {
         for(Product product : this.products) {
             double proxyPrice = 0;
             for(Component component : product.getComponents()) {
-                proxyPrice += component.calculateBaseCost(gameDate);
+                proxyPrice += component.getTimeBasedComponentCost(gameDate);
             }
             priceAppeal.put(product, proxyPrice / product.getSalesPrice());
         }

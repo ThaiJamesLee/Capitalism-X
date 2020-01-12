@@ -22,7 +22,6 @@
         <module>capitalismx-marketing</module>
         <module>capitalismx-customer</module>
         <module>capitalismx-finance</module>
-        <module>capitalismx-gamecontroller</module>
         <module>capitalismx-domain</module>
         <module>capitalismx-resdev</module>
         <module>capitalismx-sales</module>

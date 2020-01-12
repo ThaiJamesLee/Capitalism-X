@@ -184,7 +184,7 @@ public class UIManager {
 					loadGame();
 					break;
 				case ESCAPE:
-					gamePageController.toggleIngameMenu();
+					gamePageController.handleEscape();
 					break;
 				default:
 					break;

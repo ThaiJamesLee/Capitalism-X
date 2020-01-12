@@ -669,6 +669,8 @@ public class BuyComponentController extends GameModuleController {
     }
 
     public void updateSuppliers() {
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+
         Component selectedTvComponent = new Component(ComponentType.DUMMY);
         for(Map<ToggleButton, Component> tvComponentsMap : this.tvComponents) {
             if(tvComponentsMap.get(tvComponentsToggleGroup.getSelectedToggle()) != null) {
@@ -705,13 +707,13 @@ public class BuyComponentController extends GameModuleController {
             Component tmpComp = new Component(selectedTvComponent.getComponentType());
             switch (i) {
                 case 0:
-                    tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1:
-                    tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
                 case 2:
-                    tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -723,13 +725,13 @@ public class BuyComponentController extends GameModuleController {
             Component tmpComp = new Component(selectedConsoleComponent.getComponentType());
             switch (i) {
                 case 0:
-                    tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1:
-                    tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
                 case 2:
-                    tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -741,13 +743,13 @@ public class BuyComponentController extends GameModuleController {
             Component tmpComp = new Component(selectedNotebookComponent.getComponentType());
             switch (i) {
                 case 0:
-                    tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1:
-                    tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
                 case 2:
-                    tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -759,13 +761,13 @@ public class BuyComponentController extends GameModuleController {
             Component tmpComp = new Component(selectedPhoneComponent.getComponentType());
             switch (i) {
                 case 0:
-                    tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1:
-                    tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
                 case 2:
-                    tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -774,7 +776,6 @@ public class BuyComponentController extends GameModuleController {
         }
 
         DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
-        LocalDate gameDate = GameState.getInstance().getGameDate();
         BuyComponentController.ComponentStringConverter componentStringConverter = new BuyComponentController.ComponentStringConverter();
 
         switch(tvComponentList.get(0).getComponentCategory()) {
@@ -1019,7 +1020,7 @@ public class BuyComponentController extends GameModuleController {
         public String toString(Component component) {
             DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
             LocalDate gameDate = GameState.getInstance().getGameDate();
-            return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
+            return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateRandomizedBaseCost(GameState.getInstance().getGameDate())) + ")";
         }
 
         @Override
