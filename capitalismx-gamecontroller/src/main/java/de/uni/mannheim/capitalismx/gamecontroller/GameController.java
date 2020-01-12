@@ -703,8 +703,13 @@ public class GameController {
 	}
 
 	public double produceProduct(Product product, int quantity) {
-		return ProductionDepartment.getInstance().produceProduct(product, quantity,
-				WarehousingDepartment.getInstance().calculateFreeStorage());
+		try {
+			return ProductionDepartment.getInstance().produceProduct(product, quantity,
+					WarehousingDepartment.getInstance().calculateFreeStorage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return 0;
 	}
 
 	public double getAmountProductInProduction(Product product) {
