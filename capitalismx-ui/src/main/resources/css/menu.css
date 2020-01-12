@@ -12,13 +12,13 @@
 }
 
 .menu_image {
-	-fx-background-image: url("../img/Menuv1.jpg");	
+	-fx-background-image: url("../../img/mainMenu.png");	
 	-fx-background-size: contain;
 	-fx-background-position: center;
 	-fx-background-repeat: no-repeat;
 	-fx-background-insets: 15px;
 	-fx-border-width: 0 2 0 0;
-	-fx-border-color: -fx-dark;
+	-fx-border-color: -fx-primary-neutral;
 	-fx-border-insets: 50 -25 50 0;
 }
 
@@ -26,6 +26,7 @@
 	-fx-background-color: transparent;
 	-fx-text-fill: -fx-primary-dark;
 	-fx-font-family: "Reckoner";
+	-fx-cursor: hand;
 }
 
 .main_button {

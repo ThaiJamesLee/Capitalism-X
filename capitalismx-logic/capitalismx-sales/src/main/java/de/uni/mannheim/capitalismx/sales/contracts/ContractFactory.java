@@ -102,10 +102,8 @@ public class ContractFactory {
      * @param date The current date of the GameState.
      * @return Returns the contract.
      */
-    public static Contract getContract(final Product product, LocalDate date) {
+    public static Contract getContract(final Product product, final LocalDate date) {
         Contract c = null;
-        // extract the date from the GameState
-
 
         String contractor = getRandomContractor();
 
@@ -120,7 +118,7 @@ public class ContractFactory {
 
         double penalty = numProd * pricePerProd;
 
-        c = new Contract(contractor, date, product, numProd, pricePerProd, timeToFinish, penalty);
+        c = new Contract(contractor, null, product, numProd, pricePerProd, timeToFinish, penalty);
 
         return c;
     }

@@ -20,7 +20,6 @@ import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
-import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -408,7 +407,7 @@ public class UIManager {
 			gamePageController.switchView(GameViewType.OVERVIEW);
 			switchToScene(GameSceneType.GAME_PAGE);
 		});
-		Task task = new Task<Void>() {
+		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() {
 				GameController.getInstance().start();

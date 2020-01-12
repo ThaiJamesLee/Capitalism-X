@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.utils.formatter;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,9 @@ import java.util.Map;
  *
  * @since 1.0.0
  */
-public class DataFormatter {
+public class DataFormatter implements Serializable {
+
+    private DataFormatter() {}
 
     /**
      * Number of doubles must match the number of keys.
@@ -34,6 +37,11 @@ public class DataFormatter {
         }
     }
 
+    /**
+     * Parse the String array to double array.
+     * @param array The String array that contains doubles as string.
+     * @return Returns an Double array object.
+     */
     public static Double[] stringArrayToDoubleArray(String[] array) {
         Double[] dArray = new Double[array.length];
 

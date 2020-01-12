@@ -12,11 +12,11 @@ import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 public enum GameModuleDefinition {
 
 	// The modules for HR.
-	HR_EMPLOYEES_TABLE("employee_table.fxml", GameViewType.HR, UIElementType.HR_EMPLOYEES_OVERVIEW, new GridPosition(0, 7, 0, 15), true),
-	HR_RECRUITING_LIST("recruiting_list.fxml", GameViewType.HR, UIElementType.HR_RECRUITING_OVERVIEW, new GridPosition(7, 7, 0, 17),
+	HR_TEAM_DETAIL("team_details.fxml", GameViewType.HR, UIElementType.HR_TEAM_DETAIL, new GridPosition(0, 6, 0, 20), true),
+	HR_RECRUITING_LIST("recruiting_list.fxml", GameViewType.HR, UIElementType.HR_RECRUITING_OVERVIEW, new GridPosition(6, 7, 0, 17),
 			true),
-	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(14, 6, 0, 11), true),
-	HR_WORKING_CONDITIONS("working_conditions.fxml", GameViewType.HR, UIElementType.HR_WORKING_CONDITIONS, new GridPosition(14, 6, 12, 8),
+	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(14, 5, 10, 10), true),
+	HR_WORKING_CONDITIONS("working_conditions.fxml", GameViewType.HR, UIElementType.HR_WORKING_CONDITIONS, new GridPosition(13, 7, 0, 8),
 			true),
 
 	// The modules for Logistics.
@@ -39,10 +39,12 @@ public enum GameModuleDefinition {
 			20), false),
 
 	// The modules for HR.
-	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, new GridPosition(7,
-			6, 0, 19), true),
-	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, new GridPosition(1, 5, 0, 19), true),
+	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, new GridPosition(5,
+			9, 5, 19), true),
+	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, new GridPosition(0, 19, 0, 5), true),
+	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml", GameViewType.FINANCES, UIElementType.FINANCE_BANKING_SYSTEM, new GridPosition(0, 5, 5, 19), true),
 	FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, new GridPosition(14,
+<<<<<<< HEAD
 			5, 0, 19), true),
 	
 //	//The modules for Marketing
@@ -53,6 +55,10 @@ public enum GameModuleDefinition {
 	;
 	
 	
+=======
+			5, 5, 19), true);
+
+>>>>>>> ecaa7618923ac52c65f13f8f98a8078ad4268b88
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
 	// The contentType of the module.

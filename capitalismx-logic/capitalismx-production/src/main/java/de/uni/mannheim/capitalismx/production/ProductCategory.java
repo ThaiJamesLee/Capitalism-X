@@ -58,4 +58,21 @@ public enum ProductCategory implements Serializable {
 		}
 		return categories;
 	}
+
+	/**
+	 * @author duly
+	 *
+	 * @param name The name of the {@link ProductCategory}.
+	 * @return Returns the {@link ProductCategory} with the matching name.
+	 */
+	public static ProductCategory getProductCategoryByName(String name) {
+		ProductCategory[] productCategories = ProductCategory.values();
+
+		for(ProductCategory productCategory : productCategories) {
+			if(productCategory.productName.equals(name)) {
+				return productCategory;
+			}
+		}
+		return null;
+	}
 }

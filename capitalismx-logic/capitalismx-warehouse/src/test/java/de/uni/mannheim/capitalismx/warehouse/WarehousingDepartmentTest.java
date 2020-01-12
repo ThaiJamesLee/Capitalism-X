@@ -4,10 +4,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -52,29 +49,36 @@ public class WarehousingDepartmentTest {
         storage.calculateBaseCost(gameDate);
         components.add(storage);
 
-        ProductionDepartment.getInstance().buyMachinery(new Machinery(gameDate), gameDate);
-        Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, components);
-        ProductionDepartment.getInstance().launchProduct(notebook, 10, 200);
-        WarehousingDepartment.getInstance().storeUnits();
-        int numberStoredUnits = 0;
-        HashMap<Unit, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
-        for(HashMap.Entry<Unit, Integer> entry : inventory.entrySet()) {
-            numberStoredUnits += entry.getValue();
+        try {
+            ProductionDepartment.getInstance().buyMachinery(new Machinery(gameDate), gameDate);
+        } catch (NoMachinerySlotsAvailableException e) {
+            System.out.println(e.getMessage());
         }
-        Assert.assertEquals(numberStoredUnits, 10);
-        Assert.assertEquals(WarehousingDepartment.getInstance().calculateStoredUnits(), 10);
+
+        try {
+            Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, components);
+            ProductionDepartment.getInstance().launchProduct(notebook, 10, 200);
+            WarehousingDepartment.getInstance().storeUnits();
+            int numberStoredUnits = 0;
+            HashMap<Unit, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
+            for (HashMap.Entry<Unit, Integer> entry : inventory.entrySet()) {
+                numberStoredUnits += entry.getValue();
+            }
+            Assert.assertEquals(numberStoredUnits, 10);
+            Assert.assertEquals(WarehousingDepartment.getInstance().calculateStoredUnits(), 10);
+        } catch (InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void buildWarehouseTest() {
-        WarehousingDepartment.getInstance().buildWarehouse(LocalDate.of(1990,1,1));
-        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
-    }
-
-    @Test
-    public void rentWarehouseTest() {
-        WarehousingDepartment.getInstance().rentWarehouse(LocalDate.of(1990,1,1));
-        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 2);
+        try {
+            WarehousingDepartment.getInstance().buildWarehouse(LocalDate.of(1990, 1, 1));
+            Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
+        } catch (NoWarehouseSlotsAvailableException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -97,6 +101,16 @@ public class WarehousingDepartmentTest {
                 WarehousingDepartment.getInstance().sellWarehouse(w);
             }
         }
-        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
+        Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 0);
+    }
+
+    @Test
+    public void rentWarehouseTest() {
+        try {
+            WarehousingDepartment.getInstance().rentWarehouse(LocalDate.of(1990, 1, 1));
+            Assert.assertEquals(WarehousingDepartment.getInstance().getWarehouses().size(), 1);
+        } catch (NoWarehouseSlotsAvailableException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

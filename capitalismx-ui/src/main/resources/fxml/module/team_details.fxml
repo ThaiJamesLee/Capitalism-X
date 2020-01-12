@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.TabPane?>
+
+<TabPane fx:id="employeeTabPane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.hr.TeamDetailController">
+   <stylesheets>
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/modul.css" />
+   </stylesheets>
+</TabPane>

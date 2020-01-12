@@ -36,6 +36,9 @@
     src: url('../fonts/Reckoner-Bold.ttf');
 }
 
+.cursor-clickable {
+	-fx-cursor: hand;
+}
 
 .label {
 	-fx-font-family: "Prime";
@@ -67,6 +70,11 @@
 FontAwesomeIcon {
 	-fx-text-fill: -fx-primary-dark; 
 	-fx-fill: -fx-primary-dark; 
+}
+
+.icon_primary {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
 }
 
 /**
@@ -122,6 +130,16 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-dark;
 }
 
+.icon_button_invisible {
+	-fx-background-color: transparent;
+	-fx-border-width: 0 0 0 0;
+	-fx-border-color: -fx-primary;
+}
+
+
+/**
+ * Styling for the choice box
+ */
 .choice-box {
 	-fx-background-color: -fx-primary-neutral;
 	-fx-border-radius: 2.0;
@@ -383,31 +401,37 @@ FontAwesomeIcon {
  .tab-pane {
     -fx-tab-min-width: 60.0px;
  }
+ 
 .tab-pane .tab-header-area .tab-header-background {
-	-fx-background-color: transparent;
+	-fx-margin-top: 5;
+	-fx-background-color: -fx-primary-neutral;
+	-fx-border-radius: 5 0 0 5;
+	-fx-background-radius: 5 5 0 0;
 }
 
 .tab-pane .tab-content-area {
+ 	-fx-padding: 5;
 	-fx-background-color: transparent;
-	-fx-border-width : 1.0 0.0 0.0 0.0;
+	-fx-border-width : 0.0 0.0 0.0 0.0;
 	-fx-border-insets : 0.0 5.0 0.0 5.0;
 	-fx-border-color: -fx-primary-dark;
 }
 
 .tab-pane .tab {
     -fx-background-insets: 0.0 1.0 0.0 1.0;
-	-fx-background-color: -fx-primary-dark;
+	-fx-background-color: -fx-primary-neutral;
 	-fx-border-radius: 5.0 5.0 0.0 0.0;
+	-fx-border-color: -fx-primary-light-neutral;
+	-fx-border-width: 1 1 0 1;
 	-fx-background-radius: 5.0 5.0 0.0 0.0;
 }
 
 .tab-pane .tab:selected, .tab-pane .tab-pane:focused {
 	-fx-background-color: -fx-primary;
-	-fx-border-width: 2.0;
-	-fx-border-color: -fx-primary-dark;
-	-fx-background-insets: -2.0;
-	-fx-border-insets: -2.0;
-	-fx-border-radius: 3.0;
+	-fx-border-color: -fx-primary-light;
+	-fx-border-width: 1 1 0 1;
+	-fx-border-radius: 5.0 5.0 0.0 0.0;
+	-fx-background-radius: 5.0 5.0 0.0 0.0;
 }
 
 .tab .tab-label {
@@ -424,11 +448,17 @@ FontAwesomeIcon {
 }
 
 .chart-plot-background{
-	-fx-background-color: -fx-primary-light-neutral;	
+		-fx-background-color: -fx-primary-dark-transparent;
 }
 
 .chart-alternative-row-fill {
     -fx-fill: -fx-primary-light;
+}
+
+.default-color0.chart-series-line { -fx-stroke: -fx-primary; }
+
+.default-color0.chart-line-symbol{
+    -fx-background-color: -fx-primary, -fx-primary;
 }
  
  .axis {
@@ -511,7 +541,7 @@ FontAwesomeIcon {
 
 
 /**
- * TODO: in eigene Dateien für das jeweilige Element auslagern
+ * TODO: in eigene Dateien fï¿½r das jeweilige Element auslagern
  */
 .sidemenu_color {
 	-fx-background-color: -fx-dark;
@@ -519,11 +549,10 @@ FontAwesomeIcon {
 }
 
 .title_label {
-    -fx-margin: 15.0 30.0 15.0 30.0;
+    -fx-margin: 5.0 20.0 5.0 20.0;
     -fx-font-family: "Prime";
-    -fx-font-size: 37.0px;
+    -fx-font-size: 28.0px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333333; 
 }
 
 .subtitle_label {
@@ -531,7 +560,7 @@ FontAwesomeIcon {
     -fx-background-radius: 9.0,8.0,5.0,4.0;
     /*-fx-padding: 15 30 15 30;*/
     -fx-font-family: "Prime";
-    -fx-font-size: 24.0px;
+    -fx-font-size: 28.0px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;     
 }
@@ -588,9 +617,9 @@ FontAwesomeIcon {
 }
 
 .currentView_label {
-	-fx-text-fill: -fx-light;
+	-fx-text-fill: -fx-primary;
     -fx-font-family: "Prime";
-    -fx-font-size: 33.0px;
+    -fx-font-size: 20.0px;
     -fx-font-weight: bold;
 
 }
@@ -608,6 +637,10 @@ FontAwesomeIcon {
 	-fx-border-radius: 5;
 	-fx-background-radius: 5;
  }
+ 
+  .popover_pane .list-cell:hover { 
+  	-fx-background-color: -fx-primary;
+  }
  
 .train_popover {
 	-fx-border-radius: 5.0;

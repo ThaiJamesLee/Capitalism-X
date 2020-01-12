@@ -1,10 +1,9 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,13 +11,21 @@ import java.util.ResourceBundle;
 public class FinanceStatisticsChartsController extends GameModuleController {
 
     @FXML
-    BarChart<CategoryAxis, NumberAxis> salesChart;
+    LineChart<String, Number> cashChart;
 
     @FXML
-    BarChart<CategoryAxis, NumberAxis> salariesChart;
+    LineChart<String, Number> assetsChart;
 
     @FXML
-    BarChart<CategoryAxis, NumberAxis> loansChart;
+    LineChart<String, Number> liabilitiesChart;
+
+    @FXML
+    LineChart<String, Number> netWorthChart;
+
+    XYChart.Series<String, Number> cashSeries;
+    XYChart.Series<String, Number> assetsSeries;
+    XYChart.Series<String, Number> liabilitiesSeries;
+    XYChart.Series<String, Number> netWorthSeries;
 
     @Override
     public void update() {
@@ -27,6 +34,11 @@ public class FinanceStatisticsChartsController extends GameModuleController {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+
+    }
+
+    public void updateCharts(String rowName, String[] yValues, String[] xNames){
+
     }
 
 }

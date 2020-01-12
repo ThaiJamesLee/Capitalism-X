@@ -9,14 +9,30 @@ import java.util.List;
 /**
  * Create a custom list that can fire event properties when adding or removing elements.
  * @author duly
+ *
+ * @since 1.0.0
  * @param <T> The generic must be Serializable.
  */
 public class PropertyChangeSupportList<T extends Serializable> implements Serializable {
 
+    /**
+     * The original list.
+     */
     private List<T> list;
+
+    /**
+     * The state of the list before it was changed.
+     */
     private List<T> oldList;
 
+    /**
+     * The event name when removing an object from the list.
+     */
     private String removePropertyName;
+
+    /**
+     * The event name when adding an object to the list.
+     */
     private String addPropertyName;
 
     private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -64,7 +80,7 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
 
     /**
      *
-     * @param addPropertyName
+     * @param addPropertyName The name of the event that is triggered when calling the add() function.
      */
     public void setAddPropertyName(String addPropertyName) {
         this.addPropertyName = addPropertyName;
@@ -100,10 +116,30 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
         propertyChangeSupport.firePropertyChange(removePropertyName, oldList, list);
     }
 
+    /**
+     *
+     * @param index The index on the list.
+     * @return Returns the object from the specified index.
+     */
+    public T get(int index) {
+        return list.get(index);
+    }
+
+    /**
+     * Create a copy from the src to the dst list.
+     * This does not copy the reference, but create completely new objects.
+     *
+     * @param dst The destination to copy to.
+     * @param src The source to copy from.
+     */
     private void copyList(List<T> dst, List<T> src) {
         dst.addAll(src);
     }
 
+    /**
+     *
+     * @return Returns the size of the list.
+     */
     public int size() {
         return list.size();
     }

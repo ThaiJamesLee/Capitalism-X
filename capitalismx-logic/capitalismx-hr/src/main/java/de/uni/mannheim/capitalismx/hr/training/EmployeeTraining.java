@@ -1,10 +1,10 @@
 package de.uni.mannheim.capitalismx.hr.training;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.domain.employee.Training;
-import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
-import de.uni.mannheim.capitalismx.hr.domain.Salary;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
+import de.uni.mannheim.capitalismx.hr.domain.SalaryTier;
 
 /**
  * Handles training an employee.
@@ -25,18 +25,13 @@ public class EmployeeTraining {
     }
 
     /**
-     *
+     * If the employee is already max level, then you pay his salary as punishment.
      * @param e employee to train to the next level.
      * @return price for the chosen training.
      */
     public Double trainEmployee(Employee e, Training t) {
-
-        if(e.getSkillLevel() < Salary.getMaxTier().getUpperLevel()) {
-            // increases the capacity of the HRWorker, if the object is an instance of HRWorker
-            increaseHRCapacity(e);
-
+        if(e.getSkillLevel() < SalaryTier.getMaxTier().getUpperLevel()) {
             int skillLevel = e.getSkillLevel() + t.getSkillLevelImprove();
-
             e.setSkillLevel(skillLevel);
 
             double salary = e.getSalary() * t.getSalaryIncreaseFactor();
@@ -44,10 +39,12 @@ public class EmployeeTraining {
 
             e.addTraining(t);
 
+            // increases the capacity of the HRWorker, if the object is an instance of HRWorker
+            increaseHRCapacity(e);
             return (double)t.getPrice();
         }
         // TODO balance the price by increasing according to skill level. Currently price is the same for all.
-        return null;
+        return e.getSalary();
     }
 
     /**
@@ -62,7 +59,8 @@ public class EmployeeTraining {
             int currentCapacity = hrWorker.getCapacity();
 
             if(currentCapacity < hrWorker.getMaxCapacity()) {
-                hrWorker.setCapacity(currentCapacity + 1);
+                double newCapacity = e.getSkillLevel()/2.0;
+                hrWorker.setCapacity((int) newCapacity);
             }
         }
     }

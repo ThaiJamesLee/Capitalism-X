@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.warehouse;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -13,6 +14,7 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.WarehouseListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import javafx.fxml.FXML;
@@ -50,15 +52,19 @@ public class WarehouseListController extends GameModuleController {
 	/**
 	 * Initiates the purchase of a new {@link Warehouse}.
 	 */
-	private void buyWarehouse() {
+	private void buyWarehouse(LocalDate gameDate) {
 		GameController controller = GameController.getInstance();
 
 		boolean firstWarehouse = controller.getWarehouses().isEmpty();
-		double costs = controller.buildWarehouse();
-		controller.decreaseCash(costs);// TODO what if capacity reached? -> cannot just add the last one
-		addLatestWarehouseToList();
-		if (firstWarehouse)
-			activateWarehouseModules();
+		try {
+			double costs = controller.buildWarehouse();
+			controller.decreaseCash(gameDate, costs);// TODO what if capacity reached? -> cannot just add the last one
+			addLatestWarehouseToList();
+			if (firstWarehouse)
+				activateWarehouseModules();
+		} catch (NoWarehouseSlotsAvailableException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Override
@@ -73,10 +79,10 @@ public class WarehouseListController extends GameModuleController {
 				CapCoinFormatter.getCapCoins(new Warehouse(WarehouseType.BUILT).getBuildingCost())));
 		rentCostLabel.setText(UIManager.getLocalisedString("warehouse.rent.cost").replace("XXX",
 				CapCoinFormatter.getCapCoins(new Warehouse(WarehouseType.RENTED).getMonthlyRentalCost())));
-		warehouseListView.setPlaceholder(new Label(UIManager.getLocalisedString("warehouse.list.placeholder")));
+		warehouseListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.warehouse")));
 
 		buyGridButton.setOnMouseClicked(e -> {
-			buyWarehouse();
+			buyWarehouse(GameState.getInstance().getGameDate());
 		});
 
 		rentGridButton.setOnMouseClicked(e -> {
@@ -85,6 +91,8 @@ public class WarehouseListController extends GameModuleController {
 
 		warehouseListView.setCellFactory(warehouseListView -> new WarehouseListViewCell(warehouseListView));
 		warehouseListView.getItems().addAll(GameState.getInstance().getWarehousingDepartment().getWarehouses());
+		
+		GameState.getInstance().getWarehousingDepartment().getLevelingMechanism().levelUp(); //TODO remove. Only for testing
 	}
 
 	/**
@@ -106,10 +114,14 @@ public class WarehouseListController extends GameModuleController {
 		GameController controller = GameController.getInstance();
 
 		boolean firstWarehouse = controller.getWarehouses().isEmpty();
-		controller.rentWarehouse(); // TODO what if capacity reached? -> cannot just add the last one
-		addLatestWarehouseToList();
-		if (firstWarehouse)
-			activateWarehouseModules();
+		try {
+			controller.rentWarehouse(); // TODO what if capacity reached? -> cannot just add the last one
+			addLatestWarehouseToList();
+			if (firstWarehouse)
+				activateWarehouseModules();
+		} catch (NoWarehouseSlotsAvailableException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Override

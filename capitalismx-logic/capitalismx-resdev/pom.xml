@@ -11,22 +11,29 @@
 
     <artifactId>capitalismx-resdev</artifactId>
 
+    <description>
+        This department is the Research and Development. Here the player needs to unlock Components and ProductCategories
+        before he can produce or advance with newer technology.
+    </description>
 
     <dependencies>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-production</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>

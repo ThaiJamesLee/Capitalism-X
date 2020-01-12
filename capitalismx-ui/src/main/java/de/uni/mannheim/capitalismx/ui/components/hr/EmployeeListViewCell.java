@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
@@ -104,7 +104,7 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 	 * Shows the extended version of the Cell with the buttons for firing and hiring
 	 * the employee.
 	 */
-	private void displayExtended() {
+	private void displayExtended() { //TODO fix issue with cells when hiring many employees
 		if (isSelected()) {
 			gridPane.add(fireButton, 4, 1, 2, 1);
 			gridPane.add(trainButton, 3, 1, 1, 1);

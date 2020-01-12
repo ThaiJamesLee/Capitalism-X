@@ -54,7 +54,8 @@ public class HRSkill implements DepartmentSkill {
 
     @Override
     public String getDescription() {
-        throw new UnsupportedOperationException();
+        ResourceBundle langBundle = ResourceBundle.getBundle(LANG_PROPERTIES);
+        return langBundle.getString(DESCRIPTION_PROPERTY_PREFIX + level);
     }
 
     @Override

@@ -2,15 +2,15 @@ package de.uni.mannheim.capitalismx.hr.department;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
-import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
-import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
-import de.uni.mannheim.capitalismx.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +18,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -207,9 +208,13 @@ public class HRDepartmentTest {
         HRDepartment testDepartment = HRDepartment.createInstance();
         LevelingMechanism mechanism = testDepartment.getLevelingMechanism();
 
+        int tmpCapacity = 0;
+
         for(int i = 0; i<testDepartment.getMaxLevel(); i++) {
             Assert.assertTrue(mechanism.levelUp() > 0);
             Assert.assertEquals(testDepartment.getAvailableSkills().size(), i+1);
+            Assert.assertTrue(testDepartment.getHrCapacity() > tmpCapacity );
+            tmpCapacity = testDepartment.getHrCapacity();
         }
 
         Assert.assertEquals(testDepartment.getLevel(), 8);
@@ -217,6 +222,48 @@ public class HRDepartmentTest {
         Assert.assertNull(mechanism.levelUp());
     }
 
+    /**
+     * Test when there is a entry that is 30 days ago.
+     */
+    @Test
+    public void employeeHistoryTestI() {
+        HRDepartment testDepartment = HRDepartment.createInstance();
+
+        // hire some employees
+        testDepartment.hire(employeeStack.get(0));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(30));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(29));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(28));
+        testDepartment.hire(employeeStack.get(1));
+        testDepartment.hire(employeeStack.get(2));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(27));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(26));
+        testDepartment.hire(employeeStack.get(3));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(25));
+        testDepartment.hire(employeeStack.get(4));
+        testDepartment.updateEmployeeHistory(LocalDate.now());
+
+        Assert.assertEquals(testDepartment.getEmployeeDifference(LocalDate.now()), 4);
+    }
+
+    @Test
+    public void employeeHistoryTestII() {
+        HRDepartment testDepartment = HRDepartment.createInstance();
+
+        // hire some employees
+        testDepartment.hire(employeeStack.get(0));
+        testDepartment.hire(employeeStack.get(1));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(28));
+        testDepartment.hire(employeeStack.get(2));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(27));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(26));
+        testDepartment.hire(employeeStack.get(3));
+        testDepartment.updateEmployeeHistory(LocalDate.now().minusDays(25));
+        testDepartment.hire(employeeStack.get(4));
+        testDepartment.updateEmployeeHistory(LocalDate.now());
+
+        Assert.assertEquals(testDepartment.getEmployeeDifference(LocalDate.now()), 3);
+    }
 
 
 }

@@ -22,13 +22,8 @@ public class WarehouseSegmentController extends GameModuleController {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
 		WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
+
 		// init segmented bars
 		int overallCapacity = warehouse.getTotalCapacity();
 		int currentUnitsStored = warehouse.getStoredUnits();
@@ -42,7 +37,11 @@ public class WarehouseSegmentController extends GameModuleController {
 		this.capacity.setText(overallCapacity + "");
 		this.inUse.setText(currentUnitsStored + "");
 		this.cost.setText((int) warehouse.calculateTotalMonthlyWarehousingCost() + "");
+	}
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		update();
 	}
 
 }

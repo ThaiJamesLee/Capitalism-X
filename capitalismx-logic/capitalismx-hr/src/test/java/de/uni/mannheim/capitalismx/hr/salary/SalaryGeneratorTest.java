@@ -1,13 +1,15 @@
 package de.uni.mannheim.capitalismx.hr.salary;
 
-import de.uni.mannheim.capitalismx.hr.domain.Salary;
+import de.uni.mannheim.capitalismx.hr.domain.SalaryTier;
 import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
+/**
+ * @author duly
+ */
 public class SalaryGeneratorTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SalaryGeneratorTest.class);
@@ -16,10 +18,10 @@ public class SalaryGeneratorTest {
     public void rangeTestTier0() {
         SalaryGenerator sg = SalaryGenerator.getInstance();
 
-        for (int i = 0; i < Salary.TIER_0.getLowerLevel(); i++) {
+        for (int i = 0; i < SalaryTier.TIER_0.getLowerLevel(); i++) {
             try {
-                Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_0.getUpperSalary());
-                Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_0.getLowerLevel());
+                Assert.assertTrue(sg.getSalary(i) <= SalaryTier.TIER_0.getUpperSalary());
+                Assert.assertTrue(sg.getSalary(i) >= SalaryTier.TIER_0.getLowerLevel());
             } catch (NoDefinedTierException e) {
                 logger.error(e.getMessage());
             }
@@ -30,10 +32,10 @@ public class SalaryGeneratorTest {
     public void rangeTestTier1() {
         SalaryGenerator sg = SalaryGenerator.getInstance();
 
-        for (int i = 0; i < Salary.TIER_1.getLowerLevel(); i++) {
+        for (int i = 0; i < SalaryTier.TIER_1.getLowerLevel(); i++) {
             try {
-                Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_1.getUpperSalary());
-                Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_1.getLowerLevel());
+                Assert.assertTrue(sg.getSalary(i) <= SalaryTier.TIER_1.getUpperSalary());
+                Assert.assertTrue(sg.getSalary(i) >= SalaryTier.TIER_1.getLowerLevel());
             } catch (NoDefinedTierException e) {
                 logger.error(e.getMessage());
             }
@@ -44,10 +46,10 @@ public class SalaryGeneratorTest {
     public void rangeTestTier2() {
         SalaryGenerator sg = SalaryGenerator.getInstance();
 
-        for (int i = 0; i < Salary.TIER_2.getLowerLevel(); i++) {
+        for (int i = 0; i < SalaryTier.TIER_2.getLowerLevel(); i++) {
             try {
-                Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_2.getUpperSalary());
-                Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_2.getLowerLevel());
+                Assert.assertTrue(sg.getSalary(i) <= SalaryTier.TIER_2.getUpperSalary());
+                Assert.assertTrue(sg.getSalary(i) >= SalaryTier.TIER_2.getLowerLevel());
             } catch (NoDefinedTierException e) {
                 logger.error(e.getMessage());
             }
@@ -58,10 +60,10 @@ public class SalaryGeneratorTest {
     public void rangeTestTier3() {
         SalaryGenerator sg = SalaryGenerator.getInstance();
 
-        for (int i = 0; i < Salary.TIER_3.getLowerLevel(); i++) {
+        for (int i = 0; i < SalaryTier.TIER_3.getLowerLevel(); i++) {
             try {
-                Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_3.getUpperSalary());
-                Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_3.getLowerLevel());
+                Assert.assertTrue(sg.getSalary(i) <= SalaryTier.TIER_3.getUpperSalary());
+                Assert.assertTrue(sg.getSalary(i) >= SalaryTier.TIER_3.getLowerLevel());
             } catch (NoDefinedTierException e) {
                 logger.error(e.getMessage());
             }
@@ -72,10 +74,10 @@ public class SalaryGeneratorTest {
     public void rangeTestTier4() {
         SalaryGenerator sg = SalaryGenerator.getInstance();
 
-        for (int i = 0; i < Salary.TIER_4.getLowerLevel(); i++) {
+        for (int i = 0; i < SalaryTier.TIER_4.getLowerLevel(); i++) {
             try {
-                Assert.assertTrue(sg.getSalary(i) <= Salary.TIER_4.getUpperSalary());
-                Assert.assertTrue(sg.getSalary(i) >= Salary.TIER_4.getLowerLevel());
+                Assert.assertTrue(sg.getSalary(i) <= SalaryTier.TIER_4.getUpperSalary());
+                Assert.assertTrue(sg.getSalary(i) >= SalaryTier.TIER_4.getLowerLevel());
             } catch (NoDefinedTierException e) {
                 logger.error(e.getMessage());
             }

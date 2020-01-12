@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductTest {
 
@@ -42,7 +43,11 @@ public class ProductTest {
         storage.setSupplierCategory(SupplierCategory.CHEAP);
         storage.calculateBaseCost(gameDate);
         components.add(storage);
-        this.product = new Product("Notebook", ProductCategory.NOTEBOOK, components);
+        try {
+            this.product = new Product("Notebook", ProductCategory.NOTEBOOK, components);
+        } catch (InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test

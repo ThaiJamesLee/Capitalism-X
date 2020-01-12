@@ -10,8 +10,8 @@
 
 
 .header {
-	-fx-font: bold 24pt 'Prime';
-	-fx-text-fill: -fx-dark;
+	-fx-font: bold 26 'Prime';
+	-fx-text-fill: -fx-primary;
 }
 
 .details_label {
