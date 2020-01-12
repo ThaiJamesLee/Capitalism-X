@@ -170,6 +170,8 @@ public class SalesDepartment extends DepartmentImpl {
         int numContracts = skill.getNumContracts();
         Range factor = skill.getPriceFactor();
 
+        double penalty = skill.getPenaltyFactor();
+
         numContracts = (int)(numContracts * demandPercentage);
         List<Contract> newContracts = new ArrayList<>();
 
@@ -178,7 +180,9 @@ public class SalesDepartment extends DepartmentImpl {
         for(int i = 0; i<numContracts; i++) {
             int max = Math.max(products.size()-1, 0);
             Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
-            newContracts.add(contractFactory.getContract(p, date, factor));
+            Contract c = contractFactory.getContract(p, date, factor);
+            c.setPenalty(c.getPenalty() * penalty);
+            newContracts.add(c);
         }
         availableContracts.setList(newContracts);
     }

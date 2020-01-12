@@ -135,7 +135,7 @@ public class Contract implements Serializable {
      *
      * @param penalty The amount that the player needs to pay, when not fulfilling this contract.
      */
-    public void setPenalty(int penalty) {
+    public void setPenalty(double penalty) {
         this.penalty = penalty;
     }
 
