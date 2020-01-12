@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane layoutX="200.0" layoutY="155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -55,32 +54,32 @@
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
             </Label>
-            <Label GridPane.columnIndex="1">
+            <Label fx:id="productInfo" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <VBox fx:id="componentsVBox" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
             </VBox>
-            <Label GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label fx:id="deadlineInfo" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label fx:id="unitNumberInfo" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Label fx:id="totalVolumeInfo" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Label fx:id="productPriceInfo" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>

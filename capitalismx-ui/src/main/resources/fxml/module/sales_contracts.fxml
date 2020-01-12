@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -41,25 +41,32 @@
                <children>
                   <VBox>
                      <children>
-                        <HBox maxHeight="30.0" styleClass="header_hbox">
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
                               <Label styleClass="label_medium" text="Name">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" styleClass="label_medium" text="Deadline">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
+                              <Label alignment="CENTER_RIGHT" styleClass="label_medium" text="Deadline" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="15.0" />
+                                 </GridPane.margin>
                               </Label>
                            </children>
-                        </HBox>
+                        </GridPane>
                         <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" styleClass="contractListAnchor">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="contractListAnchor">
                                  <children>
-                                    <ListView fx:id="offeredContractsList" prefHeight="200.0" prefWidth="200.0" />
+                                    <ListView fx:id="offeredContractsList" prefHeight="400.0" prefWidth="300.0" />
                                  </children>
                               </AnchorPane>
                           </content>
@@ -106,25 +113,32 @@
                <children>
                   <VBox>
                      <children>
-                        <HBox prefWidth="200.0" styleClass="header_hbox">
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
                               <Label styleClass="label_medium" text="Name">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
                               </Label>
-                              <Label styleClass="label_medium" text="Deadline">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
+                              <Label styleClass="label_medium" text="Deadline" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="15.0" />
+                                 </GridPane.margin>
                               </Label>
                            </children>
-                        </HBox>
+                        </GridPane>
                         <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" styleClass="contractListAnchor">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="contractListAnchor">
                                  <children>
-                                    <ListView fx:id="acceptedContractsList" prefHeight="200.0" prefWidth="200.0" />
+                                    <ListView fx:id="acceptedContractsList" prefHeight="400.0" prefWidth="300.0" />
                                  </children>
                               </AnchorPane>
                           </content>

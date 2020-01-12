@@ -43,7 +43,10 @@ public enum GameModuleDefinition {
 			6, 0, 19), true),
 	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, new GridPosition(1, 5, 0, 19), true),
 	FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, new GridPosition(14,
-			5, 0, 19), true);
+			5, 0, 19), true),
+
+	// The modules for Sales
+	SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml", GameViewType.SALES, UIElementType.SALES_CONTRACT_OVERVIEW, new GridPosition(0, 20, 0, 15) , true);
 
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;

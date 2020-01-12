@@ -5,14 +5,19 @@ import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SalesContractController extends GameModuleController {
+
+    private Parent infoPane;
+    private SalesContractInfoController infoPaneController;
 
     @FXML
     private ListView offeredContractsList;
@@ -35,11 +40,11 @@ public class SalesContractController extends GameModuleController {
     }
 
     public void addContract(){
-        
+
     }
 
     public void removeContract(){
-
+        
     }
 
     @Override
@@ -49,6 +54,16 @@ public class SalesContractController extends GameModuleController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        FXMLLoader cellLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_list_cell.fxml"));
+        try {
+            infoPane = cellLoader.load();
+            infoPaneController = cellLoader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
 
     }
 }
