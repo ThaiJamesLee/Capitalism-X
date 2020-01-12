@@ -6,6 +6,7 @@ import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
+import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
@@ -214,6 +215,7 @@ public class FinanceDepartment extends DepartmentImpl {
     protected double calculateCash(LocalDate gameDate){
         //this.cash += this.nopat + this.assetsSold;
         double cash = this.cash.getValue() +  this.calculateNopat(gameDate) + this.calculateAssetsSold(gameDate);
+        cash -= BankingSystem.getInstance().calculateMonthlyLoanRate(gameDate);
         if(cash < 0){
             this.gameOver.setValue(true);
         }else{
@@ -341,6 +343,7 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     protected double calculateTotalHRCosts(LocalDate gameDate){
+        //TODO only trainings of current day
         double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
         double totalSalaries = HRDepartment.getInstance().calculateTotalSalaries();
         totalSalaries /= gameDate.lengthOfYear();
@@ -352,6 +355,7 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO
     protected double calculateTotalWarehouseCosts(LocalDate gameDate){
         double warehouseCosts = WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(gameDate);
+        warehouseCosts /= gameDate.lengthOfMonth();
         double storageCosts = WarehousingDepartment.getInstance().calculateDailyStorageCost();
 
         this.totalWarehouseCosts = warehouseCosts + storageCosts;
@@ -385,7 +389,7 @@ public class FinanceDepartment extends DepartmentImpl {
         double priceLobbyist = ;
         this.totalMarketingCosts = priceManagementConsultancy + priceMarketResearch + priceCampaign + priceLobbyist;
         return this.totalMarketingCosts;**/
-        //TODO
+        this.totalMarketingCosts = MarketingDepartment.getInstance().getTotalMarketingCosts();
         this.marketingCostsHistory.put(gameDate, this.totalMarketingCosts);
         this.marketingCostsHistory.put(gameDate, 0.0);
         return 0.0;
@@ -393,8 +397,9 @@ public class FinanceDepartment extends DepartmentImpl {
 
     private double calculateTotalSupportCosts(LocalDate gameDate){
         double totalSupportCosts = ProductSupport.getInstance().calculateTotalSupportCosts();
+        this.totalSupportCosts = totalSupportCosts / gameDate.lengthOfMonth();
         this.supportCostsHistory.put(gameDate, this.totalSupportCosts);
-        return totalSupportCosts;
+        return this.totalSupportCosts;
     }
 
     protected double calculateEbit(LocalDate gameDate){
@@ -416,9 +421,10 @@ public class FinanceDepartment extends DepartmentImpl {
         return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
     }
 
-    public void addLoan(BankingSystem.Loan loan, LocalDate loanDate){
-        BankingSystem.getInstance().addLoan(loan, loanDate);
-        this.cash.setValue(this.cash.getValue() + loan.getLoanAmount());
+    public void addLoan(BankingSystem.Loan loan, LocalDate gameDate){
+        BankingSystem.getInstance().addLoan(loan, gameDate);
+        this.increaseCash(gameDate, loan.getLoanAmount());
+        this.increaseLiabilities(gameDate, loan.getLoanAmount());
     }
 
     //TODO
