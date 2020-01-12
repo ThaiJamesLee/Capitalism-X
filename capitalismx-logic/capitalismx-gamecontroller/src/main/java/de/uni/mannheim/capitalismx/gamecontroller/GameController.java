@@ -7,15 +7,18 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import de.uni.mannheim.capitalismx.procurement.component.*;
+import de.uni.mannheim.capitalismx.production.*;
+import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
+import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.uni.mannheim.capitalismx.customer.CustomerDemand;
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.domain.employee.Team;
-import de.uni.mannheim.capitalismx.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
@@ -35,22 +38,23 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
-import de.uni.mannheim.capitalismx.production.ProductionInvestment;
-import de.uni.mannheim.capitalismx.production.ProductionTechnology;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
+/**
+ * This class is the entry point for the UI.
+ * It aggregates the game-logic and allows all objects to be updated.
+ *
+ * @author duly
+ * @author dzhao
+ * @author sdupper
+ */
 public class GameController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
 	private static GameController instance;
-	private boolean isNewYear;
 
 	private GameController() {
 	}
@@ -117,9 +121,10 @@ public class GameController {
 			ExternalEvents.setInstance(state.getExternalEvents());
 			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
 			InternalFleet.setInstance(state.getInternalFleet());
+			ResearchAndDevelopmentDepartment.setInstance(state.getResearchAndDevelopmentDepartment());
 
 		} catch (ClassNotFoundException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
@@ -133,13 +138,43 @@ public class GameController {
 
 	private void updateCustomer() {
 		LocalDate gameDate = GameState.getInstance().getGameDate();
-		CustomerSatisfaction.getInstance().calculateAll(gameDate);
-		CustomerDemand.getInstance().calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON),
-				gameDate);
+		CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.getInstance();
+		CustomerDemand customerDemand = CustomerDemand.getInstance();
+
+		// get launched products from production department
+		ProductionDepartment productionDepartment = ProductionDepartment.getInstance();
+		customerSatisfaction.setProducts(productionDepartment.getLaunchedProducts());
+
+		// get totalSupportQuality score from Logistics
+		ProductSupport productSupport = ProductSupport.getInstance();
+		customerSatisfaction.setTotalSupportQuality(productSupport.getTotalSupportQuality());
+
+		// get companyImage score from Marketing
+		MarketingDepartment marketingDepartment = MarketingDepartment.getInstance();
+		double companyImage = marketingDepartment.getCompanyImageScore();
+		customerSatisfaction.setCompanyImage(companyImage);
+
+		// get jobSatisfaction score from HR
+		HRDepartment hrDepartment = HRDepartment.getInstance();
+		double jss = hrDepartment.getTotalJSS();
+
+		// get employerBranding score
+		double employerBranding = jss * 0.6 + companyImage * 0.4;
+		customerSatisfaction.setEmployerBranding(employerBranding);
+
+		// get logisticsIndex from Logistics
+		LogisticsDepartment logisticsDepartment = LogisticsDepartment.getInstance();
+		customerSatisfaction.setLogisticIndex(logisticsDepartment.getLogisticsIndex());
+
+		customerSatisfaction.calculateAll(gameDate);
+		customerDemand.calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON), gameDate);
+		/*String message = "jss= " + jss + "; companyImage=" + companyImage + "; employerBranding=" + employerBranding;
+		LOGGER.info(message);*/
 	}
 
 	private void updateFinance() {
 		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+		FinanceDepartment.getInstance().updateMonthlyData(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateNetWorthDifference(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateCashDifference(GameState.getInstance().getGameDate());
@@ -165,7 +200,7 @@ public class GameController {
 
 	// TODO once procurement implementation is ready
 	private void updateProcurement() {
-
+		ProcurementDepartment.getInstance().updateAll(GameState.getInstance().getGameDate());
 	}
 
 	private void updateProduction() {
@@ -389,8 +424,8 @@ public class GameController {
 		FinanceDepartment.getInstance().increaseCash(gameDate, amount);
 	}
 
-	public void decreaseCash(double amount) {
-		FinanceDepartment.getInstance().decreaseCash(amount);
+	public void decreaseCash(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().decreaseCash(gameDate, amount);
 	}
 
 	public void increaseNewWorth(LocalDate gameDate, double amount) {
@@ -401,16 +436,16 @@ public class GameController {
 		FinanceDepartment.getInstance().decreaseNetWorth(gameDate, amount);
 	}
 
-	public void increaseAssets(double amount) {
-		FinanceDepartment.getInstance().increaseAssets(amount);
+	public void increaseAssets(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().increaseAssets(gameDate, amount);
 	}
 
-	public void decreaseAssets(double amount) {
-		FinanceDepartment.getInstance().decreaseAssets(amount);
+	public void decreaseAssets(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().decreaseAssets(gameDate, amount);
 	}
 
-	public void increaseLiabilities(double amount) {
-		FinanceDepartment.getInstance().increaseLiabilities(amount);
+	public void increaseLiabilities(LocalDate gameDate, double amount) {
+		FinanceDepartment.getInstance().increaseLiabilities(gameDate, amount);
 	}
 
 	public double getRealEstateInvestmentAmount() {
@@ -425,13 +460,17 @@ public class GameController {
 		return FinanceDepartment.getInstance().getVentureCapitalInvestmentAmount();
 	}
 
-	public boolean increaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
-		return FinanceDepartment.getInstance().increaseInvestmentAmount(amount, investmentType);
+	public boolean increaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
+		return FinanceDepartment.getInstance().increaseInvestmentAmount(gameDate, amount, investmentType);
 	}
 
-    public boolean decreaseInvestmentAmount(double amount, Investment.InvestmentType investmentType){
-        return FinanceDepartment.getInstance().decreaseInvestmentAmount(amount, investmentType);
+    public boolean decreaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
+        return FinanceDepartment.getInstance().decreaseInvestmentAmount(gameDate, amount, investmentType);
     }
+
+	public TreeMap<String, String[]> getMonthlyData() {
+		return FinanceDepartment.getInstance().getMonthlyData();
+	}
 
 	public TreeMap<String, String[]> getQuarterlyData() {
 		return FinanceDepartment.getInstance().getQuarterlyData();
@@ -584,20 +623,20 @@ public class GameController {
 	}
 
 	/* machinery game mechanics */
-	public boolean getMachineSpaceAvailable() {
-		return ProductionDepartment.getInstance().getMachineSpaceAvailable();
+	public boolean getMachineSlotsAvailable() {
+		return ProductionDepartment.getInstance().getMachineSlotsAvailable();
 	}
 
-	public int getMachinesCapacity() {
-		return ProductionDepartment.getInstance().getMachinesCapacity();
+	public int getProductionSlots() {
+		return ProductionDepartment.getInstance().getProductionSlots();
 	}
 
-	public int getBaseCost() {
-		return ProductionDepartment.getInstance().getBaseCost();
-	}
-
-	public double buyMachinery(Machinery machinery, LocalDate gameDate) {
-		return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+	public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
+		try {
+			return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+		} catch (NoMachinerySlotsAvailableException e) {
+			throw new NoMachinerySlotsAvailableException("No more Capacity available to buy new Machine.");
+		}
 	}
 
 	public double sellMachinery(Machinery machinery) {
@@ -768,6 +807,14 @@ public class GameController {
 	 * Warehousing.getInstance().sellProducts() }
 	 */
 
+	public int getWarehouseSlots() {
+		return WarehousingDepartment.getInstance().getWarehouseSlots();
+	}
+
+	public boolean getWarehouseSlotsAvailable() {
+		return WarehousingDepartment.getInstance().getWarehouseSlotsAvailable();
+	}
+
 	public List<Warehouse> getWarehouses() {
 		return WarehousingDepartment.getInstance().getWarehouses();
 	}
@@ -805,12 +852,20 @@ public class GameController {
 	}
 
 	/* warehouse game mechanics */
-	public double buildWarehouse() {
-		return WarehousingDepartment.getInstance().buildWarehouse(GameState.getInstance().getGameDate());
+	public double buildWarehouse() throws NoWarehouseSlotsAvailableException {
+		try {
+			return WarehousingDepartment.getInstance().buildWarehouse(GameState.getInstance().getGameDate());
+		} catch (NoWarehouseSlotsAvailableException e) {
+			throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
+		}
 	}
 
-	public double rentWarehouse() {
-		return WarehousingDepartment.getInstance().rentWarehouse(GameState.getInstance().getGameDate());
+	public double rentWarehouse() throws NoWarehouseSlotsAvailableException{
+		try {
+			return WarehousingDepartment.getInstance().rentWarehouse(GameState.getInstance().getGameDate());
+		} catch	(NoWarehouseSlotsAvailableException e) {
+			throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
+		}
 	}
 
 	public double sellWarehouse(Warehouse warehouse) {

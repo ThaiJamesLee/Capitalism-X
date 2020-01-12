@@ -8,25 +8,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
-import de.uni.mannheim.capitalismx.domain.employee.impl.ProductionWorker;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.ProductionWorker;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
-import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
+import de.uni.mannheim.capitalismx.hr.domain.*;
 import de.uni.mannheim.capitalismx.utils.formatter.DataFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.domain.employee.Team;
-import de.uni.mannheim.capitalismx.domain.employee.Training;
-import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
-import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
-import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
-import de.uni.mannheim.capitalismx.hr.domain.Benefit;
-import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
-import de.uni.mannheim.capitalismx.hr.domain.JobSatisfaction;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.training.EmployeeTraining;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import de.uni.mannheim.capitalismx.utils.exception.UnsupportedValueException;
@@ -189,7 +186,7 @@ public class HRDepartment extends DepartmentImpl {
 	private Map<Integer, Double> initCostMap() {
 		// init cost map
 		/* TODO BALANCING NEEDED*/
-		Map<Integer, Double> costMap = new HashMap<>();
+		Map<Integer, Double> costMap = new ConcurrentHashMap<>();
 
 		ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
 		for(int i = 1; i <= getMaxLevel(); i++) {
@@ -349,13 +346,15 @@ public class HRDepartment extends DepartmentImpl {
 	 * @return Returns the Quality of Work of the specified team.
 	 */
 	public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
+		// update first in case changes happened.
+		calculateAndUpdateEmployeesMeta();
+
 		Team team = teams.get(employeeType);
 		List<Employee> teamList = team.getTeam();
-		double jss = getTotalJSS();
 		double totalQoW = 0.0;
 
 		for (Employee e : teamList) {
-			totalQoW += 0.5 * e.getSkillLevel() + 0.5 * jss;
+			totalQoW += 0.5 * e.getSkillLevel() + 0.5 * e.getJobSatisfaction();
 		}
 		return totalQoW;
 	}
@@ -438,7 +437,7 @@ public class HRDepartment extends DepartmentImpl {
 				isAdded = false;
 			}
 		} else if (employee instanceof ProductionWorker) {
-			teams.get(EmployeeType.HR_WORKER).addEmployee(employee);
+			teams.get(EmployeeType.PRODUCTION_WORKER).addEmployee(employee);
 		} else {
 			isAdded = false;
 

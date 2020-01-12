@@ -3,15 +3,99 @@
  */
  
 .headerPane {
-	-fx-padding: 0 0 15 0;
-	-fx-border-width: 0.0 0.0 2.0 0.0;
-	-fx-border-insets: 25.0 25.0 0.0 25.0;
-	-fx-border-color: -fx-dark;
-	-fx-background-color: -fx-light;
+	-fx-padding: 10;
+	-fx-background-radius: 5 5 0 0;
+	-fx-border-radius: 5 5 0 0;
+	-fx-background-color: -fx-complement-neutral;
 }
 
 .contentPane {
-	-fx-background-color: -fx-light;
+	-fx-border-width: 2 0 0 0;
+	-fx-border-radius: 0 0 5 5;
+	-fx-background-insets: 0 1 1 1;
+	-fx-border-insets: 0 1 1 1;
+	-fx-background-radius: 0 0 5 5;
+	-fx-border-color: -fx-primary;
+	-fx-background-color: -fx-complement-light;
 }
 
 
+.header {
+	-fx-font: bold 26 'Prime';
+	-fx-text-fill: -fx-primary;
+}
+
+.header FontAwesomeIcon {
+	-fx-fill: -fx-primary;
+	-fx-margin: 5;
+}
+
+.modulePane {
+	-fx-effect: dropshadow(gaussian, -fx-complement-dark-transparent, 10, 0.5, 0, 0);	
+}
+
+.table_content {
+	-fx-border-color:-fx-primary-neutral;
+	-fx-border-width : 2 0 0 2;
+	-fx-border-insets: -10 0 0 0;
+}
+
+.stock_edit_button {
+	-fx-border-width: 2;
+	-fx-cursor: hand;
+	-fx-border-color: -fx-primary-dark;
+	-fx-background-color: -fx-complement-light-neutral;
+}
+
+.stock_edit_button FontAwesomeIcon {
+	-fx-fill: -fx-primary;
+	-fx-text-fill: -fx-primary;
+}
+
+.stock_edit_button:hover {
+	-fx-border-color: -fx-primary;
+}
+
+.stock_edit_button:pressed {
+	-fx-border-color: -fx-primary-dark;
+	-fx-background-color: -fx-primary;
+}
+
+
+.stock_edit_button:pressed FontAwesomeIcon {
+	-fx-fill: -fx-primary-dark;
+	-fx-text-fill: -fx-primary-dark;
+}
+
+.grid_button {
+	-fx-padding: 5;
+	-fx-background-color: -fx-primary-neutral;
+	-fx-background-radius: 3;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-border-radius: 3;
+	-fx-cursor: hand;
+}
+
+.grid_button .label {
+	-fx-text-fill: -fx-primary;
+	-fx-font-family: "Prime";
+	-fx-font-size: 14.0;	
+}
+
+.grid_button:hover {
+	-fx-background-color: -fx-primary-dark;
+}
+
+.grid_button:hover .label {
+	-fx-text-fill: -fx-primary-light;
+}
+
+.grid_button:pressed {
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-cursor: closed_hand;
+}
+
+.grid_button:pressed .label {
+	-fx-text-fill: -fx-primary-dark;
+}

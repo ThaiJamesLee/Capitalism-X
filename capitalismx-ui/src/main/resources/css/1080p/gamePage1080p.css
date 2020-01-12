@@ -22,6 +22,16 @@
 	-fx-text-alignment: center;
 }
 
+.hud_label_red {
+	-fx-text-fill: -fx-red;
+	-fx-text-alignment: center;
+}
+
+.hud_label_green {
+	-fx-text-fill: -fx-green;
+	-fx-text-alignment: center;
+}
+
 .hud_top {
 	-fx-padding-top: 5.0;
 }
@@ -148,11 +158,5 @@
 .icon_green {
 	-fx-fill: -fx-green;
 	-fx-text-fill: -fx-green;
-}
-
-.icon_button_invisible {
-	-fx-background-color: transparent;
-	-fx-border-width: 0 0 0 0;
-	-fx-border-color: -fx-primary;
 }
 	

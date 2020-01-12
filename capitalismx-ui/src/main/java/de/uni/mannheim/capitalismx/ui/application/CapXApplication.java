@@ -76,6 +76,7 @@ public class CapXApplication extends Application {
 			Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Do you really want to quit?", ButtonType.YES,
 					ButtonType.NO);
 			closeConfirmation.initStyle(StageStyle.UNDECORATED);
+			closeConfirmation.initOwner(UIManager.getInstance().getStage());
 			closeConfirmation.getDialogPane().getStylesheets().add(CapXApplication.class.getResource("/css/1080p/general1080p.css").toExternalForm());
 			closeConfirmation.getDialogPane().getStylesheets().add(CapXApplication.class.getResource("/css/dialog.css").toExternalForm());
 			closeConfirmation.showAndWait();

@@ -70,9 +70,13 @@ public class ProductionDepartmentTest {
 
     @Test
     public void buyMachineryTest() {
-        ProductionDepartment.getInstance().buyMachinery(this.machinery, LocalDate.of(1990,1,1));
-        Assert.assertEquals(ProductionDepartment.getInstance().getMachines().size(), 1);
-        Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 500.0);
+        try {
+            ProductionDepartment.getInstance().buyMachinery(this.machinery, LocalDate.of(1990, 1, 1));
+            Assert.assertEquals(ProductionDepartment.getInstance().getMachines().size(), 1);
+            Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 500.0);
+        } catch (NoMachinerySlotsAvailableException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -84,11 +88,15 @@ public class ProductionDepartmentTest {
 
     @Test
     public void launchProductTest() {
-        Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
-        Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, 10, 9), -1.0);
-        ProductionDepartment.getInstance().launchProduct(notebook, 10, 10);
-        Assert.assertEquals(ProductionDepartment.getInstance().getNumberProducedProducts().size(), 1);
-        Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 10);
+        try {
+            Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
+            Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, 10, 9), -1.0);
+            ProductionDepartment.getInstance().launchProduct(notebook, 10, 10);
+            Assert.assertEquals(ProductionDepartment.getInstance().getNumberProducedProducts().size(), 1);
+            Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 10);
+        } catch(InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test

@@ -34,6 +34,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.util.Duration;
 
+/**
+ * {@link GameModuleController} for the module allowing the management of the
+ * {@link Component}s. Buying and selling components.
+ * 
+ * @author Jonathan
+ *
+ */
 public class StockManagementController extends GameModuleController {
 
 	private PopOver tradePopover;

@@ -14,6 +14,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.InvalidSetOfComponentsException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -1156,15 +1157,19 @@ public class IntroduceProductController extends GameModuleController {
         if(productName.equals("")) {
             productName = "capTV";
         }
-        this.tv = new Product(productName, ProductCategory.TELEVISION, components);
-        double salesPrice = 0;
-        if(this.tvSalesPriceTextField.getText().equals("")) {
-            salesPrice = 400;
-        } else {
-            salesPrice = Double.valueOf(this.tvSalesPriceTextField.getText());
+        try {
+            this.tv = new Product(productName, ProductCategory.TELEVISION, components);
+            double salesPrice = 0;
+            if(this.tvSalesPriceTextField.getText().equals("")) {
+                salesPrice = 400;
+            } else {
+                salesPrice = Double.valueOf(this.tvSalesPriceTextField.getText());
+            }
+            this.tv.setSalesPrice(salesPrice);
+            GameController.getInstance().launchProduct(this.tv, 1);
+        } catch (InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
         }
-        this.tv.setSalesPrice(salesPrice);
-        GameController.getInstance().launchProduct(this.tv, 1);
     }
 
     public void launchConsole() {
@@ -1180,15 +1185,19 @@ public class IntroduceProductController extends GameModuleController {
         if(productName.equals("")) {
             productName = "capConsole";
         }
-        this.console = new Product(productName, ProductCategory.GAME_BOY, components);
-        double salesPrice = 0;
-        if(this.consoleSalesPriceTextField.getText().equals("")) {
-            salesPrice = 600;
-        } else {
-            salesPrice = Double.valueOf(this.consoleSalesPriceTextField.getText());
+        try {
+            this.console = new Product(productName, ProductCategory.GAME_BOY, components);
+            double salesPrice = 0;
+            if (this.consoleSalesPriceTextField.getText().equals("")) {
+                salesPrice = 600;
+            } else {
+                salesPrice = Double.valueOf(this.consoleSalesPriceTextField.getText());
+            }
+            this.console.setSalesPrice(salesPrice);
+            GameController.getInstance().launchProduct(this.console, 1);
+        } catch (InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
         }
-        this.console.setSalesPrice(salesPrice);
-        GameController.getInstance().launchProduct(this.console, 1);
     }
 
     public void launchNotebook() {
@@ -1202,15 +1211,19 @@ public class IntroduceProductController extends GameModuleController {
         if(productName.equals("")) {
             productName = "capBook";
         }
-        this.notebook = new Product(productName, ProductCategory.NOTEBOOK, components);
-        double salesPrice = 0;
-        if(this.notebookSalesPriceTextField.getText().equals("")) {
-            salesPrice = 1500;
-        } else {
-            salesPrice = Double.valueOf(this.notebookSalesPriceTextField.getText());
+        try {
+            this.notebook = new Product(productName, ProductCategory.NOTEBOOK, components);
+            double salesPrice = 0;
+            if (this.notebookSalesPriceTextField.getText().equals("")) {
+                salesPrice = 1500;
+            } else {
+                salesPrice = Double.valueOf(this.notebookSalesPriceTextField.getText());
+            }
+            this.notebook.setSalesPrice(salesPrice);
+            GameController.getInstance().launchProduct(this.notebook, 1);
+        } catch (InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
         }
-        this.notebook.setSalesPrice(salesPrice);
-        GameController.getInstance().launchProduct(this.notebook, 1);
     }
 
     public void launchPhone() {
@@ -1227,15 +1240,19 @@ public class IntroduceProductController extends GameModuleController {
         if(productName.equals("")) {
             productName = "capPhone";
         }
-        this.phone = new Product(productName, ProductCategory.PHONE, components);
-        double salesPrice = 0;
-        if(this.phoneSalesPriceTextField.getText().equals("")) {
-            salesPrice = 700;
-        } else {
-            salesPrice = Double.valueOf(this.phoneSalesPriceTextField.getText());
+        try {
+            this.phone = new Product(productName, ProductCategory.PHONE, components);
+            double salesPrice = 0;
+            if(this.phoneSalesPriceTextField.getText().equals("")) {
+                salesPrice = 700;
+            } else {
+                salesPrice = Double.valueOf(this.phoneSalesPriceTextField.getText());
+            }
+            this.phone.setSalesPrice(Double.valueOf(salesPrice));
+            GameController.getInstance().launchProduct(this.phone, 1);
+        } catch (InvalidSetOfComponentsException e) {
+            System.out.println(e.getMessage());
         }
-        this.phone.setSalesPrice(Double.valueOf(salesPrice));
-        GameController.getInstance().launchProduct(this.phone, 1);
     }
 
     public void showSupplierOptions() {

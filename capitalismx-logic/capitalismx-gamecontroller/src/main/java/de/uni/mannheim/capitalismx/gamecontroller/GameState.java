@@ -8,8 +8,10 @@ import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
+import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
@@ -17,9 +19,18 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * This class contains all instances for the game to work.
+ * @author duly
+ * @author dzhao
+ */
 public class GameState implements Serializable {
 
 	private static GameState instance;
+
+	/**
+	 * The current game date.
+	 */
 	private LocalDate gameDate;
 
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -36,6 +47,8 @@ public class GameState implements Serializable {
 	private ExternalEvents externalEvents;
 	private CompanyEcoIndex companyEcoIndex;
 	private InternalFleet internalFleet;
+	private ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment;
+	private ProductSupport productSupport;
 
 	private GameState() {
 		this.gameDate = LocalDate.of(1990, 1, 1);
@@ -48,6 +61,9 @@ public class GameState implements Serializable {
 		return instance;
 	}
 
+	/**
+	 * Initialize all instances as singletons.
+	 */
 	public void initiate() {
 		hrDepartment = HRDepartment.getInstance();
 		productionDepartment = ProductionDepartment.getInstance();
@@ -62,11 +78,15 @@ public class GameState implements Serializable {
 		externalEvents = ExternalEvents.getInstance();
 		companyEcoIndex = CompanyEcoIndex.getInstance();
 		internalFleet = InternalFleet.getInstance();
+		researchAndDevelopmentDepartment = ResearchAndDevelopmentDepartment.getInstance();
+		productSupport = ProductSupport.getInstance();
 	}
 
 	/**
 	 * Sets all the Department-Singletons to null, so they will be recreated and
 	 * reset, when called again.
+	 *
+	 * TODO: Does not work!
 	 */
 	public void resetDepartments() {
 		HRDepartment.setInstance(null);
@@ -224,4 +244,18 @@ public class GameState implements Serializable {
 		this.internalFleet = internalFleet;
 	}
 
+	public ResearchAndDevelopmentDepartment getResearchAndDevelopmentDepartment() {
+		return researchAndDevelopmentDepartment;
+	}
+
+	public void setResearchAndDevelopmentDepartment(ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment) {
+		this.researchAndDevelopmentDepartment = researchAndDevelopmentDepartment;
+	}
+	public ProductSupport getProductSupport() {
+		return productSupport;
+	}
+
+	public void setProductSupport(ProductSupport productSupport) {
+		this.productSupport = productSupport;
+	}
 }

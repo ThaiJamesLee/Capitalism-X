@@ -12,12 +12,13 @@ public enum UIElementType {
 
 	OVERVIEW_MAP_3D("Company Map"),
 	
-	HR_EMPLOYEES_OVERVIEW("Employees"), 
+	HR_TEAM_DETAIL("Employees"), 
 	HR_STATISTICS("Statistics"), 
 	HR_WORKING_CONDITIONS("Working Conditions"), 
 	HR_RECRUITING_OVERVIEW("Recruiting"),
-	FINANCE_OVERVIEW("Finance"),
-    FINANCE_OPERATIONS_TABLE("Operations Table"),
+	FINANCE_OVERVIEW("Finance Overview"),
+	FINANCE_BANKING_SYSTEM("Banking System"),
+    FINANCE_OPERATIONS_TABLE("Operations"),
 	FINANCE_SALES_CHART("Statistics"),
 	LOGISTICS_PARTNER_OVERVIEW("External Partner"),
 	WAREHOUSE_LIST("Warehouses"),

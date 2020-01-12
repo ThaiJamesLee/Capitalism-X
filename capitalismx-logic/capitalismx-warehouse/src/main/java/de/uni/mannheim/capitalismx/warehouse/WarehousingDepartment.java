@@ -1,6 +1,9 @@
 package de.uni.mannheim.capitalismx.warehouse;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
+import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
@@ -8,13 +11,13 @@ import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
+import de.uni.mannheim.capitalismx.warehouse.skill.WarehouseSkill;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WarehousingDepartment extends DepartmentImpl {
 
@@ -29,8 +32,22 @@ public class WarehousingDepartment extends DepartmentImpl {
     private double monthlyStorageCost;
     private double monthlyTotalCostWarehousing;
     private int daysSinceFreeStorageThreshold;
+    private boolean warehouseSlotsAvailable;
 
     private PropertyChangeSupportMap inventoryChange;
+
+    private static final Logger logger = LoggerFactory.getLogger(WarehousingDepartment.class);
+
+    private int baseCost;
+    private int warehouseSlots;
+    private int initialWarehouseSlots;
+
+    private static final String LEVELING_PROPERTIES = "warehouse-leveling-definition";
+    private static final String MAX_LEVEL_PROPERTY = "warehouse.department.max.level";
+    private static final String INITIAL_SLOTS_PROPERTY = "warehouse.department.init.slots";
+
+    private static final String SKILL_COST_PROPERTY_PREFIX = "warehouse.skill.cost.";
+    private static final String SKILL_SLOTS_PREFIX = "warehouse.skill.slots.";
 
 
     private WarehousingDepartment() {
@@ -46,10 +63,13 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.monthlyStorageCost = 0;
         this.monthlyTotalCostWarehousing = 0;
         this.daysSinceFreeStorageThreshold = 0;
+        this.warehouseSlotsAvailable = true;
 
         this.inventoryChange = new PropertyChangeSupportMap();
         this.inventoryChange.setMap(this.inventory);
         this.inventoryChange.setAddPropertyName("inventoryChange");
+
+        this.init();
     }
 
     public static synchronized WarehousingDepartment getInstance() {
@@ -58,6 +78,60 @@ public class WarehousingDepartment extends DepartmentImpl {
         }
         return WarehousingDepartment.instance;
     }
+
+    private void init() {
+        this.initProperties();
+        this.initSkills();
+    }
+
+    private void initProperties() {
+        setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
+        this.initialWarehouseSlots = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_SLOTS_PROPERTY));
+        this.warehouseSlots = this.initialWarehouseSlots;
+    }
+
+    private void initSkills() {
+        Map<Integer, Double> costMap = initCostMap();
+        try {
+            setLevelingMechanism(new LevelingMechanism(this, costMap));
+        } catch (InconsistentLevelException e) {
+            String error = "The costMap size " + costMap.size() +  " does not match the maximum level " + this.getMaxLevel() + " of this department!";
+            logger.error(error, e);
+        }
+
+        ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            int slots = Integer.parseInt(skillBundle.getString(SKILL_SLOTS_PREFIX + i));
+            skillMap.put(i, new WarehouseSkill(i, slots));
+        }
+    }
+
+    private Map<Integer, Double> initCostMap() {
+        Map<Integer, Double> costMap = new HashMap<>();
+        ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            double cost = Integer.parseInt(bundle.getString(SKILL_COST_PROPERTY_PREFIX + i));
+            costMap.put(i, cost);
+        }
+        return costMap;
+    }
+
+    private void updateWarehouseSlots() {
+        int numberOfSlots = this.initialWarehouseSlots;
+        List<DepartmentSkill> availableSkills = getAvailableSkills();
+
+        for(DepartmentSkill skill : availableSkills) {
+            numberOfSlots += ((WarehouseSkill) skill).getNewWarehouseSlots();
+        }
+        this.warehouseSlots = numberOfSlots;
+        this.warehouseSlotsAvailable = true;
+    }
+
+    public void setLevel(int level) {
+        super.setLevel(level);
+        this.updateWarehouseSlots();
+    }
+
 
     public void storeUnits() {
         Map<Product, Integer> newProducts = ProductionDepartment.getInstance().getNumberProducedProducts();
@@ -70,7 +144,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             }
         }
         ProductionDepartment.getInstance().clearInventory();
-        Map<Component, Integer> newComponents = ProcurementDepartment.getInstance().getOrderedComponents();
+        Map<Component, Integer> newComponents = ProcurementDepartment.getInstance().getReceivedComponents();
         for(HashMap.Entry<Component, Integer> entry : newComponents.entrySet()) {
             if(this.inventory.get(entry.getKey()) != null) {
                 int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
@@ -79,7 +153,7 @@ public class WarehousingDepartment extends DepartmentImpl {
                 this.inventory.put(entry.getKey(), entry.getValue());
             }
         }
-        ProcurementDepartment.getInstance().clearOrderedComponents();
+        ProcurementDepartment.getInstance().clearReceivedComponents();
     }
 
     public int calculateStoredUnits() {
@@ -115,19 +189,33 @@ public class WarehousingDepartment extends DepartmentImpl {
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
     }
 
-    public double buildWarehouse(LocalDate gameDate) {
-        Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
-        warehouse.setBuildDate(gameDate);
-        warehouses.add(warehouse);
-        this.calculateMonthlyCostWarehousing(gameDate);
-        return warehouse.getBuildingCost();
+    public double buildWarehouse(LocalDate gameDate) throws NoWarehouseSlotsAvailableException {
+        if(this.warehouseSlots > this.warehouses.size()) {
+            Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
+            warehouse.setBuildDate(gameDate);
+            warehouses.add(warehouse);
+            this.calculateMonthlyCostWarehousing(gameDate);
+            if(this.warehouseSlots == this.warehouses.size()) {
+                this.warehouseSlotsAvailable = false;
+            }
+            return warehouse.getBuildingCost();
+        }
+        this.warehouseSlotsAvailable = false;
+        throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
     }
 
-    public double rentWarehouse(LocalDate gameDate) {
-        Warehouse warehouse = new Warehouse(WarehouseType.RENTED);
-        warehouses.add(warehouse);
-        this.calculateMonthlyCostWarehousing(gameDate);
-        return warehouse.getMonthlyRentalCost();
+    public double rentWarehouse(LocalDate gameDate) throws NoWarehouseSlotsAvailableException{
+        if(this.warehouseSlots > this.warehouses.size()) {
+            Warehouse warehouse = new Warehouse(WarehouseType.RENTED);
+            warehouses.add(warehouse);
+            this.calculateMonthlyCostWarehousing(gameDate);
+            if(this.warehouseSlots == this.warehouses.size()) {
+                this.warehouseSlotsAvailable = false;
+            }
+            return warehouse.getMonthlyRentalCost();
+        }
+        this.warehouseSlotsAvailable = false;
+        throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
     }
 
     public void depreciateAllWarehouseResaleValues(LocalDate gameDate) {
@@ -154,6 +242,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             resaleValue = warehouse.getResaleValue();
         }
         warehouses.remove(warehouse);
+        this.warehouseSlotsAvailable = true;
         return resaleValue;
     }
 
@@ -267,7 +356,16 @@ public class WarehousingDepartment extends DepartmentImpl {
 		}
 		return this.inventory.get(unit);
 	}
-    
+
+	public int getWarehouseSlots() {
+	    return this.warehouseSlots;
+    }
+
+    public boolean getWarehouseSlotsAvailable() {
+	    this.warehouseSlotsAvailable = this.warehouseSlots > this.warehouses.size();
+	    return this.warehouseSlotsAvailable;
+    }
+
     public int getTotalCapacity() {
         return this.totalCapacity;
     }

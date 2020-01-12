@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.components.production;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -45,7 +46,7 @@ public class MachineryListViewCell extends ListCell<Machinery> {
             setGraphic(null);
         } else {
             if (loader == null) {
-                loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/truck_list_cell.fxml"));
+                loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/truck_list_cell.fxml"), UIManager.getResourceBundle());
                 loader.setController(this);
 
                 try {
@@ -57,7 +58,8 @@ public class MachineryListViewCell extends ListCell<Machinery> {
             }
 
             GameController controller = GameController.getInstance();
-            indexLabel.setText(controller.getMachines().indexOf(machinery) + "");
+            //TODO
+            //indexLabel.setText(controller.getMachines().indexOf(machinery) + "");
             valueLabel.setText(machinery.calculateResellPrice() + " CC");
             dateLabel.setText(machinery.getPurchaseDate() + "");
             sellButton.setOnAction(e -> {

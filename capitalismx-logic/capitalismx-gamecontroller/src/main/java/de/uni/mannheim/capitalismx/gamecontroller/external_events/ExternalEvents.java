@@ -130,7 +130,7 @@ public class ExternalEvents implements Serializable {
         }
     }
 
-    private void checkEventStricterEcoLaws(){
+    private void checkEventStricterEcoLaws(LocalDate gameDate){
         if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold()){
             if(CompanyEcoIndex.getInstance().checkGameOver()){
                 //TODO End game
@@ -139,7 +139,7 @@ public class ExternalEvents implements Serializable {
                 //TODO use more suitable formula for probability
                 double probability = Math.pow(CompanyEcoIndex.getInstance().getEcoIndex().getIndex(), 0.31) - 1;
                 if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
-                    FinanceDepartment.getInstance().nopatFine(0.10);
+                    FinanceDepartment.getInstance().nopatFine(gameDate, 0.10);
                     externalEvents.add(ExternalEvent.EVENT_8);
                 }
             }
@@ -240,7 +240,7 @@ public class ExternalEvents implements Serializable {
         this.checkEventBrandReputationPlunges();
         this.checkEventComputerVirusAttacks();
         this.checkEventTaxChanges();
-        this.checkEventStricterEcoLaws();
+        this.checkEventStricterEcoLaws(gameDate);
         this.checkEventInflationChanges();
         this.checkEventStealing();
         this.checkEventStrikes();
