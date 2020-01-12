@@ -93,20 +93,6 @@ public class OperationsTableController  extends GameModuleController {
         operationsVBox.getChildren().add(8, regions[2]);
         operationsVBox.getChildren().add(2, regions[3]);
         operationsVBox.getChildren().add(1, regions[4]);
-
-
-        //Region region = new Region();
-        //region.getStyleClass().add("separator_horizontal");
-        //operationsVBox.getChildren().add(region);
-
-        /*revenueListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
-        expensesListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
-        ebitListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
-        taxListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));
-        nopatListView.prefHeightProperty().bind(operationsVBox.heightProperty().divide(5));*/
-        //revenueListView.setPrefHeight(50);
-        //taxListView.setPrefHeight(200);
-        //taxListView.setStyle("-fx-background-color: red;");
     }
 
 
