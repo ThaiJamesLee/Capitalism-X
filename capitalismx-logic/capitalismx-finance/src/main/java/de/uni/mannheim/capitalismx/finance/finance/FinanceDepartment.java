@@ -57,6 +57,7 @@ public class FinanceDepartment extends DepartmentImpl {
     private Double netWorthDifference;
     private Double cashDifference;
     private PropertyChangeSupportBoolean gameOver;
+    private PropertyChangeSupportBoolean loanRemoved;
 
     private List<Warehouse> warehousesSold;
     private List<Truck> trucksSold;
@@ -96,6 +97,10 @@ public class FinanceDepartment extends DepartmentImpl {
         this.gameOver = new PropertyChangeSupportBoolean();
         this.gameOver.setValue(false);
         this.gameOver.setPropertyChangedName("gameOver");
+
+        this.loanRemoved = new PropertyChangeSupportBoolean();
+        this.loanRemoved.setValue(false);
+        this.loanRemoved.setPropertyChangedName("loanRemoved");
 
         this.cash = new PropertyChangeSupportDouble();
         this.cash.setValue(1000000.0);
@@ -425,6 +430,11 @@ public class FinanceDepartment extends DepartmentImpl {
         BankingSystem.getInstance().addLoan(loan, gameDate);
         this.increaseCash(gameDate, loan.getLoanAmount());
         this.increaseLiabilities(gameDate, loan.getLoanAmount());
+        this.loanRemoved.setValue(false);
+    }
+
+    protected void removeLoan(){
+        this.loanRemoved.setValue(true);
     }
 
     //TODO
@@ -791,6 +801,7 @@ public class FinanceDepartment extends DepartmentImpl {
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.gameOver.addPropertyChangeListener(listener);
+        this.loanRemoved.addPropertyChangeListener(listener);
         this.netWorth.addPropertyChangeListener(listener);
         this.cash.addPropertyChangeListener(listener);
         this.assets.addPropertyChangeListener(listener);

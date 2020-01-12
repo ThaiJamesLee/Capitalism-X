@@ -144,6 +144,7 @@ public class BankingSystem implements Serializable {
                 //check if this is the last payment
                 if(this.loanDate.plusMonths((long) this.loan.getDuration()).equals(gameDate)){
                     this.removeLoan();
+                    FinanceDepartment.getInstance().removeLoan();
                 }
                 return amount;
             }
