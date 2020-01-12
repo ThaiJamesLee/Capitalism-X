@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,8 +50,8 @@ public class DepartmentUpgradeController implements Initializable {
 				upgradeVBox.getChildren().add(upgradeGrid);
 			}
 			nextLevelDescriptionLabel.setText(department.getSkillMap().get(level + 1).getDescription());
-			nextLevelLabel.setText("Benefits for Level " + (level + 1) + ": ");
-			levelUpButton.setText("Level up for "
+			nextLevelLabel.setText(UIManager.getLocalisedString("hud.dropdown.next.benefits").replace("XXX", (level+1) + ""));
+			levelUpButton.setText(UIManager.getLocalisedString("hud.dropdown.next.button")
 					+ CapCoinFormatter.getCapCoins(department.getLevelingMechanism().getNextLevelUpCost()));
 		} else {
 			upgradeVBox.getChildren().remove(upgradeGrid);
