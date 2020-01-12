@@ -46,7 +46,7 @@ public enum GameModuleDefinition {
 			5, 0, 19), true),
 
 	// The modules for Sales
-	SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml", GameViewType.SALES, UIElementType.SALES_CONTRACT_OVERVIEW, new GridPosition(0, 20, 0, 15) , true);
+	SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml", GameViewType.SALES, UIElementType.SALES_CONTRACT_OVERVIEW, new GridPosition(0, 10, 0, 15) , true);
 
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
