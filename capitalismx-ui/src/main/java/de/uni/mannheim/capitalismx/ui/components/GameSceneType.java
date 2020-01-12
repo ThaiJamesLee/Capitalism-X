@@ -26,6 +26,11 @@ public enum GameSceneType {
 	/**
 	 *  The scenes for the game itself.
 	 */
-	GAME_PAGE;
-
+	GAME_PAGE,
+	
+	/**
+	 * The page containing credits info, accessible from the MainMenu
+	 */
+	CREDITS_PAGE
+	;
 }

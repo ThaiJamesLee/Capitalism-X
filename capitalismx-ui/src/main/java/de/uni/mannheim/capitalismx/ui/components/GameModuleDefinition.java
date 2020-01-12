@@ -45,11 +45,11 @@ public enum GameModuleDefinition {
 	FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, new GridPosition(14,
 			5, 0, 19), true),
 	
-	//The modules for Marketing
-	MARKETING_PRESSRELEASE_LIST("mkt_pressReleases_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_PRESSRELEASE, new GridPosition(0, 7, 6, 12), true),
-	MARKETING_CAMPAIGNS_LIST("mkt_campaigns_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_CAMPAIGNS, new GridPosition(7, 7, 6, 12), true),
-	//MARKETING_MARKETRESEARCH_LIST("mkt_pressReleases_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_MARKETRESEARCH, new GridPosition(14, 6, 7, 10), true),
-	//MARKETING_OVERVIEW("mkt_campaigns_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(0, 10, 0, 6), true);
+//	//The modules for Marketing
+	MARKETING_PRESSRELEASE_LIST("mkt_pressReleases_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_PRESSRELEASE, new GridPosition(0, 7, 7, 11), true),
+	MARKETING_CAMPAIGNS_LIST("mkt_campaigns_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_CAMPAIGNS, new GridPosition(7, 7, 7, 11), true),
+//	MARKETING_MARKETRESEARCH_LIST("mkt_pressReleases_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_MARKETRESEARCH, new GridPosition(14, 6, 7, 10), true),
+	MARKETING_OVERVIEW("mkt_general_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(0, 10, 2, 3), true);
 	;
 	
 	

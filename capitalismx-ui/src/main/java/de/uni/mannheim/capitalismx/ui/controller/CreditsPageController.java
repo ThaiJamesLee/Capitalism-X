@@ -12,33 +12,21 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 /**
- * Controller for the main menu.
+ * Controller for the credits info Page
  * 
- * @author Jonathan
+ * @author Alex
  *
  */
-public class MainMenuController implements UpdateableController {
+public class CreditsPageController implements UpdateableController {
 
 	@FXML 
 	public AnchorPane root;
 	
 	@FXML
-	public Button newGameButton;
+	public Button mainMenuBtn;
 	
 	@FXML
-	public Button creditsButton;
-	
-	@FXML
-	public Button leaderboardButton;
-
-	@FXML
-	public Button switchButton;
-	
-	@FXML
-	public Button fullscreenButton;
-	
-	@FXML
-	public Button quitButton;
+	public Button quitBtn;
 	
 	
 	
@@ -46,25 +34,11 @@ public class MainMenuController implements UpdateableController {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		CssHelper.replaceStylesheets(root.getStylesheets());
 		
-		newGameButton.setOnAction(e -> {
-			UIManager.getInstance().newGame();
+		mainMenuBtn.setOnAction(e -> {
+			UIManager.getInstance().switchToScene(GameSceneType.MENU_MAIN);
 		});
 		
-		creditsButton.setOnAction(e -> {
-			UIManager.getInstance().switchToScene(GameSceneType.CREDITS_PAGE);
-		});
-		
-		
-		switchButton.setOnAction(e -> {
-			UIManager.getInstance().reloadProperties();
-		});
-
-		
-		fullscreenButton.setOnAction(e -> {
-			UIManager.getInstance().toggleFullscreen();
-		});
-		
-		quitButton.setOnAction(e -> {
+		quitBtn.setOnAction(e -> {
 			UIManager.getInstance().quitApplication();
 		});
 	}

@@ -60,6 +60,8 @@ public class UIManager {
 	private GameScene sceneGamePage;
 
 	private GameScene sceneLoadingScreen;
+	
+	private GameScene sceneCreditsPage;
 
 	// List containing all GameViews
 	private List<GameView> gameViews;
@@ -227,6 +229,11 @@ public class UIManager {
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
+			
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/creditsPage.fxml"),
+					resourceBundle);
+			root = loader.load();
+			sceneCreditsPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
 		} catch (IOException e) {
 			// TODO Handle error if scenes cannot be initialized
 			e.printStackTrace();
@@ -357,6 +364,11 @@ public class UIManager {
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
+			
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/creditsPage.fxml"), resourceBundle);
+			root = loader.load();
+			sceneCreditsPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
+			
 			switchToScene(GameSceneType.MENU_MAIN);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -431,6 +443,10 @@ public class UIManager {
 		case LOADING_SCREEN:
 			window.getScene().setRoot(sceneLoadingScreen.getScene());
 			break;
+		case CREDITS_PAGE:
+			window.getScene().setRoot(sceneCreditsPage.getScene());
+			break;
+			
 		default:
 			// TODO handle if no scene found
 			break;

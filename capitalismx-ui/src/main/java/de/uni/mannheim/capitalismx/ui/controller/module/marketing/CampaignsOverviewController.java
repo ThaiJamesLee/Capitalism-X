@@ -28,6 +28,9 @@ import javafx.scene.control.ListView;
 public class CampaignsOverviewController extends GameModuleController {
 
 
+	//TODO setCompanyImage in Customer when changed
+	//TODO kosten für Kampagne vom Konto abziehen?
+	
 	@FXML
 	private ListView<Campaign> campaignsList;
 

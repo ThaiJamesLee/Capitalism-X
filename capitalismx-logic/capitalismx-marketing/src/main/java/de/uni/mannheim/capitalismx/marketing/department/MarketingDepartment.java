@@ -38,9 +38,9 @@ public class MarketingDepartment extends DepartmentImpl {
     private static final Logger logger = LoggerFactory.getLogger(MarketingDepartment.class);
 
     private static final String[] SOCIAL_ENGAGEMENT = {"CSR", "Support refugee projects"};
-    private static final String[] MARKETING_CAMPAIGN = {"Promote environmental friendly supplier", "Green marketing campaign", "Diversity campaign", "Promote products"};
+    private static final String[] MARKETING_CAMPAIGN = {"Promote environmental friendly supplier", "Promote environmental friendly production", "Green marketing campaign", "Diversity campaign", "Promote products"};
 
-    private static final String[] CAMPAIGN_NAMES = {"CSR", "Support refugee projects", "Promote environmental friendly supplier", "Green marketing campaign", "Diversity campaign", "Promote products"};
+    private static final String[] CAMPAIGN_NAMES = {"CSR", "Support refugee projects", "Promote environmental friendly supplier", "Promote environmental friendly production", "Green marketing campaign", "Diversity campaign", "Promote products"};
 
     // campaigns that the department issued
     private Map<String, List<Campaign>> issuedActions;
@@ -283,10 +283,12 @@ public class MarketingDepartment extends DepartmentImpl {
     /**
      *
      * Adds the press release into the pressRelease list.
-     * @param release The Press Release that should be done.
+     * @param release The {@link PressRelease} Press Release that should be done.
+     *@return Returns the cost of the 
      */
-    public void makePressRelease(PressRelease release) {
+    public int makePressRelease(PressRelease release) {
         pressReleases.add(release);
+        return release.getCost();
     }
 
     /**

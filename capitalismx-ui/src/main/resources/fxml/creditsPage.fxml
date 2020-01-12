@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
@@ -15,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.MainMenuController">
+<AnchorPane fx:id="root" styleClass="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.CreditsPageController">
    <children>
       <GridPane hgap="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -30,11 +35,6 @@
                <children>
                   <StackPane AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Pane styleClass="menu_image">
-                           <StackPane.margin>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </StackPane.margin>
-                        </Pane>
                         <VBox alignment="TOP_CENTER" spacing="15.0">
                            <children>
                               <Label alignment="CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" styleClass="title_label" stylesheets="@../css/menu.css" text="%main.title">
@@ -48,27 +48,6 @@
                               <Insets top="15.0" />
                            </padding>
                         </VBox>
-                        <Button fx:id="fullscreenButton" mnemonicParsing="false" styleClass="menu_button" StackPane.alignment="BOTTOM_LEFT">
-                           <graphic>
-                              <FontAwesomeIcon iconName="EXPAND" size="2em">
-                                 <font>
-                                    <Font size="13.0" />
-                                 </font>
-                              </FontAwesomeIcon>
-                           </graphic>
-                           <StackPane.margin>
-                              <Insets bottom="15.0" left="25.0" right="15.0" top="15.0" />
-                           </StackPane.margin>
-                        </Button>
-                        <Button fx:id="switchButton" mnemonicParsing="false" text="%btn.switch" StackPane.alignment="BOTTOM_RIGHT">
-                           <styleClass>
-                              <String fx:value="menu_button" />
-                              <String fx:value="main_button" />
-                           </styleClass>
-                           <StackPane.margin>
-                              <Insets right="10.0" />
-                           </StackPane.margin>
-                        </Button>
                      </children>
                   </StackPane>
                </children>
@@ -87,31 +66,13 @@
                         <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Button fx:id="newGameButton" mnemonicParsing="false" text="%btn.newGame">
+                        <Button fx:id="mainMenuBtn" mnemonicParsing="false" text="%btn.newGame">
                            <styleClass>
                               <String fx:value="menu_button" />
                               <String fx:value="main_button" />
                            </styleClass>
                         </Button>
-                        <Button disable="true" mnemonicParsing="false" text="%btn.continueGame" GridPane.rowIndex="1">
-                           <styleClass>
-                              <String fx:value="menu_button" />
-                              <String fx:value="main_button" />
-                           </styleClass>
-                        </Button>
-                        <Button fx:id="leaderboardButton" mnemonicParsing="false" text="%btn.leaderbord" GridPane.rowIndex="2">
-                           <styleClass>
-                              <String fx:value="menu_button" />
-                              <String fx:value="main_button" />
-                           </styleClass>
-                        </Button>
-                        <Button fx:id="creditsButton" mnemonicParsing="false" text="%btn.credits" GridPane.rowIndex="3">
-                           <styleClass>
-                              <String fx:value="menu_button" />
-                              <String fx:value="main_button" />
-                           </styleClass>
-                        </Button>
-                        <Button fx:id="quitButton" alignment="CENTER" mnemonicParsing="false" text="%btn.quitGame" GridPane.rowIndex="4">
+                        <Button fx:id="quitBtn" alignment="CENTER" mnemonicParsing="false" text="%btn.quitGame" GridPane.rowIndex="4">
                            <styleClass>
                               <String fx:value="main_button" />
                               <String fx:value="menu_button" />

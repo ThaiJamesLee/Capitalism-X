@@ -43,12 +43,10 @@
                   <GridPane hgap="10.0">
                      <children>
                         <ListView fx:id="newCampaignList" prefHeight="400.0" prefWidth="700.0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
-                        <Label styleClass="label_bright" text="%marketing.camp.overTitle">
+                        <Label styleClass="label_bright" text="%marketing.camp.overTitle" GridPane.rowIndex="1" >
                            <GridPane.margin>
                               <Insets bottom="10.0" />
-                           </GridPane.margin></Label>
-                        <Label styleClass="label_bright" text="%marketing.camp.media" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="mediaBox" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                           </GridPane.margin></Label>              
                      </children>
                      <columnConstraints>
                         <ColumnConstraints />

@@ -887,9 +887,18 @@ public class GameController {
 	 * @param media        the media type.
 	 */
 	public void makeCampaign(String campaignName, Media media) {
-		MarketingDepartment.getInstance().startCampaign(campaignName, media);
+		int cost = MarketingDepartment.getInstance().startCampaign(campaignName, media);
+		decreaseCash(cost);
 	}
-
+	
+	/**
+	 * Computes the current CompanyImage from issued Campaigns
+	 */
+	public double computeCompanyImage() {
+		return MarketingDepartment.getInstance().getCompanyImageScore();
+	}
+	
+	
 	/**
 	 *
 	 * @return Returns all issued press releases.
@@ -904,7 +913,8 @@ public class GameController {
 	 * @param pr a press release.
 	 */
 	public void makePressRelease(PressRelease pr) {
-		MarketingDepartment.getInstance().makePressRelease(pr);
+		int cost = MarketingDepartment.getInstance().makePressRelease(pr);
+		decreaseCash(cost);
 	}
 
 	/**
@@ -942,7 +952,8 @@ public class GameController {
 	 */
 	public void conductMarketResearch(boolean internal, Reports report, SurveyTypes surveyType,
 			Map<String, Double> data) {
-		MarketingDepartment.getInstance().issueMarketResearch(internal, report, surveyType, data);
+		double cost = MarketingDepartment.getInstance().issueMarketResearch(internal, report, surveyType, data);
+		decreaseCash(cost);
 	}
 
 	/**
@@ -953,7 +964,9 @@ public class GameController {
 		return MarketingDepartment.getInstance().getMarketResearches();
 	}
 
-	//TODO tSQ ist immer 0, lI = ???, pT = [1-5], cI = [0-100], mE = [0-1],tJS nicht definiert, 
+	//TODO INtervalle der Metrics sind bullshit...
+	//tSQ ist immer 0, lI = ???, pT = [1-5], cI = [0-100], mE = [0-1],tJS nicht definiert, 
+	//
 //	public String orderConsultantReport(ConsultancyType conType) 
 ////			double totalSupportQuality,	double logisticIndex, double companyImage, double productionTechnology, 
 ////			double manufactureEfficiency, double totalJobSatisfaction) 
@@ -1030,5 +1043,10 @@ public class GameController {
 	public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
 		return HRDepartment.getInstance().getTotalQualityOfWorkByEmployeeType(employeeType);
 	}
-
+	
+	
+	/*  Customer */	
+	public void updateCompanyImageInCustomerSatisfaction() {
+		CustomerSatisfaction.getInstance().setCompanyImage(MarketingDepartment.getInstance().getCompanyImageScore());
+	}
 }

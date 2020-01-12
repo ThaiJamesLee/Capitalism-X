@@ -99,13 +99,13 @@
                               <String fx:value="main_button" />
                            </styleClass>
                         </Button>
-                        <Button fx:id="leaderboardButton" mnemonicParsing="false" text="%btn.leaderbord" GridPane.rowIndex="2">
+                        <Button disable="true" mnemonicParsing="false" text="%btn.leaderbord" GridPane.rowIndex="2">
                            <styleClass>
                               <String fx:value="menu_button" />
                               <String fx:value="main_button" />
                            </styleClass>
                         </Button>
-                        <Button fx:id="creditsButton" mnemonicParsing="false" text="%btn.credits" GridPane.rowIndex="3">
+                        <Button disable="true" mnemonicParsing="false" text="%btn.credits" GridPane.rowIndex="3">
                            <styleClass>
                               <String fx:value="menu_button" />
                               <String fx:value="main_button" />
