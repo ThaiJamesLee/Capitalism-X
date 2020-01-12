@@ -1,9 +1,12 @@
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Locale;
 
+/**
+ * @author duly
+ */
 public class PropertiesTest {
 
     @Test

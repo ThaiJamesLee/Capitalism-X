@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.domain.employee;
+package de.uni.mannheim.capitalismx.hr.domain.employee;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

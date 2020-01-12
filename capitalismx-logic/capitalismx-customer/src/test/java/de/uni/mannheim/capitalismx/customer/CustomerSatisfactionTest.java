@@ -18,6 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * @author duly
+ * @author dzhao
+ */
 public class CustomerSatisfactionTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerSatisfaction.class);

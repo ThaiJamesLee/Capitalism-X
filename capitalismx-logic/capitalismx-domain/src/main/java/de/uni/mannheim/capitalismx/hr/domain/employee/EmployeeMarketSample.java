@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.domain.employee;
+package de.uni.mannheim.capitalismx.hr.domain.employee;
 
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 import de.uni.mannheim.capitalismx.utils.namegenerator.NameGenerator;
@@ -21,6 +21,7 @@ public class EmployeeMarketSample implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(EmployeeMarketSample.class);
 
     private static final int MINIMUM_SAMPLE_SIZE = 500;
+    private static final int MINIMUM_PERSON_META_SIZE = 10;
     private static final String EMPLOYEE_SAMPLE_FILE_DIR = "data" + File.separator + "employeesample.capx";
 
     private String rootDir;
@@ -138,7 +139,7 @@ public class EmployeeMarketSample implements Serializable {
     }
 
     /**
-     * Chooses one personmeta from the sample randomly.
+     * Chooses one {@link PersonMeta} from the sample randomly.
      * @return Returns a PersonMeta from the initial set.
      */
     public PersonMeta randomChoosing() {
@@ -146,9 +147,9 @@ public class EmployeeMarketSample implements Serializable {
         PersonMeta e = personMetas.get(index);
         personMetas.remove(index);
 
-        // when peronmetas is below 50, then use APIs to generate a new batch of 500.
-        if(personMetas.size() < 50) {
-            personMetas.addAll(NameGenerator.getInstance().getGeneratedPersonMeta(500));
+        // when peronmetas is below MINIMUM_PERSON_META_SIZE, then use APIs to generate a new batch of 500.
+        if(personMetas.size() < MINIMUM_PERSON_META_SIZE) {
+            personMetas.addAll(NameGenerator.getInstance().getGeneratedPersonMeta(MINIMUM_SAMPLE_SIZE));
         }
 
         return e;

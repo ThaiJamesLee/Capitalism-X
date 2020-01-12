@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.domain.employee;
+package de.uni.mannheim.capitalismx.hr.domain.employee;
 
 /**
  * Interface with predefined must have function.

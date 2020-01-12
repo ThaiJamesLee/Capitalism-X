@@ -1,9 +1,6 @@
-package de.uni.mannheim.capitalismx.hr.salary;
+package de.uni.mannheim.capitalismx.hr.domain.employee;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeGenerator;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * @author duly
+ */
 public class EmployeeGeneratorTest {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeGeneratorTest.class);
@@ -85,7 +84,6 @@ public class EmployeeGeneratorTest {
 
         for(int i = 0; i < 20; i++) {
             Employee e = generator.createRandomEmployee(EmployeeType.ENGINEER);
-            System.out.println(e.getSkillLevel() + "; " + e.getSalary());
             generated.add(e);
         }
 

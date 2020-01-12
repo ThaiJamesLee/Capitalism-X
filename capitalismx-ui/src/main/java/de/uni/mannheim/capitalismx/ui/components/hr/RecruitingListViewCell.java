@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;

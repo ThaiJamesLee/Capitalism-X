@@ -1,10 +1,10 @@
-package de.uni.mannheim.capitalismx.domain.employee;
+package de.uni.mannheim.capitalismx.hr.domain.employee;
 
-import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
-import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.EmployeeTier;
-import de.uni.mannheim.capitalismx.hr.domain.SalaryTier;
 import de.uni.mannheim.capitalismx.hr.exception.NoDefinedTierException;
 import de.uni.mannheim.capitalismx.hr.salary.SalaryGenerator;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
@@ -49,13 +49,16 @@ public class EmployeeGenerator {
     }
 
     /**
-     * Create an employee randomly. The skill level is dependant on the distribution of the given skill level of the
+     * Create an employee randomly. The skill level is dependent on the distribution of the given skill level of the
      * HR Department.
      *
      * @param type The employee type.
      * @return Returns a random employee by type.
      */
     public Employee createRandomEmployee(EmployeeType type) {
+        if(department == null) {
+            throw new NullPointerException("You must set a HRDepartment that contains a distribution first!");
+        }
         Map<String, Double> distribution = department.getCurrentEmployeeDistribution();
         int skillLevel = getRandomSkillLevel(distribution);
         
@@ -96,12 +99,19 @@ public class EmployeeGenerator {
         try {
             salary = SalaryGenerator.getInstance().getSalary(skillLevel);
 
+            // retrieves randomly generated information
             PersonMeta newPerson = employeeMarketSample.randomChoosing();
 
             employee = EmployeeFactory.getEmployee(type, newPerson);
             employee.setSkillLevel(skillLevel);
             employee.setSalary(salary);
             employee.setEmployeeType(type);
+
+            if(type.equals(EmployeeType.HR_WORKER)) {
+                HRWorker hrWorker = (HRWorker) employee;
+                double newCapacity = skillLevel/2.0;
+                hrWorker.setCapacity((int) newCapacity);
+            }
 
         } catch (NoDefinedTierException e) {
             logger.error(e.getMessage());
@@ -111,6 +121,7 @@ public class EmployeeGenerator {
     }
 
     /**
+     * @deprecated
      * Generate an engineer.
      * @param skillLevel generate the engineer with this skill level.
      * @return Returns a randomly generated engineer employee with set skill level
@@ -138,6 +149,7 @@ public class EmployeeGenerator {
     }
 
     /**
+     * @deprecated
      * Generate a salesperson.
      * @param skillLevel generate the engineer with this skill level.
      * @return Returns a randomly generated salesperson employee with set skill level
@@ -161,9 +173,5 @@ public class EmployeeGenerator {
             logger.error(e.getMessage());
         }
         return employee;
-    }
-
-    public EmployeeMarketSample getEmployeeMarketSample() {
-        return employeeMarketSample;
     }
 }

@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
 
 import de.uni.mannheim.capitalismx.customer.CustomerDemand;
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.domain.employee.Team;
-import de.uni.mannheim.capitalismx.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;

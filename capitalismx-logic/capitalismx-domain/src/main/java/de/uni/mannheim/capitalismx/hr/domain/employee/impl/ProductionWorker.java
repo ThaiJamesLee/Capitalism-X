@@ -1,6 +1,6 @@
-package de.uni.mannheim.capitalismx.domain.employee.impl;
+package de.uni.mannheim.capitalismx.hr.domain.employee.impl;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 /**

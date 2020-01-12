@@ -1,9 +1,9 @@
-package de.uni.mannheim.capitalismx.domain.employee;
+package de.uni.mannheim.capitalismx.hr.domain.employee;
 
-import de.uni.mannheim.capitalismx.domain.employee.impl.Engineer;
-import de.uni.mannheim.capitalismx.domain.employee.impl.HRWorker;
-import de.uni.mannheim.capitalismx.domain.employee.impl.ProductionWorker;
-import de.uni.mannheim.capitalismx.domain.employee.impl.SalesPerson;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.Engineer;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.ProductionWorker;
+import de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 /**

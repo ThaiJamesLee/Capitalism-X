@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
+/**
+ * @author duly
+ */
 public class SalaryGeneratorTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SalaryGeneratorTest.class);

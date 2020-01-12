@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.domain.employee;
+package de.uni.mannheim.capitalismx.hr.domain.employee;
 
 import de.uni.mannheim.capitalismx.utils.data.LocationData;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;

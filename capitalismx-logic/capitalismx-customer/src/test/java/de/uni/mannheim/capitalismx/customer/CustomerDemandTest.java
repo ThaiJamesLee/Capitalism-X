@@ -8,6 +8,9 @@ import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 
+/**
+ * @author duly
+ */
 public class CustomerDemandTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerDemand.class);
