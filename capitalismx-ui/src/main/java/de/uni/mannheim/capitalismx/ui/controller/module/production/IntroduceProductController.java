@@ -721,6 +721,8 @@ public class IntroduceProductController extends GameModuleController {
 
 
     public void updateSuppliers() {
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+
         Component selectedTvScreen = tvScreens.get(tvScreensToggleGroup.getSelectedToggle());
         Component selectedTvAudio = tvAudios.get(tvAudiosToggleGroup.getSelectedToggle());
         Component selectedTvOS = tvOSs.get(tvOSsToggleGroup.getSelectedToggle());
@@ -766,11 +768,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedTvScreen.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -781,11 +783,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedTvAudio.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -795,11 +797,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedTvOS.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -809,11 +811,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedTvCase.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -823,11 +825,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedConsoleCPU.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -837,11 +839,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedConsoleScreen.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -851,11 +853,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedConsolePowersupply.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -865,11 +867,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedConsoleConnectivity.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -877,14 +879,14 @@ public class IntroduceProductController extends GameModuleController {
             this.consoleConnectivityList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            if(gameDate.getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
                 Component tmpComp = new Component(selectedConsoleCamera.getComponentType());
                 switch(i) {
-                    case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                    case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                         break;
-                    case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                    case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                         break;
-                    case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                    case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                         break;
                     default:
                         break;
@@ -895,11 +897,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookCPU.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -909,11 +911,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookStorage.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -923,11 +925,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookScreen.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -937,11 +939,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookSoftware.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -951,11 +953,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookPowersupply.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -965,11 +967,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneCPU.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -979,11 +981,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneScreen.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -991,17 +993,17 @@ public class IntroduceProductController extends GameModuleController {
             this.phoneScreenList.add(tmpComp);
         }
         for(int i=0; i <3; i++) {
-            if(GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            if(gameDate.getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
                 Component tmpComp = new Component(selectedPhoneCamera.getComponentType());
                 switch (i) {
                     case 0:
-                        tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                        tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                         break;
                     case 1:
-                        tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                        tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                         break;
                     case 2:
-                        tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                        tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                         break;
                     default:
                         break;
@@ -1012,11 +1014,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneConnectivity.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -1026,11 +1028,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhonePowersupply.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -1040,11 +1042,11 @@ public class IntroduceProductController extends GameModuleController {
         for(int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneKeypad.getComponentType());
             switch(i) {
-                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP);
+                case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
-                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR);
+                case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
                     break;
-                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM);
+                case 2: tmpComp.setSupplierCategory(SupplierCategory.PREMIUM, gameDate);
                     break;
                 default:
                     break;
@@ -1053,7 +1055,6 @@ public class IntroduceProductController extends GameModuleController {
         }
 
         DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
-        LocalDate gameDate = GameState.getInstance().getGameDate();
         ComponentStringConverter componentStringConverter = new ComponentStringConverter();
 
         //this.tvScreensChoiceBox.setConverter(componentStringConverter);
@@ -1129,7 +1130,7 @@ public class IntroduceProductController extends GameModuleController {
         this.consoleScreensChoiceBox.setValue(this.consoleScreenList.get(0));
         this.consolePowersuppliesChoiceBox.setValue(this.consolePowersupplyList.get(0));
         this.consoleConnectivitiesChoiceBox.setValue(this.consoleConnectivityList.get(0));
-        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        if(gameDate.getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
             this.consoleCamerasChoiceBox.setValue(this.consoleCameraList.get(0));
         }
         this.notebookCPUsChoiceBox.setValue(this.notebookCPUList.get(0));
@@ -1139,7 +1140,7 @@ public class IntroduceProductController extends GameModuleController {
         this.notebookPowersuppliesChoiceBox.setValue(this.notebookPowersupplyList.get(0));
         this.phoneCPUsChoiceBox.setValue(this.phoneCPUList.get(0));
         this.phoneScreensChoiceBox.setValue(this.phoneScreenList.get(0));
-        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        if(gameDate.getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
             this.phoneCamerasChoiceBox.setValue(this.phoneCameraList.get(0));
         }
         this.phoneConnectivitiesChoiceBox.setValue(this.phoneConnectivityList.get(0));
@@ -1267,7 +1268,7 @@ public class IntroduceProductController extends GameModuleController {
         public String toString(Component component) {
             DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
            // LocalDate gameDate = GameState.getInstance().getGameDate();
-            return "" + UIManager.getLocalisedString(component.getSupplierCategory().name().toLowerCase()) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
+            return "" + UIManager.getLocalisedString(component.getSupplierCategory().name().toLowerCase()) + " (" + decimalFormat.format(component.calculateRandomizedBaseCost(GameState.getInstance().getGameDate())) + ")";
             //return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
         }
 

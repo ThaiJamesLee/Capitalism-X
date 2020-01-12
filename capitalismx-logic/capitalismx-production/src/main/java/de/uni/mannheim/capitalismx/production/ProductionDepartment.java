@@ -491,13 +491,13 @@ public class ProductionDepartment extends DepartmentImpl {
         return this.averageProductBaseQuality / this.numberProducedProducts.size();
     }
 
-    public void updateComponentBaseCosts(LocalDate gameDate) {
+    /* public void updateComponentBaseCosts(LocalDate gameDate) {
         for(Map.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             for(Component component : entry.getKey().getComponents()) {
                 component.calculateBaseCost(gameDate);
             }
         }
-    }
+    } */
 
     /* TODO duration 1 month, winter month*/
     public void decreaseTotalEngineerQualityOfWorkRel(double decrease) {
@@ -519,7 +519,7 @@ public class ProductionDepartment extends DepartmentImpl {
 
     public void calculateAll(LocalDate gameDate) {
         this.getAllAvailableComponents(gameDate);
-        this.updateComponentBaseCosts(gameDate);
+        // this.updateComponentBaseCosts(gameDate);
         this.depreciateProductInvestment(gameDate);
         this.depreciateMachinery(false, gameDate);
         this.calculateMachineryResellPrices();
