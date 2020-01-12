@@ -46,7 +46,7 @@ public class ResearchAndDevelopmentDepartment extends DepartmentImpl {
     private static final String COST_PROPERTY_PREFIX = "resdev.skill.cost.";
     private static final String UNLOCK_YEAR_PROPERTY_PREFIX = "resdev,skill.components.unlock.year.";
 
-    private static final String UNLOCK_CATEGORY_DEFAULT_COST = "resdev.skill.captegory.cost.default";
+    private static final String UNLOCK_CATEGORY_DEFAULT_COST = "resdev.skill.category.cost.default";
 
     private static ResearchAndDevelopmentDepartment instance;
 
