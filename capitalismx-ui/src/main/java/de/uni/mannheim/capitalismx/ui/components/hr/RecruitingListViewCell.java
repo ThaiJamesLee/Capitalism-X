@@ -2,19 +2,19 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
 import de.uni.mannheim.capitalismx.ui.utils.GraphicHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
@@ -87,10 +87,9 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 					.getGameView(GameViewType.HR).getModule(UIElementType.HR_RECRUITING_OVERVIEW).getController();
 			recruitingController.removeEmployee(employee);
 		} else {
-			Alert error = new Alert(AlertType.WARNING);
+			GameAlert error = new GameAlert(AlertType.WARNING);
 			error.setTitle("You can not hire this employee.");
 			error.setContentText("Capacity not high enough.");
-			error.initOwner(UIManager.getInstance().getStage());
 			error.showAndWait();
 		}
 	}

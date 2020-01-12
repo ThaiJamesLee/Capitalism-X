@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.components.warehouse;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 import org.controlsfx.control.PopOver;
@@ -40,12 +41,14 @@ public class ComponentStockCell {
 	private Button cheapQualityTrade, regularQualityTrade, premiumQualityTrade;
 
 	public ComponentStockCell(ComponentType type) {
+		LocalDate gameDate = GameState.getInstance().getGameDate();
+
 		WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
 		this.type = type;
 		components = new HashMap<SupplierCategory, Component>();
-		components.put(SupplierCategory.CHEAP, new Component(type, SupplierCategory.CHEAP));
-		components.put(SupplierCategory.REGULAR, new Component(type, SupplierCategory.REGULAR));
-		components.put(SupplierCategory.PREMIUM, new Component(type, SupplierCategory.PREMIUM));
+		components.put(SupplierCategory.CHEAP, new Component(type, SupplierCategory.CHEAP, gameDate));
+		components.put(SupplierCategory.REGULAR, new Component(type, SupplierCategory.REGULAR, gameDate));
+		components.put(SupplierCategory.PREMIUM, new Component(type, SupplierCategory.PREMIUM, gameDate));
 
 		// load fxml
 		FXMLLoader loader = new FXMLLoader(

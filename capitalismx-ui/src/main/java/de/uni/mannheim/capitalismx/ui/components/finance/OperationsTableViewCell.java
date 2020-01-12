@@ -9,6 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 
 /**
  *
@@ -97,5 +99,19 @@ public class OperationsTableViewCell implements Initializable {
         gridPane.setOnMouseClicked(e -> {
 
         });
+    }
+
+    public void setHeaderRow(){
+        label2.getStyleClass().add("label_very_large");
+        label3.getStyleClass().add("label_very_large");
+        label4.getStyleClass().add("label_very_large");
+        label5.getStyleClass().add("label_very_large");
+    }
+
+    public void setColor(String color){
+        label2.setStyle("-fx-text-fill: " + color + ";");
+        label3.setStyle("-fx-text-fill: " + color + ";");
+        label4.setStyle("-fx-text-fill: " + color + ";");
+        label5.setStyle("-fx-text-fill: " + color + ";");
     }
 }

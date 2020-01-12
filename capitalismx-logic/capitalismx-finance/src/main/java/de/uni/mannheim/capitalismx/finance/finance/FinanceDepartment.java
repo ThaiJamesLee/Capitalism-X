@@ -15,6 +15,7 @@ import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
+import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.*;
@@ -709,6 +710,7 @@ public class FinanceDepartment extends DepartmentImpl {
                 values[11] = value;
             }
             xNames[11] = gameDate.getYear() + "-" + String.format("%02d", gameDate.getMonthValue());
+            //xNames[11] = getLocalisedString("finance.month.short." + gameDate.getMonthValue());
 
             //last day of previous months
             for(int i = (values.length - 2); i >= 0; i--){
@@ -722,6 +724,7 @@ public class FinanceDepartment extends DepartmentImpl {
                     values[i] = map.get(monthEnd);
                 }
                 xNames[i] = monthEnd.getYear() + "-" + String.format("%02d", monthEnd.getMonthValue());
+                //xNames[i] = getLocalisedString("finance.month.short." + monthEnd.getMonthValue());
             }
 
             for(int i = 0; i < xNames.length; i++){
@@ -791,5 +794,11 @@ public class FinanceDepartment extends DepartmentImpl {
         this.ventureCapitalInvestmentAmount.addPropertyChangeListener(listener);
         this.updatedMonthlyData.addPropertyChangeListener(listener);
         this.updatedQuarterlyData.addPropertyChangeListener(listener);
+    }
+
+    public String getLocalisedString(String text) {
+        //TODO other languages
+        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", Locale.ENGLISH);
+        return langBundle.getString(text);
     }
 }
