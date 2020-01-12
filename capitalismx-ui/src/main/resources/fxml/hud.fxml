@@ -68,17 +68,30 @@
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </padding>
       </GridPane>
-      <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="246.0" layoutY="-15.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="departmentLabel" alignment="CENTER" contentDisplay="CENTER" text="OVERVIEW">
+            <VBox fx:id="departmentVBox" alignment="CENTER" prefWidth="380.0">
+               <children>
+                  <Label fx:id="departmentLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="title_label" text="OVERVIEW" />
+                  <Label>
+                     <graphic>
+                        <FontAwesomeIcon fx:id="departmentDropdownIcon" iconName="ANGLE_DOWN" size="3em" styleClass="hud_icon_button" />
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="-5.0" left="-5.0" right="-5.0" top="-5.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                     </padding>
+                  </Label>
+               </children>
                <styleClass>
-                  <String fx:value="title_label" />
                   <String fx:value="hud_background" />
                   <String fx:value="hud_top" />
                </styleClass>
-            </Label>
+            </VBox>
          </children>
-      </VBox>
+      </HBox>
       <AnchorPane layoutY="4.0" minWidth="110.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

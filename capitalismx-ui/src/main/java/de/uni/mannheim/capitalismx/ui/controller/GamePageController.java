@@ -293,9 +293,8 @@ public class GamePageController implements UpdateableController {
 			UIManager.getInstance().getGameHudController().deselectDepartmentButton(currentActiveView.getViewType());
 		}
 		// change current view and add modules
-		UIManager.getInstance().getGameHudController().selectDepartmentButton(viewType);
+		UIManager.getInstance().getGameHudController().updateView(viewType);
 		currentActiveView = UIManager.getInstance().getGameView(viewType);
-		UIManager.getInstance().getGameHudController().updateGameViewLabel(viewType);
 		for (GameModule module : currentActiveView.getModules()) {
 			addModuleToGrid(module, false);
 		}

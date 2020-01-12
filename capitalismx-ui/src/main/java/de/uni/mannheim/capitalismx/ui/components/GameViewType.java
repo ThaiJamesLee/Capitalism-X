@@ -13,20 +13,25 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
  */
 public enum GameViewType {
 
-	OVERVIEW(1, "view.overview", FontAwesomeIconName.COMPASS), FINANCES(2, "view.finance", FontAwesomeIconName.MONEY),
-	HR(3, "view.hr", FontAwesomeIconName.USER), SALES(4, "view.sales", FontAwesomeIconName.SHOPPING_CART),
-	PRODUCTION(5, "view.production", FontAwesomeIconName.GEARS),
-	LOGISTIC(6, "view.logistics", FontAwesomeIconName.TRUCK), WAREHOUSE(7, "view.warehouse", FontAwesomeIconName.CUBES),
-	R_AND_D(8, "view.research", FontAwesomeIconName.FLASK);
+	OVERVIEW(1, "view.overview", FontAwesomeIconName.COMPASS, false), 
+	FINANCES(2, "view.finance", FontAwesomeIconName.MONEY, false),
+	HR(3, "view.hr", FontAwesomeIconName.USER, true), 
+	SALES(4, "view.sales", FontAwesomeIconName.SHOPPING_CART, false),
+	PRODUCTION(5, "view.production", FontAwesomeIconName.GEARS, true),
+	LOGISTIC(6, "view.logistics", FontAwesomeIconName.TRUCK, false), 
+	WAREHOUSE(7, "view.warehouse", FontAwesomeIconName.CUBES, true),
+	R_AND_D(8, "view.research", FontAwesomeIconName.FLASK, true);
 
 	private final String title;
 	private final int id;
 	private final FontAwesomeIconName iconName;
+	private final boolean upgradeable;
 
-	private GameViewType(int id, String title, FontAwesomeIconName icon) {
+	private GameViewType(int id, String title, FontAwesomeIconName icon, boolean upgradeable) {
 		this.title = title;
 		this.id = id;
 		this.iconName = icon;
+		this.upgradeable = upgradeable;
 	}
 
 	public String getTitle() {
@@ -50,6 +55,10 @@ public enum GameViewType {
 
 	public int getId() {
 		return id;
+	}
+	
+	public boolean isUpgradeable() {
+		return upgradeable;
 	}
 
 	/**

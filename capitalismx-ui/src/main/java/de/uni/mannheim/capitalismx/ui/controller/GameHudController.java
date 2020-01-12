@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
@@ -17,17 +19,18 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
+import de.uni.mannheim.capitalismx.ui.controller.component.DepartmentUpgradeController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -51,6 +54,9 @@ import javafx.util.Duration;
  */
 public class GameHudController implements UpdateableController {
 
+	private DepartmentUpgradeController upgradeController;
+	private AnchorPane departmentUpgradePane;
+
 	/**
 	 * {@link Queue} of {@link GameNotification}s, that are currently waiting to be
 	 * displayed
@@ -61,6 +67,7 @@ public class GameHudController implements UpdateableController {
 	 * flag whether a notification is currently being displayed
 	 */
 	private boolean displayingNotification = false;
+	private boolean levelUpDropdownOpen = false;
 
 	private HashMap<GameViewType, ToggleButton> departmentButtonMap;
 
@@ -78,7 +85,7 @@ public class GameHudController implements UpdateableController {
 	private GridPane moduleGrid;
 
 	@FXML
-	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton, ecoIcon;
+	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton, ecoIcon, departmentDropdownIcon;
 	@FXML
 	private Label playPauseIconLabel, forwardIconLabel, skipIconLabel, messageIconLabel, settingsIconLabel;
 
@@ -93,7 +100,7 @@ public class GameHudController implements UpdateableController {
 	private AnchorPane root;
 
 	@FXML
-	private VBox netWorthVBox, cashVBox, employeeVBox;
+	private VBox netWorthVBox, cashVBox, employeeVBox, departmentVBox;
 
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
@@ -193,7 +200,18 @@ public class GameHudController implements UpdateableController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
 		CssHelper.replaceStylesheets(root.getStylesheets());
+
+		FXMLLoader departmentUpgradeLoader = new FXMLLoader(
+				getClass().getClassLoader().getResource("fxml/components/hud_department_dropdown.fxml"),
+				UIManager.getResourceBundle());
+		try {
+			departmentUpgradePane = departmentUpgradeLoader.load();
+			upgradeController = (DepartmentUpgradeController) departmentUpgradeLoader.getController();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 
 		GameState gameState = GameState.getInstance();
 		TooltipFactory tooltipFactory = new TooltipFactory();
@@ -244,6 +262,7 @@ public class GameHudController implements UpdateableController {
 		});
 
 		UIManager.getInstance().setGameHudController(this);
+		updateLevelUpDropdown(GameViewType.OVERVIEW);
 	}
 
 	/**
@@ -301,11 +320,76 @@ public class GameHudController implements UpdateableController {
 	 * @param viewType The {@link GameViewType} to display on the GamePage.
 	 */
 	private void switchView(GameViewType viewType) {
-		addNotification(new GameNotification(new MessageObject(viewType.getTitle(), "2019-01-05",
-				"Welcome in the department",
-				"Hello boss. Please let me show you the great possibilities this department offers you! It is vital for the company and there is no way, the company would survive shutting it down or outsourcing it, so I hope you will keep that in mind. Thank you! Sincerely, some guy from whatever dep this is.",
-				true)));
 		UIManager.getInstance().getGamePageController().switchView(viewType);
+	}
+
+	/**
+	 * Updates all hud elements for the given {@link GameViewType}.
+	 * 
+	 * @param viewType The {@link GameViewType} to update for.
+	 */
+	protected void updateView(GameViewType viewType) {
+		selectDepartmentButton(viewType);
+		updateGameViewLabel(viewType);
+		updateLevelUpDropdown(viewType);
+
+		if (levelUpDropdownOpen)
+			toggleLevelUpDropdown();
+	}
+
+	/**
+	 * Update the department level-up dropdown for the given {@link GameViewType}.
+	 * 
+	 * @param viewType {@link GameViewType} being displayed.
+	 */
+	private void updateLevelUpDropdown(GameViewType viewType) {
+		if (!viewType.isUpgradeable()) {
+			departmentDropdownIcon.setOnMouseClicked(e -> {
+			});
+			departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
+		} else {
+			DepartmentImpl dep;
+			switch (viewType) {
+			case HR:
+				dep = GameState.getInstance().getHrDepartment();
+				break;
+			case R_AND_D:
+				dep = GameState.getInstance().getResearchAndDevelopmentDepartment();
+				break;
+			case WAREHOUSE:
+				dep = GameState.getInstance().getWarehousingDepartment();
+				break;
+			case PRODUCTION:
+				dep = GameState.getInstance().getProductionDepartment();
+				break;
+			default:
+				departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
+				return;
+			}
+			upgradeController.setDepartment(dep);
+			
+			if(!departmentDropdownIcon.getStyleClass().contains("hud_icon_button")) {
+				departmentDropdownIcon.getStyleClass().add("hud_icon_button");
+			}
+			departmentDropdownIcon.setOnMouseClicked(e -> {
+				toggleLevelUpDropdown();
+			});
+		}
+	}
+
+	/**
+	 * Toggles the dropdown menu for the department level up.
+	 */
+	private void toggleLevelUpDropdown() {
+		if (levelUpDropdownOpen) {
+			departmentDropdownIcon.setIcon(FontAwesomeIconName.ANGLE_DOWN);
+			departmentVBox.getChildren().remove(departmentUpgradePane);
+			levelUpDropdownOpen = false;
+		} else {
+			departmentDropdownIcon.setIcon(FontAwesomeIconName.ANGLE_UP);
+			departmentVBox.getChildren().add(1, departmentUpgradePane);
+			levelUpDropdownOpen = true;
+		}
 	}
 
 	@FXML
