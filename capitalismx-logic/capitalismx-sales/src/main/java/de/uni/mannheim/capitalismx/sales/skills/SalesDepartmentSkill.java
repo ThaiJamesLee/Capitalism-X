@@ -34,25 +34,31 @@ public class SalesDepartmentSkill implements DepartmentSkill {
     private Range priceFactor;
 
     /**
+     * The penalty factor on the default penalty.
+     */
+    private double penaltyFactor;
+
+    /**
      *
      * @param level he level required to unlock this skill.
      * @param numContracts The number of contracts the Sales Department can get.
      * @param priceFactor The prices for the wholesale price gets better, if the sales department has higher level.
      */
-    public SalesDepartmentSkill(int level, int numContracts, Range priceFactor) {
+    public SalesDepartmentSkill(int level, int numContracts, double penaltyFactor, Range priceFactor) {
         this.level = level;
         this.numContracts = numContracts;
         this.priceFactor = priceFactor;
+        this.penaltyFactor = penaltyFactor;
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return ResourceBundle.getBundle(PROPERTIES_FILE).getString(DESCRIPTION_PROPERTY_PREFIX + level);
     }
 
     @Override
     public String getDescription(Locale l) {
-        return ResourceBundle.getBundle(PROPERTIES_FILE).getString(DESCRIPTION_PROPERTY_PREFIX + level);
+        return ResourceBundle.getBundle(PROPERTIES_FILE, l).getString(DESCRIPTION_PROPERTY_PREFIX + level);
     }
 
     @Override
@@ -70,5 +76,13 @@ public class SalesDepartmentSkill implements DepartmentSkill {
 
     public Range getPriceFactor() {
         return priceFactor;
+    }
+
+    public double getPenaltyFactor() {
+        return penaltyFactor;
+    }
+
+    public void setPenaltyFactor(double penaltyFactor) {
+        this.penaltyFactor = penaltyFactor;
     }
 }

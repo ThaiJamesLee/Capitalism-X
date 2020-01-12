@@ -51,12 +51,14 @@ public class SalesDepartment extends DepartmentImpl {
     private static final String MAX_LEVEL_PROPERTY = "sales.department.level.max";
     private static final String NUM_CONTRACTS_PROPERTY_PREFIX = "sales.skill.contracts.number.";
     private static final String PRICE_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.price.factor.";
+    private static final String PENALTY_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.penalty.";
     private static final String LEVELING_COST_PROPERTY_PREFIX = "sales.skill.cost.";
 
     private static SalesDepartment instance;
 
     private SalesDepartment() {
         super("Sales Department");
+        setLevel(1);
         activeContracts = new PropertyChangeSupportList<>();
         availableContracts = new PropertyChangeSupportList<>();
         init();
@@ -110,7 +112,10 @@ public class SalesDepartment extends DepartmentImpl {
             String[] stringRange = bundle.getString(PRICE_FACTOR_PROPERTY_PREFIX + i).split(",");
             Double[] doubleRange = DataFormatter.stringArrayToDoubleArray(stringRange);
             Range priceFactor = new Range(doubleRange[0], doubleRange[1]);
-            this.skillMap.put(i, new SalesDepartmentSkill(i, numContract, priceFactor));
+
+            double penaltyFactor = Double.parseDouble(bundle.getString(PENALTY_FACTOR_PROPERTY_PREFIX + i));
+
+            this.skillMap.put(i, new SalesDepartmentSkill(i, numContract, penaltyFactor,priceFactor));
         }
     }
 
@@ -160,19 +165,20 @@ public class SalesDepartment extends DepartmentImpl {
      * @param date The date when the contracts are generated.
      * @param productionDepartment The {@link ProductionDepartment} instance.
      */
-    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment) {
+    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, double demandPercentage) {
         SalesDepartmentSkill skill = (SalesDepartmentSkill)skillMap.get(getLevel());
         int numContracts = skill.getNumContracts();
         Range factor = skill.getPriceFactor();
 
-        numContracts = (int)(numContracts * RandomNumberGenerator.getRandomDouble(factor.getLowerBound(), factor.getUpperBound()));
+        numContracts = (int)(numContracts * demandPercentage);
         List<Contract> newContracts = new ArrayList<>();
 
         List<Product> products = productionDepartment.getLaunchedProducts();
-
+        ContractFactory contractFactory = new ContractFactory(productionDepartment);
         for(int i = 0; i<numContracts; i++) {
-            Product p = products.get(RandomNumberGenerator.getRandomInt(0, products.size()-1));
-            newContracts.add(ContractFactory.getContract(p, date));
+            int max = Math.max(products.size()-1, 0);
+            Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
+            newContracts.add(contractFactory.getContract(p, date, factor));
         }
         availableContracts.setList(newContracts);
     }
