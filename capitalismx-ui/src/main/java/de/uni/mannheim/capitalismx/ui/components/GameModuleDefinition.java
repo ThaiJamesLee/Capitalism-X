@@ -40,9 +40,9 @@ public enum GameModuleDefinition {
 
 	// The modules for HR.
 	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, new GridPosition(5,
-			9, 6, 19), true),
-	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, new GridPosition(0, 19, 0, 6), true),
-	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml", GameViewType.FINANCES, UIElementType.FINANCE_BANKING_SYSTEM, new GridPosition(0, 5, 6, 19), true);
+			9, 7, 19), true),
+	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, new GridPosition(0, 19, 0, 7), true),
+	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml", GameViewType.FINANCES, UIElementType.FINANCE_BANKING_SYSTEM, new GridPosition(0, 5, 7, 19), true);
 	//FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, new GridPosition(14,
 	//		5, 6, 19), true);
 
