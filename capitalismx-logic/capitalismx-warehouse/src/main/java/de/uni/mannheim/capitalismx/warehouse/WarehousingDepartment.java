@@ -330,11 +330,27 @@ public class WarehousingDepartment extends DepartmentImpl {
         return earnedMoney;
     }
 
+    public void setProductionDepartmentStoredComponents() {
+        Map<Component, Integer> storedComponents = new HashMap<>();
+        for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
+            if(entry.getKey().getUnitType() == UnitType.COMPONENT_UNIT) {
+                storedComponents.put((Component) entry.getKey(), entry.getValue());
+            }
+        }
+        ProductionDepartment.getInstance().setStoredComponents(storedComponents);
+    }
+
+    public void setProductionDepartmentTotalWarehouseCapacity() {
+        ProductionDepartment.getInstance().setTotalWarehouseCapacity(this.totalCapacity);
+    }
+
     public void calculateAll() {
         this.storeUnits();
+        this.setProductionDepartmentStoredComponents();
         this.calculateStoredUnits();
         this.calculateTotalCapacity();
         this.calculateFreeStorage();
+        this.setProductionDepartmentTotalWarehouseCapacity();
         this.calculateDailyStorageCost();
         this.calculateTotalMonthlyWarehousingCost();
     }

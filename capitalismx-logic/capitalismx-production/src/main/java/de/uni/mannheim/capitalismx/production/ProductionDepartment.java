@@ -40,12 +40,12 @@ public class ProductionDepartment extends DepartmentImpl {
     private List<ComponentType> allAvailableComponents;
     private List<Product> launchedProducts;
     private boolean machineSlotsAvailable;
+    private Map<Component, Integer> storedComponents;
+    private int totalWarehouseCapacity;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
 
     private int initialProductionSlots;
-
-    private int baseCost;
     private int productionSlots;
 
     private static final String LEVELING_PROPERTIES = "production-leveling-definition";
@@ -71,6 +71,8 @@ public class ProductionDepartment extends DepartmentImpl {
         this.launchedProducts = new ArrayList<>();
         this.machineSlotsAvailable = true;
         this.productionTechnology = ProductionTechnology.DEPRECIATED;
+        this.storedComponents = new HashMap<>();
+        this.totalWarehouseCapacity = 0;
 
         this.init();
     }
@@ -267,28 +269,55 @@ public class ProductionDepartment extends DepartmentImpl {
         }
     }
 
-    public double produceProduct(Product product, int quantity, int freeStorage) {
+    public void setStoredComponents(Map<Component, Integer> storedComponents) {
+        this.storedComponents = storedComponents;
+    }
+
+    public void setTotalWarehouseCapacity(int totalWarehouseCapacity) {
+        this.totalWarehouseCapacity = totalWarehouseCapacity;
+    }
+
+    public double produceProduct(Product product, int quantity, int freeStorage) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {
         int totalMachineCapacity = 0;
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
         }
-        if(totalMachineCapacity >= quantity && freeStorage >= quantity) {
-            double variableProductCosts = 0;
-            int newQuantity = quantity;
-            for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
-                if(product == entry.getKey()) {
-                    newQuantity += this.numberProducedProducts.get(product);
+
+        if(freeStorage >= quantity) {
+            if (totalMachineCapacity >= quantity) {
+                int maximumProducable = this.totalWarehouseCapacity;
+                for (Component component : product.getComponents()) {
+                    if (this.storedComponents.containsKey(component)) {
+                        if (maximumProducable >= this.storedComponents.get(component)) {
+                            maximumProducable = this.storedComponents.get(component);
+                        }
+                    } else {
+                        maximumProducable = 0;
+                    }
                 }
+
+                if (maximumProducable < quantity) {
+                    throw new NotEnoughComponentsException("There are not enough Components available to produce " + quantity + ".", maximumProducable);
+                }
+
+                double variableProductCosts = 0;
+                int newQuantity = quantity;
+                for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+                    if (product == entry.getKey()) {
+                        newQuantity += this.numberProducedProducts.get(product);
+                    }
+                }
+                this.numberProducedProducts.put(product, newQuantity);
+                /* LocalDate.now() placeholder for gameDate */ // NEEDED? TODO
+                //LocalDate gameDate = LocalDate.now();
+                this.numberUnitsProducedPerMonth += quantity;
+                variableProductCosts = product.calculateTotalVariableCosts() * quantity;
+                return variableProductCosts;
+            } else {
+                throw new NotEnoughMachineCapacityException("There is not enough Machine Capacity available to produce " + quantity + ".", totalMachineCapacity);
             }
-            this.numberProducedProducts.put(product, newQuantity);
-            /* LocalDate.now() placeholder for gameDate */ // NEEDED? TODO
-            //LocalDate gameDate = LocalDate.now();
-            this.numberUnitsProducedPerMonth += quantity;
-            variableProductCosts = product.calculateTotalVariableCosts() * quantity;
-            return variableProductCosts;
         } else {
-            // TODO throw error message "Your machinery capacity is not sufficient. Either produce a smaller amount or buy new machinery."
-            return -1;
+            throw new NotEnoughFreeStorageException("There is not enough Warehouse Capacity available to produce " + quantity + ".", freeStorage);
         }
     }
 
