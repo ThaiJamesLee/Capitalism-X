@@ -11,7 +11,7 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.marketing.NewPressReleaseViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -52,8 +52,9 @@ public class MarketResearchListController extends GameModuleController {
 //			pressReleaseListObservable.add(pr);
 //		}
 		
-		popover = PopOverHelper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");	
-//		popover.setCloseButtonEnabled(true);
+		PopOverFactory helper = new PopOverFactory();
+		helper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");
+		popover = helper.getPopover();
 		
 		newReleaseBtn.setOnAction(e -> {
 			showPopover();

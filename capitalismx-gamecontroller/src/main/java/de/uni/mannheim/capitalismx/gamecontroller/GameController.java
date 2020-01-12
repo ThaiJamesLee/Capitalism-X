@@ -6,31 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-<<<<<<< HEAD:capitalismx-logic/capitalismx-gamecontroller/src/main/java/de/uni/mannheim/capitalismx/gamecontroller/GameController.java
-=======
-import de.uni.mannheim.capitalismx.procurement.component.*;
-import de.uni.mannheim.capitalismx.production.*;
-import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
-import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
->>>>>>> ecaa7618923ac52c65f13f8f98a8078ad4268b88:capitalismx-gamecontroller/src/main/java/de/uni/mannheim/capitalismx/gamecontroller/GameController.java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.uni.mannheim.capitalismx.customer.CustomerDemand;
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
-<<<<<<< HEAD:capitalismx-logic/capitalismx-gamecontroller/src/main/java/de/uni/mannheim/capitalismx/gamecontroller/GameController.java
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.domain.employee.Team;
-import de.uni.mannheim.capitalismx.domain.employee.Training;
-=======
-import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
-import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
-import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
-import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
->>>>>>> ecaa7618923ac52c65f13f8f98a8078ad4268b88:capitalismx-gamecontroller/src/main/java/de/uni/mannheim/capitalismx/gamecontroller/GameController.java
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
@@ -38,6 +18,10 @@ import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.gamecontroller.gamesave.SaveGameHandler;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
@@ -50,7 +34,6 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-<<<<<<< HEAD:capitalismx-logic/capitalismx-gamecontroller/src/main/java/de/uni/mannheim/capitalismx/gamecontroller/GameController.java
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
@@ -58,13 +41,14 @@ import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.NoMachinerySlotsAvailableException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.production.ProductionInvestment;
 import de.uni.mannheim.capitalismx.production.ProductionTechnology;
-=======
->>>>>>> ecaa7618923ac52c65f13f8f98a8078ad4268b88:capitalismx-gamecontroller/src/main/java/de/uni/mannheim/capitalismx/gamecontroller/GameController.java
+import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
+import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
@@ -982,7 +966,7 @@ public class GameController {
 	 */
 	public void makeCampaign(String campaignName, Media media) {
 		int cost = MarketingDepartment.getInstance().startCampaign(campaignName, media);
-		decreaseCash(cost);
+		decreaseCash(GameState.getInstance().getGameDate(), cost);
 	}
 	
 	/**
@@ -1008,7 +992,7 @@ public class GameController {
 	 */
 	public void makePressRelease(PressRelease pr) {
 		int cost = MarketingDepartment.getInstance().makePressRelease(pr);
-		decreaseCash(cost);
+		decreaseCash(GameState.getInstance().getGameDate(), cost);
 	}
 
 	/**
@@ -1047,7 +1031,7 @@ public class GameController {
 	public void conductMarketResearch(boolean internal, Reports report, SurveyTypes surveyType,
 			Map<String, Double> data) {
 		double cost = MarketingDepartment.getInstance().issueMarketResearch(internal, report, surveyType, data);
-		decreaseCash(cost);
+		decreaseCash(GameState.getInstance().getGameDate(), cost);
 	}
 
 	/**

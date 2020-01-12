@@ -11,7 +11,7 @@ import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.marketing.CampaignsCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -54,9 +54,10 @@ public class CampaignsOverviewController extends GameModuleController {
 		
 
 		campaignsList.setCellFactory(campaignList -> new CampaignsCell());
-
 		
-		popover = PopOverHelper.createStandardOverlay("fxml/overlay/mkt_newCampaign_options.fxml");	
+		PopOverFactory helper = new PopOverFactory();
+		helper.createStandardOverlay("fxml/overlay/mkt_newCampaign_options.fxml");
+		popover = helper.getPopover();
 		
 		newReleaseBtn.setOnAction(e -> {
 			showPopover();

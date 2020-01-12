@@ -10,7 +10,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -55,10 +55,11 @@ public class MarketingOverviewController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
 		
-
-		
-		popover = PopOverHelper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");		
-		
+		PopOverFactory helper = new PopOverFactory();
+		helper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");
+		popover = helper.getPopover();
+				
+		//TODO ändern und korrekt formatieren...
 		compImValueLbl.setText("100");
 		emplBrValueLbl.setText("100");
 		

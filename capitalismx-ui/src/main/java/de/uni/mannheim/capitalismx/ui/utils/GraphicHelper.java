@@ -61,7 +61,7 @@ public class GraphicHelper {
 	 */
 	private static AnchorPane createTooltipAnchor(int skillLevel) {
 		Tooltip tooltip = new Tooltip("Skill: " + skillLevel);
-		tooltip.setShowDelay(Duration.millis(150));
+		//tooltip.setShowDelay(Duration.millis(150));
 
 		Button tooltipButton = new Button();
 		tooltipButton.getStyleClass().add("icon_button_invisible");

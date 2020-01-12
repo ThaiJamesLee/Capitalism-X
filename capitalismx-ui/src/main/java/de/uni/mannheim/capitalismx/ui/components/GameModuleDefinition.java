@@ -44,7 +44,6 @@ public enum GameModuleDefinition {
 	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, new GridPosition(0, 19, 0, 5), true),
 	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml", GameViewType.FINANCES, UIElementType.FINANCE_BANKING_SYSTEM, new GridPosition(0, 5, 5, 19), true),
 	FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, new GridPosition(14,
-<<<<<<< HEAD
 			5, 0, 19), true),
 	
 //	//The modules for Marketing
@@ -54,11 +53,6 @@ public enum GameModuleDefinition {
 //	MARKETING_OVERVIEW("mkt_general_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(0, 10, 2, 3), true);
 	;
 	
-	
-=======
-			5, 5, 19), true);
-
->>>>>>> ecaa7618923ac52c65f13f8f98a8078ad4268b88
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
 	// The contentType of the module.
