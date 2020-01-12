@@ -3,15 +3,22 @@ package de.uni.mannheim.capitalismx.sales.department;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
+import de.uni.mannheim.capitalismx.sales.contracts.ContractFactory;
 import de.uni.mannheim.capitalismx.sales.skills.SalesDepartmentSkill;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import de.uni.mannheim.capitalismx.utils.data.Range;
 import de.uni.mannheim.capitalismx.utils.formatter.DataFormatter;
+import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,9 +36,16 @@ public class SalesDepartment extends DepartmentImpl {
      */
     private PropertyChangeSupportList<Contract> activeContracts;
 
+    /**
+     * List of available contracts.
+     * The player can choose the contracts on the list.
+     */
+    private PropertyChangeSupportList<Contract> availableContracts;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesDepartment.class);
 
     public static final String ACTIVE_CONTRACTS_EVENT = "activeContractListChanged";
+    public static final String AVAILABLE_CONTRACTS_EVENT = "availableContractListChanged";
 
     private static final String SALES_PROPERTY_FILE = "sales-module";
     private static final String MAX_LEVEL_PROPERTY = "sales.department.level.max";
@@ -44,6 +58,7 @@ public class SalesDepartment extends DepartmentImpl {
     private SalesDepartment() {
         super("Sales Department");
         activeContracts = new PropertyChangeSupportList<>();
+        availableContracts = new PropertyChangeSupportList<>();
         init();
     }
 
@@ -53,6 +68,9 @@ public class SalesDepartment extends DepartmentImpl {
     private void init() {
         this.activeContracts.setAddPropertyName(ACTIVE_CONTRACTS_EVENT);
         this.activeContracts.setRemovePropertyName(ACTIVE_CONTRACTS_EVENT);
+
+        this.availableContracts.setAddPropertyName(AVAILABLE_CONTRACTS_EVENT);
+        this.availableContracts.setRemovePropertyName(AVAILABLE_CONTRACTS_EVENT);
         initProperties();
     }
 
@@ -113,6 +131,7 @@ public class SalesDepartment extends DepartmentImpl {
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.activeContracts.addPropertyChangeListener(listener);
+        this.availableContracts.addPropertyChangeListener(listener);
     }
 
     public PropertyChangeSupportList<Contract> getActiveContracts() {
@@ -123,12 +142,39 @@ public class SalesDepartment extends DepartmentImpl {
         this.activeContracts = activeContracts;
     }
 
+    public PropertyChangeSupportList<Contract> getAvailableContracts() {
+        return availableContracts;
+    }
+
     /**
-     *
      * @param contract A new contract to the active contract.
      */
-    public void addContractToActive(Contract contract) {
+    public void addContractToActive(Contract contract, LocalDate contractStart) {
+        contract.setContractStart(contractStart);
         this.activeContracts.add(contract);
+        this.availableContracts.remove(contract);
+    }
+
+    /**
+     *
+     * @param date The date when the contracts are generated.
+     * @param productionDepartment The {@link ProductionDepartment} instance.
+     */
+    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment) {
+        SalesDepartmentSkill skill = (SalesDepartmentSkill)skillMap.get(getLevel());
+        int numContracts = skill.getNumContracts();
+        Range factor = skill.getPriceFactor();
+
+        numContracts = (int)(numContracts * RandomNumberGenerator.getRandomDouble(factor.getLowerBound(), factor.getUpperBound()));
+        List<Contract> newContracts = new ArrayList<>();
+
+        List<Product> products = productionDepartment.getLaunchedProducts();
+
+        for(int i = 0; i<numContracts; i++) {
+            Product p = products.get(RandomNumberGenerator.getRandomInt(0, products.size()-1));
+            newContracts.add(ContractFactory.getContract(p, date));
+        }
+        availableContracts.setList(newContracts);
     }
 
 }

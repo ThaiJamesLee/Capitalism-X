@@ -116,6 +116,22 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
         propertyChangeSupport.firePropertyChange(removePropertyName, oldList, list);
     }
 
+    /**
+     *
+     * @param index The index on the list.
+     * @return Returns the object from the specified index.
+     */
+    public T get(int index) {
+        return list.get(index);
+    }
+
+    /**
+     * Create a copy from the src to the dst list.
+     * This does not copy the reference, but create completely new objects.
+     *
+     * @param dst The destination to copy to.
+     * @param src The source to copy from.
+     */
     private void copyList(List<T> dst, List<T> src) {
         dst.addAll(src);
     }
