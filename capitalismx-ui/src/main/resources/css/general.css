@@ -550,6 +550,16 @@ FontAwesomeIcon {
     -fx-text-fill: #333333;     
 }
 
+.credits_label {
+    -fx-background-insets: 0.0,1.0,4.0,5.0;
+    -fx-background-radius: 9.0,8.0,5.0,4.0;
+    /*-fx-padding: 15 30 15 30;*/
+    -fx-font-family: "Prime";
+    -fx-font-size: 26.0px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;     
+}
+
 .big_buttons {
 	-fx-pref-width: 200.0px;
 	-fx-pref-height: 67.0px;

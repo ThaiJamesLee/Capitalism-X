@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.marketing.department;
 
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -379,8 +380,8 @@ public class MarketingDepartment extends DepartmentImpl {
      * @param data The data (be careful, since they all take the same type, to select the correct report type!)
      * @return Returns the cost.
      */
-    public double issueMarketResearch(boolean internal, Reports report, SurveyTypes surveyType, Map<String, Double> data) {
-        MarketResearch mr = new MarketResearch(internal, surveyType);
+    public double issueMarketResearch(boolean internal, Reports report, SurveyTypes surveyType, Map<String, Double> data, LocalDate date) {
+        MarketResearch mr = new MarketResearch(internal, surveyType, date);
         double cost = 0.0;
         switch (report) {
             case PRICE_SENSITIVE_REPORT:

@@ -16,7 +16,6 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.marketing.CampaignsCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.CampaignsOverviewController;
-import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketingOverviewController;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -113,13 +112,11 @@ public class NewCampaignController extends GameOverlayController {
     /**
      * Function that updates the companyImage value in the {@link CustomerSatisfaction}calculation and in the Label in the Marketing Overview {@link GameModule} 
      */
-    
+    //TODO refactor to prevent nullpointer if OverviewModule is not displayed
     private void updateCompanyImage() {
     	GameController.getInstance().updateCompanyImageInCustomerSatisfaction();
-    	MarketingOverviewController con = (MarketingOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_OVERVIEW).getController();
-    	con.updateCompanyImageLabel();
+//    	MarketingOverviewController con = (MarketingOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_OVERVIEW).getController();
+//    	con.updateCompanyImageLabel();
     }
-    
-    
 
 }

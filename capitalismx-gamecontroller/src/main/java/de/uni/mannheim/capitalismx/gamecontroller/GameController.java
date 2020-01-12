@@ -1030,7 +1030,7 @@ public class GameController {
 	 */
 	public void conductMarketResearch(boolean internal, Reports report, SurveyTypes surveyType,
 			Map<String, Double> data) {
-		double cost = MarketingDepartment.getInstance().issueMarketResearch(internal, report, surveyType, data);
+		double cost = MarketingDepartment.getInstance().issueMarketResearch(internal, report, surveyType, data, GameState.getInstance().getGameDate());
 		decreaseCash(GameState.getInstance().getGameDate(), cost);
 	}
 

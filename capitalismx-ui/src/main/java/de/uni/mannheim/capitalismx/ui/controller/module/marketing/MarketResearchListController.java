@@ -7,9 +7,9 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
-import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
+import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.marketing.NewPressReleaseViewCell;
+import de.uni.mannheim.capitalismx.ui.components.marketing.MarketResearchViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
@@ -27,10 +27,10 @@ import javafx.scene.control.ListView;
 public class MarketResearchListController extends GameModuleController {
 
 	@FXML
-	private ListView<PressRelease> pressReleaseList;
+	private ListView<MarketResearch> reportsList;
 
 	@FXML
-	private Button newReleaseBtn;
+	private Button conductNewBtn;
 	
 	private PopOver popover;
 	
@@ -46,17 +46,17 @@ public class MarketResearchListController extends GameModuleController {
 	public void initialize(URL location, ResourceBundle resources) {	
 		
 
-		pressReleaseList.setCellFactory(pressReleaseList -> new NewPressReleaseViewCell(pressReleaseList));
+		reportsList.setCellFactory(reportsList -> new MarketResearchViewCell(reportsList));
 
 //		for(PressRelease pr : pressReleases) {
 //			pressReleaseListObservable.add(pr);
 //		}
 		
 		PopOverFactory helper = new PopOverFactory();
-		helper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");
+		helper.createStandardOverlay("fxml/overlay/mkt_newMarketResearch_options.fxml");
 		popover = helper.getPopover();
 		
-		newReleaseBtn.setOnAction(e -> {
+		conductNewBtn.setOnAction(e -> {
 			showPopover();
 			
 		});
@@ -78,8 +78,8 @@ public class MarketResearchListController extends GameModuleController {
 	 */
 	public void updateList() {
 		GameController controller = GameController.getInstance();
-		List<PressRelease> pressReleases = controller.getPressReleases();
+		List<MarketResearch> conductedReports = controller.getConductedMarketResearch();
 
-		pressReleaseList.setItems(FXCollections.observableArrayList(pressReleases));
+		reportsList.setItems(FXCollections.observableArrayList(conductedReports));
 	}
 }
