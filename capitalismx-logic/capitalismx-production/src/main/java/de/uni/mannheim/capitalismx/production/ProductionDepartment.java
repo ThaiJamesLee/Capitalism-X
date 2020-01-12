@@ -200,7 +200,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.manufactureEfficiency = 0;
     }
 
-    public double buyMachinery(Machinery machinery, LocalDate gameDate) {
+    public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
         if(this.productionSlots > this.machines.size()) {
             machinery.setPurchaseDate(gameDate);
             this.machines.add(machinery);
@@ -211,7 +211,7 @@ public class ProductionDepartment extends DepartmentImpl {
             return machinery.calculatePurchasePrice();
         }
         this.machineSlotsAvailable = false;
-        return 0;
+        throw new NoMachinerySlotsAvailableException("No more Capacity available to buy new Machine.");
     }
 
     public double sellMachinery(Machinery machinery) {
@@ -491,13 +491,13 @@ public class ProductionDepartment extends DepartmentImpl {
         return this.averageProductBaseQuality / this.numberProducedProducts.size();
     }
 
-    public void updateComponentBaseCosts(LocalDate gameDate) {
+    /* public void updateComponentBaseCosts(LocalDate gameDate) {
         for(Map.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             for(Component component : entry.getKey().getComponents()) {
                 component.calculateBaseCost(gameDate);
             }
         }
-    }
+    } */
 
     /* TODO duration 1 month, winter month*/
     public void decreaseTotalEngineerQualityOfWorkRel(double decrease) {
@@ -519,7 +519,7 @@ public class ProductionDepartment extends DepartmentImpl {
 
     public void calculateAll(LocalDate gameDate) {
         this.getAllAvailableComponents(gameDate);
-        this.updateComponentBaseCosts(gameDate);
+        // this.updateComponentBaseCosts(gameDate);
         this.depreciateProductInvestment(gameDate);
         this.depreciateMachinery(false, gameDate);
         this.calculateMachineryResellPrices();

@@ -182,7 +182,7 @@ public class Product extends Unit implements Serializable {
     public double getProductCosts(LocalDate gameDate) {
         double productCosts = 0;
         for(Component component : this.components) {
-            productCosts += component.calculateBaseCost(gameDate);
+            productCosts += component.getBaseCost();
         }
         return productCosts;
     }

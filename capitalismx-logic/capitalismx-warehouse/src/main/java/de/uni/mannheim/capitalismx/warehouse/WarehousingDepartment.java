@@ -38,7 +38,6 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(WarehousingDepartment.class);
 
-    private int baseCost;
     private int warehouseSlots;
     private int initialWarehouseSlots;
 

@@ -75,8 +75,7 @@ public class ProcurementDepartment extends DepartmentImpl {
             ComponentOrder componentOrder = new ComponentOrder(gameDate, component, quantity);
             this.componentOrders.add(componentOrder);
         }
-        //TODO get or calculateBaseCost? Difference due to randomized factor
-        return quantity * component.calculateBaseCost(gameDate);
+        return quantity * component.getBaseCost();
     }
 
     public void receiveComponents(LocalDate gameDate) {

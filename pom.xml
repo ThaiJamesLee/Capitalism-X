@@ -10,6 +10,7 @@
       <module>capitalismx-logic</module>
       <module>capitalismx-ui</module>
       <module>capitalismx-utils</module>
+      <module>capitalismx-gamecontroller</module>
   </modules>
 
     <properties>
