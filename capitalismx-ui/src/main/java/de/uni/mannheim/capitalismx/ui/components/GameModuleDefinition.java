@@ -44,7 +44,10 @@ public enum GameModuleDefinition {
 	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, new GridPosition(0, 19, 0, 5), true),
 	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml", GameViewType.FINANCES, UIElementType.FINANCE_BANKING_SYSTEM, new GridPosition(0, 5, 5, 19), true),
 	FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, new GridPosition(14,
-			5, 5, 19), true);
+			5, 5, 19), true),
+
+	//The modules for Research and Development.
+	RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameViewType.R_AND_D, UIElementType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(1, 5, 1, 4),true);
 
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
