@@ -77,6 +77,12 @@ public class FinanceEventListener implements PropertyChangeListener {
         }else if (evt.getPropertyName().equals("liabilities")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
             financeOverviewController.setLiabilitiesLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+        }else if (evt.getPropertyName().equals("netWorthDifference")) {
+            PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
+            UIManager.getInstance().getGameHudController().updateNetworthChangeLabel(newVal.getValue());
+        }else if (evt.getPropertyName().equals("cashDifference")) {
+            PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
+            UIManager.getInstance().getGameHudController().updateCashChangeLabel(newVal.getValue());
         }
 
         FinanceBankingSystemController bankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_BANKING_SYSTEM).getController();
