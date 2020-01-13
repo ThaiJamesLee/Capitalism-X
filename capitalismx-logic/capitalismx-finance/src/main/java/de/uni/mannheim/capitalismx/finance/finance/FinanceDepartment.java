@@ -6,6 +6,7 @@ import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
+import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
@@ -15,6 +16,7 @@ import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
+import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.*;
@@ -52,9 +54,10 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalExpenses;
     private double decreaseNopatFactor;
     private double decreaseNopatConstant;
-    private Double netWorthDifference;
-    private Double cashDifference;
+    private PropertyChangeSupportDouble netWorthDifference;
+    private PropertyChangeSupportDouble cashDifference;
     private PropertyChangeSupportBoolean gameOver;
+    private PropertyChangeSupportBoolean loanRemoved;
 
     private List<Warehouse> warehousesSold;
     private List<Truck> trucksSold;
@@ -95,6 +98,10 @@ public class FinanceDepartment extends DepartmentImpl {
         this.gameOver.setValue(false);
         this.gameOver.setPropertyChangedName("gameOver");
 
+        this.loanRemoved = new PropertyChangeSupportBoolean();
+        this.loanRemoved.setValue(false);
+        this.loanRemoved.setPropertyChangedName("loanRemoved");
+
         this.cash = new PropertyChangeSupportDouble();
         this.cash.setValue(1000000.0);
         this.cash.setPropertyChangedName("cash");
@@ -110,6 +117,14 @@ public class FinanceDepartment extends DepartmentImpl {
         this.liabilities = new PropertyChangeSupportDouble();
         this.liabilities.setValue(0.0);
         this.liabilities.setPropertyChangedName("liabilities");
+
+        this.netWorthDifference = new PropertyChangeSupportDouble();
+        this.netWorthDifference.setValue(0.0);
+        this.netWorthDifference.setPropertyChangedName("netWorthDifference");
+
+        this.cashDifference = new PropertyChangeSupportDouble();
+        this.cashDifference.setValue(0.0);
+        this.cashDifference.setPropertyChangedName("cashDifference");
 
         this.realEstateInvestmentAmount = new PropertyChangeSupportDouble();
         this.realEstateInvestmentAmount.setValue(0.0);
@@ -213,6 +228,7 @@ public class FinanceDepartment extends DepartmentImpl {
     protected double calculateCash(LocalDate gameDate){
         //this.cash += this.nopat + this.assetsSold;
         double cash = this.cash.getValue() +  this.calculateNopat(gameDate) + this.calculateAssetsSold(gameDate);
+        cash -= BankingSystem.getInstance().calculateMonthlyLoanRate(gameDate);
         if(cash < 0){
             this.gameOver.setValue(true);
         }else{
@@ -256,8 +272,9 @@ public class FinanceDepartment extends DepartmentImpl {
         this.totalMachineValues = 0;
         List<Machinery> machines = ProductionDepartment.getInstance().getMachines();
         for(Machinery machine : machines){
-            this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(),
-                    machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));
+            //this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(),
+            //        machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));
+            this.totalMachineValues += machine.calculateResellPrice();
         }
         return this.totalMachineValues;
     }
@@ -267,16 +284,38 @@ public class FinanceDepartment extends DepartmentImpl {
         this.warehousesSold.add(warehouse);
     }
 
-    //TODO timestamp or thread in class that checks if new day
-    public void sellTruck(Truck truck){
-        this.trucksSold.add(truck);
+    public void buyTruck(Truck truck, LocalDate gameDate){
+        LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
+        this.decreaseCash(gameDate, truck.getPurchasePrice());
+        double resellPrice = this.calculateResellPrice(truck.getPurchasePrice(),
+                truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
+        this.increaseAssets(gameDate, resellPrice);
+        this.decreaseNetWorth(gameDate, truck.getPurchasePrice() - resellPrice);
+    }
+
+    public void sellTruck(Truck truck, LocalDate gameDate){
+        //TODO timestamp or thread in class that checks if new day
+        //this.trucksSold.add(truck);
+        double resellPrice = this.calculateResellPrice(truck.getPurchasePrice(),
+                truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
+        this.increaseCash(gameDate, resellPrice);
+        this.decreaseAssets(gameDate, resellPrice);
         LogisticsDepartment.getInstance().removeTruckFromFleet(truck);
     }
 
-    //TODO timestamp or thread in class that checks if new day
-    public void sellMachine(Machinery machine){
-        this.machinesSold.add(machine);
+    public void buyMachinery(Machinery machinery, LocalDate gameDate){
+        this.decreaseCash(gameDate, machinery.getPurchasePrice());
+        this.increaseAssets(gameDate, machinery.calculateResellPrice());
+        this.decreaseNetWorth(gameDate, machinery.getPurchasePrice() - machinery.getResellPrice());
     }
+
+    public void sellMachinery(Machinery machinery, LocalDate gameDate){
+        //TODO timestamp or thread in class that checks if new day
+        //this.machinesSold.add(machinery);
+        this.increaseCash(gameDate, machinery.calculateResellPrice());
+        this.decreaseAssets(gameDate, machinery.calculateResellPrice());
+    }
+
 
     protected double calculateAssetsSold(LocalDate gameDate){
         this.assetsSold = 0;
@@ -284,14 +323,16 @@ public class FinanceDepartment extends DepartmentImpl {
             this.assetsSold += this.calculateResellPrice(warehouse.getBuildingCost(),
                     warehouse.getUsefulLife(), warehouse.calculateTimeUsed(gameDate));
         }
-        for(Truck truck : this.trucksSold){
+        //TODO already decreased from cash in sellTruck()
+        /*for(Truck truck : this.trucksSold){
             this.assetsSold += this.calculateResellPrice(truck.getPurchasePrice(),
                     truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
-        }
-        for(Machinery machine : this.machinesSold){
+        }*/
+        //TODO already decreased from cash in sellTruck()
+        /*for(Machinery machine : this.machinesSold){
             this.assetsSold += this.calculateResellPrice(machine.getPurchasePrice(),
                     machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));
-        }
+        }*/
         return this.assetsSold;
     }
 
@@ -340,6 +381,7 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     protected double calculateTotalHRCosts(LocalDate gameDate){
+        //TODO only trainings of current day
         double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
         double totalSalaries = HRDepartment.getInstance().calculateTotalSalaries();
         totalSalaries /= gameDate.lengthOfYear();
@@ -351,6 +393,7 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO
     protected double calculateTotalWarehouseCosts(LocalDate gameDate){
         double warehouseCosts = WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(gameDate);
+        warehouseCosts /= gameDate.lengthOfMonth();
         double storageCosts = WarehousingDepartment.getInstance().calculateDailyStorageCost();
 
         this.totalWarehouseCosts = warehouseCosts + storageCosts;
@@ -384,7 +427,7 @@ public class FinanceDepartment extends DepartmentImpl {
         double priceLobbyist = ;
         this.totalMarketingCosts = priceManagementConsultancy + priceMarketResearch + priceCampaign + priceLobbyist;
         return this.totalMarketingCosts;**/
-        //TODO
+        this.totalMarketingCosts = MarketingDepartment.getInstance().getTotalMarketingCosts();
         this.marketingCostsHistory.put(gameDate, this.totalMarketingCosts);
         this.marketingCostsHistory.put(gameDate, 0.0);
         return 0.0;
@@ -392,8 +435,9 @@ public class FinanceDepartment extends DepartmentImpl {
 
     private double calculateTotalSupportCosts(LocalDate gameDate){
         double totalSupportCosts = ProductSupport.getInstance().calculateTotalSupportCosts();
+        this.totalSupportCosts = totalSupportCosts / gameDate.lengthOfMonth();
         this.supportCostsHistory.put(gameDate, this.totalSupportCosts);
-        return totalSupportCosts;
+        return this.totalSupportCosts;
     }
 
     protected double calculateEbit(LocalDate gameDate){
@@ -415,9 +459,15 @@ public class FinanceDepartment extends DepartmentImpl {
         return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
     }
 
-    public void addLoan(BankingSystem.Loan loan, LocalDate loanDate){
-        BankingSystem.getInstance().addLoan(loan, loanDate);
-        this.cash.setValue(this.cash.getValue() + loan.getLoanAmount());
+    public void addLoan(BankingSystem.Loan loan, LocalDate gameDate){
+        BankingSystem.getInstance().addLoan(loan, gameDate);
+        this.increaseCash(gameDate, loan.getLoanAmount());
+        this.increaseLiabilities(gameDate, loan.getLoanAmount());
+        this.loanRemoved.setValue(false);
+    }
+
+    protected void removeLoan(){
+        this.loanRemoved.setValue(true);
     }
 
     //TODO
@@ -469,6 +519,7 @@ public class FinanceDepartment extends DepartmentImpl {
             this.cash.setValue(cash);
             this.cashHistory.put(gameDate, this.cash.getValue());
             this.updateMonthlyData(gameDate);
+            this.updateCashDifference(gameDate);
         }
     }
 
@@ -476,18 +527,21 @@ public class FinanceDepartment extends DepartmentImpl {
         this.cash.setValue(this.cash.getValue() + amount);
         this.cashHistory.put(gameDate, this.cash.getValue());
         this.updateMonthlyData(gameDate);
+        this.updateCashDifference(gameDate);
     }
 
     public void decreaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() - amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
         this.updateMonthlyData(gameDate);
+        this.updateNetWorthDifference(gameDate);
     }
 
     public void increaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() + amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
         this.updateMonthlyData(gameDate);
+        this.updateNetWorthDifference(gameDate);
     }
 
     public void increaseAssets(LocalDate gameDate, double amount){
@@ -709,6 +763,7 @@ public class FinanceDepartment extends DepartmentImpl {
                 values[11] = value;
             }
             xNames[11] = gameDate.getYear() + "-" + String.format("%02d", gameDate.getMonthValue());
+            //xNames[11] = getLocalisedString("finance.month.short." + gameDate.getMonthValue());
 
             //last day of previous months
             for(int i = (values.length - 2); i >= 0; i--){
@@ -722,6 +777,7 @@ public class FinanceDepartment extends DepartmentImpl {
                     values[i] = map.get(monthEnd);
                 }
                 xNames[i] = monthEnd.getYear() + "-" + String.format("%02d", monthEnd.getMonthValue());
+                //xNames[i] = getLocalisedString("finance.month.short." + monthEnd.getMonthValue());
             }
 
             for(int i = 0; i < xNames.length; i++){
@@ -737,21 +793,29 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public void updateNetWorthDifference(LocalDate gameDate){
         Double oldNetWorth = this.netWorthHistory.get(gameDate.minusDays(30));
+        // if no entry 30 days ago, use oldest value
+        if(oldNetWorth == null){
+            oldNetWorth = this.netWorthHistory.firstEntry().getValue();
+        }
         Double newNetWorth = this.netWorthHistory.get(gameDate);
         if((oldNetWorth != null) && (newNetWorth != null)){
-            this.netWorthDifference = newNetWorth - oldNetWorth;
+            this.netWorthDifference.setValue(newNetWorth - oldNetWorth);
         }else{
-            this.netWorthDifference = null;
+            this.netWorthDifference.setValue(null);
         }
     }
 
     public void updateCashDifference(LocalDate gameDate){
         Double oldCash = this.cashHistory.get(gameDate.minusDays(30));
+        // if no entry 30 days ago, use oldest value
+        if(oldCash == null){
+            oldCash = this.cashHistory.firstEntry().getValue();
+        }
         Double newCash = this.cashHistory.get(gameDate);
         if((oldCash != null) && (newCash != null)){
-            this.cashDifference = this.cashHistory.get(gameDate) - oldCash;
+            this.cashDifference.setValue(newCash - oldCash);
         }else{
-            this.cashDifference = null;
+            this.cashDifference.setValue(null);
         }
     }
 
@@ -772,24 +836,33 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     public Double getNetWorthDifference(){
-        return this.netWorthDifference;
+        return this.netWorthDifference.getValue();
     }
 
     public Double getCashDifference(){
-        return this.cashDifference;
+        return this.cashDifference.getValue();
     }
 
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.gameOver.addPropertyChangeListener(listener);
+        this.loanRemoved.addPropertyChangeListener(listener);
         this.netWorth.addPropertyChangeListener(listener);
         this.cash.addPropertyChangeListener(listener);
         this.assets.addPropertyChangeListener(listener);
         this.liabilities.addPropertyChangeListener(listener);
+        this.netWorthDifference.addPropertyChangeListener(listener);
+        this.cashDifference.addPropertyChangeListener(listener);
         this.realEstateInvestmentAmount.addPropertyChangeListener(listener);
         this.stocksInvestmentAmount.addPropertyChangeListener(listener);
         this.ventureCapitalInvestmentAmount.addPropertyChangeListener(listener);
         this.updatedMonthlyData.addPropertyChangeListener(listener);
         this.updatedQuarterlyData.addPropertyChangeListener(listener);
+    }
+
+    public String getLocalisedString(String text) {
+        //TODO other languages
+        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", Locale.ENGLISH);
+        return langBundle.getString(text);
     }
 }

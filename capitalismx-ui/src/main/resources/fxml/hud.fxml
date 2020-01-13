@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GameHudController">
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GameHudController">
    <children>
       <GridPane fx:id="moduleGrid" hgap="30.0" layoutX="10.0" layoutY="10.0" styleClass="background" vgap="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
          <columnConstraints>
@@ -68,17 +68,30 @@
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </padding>
       </GridPane>
-      <VBox alignment="CENTER" layoutX="92.0" layoutY="-8.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="246.0" layoutY="-15.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="departmentLabel" alignment="CENTER" contentDisplay="CENTER" text="OVERVIEW">
+            <VBox fx:id="departmentVBox" alignment="CENTER" prefWidth="380.0">
+               <children>
+                  <Label fx:id="departmentLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="title_label" text="OVERVIEW" />
+                  <Label>
+                     <graphic>
+                        <FontAwesomeIcon fx:id="departmentDropdownIcon" iconName="ANGLE_DOWN" size="3em" styleClass="hud_icon_button" />
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="-5.0" left="-5.0" right="-5.0" top="-5.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                     </padding>
+                  </Label>
+               </children>
                <styleClass>
-                  <String fx:value="title_label" />
                   <String fx:value="hud_background" />
                   <String fx:value="hud_top" />
                </styleClass>
-            </Label>
+            </VBox>
          </children>
-      </VBox>
+      </HBox>
       <AnchorPane layoutY="4.0" minWidth="110.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -132,49 +145,18 @@
             <VBox alignment="CENTER_LEFT" spacing="3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ToggleButton fx:id="btnOverview" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button">
-                     <graphic>
-                        <FontAwesomeIcon iconName="COMPASS" size="1.3em" styleClass="fontAwesomeButtonDark" />
-                     </graphic>
                      <toggleGroup>
                         <ToggleGroup fx:id="departmentButtons" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton fx:id="btnFinance" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
-                     <graphic>
-                        <FontAwesomeIcon iconName="MONEY" size="1.3em" styleClass="fontAwesomeButtonDark" />
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="btnHr" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
-                     <graphic>
-                        <FontAwesomeIcon iconName="USER" size="1.3em" styleClass="fontAwesomeButtonDark" />
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="btnSales" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button">
-                     <graphic>
-                        <FontAwesomeIcon iconName="SHOPPING_CART" size="1.3em" />
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="btnProduction" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
-                     <graphic>
-                        <FontAwesomeIcon iconName="GEARS" size="1.3em" styleClass="fontAwesomeButtonDark" />
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="btnLogistics" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
-                     <graphic>
-                        <FontAwesomeIcon iconName="TRUCK" size="1.3em" styleClass="fontAwesomeButtonDark" />
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="btnWarehouse" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
-                     <graphic>
-                        <FontAwesomeIcon iconName="CUBES" size="1.3em" styleClass="fontAwesomeButtonDark" />
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="btnRAndD" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
-                     <graphic>
-                        <FontAwesomeIcon iconName="FLASK" size="1.3em" styleClass="fontAwesomeButtonDark" />
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton fx:id="btnMarketing" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
+                  <ToggleButton fx:id="btnFinance" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
+                  <ToggleButton fx:id="btnHr" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
+                  <ToggleButton fx:id="btnSales" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" />
+                  <ToggleButton fx:id="btnProduction" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
+                  <ToggleButton fx:id="btnLogistics" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
+                  <ToggleButton fx:id="btnWarehouse" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
+                  <ToggleButton fx:id="btnRAndD" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
+				  <ToggleButton fx:id="btnMarketing" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons">
                      <graphic>
                         <FontAwesomeIcon iconName="BULLHORN" size="1.3em" styleClass="fontAwesomeButtonDark" />
                      </graphic>

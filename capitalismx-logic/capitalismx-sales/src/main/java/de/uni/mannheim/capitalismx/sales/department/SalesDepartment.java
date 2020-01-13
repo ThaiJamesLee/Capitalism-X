@@ -42,23 +42,32 @@ public class SalesDepartment extends DepartmentImpl {
      */
     private PropertyChangeSupportList<Contract> availableContracts;
 
+    /**
+     * List of finish contracts.
+     */
+    private PropertyChangeSupportList<Contract> doneContracts;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesDepartment.class);
 
     public static final String ACTIVE_CONTRACTS_EVENT = "activeContractListChanged";
     public static final String AVAILABLE_CONTRACTS_EVENT = "availableContractListChanged";
+    public static final String DONE_CONTRACTS_EVENT = "doneContractsListChanged";
 
     private static final String SALES_PROPERTY_FILE = "sales-module";
     private static final String MAX_LEVEL_PROPERTY = "sales.department.level.max";
     private static final String NUM_CONTRACTS_PROPERTY_PREFIX = "sales.skill.contracts.number.";
     private static final String PRICE_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.price.factor.";
+    private static final String PENALTY_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.penalty.";
     private static final String LEVELING_COST_PROPERTY_PREFIX = "sales.skill.cost.";
 
     private static SalesDepartment instance;
 
     private SalesDepartment() {
         super("Sales Department");
+        setLevel(1);
         activeContracts = new PropertyChangeSupportList<>();
         availableContracts = new PropertyChangeSupportList<>();
+        doneContracts = new PropertyChangeSupportList<>();
         init();
     }
 
@@ -71,6 +80,9 @@ public class SalesDepartment extends DepartmentImpl {
 
         this.availableContracts.setAddPropertyName(AVAILABLE_CONTRACTS_EVENT);
         this.availableContracts.setRemovePropertyName(AVAILABLE_CONTRACTS_EVENT);
+
+        this.doneContracts.setAddPropertyName(DONE_CONTRACTS_EVENT);
+        this.doneContracts.setRemovePropertyName(DONE_CONTRACTS_EVENT);
         initProperties();
     }
 
@@ -110,7 +122,10 @@ public class SalesDepartment extends DepartmentImpl {
             String[] stringRange = bundle.getString(PRICE_FACTOR_PROPERTY_PREFIX + i).split(",");
             Double[] doubleRange = DataFormatter.stringArrayToDoubleArray(stringRange);
             Range priceFactor = new Range(doubleRange[0], doubleRange[1]);
-            this.skillMap.put(i, new SalesDepartmentSkill(i, numContract, priceFactor));
+
+            double penaltyFactor = Double.parseDouble(bundle.getString(PENALTY_FACTOR_PROPERTY_PREFIX + i));
+
+            this.skillMap.put(i, new SalesDepartmentSkill(i, numContract, penaltyFactor,priceFactor));
         }
     }
 
@@ -119,6 +134,10 @@ public class SalesDepartment extends DepartmentImpl {
             instance = new SalesDepartment();
         }
         return instance;
+    }
+
+    public static void setInstance(SalesDepartment instance) {
+        SalesDepartment.instance = instance;
     }
 
     /**
@@ -132,8 +151,13 @@ public class SalesDepartment extends DepartmentImpl {
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.activeContracts.addPropertyChangeListener(listener);
         this.availableContracts.addPropertyChangeListener(listener);
+        this.doneContracts.addPropertyChangeListener(listener);
     }
 
+    /**
+     *
+     * @return Returns all currently active contracts.
+     */
     public PropertyChangeSupportList<Contract> getActiveContracts() {
         return activeContracts;
     }
@@ -142,8 +166,20 @@ public class SalesDepartment extends DepartmentImpl {
         this.activeContracts = activeContracts;
     }
 
+    /**
+     *
+     * @return Returns all available contracts.
+     */
     public PropertyChangeSupportList<Contract> getAvailableContracts() {
         return availableContracts;
+    }
+
+    /**
+     *
+     * @return Returns contracts finished.
+     */
+    public PropertyChangeSupportList<Contract> getDoneContracts() {
+        return doneContracts;
     }
 
     /**
@@ -156,23 +192,39 @@ public class SalesDepartment extends DepartmentImpl {
     }
 
     /**
+     * Removes the contract from the active contracts and adds it to the done contracts.
+     * @param contract The contract that is finished.
+     * @param doneDate The date when the contract was finished.
+     */
+    public void contractDone(Contract contract, LocalDate doneDate) {
+        contract.setContractDoneDate(doneDate);
+        this.activeContracts.remove(contract);
+        this.doneContracts.add(contract);
+    }
+
+    /**
      *
      * @param date The date when the contracts are generated.
      * @param productionDepartment The {@link ProductionDepartment} instance.
      */
-    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment) {
+    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, double demandPercentage) {
         SalesDepartmentSkill skill = (SalesDepartmentSkill)skillMap.get(getLevel());
         int numContracts = skill.getNumContracts();
         Range factor = skill.getPriceFactor();
 
-        numContracts = (int)(numContracts * RandomNumberGenerator.getRandomDouble(factor.getLowerBound(), factor.getUpperBound()));
+        double penalty = skill.getPenaltyFactor();
+
+        numContracts = (int)(numContracts * demandPercentage);
         List<Contract> newContracts = new ArrayList<>();
 
         List<Product> products = productionDepartment.getLaunchedProducts();
-
+        ContractFactory contractFactory = new ContractFactory(productionDepartment);
         for(int i = 0; i<numContracts; i++) {
-            Product p = products.get(RandomNumberGenerator.getRandomInt(0, products.size()-1));
-            newContracts.add(ContractFactory.getContract(p, date));
+            int max = Math.max(products.size()-1, 0);
+            Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
+            Contract c = contractFactory.getContract(p, date, factor);
+            c.setPenalty(c.getPenalty() * penalty);
+            newContracts.add(c);
         }
         availableContracts.setList(newContracts);
     }

@@ -71,6 +71,9 @@ public class GameNotification {
 		this.message = message;
 		this.root = createRoot();
 		this.displayDuration = STANDARD_DISPLAY_DURATION;
+		this.root.setOnMouseClicked(e -> {
+			UIManager.getInstance().getGamePageController().showMessage(message);
+		});
 
 		CssHelper.replaceStylesheets(root.getStylesheets());
 	}

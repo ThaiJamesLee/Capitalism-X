@@ -48,6 +48,7 @@ import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.production.ProductionInvestment;
 import de.uni.mannheim.capitalismx.production.ProductionTechnology;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
+import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
@@ -150,6 +151,8 @@ public class GameController {
 			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
 			InternalFleet.setInstance(state.getInternalFleet());
 			ResearchAndDevelopmentDepartment.setInstance(state.getResearchAndDevelopmentDepartment());
+			ProductSupport.setInstance(state.getProductSupport());
+			SalesDepartment.setInstance(state.getSalesDepartment());
 
 		} catch (ClassNotFoundException e) {
 			LOGGER.error(e.getMessage(), e);
@@ -165,7 +168,8 @@ public class GameController {
 	}
 
 	private void updateCustomer() {
-		LocalDate gameDate = GameState.getInstance().getGameDate();
+		GameState state =  GameState.getInstance();
+		LocalDate gameDate = state.getGameDate();
 		CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.getInstance();
 		CustomerDemand customerDemand = CustomerDemand.getInstance();
 
@@ -189,6 +193,8 @@ public class GameController {
 		// get employerBranding score
 		double employerBranding = jss * 0.6 + companyImage * 0.4;
 		customerSatisfaction.setEmployerBranding(employerBranding);
+
+		state.setEmployerBranding(employerBranding);
 
 		// get logisticsIndex from Logistics
 		LogisticsDepartment logisticsDepartment = LogisticsDepartment.getInstance();
@@ -368,14 +374,6 @@ public class GameController {
 		LogisticsDepartment.getInstance().removeExternalPartner();
 	}
 
-	public void addTruckToFleet(Truck truck, LocalDate gameDate) {
-		LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
-	}
-
-	public void removeTruckFromFleet(Truck truck) {
-		LogisticsDepartment.getInstance().removeTruckFromFleet(truck);
-	}
-
 	public ArrayList<ProductSupport.SupportType> generateSupportTypeSelection() {
 		return ProductSupport.getInstance().generateSupportTypeSelection();
 	}
@@ -432,8 +430,12 @@ public class GameController {
 		return FinanceDepartment.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
 	}
 
-	public void sellTruck(Truck truck) {
-		FinanceDepartment.getInstance().sellTruck(truck);
+	public void buyTruck(Truck truck, LocalDate gameDate) {
+		FinanceDepartment.getInstance().buyTruck(truck, gameDate);
+	}
+
+	public void sellTruck(Truck truck, LocalDate gameDate) {
+		FinanceDepartment.getInstance().sellTruck(truck, gameDate);
 	}
 
 	public double getAssets() {
@@ -661,14 +663,18 @@ public class GameController {
 
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
 		try {
-			return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+			double purchasePrice = ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+			FinanceDepartment.getInstance().buyMachinery(machinery, gameDate);
+			return purchasePrice;
 		} catch (NoMachinerySlotsAvailableException e) {
 			throw new NoMachinerySlotsAvailableException("No more Capacity available to buy new Machine.");
 		}
 	}
 
-	public double sellMachinery(Machinery machinery) {
-		return ProductionDepartment.getInstance().sellMachinery(machinery);
+	public double sellMachinery(Machinery machinery, LocalDate gameDate) {
+		double resellPrice = ProductionDepartment.getInstance().sellMachinery(machinery);
+		FinanceDepartment.getInstance().sellMachinery(machinery, gameDate);
+		return resellPrice;
 	}
 
 	public Map<Machinery, Double> getMachineryResellPrices() {
@@ -731,8 +737,13 @@ public class GameController {
 	}
 
 	public double produceProduct(Product product, int quantity) {
-		return ProductionDepartment.getInstance().produceProduct(product, quantity,
-				WarehousingDepartment.getInstance().calculateFreeStorage());
+		try {
+			return ProductionDepartment.getInstance().produceProduct(product, quantity,
+					WarehousingDepartment.getInstance().calculateFreeStorage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return 0;
 	}
 
 	public double getAmountProductInProduction(Product product) {

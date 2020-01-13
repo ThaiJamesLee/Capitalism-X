@@ -56,10 +56,10 @@ public class CustomerSatisfactionTest {
         List<Component> components = new ArrayList<>();
 
         // set supplier category to be able to calculate procurement quality and therefore product quality
-        components.add(new Component(ComponentType.G_DISPLAYCASE_LEVEL_1, SupplierCategory.CHEAP));
-        components.add(new Component(ComponentType.G_POWERSUPPLY_LEVEL_1,SupplierCategory.CHEAP));
-        components.add(new Component(ComponentType.G_CPU_LEVEL_1, SupplierCategory.CHEAP));
-        components.add(new Component(ComponentType.G_CONNECTIVITY_LEVEL_1, SupplierCategory.CHEAP));
+        components.add(new Component(ComponentType.G_DISPLAYCASE_LEVEL_1, SupplierCategory.CHEAP, initDate));
+        components.add(new Component(ComponentType.G_POWERSUPPLY_LEVEL_1,SupplierCategory.CHEAP, initDate));
+        components.add(new Component(ComponentType.G_CPU_LEVEL_1, SupplierCategory.CHEAP, initDate));
+        components.add(new Component(ComponentType.G_CONNECTIVITY_LEVEL_1, SupplierCategory.CHEAP, initDate));
 
         try {
             Product p = new Product("test", ProductCategory.GAME_BOY, components);

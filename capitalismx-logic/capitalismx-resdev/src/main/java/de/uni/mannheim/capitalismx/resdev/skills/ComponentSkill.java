@@ -32,13 +32,13 @@ public class ComponentSkill extends ResDevSkillImpl {
     @Override
     public String getDescription() {
         ResourceBundle bundle = ResourceBundle.getBundle(PROPERTIES_FILE);
-        return bundle.getString(DESCRIPTION_PROPERTY_PREFIX);
+        return bundle.getString(DESCRIPTION_PROPERTY_PREFIX + level);
     }
 
     @Override
     public String getDescription(Locale l) {
         ResourceBundle bundle = ResourceBundle.getBundle(PROPERTIES_FILE, l);
-        return bundle.getString(DESCRIPTION_PROPERTY_PREFIX);
+        return bundle.getString(DESCRIPTION_PROPERTY_PREFIX + level);
     }
 
     /**

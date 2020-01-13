@@ -52,7 +52,7 @@ public enum GameModuleDefinition {
 	MARKETING_MARKETRESEARCH_LIST("mkt_marketResearch_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_MARKETRESEARCH, new GridPosition(13, 7, 7, 11), true),
 //	MARKETING_OVERVIEW("mkt_general_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(0, 10, 2, 3), true);
 	;
-	
+
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;
 	// The contentType of the module.

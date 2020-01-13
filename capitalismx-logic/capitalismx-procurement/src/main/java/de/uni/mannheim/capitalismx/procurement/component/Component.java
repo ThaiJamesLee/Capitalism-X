@@ -5,6 +5,8 @@ import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Random;
+
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
@@ -37,7 +39,7 @@ public class Component extends Unit implements Serializable {
         this.componentType = componentType;
     }
 
-    public Component(ComponentType componentType, SupplierCategory supplierCategory) {
+    public Component(ComponentType componentType, SupplierCategory supplierCategory, LocalDate gameDate) {
         this.unitType = UnitType.COMPONENT_UNIT;
         this.componentCategory = componentType.getComponentCategory();
         //this.componentName = componentType.getComponentName();
@@ -63,9 +65,10 @@ public class Component extends Unit implements Serializable {
                 this.supplierQuality = RandomNumberGenerator.getRandomInt(10, 60);
                 this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(10, 60);
         }
+        this.calculateRandomizedBaseCost(gameDate);
     }
 
-    public void setSupplierCategory(SupplierCategory supplierCategory) {
+    public void setSupplierCategory(SupplierCategory supplierCategory, LocalDate gameDate) {
         this.supplierCategory = supplierCategory;
         switch(supplierCategory) {
             case PREMIUM:
@@ -83,6 +86,7 @@ public class Component extends Unit implements Serializable {
                 this.supplierQuality = RandomNumberGenerator.getRandomInt(10, 60);
                 this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(10, 60);
         }
+        this.calculateRandomizedBaseCost(gameDate);
     }
 
     public ComponentCategory getComponentCategory() {
@@ -137,7 +141,7 @@ public class Component extends Unit implements Serializable {
         return this.baseCost;
     }
 
-    public double calculateBaseCost(LocalDate gameDate) {
+    public double calculateRandomizedBaseCost(LocalDate gameDate) {
         int gameYear = gameDate.getYear();
         double tBPM = -0.00011199 * Math.pow((gameYear - this.availabilityDate + 1), 5)
                 + 0.01117974 * Math.pow((gameYear - this.availabilityDate + 1), 4)
@@ -148,8 +152,23 @@ public class Component extends Unit implements Serializable {
         double tBCP = this.initialComponentPrice * (tBPM / 100);
         this.baseCost = tBCP * this.supplierCostMultiplicator;
         //TODO NORMAL FUNCTION
-        this.baseCost = this.baseCost * RandomNumberGenerator.getRandomDouble(0.8, 1.5);
+        Random random = new Random();
+        double normalDistributedValue = random.nextGaussian() * 0.1 + 1;
+        this.baseCost = this.baseCost * normalDistributedValue;
         return this.baseCost;
+    }
+
+    public double getTimeBasedComponentCost(LocalDate gameDate) {
+        int gameYear = gameDate.getYear();
+        double tBCP = 0;
+        double tBPM = -0.00011199 * Math.pow((gameYear - this.availabilityDate + 1), 5)
+                + 0.01117974 * Math.pow((gameYear - this.availabilityDate + 1), 4)
+                - 0.42393538 * Math.pow((gameYear - this.availabilityDate + 1), 3)
+                + 7.32188889 * Math.pow((gameYear - this.availabilityDate + 1), 2)
+                - 49.69789098 * (gameYear - this.availabilityDate + 1)
+                + 143.3244916;
+        tBCP = this.initialComponentPrice * (tBPM / 100);
+        return tBCP;
     }
 
     public UnitType getUnitType() {
@@ -159,4 +178,5 @@ public class Component extends Unit implements Serializable {
     public double getSalesPrice() {
         return 0;
     }
+
 }
