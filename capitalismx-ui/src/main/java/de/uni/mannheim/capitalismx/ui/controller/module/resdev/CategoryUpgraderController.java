@@ -40,19 +40,19 @@ public class CategoryUpgraderController extends GameModuleController {
     public void unlockConsole(){
         //todo: add something to do.
         categoryGrid.getChildren().remove(btnConsole);
-        categoryGrid.add(new Label("Unlocked"), 0,1);
+        categoryGrid.add(new Label("Unlocked"), 1,1);
     }
     @FXML
     public void unlockNotebook(){
         //todo: add something to do.
         categoryGrid.getChildren().remove(btnNotebook);
-        categoryGrid.add(new Label("Unlocked"), 0,1);
+        categoryGrid.add(new Label("Unlocked"), 2,1);
     }
     @FXML
     public void unlockPhone(){
         //todo: add something to do.
         categoryGrid.getChildren().remove(btnPhone);
-        categoryGrid.add(new Label("Unlocked"), 0,1);
+        categoryGrid.add(new Label("Unlocked"), 3,1);
     }
 
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
@@ -71,6 +71,7 @@ public class CategoryUpgraderController extends GameModuleController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameState.getInstance().getResearchAndDevelopmentDepartment().getInstance();
+
     }
 
 

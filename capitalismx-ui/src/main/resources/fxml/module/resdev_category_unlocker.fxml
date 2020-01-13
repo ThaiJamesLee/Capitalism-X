@@ -23,7 +23,7 @@
           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" styleClass="label_very_lage" text="TV">
+            <Label alignment="CENTER" styleClass="label_very_large" text="TV">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
