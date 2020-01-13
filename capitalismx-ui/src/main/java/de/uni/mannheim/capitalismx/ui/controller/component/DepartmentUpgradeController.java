@@ -49,7 +49,7 @@ public class DepartmentUpgradeController implements Initializable {
 			if (!upgradeVBox.getChildren().contains(upgradeGrid)) {
 				upgradeVBox.getChildren().add(upgradeGrid);
 			}
-			nextLevelDescriptionLabel.setText(department.getSkillMap().get(level + 1).getDescription());
+			nextLevelDescriptionLabel.setText(department.getSkillMap().get(level + 1).getDescription(UIManager.getResourceBundle().getLocale()));
 			nextLevelLabel.setText(UIManager.getLocalisedString("hud.dropdown.next.benefits").replace("XXX", (level+1) + ""));
 			levelUpButton.setText(UIManager.getLocalisedString("hud.dropdown.next.button")
 					+ CapCoinFormatter.getCapCoins(department.getLevelingMechanism().getNextLevelUpCost()));
