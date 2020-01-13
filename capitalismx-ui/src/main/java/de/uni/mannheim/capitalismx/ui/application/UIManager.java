@@ -452,15 +452,6 @@ public class UIManager {
 		return language;
 	}
 
-	/**
-	 * Quits the game: Triggers a new {@link WindowEvent}, containing a
-	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application. TODO
-	 * maybe handle more stuff when ingame. (eg autosave)
-	 */
-	public void quitGame() {
-		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
-	}
-
 	public static ResourceBundle getResourceBundle() {
 		return resourceBundle;
 	}
