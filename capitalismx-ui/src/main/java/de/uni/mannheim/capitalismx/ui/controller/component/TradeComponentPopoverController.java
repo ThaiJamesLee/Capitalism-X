@@ -4,12 +4,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -51,11 +52,16 @@ public class TradeComponentPopoverController implements Initializable {
 		String input = buyAmountField.getText();
 		try {
 			int amount = Integer.parseInt(input);
-			if(amount > GameController.getInstance().getFreeStorage()) {
-				return;
-				//TODO error messages?
+			int freeStorage = GameController.getInstance().getFreeStorage();
+			if(amount > freeStorage) {
+				GameAlert alert = new GameAlert(AlertType.INFORMATION);
+				alert.setHeaderText("You do not have enough space in your warehouse.");
+				alert.setContentText("Will buy as much as possible (" + freeStorage + ") for now.");
+				alert.showAndWait();
+				GameController.getInstance().buyComponents(component, freeStorage);
+			} else {
+				GameController.getInstance().buyComponents(component, amount);
 			}
-			GameController.getInstance().buyComponents(component, amount);
 		} catch (NumberFormatException e) {
 			//ignore incorrect input and reset text
 			buyAmountField.setText("0");
