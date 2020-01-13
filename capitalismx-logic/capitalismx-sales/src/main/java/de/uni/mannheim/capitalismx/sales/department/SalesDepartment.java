@@ -136,6 +136,10 @@ public class SalesDepartment extends DepartmentImpl {
         return instance;
     }
 
+    public static void setInstance(SalesDepartment instance) {
+        SalesDepartment.instance = instance;
+    }
+
     /**
      * @return Returns a fresh instance of this department.
      */
@@ -193,7 +197,7 @@ public class SalesDepartment extends DepartmentImpl {
      * @param doneDate The date when the contract was finished.
      */
     public void contractDone(Contract contract, LocalDate doneDate) {
-        contract.setContractDone(doneDate);
+        contract.setContractDoneDate(doneDate);
         this.activeContracts.remove(contract);
         this.doneContracts.add(contract);
     }

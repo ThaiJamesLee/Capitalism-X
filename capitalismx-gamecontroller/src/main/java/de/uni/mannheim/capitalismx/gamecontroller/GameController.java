@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.production.*;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
+import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,6 +123,8 @@ public class GameController {
 			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
 			InternalFleet.setInstance(state.getInternalFleet());
 			ResearchAndDevelopmentDepartment.setInstance(state.getResearchAndDevelopmentDepartment());
+			ProductSupport.setInstance(state.getProductSupport());
+			SalesDepartment.setInstance(state.getSalesDepartment());
 
 		} catch (ClassNotFoundException e) {
 			LOGGER.error(e.getMessage(), e);
@@ -137,7 +140,8 @@ public class GameController {
 	}
 
 	private void updateCustomer() {
-		LocalDate gameDate = GameState.getInstance().getGameDate();
+		GameState state =  GameState.getInstance();
+		LocalDate gameDate = state.getGameDate();
 		CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.getInstance();
 		CustomerDemand customerDemand = CustomerDemand.getInstance();
 
@@ -161,6 +165,8 @@ public class GameController {
 		// get employerBranding score
 		double employerBranding = jss * 0.6 + companyImage * 0.4;
 		customerSatisfaction.setEmployerBranding(employerBranding);
+
+		state.setEmployerBranding(employerBranding);
 
 		// get logisticsIndex from Logistics
 		LogisticsDepartment logisticsDepartment = LogisticsDepartment.getInstance();
