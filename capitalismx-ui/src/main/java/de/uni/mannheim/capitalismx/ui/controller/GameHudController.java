@@ -126,12 +126,15 @@ public class GameHudController implements UpdateableController {
 		if (diff < 0) {
 			label.getStyleClass().remove("hud_label");
 			label.getStyleClass().remove("hud_label_green");
+			label.getStyleClass().remove("hud_label_red");
 			label.getStyleClass().add("hud_label_red");
 		} else if (diff > 0) {
 			label.getStyleClass().remove("hud_label");
-			label.getStyleClass().add("hud_label_green");
+			label.getStyleClass().remove("hud_label_green");
 			label.getStyleClass().remove("hud_label_red");
+			label.getStyleClass().add("hud_label_green");
 		} else {
+			label.getStyleClass().remove("hud_label");
 			label.getStyleClass().add("hud_label");
 			label.getStyleClass().remove("hud_label_green");
 			label.getStyleClass().remove("hud_label_red");
@@ -426,10 +429,16 @@ public class GameHudController implements UpdateableController {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				cashLabel.setText(CapCoinFormatter.getCapCoins(currentCash));
-				Double diff = GameState.getInstance().getFinanceDepartment().getCashDifference();
+			}
+		});
+	}
+
+	public void updateCashChangeLabel(Double diff) {
+		Platform.runLater(new Runnable() {
+			public void run() {
 				if (diff != null) {
 					colorHudLabel(diff, cashChangeLabel);
-					cashChangeLabel.setText((diff >= 0) ? "+" : "" + CapCoinFormatter.getCapCoins(diff));
+					cashChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
 				} else {
 					cashChangeLabel.setText("+0 CC");
 				}
@@ -487,10 +496,16 @@ public class GameHudController implements UpdateableController {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
-				Double diff = GameState.getInstance().getFinanceDepartment().getNetWorthDifference();
+			}
+		});
+	}
+
+	public void updateNetworthChangeLabel(Double diff) {
+		Platform.runLater(new Runnable() {
+			public void run() {
 				if (diff != null) {
 					colorHudLabel(diff, netWorthChangeLabel);
-					netWorthChangeLabel.setText((diff >= 0) ? "+" : "" + CapCoinFormatter.getCapCoins(diff));
+					netWorthChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
 				}
 			}
 		});
