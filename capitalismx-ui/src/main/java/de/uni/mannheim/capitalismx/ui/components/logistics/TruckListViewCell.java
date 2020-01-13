@@ -59,7 +59,7 @@ public class TruckListViewCell extends ListCell<Truck> {
             valueLabel.setText(controller.calculateResellPrice(truck.getPurchasePrice(), truck.getUsefulLife(), truck.calculateTimeUsed(GameState.getInstance().getGameDate())) + " CC");
             dateLabel.setText(truck.getPurchaseDate() + "");
             sellButton.setOnAction(e -> {
-                controller.sellTruck(truck);
+                controller.sellTruck(truck, GameState.getInstance().getGameDate());
                 this.truckFleetListView.getItems().remove(truck);
             });
 

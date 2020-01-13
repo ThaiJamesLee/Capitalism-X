@@ -340,14 +340,6 @@ public class GameController {
 		LogisticsDepartment.getInstance().removeExternalPartner();
 	}
 
-	public void addTruckToFleet(Truck truck, LocalDate gameDate) {
-		LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
-	}
-
-	public void removeTruckFromFleet(Truck truck) {
-		LogisticsDepartment.getInstance().removeTruckFromFleet(truck);
-	}
-
 	public ArrayList<ProductSupport.SupportType> generateSupportTypeSelection() {
 		return ProductSupport.getInstance().generateSupportTypeSelection();
 	}
@@ -404,8 +396,12 @@ public class GameController {
 		return FinanceDepartment.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
 	}
 
-	public void sellTruck(Truck truck) {
-		FinanceDepartment.getInstance().sellTruck(truck);
+	public void buyTruck(Truck truck, LocalDate gameDate) {
+		FinanceDepartment.getInstance().buyTruck(truck, gameDate);
+	}
+
+	public void sellTruck(Truck truck, LocalDate gameDate) {
+		FinanceDepartment.getInstance().sellTruck(truck, gameDate);
 	}
 
 	public double getAssets() {
@@ -633,14 +629,18 @@ public class GameController {
 
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
 		try {
-			return ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+			double purchasePrice = ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+			FinanceDepartment.getInstance().buyMachinery(machinery, gameDate);
+			return purchasePrice;
 		} catch (NoMachinerySlotsAvailableException e) {
 			throw new NoMachinerySlotsAvailableException("No more Capacity available to buy new Machine.");
 		}
 	}
 
-	public double sellMachinery(Machinery machinery) {
-		return ProductionDepartment.getInstance().sellMachinery(machinery);
+	public double sellMachinery(Machinery machinery, LocalDate gameDate) {
+		double resellPrice = ProductionDepartment.getInstance().sellMachinery(machinery);
+		FinanceDepartment.getInstance().sellMachinery(machinery, gameDate);
+		return resellPrice;
 	}
 
 	public Map<Machinery, Double> getMachineryResellPrices() {

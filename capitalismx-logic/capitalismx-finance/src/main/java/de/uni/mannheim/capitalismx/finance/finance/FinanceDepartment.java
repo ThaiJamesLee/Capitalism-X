@@ -264,8 +264,9 @@ public class FinanceDepartment extends DepartmentImpl {
         this.totalMachineValues = 0;
         List<Machinery> machines = ProductionDepartment.getInstance().getMachines();
         for(Machinery machine : machines){
-            this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(),
-                    machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));
+            //this.totalMachineValues += this.calculateResellPrice(machine.getPurchasePrice(),
+            //        machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));
+            this.totalMachineValues += machine.calculateResellPrice();
         }
         return this.totalMachineValues;
     }
@@ -275,16 +276,35 @@ public class FinanceDepartment extends DepartmentImpl {
         this.warehousesSold.add(warehouse);
     }
 
-    //TODO timestamp or thread in class that checks if new day
-    public void sellTruck(Truck truck){
-        this.trucksSold.add(truck);
+    public void buyTruck(Truck truck, LocalDate gameDate){
+        LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
+        this.decreaseCash(gameDate, truck.getPurchasePrice());
+        this.increaseAssets(gameDate, this.calculateResellPrice(truck.getPurchasePrice(),
+                truck.getUsefulLife(), truck.calculateTimeUsed(gameDate)));
+    }
+
+    public void sellTruck(Truck truck, LocalDate gameDate){
+        //TODO timestamp or thread in class that checks if new day
+        //this.trucksSold.add(truck);
+        double resellPrice = this.calculateResellPrice(truck.getPurchasePrice(),
+                truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
+        this.increaseCash(gameDate, resellPrice);
+        this.decreaseAssets(gameDate, resellPrice);
         LogisticsDepartment.getInstance().removeTruckFromFleet(truck);
     }
 
-    //TODO timestamp or thread in class that checks if new day
-    public void sellMachine(Machinery machine){
-        this.machinesSold.add(machine);
+    public void buyMachinery(Machinery machinery, LocalDate gameDate){
+        this.decreaseCash(gameDate, machinery.getPurchasePrice());
+        this.increaseAssets(gameDate, machinery.calculateResellPrice());
     }
+
+    public void sellMachinery(Machinery machinery, LocalDate gameDate){
+        //TODO timestamp or thread in class that checks if new day
+        //this.machinesSold.add(machinery);
+        this.increaseCash(gameDate, machinery.calculateResellPrice());
+        this.decreaseAssets(gameDate, machinery.calculateResellPrice());
+    }
+
 
     protected double calculateAssetsSold(LocalDate gameDate){
         this.assetsSold = 0;
@@ -292,14 +312,16 @@ public class FinanceDepartment extends DepartmentImpl {
             this.assetsSold += this.calculateResellPrice(warehouse.getBuildingCost(),
                     warehouse.getUsefulLife(), warehouse.calculateTimeUsed(gameDate));
         }
-        for(Truck truck : this.trucksSold){
+        //TODO already decreased from cash in sellTruck()
+        /*for(Truck truck : this.trucksSold){
             this.assetsSold += this.calculateResellPrice(truck.getPurchasePrice(),
                     truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
-        }
-        for(Machinery machine : this.machinesSold){
+        }*/
+        //TODO already decreased from cash in sellTruck()
+        /*for(Machinery machine : this.machinesSold){
             this.assetsSold += this.calculateResellPrice(machine.getPurchasePrice(),
                     machine.getUsefulLife(), machine.calculateTimeUsed(gameDate));
-        }
+        }*/
         return this.assetsSold;
     }
 
