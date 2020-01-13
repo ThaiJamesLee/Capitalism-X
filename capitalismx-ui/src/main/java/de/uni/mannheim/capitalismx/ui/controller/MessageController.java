@@ -88,13 +88,13 @@ public class MessageController implements Initializable {
 			mcc.setContentDate(m.getDate());
 			mcc.setContentSubject(bundle.getString(m.getSubject()));
 			mcc.setContentContent(bundle.getString(m.getContent()));
-			if(m.getJumpTo()!=null){
+			if(m.getJumpTo()!=0){
 				mcc.addJumpButton(m.getJumpTo());
 			}
 			messageContentPane.setContent(messageContent);
 
-			m.setSubjectPanel(messageSubject);
-			m.setMessageContent(messageContent);
+			//m.setSubjectPanel(messageSubject);
+			//m.setMessageContent(messageContent);
 			messageSave.add(0, m);
 			msc.setMessageReference(m);
 
@@ -107,7 +107,7 @@ public class MessageController implements Initializable {
 	}
 
 	public void setContent(MessageObject message){
-		messageContentPane.setContent(message.getMessageContent());
+		//messageContentPane.setContent(message.getMessageContent());
 	}
 
 	//todo:

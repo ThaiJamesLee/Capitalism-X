@@ -121,11 +121,13 @@ public class GamePageController implements UpdateableController {
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
+			/*
 			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, null);
 			MessageObject m2 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event2", true,
 					GameViewType.PRODUCTION);
 			messageController.addMessage(m1);
 			messageController.addMessage(m2);
+			 */
 			// messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1",
 			// "con.event1", true, null);
 			// messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1",

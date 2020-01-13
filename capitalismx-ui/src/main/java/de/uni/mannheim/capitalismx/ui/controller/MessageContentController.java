@@ -32,10 +32,11 @@ public class MessageContentController {
         contentContent.setText(content);
     }
 
-    public void addJumpButton(GameViewType jumpToView){
+    public void addJumpButton(int jumpToView){
+        GameViewType viewID = GameViewType.getTypeById(jumpToView);
         Button btn = new Button("Jump to Menu");
         btn.setOnAction(action -> {
-            UIManager.getInstance().getGamePageController().switchView(jumpToView);
+            UIManager.getInstance().getGamePageController().switchView(viewID);
             UIManager.getInstance().getGamePageController().toggleMessageWindow();
         });
         contentVBox.getChildren().add(btn);
