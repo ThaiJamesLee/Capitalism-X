@@ -29,6 +29,14 @@ public class FinanceEventListener implements PropertyChangeListener {
             }
         }
 
+        if(evt.getPropertyName().equals("loanRemoved")){
+            PropertyChangeSupportBoolean newVal = (PropertyChangeSupportBoolean) evt.getSource();
+            if(newVal.getValue() == true){
+                FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_BANKING_SYSTEM).getController();
+                financeBankingSystemController.removeLoan();
+            }
+        }
+
         if (evt.getPropertyName().equals("updatedMonthlyData")) {
             FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OVERVIEW).getController();
 
