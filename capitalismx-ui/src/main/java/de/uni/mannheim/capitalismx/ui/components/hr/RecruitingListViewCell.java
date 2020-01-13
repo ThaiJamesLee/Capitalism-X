@@ -82,10 +82,12 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	 * Hire the selected employee and remove him from the lists.
 	 */
 	public void hireEmployee() {
-		if (GameState.getInstance().getHrDepartment().hire(employee) != 0) {
+		double hireCost = GameState.getInstance().getHrDepartment().hire(employee);
+		if (hireCost > 0) {
 			RecruitingListController recruitingController = (RecruitingListController) UIManager.getInstance()
 					.getGameView(GameViewType.HR).getModule(UIElementType.HR_RECRUITING_OVERVIEW).getController();
 			recruitingController.removeEmployee(employee);
+			GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), hireCost);
 		} else {
 			GameAlert error = new GameAlert(AlertType.WARNING);
 			error.setTitle("You can not hire this employee.");
