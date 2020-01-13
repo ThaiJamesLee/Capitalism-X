@@ -59,6 +59,10 @@ public class Contract implements Serializable {
      */
     private LocalDate contractDone;
 
+    /**
+     * The number of products produced for this product.
+     */
+    private int producedProducts;
 
     /**
      *
@@ -78,6 +82,7 @@ public class Contract implements Serializable {
         this.timeToFinish = timeToFinish;
         this.penalty = penalty;
         this.contractStart = contractStart;
+        this.producedProducts = 0;
     }
 
     /**
@@ -204,7 +209,7 @@ public class Contract implements Serializable {
      *
      * @return Returns the date when the contract is done. Returns null if it is not done yet.
      */
-    public LocalDate getContractDone() {
+    public LocalDate getContractDoneDate() {
         return contractDone;
     }
 
@@ -212,7 +217,7 @@ public class Contract implements Serializable {
      *
      * @param contractDone The date the contract is done.
      */
-    public void setContractDone(LocalDate contractDone) {
+    public void setContractDoneDate(LocalDate contractDone) {
         this.contractDone = contractDone;
     }
 
@@ -224,6 +229,7 @@ public class Contract implements Serializable {
     public boolean contractIsDue(LocalDate currentDate) {
         return contractStart.plusMonths(timeToFinish).isAfter(currentDate);
     }
+
 
     @Override
     public String toString() {
