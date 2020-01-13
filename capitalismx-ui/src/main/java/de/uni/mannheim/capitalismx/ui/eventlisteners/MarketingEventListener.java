@@ -29,7 +29,6 @@ public class MarketingEventListener implements PropertyChangeListener {
 //        }
 
         if(evt.getPropertyName().equals("pressReleases")){
-        	System.out.println("Event caught!!!");
             PressReleaseListController pressReleaseController = (PressReleaseListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_PRESSRELEASE).getController();
             pressReleaseController.hidePopover();
         }

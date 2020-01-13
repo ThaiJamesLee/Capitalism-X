@@ -46,7 +46,7 @@ public class MarketingDepartment extends DepartmentImpl {
     //campaigns that the department issued orderer by release date
     private List<Campaign> campaignsWithDates;
 
-
+    private double employerBranding;
 
 	// press releases the company made
     private List<PressRelease> pressReleases;
@@ -418,11 +418,16 @@ public class MarketingDepartment extends DepartmentImpl {
     public List<MarketResearch> getMarketResearches() {
         return marketResearches;
     }
+    
+    public void setEmployerBranding(double employerBranding) {
+    	this.employerBranding = employerBranding;
+    }
+
 
     public static void setInstance(MarketingDepartment instance) {
         MarketingDepartment.instance = instance;
     }
-
+    
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
     	//this.pressReleases.addPropertyChangeListener(listener);

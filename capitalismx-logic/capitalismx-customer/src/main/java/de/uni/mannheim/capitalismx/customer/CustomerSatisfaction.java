@@ -146,6 +146,10 @@ public class CustomerSatisfaction implements Serializable {
     public double getCustomerSatisfaction() {
         return customerSatisfaction;
     }
+    
+    public double getEmployerBranding() {
+        return employerBranding;
+    }
 
     public Map<Product, Double> getOverallAppeal() {
         return overallAppeal;

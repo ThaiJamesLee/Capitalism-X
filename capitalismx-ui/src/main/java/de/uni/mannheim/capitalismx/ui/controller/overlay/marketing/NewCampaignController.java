@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -16,7 +17,9 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.marketing.CampaignsCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.CampaignsOverviewController;
+import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketingOverviewController;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -79,7 +82,7 @@ public class NewCampaignController extends GameOverlayController {
     	
     	//buttons for starting social actions
     	csrBtn.setOnAction(e -> {
-    		controller.makeCampaign(Campaign.SOCIAL_CAMPAIGN_1.getName(), Media.NONE);
+    		controller.makeCampaign(Campaign.SOCIAL_CAMPAIGN_1.getName(), Media.NONE2);
     		updateCampaignsList();
     	});
     	refugeeBtn.setOnAction(e -> {
@@ -107,16 +110,29 @@ public class NewCampaignController extends GameOverlayController {
     	CampaignsOverviewController uiController = (CampaignsOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_CAMPAIGNS).getController();
 		uiController.updateList();
 		uiController.hidePopover();
+		
+		//update CompanyImage View
+//		MarketingOverviewController mktController = (MarketingOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_OVERVIEW).getController();
+//		mktController.setCompanyImageLabel(text);
+		
     }
     
     /**
-     * Function that updates the companyImage value in the {@link CustomerSatisfaction}calculation and in the Label in the Marketing Overview {@link GameModule} 
+     * Function that updates the companyImage and EmployerBranding Labels in the Marketing Overview {@link GameModule} 
      */
     //TODO refactor to prevent nullpointer if OverviewModule is not displayed
-    private void updateCompanyImage() {
-    	GameController.getInstance().updateCompanyImageInCustomerSatisfaction();
-//    	MarketingOverviewController con = (MarketingOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_OVERVIEW).getController();
-//    	con.updateCompanyImageLabel();
+    private void updateCompanyImage() {    	
+    	
+    	GameModule modul = UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_OVERVIEW);
+    	
+    	if(modul.isActivated()) {
+    		GameController controller = GameController.getInstance();
+        	double companyImage = controller.computeCompanyImage();
+        	double employerBranding =  controller.getEmployerBranding();
+        	
+        	MarketingOverviewController con = (MarketingOverviewController) modul.getController();
+        	con.setCompanyImageLabel(DecimalRound.round(companyImage, 2) + "");
+        	con.setEmployerBrandingLabel(DecimalRound.round(employerBranding, 2) + "");		
+    	}
     }
-
 }

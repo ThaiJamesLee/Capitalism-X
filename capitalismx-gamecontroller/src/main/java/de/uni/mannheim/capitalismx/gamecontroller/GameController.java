@@ -100,15 +100,6 @@ public class GameController {
 		this.updateAll();
 	}
 
-	/**
-	 * called when the enddate is reached, terminates the Game and changes View to the GameOver View
-	 */
-	private void youHaveWonTheGame() {
-		//TODO
-//		UIManager.getInstance().stopGame();
-//		UIManager.getInstance().switchToScene(GameSceneType.MENU_MAIN);
-	}
-
 	private void updateAll() {
 		// TODO update all values of the departments
 		this.updateCompanyEcoIndex();
@@ -229,7 +220,13 @@ public class GameController {
 	}
 
 	private void updateMarketing() {
-
+		//TODO update CompanyImage und EmployerBranding
+		
+		CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.getInstance();
+		MarketingDepartment.getInstance().setEmployerBranding(customerSatisfaction.getEmployerBranding());
+		
+		//TODO set values used for consultancies here!!!
+		
 	}
 
 	// TODO once procurement implementation is ready
@@ -1154,5 +1151,9 @@ public class GameController {
 	/*  Customer */	
 	public void updateCompanyImageInCustomerSatisfaction() {
 		CustomerSatisfaction.getInstance().setCompanyImage(MarketingDepartment.getInstance().getCompanyImageScore());
+	}
+	
+	public double getEmployerBranding() {
+		return CustomerSatisfaction.getInstance().getEmployerBranding();
 	}
 }

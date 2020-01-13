@@ -11,6 +11,8 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,8 +29,7 @@ import javafx.scene.control.ListView;
 public class MarketingOverviewController extends GameModuleController {
 
 	//TODO Was tun mit den Consultancies???
-	@FXML
-	private ListView<PressRelease> pressReleaseList;
+	//TODO replace current pressReleasePopover
 
 	@FXML
 	private Label compImValueLbl;
@@ -60,39 +61,40 @@ public class MarketingOverviewController extends GameModuleController {
 		popover = helper.getPopover();
 				
 		//TODO ändern und korrekt formatieren...
-		compImValueLbl.setText("100");
-		emplBrValueLbl.setText("100");
+		GameController controller = GameController.getInstance();
+		compImValueLbl.setText(DecimalRound.round(controller.computeCompanyImage(), 2) + "");
+		emplBrValueLbl.setText(DecimalRound.round(controller.getEmployerBranding(), 2) + "");
 		
 		consChangeBtn.setOnAction(e -> {
-			showPopover();
+			//showPopover();
 			
 		});
-		consChangeBtn.setDisable(true);
+		//consChangeBtn.setDisable(true);
 	
-		//GameState.getInstance().getMarketingDepartment().getPressReleases().addPropertyChangeListener(marketingEventListener);
 	}
 
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());
 	}
 	
+	public void setCompanyImageLabel(String text) {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				compImValueLbl.setText(text);
+			}
+		});
+	}
+	
+	public void setEmployerBrandingLabel(String text) {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				emplBrValueLbl.setText(text);
+			}
+		});
+	}
+	
 	
 	public void hidePopover() {
 		popover.hide();
-	}
-
-	/**
-	 * Gets the current list of published Press Releases from {@link Gamecontroller}
-	 * and updates listView
-	 */
-	public void updateList() {
-		GameController controller = GameController.getInstance();
-		List<PressRelease> pressReleases = controller.getPressReleases();
-
-		pressReleaseList.setItems(FXCollections.observableArrayList(pressReleases));
-	}
-	
-	public void updateCompanyImageLabel() {
-		compImValueLbl.setText(GameController.getInstance().computeCompanyImage() + "");
 	}
 }

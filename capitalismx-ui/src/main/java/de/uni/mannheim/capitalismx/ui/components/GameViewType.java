@@ -24,7 +24,6 @@ public enum GameViewType {
 	R_AND_D(8, "view.research", FontAwesomeIconName.FLASK, true),
 	MARKETING(9, "view.marketing",FontAwesomeIconName.BULLHORN , false);
 
-	
 	private final String title;
 	private final int id;
 	private final FontAwesomeIconName iconName;
