@@ -4,17 +4,21 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.MessageSubjectController;
 import javafx.scene.Parent;
 
+import java.io.Serializable;
+
 /**
  *
  */
-public class MessageObject {
+public class MessageObject implements Serializable {
 
     private String sender;
     private String date;
     private String subject;
     private String content;
     private boolean isInternal;
+    private boolean isRead;
     private int jumpTo;
+
     //Parent subjectPanel;
     //Parent messageContent;
 
@@ -32,6 +36,7 @@ public class MessageObject {
         this.subject = subject;
         this.date = date;
         this.isInternal = isInternal;
+        this.isRead = false;
         this.jumpTo =  0;
         //this.subjectPanel = null;
         //this.messageContent = null;
@@ -51,6 +56,7 @@ public class MessageObject {
         this.subject = subject;
         this.date = date;
         this.isInternal = isInternal;
+        this.isRead = false;
         this.jumpTo =  jumpTo;
         //this.subjectPanel = null;
         //this.messageContent = null;
