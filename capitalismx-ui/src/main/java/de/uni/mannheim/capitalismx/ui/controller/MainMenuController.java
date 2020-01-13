@@ -24,13 +24,16 @@ public class MainMenuController implements UpdateableController {
 	
 	@FXML
 	public Button newGameButton;
+
+	@FXML
+	public Button continueGameButton;
+	
+//	@FXML
+//	public Button leaderboardButton;
 	
 	@FXML
 	public Button creditsButton;
 	
-	@FXML
-	public Button leaderboardButton;
-
 	@FXML
 	public Button switchButton;
 	
@@ -39,7 +42,6 @@ public class MainMenuController implements UpdateableController {
 	
 	@FXML
 	public Button quitButton;
-	
 	
 	
 	@Override
@@ -54,9 +56,9 @@ public class MainMenuController implements UpdateableController {
 			UIManager.getInstance().switchToScene(GameSceneType.CREDITS_PAGE);
 		});
 		
-		leaderboardButton.setOnAction(e -> {
-			UIManager.getInstance().switchToScene(GameSceneType.LEADERBOARD_PAGE);
-		});
+//		leaderboardButton.setOnAction(e -> {
+//			UIManager.getInstance().switchToScene(GameSceneType.GAMELOST_PAGE);
+//		});
 		
 		switchButton.setOnAction(e -> {
 			UIManager.getInstance().reloadProperties();

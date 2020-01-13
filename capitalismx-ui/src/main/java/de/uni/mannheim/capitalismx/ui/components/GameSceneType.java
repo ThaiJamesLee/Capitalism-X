@@ -46,6 +46,6 @@ public enum GameSceneType {
 	/**
 	 * Displayed if the player reaches the enddate and thus won the game
 	 */
-	GAMEFINISHED_PAGE
+	GAMEWON_PAGE
 	;
 }

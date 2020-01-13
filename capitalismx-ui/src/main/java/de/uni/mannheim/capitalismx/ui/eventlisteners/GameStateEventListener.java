@@ -13,9 +13,15 @@ public class GameStateEventListener implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals("gameDate")) {
+    	 if(evt.getPropertyName().equals("gameWon")) {
+         	UIManager.getInstance().gameOver(true);
+         }
+    	
+    	if(evt.getPropertyName().equals("gameDate")) {
             //TODO do something with the changed value.
         	UIManager.getInstance().getGameHudController().update();
         }
+        
+       
     }
 }

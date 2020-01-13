@@ -12,6 +12,7 @@ import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
@@ -34,6 +35,8 @@ public class GameState implements Serializable {
 	private LocalDate gameDate;
 
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	
+    private PropertyChangeSupportBoolean endGameReached;
 
 	// Departments
 	private HRDepartment hrDepartment;
@@ -52,6 +55,10 @@ public class GameState implements Serializable {
 
 	private GameState() {
 		this.gameDate = LocalDate.of(1990, 1, 1);
+		
+		 this.endGameReached = new PropertyChangeSupportBoolean();
+	     this.endGameReached.setValue(false);
+	     this.endGameReached.setPropertyChangedName("gameWon");
 	}
 
 	public static GameState getInstance() {
@@ -111,6 +118,7 @@ public class GameState implements Serializable {
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
+		this.endGameReached.addPropertyChangeListener(listener);
 	}
 
 	/**
@@ -135,6 +143,14 @@ public class GameState implements Serializable {
 		LocalDate oldDate = this.gameDate;
 		this.gameDate = gameDate;
 		this.propertyChangeSupport.firePropertyChange("gameDate", oldDate, gameDate);
+	}
+	
+	/**
+	 * Fires a property changed event that the game end date was reached
+	 * @param gameDate
+	 */
+	public void endGameReached(LocalDate gameDate) {
+		this.endGameReached.setValue(true);
 	}
 
 	/**

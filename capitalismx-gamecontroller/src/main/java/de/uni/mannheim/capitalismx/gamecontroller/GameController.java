@@ -62,6 +62,8 @@ import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
  * @author sdupper
  */
 public class GameController {
+	
+	private static final String GAME_ENDDATE = "2017-12-31";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
@@ -83,12 +85,27 @@ public class GameController {
 		LocalDate oldDate = state.getGameDate();
 		state.setGameDate(oldDate.plusDays(1));
 		LocalDate newDate = state.getGameDate();
+		
+		//check if enddate is reached
+		if(newDate.isAfter(LocalDate.parse(GAME_ENDDATE))){
+			state.endGameReached(newDate);
+		}
+		
 		if (oldDate.getMonth() != newDate.getMonth()) {
 			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
 			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(GameState.getInstance().getGameDate());
 			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
 		}
 		this.updateAll();
+	}
+
+	/**
+	 * called when the enddate is reached, terminates the Game and changes View to the GameOver View
+	 */
+	private void youHaveWonTheGame() {
+		//TODO
+//		UIManager.getInstance().stopGame();
+//		UIManager.getInstance().switchToScene(GameSceneType.MENU_MAIN);
 	}
 
 	private void updateAll() {
