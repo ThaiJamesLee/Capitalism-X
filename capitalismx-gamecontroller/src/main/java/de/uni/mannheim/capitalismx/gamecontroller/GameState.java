@@ -13,6 +13,8 @@ import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
+import de.uni.mannheim.capitalismx.utils.data.MessageObject;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
@@ -42,6 +44,16 @@ public class GameState implements Serializable {
 
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
+	/**
+	 * The list that contains the {@link MessageObject}s.
+	 */
+	private PropertyChangeSupportList<MessageObject> messages;
+
+	/**
+	 * Event name when the {@link PropertyChangeSupportList} changes.
+	 */
+	public static final String MESSAGE_LIST_CHANGED_EVENT = "messageListChanged";
+
 	// Departments
 	private HRDepartment hrDepartment;
 	private ProductionDepartment productionDepartment;
@@ -60,6 +72,9 @@ public class GameState implements Serializable {
 
 	private GameState() {
 		this.gameDate = LocalDate.of(1990, 1, 1);
+		messages = new PropertyChangeSupportList<>();
+		messages.setAddPropertyName(MESSAGE_LIST_CHANGED_EVENT);
+		messages.setRemovePropertyName(MESSAGE_LIST_CHANGED_EVENT);
 	}
 
 	public static GameState getInstance() {
@@ -136,6 +151,7 @@ public class GameState implements Serializable {
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
+		this.messages.addPropertyChangeListener(listener);
 	}
 
 	/**
@@ -290,5 +306,13 @@ public class GameState implements Serializable {
 
 	public void setSalesDepartment(SalesDepartment salesDepartment) {
 		this.salesDepartment = salesDepartment;
+	}
+
+	/**
+	 *
+	 * @return Returns the list of messages.
+	 */
+	public PropertyChangeSupportList<MessageObject> getMessages() {
+		return messages;
 	}
 }

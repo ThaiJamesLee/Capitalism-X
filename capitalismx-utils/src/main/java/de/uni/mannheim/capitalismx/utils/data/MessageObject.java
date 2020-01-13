@@ -1,8 +1,5 @@
-package de.uni.mannheim.capitalismx.ui.utils;
+package de.uni.mannheim.capitalismx.utils.data;
 
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.controller.MessageSubjectController;
-import javafx.scene.Parent;
 
 import java.io.Serializable;
 
