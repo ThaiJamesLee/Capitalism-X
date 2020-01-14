@@ -59,7 +59,7 @@ public class TradeComponentPopoverController implements Initializable {
 				alert.setContentText("Will buy as much as possible (" + freeStorage + ") for now.");
 				alert.showAndWait();
 				GameController.getInstance().buyComponents(component, freeStorage);
-			} else {
+			} else { //TODO costs for component
 				GameController.getInstance().buyComponents(component, amount);
 			}
 		} catch (NumberFormatException e) {

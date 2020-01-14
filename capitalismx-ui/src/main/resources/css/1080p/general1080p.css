@@ -294,6 +294,11 @@ FontAwesomeIcon {
 	-fx-font-family: 'Prime';
  }
  
+ .list-label-large {
+	-fx-font-size: 18.0px;
+	-fx-font-family: 'Prime';
+ }
+ 
 .list-view {
 	-fx-background-color: none;
 	-fx-border-width : 1.0 0.0 0.0 0.0;

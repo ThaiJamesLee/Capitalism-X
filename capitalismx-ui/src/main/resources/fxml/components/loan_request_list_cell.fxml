@@ -35,12 +35,12 @@
                 <Font name="Arial Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="loanAmountLabel" layoutX="103.0" layoutY="17.0" styleClass="list-label" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1">
+        <Label fx:id="loanAmountLabel" layoutX="103.0" layoutY="17.0" styleClass="list-label" text="loan request amount: 1000000" GridPane.columnIndex="4" GridPane.rowIndex="1">
             <font>
                 <Font name="Arial Bold" size="12.0" />
             </font>
         </Label>
-      <FontAwesomeIcon iconName="AREA_CHART" GridPane.columnIndex="3" />
-      <FontAwesomeIcon iconName="CALENDAR_ALT" />
+      <FontAwesomeIcon iconName="AREA_CHART" size="1.5em" GridPane.columnIndex="3" GridPane.rowSpan="2147483647" />
+      <FontAwesomeIcon iconName="CALENDAR_ALT" size="1.5em" GridPane.rowSpan="2147483647" />
     </children>
 </GridPane>
