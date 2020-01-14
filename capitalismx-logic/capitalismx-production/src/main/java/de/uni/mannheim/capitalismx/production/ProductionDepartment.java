@@ -537,7 +537,6 @@ public class ProductionDepartment extends DepartmentImpl {
         }
     } */
 
-    /* TODO duration 1 month, winter month*/
     public void decreaseTotalEngineerQualityOfWorkRel(double decrease) {
         this.totalEngineerQualityOfWorkDecreasePercentage = decrease;
         this.calculateTotalEngineerQualityOfWork();
@@ -548,7 +547,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.calculateTotalEngineerQualityOfWork();
     }
 
-    /* TODO only after year 2000 and for 3 months, used processAutomationFactor as processAutomation is on a Likert scale from 1 to 5*/
+    /* TODO used processAutomationFactor as processAutomation is on a Likert scale from 1 to 5*/
     public void decreaseProcessAutomationRel(double decrease) {
         int levelDecrease = (int) Math.round(this.processAutomation.getLevel() * (1 - decrease));
         this.processAutomation.decreaseLevel(levelDecrease);
