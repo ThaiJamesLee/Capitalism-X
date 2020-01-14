@@ -91,10 +91,9 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 			GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(),
 					hireCost);
 		} else {
-			//TODO localize
-			GameAlert error = new GameAlert(AlertType.WARNING);
-			error.setTitle("You can not hire this employee.");
-			error.setContentText("Capacity not high enough.");
+			// TODO localize
+			GameAlert error = new GameAlert(AlertType.WARNING, "You can not hire this employee.",
+					"Your employee capacity not high enough. Upgrade your HR-Department or hire more HR-Workers to increase it.");
 			error.showAndWait();
 		}
 	}
