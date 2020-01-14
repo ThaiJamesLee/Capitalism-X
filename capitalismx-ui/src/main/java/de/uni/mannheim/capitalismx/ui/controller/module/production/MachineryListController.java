@@ -4,9 +4,12 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.NoMachinerySlotsAvailableException;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.production.MachineryListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
@@ -40,6 +43,10 @@ public class MachineryListController extends GameModuleController {
                 List<Machinery> machines = controller.getMachines();
                 machineryListView.getItems().add(machines.get(machines.size() - 1));
             } catch (NoMachinerySlotsAvailableException exception) {
+                GameAlert error = new GameAlert(Alert.AlertType.WARNING);
+                error.setTitle(UIManager.getLocalisedString("production.alert.notEnoughMachineSlots.title"));
+                error.setContentText(UIManager.getLocalisedString("production.alert.notEnoughMachineSlots.contextText"));
+                error.showAndWait();
                 System.out.println(exception.getMessage());
             }
         });
