@@ -146,7 +146,8 @@ public class ExternalEvents implements Serializable {
             this.eventComputerVirusAttacksDate = gameDate;
         }else if((this.eventComputerVirusAttacksDate != null) && (Period.between(this.eventComputerVirusAttacksDate, gameDate).getMonths() > 3)){
             this.eventComputerVirusAttacksDate = null;
-            //TODO increaseProcessAutomation / revert decrease
+            //TODO add parameter to increaseProcessAutomationRel()
+            ProductionDepartment.getInstance().increaseProcessAutomationRel();
         }
     }
 
@@ -231,7 +232,8 @@ public class ExternalEvents implements Serializable {
             this.eventFluDate = gameDate;
         }else if((this.eventFluDate != null) && (Period.between(this.eventFluDate, gameDate).getMonths() > 0)){
             this.eventFluDate = null;
-            //TODO decreaseTotalEngineerQualityOfWork / revert decrease
+            //TODO add parameter to increaseTotalEngineerQualityOfWorkRel()
+            ProductionDepartment.getInstance().increaseTotalEngineerQualityOfWorkRel();
         }
     }
 
