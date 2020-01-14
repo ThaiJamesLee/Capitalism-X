@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -41,6 +42,12 @@ public class MarketingOverviewController extends GameModuleController {
 	
 	@FXML
 	private Label consCurrentLbl;
+
+	@FXML
+	private Label consTitleLbl;
+
+	@FXML
+	private Label consTextLbl;
 	
 	@FXML
 	private Button consChangeBtn;
@@ -75,16 +82,17 @@ public class MarketingOverviewController extends GameModuleController {
 		updateEmployerBrandingLabel();
 		
 		consChangeBtn.setOnAction(e -> {
-			//showPopover();			
+			ConsultancyType con = ConsultancyType.LOCAL_CONSULTANCY;
+			
+			String weakest = controller.orderConsultancyReport(con);	
+			consCurrentLbl.setText(con.getName());
+			consTextLbl.setText(weakest);			
 		});
-		//TODO
-		consChangeBtn.setDisable(true);
-	
 	}
 
-	private void showPopover() {
-		popover.show(UIManager.getInstance().getStage());
-	}
+//	private void showPopover() {
+//		popover.show(UIManager.getInstance().getStage());
+//	}
 	
 	public void updateCompanyImageLabel() {	
 		final String value = (MarketingDepartment.getInstance().getLevel() >= 1) ? DecimalRound.round(controller.computeCompanyImage(), 2)+"" : "----";

@@ -401,24 +401,29 @@ public class MarketingDepartment extends DepartmentImpl {
         return ConsultancyType.values();
     }
 
-//    /**
-//     * TODO
-//     * @param conType
-//     * @param totalSupportQuality
-//     * @param logisticIndex
-//     * @param companyImage
-//     * @param productionTechnology
-//     * @param manufactureEfficiency
-//     * @param totalJobSatisfaction
-//     * @return
-//     */
-//    public String orderConsultantReport(ConsultancyType conType, 
-//			double totalSupportQuality,	double logisticIndex, double companyImage, double productionTechnology, 
-//			double manufactureEfficiency, double totalJobSatisfaction) {
-//    	
-//    	
-//    	
-//    }
+    /**
+     * TODO
+     */
+    public  String orderConsultantReport(ConsultancyType conType, Double[] metrics) {
+    	//TODO Sven fragen wegen totalSupportQuality...
+    	double[] weights = conType.getWeights();
+    	
+    	String[] metricNames = {"totalSupportQuality", "logisticIndex", "companyImage", "productionTechnology", "manufactureEfficiency", "totalJobSatisfaction"};
+    	
+    	int minIndex = 0;
+    	double min = 100;
+    	
+    	for(int i = 0; i < metrics.length; i++) {
+    		metrics[i] = metrics[i] * weights[i];
+    		if(metrics[i] < min) {
+    			min = metrics[i];
+    			minIndex = i;		
+    		}
+    	}
+    	
+    	return metricNames[minIndex];	
+    }  
+    
     
     /* Market Research */
 
