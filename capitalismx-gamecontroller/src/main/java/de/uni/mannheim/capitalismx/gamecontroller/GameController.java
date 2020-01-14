@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -439,7 +440,7 @@ public class GameController {
 		return FinanceDepartment.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
 	}
 
-	public void buyTruck(Truck truck, LocalDate gameDate) {
+	public void buyTruck(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException {
 		FinanceDepartment.getInstance().buyTruck(truck, gameDate);
 	}
 
