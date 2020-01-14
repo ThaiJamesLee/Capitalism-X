@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.MessageEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.collections.FXCollections;
@@ -121,7 +123,8 @@ public class MessageController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CssHelper.replaceStylesheets(root.getStylesheets());
-
+		GameState state = GameState.getInstance();
+		state.addPropertyChangeListener(new MessageEventListener());
 
 
 		/*
