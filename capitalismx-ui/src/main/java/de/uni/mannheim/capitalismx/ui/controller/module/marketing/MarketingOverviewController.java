@@ -7,9 +7,11 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.MarketingEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
@@ -45,6 +47,8 @@ public class MarketingOverviewController extends GameModuleController {
 	
 	private PopOver popover;
 	
+	private GameController controller;
+	
 	public MarketingOverviewController() {
 	}
 
@@ -56,20 +60,25 @@ public class MarketingOverviewController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
 		
+		controller = GameController.getInstance();
+		
 		PopOverFactory helper = new PopOverFactory();
 		helper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");
 		popover = helper.getPopover();
+		
+		MarketingDepartment dep = MarketingDepartment.getInstance();
+		dep.registerPropertyChangeListener(new MarketingEventListener());
 				
 		//TODO ändern und korrekt formatieren...
 		GameController controller = GameController.getInstance();
-		compImValueLbl.setText(DecimalRound.round(controller.computeCompanyImage(), 2) + "");
-		emplBrValueLbl.setText(DecimalRound.round(controller.getEmployerBranding(), 2) + "");
+		updateCompanyImageLabel();
+		updateEmployerBrandingLabel();
 		
 		consChangeBtn.setOnAction(e -> {
-			//showPopover();
-			
+			//showPopover();			
 		});
-		//consChangeBtn.setDisable(true);
+		//TODO
+		consChangeBtn.setDisable(true);
 	
 	}
 
@@ -77,22 +86,28 @@ public class MarketingOverviewController extends GameModuleController {
 		popover.show(UIManager.getInstance().getStage());
 	}
 	
-	public void setCompanyImageLabel(String text) {
+	public void updateCompanyImageLabel() {	
+		final String value = (MarketingDepartment.getInstance().getLevel() >= 1) ? DecimalRound.round(controller.computeCompanyImage(), 2)+"" : "----";
 		Platform.runLater(new Runnable() {
 			public void run() {
-				compImValueLbl.setText(text);
+				compImValueLbl.setText(value);
 			}
 		});
 	}
 	
-	public void setEmployerBrandingLabel(String text) {
+	public void updateEmployerBrandingLabel() {
+		final String value = (MarketingDepartment.getInstance().getLevel() >= 1) ? DecimalRound.round(controller.getEmployerBranding(), 2) + "" : "----";
 		Platform.runLater(new Runnable() {
 			public void run() {
-				emplBrValueLbl.setText(text);
+				emplBrValueLbl.setText(value);
 			}
 		});
 	}
 	
+	public void updateInfoLabels() {
+		updateCompanyImageLabel();
+		updateEmployerBrandingLabel();
+	}
 	
 	public void hidePopover() {
 		popover.hide();

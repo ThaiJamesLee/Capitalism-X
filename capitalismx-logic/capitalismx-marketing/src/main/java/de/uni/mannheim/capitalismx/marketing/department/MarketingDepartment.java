@@ -23,6 +23,7 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 
 /**
  * This class represents the marketing department.
@@ -32,7 +33,6 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
  */
 public class MarketingDepartment extends DepartmentImpl {
 
-	
 	//TODO CSR campaigns score relative to profit of the year, 
 	//the others on quantitiy of this type of campaign per year, mechanism cant deal with this yet...
 	//TODO Consultancy is seriously flawed...
@@ -50,8 +50,6 @@ public class MarketingDepartment extends DepartmentImpl {
     //campaigns that the department issued orderer by release date
     private List<Campaign> campaignsWithDates;
 
-    private double employerBranding;
-
 	// press releases the company made
     private List<PressRelease> pressReleases;
 
@@ -60,14 +58,21 @@ public class MarketingDepartment extends DepartmentImpl {
 
     // list of issued market researches
     private List<MarketResearch> marketResearches;
+    
+    //TODO kann das weg?
+    private double employerBranding;
 
-    private static MarketingDepartment instance = null;
-
+  //leveling related stuff
     private static final String LEVELING_PROPERTIES = "marketing-leveling-definition";
     private static final String MAX_LEVEL_PROPERTY = "marketing.department.max.level";
-
     private static final String SKILL_COST_PROPERTY_PREFIX = "marketing.skill.cost.";
     
+    private PropertyChangeSupportDouble currentLevel;
+    
+    
+    private static MarketingDepartment instance = null;
+
+       
     private MarketingDepartment() {
         super("Marketing");
         init();
@@ -83,17 +88,25 @@ public class MarketingDepartment extends DepartmentImpl {
         	issuedActions.put(c, new ArrayList<>());
         }
 
-        campaignsWithDates = new ArrayList<Campaign>();
+        campaignsWithDates = new ArrayList<>();
         pressReleases = new ArrayList<>();
         consultancies = new ArrayList<>();
         marketResearches = new ArrayList<>();
     }
     
-    
+	/**
+	 * Init default values from properties.
+	 */
     private void initProperties() {
         setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
+        this.currentLevel = new PropertyChangeSupportDouble();
+        currentLevel.setPropertyChangedName("level");
+        currentLevel.setValue(0.0);
     }
 
+	/**
+	 * Initialize {@link MarketingSkill}s.
+	 */
     private void initSkills() {
         Map<Integer, Double> costMap = initCostMap();
         try {
@@ -108,7 +121,10 @@ public class MarketingDepartment extends DepartmentImpl {
             skillMap.put(i, new MarketingSkill(i));
         }
     }
-
+ 
+	/**
+	 * Initializes the cost map. This is used for the {@link LevelingMechanism}.
+	 */
     private Map<Integer, Double> initCostMap() {
         Map<Integer, Double> costMap = new HashMap<>();
         ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
@@ -122,6 +138,7 @@ public class MarketingDepartment extends DepartmentImpl {
     @Override //TODO wirklich nötig?
     public void setLevel(int level) {
         super.setLevel(level);
+        this.currentLevel.setValue(new Double(level));
 //       this.updateWarehouseSlots();TODO
     }
 
@@ -479,6 +496,6 @@ public class MarketingDepartment extends DepartmentImpl {
     
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-    	//this.pressReleases.addPropertyChangeListener(listener);
+    	currentLevel.addPropertyChangeListener(listener);
     }
 }

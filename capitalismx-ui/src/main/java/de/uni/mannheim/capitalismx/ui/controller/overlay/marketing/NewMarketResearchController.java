@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.ToggleSwitch;
+import org.testng.internal.ExtraOutput;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
@@ -56,6 +57,8 @@ public class NewMarketResearchController extends GameOverlayController {
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
 
+        externToggle.setDisable(true);
+        
         dataCollectCombo.getItems().addAll(controller.getAllSurveyTypes());
         dataCollectCombo.getSelectionModel().select(0);
         
@@ -64,7 +67,7 @@ public class NewMarketResearchController extends GameOverlayController {
                 
     	runBtn.setOnAction(e -> {
     		//conduct new MarketResearch
-    		boolean internal = !externToggle.isSelected();
+    		boolean internal = externToggle.isSelected();
     		SurveyTypes survey = dataCollectCombo.getSelectionModel().getSelectedItem();
     		Reports report = reportTypeCombo.getSelectionModel().getSelectedItem();
     		
@@ -88,6 +91,13 @@ public class NewMarketResearchController extends GameOverlayController {
     @Override
     public void updateProperties(Properties properties) {
         this.properties = properties;
+    }
+    
+    /**
+     * Enables the button which can be used create an internal MarketResearch instead of the default external.
+     */
+    public void enableInternalMarketResearch() {
+    	externToggle.setDisable(false);
     }
     
     /**
