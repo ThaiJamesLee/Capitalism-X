@@ -404,7 +404,7 @@ FontAwesomeIcon {
  
 .tab-pane .tab-header-area .tab-header-background {
 	-fx-margin-top: 5;
-	-fx-background-color: -fx-primary-neutral;
+	-fx-background-color: transparent;
 	-fx-border-radius: 5 0 0 5;
 	-fx-background-radius: 5 5 0 0;
 }
@@ -412,23 +412,23 @@ FontAwesomeIcon {
 .tab-pane .tab-content-area {
  	-fx-padding: 5;
 	-fx-background-color: transparent;
-	-fx-border-width : 0.0 0.0 0.0 0.0;
-	-fx-border-insets : 0.0 5.0 0.0 5.0;
-	-fx-border-color: -fx-primary-dark;
+	-fx-border-width : 3.0 0.0 0.0 0.0;
+	-fx-border-insets : 0.0 0.0 0.0 0.0;
+	-fx-border-color: -fx-primary-neutral;
 }
 
 .tab-pane .tab {
     -fx-background-insets: 0.0 1.0 0.0 1.0;
-	-fx-background-color: -fx-primary-neutral;
+	-fx-background-color: -fx-primary-dark-transparent;
 	-fx-border-radius: 5.0 5.0 0.0 0.0;
-	-fx-border-color: -fx-primary-light-neutral;
+	-fx-border-color: -fx-primary-neutral;
 	-fx-border-width: 1 1 0 1;
 	-fx-background-radius: 5.0 5.0 0.0 0.0;
 }
 
 .tab-pane .tab:selected, .tab-pane .tab-pane:focused {
 	-fx-background-color: -fx-primary;
-	-fx-border-color: -fx-primary-light;
+	-fx-border-color: -fx-primary-neutral;
 	-fx-border-width: 1 1 0 1;
 	-fx-border-radius: 5.0 5.0 0.0 0.0;
 	-fx-background-radius: 5.0 5.0 0.0 0.0;
@@ -436,8 +436,12 @@ FontAwesomeIcon {
 
 .tab .tab-label {
     -fx-alignment: CENTER;
-	-fx-text-fill: -fx-primary-light;
+	-fx-text-fill: -fx-primary;
 	-fx-font-family: "Prime";
+}
+
+.tab:selected .tab-label , .tab-pane:focused .tab-label{
+    -fx-text-fill: -fx-primary-neutral;
 }
 
 /**
