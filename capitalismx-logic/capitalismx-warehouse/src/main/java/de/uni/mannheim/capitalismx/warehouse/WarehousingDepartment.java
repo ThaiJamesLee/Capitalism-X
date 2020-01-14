@@ -197,6 +197,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             if(this.warehouseSlots == this.warehouses.size()) {
                 this.warehouseSlotsAvailable = false;
             }
+            this.calculateTotalCapacity();
             return warehouse.getBuildingCost();
         }
         this.warehouseSlotsAvailable = false;
@@ -211,6 +212,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             if(this.warehouseSlots == this.warehouses.size()) {
                 this.warehouseSlotsAvailable = false;
             }
+            this.calculateTotalCapacity();
             return warehouse.getMonthlyRentalCost();
         }
         this.warehouseSlotsAvailable = false;
