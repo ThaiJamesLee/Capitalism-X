@@ -8,6 +8,7 @@ import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.InvalidSetOfComponentsException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.components.production.LaunchedProductsListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.fxml.FXML;
@@ -26,7 +27,11 @@ public class ProduceProductController extends GameModuleController {
 
     @Override
     public void update() {
+        ProductionDepartment production = GameState.getInstance().getProductionDepartment();
 
+        List<Product> launchedProducts = production.getLaunchedProducts();
+        launchedProductsListView.getItems().clear();
+        launchedProductsListView.getItems().addAll(launchedProducts);
     }
 
     @Override
