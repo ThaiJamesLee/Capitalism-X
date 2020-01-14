@@ -227,7 +227,7 @@ public class Contract implements Serializable {
      * @return Returns true if the contract is due (game date > start date + time to finish).
      */
     public boolean contractIsDue(LocalDate currentDate) {
-        return contractStart.plusMonths(timeToFinish).isAfter(currentDate);
+        return contractStart.plusMonths(timeToFinish).isBefore(currentDate);
     }
 
 
