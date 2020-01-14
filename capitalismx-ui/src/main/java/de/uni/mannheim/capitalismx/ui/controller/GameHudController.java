@@ -111,7 +111,9 @@ public class GameHudController implements UpdateableController {
 	 */
 	public void addNotification(GameNotification notification) {
 		notificationQueue.add(notification);
-		displayNextNotification();
+		Platform.runLater(() -> {
+			displayNextNotification();
+		});
 	}
 
 	/**

@@ -422,6 +422,14 @@ public class GameController {
 	public List<ExternalEvents.ExternalEvent> getExternalEvents() {
 		return ExternalEvents.getInstance().getExternalEvents();
 	}
+	
+	public List<ExternalEvents.ExternalEvent> getExternalEvents(LocalDate date) {
+		if(ExternalEvents.getInstance().getExternalEventsHistory().containsKey(date)) {
+			return ExternalEvents.getInstance().getExternalEventsHistory().get(date);
+		} else {
+			return null;
+		}
+	}
 
 	public Map<LocalDate, List<ExternalEvents.ExternalEvent>> getExternalEventsHistory() {
 		return ExternalEvents.getInstance().getExternalEventsHistory();
