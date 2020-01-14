@@ -39,14 +39,14 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
                 loader.setController(this);
 
                 try {
-                    loader.load();
+                    setText(null);
+                    setGraphic(loader.load());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+            GameController controller = GameController.getInstance();
+            productLabel.setText("product.getProductName()");
         }
-
-        GameController controller = GameController.getInstance();
-        productLabel.setText("product.getProductName()");
     }
 }

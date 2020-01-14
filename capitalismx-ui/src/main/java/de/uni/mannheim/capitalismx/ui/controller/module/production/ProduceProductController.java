@@ -36,7 +36,7 @@ public class ProduceProductController extends GameModuleController {
 
         launchedProductsListView.setCellFactory(launchedProductsListView -> new LaunchedProductsListViewCell(launchedProductsListView));
 
-        /*List<Component> components = new ArrayList<>();
+        List<Component> components = new ArrayList<>();
         components.add(new Component(ComponentType.T_DISPLAY_LEVEL_1, SupplierCategory.CHEAP, gameDate));
         components.add(new Component(ComponentType.T_CASE_LEVEL_1, SupplierCategory.CHEAP, gameDate));
         components.add(new Component(ComponentType.T_SOUND_LEVEL_1, SupplierCategory.CHEAP, gameDate));
@@ -46,6 +46,6 @@ public class ProduceProductController extends GameModuleController {
             launchedProductsListView.getItems().add(p);
         } catch (InvalidSetOfComponentsException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }
