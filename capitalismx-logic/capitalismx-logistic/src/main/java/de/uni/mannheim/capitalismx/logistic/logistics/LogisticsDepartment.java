@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,8 @@ public class LogisticsDepartment extends DepartmentImpl {
         this.shippingFee = 15;
         this.deliveredProducts = 0;
         this.calculateAll(LocalDate.now());
+        this.initProperties();
+        this.initSkills();
     }
 
     public static synchronized LogisticsDepartment getInstance() {
@@ -257,9 +260,14 @@ public class LogisticsDepartment extends DepartmentImpl {
         //this.calculateAll();
     }
 
-    public void addTruckToFleet(Truck truck, LocalDate gameDate){
-        InternalFleet.getInstance().addTruckToFleet(truck, gameDate);
-        //this.calculateAll();
+    public void addTruckToFleet(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException{
+        if(this.logisticsCapacity > InternalFleet.getInstance().getTrucks().size()){
+            InternalFleet.getInstance().addTruckToFleet(truck, gameDate);
+            //this.calculateAll();
+        }else{
+            //not enough truck capacity
+            throw new NotEnoughTruckCapacityException("No more Capacity available to buy new Truck.");
+        }
     }
 
     public void removeTruckFromFleet(Truck truck){

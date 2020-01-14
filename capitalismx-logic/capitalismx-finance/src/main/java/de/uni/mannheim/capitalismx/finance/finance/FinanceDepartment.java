@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Machinery;
@@ -284,7 +285,7 @@ public class FinanceDepartment extends DepartmentImpl {
         this.warehousesSold.add(warehouse);
     }
 
-    public void buyTruck(Truck truck, LocalDate gameDate){
+    public void buyTruck(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException {
         LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
         this.decreaseCash(gameDate, truck.getPurchasePrice());
         double resellPrice = this.calculateResellPrice(truck.getPurchasePrice(),
