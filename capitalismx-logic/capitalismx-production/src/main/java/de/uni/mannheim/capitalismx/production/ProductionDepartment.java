@@ -8,6 +8,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 import de.uni.mannheim.capitalismx.production.skill.ProductionSkill;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -45,6 +46,8 @@ public class ProductionDepartment extends DepartmentImpl {
     private int decreasedProcessAutomationLevel;
     private double totalEngineerQualityOfWorkDecreasePercentage;
 
+    private PropertyChangeSupportList launchedProductsChange;
+
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
 
     private int initialProductionSlots;
@@ -77,6 +80,10 @@ public class ProductionDepartment extends DepartmentImpl {
         this.totalWarehouseCapacity = 0;
         this.decreasedProcessAutomationLevel = 0;
         this.totalEngineerQualityOfWorkDecreasePercentage = 0;
+
+        this.launchedProductsChange = new PropertyChangeSupportList();
+        this.launchedProductsChange.setList(this.launchedProducts);
+        this.launchedProductsChange.setAddPropertyName("launchedProductsChange");
 
         this.init();
     }
@@ -684,6 +691,6 @@ public class ProductionDepartment extends DepartmentImpl {
 
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+        this.launchedProductsChange.addPropertyChangeListener(listener);
     }
 }

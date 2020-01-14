@@ -2,7 +2,9 @@ package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
@@ -186,6 +188,7 @@ public class Product extends Unit implements Serializable {
         }
         return productCosts;
     }
+
 
     /*
     public List<Component> getNewestPossibleComponents(int currentYear) {

@@ -30,6 +30,8 @@ public enum GameModuleDefinition {
 			UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, new GridPosition(0, 15, 0, 18), true),
 	PRODUCTION_MACHINERY_LIST("machinery_list.fxml", GameViewType.PRODUCTION,
 			UIElementType.PRODUCTION_MACHINERY_OVERVIEW, new GridPosition(15, 5, 0, 15), true),
+	PRODUCTION_PRODUCE_PRODUCT_MENU("produce_product_menu.fxml", GameViewType.PRODUCTION,
+			UIElementType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(15, 5, 15, 15), true),
 
 	// The modules for the warehouse.
 	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(5, 5, 0, 15), true),
