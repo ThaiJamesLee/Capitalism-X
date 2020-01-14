@@ -42,6 +42,8 @@ public class ProductionDepartment extends DepartmentImpl {
     private boolean machineSlotsAvailable;
     private Map<Component, Integer> storedComponents;
     private int totalWarehouseCapacity;
+    private int decreasedProcessAutomationLevel;
+    private double totalEngineerQualityOfWorkDecreasePercentage;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
 
@@ -73,6 +75,8 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionTechnology = ProductionTechnology.DEPRECIATED;
         this.storedComponents = new HashMap<>();
         this.totalWarehouseCapacity = 0;
+        this.decreasedProcessAutomationLevel = 0;
+        this.totalEngineerQualityOfWorkDecreasePercentage = 0;
 
         this.init();
     }
@@ -440,7 +444,7 @@ public class ProductionDepartment extends DepartmentImpl {
 
     public double calculateTotalEngineerQualityOfWork() {
         /* TODO placeholder for the quality of work of the engineering team*/
-        this.totalEngineerQualityOfWork = 0.7;
+        this.totalEngineerQualityOfWork = 0.7 * (1 - this.totalEngineerQualityOfWorkDecreasePercentage);
         return this.totalEngineerQualityOfWork;
     }
 
@@ -535,12 +539,24 @@ public class ProductionDepartment extends DepartmentImpl {
 
     /* TODO duration 1 month, winter month*/
     public void decreaseTotalEngineerQualityOfWorkRel(double decrease) {
-        this.totalEngineerQualityOfWork *= (1 - decrease);
+        this.totalEngineerQualityOfWorkDecreasePercentage = decrease;
+        this.calculateTotalEngineerQualityOfWork();
+    }
+
+    public void increaseTotalEngineerQualityOfWorkRel() {
+        this.totalEngineerQualityOfWorkDecreasePercentage = 0;
+        this.calculateTotalEngineerQualityOfWork();
     }
 
     /* TODO only after year 2000 and for 3 months, used processAutomationFactor as processAutomation is on a Likert scale from 1 to 5*/
     public void decreaseProcessAutomationRel(double decrease) {
-        this.processAutomationFactor *= (1 - decrease);
+        int levelDecrease = (int) Math.round(this.processAutomation.getLevel() * (1 - decrease));
+        this.processAutomation.decreaseLevel(levelDecrease);
+        this.decreasedProcessAutomationLevel = levelDecrease;
+    }
+
+    public void increaseProcessAutomationRel() {
+        this.processAutomation.increaseLevel(this.decreasedProcessAutomationLevel);
     }
 
     public boolean checkBaseQualityAboveThreshold() {
