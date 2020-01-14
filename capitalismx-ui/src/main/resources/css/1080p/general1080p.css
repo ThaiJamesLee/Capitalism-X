@@ -440,7 +440,7 @@ FontAwesomeIcon {
 	-fx-font-family: "Prime";
 }
 
-.tab:selected .tab-label , .tab-pane:focused .tab-label{
+.tab:selected .tab-label{
     -fx-text-fill: -fx-primary-neutral;
 }
 
