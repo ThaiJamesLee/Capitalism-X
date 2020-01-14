@@ -300,6 +300,11 @@ public class ProductionDepartment extends DepartmentImpl {
                     throw new NotEnoughComponentsException("There are not enough Components available to produce " + quantity + ".", maximumProducable);
                 }
 
+                for(Component component : product.getComponents()) {
+                    int newStoredQuantity = this.storedComponents.get(component) - quantity;
+                    this.storedComponents.put(component,newStoredQuantity);
+                }
+
                 double variableProductCosts = 0;
                 int newQuantity = quantity;
                 for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
@@ -566,6 +571,10 @@ public class ProductionDepartment extends DepartmentImpl {
         this.calculateManufactureEfficiency();
         this.calculateProductionProcessProductivity();
         this.calculateNormalizedProductionProcessProductivity();
+    }
+
+    public Map<Component, Integer> getStoredComponents() {
+        return this.storedComponents;
     }
 
     public int getDailyMachineCapacity() {

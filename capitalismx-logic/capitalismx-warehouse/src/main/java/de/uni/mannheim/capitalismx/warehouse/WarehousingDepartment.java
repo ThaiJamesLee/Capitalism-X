@@ -344,7 +344,15 @@ public class WarehousingDepartment extends DepartmentImpl {
         ProductionDepartment.getInstance().setTotalWarehouseCapacity(this.totalCapacity);
     }
 
+    public void clearUsedComponents() {
+        Map<Component, Integer> storedComponents = ProductionDepartment.getInstance().getStoredComponents();
+        for(Map.Entry<Component, Integer> entry : storedComponents.entrySet()) {
+            this.inventory.put(entry.getKey(), entry.getValue());
+        }
+    }
+
     public void calculateAll() {
+        this.clearUsedComponents();
         this.storeUnits();
         this.setProductionDepartmentStoredComponents();
         this.calculateStoredUnits();
