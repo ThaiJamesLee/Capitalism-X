@@ -366,6 +366,9 @@ public class GameHudController implements UpdateableController {
 			case PRODUCTION:
 				dep = GameState.getInstance().getProductionDepartment();
 				break;
+			case MARKETING:
+				dep = GameState.getInstance().getMarketingDepartment();
+				break;
 			default:
 				departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
 				return;
