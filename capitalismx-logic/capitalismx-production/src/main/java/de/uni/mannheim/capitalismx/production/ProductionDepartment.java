@@ -294,47 +294,50 @@ public class ProductionDepartment extends DepartmentImpl {
             totalMachineCapacity += machinery.getMachineryCapacity();
         }
 
-        if(freeStorage >= quantity) {
-            if (totalMachineCapacity >= quantity) {
-                int maximumProducable = this.totalWarehouseCapacity;
-                for (Component component : product.getComponents()) {
-                    if (this.storedComponents.containsKey(component)) {
-                        if (maximumProducable >= this.storedComponents.get(component)) {
-                            maximumProducable = this.storedComponents.get(component);
+        if(quantity > 0) {
+            if (freeStorage >= quantity) {
+                if (totalMachineCapacity >= quantity) {
+                    int maximumProducable = this.totalWarehouseCapacity;
+                    for (Component component : product.getComponents()) {
+                        if (this.storedComponents.containsKey(component)) {
+                            if (maximumProducable >= this.storedComponents.get(component)) {
+                                maximumProducable = this.storedComponents.get(component);
+                            }
+                        } else {
+                            maximumProducable = 0;
                         }
-                    } else {
-                        maximumProducable = 0;
                     }
-                }
 
-                if (maximumProducable < quantity) {
-                    throw new NotEnoughComponentsException("There are not enough Components available to produce " + quantity + ".", maximumProducable);
-                }
-
-                for(Component component : product.getComponents()) {
-                    int newStoredQuantity = this.storedComponents.get(component) - quantity;
-                    this.storedComponents.put(component,newStoredQuantity);
-                }
-
-                double variableProductCosts = 0;
-                int newQuantity = quantity;
-                for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
-                    if (product == entry.getKey()) {
-                        newQuantity += this.numberProducedProducts.get(product);
+                    if (maximumProducable < quantity) {
+                        throw new NotEnoughComponentsException("There are not enough components available to produce " + quantity + " unit(s).", maximumProducable);
                     }
+
+                    for (Component component : product.getComponents()) {
+                        int newStoredQuantity = this.storedComponents.get(component) - quantity;
+                        this.storedComponents.put(component, newStoredQuantity);
+                    }
+
+                    double variableProductCosts = 0;
+                    int newQuantity = quantity;
+                    for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+                        if (product == entry.getKey()) {
+                            newQuantity += this.numberProducedProducts.get(product);
+                        }
+                    }
+                    this.numberProducedProducts.put(product, newQuantity);
+                    /* LocalDate.now() placeholder for gameDate */ // NEEDED? TODO
+                    //LocalDate gameDate = LocalDate.now();
+                    this.numberUnitsProducedPerMonth += quantity;
+                    variableProductCosts = product.calculateTotalVariableCosts() * quantity;
+                    return variableProductCosts;
+                } else {
+                    throw new NotEnoughMachineCapacityException("There is not enough machine capacity available to produce " + quantity + " unit(s).", totalMachineCapacity);
                 }
-                this.numberProducedProducts.put(product, newQuantity);
-                /* LocalDate.now() placeholder for gameDate */ // NEEDED? TODO
-                //LocalDate gameDate = LocalDate.now();
-                this.numberUnitsProducedPerMonth += quantity;
-                variableProductCosts = product.calculateTotalVariableCosts() * quantity;
-                return variableProductCosts;
             } else {
-                throw new NotEnoughMachineCapacityException("There is not enough Machine Capacity available to produce " + quantity + ".", totalMachineCapacity);
+                throw new NotEnoughFreeStorageException("There is not enough warehouse capacity available to produce " + quantity + " unit(s).", freeStorage);
             }
-        } else {
-            throw new NotEnoughFreeStorageException("There is not enough Warehouse Capacity available to produce " + quantity + ".", freeStorage);
         }
+        return 0;
     }
 
     public double getAmountInProduction(Product product) {

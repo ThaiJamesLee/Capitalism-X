@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.production.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,13 +41,6 @@ import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.NoMachinerySlotsAvailableException;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
-import de.uni.mannheim.capitalismx.production.ProductionInvestment;
-import de.uni.mannheim.capitalismx.production.ProductionTechnology;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
@@ -737,14 +731,13 @@ public class GameController {
 				WarehousingDepartment.getInstance().calculateFreeStorage());
 	}
 
-	public double produceProduct(Product product, int quantity) {
+	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {
 		try {
 			return ProductionDepartment.getInstance().produceProduct(product, quantity,
 					WarehousingDepartment.getInstance().calculateFreeStorage());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			throw e;
 		}
-		return 0;
 	}
 
 	public double getAmountProductInProduction(Product product) {
