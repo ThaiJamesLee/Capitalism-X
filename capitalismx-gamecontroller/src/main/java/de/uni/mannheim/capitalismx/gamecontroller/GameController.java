@@ -423,6 +423,10 @@ public class GameController {
 		return ExternalEvents.getInstance().getExternalEvents();
 	}
 
+	public Map<LocalDate, List<ExternalEvents.ExternalEvent>> getExternalEventsHistory() {
+		return ExternalEvents.getInstance().getExternalEventsHistory();
+	}
+
 	public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed) {
 		return FinanceDepartment.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
 	}

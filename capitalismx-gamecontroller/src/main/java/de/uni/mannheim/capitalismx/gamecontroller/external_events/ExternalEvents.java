@@ -9,8 +9,11 @@ import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author sdupper
@@ -20,6 +23,15 @@ public class ExternalEvents implements Serializable {
     private static ExternalEvents instance;
 
     private List<ExternalEvent> externalEvents;
+    private boolean productionTechnologyBelowThreshold;
+    private LocalDate lastEventCompanyAcquisitionDate;
+    private boolean eventCompanyOvertakesMarketShare;
+    private LocalDate eventComputerVirusAttacksDate;
+    private LocalDate eventTaxChangesDate;
+    private LocalDate eventFluDate;
+    private boolean changeOfPower;
+    private LocalDate eventEcoActivistsDate;
+    private Map<LocalDate, List<ExternalEvent>> externalEventsHistory;
 
     public enum ExternalEvent implements Serializable{
         EVENT_1("Production Problems pop up"),
@@ -63,7 +75,11 @@ public class ExternalEvents implements Serializable {
     }
 
     private ExternalEvents(){
-        externalEvents = new ArrayList<>();
+        this.externalEvents = new ArrayList<>();
+        this.externalEventsHistory = new TreeMap<>();
+        this.productionTechnologyBelowThreshold = false;
+        this.eventCompanyOvertakesMarketShare = false;
+        this.changeOfPower = false;
     }
 
     public static synchronized ExternalEvents getInstance() {
@@ -75,7 +91,13 @@ public class ExternalEvents implements Serializable {
 
     private void checkEventProductionProblems(){
         if(ProductionDepartment.getInstance().checkProductionTechnologyBelowThreshold()){
-            externalEvents.add(ExternalEvent.EVENT_1);
+            //if productionTechnologyBelowThreshold is not true already
+            if(!this.productionTechnologyBelowThreshold){
+                externalEvents.add(ExternalEvent.EVENT_1);
+                this.productionTechnologyBelowThreshold = true;
+            }
+        }else{
+            this.productionTechnologyBelowThreshold = false;
         }
     }
 
@@ -87,18 +109,25 @@ public class ExternalEvents implements Serializable {
         }**/
     }
 
-    private void checkEventCompanyAcquisition(){
-        if(FinanceDepartment.getInstance().checkIncreasingNopat()){
-            //TODO ask user
-            //FinanceDepartment.getInstance().acquireCompany();
-            externalEvents.add(ExternalEvent.EVENT_3);
+    private void checkEventCompanyAcquisition(LocalDate gameDate){
+        //event can only occur once per year
+        if((this.lastEventCompanyAcquisitionDate == null) || (Period.between(this.lastEventCompanyAcquisitionDate, gameDate).getYears() > 0)){
+            if(FinanceDepartment.getInstance().checkIncreasingNopat()){
+                //TODO ask user
+                //FinanceDepartment.getInstance().acquireCompany();
+                externalEvents.add(ExternalEvent.EVENT_3);
+                this.lastEventCompanyAcquisitionDate = gameDate;
+            }
         }
+
     }
 
     private void checkEventCompanyOvertakesMarketShare(LocalDate gameDate){
-        if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (FinanceDepartment.getInstance().calculateNopat(gameDate) > 1000000)){
+        //can only occur once in the game
+        if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (FinanceDepartment.getInstance().getNetWorth() > 1000000) && (!this.eventCompanyOvertakesMarketShare)){
             FinanceDepartment.getInstance().decreaseNopatRelPermanently(0.10);
             externalEvents.add(ExternalEvent.EVENT_4);
+            this.eventCompanyOvertakesMarketShare = true;
         }
     }
 
@@ -110,15 +139,19 @@ public class ExternalEvents implements Serializable {
         }**/
     }
 
-    private void checkEventComputerVirusAttacks(){
-        if(RandomNumberGenerator.getRandomInt(0, 19) == 0){
+    private void checkEventComputerVirusAttacks(LocalDate gameDate){
+        if((RandomNumberGenerator.getRandomInt(0, 19) == 0) && (gameDate.getYear() > 2000) && (this.eventComputerVirusAttacksDate == null)){
             ProductionDepartment.getInstance().decreaseProcessAutomationRel(0.50);
             externalEvents.add(ExternalEvent.EVENT_6);
+            this.eventComputerVirusAttacksDate = gameDate;
+        }else if((this.eventComputerVirusAttacksDate != null) && (Period.between(this.eventComputerVirusAttacksDate, gameDate).getMonths() > 3)){
+            this.eventComputerVirusAttacksDate = null;
+            //TODO increaseProcessAutomation / revert decrease
         }
     }
 
-    private void checkEventTaxChanges(){
-        if(RandomNumberGenerator.getRandomInt(0, 19) == 0){
+    private void checkEventTaxChanges(LocalDate gameDate){
+        if((RandomNumberGenerator.getRandomInt(0, 19) == 0) && (this.eventTaxChangesDate == null)){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
                 FinanceDepartment.getInstance().increaseTaxRate(0.02);
                 ExternalEvent.EVENT_7.setIncrease(true);
@@ -127,9 +160,18 @@ public class ExternalEvents implements Serializable {
                 ExternalEvent.EVENT_7.setIncrease(false);
             }
             externalEvents.add(ExternalEvent.EVENT_7);
+            this.eventTaxChangesDate = gameDate;
+        }else if((this.eventTaxChangesDate != null) && (Period.between(this.eventTaxChangesDate, gameDate).getYears() > 0)){
+            this.eventTaxChangesDate = null;
+            if(ExternalEvent.EVENT_7.isIncrease()){
+                FinanceDepartment.getInstance().decreaseTaxRate(0.02);
+            }else{
+                FinanceDepartment.getInstance().increaseTaxRate(0.02);
+            }
         }
     }
 
+    //at the moment, the player is fined every day as long as eco index is below threshold
     private void checkEventStricterEcoLaws(LocalDate gameDate){
         if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold()){
             if(CompanyEcoIndex.getInstance().checkGameOver()){
@@ -146,6 +188,7 @@ public class ExternalEvents implements Serializable {
         }
     }
 
+    //TODO maybe change impact
     private void checkEventInflationChanges(){
         //TODO probability between 0 and 2
         if(RandomNumberGenerator.getRandomInt(0, 49) == 0){
@@ -181,10 +224,14 @@ public class ExternalEvents implements Serializable {
         }**/
     }
 
-    private void checkEventFlu(){
-        if(RandomNumberGenerator.getRandomInt(0, 9) == 0){
+    private void checkEventFlu(LocalDate gameDate){
+        if((RandomNumberGenerator.getRandomInt(0, 9) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
             ProductionDepartment.getInstance().decreaseTotalEngineerQualityOfWorkRel(0.10);
             externalEvents.add(ExternalEvent.EVENT_12);
+            this.eventFluDate = gameDate;
+        }else if((this.eventFluDate != null) && (Period.between(this.eventFluDate, gameDate).getMonths() > 0)){
+            this.eventFluDate = null;
+            //TODO decreaseTotalEngineerQualityOfWork / revert decrease
         }
     }
 
@@ -214,15 +261,22 @@ public class ExternalEvents implements Serializable {
 
     }
 
-    //TODO
     private void checkEventChangeOfPower(){
-        //if(RandomNumberGenerator.getRandomInt())
+        if((RandomNumberGenerator.getRandomInt(0, 9999) == 0) && (!this.changeOfPower)){
+            FinanceDepartment.getInstance().increaseTaxRate(0.05);
+            externalEvents.add(ExternalEvent.EVENT_16);
+            this.changeOfPower = true;
+        }
     }
 
-    private void checkEventEcoActivists(){
-        if(LogisticsDepartment.getInstance().checkEcoIndexFleetBelowThreshold()){
+    private void checkEventEcoActivists(LocalDate gameDate){
+        if(LogisticsDepartment.getInstance().checkEcoIndexFleetBelowThreshold() && (this.eventEcoActivistsDate == null)){
             LogisticsDepartment.getInstance().decreaseCapacityFleetRel(0.70);
             externalEvents.add(ExternalEvent.EVENT_17);
+            this.eventEcoActivistsDate = gameDate;
+        }else if((this.eventEcoActivistsDate != null) && (Period.between(this.eventEcoActivistsDate, gameDate).getMonths() > 1)){
+            this.eventEcoActivistsDate = null;
+            LogisticsDepartment.getInstance().increaseCapacityFleetRel(0.70);
         }
     }
 
@@ -232,30 +286,35 @@ public class ExternalEvents implements Serializable {
     }
 
     public List<ExternalEvent> checkEvents(LocalDate gameDate){
-        this.externalEvents.clear();
+        this.externalEvents = new ArrayList<>();
         this.checkEventProductionProblems();
         this.checkEventNewTechnology();
-        this.checkEventCompanyAcquisition();
+        this.checkEventCompanyAcquisition(gameDate);
         this.checkEventCompanyOvertakesMarketShare(gameDate);
         this.checkEventBrandReputationPlunges();
-        this.checkEventComputerVirusAttacks();
-        this.checkEventTaxChanges();
+        this.checkEventComputerVirusAttacks(gameDate);
+        this.checkEventTaxChanges(gameDate);
         this.checkEventStricterEcoLaws(gameDate);
         this.checkEventInflationChanges();
         this.checkEventStealing();
         this.checkEventStrikes();
-        this.checkEventFlu();
+        this.checkEventFlu(gameDate);
         this.checkEventHurricanesTornadoesEarthquakes();
         this.checkEventFireFlooding();
         this.checkEventProblemsWithCustoms();
         this.checkEventChangeOfPower();
-        this.checkEventEcoActivists();
+        this.checkEventEcoActivists(gameDate);
         this.checkEventTensions();
+        this.externalEventsHistory.put(gameDate, this.externalEvents);
         return this.externalEvents;
     }
 
     public List<ExternalEvent> getExternalEvents() {
         return this.externalEvents;
+    }
+
+    public Map<LocalDate, List<ExternalEvent>> getExternalEventsHistory() {
+        return this.externalEventsHistory;
     }
 
     public static void setInstance(ExternalEvents instance) {

@@ -158,7 +158,7 @@ public class CompanyEcoIndex implements Serializable {
     }
 
     public boolean checkGameOver(){
-        if(this.ecoIndex.getPoints() < 10){
+        if(this.ecoIndex.getPoints() <= 10){
             return true;
         }else{
             return false;

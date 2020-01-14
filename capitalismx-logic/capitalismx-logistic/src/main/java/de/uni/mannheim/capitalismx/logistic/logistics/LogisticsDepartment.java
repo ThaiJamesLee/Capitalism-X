@@ -312,6 +312,10 @@ public class LogisticsDepartment extends DepartmentImpl {
         InternalFleet.getInstance().decreaseCapacityFleetRel(amount);
     }
 
+    public void increaseCapacityFleetRel(double amount){
+        InternalFleet.getInstance().increaseCapacityFleetRel(amount);
+    }
+
     public static void setInstance(LogisticsDepartment instance) {
         LogisticsDepartment.instance = instance;
     }
