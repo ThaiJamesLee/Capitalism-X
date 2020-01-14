@@ -93,6 +93,16 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
     public void add(T t) {
         copyList(oldList, list);
         list.add(t);
+        propertyChangeSupport.firePropertyChange(addPropertyName, oldList, list);
+    }
+
+    /**
+     *
+     * @param t the new element to add.
+     */
+    public void addOne(T t) {
+        copyList(oldList, list);
+        list.add(t);
         propertyChangeSupport.firePropertyChange(addPropertyName, oldList, t);
     }
 
@@ -101,6 +111,16 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
      * @param t the element to remove.
      */
     public void remove(T t) {
+        copyList(oldList, list);
+        list.remove(t);
+        propertyChangeSupport.firePropertyChange(removePropertyName, oldList, list);
+    }
+
+    /**
+     *
+     * @param t the element to remove.
+     */
+    public void removeOne(T t) {
         copyList(oldList, list);
         list.remove(t);
         propertyChangeSupport.firePropertyChange(removePropertyName, oldList, t);

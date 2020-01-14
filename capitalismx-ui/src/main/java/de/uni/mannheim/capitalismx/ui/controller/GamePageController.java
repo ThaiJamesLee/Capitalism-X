@@ -2,9 +2,12 @@ package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
@@ -177,6 +180,8 @@ public class GamePageController implements UpdateableController {
 			menuLayer.toBack();
 			openMenuPane = false;
 		}
+		MessageObject m = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 0);
+		GameState.getInstance().getMessages().add(m);
 	}
 
 	/**
