@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.components.logistics;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
@@ -76,10 +77,15 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
                     //TODO popup
                     System.out.println("Not enough cash!");
                 }else{
-                    controller.buyTruck(truck, GameState.getInstance().getGameDate());
-                    TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
-                    uiController.addTruck(truck);
-                    truckDetailListView.getSelectionModel().clearSelection();
+                    try {
+                        controller.buyTruck(truck, GameState.getInstance().getGameDate());
+                        TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
+                        uiController.addTruck(truck);
+                        truckDetailListView.getSelectionModel().clearSelection();
+                    } catch (NotEnoughTruckCapacityException ex) {
+                        ex.printStackTrace();
+                        //TODO popup
+                    }
                 }
             });
 
