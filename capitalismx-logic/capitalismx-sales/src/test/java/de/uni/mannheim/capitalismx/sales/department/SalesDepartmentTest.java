@@ -49,13 +49,13 @@ public class SalesDepartmentTest {
         try {
             Product p = new Product("test", ProductCategory.GAME_BOY, components);
             p.setLaunchDate(LocalDate.of(1990, 1, 1));
-            System.out.println(productionDepartment.launchProduct(p, 100, 200));
-            String launchInfo = "Cost of product P launch: " + productionDepartment.launchProduct(p, 100, 200);
+            System.out.println(productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1)));
+            String launchInfo = "Cost of product P launch: " + productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1));
             LOGGER.info(launchInfo);
 
             Product p2 = new Product("test2", ProductCategory.GAME_BOY, components);
             p2.setLaunchDate(LocalDate.of(1990, 1, 1));
-            String launchInfo2 = "Cost of product P2 launch: " + productionDepartment.launchProduct(p2, 100, 200);
+            String launchInfo2 = "Cost of product P2 launch: " + productionDepartment.launchProduct(p2, LocalDate.of(1990, 1, 1));
             LOGGER.info(launchInfo2);
         } catch (InvalidSetOfComponentsException e) {
             e.printStackTrace();

@@ -17,6 +17,7 @@ import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.InvalidSetOfComponentsException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
@@ -698,7 +699,7 @@ public class IntroduceProductController extends GameModuleController {
         for(Map<ToggleButton, Component> componentMap : allComponents) {
             for(Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
                 componentEntry.getKey().setText(componentEntry.getValue().getComponentName(UIManager.getInstance().getLanguage()));
-                if(!componentEntry.getValue().isAvailable(gameDate)) {
+                if(!componentEntry.getValue().isAvailable(gameDate)) { // || ResearchAndDevelopmentDepartment.getInstance().isComponentUnlocked(componentEntry.getValue())) {
                     componentEntry.getKey().setDisable(true);
                 }
             }
@@ -1172,7 +1173,7 @@ public class IntroduceProductController extends GameModuleController {
                 salesPrice = Double.valueOf(this.tvSalesPriceTextField.getText());
             }
             this.tv.setSalesPrice(salesPrice);
-            GameController.getInstance().launchProduct(this.tv, 1);
+            GameController.getInstance().launchProduct(this.tv);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
         }
@@ -1200,7 +1201,7 @@ public class IntroduceProductController extends GameModuleController {
                 salesPrice = Double.valueOf(this.consoleSalesPriceTextField.getText());
             }
             this.console.setSalesPrice(salesPrice);
-            GameController.getInstance().launchProduct(this.console, 1);
+            GameController.getInstance().launchProduct(this.console);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
         }
@@ -1226,7 +1227,7 @@ public class IntroduceProductController extends GameModuleController {
                 salesPrice = Double.valueOf(this.notebookSalesPriceTextField.getText());
             }
             this.notebook.setSalesPrice(salesPrice);
-            GameController.getInstance().launchProduct(this.notebook, 1);
+            GameController.getInstance().launchProduct(this.notebook);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
         }
@@ -1255,7 +1256,7 @@ public class IntroduceProductController extends GameModuleController {
                 salesPrice = Double.valueOf(this.phoneSalesPriceTextField.getText());
             }
             this.phone.setSalesPrice(Double.valueOf(salesPrice));
-            GameController.getInstance().launchProduct(this.phone, 1);
+            GameController.getInstance().launchProduct(this.phone);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
         }
