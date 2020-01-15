@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProcurementDepartment extends DepartmentImpl {
@@ -21,13 +22,13 @@ public class ProcurementDepartment extends DepartmentImpl {
     //private Map<Component, Integer> orderedComponents;
     private static final int DELIVERY_TIME = 3;
 
-    private PropertyChangeSupportList componentOrdersChange;
+    private PropertyChangeSupportList<ComponentOrder> componentOrdersChange;
 
     private ProcurementDepartment() {
         super("Procurement");
-        this.allAvailableComponents = new ArrayList<>();
+        this.allAvailableComponents = new CopyOnWriteArrayList<>();
         this.componentOrders = new CopyOnWriteArrayList<>();
-        this.receivedComponents = new HashMap<>();
+        this.receivedComponents = new ConcurrentHashMap<>();
         //this.orderedComponents = new HashMap<>();
 
         this.componentOrdersChange = new PropertyChangeSupportList();
@@ -81,7 +82,7 @@ public class ProcurementDepartment extends DepartmentImpl {
     public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
         if (freeStorage >= (quantity + this.getQuantityOfOrderedComponents())) {
             ComponentOrder componentOrder = new ComponentOrder(gameDate, component, quantity);
-            this.componentOrders.add(componentOrder);
+            this.componentOrdersChange.add(componentOrder);
         }
         return quantity * component.getBaseCost();
     }
@@ -96,7 +97,7 @@ public class ProcurementDepartment extends DepartmentImpl {
                     }
                 }
                 this.receivedComponents.put(componentOrder.getOrderedComponent(), newQuantity);
-                this.componentOrders.remove(componentOrder);
+                //this.componentOrdersChange.remove(componentOrder);
             }
         }
     }
@@ -123,6 +124,10 @@ public class ProcurementDepartment extends DepartmentImpl {
 
     public void updateAll(LocalDate gameDate) {
         this.receiveComponents(gameDate);
+    }
+
+    public PropertyChangeSupportList getComponentOrdersChange() {
+        return componentOrdersChange;
     }
 
     public static void setInstance(ProcurementDepartment instance) {
