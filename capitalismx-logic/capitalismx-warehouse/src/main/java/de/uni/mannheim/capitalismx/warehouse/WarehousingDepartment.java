@@ -38,7 +38,6 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(WarehousingDepartment.class);
 
-    private int baseCost;
     private int warehouseSlots;
     private int initialWarehouseSlots;
 
@@ -144,7 +143,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             }
         }
         ProductionDepartment.getInstance().clearInventory();
-        Map<Component, Integer> newComponents = ProcurementDepartment.getInstance().getOrderedComponents();
+        Map<Component, Integer> newComponents = ProcurementDepartment.getInstance().getReceivedComponents();
         for(HashMap.Entry<Component, Integer> entry : newComponents.entrySet()) {
             if(this.inventory.get(entry.getKey()) != null) {
                 int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
@@ -153,7 +152,7 @@ public class WarehousingDepartment extends DepartmentImpl {
                 this.inventory.put(entry.getKey(), entry.getValue());
             }
         }
-        ProcurementDepartment.getInstance().clearOrderedComponents();
+        ProcurementDepartment.getInstance().clearReceivedComponents();
     }
 
     public int calculateStoredUnits() {
@@ -174,7 +173,8 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     /* */
     public int calculateFreeStorage() {
-        return this.totalCapacity - this.storedUnits;
+        this.freeStorage = this.totalCapacity - this.storedUnits;
+        return this.freeStorage;
     }
 
     public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
@@ -189,7 +189,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
     }
 
-    public double buildWarehouse(LocalDate gameDate) {
+    public double buildWarehouse(LocalDate gameDate) throws NoWarehouseSlotsAvailableException {
         if(this.warehouseSlots > this.warehouses.size()) {
             Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
             warehouse.setBuildDate(gameDate);
@@ -198,13 +198,14 @@ public class WarehousingDepartment extends DepartmentImpl {
             if(this.warehouseSlots == this.warehouses.size()) {
                 this.warehouseSlotsAvailable = false;
             }
+            this.calculateTotalCapacity();
             return warehouse.getBuildingCost();
         }
         this.warehouseSlotsAvailable = false;
-        return 0;
+        throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
     }
 
-    public double rentWarehouse(LocalDate gameDate) {
+    public double rentWarehouse(LocalDate gameDate) throws NoWarehouseSlotsAvailableException{
         if(this.warehouseSlots > this.warehouses.size()) {
             Warehouse warehouse = new Warehouse(WarehouseType.RENTED);
             warehouses.add(warehouse);
@@ -212,10 +213,11 @@ public class WarehousingDepartment extends DepartmentImpl {
             if(this.warehouseSlots == this.warehouses.size()) {
                 this.warehouseSlotsAvailable = false;
             }
+            this.calculateTotalCapacity();
             return warehouse.getMonthlyRentalCost();
         }
         this.warehouseSlotsAvailable = false;
-        return 0;
+        throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
     }
 
     public void depreciateAllWarehouseResaleValues(LocalDate gameDate) {
@@ -236,13 +238,24 @@ public class WarehousingDepartment extends DepartmentImpl {
         return allWarehouseResaleValues;
     }
 
-    public double sellWarehouse(Warehouse warehouse) {
-        double resaleValue = 0;
-        if(warehouse.getWarehouseType() == WarehouseType.BUILT) {
-            resaleValue = warehouse.getResaleValue();
+    public double sellWarehouse(Warehouse warehouse) throws StorageCapacityUsedException {
+        int fS = this.calculateFreeStorage();
+        int cap = warehouse.getCapacity();
+        if(fS >= cap) {
+            double resaleValue = 0;
+            if (warehouse.getWarehouseType() == WarehouseType.BUILT) {
+                resaleValue = warehouse.getResaleValue();
+            }
+            warehouses.remove(warehouse);
+            this.warehouseSlotsAvailable = true;
+            return resaleValue;
+        } else {
+            if(warehouse.getWarehouseType() == WarehouseType.BUILT) {
+               throw new StorageCapacityUsedException("This warehouse cannot be sold, the storage capacity is still in use.", fS, cap);
+            } else {
+                throw new StorageCapacityUsedException("The rent of this warehouse cannot be canceled, the storage capacity is still in use.", fS, cap);
+            }
         }
-        warehouses.remove(warehouse);
-        return resaleValue;
     }
 
     public double calculateMonthlyCostWarehousing(LocalDate gameDate) {
@@ -281,10 +294,10 @@ public class WarehousingDepartment extends DepartmentImpl {
     }
 
     public boolean checkFreeStorageThreshold() {
-        if(this.totalCapacity == 0) {
+        if(this.calculateTotalCapacity() == 0) {
             return false;
         }
-        if((this.freeStorage / this.totalCapacity) < 0.1) {
+        if((this.calculateFreeStorage() / this.calculateTotalCapacity()) < 0.1) {
             this.daysSinceFreeStorageThreshold++;
             return true;
         } else {
@@ -330,11 +343,35 @@ public class WarehousingDepartment extends DepartmentImpl {
         return earnedMoney;
     }
 
+    public void setProductionDepartmentStoredComponents() {
+        Map<Component, Integer> storedComponents = new HashMap<>();
+        for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
+            if(entry.getKey().getUnitType() == UnitType.COMPONENT_UNIT) {
+                storedComponents.put((Component) entry.getKey(), entry.getValue());
+            }
+        }
+        ProductionDepartment.getInstance().setStoredComponents(storedComponents);
+    }
+
+    public void setProductionDepartmentTotalWarehouseCapacity() {
+        ProductionDepartment.getInstance().setTotalWarehouseCapacity(this.totalCapacity);
+    }
+
+    public void clearUsedComponents() {
+        Map<Component, Integer> storedComponents = ProductionDepartment.getInstance().getStoredComponents();
+        for(Map.Entry<Component, Integer> entry : storedComponents.entrySet()) {
+            this.inventory.put(entry.getKey(), entry.getValue());
+        }
+    }
+
     public void calculateAll() {
+        this.clearUsedComponents();
         this.storeUnits();
+        this.setProductionDepartmentStoredComponents();
         this.calculateStoredUnits();
         this.calculateTotalCapacity();
         this.calculateFreeStorage();
+        this.setProductionDepartmentTotalWarehouseCapacity();
         this.calculateDailyStorageCost();
         this.calculateTotalMonthlyWarehousingCost();
     }

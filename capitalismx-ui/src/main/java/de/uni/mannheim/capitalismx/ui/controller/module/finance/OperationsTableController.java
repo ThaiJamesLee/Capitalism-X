@@ -1,36 +1,41 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
-import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.controller.module.hr.EmployeeListController;
-import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
-
 import java.net.URL;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.finance.OperationsTableViewCell;
+import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.util.Callback;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
+
 public class OperationsTableController  extends GameModuleController {
 
     @FXML
-    private TableView<Map.Entry<String, OperationsTableEntry>> operationsTable;
+    private VBox operationsVBox;
 
-    private Map<String, OperationsTableEntry> data;
+    private Map<String, OperationsTableViewCell> controllers;
 
     public OperationsTableController() {
     }
@@ -42,98 +47,72 @@ public class OperationsTableController  extends GameModuleController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        operationsTable.setPlaceholder(new Label(UIManager.getLocalisedString("operations.table.placeholder")));
+        controllers = new HashMap<>();
 
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> rowName = new TableColumn<>("");
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> col1 = new TableColumn<>("Q");
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> col2 = new TableColumn<>("Q");
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> col3 = new TableColumn<>("Q");
-        TableColumn<Map.Entry<String, OperationsTableEntry>, String> col4 = new TableColumn<>("Q");
-
-        rowName.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().rowName;
-                    }
-                });
-        col1.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().col1;
-                    }
-                });
-        col2.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().col2;
-                    }
-                });
-        col3.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().col3;
-                    }
-                });
-        col4.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String>, ObservableValue<String>>() {
-                    @Override
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, OperationsTableEntry>, String> param) {
-                        return param.getValue().getValue().col4;
-                    }
-                });
-
-        operationsTable.getColumns().addAll(rowName, col1, col2, col3, col4);
-
-
-        data = new LinkedHashMap<>();
-        data.put("sales", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.sales"), 0, 0, 0 ,0));
-        data.put("salaries", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.salaries"), 0, 0, 0 ,0));
-        data.put("material", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.material"), 0, 0, 0 ,0));
-        data.put("machines", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.machines"), 0, 0, 0 ,0));
-        data.put("logistics", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.logistics"), 0, 0, 0 ,0));
-        data.put("lobbying", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.lobbying"), 0, 0, 0 ,0));
-        data.put("marketing", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.marketing"), 0, 0, 0 ,0));
-        data.put("ebit", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.ebit"), 0, 0, 0 ,0));
-        data.put("loan_interest", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.loanInterest"), 0, 0, 0 ,0));
-        data.put("taxes", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.taxes"), 0, 0, 0 ,0));
-        data.put("nopat", new OperationsTableEntry(UIManager.getLocalisedString("operations.table.nopat"), 0, 0, 0 ,0));
-
-        ObservableList<Map.Entry<String,OperationsTableEntry>> dataObservable = FXCollections.observableArrayList(data.entrySet());
-        operationsTable.setItems(dataObservable);
-    }
-
-
-    class OperationsTableEntry{
-        final SimpleStringProperty rowName;
-        final SimpleStringProperty col1;
-        final SimpleStringProperty col2;
-        final SimpleStringProperty col3;
-        final SimpleStringProperty col4;
-
-        public OperationsTableEntry(String rowName, double col1, double col2, double col3, double col4){
-            this.rowName = new SimpleStringProperty(rowName);
-            this.col1 = new SimpleStringProperty(String.valueOf(col1));
-            this.col2 = new SimpleStringProperty(String.valueOf(col2));
-            this.col3 = new SimpleStringProperty(String.valueOf(col3));
-            this.col4 = new SimpleStringProperty(String.valueOf(col4));
+        FXMLLoader headerLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/operations_table_cell.fxml"));
+        try {
+            headerLoader.setController(new OperationsTableViewCell(new String[]{"header", "", "0", "0", "0", "0"}, operationsVBox, controllers));
+            Parent headerRow = headerLoader.load();
+            OperationsTableViewCell headerController = headerLoader.getController();
+            headerController.setHeaderRow();
+            operationsVBox.getChildren().add(headerRow);
+            controllers.put("header", headerController);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        String[] rowNames = {"sales", "hrCosts", "warehouseCosts", "logisticsCosts", "productionCosts", "marketingCosts", "supportCosts",
+                "ebit", "tax", "nopat"};
+        for(String rowName : rowNames){
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/operations_table_cell.fxml"));
+            try {
+                loader.setController(new OperationsTableViewCell(new String[]{rowName, UIManager.getLocalisedString("operations.table." + rowName), "0", "0", "0", "0"}, operationsVBox, controllers));
+                Parent headerRow = loader.load();
+                OperationsTableViewCell controller = loader.getController();
+
+                if(rowName.contains("Costs") || rowName.equals("tax")){
+                    controller.setColor("-fx-red");
+                }else if(rowName.equals("sales")){
+                    controller.setColor("-fx-green");
+                }
+
+                operationsVBox.getChildren().add(headerRow);
+                controllers.put(rowName, controller);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Region[] regions = new Region[5];
+        for(int i = 0; i < regions.length; i++){
+            regions[i] = new Region();
+            regions[i].getStyleClass().add("separator_horizontal");
+        }
+        operationsVBox.getChildren().add(10, regions[0]);
+        operationsVBox.getChildren().add(9, regions[1]);
+        operationsVBox.getChildren().add(8, regions[2]);
+        operationsVBox.getChildren().add(2, regions[3]);
+        operationsVBox.getChildren().add(1, regions[4]);
     }
+
 
     public void updateTable(String rowName, String[] cols, String[] colNames){
         Platform.runLater(new Runnable() {
             public void run() {
-                data.get(rowName).col1.setValue(cols[0]);
-                data.get(rowName).col2.setValue(cols[1]);
-                data.get(rowName).col3.setValue(cols[2]);
-                data.get(rowName).col4.setValue(cols[3]);
+                OperationsTableViewCell controllerHeader = controllers.get("header");
+                if(controllerHeader != null){
+                    controllerHeader.setLabel2(colNames[0]);
+                    controllerHeader.setLabel3(colNames[1]);
+                    controllerHeader.setLabel4(colNames[2]);
+                    controllerHeader.setLabel5(colNames[3]);
+                }
 
-                for(int i = 0; i < colNames.length; i++){
-                    operationsTable.getColumns().get(i + 1).setText(colNames[i]);
+                OperationsTableViewCell controller = controllers.get(rowName);
+                if(controller != null){
+                    controller.setLabel2(cols[0]);
+                    controller.setLabel3(cols[1]);
+                    controller.setLabel4(cols[2]);
+                    controller.setLabel5(cols[3]);
                 }
             }
         });

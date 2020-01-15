@@ -8,6 +8,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 import de.uni.mannheim.capitalismx.production.skill.ProductionSkill;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -40,12 +41,16 @@ public class ProductionDepartment extends DepartmentImpl {
     private List<ComponentType> allAvailableComponents;
     private List<Product> launchedProducts;
     private boolean machineSlotsAvailable;
+    private Map<Component, Integer> storedComponents;
+    private int totalWarehouseCapacity;
+    private int decreasedProcessAutomationLevel;
+    private double totalEngineerQualityOfWorkDecreasePercentage;
+
+    private PropertyChangeSupportList launchedProductsChange;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
 
     private int initialProductionSlots;
-
-    private int baseCost;
     private int productionSlots;
 
     private static final String LEVELING_PROPERTIES = "production-leveling-definition";
@@ -70,6 +75,15 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionVariableCosts = 0.0;
         this.launchedProducts = new ArrayList<>();
         this.machineSlotsAvailable = true;
+        this.productionTechnology = ProductionTechnology.DEPRECIATED;
+        this.storedComponents = new HashMap<>();
+        this.totalWarehouseCapacity = 0;
+        this.decreasedProcessAutomationLevel = 0;
+        this.totalEngineerQualityOfWorkDecreasePercentage = 0;
+
+        this.launchedProductsChange = new PropertyChangeSupportList();
+        this.launchedProductsChange.setList(this.launchedProducts);
+        this.launchedProductsChange.setAddPropertyName("launchedProductsChange");
 
         this.init();
     }
@@ -199,7 +213,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.manufactureEfficiency = 0;
     }
 
-    public double buyMachinery(Machinery machinery, LocalDate gameDate) {
+    public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
         if(this.productionSlots > this.machines.size()) {
             machinery.setPurchaseDate(gameDate);
             this.machines.add(machinery);
@@ -210,7 +224,7 @@ public class ProductionDepartment extends DepartmentImpl {
             return machinery.calculatePurchasePrice();
         }
         this.machineSlotsAvailable = false;
-        return 0;
+        throw new NoMachinerySlotsAvailableException("No more Capacity available to buy new Machine.");
     }
 
     public double sellMachinery(Machinery machinery) {
@@ -266,29 +280,64 @@ public class ProductionDepartment extends DepartmentImpl {
         }
     }
 
-    public double produceProduct(Product product, int quantity, int freeStorage) {
+    public void setStoredComponents(Map<Component, Integer> storedComponents) {
+        this.storedComponents = storedComponents;
+    }
+
+    public void setTotalWarehouseCapacity(int totalWarehouseCapacity) {
+        this.totalWarehouseCapacity = totalWarehouseCapacity;
+    }
+
+    public double produceProduct(Product product, int quantity, int freeStorage) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {
         int totalMachineCapacity = 0;
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
         }
-        if(totalMachineCapacity >= quantity && freeStorage >= quantity) {
-            double variableProductCosts = 0;
-            int newQuantity = quantity;
-            for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
-                if(product == entry.getKey()) {
-                    newQuantity += this.numberProducedProducts.get(product);
+
+        if(quantity > 0) {
+            if (freeStorage >= quantity) {
+                if (totalMachineCapacity >= quantity) {
+                    int maximumProducable = this.totalWarehouseCapacity;
+                    for (Component component : product.getComponents()) {
+                        if (this.storedComponents.containsKey(component)) {
+                            if (maximumProducable >= this.storedComponents.get(component)) {
+                                maximumProducable = this.storedComponents.get(component);
+                            }
+                        } else {
+                            maximumProducable = 0;
+                        }
+                    }
+
+                    if (maximumProducable < quantity) {
+                        throw new NotEnoughComponentsException("There are not enough components available to produce " + quantity + " unit(s).", maximumProducable);
+                    }
+
+                    for (Component component : product.getComponents()) {
+                        int newStoredQuantity = this.storedComponents.get(component) - quantity;
+                        this.storedComponents.put(component, newStoredQuantity);
+                    }
+
+                    double variableProductCosts = 0;
+                    int newQuantity = quantity;
+                    for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+                        if (product == entry.getKey()) {
+                            newQuantity += this.numberProducedProducts.get(product);
+                        }
+                    }
+                    this.numberProducedProducts.put(product, newQuantity);
+                    /* LocalDate.now() placeholder for gameDate */ // NEEDED? TODO
+                    //LocalDate gameDate = LocalDate.now();
+                    this.numberUnitsProducedPerMonth += quantity;
+                    variableProductCosts = product.calculateTotalVariableCosts() * quantity;
+                    return variableProductCosts;
+                } else {
+                    throw new NotEnoughMachineCapacityException("There is not enough machine capacity available to produce " + quantity + " unit(s).", totalMachineCapacity);
                 }
+            } else {
+                throw new NotEnoughFreeStorageException("There is not enough warehouse capacity available to produce " + quantity + " unit(s).", freeStorage);
             }
-            this.numberProducedProducts.put(product, newQuantity);
-            /* LocalDate.now() placeholder for gameDate */ // NEEDED? TODO
-            //LocalDate gameDate = LocalDate.now();
-            this.numberUnitsProducedPerMonth += quantity;
-            variableProductCosts = product.calculateTotalVariableCosts() * quantity;
-            return variableProductCosts;
-        } else {
-            // TODO throw error message "Your machinery capacity is not sufficient. Either produce a smaller amount or buy new machinery."
-            return -1;
         }
+        return 0;
     }
 
     public double getAmountInProduction(Product product) {
@@ -298,6 +347,15 @@ public class ProductionDepartment extends DepartmentImpl {
     public double getTotalProductCosts(Product product) {
         this.setProductsTotalProductCost();
         return product.getTotalProductCosts();
+    }
+
+    public double getTotalProductionCosts() {
+        this.setProductsTotalProductCost();
+        double totalProductionCosts = 0;
+        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+            totalProductionCosts += entry.getKey().getTotalProductCosts();
+        }
+        return totalProductionCosts;
     }
 
     public void setProductSalesPrice(Product product, double salesPrice) {
@@ -396,7 +454,7 @@ public class ProductionDepartment extends DepartmentImpl {
 
     public double calculateTotalEngineerQualityOfWork() {
         /* TODO placeholder for the quality of work of the engineering team*/
-        this.totalEngineerQualityOfWork = 0.7;
+        this.totalEngineerQualityOfWork = 0.7 * (1 - this.totalEngineerQualityOfWorkDecreasePercentage);
         return this.totalEngineerQualityOfWork;
     }
 
@@ -415,6 +473,10 @@ public class ProductionDepartment extends DepartmentImpl {
         for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             entry.getKey().calculateTotalProductQuality(this.calculateProductionTechnologyFactor(), this.calculateTotalEngineerProductivity(), this.calculateResearchAndDevelopmentFactor());
         }
+    }
+
+    public void setTotalProductQualityOfProduct(Product product) {
+        product.calculateTotalProductQuality(this.calculateProductionTechnologyFactor(), this.calculateTotalEngineerProductivity(), this.calculateResearchAndDevelopmentFactor());
     }
 
     public ProductionTechnology getProductionTechnology() {
@@ -477,22 +539,33 @@ public class ProductionDepartment extends DepartmentImpl {
         return this.averageProductBaseQuality / this.numberProducedProducts.size();
     }
 
-    public void updateComponentBaseCosts(LocalDate gameDate) {
+    /* public void updateComponentBaseCosts(LocalDate gameDate) {
         for(Map.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             for(Component component : entry.getKey().getComponents()) {
                 component.calculateBaseCost(gameDate);
             }
         }
-    }
+    } */
 
-    /* TODO duration 1 month, winter month*/
     public void decreaseTotalEngineerQualityOfWorkRel(double decrease) {
-        this.totalEngineerQualityOfWork *= (1 - decrease);
+        this.totalEngineerQualityOfWorkDecreasePercentage = decrease;
+        this.calculateTotalEngineerQualityOfWork();
     }
 
-    /* TODO only after year 2000 and for 3 months, used processAutomationFactor as processAutomation is on a Likert scale from 1 to 5*/
+    public void increaseTotalEngineerQualityOfWorkRel() {
+        this.totalEngineerQualityOfWorkDecreasePercentage = 0;
+        this.calculateTotalEngineerQualityOfWork();
+    }
+
+    /* TODO used processAutomationFactor as processAutomation is on a Likert scale from 1 to 5*/
     public void decreaseProcessAutomationRel(double decrease) {
-        this.processAutomationFactor *= (1 - decrease);
+        int levelDecrease = (int) Math.round(this.processAutomation.getLevel() * (1 - decrease));
+        this.processAutomation.decreaseLevel(levelDecrease);
+        this.decreasedProcessAutomationLevel = levelDecrease;
+    }
+
+    public void increaseProcessAutomationRel() {
+        this.processAutomation.increaseLevel(this.decreasedProcessAutomationLevel);
     }
 
     public boolean checkBaseQualityAboveThreshold() {
@@ -505,7 +578,7 @@ public class ProductionDepartment extends DepartmentImpl {
 
     public void calculateAll(LocalDate gameDate) {
         this.getAllAvailableComponents(gameDate);
-        this.updateComponentBaseCosts(gameDate);
+        // this.updateComponentBaseCosts(gameDate);
         this.depreciateProductInvestment(gameDate);
         this.depreciateMachinery(false, gameDate);
         this.calculateMachineryResellPrices();
@@ -523,6 +596,10 @@ public class ProductionDepartment extends DepartmentImpl {
         this.calculateManufactureEfficiency();
         this.calculateProductionProcessProductivity();
         this.calculateNormalizedProductionProcessProductivity();
+    }
+
+    public Map<Component, Integer> getStoredComponents() {
+        return this.storedComponents;
     }
 
     public int getDailyMachineCapacity() {
@@ -616,6 +693,6 @@ public class ProductionDepartment extends DepartmentImpl {
 
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+        this.launchedProductsChange.addPropertyChangeListener(listener);
     }
 }

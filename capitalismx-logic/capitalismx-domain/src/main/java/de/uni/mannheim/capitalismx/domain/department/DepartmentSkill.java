@@ -18,8 +18,14 @@ public interface DepartmentSkill extends Serializable {
 
     /**
      * Support for multi-language description.
-     * @param l Locale
+     * @param l Locale must be german or english! English is default.
      * @return Returns a description String for the skill.
      */
     String getDescription(Locale l);
+
+    /**
+     *
+     * @return Returns the level required to unlock this skill.
+     */
+    int getLevel();
 }

@@ -1,5 +1,5 @@
 .progressPane {
-	-fx-background-image: url("../img/loadingScreen.png");
+	-fx-background-image: url("../../img/loadingScreen.png");
 	-fx-background-size: cover;
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center center;
@@ -11,11 +11,11 @@
 }
 
 .progress-bar .track {
-	-fx-background-color: -fx-neutral;
+	-fx-background-color: -fx-primary;
 }
 
 .progress-bar .bar {
-	-fx-background-color: -fx-primary;
+	-fx-background-color: linear-gradient(to right, -fx-primary-dark, -fx-primary-neutral);
 }
 
 .whitePane{

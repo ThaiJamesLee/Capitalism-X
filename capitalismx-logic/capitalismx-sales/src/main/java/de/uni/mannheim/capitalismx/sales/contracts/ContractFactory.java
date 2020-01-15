@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.sales.contracts;
 
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.utils.data.Range;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
 import java.security.SecureRandom;
@@ -18,11 +19,18 @@ import java.util.List;
  */
 public class ContractFactory {
 
-    private static final List<String> contractorList;
+    private List<String> contractorList;
 
-    static {
+
+    private ProductionDepartment productionDepartment;
+
+    public ContractFactory(ProductionDepartment productionDepartment) {
+        this.productionDepartment = productionDepartment;
+        init();
+    }
+
+    private void init() {
         contractorList = new ArrayList<>();
-
         contractorList.add("Metro");
         contractorList.add("Mediamarkt");
         contractorList.add("Saturn");
@@ -36,13 +44,19 @@ public class ContractFactory {
         contractorList.add("Cyberport");
     }
 
-    private ContractFactory() {}
+    public void setProductionDepartment(ProductionDepartment productionDepartment) {
+        this.productionDepartment = productionDepartment;
+    }
+
+    public ProductionDepartment getProductionDepartment() {
+        return productionDepartment;
+    }
 
     /**
      *
      * @return Returns the pre-defined contractor list.
      */
-    public static List<String> getContractorList() {
+    public List<String> getContractorList() {
         return contractorList;
     }
 
@@ -50,18 +64,15 @@ public class ContractFactory {
      *
      * @return Returns a random contractor.
      */
-    private static String getRandomContractor() {
-        int index = RandomNumberGenerator.getRandomInt(0, contractorList.size());
+    private String getRandomContractor() {
+        int index = RandomNumberGenerator.getRandomInt(0, contractorList.size()-1);
         return contractorList.get(index);
     }
 
     /**
-     *
      * @return Returns the total capacity of machines.
      */
-    private static int getProductionCapacity() {
-        ProductionDepartment productionDepartment = ProductionDepartment.getInstance();
-
+    private int getProductionCapacity() {
         return  (int) productionDepartment.getMonthlyAvailableMachineCapacity();
     }
 
@@ -69,7 +80,7 @@ public class ContractFactory {
      * The period is currently between 1 and 12 months.
      * @return Returns the time in months for the contract to be fulfilled.
      */
-    private static int getRandomPeriod() {
+    private int getRandomPeriod() {
         return RandomNumberGenerator.getRandomInt(1, 12);
     }
 
@@ -77,7 +88,7 @@ public class ContractFactory {
      *
      * @return Returns true or false with approx. equal probability.
      */
-    private static boolean isPositive() {
+    private boolean isPositive() {
         return new SecureRandom().nextBoolean();
     }
 
@@ -85,7 +96,7 @@ public class ContractFactory {
      *
      * @return A random factor with equal probability to be in interval [0.0 - 1.0] or [1.0 - 2.0]
      */
-    private static double generateRandomFactor() {
+    private double generateRandomFactor() {
         double randomFactor = new SecureRandom().nextDouble();
         if(isPositive()) {
             randomFactor += 1;
@@ -102,10 +113,8 @@ public class ContractFactory {
      * @param date The current date of the GameState.
      * @return Returns the contract.
      */
-    public static Contract getContract(final Product product, LocalDate date) {
+    public Contract getContract(final Product product, final LocalDate date, final Range range) {
         Contract c = null;
-        // extract the date from the GameState
-
 
         String contractor = getRandomContractor();
 
@@ -113,15 +122,24 @@ public class ContractFactory {
 
         int numProd = (int) (getProductionCapacity() * generateRandomFactor());
 
-        // double price = product.getSalesPrice();
         double productProductionCost = product.getProductCosts(date);
 
-        double pricePerProd = productProductionCost  * generateRandomFactor();
+        double pricePerProd = productProductionCost  * getFactor(range);
 
+        // default
         double penalty = numProd * pricePerProd;
 
-        c = new Contract(contractor, date, product, numProd, pricePerProd, timeToFinish, penalty);
+        c = new Contract(contractor, null, product, numProd, pricePerProd, timeToFinish, penalty);
 
         return c;
+    }
+
+    /**
+     *
+     * @param range The {@link Range}.
+     * @return Returns a random value between the lower bound and the upper bound.
+     */
+    private double getFactor(Range range) {
+        return RandomNumberGenerator.getRandomDouble(range.getLowerBound(), range.getUpperBound());
     }
 }

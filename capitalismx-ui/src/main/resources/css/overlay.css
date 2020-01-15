@@ -10,13 +10,19 @@
 
 
 .header {
-	-fx-font: bold 24pt 'Prime';
-	-fx-text-fill: -fx-dark;
+	-fx-font: bold 26 'Prime';
+	-fx-text-fill: -fx-primary;
 }
 
 .details_label {
 	-fx-font-size: 16px;
 	-fx-font-family: "Prime";
+}	
+
+.label_bright {
+	-fx-font-size: 16px;
+	-fx-font-family: "Prime";
+	-fx-text-fill: -fx-light;
 }	
 
 .employee_detail_separator {

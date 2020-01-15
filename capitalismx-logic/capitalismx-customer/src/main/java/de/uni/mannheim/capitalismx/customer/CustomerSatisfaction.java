@@ -44,6 +44,14 @@ public class CustomerSatisfaction implements Serializable {
         return CustomerSatisfaction.instance;
     }
 
+    /**
+     * This method allows to ignore the singleton and operate on an independent instance.
+     * @return Return a fresh instance.
+     */
+    public static CustomerSatisfaction createInstance() {
+        return new CustomerSatisfaction();
+    }
+
     private Map<Product, Double> calculateProductAppeal() {
         Map<Product, Double> productAppeal = new HashMap<>();
         double highestProductQuality = 0;
@@ -67,7 +75,7 @@ public class CustomerSatisfaction implements Serializable {
         for(Product product : this.products) {
             double proxyPrice = 0;
             for(Component component : product.getComponents()) {
-                proxyPrice += component.calculateBaseCost(gameDate);
+                proxyPrice += component.getTimeBasedComponentCost(gameDate);
             }
             priceAppeal.put(product, proxyPrice / product.getSalesPrice());
         }
@@ -137,6 +145,10 @@ public class CustomerSatisfaction implements Serializable {
 
     public double getCustomerSatisfaction() {
         return customerSatisfaction;
+    }
+    
+    public double getEmployerBranding() {
+        return employerBranding;
     }
 
     public Map<Product, Double> getOverallAppeal() {

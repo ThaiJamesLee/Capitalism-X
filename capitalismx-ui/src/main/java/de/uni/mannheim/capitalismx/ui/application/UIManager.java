@@ -20,7 +20,6 @@ import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
-import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -60,6 +59,12 @@ public class UIManager {
 	private GameScene sceneGamePage;
 
 	private GameScene sceneLoadingScreen;
+	
+	private GameScene sceneCreditsPage;
+	
+	private GameScene sceneLostPage;
+	
+	private GameScene sceneWonPage;
 
 	// List containing all GameViews
 	private List<GameView> gameViews;
@@ -185,7 +190,7 @@ public class UIManager {
 					loadGame();
 					break;
 				case ESCAPE:
-					gamePageController.toggleIngameMenu();
+					gamePageController.handleEscape();
 					break;
 				default:
 					break;
@@ -227,6 +232,22 @@ public class UIManager {
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
+			
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/creditsPage.fxml"),
+					resourceBundle);
+			root = loader.load();
+			sceneCreditsPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
+			
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameLostPage.fxml"),
+					resourceBundle);
+			root = loader.load();
+			sceneLostPage = new GameScene(root, GameSceneType.GAMELOST_PAGE, loader.getController());
+			
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameWonPage.fxml"),
+					resourceBundle);
+			root = loader.load();
+			sceneWonPage = new GameScene(root, GameSceneType.GAMELOST_PAGE, loader.getController());
+			
 		} catch (IOException e) {
 			// TODO Handle error if scenes cannot be initialized
 			e.printStackTrace();
@@ -319,7 +340,14 @@ public class UIManager {
 
 		};
 		((LoadingScreenController) sceneLoadingScreen.getController()).initProgressBar(task.progressProperty());
-
+		task.setOnFailed(e -> {
+			System.out.println("Failed");
+			e.getSource().getException().printStackTrace();
+		});
+		task.setOnCancelled(e -> {
+			System.out.println("Failed");
+			e.getSource().getException().printStackTrace();
+		});
 		new Thread(task).start();
 	}
 
@@ -357,6 +385,19 @@ public class UIManager {
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
+			
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/creditsPage.fxml"), resourceBundle);
+			root = loader.load();
+			sceneCreditsPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
+			
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameLostPage.fxml"), resourceBundle);
+			root = loader.load();
+			sceneLostPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
+			
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameWonPage.fxml"), resourceBundle);
+			root = loader.load();
+			sceneWonPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
+			
 			switchToScene(GameSceneType.MENU_MAIN);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -396,7 +437,7 @@ public class UIManager {
 			gamePageController.switchView(GameViewType.OVERVIEW);
 			switchToScene(GameSceneType.GAME_PAGE);
 		});
-		Task task = new Task<Void>() {
+		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() {
 				GameController.getInstance().start();
@@ -431,6 +472,16 @@ public class UIManager {
 		case LOADING_SCREEN:
 			window.getScene().setRoot(sceneLoadingScreen.getScene());
 			break;
+		case CREDITS_PAGE:
+			window.getScene().setRoot(sceneCreditsPage.getScene());
+			break;
+		case GAMELOST_PAGE:
+			window.getScene().setRoot(sceneLostPage.getScene());
+			break;
+		case GAMEWON_PAGE:
+			window.getScene().setRoot(sceneWonPage.getScene());
+			break;
+			
 		default:
 			// TODO handle if no scene found
 			break;
@@ -453,15 +504,17 @@ public class UIManager {
 		return language;
 	}
 
+	
 	/**
-	 * Quits the game: Triggers a new {@link WindowEvent}, containing a
-	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application. TODO
-	 * maybe handle more stuff when ingame. (eg autosave)
+	 * Called when GameOver condition is reached and directs to the corresponding View for Lost or Won
 	 */
-	public void quitGame() {
-		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+	public void gameOver(boolean won) {
+		GameSceneType next = won ? GameSceneType.GAMEWON_PAGE : GameSceneType.GAMELOST_PAGE;
+		
+		stopGame();
+		switchToScene(next);
 	}
-
+	
 	public static ResourceBundle getResourceBundle() {
 		return resourceBundle;
 	}

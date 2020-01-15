@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeGenerator;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
@@ -64,7 +64,7 @@ public class RecruitingListController extends GameModuleController {
 		for (EmployeeType employeeType : EmployeeType.values()) {
 			recruitingTabPane.getTabs().add(createEmployeeTypeTab(employeeType));
 
-			//TODO change number of prospects with level of department
+			//TODO change number of prospects with level of department?
 			for (int i = 0; i < 10; i++) {
 				observableLists.get(employeeType).add(generator.createRandomEmployee(employeeType));
 			}
@@ -85,7 +85,7 @@ public class RecruitingListController extends GameModuleController {
 
 		ListView<Employee> recruitingList = new ListView<Employee>();
 		listViews.put(employeeType, recruitingList);
-		Label placeholder = new Label(UIManager.getLocalisedString("hr.prospects.placeholder"));
+		Label placeholder = new Label(UIManager.getLocalisedString("list.placeholder.recruiting"));
 		placeholder.setWrapText(true);
 		recruitingList.setPlaceholder(placeholder);
 		ObservableList<Employee> prospectList = FXCollections.observableArrayList();

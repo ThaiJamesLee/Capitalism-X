@@ -2,16 +2,18 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.GraphicHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
@@ -64,8 +66,8 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 
 			this.employee = employee;
 			nameLabel.setText(employee.getName());
-			wageLabel.setText((int) employee.getSalary() + " CC");
-			//add skill graphic
+			wageLabel.setText(CapCoinFormatter.getCapCoins(employee.getSalary()));
+			// add skill graphic
 			skillPane.getChildren().clear();
 			skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel()));
 			gridPane.setOnMouseClicked(e -> {
@@ -81,11 +83,19 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 	 * Hire the selected employee and remove him from the lists.
 	 */
 	public void hireEmployee() {
-		if (GameState.getInstance().getHrDepartment().hire(employee) != 0) {
+		double hireCost = GameState.getInstance().getHrDepartment().hire(employee);
+		if (hireCost > 0) {
 			RecruitingListController recruitingController = (RecruitingListController) UIManager.getInstance()
 					.getGameView(GameViewType.HR).getModule(UIElementType.HR_RECRUITING_OVERVIEW).getController();
 			recruitingController.removeEmployee(employee);
-		} //TODO error message
+			GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(),
+					hireCost);
+		} else {
+			// TODO localize
+			GameAlert error = new GameAlert(AlertType.WARNING, "You can not hire this employee.",
+					"Your employee capacity not high enough. Upgrade your HR-Department or hire more HR-Workers to increase it.");
+			error.showAndWait();
+		}
 	}
 
 }

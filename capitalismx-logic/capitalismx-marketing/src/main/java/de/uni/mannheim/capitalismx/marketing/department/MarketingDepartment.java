@@ -1,5 +1,15 @@
 package de.uni.mannheim.capitalismx.marketing.department;
 
+import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.domain.Action;
@@ -9,11 +19,6 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.beans.PropertyChangeListener;
-import java.util.*;
 
 /**
  * This class represents the marketing department.
@@ -23,17 +28,27 @@ import java.util.*;
  */
 public class MarketingDepartment extends DepartmentImpl {
 
+	
+	//TODO CSR campaigns score relative to profit of the year, 
+	//the others on quantitiy of this type of campaign per year, mechanism cant deal with this yet...
+	//TODO Consultancy is seriously flawed...
+	
     private static final Logger logger = LoggerFactory.getLogger(MarketingDepartment.class);
 
     private static final String[] SOCIAL_ENGAGEMENT = {"CSR", "Support refugee projects"};
-    private static final String[] MARKETING_CAMPAIGN = {"Promote environmental friendly supplier", "Green marketing campaign", "Diversity campaign", "Promote products"};
+    private static final String[] MARKETING_CAMPAIGN = {"Promote environmental friendly supplier", "Promote environmental friendly production", "Green marketing campaign", "Diversity campaign", "Promote products"};
 
-    private static final String[] CAMPAIGN_NAMES = {"CSR", "Support refugee projects", "Promote environmental friendly supplier", "Green marketing campaign", "Diversity campaign", "Promote products"};
+    private static final String[] CAMPAIGN_NAMES = {"CSR", "Support refugee projects", "Promote environmental friendly supplier", "Promote environmental friendly production", "Green marketing campaign", "Diversity campaign", "Promote products"};
 
     // campaigns that the department issued
     private Map<String, List<Campaign>> issuedActions;
+    
+    //campaigns that the department issued orderer by release date
+    private List<Campaign> campaignsWithDates;
 
-    // press releases the company made
+    private double employerBranding;
+
+	// press releases the company made
     private List<PressRelease> pressReleases;
 
     // consultancy services the company used
@@ -56,6 +71,7 @@ public class MarketingDepartment extends DepartmentImpl {
             issuedActions.put(c, new ArrayList<>());
         }
 
+        campaignsWithDates = new ArrayList<Campaign>();
         pressReleases = new ArrayList<>();
         consultancies = new ArrayList<>();
         marketResearches = new ArrayList<>();
@@ -92,6 +108,7 @@ public class MarketingDepartment extends DepartmentImpl {
 
         if (c != null) {
             issuedActions.get(campaignName).add(c);
+            campaignsWithDates.add(c);
             return c.getMedia().getCost();
         } else {
             throw new NullPointerException("There exist not such a campaign!");
@@ -231,6 +248,14 @@ public class MarketingDepartment extends DepartmentImpl {
     }
 
     /**
+     * 
+     * @return Returns list of all campaigns that were run
+     */
+    public List<Campaign> getCampaignsWithDates() {
+		return campaignsWithDates;
+	}
+    
+    /**
      * Delete all campaigns that were issued.
      */
     public void resetIssuedActions() {
@@ -256,10 +281,12 @@ public class MarketingDepartment extends DepartmentImpl {
     /**
      *
      * Adds the press release into the pressRelease list.
-     * @param release The Press Release that should be done.
+     * @param release The {@link PressRelease} Press Release that should be done.
+     *@return Returns the cost of the 
      */
-    public void makePressRelease(PressRelease release) {
+    public int makePressRelease(PressRelease release) {
         pressReleases.add(release);
+        return release.getCost();
     }
 
     /**
@@ -308,6 +335,25 @@ public class MarketingDepartment extends DepartmentImpl {
         return ConsultancyType.values();
     }
 
+//    /**
+//     * TODO
+//     * @param conType
+//     * @param totalSupportQuality
+//     * @param logisticIndex
+//     * @param companyImage
+//     * @param productionTechnology
+//     * @param manufactureEfficiency
+//     * @param totalJobSatisfaction
+//     * @return
+//     */
+//    public String orderConsultantReport(ConsultancyType conType, 
+//			double totalSupportQuality,	double logisticIndex, double companyImage, double productionTechnology, 
+//			double manufactureEfficiency, double totalJobSatisfaction) {
+//    	
+//    	
+//    	
+//    }
+    
     /* Market Research */
 
     /**
@@ -334,8 +380,8 @@ public class MarketingDepartment extends DepartmentImpl {
      * @param data The data (be careful, since they all take the same type, to select the correct report type!)
      * @return Returns the cost.
      */
-    public double issueMarketResearch(boolean internal, Reports report, SurveyTypes surveyType, Map<String, Double> data) {
-        MarketResearch mr = new MarketResearch(internal, surveyType);
+    public double issueMarketResearch(boolean internal, Reports report, SurveyTypes surveyType, Map<String, Double> data, LocalDate date) {
+        MarketResearch mr = new MarketResearch(internal, surveyType, date);
         double cost = 0.0;
         switch (report) {
             case PRICE_SENSITIVE_REPORT:
@@ -372,13 +418,18 @@ public class MarketingDepartment extends DepartmentImpl {
     public List<MarketResearch> getMarketResearches() {
         return marketResearches;
     }
+    
+    public void setEmployerBranding(double employerBranding) {
+    	this.employerBranding = employerBranding;
+    }
+
 
     public static void setInstance(MarketingDepartment instance) {
         MarketingDepartment.instance = instance;
     }
-
+    
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+    	//this.pressReleases.addPropertyChangeListener(listener);
     }
 }

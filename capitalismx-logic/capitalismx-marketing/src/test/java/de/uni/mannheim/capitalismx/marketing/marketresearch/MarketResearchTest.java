@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.marketing.marketresearch;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class MarketResearchTest {
         test.put("score_2", 0.0);
         test.put("score_3", 10.0);
 
-        MarketResearch m = new MarketResearch(true, SurveyTypes.MAIL_SURVEYS);
+        MarketResearch m = new MarketResearch(true, SurveyTypes.MAIL_SURVEYS, LocalDate.now());
         m.conductPriceSensitivityResearch(test);
 
         Assert.assertEquals(m.getTable().keySet().size(), test.keySet().size());

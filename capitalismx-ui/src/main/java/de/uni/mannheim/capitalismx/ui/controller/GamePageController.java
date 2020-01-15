@@ -2,9 +2,12 @@ package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
@@ -15,7 +18,7 @@ import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
-import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
+import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -116,16 +119,22 @@ public class GamePageController implements UpdateableController {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
 					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
 			Parent rootC = loaderMessageWindow.load();
-			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);;
+			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);
+			;
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
-			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, null);
-			MessageObject m2 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event2", true, GameViewType.PRODUCTION);
+
+			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 0);
+			MessageObject m2 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event2", true,
+					5);
 			messageController.addMessage(m1);
 			messageController.addMessage(m2);
-			//messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, null);
-			//messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1", "con.event2", true, GameViewType.PRODUCTION);
+
+			// messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1",
+			// "con.event1", true, null);
+			// messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1",
+			// "con.event2", true, GameViewType.PRODUCTION);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -160,6 +169,7 @@ public class GamePageController implements UpdateableController {
 			messageLayer.toBack();
 			openMessagePane = false;
 		}
+
 	}
 
 	public void toggleIngameMenu() {
@@ -173,19 +183,23 @@ public class GamePageController implements UpdateableController {
 	}
 
 	/**
-	 * Use this method to open the message window and to display a specific message. The displayed message must already exist in the message list.
+	 * Use this method to open the message window and to display a specific message.
+	 * The displayed message must already exist in the message list.
+	 * 
 	 * @param messageToShow The mMessageObject that should be shown.
 	 */
-	public void showMessage(MessageObject messageToShow){
+	public void showMessage(MessageObject messageToShow) {
 		toggleMessageWindow();
 		messageController.showMessage(messageToShow);
 	}
 
 	/**
-	 * Use this method to add a message to the message list and to open the message window. It will display the just added message.
+	 * Use this method to add a message to the message list and to open the message
+	 * window. It will display the just added message.
+	 * 
 	 * @param messageToShow The MessageObject that should be added and shown.
 	 */
-	public void addAndShowMessage(MessageObject messageToShow){
+	public void addAndShowMessage(MessageObject messageToShow) {
 		messageController.addMessage(messageToShow);
 		toggleMessageWindow();
 		messageController.showMessage(messageToShow);
@@ -204,7 +218,7 @@ public class GamePageController implements UpdateableController {
 	 *
 	 * @param module The {@link GameModule} to remove.
 	 */
-	private void removeModuleFromGrid(GameModule module,boolean animated) {
+	private void removeModuleFromGrid(GameModule module, boolean animated) {
 		if (animated) {
 			// Create a transition for fading out the module
 			FadeTransition fade = new FadeTransition(Duration.millis(700), module.getRootElement());
@@ -234,8 +248,7 @@ public class GamePageController implements UpdateableController {
 
 		module.getController().update();
 		if (module.isActivated()) {
-			moduleGrid.add(root, position.getxStart(), position.getyStart(), position.getxSpan(),
-					position.getySpan());
+			moduleGrid.add(root, position.getxStart(), position.getyStart(), position.getxSpan(), position.getySpan());
 		}
 
 		if (animated) {
@@ -293,9 +306,8 @@ public class GamePageController implements UpdateableController {
 			UIManager.getInstance().getGameHudController().deselectDepartmentButton(currentActiveView.getViewType());
 		}
 		// change current view and add modules
-		UIManager.getInstance().getGameHudController().selectDepartmentButton(viewType);
+		UIManager.getInstance().getGameHudController().updateView(viewType);
 		currentActiveView = UIManager.getInstance().getGameView(viewType);
-		UIManager.getInstance().getGameHudController().updateGameViewLabel(viewType);
 		for (GameModule module : currentActiveView.getModules()) {
 			addModuleToGrid(module, false);
 		}
@@ -356,6 +368,19 @@ public class GamePageController implements UpdateableController {
 
 	public MessageController getMessageController() {
 		return messageController;
+	}
+
+	/**
+	 * Handle escape key -> If any menu elements are open, close them. If not open
+	 * ingame menu.
+	 */
+	public void handleEscape() {
+		// TODO add auto close of hud elements -> connect to GameHudController
+		if (openMessagePane) {
+			toggleMessageWindow();
+		} else {
+			toggleIngameMenu();
+		}
 	}
 
 }

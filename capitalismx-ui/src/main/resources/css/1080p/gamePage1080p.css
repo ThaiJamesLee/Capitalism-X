@@ -39,8 +39,8 @@
 .hud_bottom {
 	-fx-padding-bottom: 5.0;
 }
+
 .hud_background {
-	-fx-text-fill: -fx-primary;
 	-fx-padding: 10.0;
 	-fx-background-color: -fx-complement-dark-transparent;
 	-fx-background-insets: -5.0;
@@ -52,6 +52,10 @@
 	-fx-border-width:1;**/
 	-fx-border-color: -fx-primary;
 	-fx-effect: dropshadow(gaussian, -fx-primary-dark-transparent, 10.0, 0.5, 0.0, 0.0);
+}
+
+.hud_background .title_label {
+	-fx-text-fill: -fx-primary;
 }
 
 .hud_icon_button {
@@ -158,11 +162,5 @@
 .icon_green {
 	-fx-fill: -fx-green;
 	-fx-text-fill: -fx-green;
-}
-
-.icon_button_invisible {
-	-fx-background-color: transparent;
-	-fx-border-width: 0 0 0 0;
-	-fx-border-color: -fx-primary;
 }
 	

@@ -22,13 +22,13 @@
   </rowConstraints>
    <children>
       <FontAwesomeIcon iconName="USER" size="1.5em" />
-      <Label fx:id="nameLabel" styleClass="list-label" text="Label" GridPane.columnIndex="1">
+      <Label fx:id="nameLabel" styleClass="list-label-large" text="Label" GridPane.columnIndex="1">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Label>
       <FontAwesomeIcon iconName="MONEY" size="1.5em" GridPane.columnIndex="2" />
-      <Label fx:id="wageLabel" styleClass="list-label" text="Label" GridPane.columnIndex="3">
+      <Label fx:id="wageLabel" styleClass="list-label-large" text="Label" GridPane.columnIndex="3">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>

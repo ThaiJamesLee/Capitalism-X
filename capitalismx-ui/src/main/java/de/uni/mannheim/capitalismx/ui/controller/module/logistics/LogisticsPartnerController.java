@@ -6,7 +6,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -49,7 +49,9 @@ public class LogisticsPartnerController extends GameModuleController {
 			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyNo"));
 		}
 
-		popover = PopOverHelper.createStandardOverlay("fxml/overlay/logistics_partner_detail_list.fxml");
+		PopOverFactory factory = new PopOverFactory();
+		factory.createStandardOverlay("fxml/overlay/logistics_partner_detail_list.fxml");
+		popover = factory.getPopover();
 		
 		logisticsPartnerButton.setOnAction(e -> {
 			showPopover();
@@ -59,6 +61,7 @@ public class LogisticsPartnerController extends GameModuleController {
 	public void addExternalPartner(ExternalPartner externalPartner) {
 		currentlyEmployingTextArea
 				.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl") + externalPartner.getName());
+		popover.hide();
 	}
 
 	private void showPopover() {

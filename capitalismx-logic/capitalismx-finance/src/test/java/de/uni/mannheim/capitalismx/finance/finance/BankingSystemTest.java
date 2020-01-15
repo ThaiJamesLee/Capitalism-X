@@ -51,10 +51,11 @@ public class BankingSystemTest {
         Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.now()), 0.0);
 
         bankingSystem.addLoan(bankingSystem.new Loan("Loan 1",0.05, 24, 100), LocalDate.of(2019, 11, 30));
-        Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2020, 11, 30)), 50.0);
+        Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2020, 11, 30)), 100.0);
 
         bankingSystem.addLoan(bankingSystem.new Loan("Loan 2",0.05, 24, 100), LocalDate.of(2019, 11, 30));
-        Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2021, 11, 30)), 0.0);
+        Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2021, 12, 1)), 50.0);
+        Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2021, 12, 2)), 0.0);
     }
 
     @Test
@@ -64,7 +65,9 @@ public class BankingSystemTest {
         Assert.assertEquals(bankingSystem.calculateAnnualInterestRate(LocalDate.now()), 0.0);
 
         bankingSystem.addLoan(bankingSystem.new Loan("Loan 1",0.05, 24, 100), LocalDate.of(2019, 11, 30));
-        Assert.assertEquals(bankingSystem.calculateAnnualInterestRate(LocalDate.of(2020, 11, 30)), 2.5);
+        Assert.assertEquals(bankingSystem.calculateAnnualInterestRate(LocalDate.of(2020, 11, 30)), 5.0);
+        //because loans added on first day of following month
+        Assert.assertEquals(bankingSystem.calculateAnnualInterestRate(LocalDate.of(2021, 12, 1)), 2.5);
     }
 
 }

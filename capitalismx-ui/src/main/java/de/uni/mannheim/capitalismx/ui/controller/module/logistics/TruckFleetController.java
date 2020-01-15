@@ -1,27 +1,21 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.logistics;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
-import org.controlsfx.control.PopOver.ArrowLocation;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.stage.Window;
-import javafx.util.Duration;
 
 public class TruckFleetController extends GameModuleController {
 
@@ -67,8 +61,11 @@ public class TruckFleetController extends GameModuleController {
 
 		// truckFleetListView.setItems(truckFleetListObservable);
 		truckFleetListView.setCellFactory(truckListView -> new TruckListViewCell(truckFleetListView));
+		truckFleetListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.truck")));
 
-		popover = PopOverHelper.createStandardOverlay("fxml/overlay/truck_detail_list.fxml");
+		PopOverFactory helper = new PopOverFactory();
+		helper.createStandardOverlay("fxml/overlay/truck_detail_list.fxml");
+		popover = helper.getPopover();
 
 		buyTruckButton.setOnAction(e -> {
 			showPopover();
@@ -77,8 +74,8 @@ public class TruckFleetController extends GameModuleController {
 
 	public void addTruck(Truck truck) {
 		truckFleetListView.getItems().add(truck);
+		popover.hide();
 	}
-
 
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());

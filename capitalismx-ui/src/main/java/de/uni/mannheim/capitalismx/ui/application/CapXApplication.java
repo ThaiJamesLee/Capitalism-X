@@ -1,17 +1,13 @@
 package de.uni.mannheim.capitalismx.ui.application;
 
+import java.util.Optional;
+
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
-/**
- * The main class, starting the application.
- * 
- * @author Jonathan
- *
- */
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
@@ -20,7 +16,6 @@ import javafx.scene.input.KeyCombination.ModifierValue;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 /**
@@ -31,7 +26,7 @@ import javafx.stage.WindowEvent;
  */
 public class CapXApplication extends Application {
 
-	private static final boolean testMode = true;
+	private static final boolean testMode = false;
 	private Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
 	@Override
@@ -73,12 +68,15 @@ public class CapXApplication extends Application {
 		// stop gameThread
 		GameController.getInstance().terminateGame();
 		if (!testMode) {
-			Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Do you really want to quit?", ButtonType.YES,
-					ButtonType.NO);
-			closeConfirmation.initStyle(StageStyle.UNDECORATED);
-			closeConfirmation.getDialogPane().getStylesheets().add(CapXApplication.class.getResource("/css/1080p/general1080p.css").toExternalForm());
-			closeConfirmation.getDialogPane().getStylesheets().add(CapXApplication.class.getResource("/css/dialog.css").toExternalForm());
-			closeConfirmation.showAndWait();
+			GameAlert closeConfirmation = new GameAlert(AlertType.CONFIRMATION, "Quit the game", "Do you really want to quit?");
+			Optional<ButtonType> response = closeConfirmation.showAndWait();
+			
+			// closes the application if the user confirms
+		    if (response.isPresent() && response.get().equals(ButtonType.OK)) {
+		    	//TODO save game if ingame?
+		    } else {
+		    	e.consume();
+		    }
 		}
 	}
 

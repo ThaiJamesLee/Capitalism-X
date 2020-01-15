@@ -129,7 +129,7 @@ public class TooltipFactory {
 	public Tooltip createTooltip(String textToDisplay) {
 		Tooltip tooltip = new Tooltip();
 		tooltip.setText(textToDisplay);
-		tooltip.setShowDelay(fadeInDuration);
+		//tooltip.setShowDelay(fadeInDuration);
 		tooltip.setAnchorLocation(anchorLocation);
 		return tooltip;
 	}

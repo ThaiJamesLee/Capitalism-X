@@ -72,6 +72,11 @@ FontAwesomeIcon {
 	-fx-fill: -fx-primary-dark; 
 }
 
+.icon_primary {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
+}
+
 /**
  * Various button designs
  */
@@ -125,6 +130,16 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-dark;
 }
 
+.icon_button_invisible {
+	-fx-background-color: transparent;
+	-fx-border-width: 0 0 0 0;
+	-fx-border-color: -fx-primary;
+}
+
+
+/**
+ * Styling for the choice box
+ */
 .choice-box {
 	-fx-background-color: -fx-primary-neutral;
 	-fx-border-radius: 2.0;
@@ -279,6 +294,11 @@ FontAwesomeIcon {
 	-fx-font-family: 'Prime';
  }
  
+ .list-label-large {
+	-fx-font-size: 18.0px;
+	-fx-font-family: 'Prime';
+ }
+ 
 .list-view {
 	-fx-background-color: none;
 	-fx-border-width : 1.0 0.0 0.0 0.0;
@@ -386,37 +406,47 @@ FontAwesomeIcon {
  .tab-pane {
     -fx-tab-min-width: 60.0px;
  }
+ 
 .tab-pane .tab-header-area .tab-header-background {
+	-fx-margin-top: 5;
 	-fx-background-color: transparent;
+	-fx-border-radius: 5 0 0 5;
+	-fx-background-radius: 5 5 0 0;
 }
 
 .tab-pane .tab-content-area {
+ 	-fx-padding: 5;
 	-fx-background-color: transparent;
-	-fx-border-width : 1.0 0.0 0.0 0.0;
-	-fx-border-insets : 0.0 5.0 0.0 5.0;
-	-fx-border-color: -fx-primary-dark;
+	-fx-border-width : 3.0 0.0 0.0 0.0;
+	-fx-border-insets : 0.0 0.0 0.0 0.0;
+	-fx-border-color: -fx-primary-neutral;
 }
 
 .tab-pane .tab {
     -fx-background-insets: 0.0 1.0 0.0 1.0;
-	-fx-background-color: -fx-primary-dark;
+	-fx-background-color: -fx-primary-dark-transparent;
 	-fx-border-radius: 5.0 5.0 0.0 0.0;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-border-width: 1 1 0 1;
 	-fx-background-radius: 5.0 5.0 0.0 0.0;
 }
 
 .tab-pane .tab:selected, .tab-pane .tab-pane:focused {
 	-fx-background-color: -fx-primary;
-	-fx-border-width: 2.0;
-	-fx-border-color: -fx-primary-dark;
-	-fx-background-insets: -2.0;
-	-fx-border-insets: -2.0;
-	-fx-border-radius: 3.0;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-border-width: 1 1 0 1;
+	-fx-border-radius: 5.0 5.0 0.0 0.0;
+	-fx-background-radius: 5.0 5.0 0.0 0.0;
 }
 
 .tab .tab-label {
     -fx-alignment: CENTER;
-	-fx-text-fill: -fx-primary-light;
+	-fx-text-fill: -fx-primary;
 	-fx-font-family: "Prime";
+}
+
+.tab:selected .tab-label{
+    -fx-text-fill: -fx-primary-neutral;
 }
 
 /**
@@ -427,11 +457,17 @@ FontAwesomeIcon {
 }
 
 .chart-plot-background{
-	-fx-background-color: -fx-primary-light-neutral;	
+		-fx-background-color: -fx-primary-dark-transparent;
 }
 
 .chart-alternative-row-fill {
     -fx-fill: -fx-primary-light;
+}
+
+.default-color0.chart-series-line { -fx-stroke: -fx-primary; }
+
+.default-color0.chart-line-symbol{
+    -fx-background-color: -fx-primary, -fx-primary;
 }
  
  .axis {
@@ -514,7 +550,7 @@ FontAwesomeIcon {
 
 
 /**
- * TODO: in eigene Dateien für das jeweilige Element auslagern
+ * TODO: in eigene Dateien fï¿½r das jeweilige Element auslagern
  */
 .sidemenu_color {
 	-fx-background-color: -fx-dark;
@@ -610,6 +646,10 @@ FontAwesomeIcon {
 	-fx-border-radius: 5;
 	-fx-background-radius: 5;
  }
+ 
+  .popover_pane .list-cell:hover { 
+  	-fx-background-color: -fx-primary;
+  }
  
 .train_popover {
 	-fx-border-radius: 5.0;

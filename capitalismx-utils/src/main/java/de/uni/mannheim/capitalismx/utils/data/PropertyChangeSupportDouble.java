@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class PropertyChangeSupportDouble implements Serializable {
 
-    private double value;
+    private Double value;
 
     private String propertyChangedName;
 
@@ -23,13 +23,13 @@ public class PropertyChangeSupportDouble implements Serializable {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
-    public void setValue(double value) {
-        double oldValue = this.value;
+    public void setValue(Double value) {
+        Double oldValue = this.value;
         this.value = value;
         propertyChangeSupport.firePropertyChange(propertyChangedName, oldValue, this.value);
     }
 
-    public double getValue() {
+    public Double getValue() {
         return value;
     }
 

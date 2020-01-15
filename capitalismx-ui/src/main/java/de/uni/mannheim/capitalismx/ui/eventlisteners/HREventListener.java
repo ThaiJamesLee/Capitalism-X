@@ -4,37 +4,39 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.domain.employee.Team;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
-import de.uni.mannheim.capitalismx.ui.controller.module.hr.EmployeeListController;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.HrStatisticsController;
+import de.uni.mannheim.capitalismx.ui.controller.module.hr.TeamDetailController;
 
 public class HREventListener implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		GameView hrView = UIManager.getInstance().getGameView(GameViewType.HR);
-		
+
 		for (EmployeeType employeeType : EmployeeType.values()) {
-			if(evt.getPropertyName().equals(employeeType.getTeamEventPropertyChangedKey())) {
-				//update list of employees
-				EmployeeListController employeeController = (EmployeeListController) hrView
-						.getModule(UIElementType.HR_EMPLOYEES_OVERVIEW).getController();
-				employeeController.updateEmployeeListView(employeeType, (List<Employee>)evt.getNewValue());
-				
-				((HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS).getController())
-				.updateTeam(employeeType, ((List<Employee>) evt.getNewValue()).size());
-				
-				//Update total number of employees in the hud
+			if (evt.getPropertyName().equals(employeeType.getTeamEventPropertyChangedKey())) {
+
+				// update list of employees
+				TeamDetailController employeeController = (TeamDetailController) hrView
+						.getModule(UIElementType.HR_TEAM_DETAIL).getController();
+				employeeController.updateTeamList(employeeType, (List<Employee>) evt.getNewValue());
+
+				// Update total number of employees in the hud
 				UIManager.getInstance().getGameHudController().updateNumOfEmployees();
+				
+				//Update Statistics Module
+				HrStatisticsController statsController = (HrStatisticsController) hrView
+						.getModule(UIElementType.HR_STATISTICS).getController();
+				statsController.update();
 			}
 		}
-		
+
 	}
 
 }

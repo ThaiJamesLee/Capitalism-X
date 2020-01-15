@@ -6,6 +6,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.LogisticsPartnerController;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -15,6 +16,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 
 public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner> {
 
@@ -70,12 +72,12 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
             }
 
             GameController controller = GameController.getInstance();
-            nameLabel.setText(externalPartner.getName());
-            reliabilityIndexLabel.setText("Reliability: " + externalPartner.getReliabilityIndexPartner());
-            ecoIndexLabel.setText("Eco Index: " + externalPartner.getEcoIndexPartner());
-            qualityIndexLabel.setText("Quality Index: " + externalPartner.getQualityIndexPartner());
-            contractualCostsLabel.setText("Contractual Costs: " + externalPartner.getContractualCost() + " CC");
-            variableCostsLabel.setText("Delivery Costs: " + externalPartner.getVariableDeliveryCost() + " CC");
+            nameLabel.setText(externalPartner.getName()); //TODO localization
+            reliabilityIndexLabel.setText("Reliability: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(externalPartner.getReliabilityIndexPartner()));
+            ecoIndexLabel.setText("Eco Index: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(externalPartner.getEcoIndexPartner()));
+            qualityIndexLabel.setText("Quality: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(externalPartner.getQualityIndexPartner()));
+            contractualCostsLabel.setText("Contractual Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCost()));
+            variableCostsLabel.setText("Delivery Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getVariableDeliveryCost()));
             gridPane.setOnMouseClicked(e -> {
                 controller.addExternalPartner(externalPartner);
                 LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_PARTNER_OVERVIEW).getController();
