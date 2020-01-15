@@ -293,10 +293,10 @@ public class WarehousingDepartment extends DepartmentImpl {
     }
 
     public boolean checkFreeStorageThreshold() {
-        if(this.totalCapacity == 0) {
+        if(this.calculateTotalCapacity() == 0) {
             return false;
         }
-        if((this.freeStorage / this.totalCapacity) < 0.1) {
+        if((this.calculateFreeStorage() / this.calculateTotalCapacity()) < 0.1) {
             this.daysSinceFreeStorageThreshold++;
             return true;
         } else {
