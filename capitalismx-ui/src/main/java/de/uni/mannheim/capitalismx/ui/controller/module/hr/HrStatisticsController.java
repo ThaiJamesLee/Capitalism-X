@@ -25,9 +25,6 @@ import javafx.scene.layout.GridPane;
 public class HrStatisticsController extends GameModuleController {
 
 	@FXML
-	private GridPane statGrid;
-
-	@FXML
 	private Label numberEmployeesOverall, employeeSatisfactionOverall, employeeProductivityOverall,
 			employeeSalariesOverall;
 
