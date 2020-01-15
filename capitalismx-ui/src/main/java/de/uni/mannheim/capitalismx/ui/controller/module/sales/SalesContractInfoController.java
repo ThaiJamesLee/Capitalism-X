@@ -24,6 +24,4 @@ public class SalesContractInfoController {
     @FXML
     private Label productPriceInfo;
 
-
-
 }

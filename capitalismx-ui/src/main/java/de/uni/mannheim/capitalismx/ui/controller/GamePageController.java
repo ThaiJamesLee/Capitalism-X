@@ -2,12 +2,14 @@ package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
@@ -179,6 +181,10 @@ public class GamePageController implements UpdateableController {
 		} else {
 			menuLayer.toBack();
 			openMenuPane = false;
+			
+			//LocalDate initDate = LocalDate.of(1990,11,1);
+			//GameState.getInstance().getSalesDepartment().generateContracts(initDate, ProductionDepartment.getInstance(), 1);
+
 		}
 	}
 

@@ -1,7 +1,9 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.SalesEventListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,8 +18,11 @@ import java.util.ResourceBundle;
 
 public class SalesContractController extends GameModuleController {
 
+    SalesEventListener contractListener;
+
     private Parent infoPane;
     private SalesContractInfoController infoPaneController;
+
 
     @FXML
     private ListView offeredContractsList;
@@ -54,6 +59,10 @@ public class SalesContractController extends GameModuleController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        contractListener = new SalesEventListener();
+
+        GameState.getInstance().getSalesDepartment().registerPropertyChangeListener(contractListener);
+
         FXMLLoader cellLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_list_cell.fxml"));
         try {
             infoPane = cellLoader.load();
