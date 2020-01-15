@@ -11,7 +11,7 @@ import java.util.List;
  */
 public enum Campaign {
 
-    SOCIAL_CAMPAIGN_1("CSR", Action.SOCIAL_ENGAGEMENT, Media.NONE, new double[]{0, 1, 2, 5, 100}, new double[]{0, 1, 2, 3, 4}),
+    SOCIAL_CAMPAIGN_1("CSR", Action.SOCIAL_ENGAGEMENT, Media.NONE2, new double[]{0, 1, 2, 5, 100}, new double[]{0, 1, 2, 3, 4}),
     SOCIAL_CAMPAIGN_2("Support refugee projects", Action.SOCIAL_ENGAGEMENT, Media.NONE, new double[]{0, 1, 2}, new double[]{0, 1, 2}),
 
     MKT_CAMPAIGN_1("Promote environmental friendly supplier", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2}, new double[]{0, 1, 1.5}),

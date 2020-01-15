@@ -1,16 +1,14 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.hr;
 
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.domain.employee.Team;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -39,8 +37,8 @@ public class HrStatisticsController extends GameModuleController {
 	@Override
 	public void update() {
 		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
-		employeeProductivityOverall.setText(hrDep.getTotalQualityOfWork() + "");
-		employeeSatisfactionOverall.setText(hrDep.getTotalJSS() + "");
+		employeeProductivityOverall.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(hrDep.getTotalQualityOfWork()));
+		employeeSatisfactionOverall.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(hrDep.getTotalJSS()));
 		numberEmployeesOverall.setText(hrDep.getTotalNumberOfEmployees() + "");
 		employeeSalariesOverall.setText(CapCoinFormatter.getCapCoins(hrDep.calculateTotalSalaries()));
 		
@@ -55,7 +53,7 @@ public class HrStatisticsController extends GameModuleController {
 		update();
 
 		Tooltip hrCapTooltip = new Tooltip(resourceBundle.getString("hr.stats.capacity.tooltip"));
-		hrCapTooltip.setShowDelay(Duration.millis(50));
+		//hrCapTooltip.setShowDelay(Duration.millis(50));
 		hrCapacity.setTooltip(hrCapTooltip);
 
 	}

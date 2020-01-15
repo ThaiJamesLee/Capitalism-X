@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.components.production;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import javafx.fxml.FXML;
@@ -63,7 +64,7 @@ public class MachineryListViewCell extends ListCell<Machinery> {
             valueLabel.setText(machinery.calculateResellPrice() + " CC");
             dateLabel.setText(machinery.getPurchaseDate() + "");
             sellButton.setOnAction(e -> {
-                controller.sellMachinery(machinery);
+                controller.sellMachinery(machinery, GameState.getInstance().getGameDate());
                 this.machineryListView.getItems().remove(machinery);
             });
 

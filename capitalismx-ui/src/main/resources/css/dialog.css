@@ -1,15 +1,21 @@
 .root{
 	-fx-background-color: -fx-complement-light-neutral;
-	-fx-border-width: 5;
-	-fx-border-color: -fx-primary-dark;
-	-fx-text-fill: -fx-primary;
+	-fx-border-width: 2;
+	-fx-border-color: -fx-primary-neutral;
 	-fx-font-size: 14;
 	-fx-font-family: "Prime";
 	-fx-alignment: center;
 }
 
-.label{
-	-fx-text-fill: -fx-primary-dark;
+.label {
+	-fx-text-fill: -fx-primary;
+}
+
+.header-panel {
+	-fx-background-color: -fx-complement-light-neutral;
+	-fx-border-width: 0 0 2 0;
+	-fx-border-insets: 0 5 0 5;
+	-fx-border-color: -fx-primary-neutral;
 }
 
 .button {

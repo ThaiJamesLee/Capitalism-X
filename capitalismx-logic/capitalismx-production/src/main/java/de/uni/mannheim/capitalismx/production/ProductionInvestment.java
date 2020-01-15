@@ -73,6 +73,54 @@ public class ProductionInvestment implements Serializable {
         return this;
     }
 
+    public void decreaseLevel(int level) {
+        int newLevel = this.productionInvestmentLevel.getLevel() - level;
+        if(newLevel <= 1) {
+            this.productionInvestmentLevel = ProductionInvestmentLevel.NO_INVESTMENT;
+        } else {
+            switch (newLevel) {
+                case 2:
+                    this.productionInvestmentLevel = ProductionInvestmentLevel.BAD;
+                    break;
+                case 3:
+                    this.productionInvestmentLevel = ProductionInvestmentLevel.NORMAL;
+                    break;
+                case 4:
+                    this.productionInvestmentLevel = ProductionInvestmentLevel.GOOD;
+                    break;
+                case 5:
+                    this.productionInvestmentLevel = ProductionInvestmentLevel.VERY_GOOD;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void increaseLevel(int level) {
+        int newLevel = this.productionInvestmentLevel.getLevel() + level;
+        if(newLevel >= 5) {
+            this.productionInvestmentLevel = ProductionInvestmentLevel.VERY_GOOD;
+        } else {
+            switch (newLevel) {
+                case 1:
+                    this.productionInvestmentLevel = ProductionInvestmentLevel.NO_INVESTMENT;
+                    break;
+                case 2:
+                    this.productionInvestmentLevel = ProductionInvestmentLevel.BAD;
+                    break;
+                case 3:
+                    this.productionInvestmentLevel = ProductionInvestmentLevel.NORMAL;
+                    break;
+                case 4:
+                    this.productionInvestmentLevel = ProductionInvestmentLevel.GOOD;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     public String toString() {
         return this.name + ": " + this.productionInvestmentLevel.toString();
     }

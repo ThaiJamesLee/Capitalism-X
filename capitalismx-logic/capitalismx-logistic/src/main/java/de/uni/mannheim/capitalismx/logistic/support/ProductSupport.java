@@ -73,6 +73,10 @@ public class ProductSupport implements Serializable {
         this.totalSupportCosts = 0;
     }
 
+    public static void setInstance(ProductSupport instance) {
+        ProductSupport.instance = instance;
+    }
+
     public static synchronized ProductSupport getInstance() {
         if(ProductSupport.instance == null) {
             ProductSupport.instance = new ProductSupport();

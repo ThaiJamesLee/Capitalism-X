@@ -2,16 +2,18 @@ package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.GraphicHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -90,7 +92,6 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 				}
 
 				prepareExtendedCell();
-				skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel()));
 			}
 
 			update();
@@ -131,7 +132,8 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 		fireButton = new Button(bundle.getString("employeeList.fire"));
 		trainButton.getStyleClass().add("button_module");
 		fireButton.getStyleClass().add("button_module");
-		satisfactionLabel = new Label(employee.getJobSatisfaction() + "");
+		satisfactionLabel = new Label(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(employee.getJobSatisfaction()));
+		satisfactionLabel.getStyleClass().add("list-label-large");
 		satisfactionIcon.setIconName("SMILE_ALT");
 		satisfactionIcon.setSize("1.5em");
 
@@ -168,9 +170,9 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 	@Override
 	public void update() {
 		nameLabel.setText(employee.getName());
-		wageLabel.setText((int) employee.getSalary() + " CC");
+		wageLabel.setText(CapCoinFormatter.getCapCoins(employee.getSalary()));
 		skillPane.getChildren().clear();
-		skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel()));
+		skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel(), "1.5em"));
 		satisfactionLabel.setText(employee.getJobSatisfaction() + "");
 	}
 

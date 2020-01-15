@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.utils.data.Range;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,13 +24,20 @@ public class MarketResearch implements Serializable {
     private SurveyTypes surveyType;
 
     private Map<String, List<Double>> table;
+    
+    //TODO necessary???
+    private int cost;
 
     private LocalDate date;
+    private DateTimeFormatter formatter;
 
-    public MarketResearch(boolean isInternal, SurveyTypes surveyType) {
+    public MarketResearch(boolean isInternal, SurveyTypes surveyType, LocalDate date) {
         this.table = new HashMap<>();
         this.isInternal = isInternal;
         this.surveyType = surveyType;
+        this.date = date;
+        
+        this.formatter = DateTimeFormatter.ISO_LOCAL_DATE;
     }
 
 
@@ -109,6 +117,10 @@ public class MarketResearch implements Serializable {
     public LocalDate getDate() {
         return date;
     }
+    
+    public String getFormattedDate() {
+        return formatter.format(date);
+    }
 
     public double getCost() {
         double influence = surveyType.getInfluencePrice();
@@ -120,6 +132,10 @@ public class MarketResearch implements Serializable {
         }
 
         return price * influence;
+    }
+    
+    public String getReportName() {
+    	return report.getName();
     }
 
     /**

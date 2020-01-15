@@ -1,7 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.controller;
 
+import java.io.IOException;
 import java.net.URL;
-import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
-import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
+import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
@@ -19,25 +19,24 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
+import de.uni.mannheim.capitalismx.ui.controller.component.DepartmentUpgradeController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -55,6 +54,9 @@ import javafx.util.Duration;
  */
 public class GameHudController implements UpdateableController {
 
+	private DepartmentUpgradeController upgradeController;
+	private AnchorPane departmentUpgradePane;
+
 	/**
 	 * {@link Queue} of {@link GameNotification}s, that are currently waiting to be
 	 * displayed
@@ -65,6 +67,7 @@ public class GameHudController implements UpdateableController {
 	 * flag whether a notification is currently being displayed
 	 */
 	private boolean displayingNotification = false;
+	private boolean levelUpDropdownOpen = false;
 
 	private HashMap<GameViewType, ToggleButton> departmentButtonMap;
 
@@ -73,15 +76,16 @@ public class GameHudController implements UpdateableController {
 			netWorthChangeLabel, dateLabel;
 
 	@FXML
-	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD;
+	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD, btnMarketing;
 	@FXML
 	private ToggleGroup departmentButtons;
+
 	// The GridPane that contains all the modules.
 	@FXML
 	private GridPane moduleGrid;
 
 	@FXML
-	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton, ecoIcon;
+	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton, ecoIcon, departmentDropdownIcon;
 	@FXML
 	private Label playPauseIconLabel, forwardIconLabel, skipIconLabel, messageIconLabel, settingsIconLabel;
 
@@ -96,7 +100,7 @@ public class GameHudController implements UpdateableController {
 	private AnchorPane root;
 
 	@FXML
-	private VBox netWorthVBox, cashVBox, employeeVBox;
+	private VBox netWorthVBox, cashVBox, employeeVBox, departmentVBox;
 
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
@@ -107,7 +111,9 @@ public class GameHudController implements UpdateableController {
 	 */
 	public void addNotification(GameNotification notification) {
 		notificationQueue.add(notification);
-		displayNextNotification();
+		Platform.runLater(() -> {
+			displayNextNotification();
+		});
 	}
 
 	/**
@@ -122,12 +128,15 @@ public class GameHudController implements UpdateableController {
 		if (diff < 0) {
 			label.getStyleClass().remove("hud_label");
 			label.getStyleClass().remove("hud_label_green");
+			label.getStyleClass().remove("hud_label_red");
 			label.getStyleClass().add("hud_label_red");
 		} else if (diff > 0) {
 			label.getStyleClass().remove("hud_label");
-			label.getStyleClass().add("hud_label_green");
+			label.getStyleClass().remove("hud_label_green");
 			label.getStyleClass().remove("hud_label_red");
+			label.getStyleClass().add("hud_label_green");
 		} else {
+			label.getStyleClass().remove("hud_label");
 			label.getStyleClass().add("hud_label");
 			label.getStyleClass().remove("hud_label_green");
 			label.getStyleClass().remove("hud_label_red");
@@ -175,10 +184,13 @@ public class GameHudController implements UpdateableController {
 	/**
 	 * Initiates the department buttons by adding the necessary EventHandlers.
 	 * 
-	 * @param button     The {@link ToggleButton} to inititate.
+	 * @param button     The {@link ToggleButton} to initiate.
 	 * @param department The {@link GameViewType} to create EventHandlers for.
 	 */
 	private void initDepartmentButton(ToggleButton button, GameViewType department) {
+		// prepare the icon for the button
+		button.setGraphic(department.getGameViewIcon("1.5em"));
+
 		departmentButtonMap.put(department, button);
 		button.setOnAction(e -> {
 			switchView(department);
@@ -193,7 +205,18 @@ public class GameHudController implements UpdateableController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
 		CssHelper.replaceStylesheets(root.getStylesheets());
+
+		FXMLLoader departmentUpgradeLoader = new FXMLLoader(
+				getClass().getClassLoader().getResource("fxml/components/hud_department_dropdown.fxml"),
+				UIManager.getResourceBundle());
+		try {
+			departmentUpgradePane = departmentUpgradeLoader.load();
+			upgradeController = (DepartmentUpgradeController) departmentUpgradeLoader.getController();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 
 		GameState gameState = GameState.getInstance();
 		TooltipFactory tooltipFactory = new TooltipFactory();
@@ -222,6 +245,7 @@ public class GameHudController implements UpdateableController {
 		initDepartmentButton(btnWarehouse, GameViewType.WAREHOUSE);
 		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
 		initDepartmentButton(btnRAndD, GameViewType.R_AND_D);
+		initDepartmentButton(btnMarketing, GameViewType.MARKETING);
 
 		playPauseIconLabel
 				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.playPause")));
@@ -244,6 +268,7 @@ public class GameHudController implements UpdateableController {
 		});
 
 		UIManager.getInstance().setGameHudController(this);
+		updateLevelUpDropdown(GameViewType.OVERVIEW);
 	}
 
 	/**
@@ -301,11 +326,79 @@ public class GameHudController implements UpdateableController {
 	 * @param viewType The {@link GameViewType} to display on the GamePage.
 	 */
 	private void switchView(GameViewType viewType) {
-		addNotification(new GameNotification(new MessageObject(viewType.getTitle(), "2019-01-05",
-				"Welcome in the department",
-				"Hello boss. Please let me show you the great possibilities this department offers you! It is vital for the company and there is no way, the company would survive shutting it down or outsourcing it, so I hope you will keep that in mind. Thank you! Sincerely, some guy from whatever dep this is.",
-				true)));
 		UIManager.getInstance().getGamePageController().switchView(viewType);
+	}
+
+	/**
+	 * Updates all hud elements for the given {@link GameViewType}.
+	 * 
+	 * @param viewType The {@link GameViewType} to update for.
+	 */
+	protected void updateView(GameViewType viewType) {
+		selectDepartmentButton(viewType);
+		updateGameViewLabel(viewType);
+		updateLevelUpDropdown(viewType);
+
+		if (levelUpDropdownOpen)
+			toggleLevelUpDropdown();
+	}
+
+	/**
+	 * Update the department level-up dropdown for the given {@link GameViewType}.
+	 * 
+	 * @param viewType {@link GameViewType} being displayed.
+	 */
+	private void updateLevelUpDropdown(GameViewType viewType) {
+		if (!viewType.isUpgradeable()) {
+			departmentDropdownIcon.setOnMouseClicked(e -> {
+			});
+			departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
+		} else {
+			DepartmentImpl dep;
+			switch (viewType) {
+			case HR:
+				dep = GameState.getInstance().getHrDepartment();
+				break;
+			case R_AND_D:
+				dep = GameState.getInstance().getResearchAndDevelopmentDepartment();
+				break;
+			case WAREHOUSE:
+				dep = GameState.getInstance().getWarehousingDepartment();
+				break;
+			case PRODUCTION:
+				dep = GameState.getInstance().getProductionDepartment();
+				break;
+			case LOGISTIC:
+				dep = GameState.getInstance().getLogisticsDepartment();
+				break;
+			default:
+				departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
+				return;
+			}
+			upgradeController.setDepartment(dep);
+			
+			if(!departmentDropdownIcon.getStyleClass().contains("hud_icon_button")) {
+				departmentDropdownIcon.getStyleClass().add("hud_icon_button");
+			}
+			departmentDropdownIcon.setOnMouseClicked(e -> {
+				toggleLevelUpDropdown();
+			});
+		}
+	}
+
+	/**
+	 * Toggles the dropdown menu for the department level up.
+	 */
+	private void toggleLevelUpDropdown() {
+		if (levelUpDropdownOpen) {
+			departmentDropdownIcon.setIcon(FontAwesomeIconName.ANGLE_DOWN);
+			departmentVBox.getChildren().remove(departmentUpgradePane);
+			levelUpDropdownOpen = false;
+		} else {
+			departmentDropdownIcon.setIcon(FontAwesomeIconName.ANGLE_UP);
+			departmentVBox.getChildren().add(1, departmentUpgradePane);
+			levelUpDropdownOpen = true;
+		}
 	}
 
 	@FXML
@@ -321,14 +414,14 @@ public class GameHudController implements UpdateableController {
 
 	@Override
 	public void update() {
-		//called every ingame day
+		// called every ingame day
 		Platform.runLater(() -> {
 			// update date
 			GameState gameState = GameState.getInstance();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd")
 					.withLocale(UIManager.getResourceBundle().getLocale());
 			dateLabel.setText(gameState.getGameDate().format(formatter));
-			
+
 			// update employee change label
 			int diff = GameState.getInstance().getHrDepartment()
 					.getEmployeeDifference(GameState.getInstance().getGameDate());
@@ -342,10 +435,16 @@ public class GameHudController implements UpdateableController {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				cashLabel.setText(CapCoinFormatter.getCapCoins(currentCash));
-				Double diff = GameState.getInstance().getFinanceDepartment().getCashDifference();
+			}
+		});
+	}
+
+	public void updateCashChangeLabel(Double diff) {
+		Platform.runLater(new Runnable() {
+			public void run() {
 				if (diff != null) {
 					colorHudLabel(diff, cashChangeLabel);
-					cashChangeLabel.setText((diff >= 0) ? "+" : "" + CapCoinFormatter.getCapCoins(diff));
+					cashChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
 				} else {
 					cashChangeLabel.setText("+0 CC");
 				}
@@ -396,16 +495,23 @@ public class GameHudController implements UpdateableController {
 	 */
 	public void updateGameViewLabel(GameViewType viewType) {
 		this.departmentLabel.setText(viewType.getTitle());
+		this.departmentLabel.setGraphic(viewType.getGameViewIcon("1.8em"));
 	}
 
 	public void updateNetworthLabel(double currentNetWorth) {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
-				Double diff = GameState.getInstance().getFinanceDepartment().getNetWorthDifference();
+			}
+		});
+	}
+
+	public void updateNetworthChangeLabel(Double diff) {
+		Platform.runLater(new Runnable() {
+			public void run() {
 				if (diff != null) {
 					colorHudLabel(diff, netWorthChangeLabel);
-					netWorthChangeLabel.setText((diff >= 0) ? "+" : "" + CapCoinFormatter.getCapCoins(diff));
+					netWorthChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
 				}
 			}
 		});
@@ -420,5 +526,5 @@ public class GameHudController implements UpdateableController {
 			}
 		});
 	}
-	
+
 }

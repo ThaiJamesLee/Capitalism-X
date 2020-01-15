@@ -93,19 +93,19 @@
                               <String fx:value="main_button" />
                            </styleClass>
                         </Button>
-                        <Button disable="true" mnemonicParsing="false" text="%btn.continueGame" GridPane.rowIndex="1">
+                        <Button disable="true" fx:id="continueGameButton" mnemonicParsing="false" text="%btn.continueGame" GridPane.rowIndex="1">
                            <styleClass>
                               <String fx:value="menu_button" />
                               <String fx:value="main_button" />
                            </styleClass>
                         </Button>
-                        <Button disable="true" mnemonicParsing="false" text="%btn.leaderbord" GridPane.rowIndex="2">
+                        <Button disable="true" fx:id="leaderboardButton" mnemonicParsing="false" text="%btn.leaderbord" GridPane.rowIndex="2">
                            <styleClass>
                               <String fx:value="menu_button" />
                               <String fx:value="main_button" />
                            </styleClass>
                         </Button>
-                        <Button disable="true" mnemonicParsing="false" text="%btn.credits" GridPane.rowIndex="3">
+                        <Button fx:id="creditsButton" mnemonicParsing="false" text="%btn.credits" GridPane.rowIndex="3">
                            <styleClass>
                               <String fx:value="menu_button" />
                               <String fx:value="main_button" />

@@ -2,7 +2,9 @@ package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
@@ -25,7 +27,7 @@ public class Product extends Unit implements Serializable {
     private double averageProductQuality;
 
     public Product(String productName, ProductCategory productCategory, List<Component> components) throws InvalidSetOfComponentsException {
-        if(hasValidSetOfComponents(productCategory, components)) {
+        if(this.hasValidSetOfComponents(productCategory, components)) {
             this.unitType = UnitType.PRODUCT_UNIT;
             this.productName = productName;
             this.productCategory = productCategory;
@@ -182,10 +184,11 @@ public class Product extends Unit implements Serializable {
     public double getProductCosts(LocalDate gameDate) {
         double productCosts = 0;
         for(Component component : this.components) {
-            productCosts += component.calculateBaseCost(gameDate);
+            productCosts += component.getBaseCost();
         }
         return productCosts;
     }
+
 
     /*
     public List<Component> getNewestPossibleComponents(int currentYear) {

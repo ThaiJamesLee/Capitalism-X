@@ -270,4 +270,14 @@ public class FinanceBankingSystemController extends GameModuleController {
             }
         });
     }
+
+    public void removeLoan(){
+        Platform.runLater(new Runnable() {
+            public void run() {
+
+                loanLabel.setText("0.00");
+                loanAmountTextField.clear();
+            }
+        });
+    }
 }

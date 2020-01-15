@@ -13,6 +13,9 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author duly
+ */
 public class ResearchAndDevelopmentDepartmentTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResearchAndDevelopmentDepartmentTest.class);
@@ -53,7 +56,8 @@ public class ResearchAndDevelopmentDepartmentTest {
         for(int i = 0; i < level; i++) {
             researchAndDevelopmentDepartment.getLevelingMechanism().levelUp();
         }
-
+        String message = "Level Up ResearchAndDevelopment Department to lv." + level;
+        LOGGER.info(message);
         Assert.assertTrue(researchAndDevelopmentDepartment.isComponentUnlocked(new Component(ComponentType.G_CAMERA_LEVEL_1)));
         Assert.assertFalse(researchAndDevelopmentDepartment.isComponentUnlocked(new Component(ComponentType.G_CPU_LEVEL_7)));
     }

@@ -6,7 +6,7 @@ package de.uni.mannheim.capitalismx.marketing.domain;
  */
 public enum Media {
 
-    NEWSPAPER("Newspaper", 5000), TELEVISION("Television", 10000), ONLINE("Online", 100000), NONE("", 1000);
+    NEWSPAPER("Newspaper", 5000), TELEVISION("Television", 10000), ONLINE("Online", 100000), NONE("", 1000), NONE2("", 10000);
 
     private String name;
     private int cost;
@@ -21,6 +21,10 @@ public enum Media {
      */
     public int getCost() {
         return cost;
+    } 
+
+    public String getName() {
+        return name;
     }
 
     public String toString() {

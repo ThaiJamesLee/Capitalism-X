@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.utils;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
+import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -12,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.util.Duration;
 
 /**
  * Helper class that can create useful gtaphics for the game.
@@ -31,11 +30,25 @@ public class GraphicHelper {
 	 * @return Node containing the graphic.
 	 */
 	public static Node createSkillGraphic(int skillLevel) {
+		return createSkillGraphic(skillLevel, "1.0em");
+	}
+	
+	/**
+	 * Create a Graphic representing the skill level of an {@link Employee}. The
+	 * skill can be expressed as 0-5 stars and the exact value is accessible as a
+	 * {@link Tooltip} on the graphic.
+	 * 
+	 * @param skillLevel The level of skill, the {@link Employee} has.
+	 * @param size The size of the icons. ('1.0em' is standard)
+	 * @return Node containing the graphic.
+	 */
+	public static Node createSkillGraphic(int skillLevel, String size) {
 		GridPane starGrid = createStarGrid();
 
 		for (int i = 0; i < 5; i++) {
 			FontAwesomeIcon icon = new FontAwesomeIcon();
 			icon.setStyle("-fx-text-fill:-fx-primary; -fx-fill:-fx-primary");
+			icon.setSize(size);
 			if (skillLevel <= i * 20) {
 				icon.setIcon(FontAwesomeIconName.STAR_ALT);
 			} else if (skillLevel <= i * 20 + 10) {
@@ -61,7 +74,7 @@ public class GraphicHelper {
 	 */
 	private static AnchorPane createTooltipAnchor(int skillLevel) {
 		Tooltip tooltip = new Tooltip("Skill: " + skillLevel);
-		tooltip.setShowDelay(Duration.millis(150));
+		//tooltip.setShowDelay(Duration.millis(150));
 
 		Button tooltipButton = new Button();
 		tooltipButton.getStyleClass().add("icon_button_invisible");

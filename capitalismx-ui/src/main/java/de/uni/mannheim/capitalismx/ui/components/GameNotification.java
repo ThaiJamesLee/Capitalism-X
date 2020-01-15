@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
+import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -71,6 +71,9 @@ public class GameNotification {
 		this.message = message;
 		this.root = createRoot();
 		this.displayDuration = STANDARD_DISPLAY_DURATION;
+		this.root.setOnMouseClicked(e -> {
+			UIManager.getInstance().getGamePageController().showMessage(message);
+		});
 
 		CssHelper.replaceStylesheets(root.getStylesheets());
 	}

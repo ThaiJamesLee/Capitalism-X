@@ -1,27 +1,16 @@
 package de.uni.mannheim.capitalismx.ui.components.finance;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
-import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
-import de.uni.mannheim.capitalismx.ui.utils.GraphicHelper;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 
 /**
  *
@@ -110,5 +99,19 @@ public class OperationsTableViewCell implements Initializable {
         gridPane.setOnMouseClicked(e -> {
 
         });
+    }
+
+    public void setHeaderRow(){
+        label2.getStyleClass().add("label_very_large");
+        label3.getStyleClass().add("label_very_large");
+        label4.getStyleClass().add("label_very_large");
+        label5.getStyleClass().add("label_very_large");
+    }
+
+    public void setColor(String color){
+        label2.setStyle("-fx-text-fill: " + color + ";");
+        label3.setStyle("-fx-text-fill: " + color + ";");
+        label4.setStyle("-fx-text-fill: " + color + ";");
+        label5.setStyle("-fx-text-fill: " + color + ";");
     }
 }

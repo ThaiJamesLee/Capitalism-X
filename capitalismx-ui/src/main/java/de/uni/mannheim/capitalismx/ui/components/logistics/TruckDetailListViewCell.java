@@ -3,10 +3,12 @@ package de.uni.mannheim.capitalismx.ui.components.logistics;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.TruckFleetController;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -16,6 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 
 public class TruckDetailListViewCell extends ListCell<Truck> {
 
@@ -57,7 +60,7 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
                 loader.setController(this);
 
                 try {
-                    loader.load();
+                	setGraphic(loader.load());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -66,27 +69,29 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
 
             GameController controller = GameController.getInstance();
             nameLabel.setText(truck.getName());
-            priceLabel.setText("Price: " + truck.getPurchasePrice() + " CC");
-            ecoIndexLabel.setText("Eco Index: " + truck.getEcoIndex());
-            qualityIndexLabel.setText("Quality Index: " + truck.getQualityIndex());
-            fixCostsLabel.setText("Delivery Costs: " + truck.getFixCostsDelivery());
+            priceLabel.setText("Price: " + CapCoinFormatter.getCapCoins(truck.getPurchasePrice()));
+            ecoIndexLabel.setText("Eco Index: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getEcoIndex()));
+            qualityIndexLabel.setText("Quality Index: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getQualityIndex()));
+            fixCostsLabel.setText("Delivery Costs: " + CapCoinFormatter.getCapCoins(truck.getFixCostsDelivery()));
             //add click listener to cell
             gridPane.setOnMouseClicked(e -> {
                 if(truck.getPurchasePrice() > GameController.getInstance().getCash()){
                     //TODO popup
                     System.out.println("Not enough cash!");
                 }else{
-                    GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), truck.getPurchasePrice());
-                    GameController.getInstance().increaseAssets(GameState.getInstance().getGameDate(), truck.getPurchasePrice());
-                    controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
-                    TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
-                    uiController.addTruck(truck);
-                    truckDetailListView.getSelectionModel().clearSelection();
+                    try {
+                        controller.buyTruck(truck, GameState.getInstance().getGameDate());
+                        TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
+                        uiController.addTruck(truck);
+                        truckDetailListView.getSelectionModel().clearSelection();
+                    } catch (NotEnoughTruckCapacityException ex) {
+                        ex.printStackTrace();
+                        //TODO popup
+                    }
                 }
             });
 
             setText(null);
-            setGraphic(gridPane);
         }
     }
 
