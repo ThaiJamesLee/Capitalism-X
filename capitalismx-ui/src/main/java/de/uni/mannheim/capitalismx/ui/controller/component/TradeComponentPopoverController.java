@@ -55,11 +55,12 @@ public class TradeComponentPopoverController implements Initializable {
 			int amount = Integer.parseInt(input);
 			int freeStorage = GameController.getInstance().getFreeStorage();
 			if (amount > freeStorage) {
-				GameAlert alert = new GameAlert(AlertType.INFORMATION,
-						"Not enough free space in the warehouse.",
+				GameAlert alert = new GameAlert(AlertType.INFORMATION, "Not enough free space in the warehouse.",
 						"Will buy as much as possible (" + freeStorage + ") for now.");
 				alert.showAndWait();
-				GameController.getInstance().buyComponents(component, freeStorage);
+				if (freeStorage != 0) {
+					GameController.getInstance().buyComponents(component, freeStorage);
+				}
 			} else { // TODO costs for component
 				GameController.getInstance().buyComponents(component, amount);
 			}
