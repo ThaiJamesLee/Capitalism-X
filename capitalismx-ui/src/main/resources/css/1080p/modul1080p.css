@@ -9,6 +9,11 @@
 	-fx-background-color: -fx-complement-neutral;
 }
 
+.header_hbox {
+	-fx-spacing: 200;
+
+}
+
 .contentPane {
 	-fx-border-width: 2 0 0 0;
 	-fx-border-radius: 0 0 5 5;

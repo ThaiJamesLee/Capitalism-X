@@ -1,22 +1,23 @@
-package de.uni.mannheim.capitalismx.ui.utils;
+package de.uni.mannheim.capitalismx.utils.data;
 
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.controller.MessageSubjectController;
-import javafx.scene.Parent;
+
+import java.io.Serializable;
 
 /**
  *
  */
-public class MessageObject {
+public class MessageObject implements Serializable {
 
     private String sender;
     private String date;
     private String subject;
     private String content;
     private boolean isInternal;
-    private GameViewType jumpTo;
-    Parent subjectPanel;
-    Parent messageContent;
+    private boolean isRead;
+    private int jumpTo;
+
+    //Parent subjectPanel;
+    //Parent messageContent;
 
     /**
      * Use this object constructor to pass messages system wide. It has no jummp to view button.
@@ -32,9 +33,10 @@ public class MessageObject {
         this.subject = subject;
         this.date = date;
         this.isInternal = isInternal;
-        this.jumpTo =  null;
-        this.subjectPanel = null;
-        this.messageContent = null;
+        this.isRead = false;
+        this.jumpTo =  0;
+        //this.subjectPanel = null;
+        //this.messageContent = null;
     }
 
     /**
@@ -45,27 +47,28 @@ public class MessageObject {
      * @param content Text content of the message.
      * @param isInternal Did the message come from internal department or is it an outside message about outside incidents.
      */
-    public MessageObject(String sender, String date, String subject, String content, boolean isInternal, GameViewType jumpTo){
+    public MessageObject(String sender, String date, String subject, String content, boolean isInternal, int jumpTo){
         this.content = content;
         this.sender = sender;
         this.subject = subject;
         this.date = date;
         this.isInternal = isInternal;
+        this.isRead = false;
         this.jumpTo =  jumpTo;
-        this.subjectPanel = null;
-        this.messageContent = null;
+        //this.subjectPanel = null;
+        //this.messageContent = null;
     }
 
-    public MessageObject(String sender, String date, String subject, String content, boolean isInternal, GameViewType jumpTo, Parent subjectPanel, Parent messageContent){
-        this.content = content;
-        this.sender = sender;
-        this.subject = subject;
-        this.date = date;
-        this.isInternal = isInternal;
-        this.jumpTo =  jumpTo;
-        this.subjectPanel = subjectPanel;
-        this.messageContent = messageContent;
-    }
+//    public MessageObject(String sender, String date, String subject, String content, boolean isInternal, String jumpTo, Parent subjectPanel, Parent messageContent){
+//        this.content = content;
+//        this.sender = sender;
+//        this.subject = subject;
+//        this.date = date;
+//        this.isInternal = isInternal;
+//        this.jumpTo =  jumpTo;
+//        this.subjectPanel = subjectPanel;
+//        this.messageContent = messageContent;
+//    }
 
     public String getSender() {
         return sender;
@@ -87,17 +90,8 @@ public class MessageObject {
         return isInternal;
     }
 
-    public GameViewType getJumpTo() { return jumpTo; }
+    public int getJumpTo() { return jumpTo; }
 
-    public Parent getSubjectPanel() {
-        return subjectPanel;
-    }
+    public void setJumpTo(int jumpTo) { this.jumpTo = jumpTo; }
 
-    public Parent getMessageContent() { return messageContent; }
-
-    public void setJumpTo(GameViewType jumpTo) { this.jumpTo = jumpTo; }
-
-    public void setSubjectPanel(Parent subjectPanel) { this.subjectPanel = subjectPanel; }
-
-    public void setMessageContent(Parent messageContent) { this.messageContent = messageContent; }
 }

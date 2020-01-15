@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.MessageEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
+import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,12 +19,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class MessageController implements Initializable {
 	
@@ -45,8 +42,10 @@ public class MessageController implements Initializable {
 
 	private GamePageController controllerReference;
 	private ArrayList<MessageObject> messageSave;
+	private ArrayList<MessageSubjectController> messageSubjectSave;
 
-//	@Override
+
+	//	@Override
 //	public void initialize(URL location, ResourceBundle resources) {
 //		notificationAll = new ListView<String>();
 //		ObservableList<String> items = FXCollections.observableArrayList("01.01.1990", "Capitalism-X simulation has started.");
@@ -59,6 +58,7 @@ public class MessageController implements Initializable {
 //	}
 	public MessageController(){
 		messageSave = new ArrayList<MessageObject>();
+		messageSubjectSave = new ArrayList<MessageSubjectController>();
 	}
 
 	public void addMessage(MessageObject m) {
@@ -81,6 +81,7 @@ public class MessageController implements Initializable {
 			msc.setSubjectSubject(bundle.getString(m.getSubject()));
 			messages.add(0, messageSubject);
 			messageList.setItems(messages);
+			messageSubjectSave.add(0, msc);
 
 			messageContent = contentLoader.load();
 			mcc = contentLoader.getController();
@@ -88,15 +89,15 @@ public class MessageController implements Initializable {
 			mcc.setContentDate(m.getDate());
 			mcc.setContentSubject(bundle.getString(m.getSubject()));
 			mcc.setContentContent(bundle.getString(m.getContent()));
-			if(m.getJumpTo()!=null){
+			if(m.getJumpTo()!=0){
 				mcc.addJumpButton(m.getJumpTo());
 			}
 			messageContentPane.setContent(messageContent);
 
-			m.setSubjectPanel(messageSubject);
-			m.setMessageContent(messageContent);
+			//m.setSubjectPanel(messageSubject);
+			//m.setMessageContent(messageContent);
 			messageSave.add(0, m);
-			msc.setMessageReference(m);
+			msc.setMessageContent(messageContent);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -106,21 +107,24 @@ public class MessageController implements Initializable {
 		UIManager.getInstance().getGameHudController().addNotification(notification);
 	}
 
-	public void setContent(MessageObject message){
-		messageContentPane.setContent(message.getMessageContent());
+	public void setContent(Parent message){
+		messageContentPane.setContent(message);
+
+
 	}
 
 	//todo:
 	public void showMessage(MessageObject messageToShow){
 		int index = messageSave.indexOf(messageToShow);
 		messageList.getSelectionModel().select(index);
-		setContent(messageToShow);
+		setContent(messageSubjectSave.get(index).getMessageContent());
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CssHelper.replaceStylesheets(root.getStylesheets());
-
+		GameState state = GameState.getInstance();
+		state.addPropertyChangeListener(new MessageEventListener());
 
 
 		/*

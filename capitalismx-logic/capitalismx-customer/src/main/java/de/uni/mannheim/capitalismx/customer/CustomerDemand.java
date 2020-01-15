@@ -111,7 +111,8 @@ public class CustomerDemand implements Serializable {
         return this.periodicDemandAmount;
     }
 
-    /* TODO use inventory of warehouse for calculation not amount of products produced on that day */
+    /*
+     TODO use inventory of warehouse for calculation not amount of products produced on that day
     public Map<Product, Integer> calculateSalesFigures(double totalSalesQualityOfWork, LocalDate gameDate) {
         Map<Product, Integer> salesFigures = new ConcurrentHashMap<>();
         Map<Product, Double> periodicDemandAmount = calculatePeriodicDemandAmount(totalSalesQualityOfWork, gameDate);
@@ -125,10 +126,10 @@ public class CustomerDemand implements Serializable {
         }
         this.salesFigures = salesFigures;
         return this.salesFigures;
-    }
+    }*/
 
     public void calculateAll(double totalSalesQualityOfWork, LocalDate gameDate) {
-        this.calculateSalesFigures(totalSalesQualityOfWork, gameDate);
+        this.calculatePeriodicDemandAmount(totalSalesQualityOfWork, gameDate);
     }
 
     public static void setInstance(CustomerDemand instance) {
