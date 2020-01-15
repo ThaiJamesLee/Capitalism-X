@@ -9,6 +9,7 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -35,6 +36,8 @@ public class HrStatisticsController extends GameModuleController {
 
 	@Override
 	public void update() {
+		Platform.runLater(() -> {
+			
 		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
 		employeeProductivityOverall.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(hrDep.getTotalQualityOfWork()));
 		employeeSatisfactionOverall.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(hrDep.getTotalJSS()));
@@ -45,6 +48,7 @@ public class HrStatisticsController extends GameModuleController {
 		firingCost.setText(CapCoinFormatter.getCapCoins(hrDep.getFiringCost()));
 		hrCapacity.setText((int) hrDep.getTotalEmployeeCapacity() + "");
 		hrWorkerCapacity.setText((int) hrDep.getHrCapacity() + "");
+		});
 	}
 
 	@Override
