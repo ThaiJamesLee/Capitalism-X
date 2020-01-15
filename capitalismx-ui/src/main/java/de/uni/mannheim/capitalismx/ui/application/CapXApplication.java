@@ -65,14 +65,14 @@ public class CapXApplication extends Application {
 	}
 
 	private void closeStage(WindowEvent e, Stage primaryStage) {
-		// stop gameThread
-		GameController.getInstance().terminateGame();
 		if (!testMode) {
 			GameAlert closeConfirmation = new GameAlert(AlertType.CONFIRMATION, "Quit the game", "Do you really want to quit?");
 			Optional<ButtonType> response = closeConfirmation.showAndWait();
-			
+
 			// closes the application if the user confirms
 		    if (response.isPresent() && response.get().equals(ButtonType.OK)) {
+
+				UIManager.getInstance().stopGame();
 		    	//TODO save game if ingame?
 		    } else {
 		    	e.consume();
