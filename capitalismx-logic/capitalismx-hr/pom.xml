@@ -5,7 +5,7 @@
     <parent>
         <artifactId>capitalismx-logic</artifactId>
         <groupId>de.uni.mannheim</groupId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,13 +15,13 @@
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-utils</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.3</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-domain</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.3</version>
             <optional>true</optional>
         </dependency>
 
