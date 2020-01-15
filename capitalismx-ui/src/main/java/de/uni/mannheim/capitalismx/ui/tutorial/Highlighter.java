@@ -27,9 +27,6 @@ public class Highlighter {
 	public void removeHighlight(Node node) {
 		highlight.stop();
 		node.getStyleClass().remove("tutorial_highlight");
-		node.setOnMouseReleased(e -> {
-			
-		});
 	}
 
 }

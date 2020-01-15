@@ -102,6 +102,10 @@ public class GameHudController implements UpdateableController {
 	@FXML
 	private VBox netWorthVBox, cashVBox, employeeVBox, departmentVBox;
 
+	public ToggleButton getProductionDepButton() {
+		return this.btnProduction;
+	}
+	
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
 	 * currently being displayed, it will be added to a queue and displayed

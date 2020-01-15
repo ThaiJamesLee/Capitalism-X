@@ -77,8 +77,8 @@ FontAwesomeIcon {
 	-fx-fill: -fx-primary; 
 }
 
-.highlight_tutorial {
-	-fx-effect: dropshadow(three-pass-box, -fx-complement, 10, 0.8, 0, 0);
+.tutorial_highlight {
+	-fx-effect: dropshadow(gaussian, -fx-complement, 10, 0.8, 0, 0);
 }
 
 /**

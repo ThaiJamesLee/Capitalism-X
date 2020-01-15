@@ -1,7 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.production;
 
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,21 +23,32 @@ import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
 
 //TODO Komponenten lokalisieren
 public class IntroduceProductController extends GameModuleController {
 
-	public TextField getProductTabPane()
-	{
-		return this.tvProductNameTextField;
+	public List<Node> getTutorialNodes(){
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.add(tutorialPane);
+		nodes.add(tvProductNameTextField);
+		nodes.add(tvSalesPriceTextField);
+		nodes.add(launchTvButton);
+		return nodes;
 	}
+	
+	@FXML
+	private GridPane tutorialPane;
+	@FXML
+	private Button launchTvButton;
 	/****** Product Name Text Fields ******/
     @FXML
     private TextField tvProductNameTextField, consoleProductNameTextField, notebookProductNameTextField, phoneProductNameTextField;

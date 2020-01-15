@@ -19,6 +19,7 @@ import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
+import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -326,6 +327,10 @@ public class UIManager {
 					initKeyboardControls();
 					// start the game once everything is loaded
 					startGame();
+					
+					if(CapXApplication.testMode) { //TODO remove
+						new Tutorial().start();
+					}
 				} catch (IOException e) {
 					// TODO handle error if module could not be loaded.
 					e.printStackTrace();
@@ -337,7 +342,6 @@ public class UIManager {
 				progress += 1.0 / numOfComponents;
 				this.updateProgress(progress, 1.0);
 			}
-
 		};
 		((LoadingScreenController) sceneLoadingScreen.getController()).initProgressBar(task.progressProperty());
 		task.setOnFailed(e -> {

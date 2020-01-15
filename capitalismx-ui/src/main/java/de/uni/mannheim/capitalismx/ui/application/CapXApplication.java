@@ -2,7 +2,6 @@ package de.uni.mannheim.capitalismx.ui.application;
 
 import java.util.Optional;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
@@ -26,7 +25,7 @@ import javafx.stage.WindowEvent;
  */
 public class CapXApplication extends Application {
 
-	private static final boolean testMode = false;
+	protected static final boolean testMode = false;
 	private Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
 	@Override
