@@ -27,7 +27,7 @@ public enum GameModuleDefinition {
 
 	// The modules for Procurement.
 	PROCUREMENT_ORDERED_COMPONENTS_LIST("ordered_components_list.fxml", GameViewType.WAREHOUSE,
-			UIElementType.PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW, new GridPosition(0, 5, 15, 15), true),
+			UIElementType.PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW, new GridPosition(0, 5, 15, 15), false),
 
 	// The modules for Production.
 	PRODUCTION_INTRODUCE_PRODUCT_MENU("introduce_product_menu.fxml", GameViewType.PRODUCTION,
@@ -35,7 +35,7 @@ public enum GameModuleDefinition {
 	PRODUCTION_MACHINERY_LIST("machinery_list.fxml", GameViewType.PRODUCTION,
 			UIElementType.PRODUCTION_MACHINERY_OVERVIEW, new GridPosition(15, 5, 0, 15), true),
 	PRODUCTION_PRODUCE_PRODUCT_MENU("produce_product_menu.fxml", GameViewType.PRODUCTION,
-			UIElementType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(15, 9, 15, 15), true),
+			UIElementType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(15, 5, 15, 5), true),
 
 	// The modules for the warehouse.
 	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 5, 0, 15), true),
@@ -51,13 +51,19 @@ public enum GameModuleDefinition {
 	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml", GameViewType.FINANCES, UIElementType.FINANCE_BANKING_SYSTEM, new GridPosition(0, 5, 7, 19), true),
 	//FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, new GridPosition(14,
 	//		5, 0, 19), true),
-	
+
 //	//The modules for Marketing
 	MARKETING_PRESSRELEASE_LIST("mkt_pressReleases_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_PRESSRELEASE, new GridPosition(0, 6, 7, 11), true),
 	MARKETING_CAMPAIGNS_LIST("mkt_campaigns_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_CAMPAIGNS, new GridPosition(6, 7, 7, 11), true),
 	MARKETING_MARKETRESEARCH_LIST("mkt_marketResearch_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_MARKETRESEARCH, new GridPosition(13, 7, 7, 11), true),
-	MARKETING_OVERVIEW("mkt_general_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(0, 10, 2, 3), true);
-	;
+	MARKETING_OVERVIEW("mkt_general_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(0, 10, 2, 3), true),
+
+    //The modules for Research and Development.
+    RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameViewType.R_AND_D, UIElementType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(1, 5, 1, 4),true),
+
+    // The modules for Sales
+    SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml", GameViewType.SALES, UIElementType.SALES_CONTRACT_OVERVIEW, new GridPosition(0, 10, 0, 15) , true);
+    ;
 
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;

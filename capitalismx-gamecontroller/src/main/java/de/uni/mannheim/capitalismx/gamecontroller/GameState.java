@@ -18,6 +18,8 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 
+import de.uni.mannheim.capitalismx.utils.data.MessageObject;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
@@ -46,8 +48,18 @@ public class GameState implements Serializable {
 	private double employerBranding;
 
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-	
+
     private PropertyChangeSupportBoolean endGameReached;
+
+	/**
+	 * The list that contains the {@link MessageObject}s.
+	 */
+	private PropertyChangeSupportList<MessageObject> messages;
+
+	/**
+	 * Event name when the {@link PropertyChangeSupportList} changes.
+	 */
+	public static final String MESSAGE_LIST_CHANGED_EVENT = "messageListChanged";
 
 	// Departments
 	private HRDepartment hrDepartment;
@@ -68,7 +80,10 @@ public class GameState implements Serializable {
 
 	private GameState() {
 		this.gameDate = LocalDate.of(1990, 1, 1);
-		
+		messages = new PropertyChangeSupportList<>();
+		messages.setAddPropertyName(MESSAGE_LIST_CHANGED_EVENT);
+		messages.setRemovePropertyName(MESSAGE_LIST_CHANGED_EVENT);
+
 		 this.endGameReached = new PropertyChangeSupportBoolean();
 	     this.endGameReached.setValue(false);
 	     this.endGameReached.setPropertyChangedName("gameWon");
@@ -146,6 +161,7 @@ public class GameState implements Serializable {
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
+		this.messages.addPropertyChangeListener(listener);
 		this.endGameReached.addPropertyChangeListener(listener);
 	}
 
@@ -172,7 +188,7 @@ public class GameState implements Serializable {
 		this.gameDate = gameDate;
 		this.propertyChangeSupport.firePropertyChange("gameDate", oldDate, gameDate);
 	}
-	
+
 	/**
 	 * Fires a property changed event that the game end date was reached
 	 * @param gameDate
@@ -317,5 +333,13 @@ public class GameState implements Serializable {
 
 	public void setSalesDepartment(SalesDepartment salesDepartment) {
 		this.salesDepartment = salesDepartment;
+	}
+
+	/**
+	 *
+	 * @return Returns the list of messages.
+	 */
+	public PropertyChangeSupportList<MessageObject> getMessages() {
+		return messages;
 	}
 }

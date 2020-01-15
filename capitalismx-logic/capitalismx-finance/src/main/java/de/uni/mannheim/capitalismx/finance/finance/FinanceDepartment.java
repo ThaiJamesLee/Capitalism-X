@@ -87,6 +87,7 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO just to notify gui to update finance table with new monthlyData / quarterlyData every day
     private PropertyChangeSupportBoolean updatedMonthlyData;
     private PropertyChangeSupportBoolean updatedQuarterlyData;
+    private double initialCash = 1000000.0;
 
 
     //private BankingSystem bankingSystem;
@@ -104,11 +105,11 @@ public class FinanceDepartment extends DepartmentImpl {
         this.loanRemoved.setPropertyChangedName("loanRemoved");
 
         this.cash = new PropertyChangeSupportDouble();
-        this.cash.setValue(1000000.0);
+        this.cash.setValue(this.initialCash);
         this.cash.setPropertyChangedName("cash");
 
         this.netWorth = new PropertyChangeSupportDouble();
-        this.netWorth.setValue(1000000.0);
+        this.netWorth.setValue(this.initialCash);
         this.netWorth.setPropertyChangedName("netWorth");
 
         this.assets = new PropertyChangeSupportDouble();
@@ -143,6 +144,14 @@ public class FinanceDepartment extends DepartmentImpl {
         this.assetsHistory = new TreeMap<>();
         this.liabilitiesHistory = new TreeMap<>();
         this.netWorthHistory = new TreeMap<>();
+
+        //set values before game start to initialCash
+        for(int i = 2; i <= 12; i++){
+            this.cashHistory.put(LocalDate.of(1989, i, LocalDate.of(1989, i, 1).lengthOfMonth()), this.initialCash);
+        }
+        for(int i = 2; i <= 12; i++){
+            this.netWorthHistory.put(LocalDate.of(1989, i, LocalDate.of(1989, i, 1).lengthOfMonth()), this.initialCash);
+        }
 
         this.histories = new TreeMap<>();
         this.histories.put("cashHistory", this.cashHistory);
@@ -763,8 +772,10 @@ public class FinanceDepartment extends DepartmentImpl {
             }else{
                 values[11] = value;
             }
-            xNames[11] = gameDate.getYear() + "-" + String.format("%02d", gameDate.getMonthValue());
+            //xNames[11] = gameDate.getYear() + "-" + String.format("%02d", gameDate.getMonthValue());
             //xNames[11] = getLocalisedString("finance.month.short." + gameDate.getMonthValue());
+            //xNames[11] = gameDate.getYear() + String.format("%02d", gameDate.getMonthValue());
+            xNames[11] = "11";
 
             //last day of previous months
             for(int i = (values.length - 2); i >= 0; i--){
@@ -777,8 +788,10 @@ public class FinanceDepartment extends DepartmentImpl {
                 }else{
                     values[i] = map.get(monthEnd);
                 }
-                xNames[i] = monthEnd.getYear() + "-" + String.format("%02d", monthEnd.getMonthValue());
+                //xNames[i] = monthEnd.getYear() + "-" + String.format("%02d", monthEnd.getMonthValue());
                 //xNames[i] = getLocalisedString("finance.month.short." + monthEnd.getMonthValue());
+                //xNames[i] = monthEnd.getYear() + String.format("%02d", monthEnd.getMonthValue());
+                xNames[i] = i + "";
             }
 
             for(int i = 0; i < xNames.length; i++){

@@ -12,7 +12,7 @@ public enum UIElementType {
 
 	OVERVIEW_MAP_3D("Company Map"),
 	
-	HR_TEAM_DETAIL("Employees"), 
+	HR_TEAM_DETAIL("Employees"),
 	HR_STATISTICS("Statistics"), 
 	HR_WORKING_CONDITIONS("Working Conditions"), 
 	HR_RECRUITING_OVERVIEW("Recruiting"),
@@ -27,8 +27,10 @@ public enum UIElementType {
 	PRODUCTION_PRODUCE_PRODUCT("Produce Products"),
 	PRODUCTION_MACHINERY_OVERVIEW("Machines"),
 	PROCUREMENT_BUY_COMPONENT_OVERVIEW("Buy Component"),
-	PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW("Ordered Components"),
-	WAREHOUSE_SEGMENTS("Partition"), 
+    PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW("Ordered Components"),
+	RESDEV_CATEGORY_UNLOCKER("Unlock Categories"),
+    SALES_CONTRACT_OVERVIEW("Contract Management"),
+	WAREHOUSE_SEGMENTS("Partition"),
 	WAREHOUSE_STOCK_MANAGEMENT("Stock Management"),
 	MARKETING_PRESSRELEASE("Press Releases"),
 	MARKETING_CAMPAIGNS("Marketing Campaigns"),

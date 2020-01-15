@@ -10,7 +10,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents.ExternalEvent;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
-import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
+import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 
 /**
  * Ein GameState Event Listener.

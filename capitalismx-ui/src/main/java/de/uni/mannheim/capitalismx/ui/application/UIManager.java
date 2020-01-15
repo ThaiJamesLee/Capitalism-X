@@ -340,7 +340,14 @@ public class UIManager {
 
 		};
 		((LoadingScreenController) sceneLoadingScreen.getController()).initProgressBar(task.progressProperty());
-
+		task.setOnFailed(e -> {
+			System.out.println("Failed");
+			e.getSource().getException().printStackTrace();
+		});
+		task.setOnCancelled(e -> {
+			System.out.println("Failed");
+			e.getSource().getException().printStackTrace();
+		});
 		new Thread(task).start();
 	}
 
