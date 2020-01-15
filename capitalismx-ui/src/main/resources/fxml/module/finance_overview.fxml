@@ -3,7 +3,6 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
@@ -15,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController">
     <children>
         <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
@@ -87,7 +86,7 @@
                                 </Group>
                                 <LineChart fx:id="cashChart" alternativeRowFillVisible="false" GridPane.columnIndex="1">
                                     <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis side="BOTTOM" fx:id="xAxisCash" />
                                     </xAxis>
                                     <yAxis>
                                         <NumberAxis side="LEFT" />
@@ -115,7 +114,7 @@
                                 </Group>
                                 <LineChart fx:id="assetsChart" alternativeRowFillVisible="false" GridPane.columnIndex="1">
                                     <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis side="BOTTOM" fx:id="xAxisAssets" />
                                     </xAxis>
                                     <yAxis>
                                         <NumberAxis side="LEFT" />
@@ -143,7 +142,7 @@
                                 </Group>
                                 <LineChart fx:id="liabilitiesChart" alternativeRowFillVisible="false" GridPane.columnIndex="1">
                                     <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis side="BOTTOM" fx:id="xAxisLiabilities" />
                                     </xAxis>
                                     <yAxis>
                                         <NumberAxis side="LEFT" />
@@ -174,7 +173,7 @@
                                 </Group>
                                 <LineChart fx:id="netWorthChart" alternativeRowFillVisible="false" GridPane.columnIndex="1">
                                     <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis side="BOTTOM" fx:id="xAxisNetWorth" />
                                     </xAxis>
                                     <yAxis>
                                         <NumberAxis side="LEFT" />

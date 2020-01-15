@@ -772,8 +772,10 @@ public class FinanceDepartment extends DepartmentImpl {
             }else{
                 values[11] = value;
             }
-            xNames[11] = gameDate.getYear() + "-" + String.format("%02d", gameDate.getMonthValue());
+            //xNames[11] = gameDate.getYear() + "-" + String.format("%02d", gameDate.getMonthValue());
             //xNames[11] = getLocalisedString("finance.month.short." + gameDate.getMonthValue());
+            //xNames[11] = gameDate.getYear() + String.format("%02d", gameDate.getMonthValue());
+            xNames[11] = "11";
 
             //last day of previous months
             for(int i = (values.length - 2); i >= 0; i--){
@@ -786,8 +788,10 @@ public class FinanceDepartment extends DepartmentImpl {
                 }else{
                     values[i] = map.get(monthEnd);
                 }
-                xNames[i] = monthEnd.getYear() + "-" + String.format("%02d", monthEnd.getMonthValue());
+                //xNames[i] = monthEnd.getYear() + "-" + String.format("%02d", monthEnd.getMonthValue());
                 //xNames[i] = getLocalisedString("finance.month.short." + monthEnd.getMonthValue());
+                //xNames[i] = monthEnd.getYear() + String.format("%02d", monthEnd.getMonthValue());
+                xNames[i] = i + "";
             }
 
             for(int i = 0; i < xNames.length; i++){
