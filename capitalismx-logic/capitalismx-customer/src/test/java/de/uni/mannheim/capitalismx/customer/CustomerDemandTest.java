@@ -20,9 +20,9 @@ public class CustomerDemandTest {
         CustomerDemand.getInstance();
     }
 
-    @Test
+   /* @Test
     public void calculateSalesFiguresTest() {
         CustomerDemand.getInstance().calculateSalesFigures(100, LocalDate.of(1990,1,1));
         // TODO
-    }
+    }*/
 }
