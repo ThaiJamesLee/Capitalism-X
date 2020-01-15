@@ -513,6 +513,9 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     public boolean checkIncreasingNopat(){
+        if(this.nopatLast5Years.size() < 5){
+            return false;
+        }
         for(int i = 0; i < this.nopatLast5Years.size() - 1; i++){
             if(this.nopatLast5Years.get(i + 1) < this.nopatLast5Years.get(i) * 1.30){
                 return false;
