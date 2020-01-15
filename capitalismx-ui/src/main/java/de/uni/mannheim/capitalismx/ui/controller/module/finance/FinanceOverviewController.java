@@ -140,7 +140,6 @@ public class FinanceOverviewController extends GameModuleController {
 			@Override
 			public String toString(Number number) {
 				try {
-					System.out.println("updated");
 					int month = number.intValue();
 					return GameState.getInstance().getGameDate().minusMonths(11-month).getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
 				}catch (Exception e){
@@ -159,7 +158,6 @@ public class FinanceOverviewController extends GameModuleController {
 			@Override
 			public String toString(Number number) {
 				try {
-					System.out.println("updated");
 					int month = number.intValue();
 					return GameState.getInstance().getGameDate().minusMonths(11-month).getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
 				}catch (Exception e){
@@ -178,7 +176,6 @@ public class FinanceOverviewController extends GameModuleController {
 			@Override
 			public String toString(Number number) {
 				try {
-					System.out.println("updated");
 					int month = number.intValue();
 					return GameState.getInstance().getGameDate().minusMonths(11-month).getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
 				}catch (Exception e){
@@ -197,7 +194,6 @@ public class FinanceOverviewController extends GameModuleController {
 			@Override
 			public String toString(Number number) {
 				try {
-					System.out.println("updated");
 					int month = number.intValue();
 					return GameState.getInstance().getGameDate().minusMonths(11-month).getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
 				}catch (Exception e){
