@@ -4,6 +4,8 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.ui.components.procurement.OrderedComponentsListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.ProcurementEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.WarehouseEventlistener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -36,5 +38,9 @@ public class OrderedComponentsListController extends GameModuleController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         orderedComponentsListView.setCellFactory(orderedComponentsListView -> new OrderedComponentsListViewCell(orderedComponentsListView));
+        ProcurementEventListener eventlistener = new ProcurementEventListener();
+        ProcurementDepartment procurementDepartment = GameState.getInstance().getProcurementDepartment();
+        procurementDepartment.getComponentOrdersChange().addPropertyChangeListener(eventlistener);
+        procurementDepartment.registerPropertyChangeListener(eventlistener);
     }
 }

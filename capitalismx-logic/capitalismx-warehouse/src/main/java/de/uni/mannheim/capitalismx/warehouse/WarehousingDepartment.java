@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class WarehousingDepartment extends DepartmentImpl {
 
@@ -53,7 +54,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         super("Warehousing");
 
         this.warehouses = new ArrayList<>();
-        this.inventory = new HashMap<>();
+        this.inventory = new ConcurrentHashMap<>();
         this.totalCapacity = 0;
         this.freeStorage = 0;
         this.storedUnits = 0;
@@ -137,9 +138,9 @@ public class WarehousingDepartment extends DepartmentImpl {
         for(HashMap.Entry<Product, Integer> entry : newProducts.entrySet()) {
             if(this.inventory.get(entry.getKey()) != null) {
                 int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
-                this.inventory.put(entry.getKey(), aggregatedUnits);
+                this.inventoryChange.putOne(entry.getKey(), aggregatedUnits);
             } else {
-                this.inventory.put(entry.getKey(), entry.getValue());
+                this.inventoryChange.putOne(entry.getKey(), entry.getValue());
             }
         }
         ProductionDepartment.getInstance().clearInventory();
@@ -147,9 +148,9 @@ public class WarehousingDepartment extends DepartmentImpl {
         for(HashMap.Entry<Component, Integer> entry : newComponents.entrySet()) {
             if(this.inventory.get(entry.getKey()) != null) {
                 int aggregatedUnits = this.inventory.get(entry.getKey()) + entry.getValue();
-                this.inventory.put(entry.getKey(), aggregatedUnits);
+                this.inventoryChange.putOne(entry.getKey(), aggregatedUnits);
             } else {
-                this.inventory.put(entry.getKey(), entry.getValue());
+                this.inventoryChange.putOne(entry.getKey(), entry.getValue());
             }
         }
         ProcurementDepartment.getInstance().clearReceivedComponents();
@@ -181,9 +182,9 @@ public class WarehousingDepartment extends DepartmentImpl {
         if(this.inventory.get(soldProduct.getKey()) != null && this.inventory.get(soldProduct.getKey()) >= soldProduct.getValue()) {
             int newInventoryUnits = this.inventory.get(soldProduct.getKey()) - soldProduct.getValue();
             if(newInventoryUnits == 0) {
-                this.inventory.remove(soldProduct.getKey());
+                this.inventoryChange.removeOne(soldProduct.getKey());
             } else {
-                this.inventory.put(soldProduct.getKey(), newInventoryUnits);
+                this.inventoryChange.putOne(soldProduct.getKey(), newInventoryUnits);
             }
         }
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
@@ -316,7 +317,7 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public void decreaseStoredUnitsRel(double percentage) {
         for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
-            this.inventory.put(entry.getKey(), (int) (entry.getValue() * 0.7));
+            this.inventoryChange.putOne(entry.getKey(), (int) (entry.getValue() * 0.7));
         }
     }
 
@@ -336,7 +337,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         double earnedMoney = 0;
         for(Map.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
             if(entry.getKey().getUnitType() == UnitType.PRODUCT_UNIT) {
-                this.inventory.put(entry.getKey(), entry.getValue() - sales.get(entry.getKey()));
+                this.inventoryChange.putOne(entry.getKey(), entry.getValue() - sales.get(entry.getKey()));
                 earnedMoney += entry.getKey().getSalesPrice() * sales.get(entry.getKey());
             }
         }
@@ -360,7 +361,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     public void clearUsedComponents() {
         Map<Component, Integer> storedComponents = ProductionDepartment.getInstance().getStoredComponents();
         for(Map.Entry<Component, Integer> entry : storedComponents.entrySet()) {
-            this.inventory.put(entry.getKey(), entry.getValue());
+            this.inventoryChange.putOne(entry.getKey(), entry.getValue());
         }
     }
 
