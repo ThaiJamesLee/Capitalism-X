@@ -17,10 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -225,6 +222,7 @@ public class SalesDepartment extends DepartmentImpl {
             Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
             Contract c = contractFactory.getContract(p, date, factor);
             c.setPenalty(c.getPenalty() * penalty);
+            c.setuId(UUID.randomUUID().toString());
             newContracts.add(c);
         }
         availableContracts.setList(newContracts);

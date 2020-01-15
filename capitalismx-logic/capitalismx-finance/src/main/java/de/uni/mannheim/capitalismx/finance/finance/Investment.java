@@ -47,7 +47,8 @@ public class Investment implements Serializable {
 
     private double calculateAverageDailyReturn(){
         //this.averageDailyReturn = Math.pow((1 + this.averageYearlyReturn) / 1, 1.0/365);
-        this.averageDailyReturn = Math.pow((1 + (this.averageYearlyReturn * 100)) / 1, 1.0/365);
+        //this.averageDailyReturn = Math.pow((1 + (this.averageYearlyReturn * 100)) / 1, 1.0/365);
+        this.averageDailyReturn = Math.pow((1 + this.averageYearlyReturn), 1.0/365) - 1;
         return this.averageDailyReturn;
     }
 

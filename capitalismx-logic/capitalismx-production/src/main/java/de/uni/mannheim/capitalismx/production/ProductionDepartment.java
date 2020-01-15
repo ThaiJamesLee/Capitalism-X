@@ -47,6 +47,8 @@ public class ProductionDepartment extends DepartmentImpl {
     private int decreasedProcessAutomationLevel;
     private double totalEngineerQualityOfWorkDecreasePercentage;
 
+    private static final double LAUNCH_COSTS = 10000;
+
     private PropertyChangeSupportList launchedProductsChange;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
@@ -258,27 +260,10 @@ public class ProductionDepartment extends DepartmentImpl {
         }
     }
 
-    public double launchProduct(Product product, int quantity, int freeStorage) {
-        int totalMachineCapacity = 0;
-        for(Machinery machinery : this.machines) {
-            totalMachineCapacity += machinery.getMachineryCapacity();
-        }
-        if(totalMachineCapacity >= quantity && freeStorage >= quantity) {
-            double variableProductCosts = 0;
-            //for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
-            this.numberProducedProducts.put(product, quantity);
-            //}
-            /* LocalDate.now() placeholder for gameDate TODO*/
-            LocalDate gameDate = LocalDate.now();
-            product.setLaunchDate(gameDate);
-            this.launchedProductsChange.add(product);
-            this.numberUnitsProducedPerMonth += quantity;
-            variableProductCosts = product.calculateTotalVariableCosts() * quantity;
-            return variableProductCosts;
-        } else {
-            // TODO throw error message "Your machinery capacity is not sufficient. Either produce a smaller amount or buy new machinery."
-            return -1;
-        }
+    public double launchProduct(Product product, LocalDate gameDate) {
+        product.setLaunchDate(gameDate);
+        this.launchedProductsChange.add(product);
+        return LAUNCH_COSTS;
     }
 
     public void setStoredComponents(Map<Component, Integer> storedComponents) {

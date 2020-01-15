@@ -158,7 +158,8 @@ public class ExternalEvents implements Serializable {
         if(ProductionDepartment.getInstance().checkProductionTechnologyBelowThreshold()){
             //if productionTechnologyBelowThreshold is not true already
             if(!this.productionTechnologyBelowThreshold){
-                externalEvents.add(ExternalEvent.EVENT_1);
+                //TODO activate event
+                //externalEvents.add(ExternalEvent.EVENT_1);
                 this.productionTechnologyBelowThreshold = true;
             }
         }else{
@@ -182,6 +183,7 @@ public class ExternalEvents implements Serializable {
     private void checkEventCompanyAcquisition(LocalDate gameDate){
         //event can only occur once per year
         if((this.lastEventCompanyAcquisitionDate == null) || (Period.between(this.lastEventCompanyAcquisitionDate, gameDate).getYears() > 0)){
+            //TODO set nopat history
             if(FinanceDepartment.getInstance().checkIncreasingNopat()){
                 //TODO ask user
                 //FinanceDepartment.getInstance().acquireCompany();
@@ -199,7 +201,8 @@ public class ExternalEvents implements Serializable {
      */
     private void checkEventCompanyOvertakesMarketShare(LocalDate gameDate){
         //can only occur once in the game
-        if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (FinanceDepartment.getInstance().getNetWorth() > 1000000) && (!this.eventCompanyOvertakesMarketShare)){
+        //if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (FinanceDepartment.getInstance().getNetWorth() > 1000000) && (!this.eventCompanyOvertakesMarketShare)){
+        if((RandomNumberGenerator.getRandomInt(0, 20000) == 0) && (FinanceDepartment.getInstance().getNetWorth() > 1000000) && (!this.eventCompanyOvertakesMarketShare)){
             FinanceDepartment.getInstance().decreaseNopatRelPermanently(0.10);
             externalEvents.add(ExternalEvent.EVENT_4);
             this.eventCompanyOvertakesMarketShare = true;
@@ -220,7 +223,8 @@ public class ExternalEvents implements Serializable {
      * @param gameDate The current date in the game.
      */
     private void checkEventComputerVirusAttacks(LocalDate gameDate){
-        if((RandomNumberGenerator.getRandomInt(0, 19) == 0) && (gameDate.getYear() > 2000) && (this.eventComputerVirusAttacksDate == null)){
+        //if((RandomNumberGenerator.getRandomInt(0, 19) == 0) && (gameDate.getYear() > 2000) && (this.eventComputerVirusAttacksDate == null)){
+        if((RandomNumberGenerator.getRandomInt(0, 2000) == 0) && (gameDate.getYear() > 2000) && (this.eventComputerVirusAttacksDate == null)){
             ProductionDepartment.getInstance().decreaseProcessAutomationRel(0.50);
             externalEvents.add(ExternalEvent.EVENT_6);
             this.eventComputerVirusAttacksDate = gameDate;
@@ -237,7 +241,8 @@ public class ExternalEvents implements Serializable {
      * @param gameDate The current date in the game.
      */
     private void checkEventTaxChanges(LocalDate gameDate){
-        if((RandomNumberGenerator.getRandomInt(0, 19) == 0) && (this.eventTaxChangesDate == null)){
+        //if((RandomNumberGenerator.getRandomInt(0, 19) == 0) && (this.eventTaxChangesDate == null)){
+        if((RandomNumberGenerator.getRandomInt(0, 2000) == 0) && (this.eventTaxChangesDate == null)){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
                 FinanceDepartment.getInstance().increaseTaxRate(0.02);
                 ExternalEvent.EVENT_7.setIncrease(true);
@@ -286,7 +291,8 @@ public class ExternalEvents implements Serializable {
     private void checkEventInflationChanges(){
         //TODO maybe change impact
         //TODO probability between 0 and 2
-        if(RandomNumberGenerator.getRandomInt(0, 49) == 0){
+        //if(RandomNumberGenerator.getRandomInt(0, 49) == 0){
+        if(RandomNumberGenerator.getRandomInt(0, 2000) == 0){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
                 FinanceDepartment.getInstance().increaseNopatRelPermanently(0.02);
                 ExternalEvent.EVENT_9.setIncrease(true);
@@ -325,7 +331,8 @@ public class ExternalEvents implements Serializable {
      * @param gameDate The current date in the game.
      */
     private void checkEventFlu(LocalDate gameDate){
-        if((RandomNumberGenerator.getRandomInt(0, 9) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
+        //if((RandomNumberGenerator.getRandomInt(0, 9) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
+        if((RandomNumberGenerator.getRandomInt(0, 90) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
             ProductionDepartment.getInstance().decreaseTotalEngineerQualityOfWorkRel(0.10);
             externalEvents.add(ExternalEvent.EVENT_12);
             this.eventFluDate = gameDate;
