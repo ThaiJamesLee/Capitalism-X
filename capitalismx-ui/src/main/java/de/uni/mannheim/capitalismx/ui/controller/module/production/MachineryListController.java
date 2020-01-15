@@ -43,9 +43,7 @@ public class MachineryListController extends GameModuleController {
                 List<Machinery> machines = controller.getMachines();
                 machineryListView.getItems().add(machines.get(machines.size() - 1));
             } catch (NoMachinerySlotsAvailableException exception) {
-                GameAlert error = new GameAlert(Alert.AlertType.WARNING);
-                error.setTitle(UIManager.getLocalisedString("production.alert.notEnoughMachineSlots.title"));
-                error.setContentText(UIManager.getLocalisedString("production.alert.notEnoughMachineSlots.contextText"));
+                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("production.alert.notEnoughMachineSlots.title"), UIManager.getLocalisedString("production.alert.notEnoughMachineSlots.contextText"));
                 error.showAndWait();
                 System.out.println(exception.getMessage());
             }

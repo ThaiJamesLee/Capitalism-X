@@ -27,9 +27,9 @@ public class GameAlert extends Alert {
 	 * @param alertType   The {@link AlertType} sets the icon, as well as the
 	 *                    default {@link ButtonType}s.
 	 * @param title       The text to be displayed in the top half. (Should be
-	 *                    short)
+	 *                    short) -> Can be set by calling setHeaderText().
 	 * @param description The text explaining the reason, the {@link GameAlert} is
-	 *                    displayed or giving instructions to the player.
+	 *                    displayed or giving instructions to the player. -> Can be set by calling setContentText().
 	 */
 	public GameAlert(AlertType alertType, String title, String description) {
 		super(alertType);

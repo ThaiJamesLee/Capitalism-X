@@ -73,7 +73,7 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
             try {
                 GameController.getInstance().produceProduct(product, quantity);
             } catch (Exception e) {
-                GameAlert error = new GameAlert(Alert.AlertType.CONFIRMATION);
+                GameAlert error = new GameAlert(Alert.AlertType.CONFIRMATION, "Could not produce " + quantity + "unit(s).", "");
                 String exceptionMessage = e.getMessage();
                 int newQuantity = 0;
                 if(e instanceof NotEnoughFreeStorageException) {
