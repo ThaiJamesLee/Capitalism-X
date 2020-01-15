@@ -82,7 +82,7 @@ public class ProcurementDepartment extends DepartmentImpl {
     public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
         if (freeStorage >= (quantity + this.getQuantityOfOrderedComponents())) {
             ComponentOrder componentOrder = new ComponentOrder(gameDate, component, quantity);
-            this.componentOrdersChange.add(componentOrder);
+            this.componentOrders.add(componentOrder);
         }
         return quantity * component.getBaseCost();
     }
@@ -97,7 +97,7 @@ public class ProcurementDepartment extends DepartmentImpl {
                     }
                 }
                 this.receivedComponents.put(componentOrder.getOrderedComponent(), newQuantity);
-                //this.componentOrdersChange.remove(componentOrder);
+                this.componentOrders.remove(componentOrder);
             }
         }
     }

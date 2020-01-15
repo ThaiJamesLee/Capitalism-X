@@ -102,7 +102,7 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
      */
     public synchronized void remove(T t) {
         copyList(oldList, list);
-        list.remove(t);
+        //list.remove(t);
         propertyChangeSupport.firePropertyChange(removePropertyName, oldList, list);
     }
 
