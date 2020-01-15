@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProcurementDepartment extends DepartmentImpl {
 
@@ -25,7 +26,7 @@ public class ProcurementDepartment extends DepartmentImpl {
     private ProcurementDepartment() {
         super("Procurement");
         this.allAvailableComponents = new ArrayList<>();
-        this.componentOrders = new ArrayList<>();
+        this.componentOrders = new CopyOnWriteArrayList<>();
         this.receivedComponents = new HashMap<>();
         //this.orderedComponents = new HashMap<>();
 
@@ -87,7 +88,7 @@ public class ProcurementDepartment extends DepartmentImpl {
 
     public void receiveComponents(LocalDate gameDate) {
         for(ComponentOrder componentOrder : this.componentOrders) {
-            if(gameDate == componentOrder.getOrderDate().plusDays(DELIVERY_TIME)) {
+            if(gameDate.equals(componentOrder.getOrderDate().plusDays(DELIVERY_TIME))) {
                 int newQuantity = componentOrder.getOrderedQuantity();
                 for(Map.Entry<Component, Integer> entry : this.receivedComponents.entrySet()) {
                     if(entry.getKey() == componentOrder.getOrderedComponent()) {
@@ -95,8 +96,8 @@ public class ProcurementDepartment extends DepartmentImpl {
                     }
                 }
                 this.receivedComponents.put(componentOrder.getOrderedComponent(), newQuantity);
+                this.componentOrders.remove(componentOrder);
             }
-            this.componentOrders.remove(componentOrder);
         }
     }
 
