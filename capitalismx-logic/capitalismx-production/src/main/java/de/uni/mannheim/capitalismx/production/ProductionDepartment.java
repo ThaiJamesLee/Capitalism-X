@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductionDepartment extends DepartmentImpl {
 
@@ -73,7 +74,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.systemSecurity = new ProductionInvestment("System Security");
         this.productionFixCosts = 0.0;
         this.productionVariableCosts = 0.0;
-        this.launchedProducts = new ArrayList<>();
+        this.launchedProducts = new CopyOnWriteArrayList<>();
         this.machineSlotsAvailable = true;
         this.productionTechnology = ProductionTechnology.DEPRECIATED;
         this.storedComponents = new HashMap<>();
@@ -270,7 +271,7 @@ public class ProductionDepartment extends DepartmentImpl {
             /* LocalDate.now() placeholder for gameDate TODO*/
             LocalDate gameDate = LocalDate.now();
             product.setLaunchDate(gameDate);
-            this.launchedProducts.add(product);
+            this.launchedProductsChange.add(product);
             this.numberUnitsProducedPerMonth += quantity;
             variableProductCosts = product.calculateTotalVariableCosts() * quantity;
             return variableProductCosts;
@@ -689,6 +690,10 @@ public class ProductionDepartment extends DepartmentImpl {
 
     public static void setInstance(ProductionDepartment instance) {
         ProductionDepartment.instance = instance;
+    }
+
+    public PropertyChangeSupportList getLaunchedProductsChange() {
+        return launchedProductsChange;
     }
 
     @Override
