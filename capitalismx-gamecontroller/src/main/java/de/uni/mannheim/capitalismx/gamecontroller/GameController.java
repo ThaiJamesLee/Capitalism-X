@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.production.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,12 +36,6 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
-import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
-import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
@@ -581,6 +576,28 @@ public class GameController {
 	public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
 		return ProcurementDepartment.getInstance().buyComponents(gameDate, component, quantity, freeStorage);
 	}
+
+	public void receiveComponents() {
+		ProcurementDepartment.getInstance().receiveComponents(GameState.getInstance().getGameDate());
+	}
+
+	public Map<Component, Integer> getReceivedComponents() {
+		return ProcurementDepartment.getInstance().getReceivedComponents();
+	}
+
+	public List<ComponentOrder> getComponentOrders() {
+		return ProcurementDepartment.getInstance().getComponentOrders();
+	}
+
+	public int getQuantityOfOrderedComponents() {
+		return ProcurementDepartment.getInstance().getQuantityOfOrderedComponents();
+	}
+
+	public void clearReceivedComponents() {
+		ProcurementDepartment.getInstance().clearReceivedComponents();
+	}
+
+
 
 	/*
 	 * PRODUCTION

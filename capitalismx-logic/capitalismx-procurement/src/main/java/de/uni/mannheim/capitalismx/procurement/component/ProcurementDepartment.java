@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.procurement.component;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 
 import javax.swing.*;
 import java.beans.PropertyChangeListener;
@@ -19,12 +20,18 @@ public class ProcurementDepartment extends DepartmentImpl {
     //private Map<Component, Integer> orderedComponents;
     private static final int DELIVERY_TIME = 3;
 
+    private PropertyChangeSupportList componentOrdersChange;
+
     private ProcurementDepartment() {
         super("Procurement");
         this.allAvailableComponents = new ArrayList<>();
         this.componentOrders = new ArrayList<>();
         this.receivedComponents = new HashMap<>();
         //this.orderedComponents = new HashMap<>();
+
+        this.componentOrdersChange = new PropertyChangeSupportList();
+        this.componentOrdersChange.setList(this.componentOrders);
+        this.componentOrdersChange.setAddPropertyName("componentOrdersChange");
     }
 
     public static synchronized  ProcurementDepartment getInstance() {
@@ -89,6 +96,7 @@ public class ProcurementDepartment extends DepartmentImpl {
                 }
                 this.receivedComponents.put(componentOrder.getOrderedComponent(), newQuantity);
             }
+            this.componentOrders.remove(componentOrder);
         }
     }
 
@@ -116,8 +124,12 @@ public class ProcurementDepartment extends DepartmentImpl {
         this.receiveComponents(gameDate);
     }
 
+    public static void setInstance(ProcurementDepartment instance) {
+        ProcurementDepartment.instance = instance;
+    }
+
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-
+        this.componentOrdersChange.addPropertyChangeListener(listener);
     }
 }
