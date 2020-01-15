@@ -17,7 +17,7 @@ public class SalesContractListCellController {
     @FXML
     private HBox contractCellHBox;
 
-    private Contract c;
+    private int index;
     @FXML
     public void showInfoPanel(){
 
@@ -31,8 +31,12 @@ public class SalesContractListCellController {
         this.contractDeadline.setText(contractDeadline);
     }
 
-    public void setContract(Contract c){
-        this.c = c;
+    public void setIndex(int i){
+        this.index = i;
+    }
+
+    public int getIndex(){
+        return index;
     }
 
 }

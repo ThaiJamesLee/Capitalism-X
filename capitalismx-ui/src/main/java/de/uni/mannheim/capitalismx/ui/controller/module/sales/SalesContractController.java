@@ -45,7 +45,7 @@ public class SalesContractController extends GameModuleController {
 
     }
 
-    public void addContract(Contract c){
+    public void addContract(Contract c, int i){
         FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_list_cell.fxml"));
         Parent contract;
         SalesContractListCellController cellController = new SalesContractListCellController();
@@ -57,7 +57,7 @@ public class SalesContractController extends GameModuleController {
         }
 
         cellController.setContractName(c.getProduct().toString());
-        cellController.setContract(c);
+        cellController.setIndex(i);
         
 
     }
