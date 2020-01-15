@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.PopOver.ArrowLocation;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
@@ -123,7 +124,7 @@ public class StockManagementController extends GameModuleController {
 		grid.setHgap(5);
 		grid.setVgap(5);
 
-		// fill header row
+		// fill header row TODO locale
 		grid.add(new Label("Level"), 0, 0);
 		grid.add(new Label(SupplierCategory.CHEAP.getName(UIManager.getResourceBundle().getLocale())), 1, 0);
 		grid.add(new Label(SupplierCategory.REGULAR.getName(UIManager.getResourceBundle().getLocale())), 2, 0);
@@ -140,6 +141,10 @@ public class StockManagementController extends GameModuleController {
 			ComponentStockCell cell = new ComponentStockCell(types.get(i));
 			cells.put(types.get(i), cell);
 			grid.add(cell.getRoot(), 0, i + 1, 4, 1);
+			if(!new Component(types.get(i)).isAvailable(GameState.getInstance().getGameDate())) {
+				cell.setComponentAvailable(false);
+				//TODO update each year
+			}
 		}
 
 		grid.getRowConstraints().addAll(constraints);
@@ -160,6 +165,10 @@ public class StockManagementController extends GameModuleController {
 	public void showTradePopover(Component component, Node node) {
 		tradePopoverController.updateComponent(component);
 		tradePopover.show(node);
+	}
+	
+	public void updateComponentAvailability() {
+		
 	}
 
 }

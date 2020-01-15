@@ -26,12 +26,12 @@ import javafx.util.Duration;
 public class ComponentStockCell {
 
 	private ComponentType type; // TODO necessary?
-	
+
 	private HashMap<SupplierCategory, Component> components;
 
 	@FXML
 	private AnchorPane root;
-	
+
 	private PopOver tradePopover;
 
 	@FXML
@@ -66,7 +66,7 @@ public class ComponentStockCell {
 		cheapQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.CHEAP)) + "");
 		regularQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.REGULAR)) + "");
 		premiumQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.PREMIUM)) + "");
-		//TODO add cost/locale to button text
+		// TODO add cost/locale to button text
 		cheapQualityTrade.setOnAction(e -> {
 			tradeComponents(SupplierCategory.CHEAP, cheapQualityTrade);
 		});
@@ -79,13 +79,15 @@ public class ComponentStockCell {
 
 		// Prepare the Popover for the trade buttons
 		FXMLLoader popoverLoader = new FXMLLoader(
-				getClass().getClassLoader().getResource("fxml/components/trade_component_popover.fxml"), UIManager.getResourceBundle());
+				getClass().getClassLoader().getResource("fxml/components/trade_component_popover.fxml"),
+				UIManager.getResourceBundle());
 		tradePopover = new PopOver();
 		try {
 			tradePopover.setDetachable(false);
 			tradePopover.setContentNode(popoverLoader.load());
 			tradePopover.setFadeInDuration(Duration.millis(50));
-			TradeComponentPopoverController popOverController = ((TradeComponentPopoverController) popoverLoader.getController());
+			TradeComponentPopoverController popOverController = ((TradeComponentPopoverController) popoverLoader
+					.getController());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,12 +95,25 @@ public class ComponentStockCell {
 
 	}
 
+	/**
+	 * Sets if the {@link Component} is available. (Enables/Disables the Buttons)
+	 * 
+	 * @param available Whether the {@link Component} is available.
+	 */
+	public void setComponentAvailable(boolean available) {
+		cheapQualityTrade.setDisable(!available);
+		premiumQualityTrade.setDisable(!available);
+		regularQualityTrade.setDisable(!available);
+	}
+
 	public AnchorPane getRoot() {
 		return root;
 	}
 
 	private void tradeComponents(SupplierCategory category, Button button) {
-		StockManagementController controller = (StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController();
+		StockManagementController controller = (StockManagementController) UIManager.getInstance()
+				.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+				.getController();
 		controller.showTradePopover(components.get(category), button);
 	}
 
