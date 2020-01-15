@@ -173,7 +173,8 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     /* */
     public int calculateFreeStorage() {
-        return this.totalCapacity - this.storedUnits;
+        this.freeStorage = this.totalCapacity - this.storedUnits;
+        return this.freeStorage;
     }
 
     public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
