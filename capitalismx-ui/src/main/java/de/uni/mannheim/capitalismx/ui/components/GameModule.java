@@ -49,7 +49,7 @@ public class GameModule extends UIElement {
 	 */
 	public GameModule(Parent contentRoot, GameModuleDefinition definition, GameModuleController controller)
 			throws IOException {
-
+ 
 		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.title, contentRoot,
 				definition.elementType);
 

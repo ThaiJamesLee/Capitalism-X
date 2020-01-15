@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.components.finance;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem.Loan;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
@@ -11,6 +12,7 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSystemController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -50,7 +52,7 @@ public class LoanRequestBox {
 		
 		GameController gameContr = GameController.getInstance();
         nameLabel.setText(loan.getName());
-        interestRateLabel.setText(UIManager.getLocalisedString("finance.loan.box.interest") + loan.getInterestRate()); //TODO format numbers
+        interestRateLabel.setText(UIManager.getLocalisedString("finance.loan.box.interest") + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(loan.getInterestRate())); 
         durationLabel.setText(UIManager.getLocalisedString("finance.loan.box.duration").replace("XXX", loan.getDuration() + ""));
         loanAmountLabel.setText(UIManager.getLocalisedString("finance.loan.box.amount") + CapCoinFormatter.getCapCoins(loan.getLoanAmount()));
         gridPane.setOnMouseClicked(e -> {

@@ -29,6 +29,13 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.stage.Screen;
 
+/**
+ * Controller for the 3D Map containg 3d assets of the  company and factory buildings.
+ *  Based on the Oracle Tutorial for JavaFX 3D (-> https://docs.oracle.com/javase/8/javafx/graphics-tutorial/sampleapp3d.htm)
+ * @author Alex
+ *
+ */
+
 public class OverviewMap3DController extends GameModuleController {
 
 	@FXML
@@ -44,11 +51,14 @@ public class OverviewMap3DController extends GameModuleController {
 	final Xform cameraXform3 = new Xform();
 	// TODO set good initial camera point for factory...
 	private static final double CAMERA_INITIAL_DISTANCE = -4000;
+	private static final double CAMERA_INITIAL_HEIGHT = -40;
 	private static final double CAMERA_INITIAL_X_ANGLE = 0.0;
 	private static final double CAMERA_INITIAL_Y_ANGLE = 0.0;
 	private static final double CAMERA_NEAR_CLIP = 0.1;
 	private static final double CAMERA_FAR_CLIP = 10000.0;
+	
 	private static final double AXIS_LENGTH = 1000.0;
+	private static final float TERRAIN_LENGTH = 1000000;
 
 	private static final double CONTROL_MULTIPLIER = 0.1;
 	private static final double SHIFT_MULTIPLIER = 10.0;
@@ -93,7 +103,8 @@ public class OverviewMap3DController extends GameModuleController {
 		root.setDepthTest(DepthTest.ENABLE);
 
 		buildCamera();
-		buildAxes();
+		//useful when for orientation and positioning when adding new Assets 
+		//buildAxes();
 
 		Group office = importModel("models/example_office/example_office.fxml");
 		office.setTranslateX(1800);
@@ -105,7 +116,7 @@ public class OverviewMap3DController extends GameModuleController {
 		moleculeGroup.getChildren().add(factory);
 		world.getChildren().addAll(moleculeGroup);
 
-		MeshView terrain = generateTerrain(10000);
+		MeshView terrain = generateTerrain(TERRAIN_LENGTH);
 		world.getChildren().addAll(terrain);
 
 		SubScene scene3D = buildSubScene(root);
@@ -115,6 +126,11 @@ public class OverviewMap3DController extends GameModuleController {
 		this.mouseEventHandler = new Map3DInputHandler(cameraXform, cameraXform2, cameraXform3, camera);
 	}
 
+	/**
+	 * loads 3d assets from xml file 
+	 * @param location
+	 * @return
+	 */
 	private Group importModel(String location) {
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(this.getClass().getClassLoader().getResource(location));
@@ -129,6 +145,9 @@ public class OverviewMap3DController extends GameModuleController {
 		return graphic;
 	}
 
+	/**
+	 * Initializes a moveable Camera instance from the
+	 */
 	private void buildCamera() {
 		root.getChildren().add(cameraXform);
 		cameraXform.getChildren().add(cameraXform2);
@@ -139,10 +158,15 @@ public class OverviewMap3DController extends GameModuleController {
 		camera.setNearClip(CAMERA_NEAR_CLIP);
 		camera.setFarClip(CAMERA_FAR_CLIP);
 		camera.setTranslateZ(CAMERA_INITIAL_DISTANCE);
+		camera.setTranslateY(CAMERA_INITIAL_HEIGHT);
 		cameraXform.ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
 		cameraXform.rx.setAngle(CAMERA_INITIAL_X_ANGLE);
 	}
 
+	/**
+	 * adds Axes of a 3 dimensional Coordinate System, 
+	 * especially useful for orientation and positioning when adding new assets
+	 */
 	private void buildAxes() {
 		final PhongMaterial redMaterial = new PhongMaterial();
 		redMaterial.setDiffuseColor(Color.DARKRED);
@@ -169,6 +193,11 @@ public class OverviewMap3DController extends GameModuleController {
 		world.getChildren().addAll(axisGroup);
 	}
 
+	/**
+	 * generates a green ground {@link MeshView}, size defined by parameter
+	 * @param side
+	 * @return
+	 */
 	private MeshView generateTerrain(float side) {
 		TriangleMesh mesh = new TriangleMesh();
 		mesh.getTexCoords().addAll(0, 0);

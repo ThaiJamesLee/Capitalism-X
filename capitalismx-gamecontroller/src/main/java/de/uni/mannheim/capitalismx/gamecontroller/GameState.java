@@ -10,9 +10,14 @@ import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
+import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
+
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
+
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
+
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
@@ -44,6 +49,8 @@ public class GameState implements Serializable {
 
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
+    private PropertyChangeSupportBoolean endGameReached;
+
 	/**
 	 * The list that contains the {@link MessageObject}s.
 	 */
@@ -56,6 +63,7 @@ public class GameState implements Serializable {
 
 	// Departments
 	private HRDepartment hrDepartment;
+	private ProcurementDepartment procurementDepartment;
 	private ProductionDepartment productionDepartment;
 	private WarehousingDepartment warehousingDepartment;
 	private FinanceDepartment financeDepartment;
@@ -75,6 +83,10 @@ public class GameState implements Serializable {
 		messages = new PropertyChangeSupportList<>();
 		messages.setAddPropertyName(MESSAGE_LIST_CHANGED_EVENT);
 		messages.setRemovePropertyName(MESSAGE_LIST_CHANGED_EVENT);
+
+		 this.endGameReached = new PropertyChangeSupportBoolean();
+	     this.endGameReached.setValue(false);
+	     this.endGameReached.setPropertyChangedName("gameWon");
 	}
 
 	public static GameState getInstance() {
@@ -96,8 +108,7 @@ public class GameState implements Serializable {
 		logisticsDepartment = LogisticsDepartment.getInstance();
 		customerSatisfaction = CustomerSatisfaction.getInstance();
 		customerDemand = CustomerDemand.getInstance();
-		// TODO procurement once a procurement department is implemented where it is
-		// possible to buy components
+		procurementDepartment = ProcurementDepartment.getInstance();
 		externalEvents = ExternalEvents.getInstance();
 		companyEcoIndex = CompanyEcoIndex.getInstance();
 		internalFleet = InternalFleet.getInstance();
@@ -121,8 +132,7 @@ public class GameState implements Serializable {
 		LogisticsDepartment.setInstance(null);
 		CustomerSatisfaction.setInstance(null);
 		CustomerDemand.setInstance(null);
-		// TODO procurement once a procurement department is implemented where it is
-		// possible to buy components
+		ProcurementDepartment.setInstance(null);
 		ExternalEvents.setInstance(null);
 		CompanyEcoIndex.setInstance(null);
 		InternalFleet.setInstance(null);
@@ -152,6 +162,7 @@ public class GameState implements Serializable {
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
 		this.messages.addPropertyChangeListener(listener);
+		this.endGameReached.addPropertyChangeListener(listener);
 	}
 
 	/**
@@ -176,6 +187,14 @@ public class GameState implements Serializable {
 		LocalDate oldDate = this.gameDate;
 		this.gameDate = gameDate;
 		this.propertyChangeSupport.firePropertyChange("gameDate", oldDate, gameDate);
+	}
+
+	/**
+	 * Fires a property changed event that the game end date was reached
+	 * @param gameDate
+	 */
+	public void endGameReached(LocalDate gameDate) {
+		this.endGameReached.setValue(true);
 	}
 
 	/**
@@ -211,6 +230,14 @@ public class GameState implements Serializable {
 
 	public void setProductionDepartment(ProductionDepartment productionDepartment) {
 		this.productionDepartment = productionDepartment;
+	}
+
+	public ProcurementDepartment getProcurementDepartment() {
+		return this.procurementDepartment;
+	}
+
+	public void setProcurementDepartment(ProcurementDepartment procurementDepartment) {
+		this.procurementDepartment = procurementDepartment;
 	}
 
 	public WarehousingDepartment getWarehousingDepartment() {

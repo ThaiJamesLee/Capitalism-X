@@ -76,7 +76,7 @@ public class GameHudController implements UpdateableController {
 			netWorthChangeLabel, dateLabel;
 
 	@FXML
-	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD;
+	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD, btnMarketing;
 	@FXML
 	private ToggleGroup departmentButtons;
 
@@ -111,7 +111,9 @@ public class GameHudController implements UpdateableController {
 	 */
 	public void addNotification(GameNotification notification) {
 		notificationQueue.add(notification);
-		displayNextNotification();
+		Platform.runLater(() -> {
+			displayNextNotification();
+		});
 	}
 
 	/**
@@ -126,12 +128,15 @@ public class GameHudController implements UpdateableController {
 		if (diff < 0) {
 			label.getStyleClass().remove("hud_label");
 			label.getStyleClass().remove("hud_label_green");
+			label.getStyleClass().remove("hud_label_red");
 			label.getStyleClass().add("hud_label_red");
 		} else if (diff > 0) {
 			label.getStyleClass().remove("hud_label");
-			label.getStyleClass().add("hud_label_green");
+			label.getStyleClass().remove("hud_label_green");
 			label.getStyleClass().remove("hud_label_red");
+			label.getStyleClass().add("hud_label_green");
 		} else {
+			label.getStyleClass().remove("hud_label");
 			label.getStyleClass().add("hud_label");
 			label.getStyleClass().remove("hud_label_green");
 			label.getStyleClass().remove("hud_label_red");
@@ -240,6 +245,7 @@ public class GameHudController implements UpdateableController {
 		initDepartmentButton(btnWarehouse, GameViewType.WAREHOUSE);
 		initDepartmentButton(btnLogistics, GameViewType.LOGISTIC);
 		initDepartmentButton(btnRAndD, GameViewType.R_AND_D);
+		initDepartmentButton(btnMarketing, GameViewType.MARKETING);
 
 		playPauseIconLabel
 				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.playPause")));
@@ -362,6 +368,9 @@ public class GameHudController implements UpdateableController {
 			case PRODUCTION:
 				dep = GameState.getInstance().getProductionDepartment();
 				break;
+			case LOGISTIC:
+				dep = GameState.getInstance().getLogisticsDepartment();
+				break;
 			default:
 				departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
 				return;
@@ -426,10 +435,16 @@ public class GameHudController implements UpdateableController {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				cashLabel.setText(CapCoinFormatter.getCapCoins(currentCash));
-				Double diff = GameState.getInstance().getFinanceDepartment().getCashDifference();
+			}
+		});
+	}
+
+	public void updateCashChangeLabel(Double diff) {
+		Platform.runLater(new Runnable() {
+			public void run() {
 				if (diff != null) {
 					colorHudLabel(diff, cashChangeLabel);
-					cashChangeLabel.setText((diff >= 0) ? "+" : "" + CapCoinFormatter.getCapCoins(diff));
+					cashChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
 				} else {
 					cashChangeLabel.setText("+0 CC");
 				}
@@ -487,10 +502,16 @@ public class GameHudController implements UpdateableController {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
-				Double diff = GameState.getInstance().getFinanceDepartment().getNetWorthDifference();
+			}
+		});
+	}
+
+	public void updateNetworthChangeLabel(Double diff) {
+		Platform.runLater(new Runnable() {
+			public void run() {
 				if (diff != null) {
 					colorHudLabel(diff, netWorthChangeLabel);
-					netWorthChangeLabel.setText((diff >= 0) ? "+" : "" + CapCoinFormatter.getCapCoins(diff));
+					netWorthChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
 				}
 			}
 		});

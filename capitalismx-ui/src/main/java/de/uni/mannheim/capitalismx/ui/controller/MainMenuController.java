@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.fxml.FXML;
@@ -25,6 +26,15 @@ public class MainMenuController implements UpdateableController {
 	public Button newGameButton;
 
 	@FXML
+	public Button continueGameButton;
+	
+//	@FXML
+//	public Button leaderboardButton;
+	
+	@FXML
+	public Button creditsButton;
+	
+	@FXML
 	public Button switchButton;
 	
 	@FXML
@@ -32,7 +42,6 @@ public class MainMenuController implements UpdateableController {
 	
 	@FXML
 	public Button quitButton;
-	
 	
 	
 	@Override
@@ -43,6 +52,13 @@ public class MainMenuController implements UpdateableController {
 			UIManager.getInstance().newGame();
 		});
 		
+		creditsButton.setOnAction(e -> {
+			UIManager.getInstance().switchToScene(GameSceneType.CREDITS_PAGE);
+		});
+		
+//		leaderboardButton.setOnAction(e -> {
+//			UIManager.getInstance().switchToScene(GameSceneType.GAMELOST_PAGE);
+//		});
 		
 		switchButton.setOnAction(e -> {
 			UIManager.getInstance().reloadProperties();

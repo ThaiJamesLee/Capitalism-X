@@ -180,8 +180,6 @@ public class GamePageController implements UpdateableController {
 			menuLayer.toBack();
 			openMenuPane = false;
 		}
-		MessageObject m = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 0);
-		GameState.getInstance().getMessages().add(m);
 	}
 
 	/**

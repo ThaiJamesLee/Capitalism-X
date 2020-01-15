@@ -6,9 +6,9 @@ package de.uni.mannheim.capitalismx.marketing.consultancy;
  */
 public enum ConsultancyType {
 
-    WORLD_FAMOUS("O'Reilly & Company", 5000, 0.8, 0.9, 0.85, 0.7, 0.8, 0.95),
-    LOCAL_CONSULTANCY("Sinoido Consulting", 3000, 0.85, 0.9, 0.9, 0.65, 0.8, 0.9),
-    STUDENT_CONSULTANCY("Wannabe Consultants", 1000, 0.9, 0.95, 0.8, 0.6, 0.85, 0.9);
+    WORLD_FAMOUS("O'Reilly & Company", 5000, 0.8, 0.9, 0.85, 0.7, 0.8, 0.95, new double[] {0.8, 0.9, 0.85, 0.7, 0.8, 0.95}),
+    LOCAL_CONSULTANCY("Sinoido Consulting", 3000, 0.85, 0.9, 0.9, 0.65, 0.8, 0.9, new double[]{0.85, 0.9, 0.9, 0.65, 0.8, 0.9}),
+    STUDENT_CONSULTANCY("Wannabe Consultants", 1000, 0.9, 0.95, 0.8, 0.6, 0.85, 0.9, new double[] {0.9, 0.95, 0.8, 0.6, 0.85, 0.9});
 
 
     private String name;
@@ -20,10 +20,11 @@ public enum ConsultancyType {
     private double productionTechnology;
     private double manufactureEfficiency;
     private double totalJobSatisfaction;
+    private Double[] weights;
 
     private int cost;
 
-    ConsultancyType(String name, int cost, double totalSupportQuality, double logisticIndex, double companyImage, double productionTechnology, double manufactureEfficiency, double totalJobSatisfaction) {
+    ConsultancyType(String name, int cost, double totalSupportQuality, double logisticIndex, double companyImage, double productionTechnology, double manufactureEfficiency, double totalJobSatisfaction, double[] weights) {
         this.name = name;
         this.cost = cost;
 

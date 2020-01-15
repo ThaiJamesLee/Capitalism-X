@@ -2,20 +2,47 @@ package de.uni.mannheim.capitalismx.ui.eventlisteners;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.util.List;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
+import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents.ExternalEvent;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameNotification;
+import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
 
 /**
  * Ein GameState Event Listener.
+ * 
  * @author duly
  */
 public class GameStateEventListener implements PropertyChangeListener {
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals("gameDate")) {
-            //TODO do something with the changed value.
-        	UIManager.getInstance().getGameHudController().update();
-        }
-    }
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals("gameWon")) {
+			UIManager.getInstance().gameOver(true);
+		}
+
+		if (evt.getPropertyName().equals("gameDate")) {
+			UIManager.getInstance().getGameHudController().update();
+
+			List<ExternalEvents.ExternalEvent> events = GameController.getInstance()
+					.getExternalEvents(((LocalDate) evt.getNewValue()).minusDays(1));
+			// TODO display on the same day -> create propertyChangeAttribute for External
+			// Events to update them
+			// issue here is that the list is not yet updated when the gamedate is updated
+			if (events != null) {
+				for (ExternalEvent event : events) {
+					UIManager.getInstance().getGameHudController()
+							.addNotification(new GameNotification(new MessageObject("your assistant",
+									((LocalDate) evt.getNewValue()).toString(), event.getTitle(),
+									"This is a more detailed description of the event ...", false)));
+				}
+			}
+
+		}
+
+	}
 }

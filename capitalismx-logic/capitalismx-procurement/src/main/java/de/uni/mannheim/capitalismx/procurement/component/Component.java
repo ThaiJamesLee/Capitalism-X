@@ -121,6 +121,10 @@ public class Component extends Unit implements Serializable {
         return this.supplierCategory;
     }
 
+    public String getSupplierCategoryShortForm() {
+        return this.supplierCategory.toString().replace(" Supplier", "");
+    }
+
     public double getSupplierCostMultiplicator() {
         return this.supplierCostMultiplicator;
     }

@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Machinery;
@@ -54,8 +55,8 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalExpenses;
     private double decreaseNopatFactor;
     private double decreaseNopatConstant;
-    private Double netWorthDifference;
-    private Double cashDifference;
+    private PropertyChangeSupportDouble netWorthDifference;
+    private PropertyChangeSupportDouble cashDifference;
     private PropertyChangeSupportBoolean gameOver;
     private PropertyChangeSupportBoolean loanRemoved;
 
@@ -86,6 +87,7 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO just to notify gui to update finance table with new monthlyData / quarterlyData every day
     private PropertyChangeSupportBoolean updatedMonthlyData;
     private PropertyChangeSupportBoolean updatedQuarterlyData;
+    private double initialCash = 1000000.0;
 
 
     //private BankingSystem bankingSystem;
@@ -103,11 +105,11 @@ public class FinanceDepartment extends DepartmentImpl {
         this.loanRemoved.setPropertyChangedName("loanRemoved");
 
         this.cash = new PropertyChangeSupportDouble();
-        this.cash.setValue(1000000.0);
+        this.cash.setValue(this.initialCash);
         this.cash.setPropertyChangedName("cash");
 
         this.netWorth = new PropertyChangeSupportDouble();
-        this.netWorth.setValue(1000000.0);
+        this.netWorth.setValue(this.initialCash);
         this.netWorth.setPropertyChangedName("netWorth");
 
         this.assets = new PropertyChangeSupportDouble();
@@ -117,6 +119,14 @@ public class FinanceDepartment extends DepartmentImpl {
         this.liabilities = new PropertyChangeSupportDouble();
         this.liabilities.setValue(0.0);
         this.liabilities.setPropertyChangedName("liabilities");
+
+        this.netWorthDifference = new PropertyChangeSupportDouble();
+        this.netWorthDifference.setValue(0.0);
+        this.netWorthDifference.setPropertyChangedName("netWorthDifference");
+
+        this.cashDifference = new PropertyChangeSupportDouble();
+        this.cashDifference.setValue(0.0);
+        this.cashDifference.setPropertyChangedName("cashDifference");
 
         this.realEstateInvestmentAmount = new PropertyChangeSupportDouble();
         this.realEstateInvestmentAmount.setValue(0.0);
@@ -134,6 +144,14 @@ public class FinanceDepartment extends DepartmentImpl {
         this.assetsHistory = new TreeMap<>();
         this.liabilitiesHistory = new TreeMap<>();
         this.netWorthHistory = new TreeMap<>();
+
+        //set values before game start to initialCash
+        for(int i = 2; i <= 12; i++){
+            this.cashHistory.put(LocalDate.of(1989, i, LocalDate.of(1989, i, 1).lengthOfMonth()), this.initialCash);
+        }
+        for(int i = 2; i <= 12; i++){
+            this.netWorthHistory.put(LocalDate.of(1989, i, LocalDate.of(1989, i, 1).lengthOfMonth()), this.initialCash);
+        }
 
         this.histories = new TreeMap<>();
         this.histories.put("cashHistory", this.cashHistory);
@@ -276,11 +294,13 @@ public class FinanceDepartment extends DepartmentImpl {
         this.warehousesSold.add(warehouse);
     }
 
-    public void buyTruck(Truck truck, LocalDate gameDate){
+    public void buyTruck(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException {
         LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
         this.decreaseCash(gameDate, truck.getPurchasePrice());
-        this.increaseAssets(gameDate, this.calculateResellPrice(truck.getPurchasePrice(),
-                truck.getUsefulLife(), truck.calculateTimeUsed(gameDate)));
+        double resellPrice = this.calculateResellPrice(truck.getPurchasePrice(),
+                truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
+        this.increaseAssets(gameDate, resellPrice);
+        this.decreaseNetWorth(gameDate, truck.getPurchasePrice() - resellPrice);
     }
 
     public void sellTruck(Truck truck, LocalDate gameDate){
@@ -296,6 +316,7 @@ public class FinanceDepartment extends DepartmentImpl {
     public void buyMachinery(Machinery machinery, LocalDate gameDate){
         this.decreaseCash(gameDate, machinery.getPurchasePrice());
         this.increaseAssets(gameDate, machinery.calculateResellPrice());
+        this.decreaseNetWorth(gameDate, machinery.getPurchasePrice() - machinery.getResellPrice());
     }
 
     public void sellMachinery(Machinery machinery, LocalDate gameDate){
@@ -508,6 +529,7 @@ public class FinanceDepartment extends DepartmentImpl {
             this.cash.setValue(cash);
             this.cashHistory.put(gameDate, this.cash.getValue());
             this.updateMonthlyData(gameDate);
+            this.updateCashDifference(gameDate);
         }
     }
 
@@ -515,18 +537,21 @@ public class FinanceDepartment extends DepartmentImpl {
         this.cash.setValue(this.cash.getValue() + amount);
         this.cashHistory.put(gameDate, this.cash.getValue());
         this.updateMonthlyData(gameDate);
+        this.updateCashDifference(gameDate);
     }
 
     public void decreaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() - amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
         this.updateMonthlyData(gameDate);
+        this.updateNetWorthDifference(gameDate);
     }
 
     public void increaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() + amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
         this.updateMonthlyData(gameDate);
+        this.updateNetWorthDifference(gameDate);
     }
 
     public void increaseAssets(LocalDate gameDate, double amount){
@@ -778,21 +803,29 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public void updateNetWorthDifference(LocalDate gameDate){
         Double oldNetWorth = this.netWorthHistory.get(gameDate.minusDays(30));
+        // if no entry 30 days ago, use oldest value
+        if(oldNetWorth == null){
+            oldNetWorth = this.netWorthHistory.firstEntry().getValue();
+        }
         Double newNetWorth = this.netWorthHistory.get(gameDate);
         if((oldNetWorth != null) && (newNetWorth != null)){
-            this.netWorthDifference = newNetWorth - oldNetWorth;
+            this.netWorthDifference.setValue(newNetWorth - oldNetWorth);
         }else{
-            this.netWorthDifference = null;
+            this.netWorthDifference.setValue(null);
         }
     }
 
     public void updateCashDifference(LocalDate gameDate){
         Double oldCash = this.cashHistory.get(gameDate.minusDays(30));
+        // if no entry 30 days ago, use oldest value
+        if(oldCash == null){
+            oldCash = this.cashHistory.firstEntry().getValue();
+        }
         Double newCash = this.cashHistory.get(gameDate);
         if((oldCash != null) && (newCash != null)){
-            this.cashDifference = this.cashHistory.get(gameDate) - oldCash;
+            this.cashDifference.setValue(newCash - oldCash);
         }else{
-            this.cashDifference = null;
+            this.cashDifference.setValue(null);
         }
     }
 
@@ -813,11 +846,11 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     public Double getNetWorthDifference(){
-        return this.netWorthDifference;
+        return this.netWorthDifference.getValue();
     }
 
     public Double getCashDifference(){
-        return this.cashDifference;
+        return this.cashDifference.getValue();
     }
 
     @Override
@@ -828,6 +861,8 @@ public class FinanceDepartment extends DepartmentImpl {
         this.cash.addPropertyChangeListener(listener);
         this.assets.addPropertyChangeListener(listener);
         this.liabilities.addPropertyChangeListener(listener);
+        this.netWorthDifference.addPropertyChangeListener(listener);
+        this.cashDifference.addPropertyChangeListener(listener);
         this.realEstateInvestmentAmount.addPropertyChangeListener(listener);
         this.stocksInvestmentAmount.addPropertyChangeListener(listener);
         this.ventureCapitalInvestmentAmount.addPropertyChangeListener(listener);

@@ -153,13 +153,17 @@ public class InternalFleet implements Serializable {
         }
     }
 
-    //TODO only for two months
+    //TODO probably not necessary to check if <= 1.0
     void decreaseCapacityFleetRel(double amount){
         if((this.decreaseCapacityFactor + amount) <= 1.0){
             this.decreaseCapacityFactor += amount;
         }else{
             this.decreaseCapacityFactor = 1.0;
         }
+    }
+
+    void increaseCapacityFleetRel(double amount){
+        this.decreaseCapacityFactor -= amount;
     }
 
     public static void setInstance(InternalFleet instance) {

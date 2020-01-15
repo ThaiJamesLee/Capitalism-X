@@ -5,10 +5,10 @@ package de.uni.mannheim.capitalismx.marketing.domain;
  */
 public enum PressRelease {
 
-    PRIVACY_AND_SECURITY_EFFORTS("Privacy and security efforts", 200),
+    PRIVACY_AND_SECURITY_EFFORTS("Privacy & security efforts", 200),
     AFFORDABLE_PRICES("Affordable prices", 100),
     GUARANTEED_DELIVERY_TIMES("Guaranteed delivery times", 100),
-    APOLOGY("apology", 150);
+    APOLOGY("Apology", 150);
 
     private String name;
     private int cost;

@@ -13,14 +13,16 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
  */
 public enum GameViewType {
 
+
 	OVERVIEW(1, "view.overview", FontAwesomeIconName.COMPASS, false), 
 	FINANCES(2, "view.finance", FontAwesomeIconName.MONEY, false),
 	HR(3, "view.hr", FontAwesomeIconName.USER, true), 
 	SALES(4, "view.sales", FontAwesomeIconName.SHOPPING_CART, false),
 	PRODUCTION(5, "view.production", FontAwesomeIconName.GEARS, true),
-	LOGISTIC(6, "view.logistics", FontAwesomeIconName.TRUCK, false), 
+	LOGISTIC(6, "view.logistics", FontAwesomeIconName.TRUCK, true),
 	WAREHOUSE(7, "view.warehouse", FontAwesomeIconName.CUBES, true),
-	R_AND_D(8, "view.research", FontAwesomeIconName.FLASK, true);
+	R_AND_D(8, "view.research", FontAwesomeIconName.FLASK, true),
+	MARKETING(9, "view.marketing",FontAwesomeIconName.BULLHORN , false);
 
 	private final String title;
 	private final int id;
