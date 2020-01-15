@@ -182,8 +182,8 @@ public class GamePageController implements UpdateableController {
 			menuLayer.toBack();
 			openMenuPane = false;
 			
-			//LocalDate initDate = LocalDate.of(1990,11,1);
-			//GameState.getInstance().getSalesDepartment().generateContracts(initDate, ProductionDepartment.getInstance(), 1);
+			LocalDate initDate = LocalDate.of(1990,11,1);
+			GameState.getInstance().getSalesDepartment().generateContracts(initDate, ProductionDepartment.getInstance(), 1);
 
 		}
 	}

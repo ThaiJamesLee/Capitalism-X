@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.SalesEventListener;
@@ -44,7 +45,20 @@ public class SalesContractController extends GameModuleController {
 
     }
 
-    public void addContract(){
+    public void addContract(Contract c){
+        FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_list_cell.fxml"));
+        Parent contract;
+        SalesContractListCellController cellController = new SalesContractListCellController();
+        try{
+            contract = contractLoader.load();
+            cellController = contractLoader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        cellController.setContractName(c.getProduct().toString());
+        cellController.setContract(c);
+        
 
     }
 

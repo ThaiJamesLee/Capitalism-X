@@ -221,6 +221,7 @@ public class SalesDepartment extends DepartmentImpl {
         ContractFactory contractFactory = new ContractFactory(productionDepartment);
         for(int i = 0; i<numContracts; i++) {
             int max = Math.max(products.size()-1, 0);
+            System.out.println(products.size());
             Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
             Contract c = contractFactory.getContract(p, date, factor);
             c.setPenalty(c.getPenalty() * penalty);
