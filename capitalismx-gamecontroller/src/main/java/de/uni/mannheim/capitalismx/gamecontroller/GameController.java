@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.production.*;
+import de.uni.mannheim.capitalismx.warehouse.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,10 +40,6 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
-import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
-import de.uni.mannheim.capitalismx.warehouse.Warehouse;
-import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 /**
  * This class is the entry point for the UI.
@@ -927,8 +924,12 @@ public class GameController {
 		}
 	}
 
-	public double sellWarehouse(Warehouse warehouse) {
-		return WarehousingDepartment.getInstance().sellWarehouse(warehouse);
+	public double sellWarehouse(Warehouse warehouse) throws StorageCapacityUsedException {
+		try {
+			return WarehousingDepartment.getInstance().sellWarehouse(warehouse);
+		} catch(StorageCapacityUsedException e) {
+			throw e;
+		}
 	}
 
 	public Map<Warehouse, Double> getAllWarehouseResaleValues() {

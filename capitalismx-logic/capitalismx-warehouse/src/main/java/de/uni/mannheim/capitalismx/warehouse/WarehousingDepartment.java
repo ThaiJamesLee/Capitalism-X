@@ -237,14 +237,24 @@ public class WarehousingDepartment extends DepartmentImpl {
         return allWarehouseResaleValues;
     }
 
-    public double sellWarehouse(Warehouse warehouse) {
-        double resaleValue = 0;
-        if(warehouse.getWarehouseType() == WarehouseType.BUILT) {
-            resaleValue = warehouse.getResaleValue();
+    public double sellWarehouse(Warehouse warehouse) throws StorageCapacityUsedException {
+        int fS = this.calculateFreeStorage();
+        int cap = warehouse.getCapacity();
+        if(fS >= cap) {
+            double resaleValue = 0;
+            if (warehouse.getWarehouseType() == WarehouseType.BUILT) {
+                resaleValue = warehouse.getResaleValue();
+            }
+            warehouses.remove(warehouse);
+            this.warehouseSlotsAvailable = true;
+            return resaleValue;
+        } else {
+            if(warehouse.getWarehouseType() == WarehouseType.BUILT) {
+               throw new StorageCapacityUsedException("This warehouse cannot be sold, the storage capacity is still in use.", fS, cap);
+            } else {
+                throw new StorageCapacityUsedException("The rent of this warehouse cannot be canceled, the storage capacity is still in use.", fS, cap);
+            }
         }
-        warehouses.remove(warehouse);
-        this.warehouseSlotsAvailable = true;
-        return resaleValue;
     }
 
     public double calculateMonthlyCostWarehousing(LocalDate gameDate) {
@@ -283,10 +293,10 @@ public class WarehousingDepartment extends DepartmentImpl {
     }
 
     public boolean checkFreeStorageThreshold() {
-        if(this.totalCapacity == 0) {
+        if(this.calculateTotalCapacity() == 0) {
             return false;
         }
-        if((this.freeStorage / this.totalCapacity) < 0.1) {
+        if((this.calculateFreeStorage() / this.calculateTotalCapacity()) < 0.1) {
             this.daysSinceFreeStorageThreshold++;
             return true;
         } else {
