@@ -18,14 +18,14 @@
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label styleClass="label_large" text="%hr.stats.hiring" wrapText="true" GridPane.rowIndex="4" />
