@@ -11,6 +11,7 @@ import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.components.production.LaunchedProductsListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.ProductionEventListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
@@ -54,5 +55,8 @@ public class ProduceProductController extends GameModuleController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         launchedProductsListView.setCellFactory(launchedProductsListView -> new LaunchedProductsListViewCell(launchedProductsListView));
+        ProductionEventListener eventListener = new ProductionEventListener();
+        ProductionDepartment productionDepartment = GameState.getInstance().getProductionDepartment();
+        productionDepartment.getLaunchedProductsChange().addPropertyChangeListener(eventListener);
     }
 }
