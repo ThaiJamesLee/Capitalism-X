@@ -3,8 +3,8 @@ package de.uni.mannheim.capitalismx.utils.data;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Create a custom list that can fire event properties when adding or removing elements.
@@ -38,8 +38,8 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
     private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public PropertyChangeSupportList() {
-        list = new ArrayList<>();
-        oldList = new ArrayList<>();
+        list = new CopyOnWriteArrayList<>();
+        oldList = new CopyOnWriteArrayList<>();
     }
 
     /**
