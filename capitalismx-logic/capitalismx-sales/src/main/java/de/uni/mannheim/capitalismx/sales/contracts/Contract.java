@@ -20,6 +20,11 @@ import java.time.LocalDate;
 public class Contract implements Serializable {
 
     /**
+     * A unique Id.
+     */
+    private String uId;
+
+    /**
      * The name of the contractor.
      */
     private String contractor;
@@ -230,6 +235,21 @@ public class Contract implements Serializable {
         return contractStart.plusMonths(timeToFinish).isBefore(currentDate);
     }
 
+    /**
+     *
+     * @param uId Set the UUID.
+     */
+    public void setuId(String uId) {
+        this.uId = uId;
+    }
+
+    /**
+     *
+     * @return Returns the UUID of the contract.
+     */
+    public String getuId() {
+        return uId;
+    }
 
     @Override
     public String toString() {
