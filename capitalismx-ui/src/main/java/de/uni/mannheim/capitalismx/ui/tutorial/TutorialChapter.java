@@ -1,8 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.tutorial;
 
-public interface TutorialPath {
+public interface TutorialChapter {
 
-	public void init();
+	public void prepare();
 	
 	public void nextStep();
 	
