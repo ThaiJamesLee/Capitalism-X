@@ -34,7 +34,7 @@ public class WorkingConditionsController extends GameModuleController {
 	 */
 	private void createCostTooltip(RadioButton radio) {
 		Tooltip tooltip = new Tooltip(((Benefit) radio.getUserData()).getMonetaryImpact() + UIManager.getLocalisedString("conditions.tooltip.info"));
-		tooltip.setShowDelay(Duration.seconds(0.0));
+		//tooltip.setShowDelay(Duration.seconds(0.0));
 		radio.setTooltip(tooltip);
 	}
 

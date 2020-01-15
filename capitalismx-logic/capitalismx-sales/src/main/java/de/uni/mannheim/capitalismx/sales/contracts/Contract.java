@@ -54,6 +54,15 @@ public class Contract implements Serializable {
      */
     private LocalDate contractStart;
 
+    /**
+     * The date when the contract is done.
+     */
+    private LocalDate contractDone;
+
+    /**
+     * The number of products produced for this product.
+     */
+    private int producedProducts;
 
     /**
      *
@@ -73,6 +82,7 @@ public class Contract implements Serializable {
         this.timeToFinish = timeToFinish;
         this.penalty = penalty;
         this.contractStart = contractStart;
+        this.producedProducts = 0;
     }
 
     /**
@@ -135,7 +145,7 @@ public class Contract implements Serializable {
      *
      * @param penalty The amount that the player needs to pay, when not fulfilling this contract.
      */
-    public void setPenalty(int penalty) {
+    public void setPenalty(double penalty) {
         this.penalty = penalty;
     }
 
@@ -197,12 +207,29 @@ public class Contract implements Serializable {
 
     /**
      *
+     * @return Returns the date when the contract is done. Returns null if it is not done yet.
+     */
+    public LocalDate getContractDoneDate() {
+        return contractDone;
+    }
+
+    /**
+     *
+     * @param contractDone The date the contract is done.
+     */
+    public void setContractDoneDate(LocalDate contractDone) {
+        this.contractDone = contractDone;
+    }
+
+    /**
+     *
      * @param currentDate The current game date.
      * @return Returns true if the contract is due (game date > start date + time to finish).
      */
     public boolean contractIsDue(LocalDate currentDate) {
-        return contractStart.plusMonths(timeToFinish).isAfter(currentDate);
+        return contractStart.plusMonths(timeToFinish).isBefore(currentDate);
     }
+
 
     @Override
     public String toString() {

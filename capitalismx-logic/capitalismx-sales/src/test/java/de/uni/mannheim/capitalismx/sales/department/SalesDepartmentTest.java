@@ -50,10 +50,13 @@ public class SalesDepartmentTest {
             Product p = new Product("test", ProductCategory.GAME_BOY, components);
             p.setLaunchDate(LocalDate.of(1990, 1, 1));
             System.out.println(productionDepartment.launchProduct(p, 100, 200));
+            String launchInfo = "Cost of product P launch: " + productionDepartment.launchProduct(p, 100, 200);
+            LOGGER.info(launchInfo);
 
             Product p2 = new Product("test2", ProductCategory.GAME_BOY, components);
             p2.setLaunchDate(LocalDate.of(1990, 1, 1));
-            System.out.println(productionDepartment.launchProduct(p2, 100, 200));
+            String launchInfo2 = "Cost of product P2 launch: " + productionDepartment.launchProduct(p2, 100, 200);
+            LOGGER.info(launchInfo2);
         } catch (InvalidSetOfComponentsException e) {
             e.printStackTrace();
         }
@@ -99,6 +102,15 @@ public class SalesDepartmentTest {
 
         Assert.assertTrue(salesDepartment.getActiveContracts().size() > 0);
 
+        Contract c = salesDepartment.getActiveContracts().get(0);
+
+        c.setContractDoneDate(c.getContractStart().plusMonths(c.getTimeToFinish()));
+
+        String message = "Contract start:" + c.getContractStart().toString() + "; done:" + c.getContractDoneDate() + "; timetoFinish in Months:" + c.getTimeToFinish();
+        LOGGER.info(message);
+
+        LocalDate overdueDate = initDate.plusMonths(c.getTimeToFinish()).plusDays(2);
+        Assert.assertTrue(c.contractIsDue(overdueDate));
     }
     
 }

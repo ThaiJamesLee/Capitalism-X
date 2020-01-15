@@ -10,8 +10,14 @@ import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
+import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
+
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
+
+import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
+
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
@@ -33,10 +39,19 @@ public class GameState implements Serializable {
 	 */
 	private LocalDate gameDate;
 
+	/**
+	 * The current employer branding index.
+	 * This value depends on the job satisfaction in {@link HRDepartment} and company image in {@link MarketingDepartment}.
+	 */
+	private double employerBranding;
+
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	
+    private PropertyChangeSupportBoolean endGameReached;
 
 	// Departments
 	private HRDepartment hrDepartment;
+	private ProcurementDepartment procurementDepartment;
 	private ProductionDepartment productionDepartment;
 	private WarehousingDepartment warehousingDepartment;
 	private FinanceDepartment financeDepartment;
@@ -49,9 +64,14 @@ public class GameState implements Serializable {
 	private InternalFleet internalFleet;
 	private ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment;
 	private ProductSupport productSupport;
+	private SalesDepartment salesDepartment;
 
 	private GameState() {
 		this.gameDate = LocalDate.of(1990, 1, 1);
+		
+		 this.endGameReached = new PropertyChangeSupportBoolean();
+	     this.endGameReached.setValue(false);
+	     this.endGameReached.setPropertyChangedName("gameWon");
 	}
 
 	public static GameState getInstance() {
@@ -73,13 +93,13 @@ public class GameState implements Serializable {
 		logisticsDepartment = LogisticsDepartment.getInstance();
 		customerSatisfaction = CustomerSatisfaction.getInstance();
 		customerDemand = CustomerDemand.getInstance();
-		// TODO procurement once a procurement department is implemented where it is
-		// possible to buy components
+		procurementDepartment = ProcurementDepartment.getInstance();
 		externalEvents = ExternalEvents.getInstance();
 		companyEcoIndex = CompanyEcoIndex.getInstance();
 		internalFleet = InternalFleet.getInstance();
 		researchAndDevelopmentDepartment = ResearchAndDevelopmentDepartment.getInstance();
 		productSupport = ProductSupport.getInstance();
+		salesDepartment = SalesDepartment.getInstance();
 	}
 
 	/**
@@ -97,11 +117,26 @@ public class GameState implements Serializable {
 		LogisticsDepartment.setInstance(null);
 		CustomerSatisfaction.setInstance(null);
 		CustomerDemand.setInstance(null);
-		// TODO procurement once a procurement department is implemented where it is
-		// possible to buy components
+		ProcurementDepartment.setInstance(null);
 		ExternalEvents.setInstance(null);
 		CompanyEcoIndex.setInstance(null);
 		InternalFleet.setInstance(null);
+	}
+
+	/**
+	 * Set the current employer branding index.
+	 * This value depends on the job satisfaction in {@link HRDepartment} and company image in {@link MarketingDepartment}.
+	 */
+	public void setEmployerBranding(double employerBranding) {
+		this.employerBranding = employerBranding;
+	}
+
+	/**
+	 *
+	 * @return Returns the employer branding index.
+	 */
+	public double getEmployerBranding() {
+		return employerBranding;
 	}
 
 	/**
@@ -111,6 +146,7 @@ public class GameState implements Serializable {
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
+		this.endGameReached.addPropertyChangeListener(listener);
 	}
 
 	/**
@@ -135,6 +171,14 @@ public class GameState implements Serializable {
 		LocalDate oldDate = this.gameDate;
 		this.gameDate = gameDate;
 		this.propertyChangeSupport.firePropertyChange("gameDate", oldDate, gameDate);
+	}
+	
+	/**
+	 * Fires a property changed event that the game end date was reached
+	 * @param gameDate
+	 */
+	public void endGameReached(LocalDate gameDate) {
+		this.endGameReached.setValue(true);
 	}
 
 	/**
@@ -170,6 +214,14 @@ public class GameState implements Serializable {
 
 	public void setProductionDepartment(ProductionDepartment productionDepartment) {
 		this.productionDepartment = productionDepartment;
+	}
+
+	public ProcurementDepartment getProcurementDepartment() {
+		return this.procurementDepartment;
+	}
+
+	public void setProcurementDepartment(ProcurementDepartment procurementDepartment) {
+		this.procurementDepartment = procurementDepartment;
 	}
 
 	public WarehousingDepartment getWarehousingDepartment() {
@@ -257,5 +309,13 @@ public class GameState implements Serializable {
 
 	public void setProductSupport(ProductSupport productSupport) {
 		this.productSupport = productSupport;
+	}
+
+	public SalesDepartment getSalesDepartment() {
+		return salesDepartment;
+	}
+
+	public void setSalesDepartment(SalesDepartment salesDepartment) {
+		this.salesDepartment = salesDepartment;
 	}
 }

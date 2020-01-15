@@ -156,6 +156,7 @@
                   <ToggleButton fx:id="btnLogistics" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
                   <ToggleButton fx:id="btnWarehouse" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
                   <ToggleButton fx:id="btnRAndD" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
+                  <ToggleButton fx:id="btnMarketing" graphicTextGap="10.0" minHeight="45.0" minWidth="55.0" mnemonicParsing="false" styleClass="hud_department_button" toggleGroup="$departmentButtons" />
                </children>
             </VBox>
          </children>
