@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
 
 /**
  * Controller for the HRStatistics-Module, that displays stats about employees,
@@ -32,7 +31,7 @@ public class HrStatisticsController extends GameModuleController {
 			employeeSalariesOverall;
 
 	@FXML
-	private Label firingCost, hiringCost, hrCapacity;
+	private Label firingCost, hiringCost, hrCapacity, hrWorkerCapacity;
 
 	@Override
 	public void update() {
@@ -42,9 +41,10 @@ public class HrStatisticsController extends GameModuleController {
 		numberEmployeesOverall.setText(hrDep.getTotalNumberOfEmployees() + "");
 		employeeSalariesOverall.setText(CapCoinFormatter.getCapCoins(hrDep.calculateTotalSalaries()));
 		
-		hiringCost.setText((int) hrDep.getHiringCost() + "");
-		firingCost.setText((int) hrDep.getFiringCost() + "");
+		hiringCost.setText(CapCoinFormatter.getCapCoins(hrDep.getHiringCost()));
+		firingCost.setText(CapCoinFormatter.getCapCoins(hrDep.getFiringCost()));
 		hrCapacity.setText((int) hrDep.getTotalEmployeeCapacity() + "");
+		hrWorkerCapacity.setText((int) hrDep.getHrCapacity() + "");
 	}
 
 	@Override
