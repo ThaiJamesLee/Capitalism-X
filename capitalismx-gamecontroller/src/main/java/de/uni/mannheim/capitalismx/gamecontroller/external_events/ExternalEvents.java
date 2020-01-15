@@ -16,23 +16,76 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
+ * This class represents the external events that can occur during the game.
+ * This class implements the external events, factors that cause these events, and checks which external events occurred.
+ * Based on the report p.80-83
+ *
  * @author sdupper
  */
 public class ExternalEvents implements Serializable {
 
+    /**
+     * The singleton pointer.
+     */
     private static ExternalEvents instance;
 
+    /**
+     * List of external events that occurred when checkEvents(LocalDate gameDate) was called.
+     */
     private List<ExternalEvent> externalEvents;
+
+    /**
+     * specifies if the production technology is currently below the threshold.
+     */
     private boolean productionTechnologyBelowThreshold;
+
+    /**
+     * specifies the last date on which the event 'company acquisition' occurred.
+     */
     private LocalDate lastEventCompanyAcquisitionDate;
+
+    /**
+     * specifies whether the event 'company overtakes market share' ever occurred during the game.
+     */
     private boolean eventCompanyOvertakesMarketShare;
+
+    /**
+     * specifies the date on which the current 'computer virus attack' event occurred. When the impact of the current
+     * event ends, the date is set to null.
+     */
     private LocalDate eventComputerVirusAttacksDate;
+
+    /**
+     * specifies the date on which the current 'tax change' event occurred. When the impact of the current event ends,
+     * the date is set to null.
+     */
     private LocalDate eventTaxChangesDate;
+
+    /**
+     * specifies the date on which the current 'flu' event occurred. When the impact of the current event ends, the
+     * date is set to null.
+     */
     private LocalDate eventFluDate;
+
+    /**
+     * specifies whether the event 'change of power' ever occurred during the game.
+     */
     private boolean changeOfPower;
+
+    /**
+     * specifies the date on which the current 'eco activists' event occurred. When the impact of the current event
+     * ends, the date is set to null.
+     */
     private LocalDate eventEcoActivistsDate;
+
+    /**
+     * Map that contains the list of all external events that occurred on a certain date.
+     */
     private Map<LocalDate, List<ExternalEvent>> externalEventsHistory;
 
+    /**
+     * All external events that can occur.
+     */
     public enum ExternalEvent implements Serializable{
         EVENT_1("Production Problems pop up"),
         EVENT_2("New technology increases quality"),
@@ -74,6 +127,9 @@ public class ExternalEvents implements Serializable {
         }
     }
 
+    /**
+     * Constructor
+     */
     private ExternalEvents(){
         this.externalEvents = new ArrayList<>();
         this.externalEventsHistory = new TreeMap<>();
@@ -82,6 +138,10 @@ public class ExternalEvents implements Serializable {
         this.changeOfPower = false;
     }
 
+    /**
+     *
+     * @return Returns the singleton instance
+     */
     public static synchronized ExternalEvents getInstance() {
         if(ExternalEvents.instance == null) {
             ExternalEvents.instance = new ExternalEvents();
@@ -89,6 +149,11 @@ public class ExternalEvents implements Serializable {
         return ExternalEvents.instance;
     }
 
+    /**
+     * Checks if production problems occurred, see p.98
+     * If the event already occurred, it can only occur again if the production technology was at least once above the
+     * threshold since the last occurrence.
+     */
     private void checkEventProductionProblems(){
         if(ProductionDepartment.getInstance().checkProductionTechnologyBelowThreshold()){
             //if productionTechnologyBelowThreshold is not true already
@@ -109,6 +174,11 @@ public class ExternalEvents implements Serializable {
         }**/
     }
 
+    /**
+     * Checks if a company can be acquired, see p.98
+     * This event can only occur at most once per year.
+     * @param gameDate The current date in the game.
+     */
     private void checkEventCompanyAcquisition(LocalDate gameDate){
         //event can only occur once per year
         if((this.lastEventCompanyAcquisitionDate == null) || (Period.between(this.lastEventCompanyAcquisitionDate, gameDate).getYears() > 0)){
@@ -122,6 +192,11 @@ public class ExternalEvents implements Serializable {
 
     }
 
+    /**
+     * Checks if another company overtakes market share, see p.98
+     * This event can only occur once in the game.
+     * @param gameDate The current date in the game.
+     */
     private void checkEventCompanyOvertakesMarketShare(LocalDate gameDate){
         //can only occur once in the game
         if((RandomNumberGenerator.getRandomInt(0, 49) == 0) && (FinanceDepartment.getInstance().getNetWorth() > 1000000) && (!this.eventCompanyOvertakesMarketShare)){
@@ -139,6 +214,11 @@ public class ExternalEvents implements Serializable {
         }**/
     }
 
+    /**
+     * Checks if a computer virus attack occurred, see p.98
+     * This event can only occur again if the impact of the last attack ended.
+     * @param gameDate The current date in the game.
+     */
     private void checkEventComputerVirusAttacks(LocalDate gameDate){
         if((RandomNumberGenerator.getRandomInt(0, 19) == 0) && (gameDate.getYear() > 2000) && (this.eventComputerVirusAttacksDate == null)){
             ProductionDepartment.getInstance().decreaseProcessAutomationRel(0.50);
@@ -151,6 +231,11 @@ public class ExternalEvents implements Serializable {
         }
     }
 
+    /**
+     * Checks if the tax changes - the tax rate can either increase or decrease, see p.98
+     * This event can only occur again if the impact of the last tax change ended.
+     * @param gameDate The current date in the game.
+     */
     private void checkEventTaxChanges(LocalDate gameDate){
         if((RandomNumberGenerator.getRandomInt(0, 19) == 0) && (this.eventTaxChangesDate == null)){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
@@ -172,7 +257,12 @@ public class ExternalEvents implements Serializable {
         }
     }
 
-    //at the moment, the player is fined every day as long as eco index is below threshold
+    /**
+     * Checks if stricter eco laws were introduced, see p.98
+     * The player can be fined every day as long as the eco index is below the threshold. If the eco index is too low,
+     * the game is over.
+     * @param gameDate The current date in the game.
+     */
     private void checkEventStricterEcoLaws(LocalDate gameDate){
         if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold()){
             if(CompanyEcoIndex.getInstance().checkGameOver()){
@@ -189,8 +279,12 @@ public class ExternalEvents implements Serializable {
         }
     }
 
-    //TODO maybe change impact
+    /**
+     * Checks if the inflation changes, see p.98
+     * As a result, the NOPAT can either increase or decrease
+     */
     private void checkEventInflationChanges(){
+        //TODO maybe change impact
         //TODO probability between 0 and 2
         if(RandomNumberGenerator.getRandomInt(0, 49) == 0){
             if(RandomNumberGenerator.getRandomInt(0, 1) == 0){
@@ -225,6 +319,11 @@ public class ExternalEvents implements Serializable {
         }**/
     }
 
+    /**
+     * Checks if the event 'flu' occurred, see p.98
+     * This event can only occur again after the impact of the last flu ended.
+     * @param gameDate The current date in the game.
+     */
     private void checkEventFlu(LocalDate gameDate){
         if((RandomNumberGenerator.getRandomInt(0, 9) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
             ProductionDepartment.getInstance().decreaseTotalEngineerQualityOfWorkRel(0.10);
@@ -237,6 +336,9 @@ public class ExternalEvents implements Serializable {
         }
     }
 
+    /**
+     * Checks if hurricanes, tornadoes, or earthquakes occurred, see p.98
+     */
     private void checkEventHurricanesTornadoesEarthquakes(){
         if(CompanyEcoIndex.getInstance().checkEcoIndexBelowThreshold() && WarehousingDepartment.getInstance().checkWarehouseCapacityThreshold()){
             double probability = 0.1 / CompanyEcoIndex.getInstance().getEcoIndex().getIndex();
@@ -247,6 +349,9 @@ public class ExternalEvents implements Serializable {
         }
     }
 
+    /**
+     * Checks if a fire or flooding occurred, see p.98
+     */
     private void checkEventFireFlooding(){
         if(WarehousingDepartment.getInstance().checkFreeStorageThreshold()){
             double probability = WarehousingDepartment.getInstance().getDaysSinceFreeStorageThreshold() * 0.01;
@@ -266,6 +371,10 @@ public class ExternalEvents implements Serializable {
 
     }
 
+    /**
+     * Checks if there was a change of power, see p.98
+     * This event can only occur once in the game.
+     */
     private void checkEventChangeOfPower(){
         if((RandomNumberGenerator.getRandomInt(0, 9999) == 0) && (!this.changeOfPower)){
             FinanceDepartment.getInstance().increaseTaxRate(0.05);
@@ -274,6 +383,11 @@ public class ExternalEvents implements Serializable {
         }
     }
 
+    /**
+     * Checks if the event 'eco activists' occurred, see p.98
+     * This event can only occur again if the impact of the last eco activists ended.
+     * @param gameDate The current date in the game.
+     */
     private void checkEventEcoActivists(LocalDate gameDate){
         if(LogisticsDepartment.getInstance().checkEcoIndexFleetBelowThreshold() && (this.eventEcoActivistsDate == null)){
             LogisticsDepartment.getInstance().decreaseCapacityFleetRel(0.70);
@@ -290,6 +404,11 @@ public class ExternalEvents implements Serializable {
 
     }
 
+    /**
+     * Checks which external events occurred, adds them to the externalEventsHistory, and returns them, see p.98
+     * @param gameDate The current date in the game.
+     * @return Returns a list of all external events that occurred
+     */
     public List<ExternalEvent> checkEvents(LocalDate gameDate){
         this.externalEvents = new ArrayList<>();
         this.checkEventProductionProblems();
