@@ -12,6 +12,7 @@ import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.components.production.LaunchedProductsListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.ProductionEventListener;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
@@ -32,13 +33,13 @@ public class ProduceProductController extends GameModuleController {
         ProductionDepartment production = GameState.getInstance().getProductionDepartment();
 
         List<Product> launchedProducts = production.getLaunchedProducts();
-        launchedProductsListView.getItems().clear();
-        launchedProductsListView.getItems().addAll(launchedProducts);
+        launchedProductsListView.setItems(FXCollections.observableList(launchedProducts));
+
 
         /**
          * Test the list view with a manually added product.
          */
-        LocalDate gameDate = GameState.getInstance().getGameDate();
+        /*LocalDate gameDate = GameState.getInstance().getGameDate();
         List<Component> components = new ArrayList<>();
         components.add(new Component(ComponentType.T_DISPLAY_LEVEL_1, SupplierCategory.CHEAP, gameDate));
         components.add(new Component(ComponentType.T_CASE_LEVEL_1, SupplierCategory.CHEAP, gameDate));
@@ -49,7 +50,7 @@ public class ProduceProductController extends GameModuleController {
             launchedProductsListView.getItems().add(p);
         } catch (InvalidSetOfComponentsException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
