@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Machinery;
@@ -86,6 +87,7 @@ public class FinanceDepartment extends DepartmentImpl {
     //TODO just to notify gui to update finance table with new monthlyData / quarterlyData every day
     private PropertyChangeSupportBoolean updatedMonthlyData;
     private PropertyChangeSupportBoolean updatedQuarterlyData;
+    private double initialCash = 1000000.0;
 
 
     //private BankingSystem bankingSystem;
@@ -103,11 +105,11 @@ public class FinanceDepartment extends DepartmentImpl {
         this.loanRemoved.setPropertyChangedName("loanRemoved");
 
         this.cash = new PropertyChangeSupportDouble();
-        this.cash.setValue(1000000.0);
+        this.cash.setValue(this.initialCash);
         this.cash.setPropertyChangedName("cash");
 
         this.netWorth = new PropertyChangeSupportDouble();
-        this.netWorth.setValue(1000000.0);
+        this.netWorth.setValue(this.initialCash);
         this.netWorth.setPropertyChangedName("netWorth");
 
         this.assets = new PropertyChangeSupportDouble();
@@ -142,6 +144,14 @@ public class FinanceDepartment extends DepartmentImpl {
         this.assetsHistory = new TreeMap<>();
         this.liabilitiesHistory = new TreeMap<>();
         this.netWorthHistory = new TreeMap<>();
+
+        //set values before game start to initialCash
+        for(int i = 2; i <= 12; i++){
+            this.cashHistory.put(LocalDate.of(1989, i, LocalDate.of(1989, i, 1).lengthOfMonth()), this.initialCash);
+        }
+        for(int i = 2; i <= 12; i++){
+            this.netWorthHistory.put(LocalDate.of(1989, i, LocalDate.of(1989, i, 1).lengthOfMonth()), this.initialCash);
+        }
 
         this.histories = new TreeMap<>();
         this.histories.put("cashHistory", this.cashHistory);
@@ -284,7 +294,7 @@ public class FinanceDepartment extends DepartmentImpl {
         this.warehousesSold.add(warehouse);
     }
 
-    public void buyTruck(Truck truck, LocalDate gameDate){
+    public void buyTruck(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException {
         LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
         this.decreaseCash(gameDate, truck.getPurchasePrice());
         double resellPrice = this.calculateResellPrice(truck.getPurchasePrice(),

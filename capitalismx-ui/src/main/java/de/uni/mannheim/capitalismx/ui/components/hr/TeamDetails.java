@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.components.hr;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
@@ -87,9 +88,9 @@ public class TeamDetails {
 
 		// TODO init with Tooltip explaining kpi
 		number.setText(team.getTeam().size() + "");
-		satisfaction.setText(team.getAverageJobSatisfactionScore() + "");
+		satisfaction.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(team.getAverageJobSatisfactionScore()));
 		salary.setText(CapCoinFormatter.getCapCoins(0));
-		productivity.setText(hrDep.getTotalQualityOfWorkByEmployeeType(team.getType()) + "");
+		productivity.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(hrDep.getTotalQualityOfWorkByEmployeeType(team.getType())));
 
 	}
 

@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
+import de.uni.mannheim.capitalismx.procurement.component.*;
+import de.uni.mannheim.capitalismx.production.*;
+import de.uni.mannheim.capitalismx.warehouse.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,25 +40,8 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
-import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
-import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
-import de.uni.mannheim.capitalismx.procurement.component.Unit;
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.NoMachinerySlotsAvailableException;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
-import de.uni.mannheim.capitalismx.production.ProductionInvestment;
-import de.uni.mannheim.capitalismx.production.ProductionTechnology;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
-import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
-import de.uni.mannheim.capitalismx.warehouse.Warehouse;
-import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 /**
  * This class is the entry point for the UI.
@@ -425,11 +412,23 @@ public class GameController {
 		return ExternalEvents.getInstance().getExternalEvents();
 	}
 
+	public List<ExternalEvents.ExternalEvent> getExternalEvents(LocalDate date) {
+		if(ExternalEvents.getInstance().getExternalEventsHistory().containsKey(date)) {
+			return ExternalEvents.getInstance().getExternalEventsHistory().get(date);
+		} else {
+			return null;
+		}
+	}
+
+	public Map<LocalDate, List<ExternalEvents.ExternalEvent>> getExternalEventsHistory() {
+		return ExternalEvents.getInstance().getExternalEventsHistory();
+	}
+
 	public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed) {
 		return FinanceDepartment.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
 	}
 
-	public void buyTruck(Truck truck, LocalDate gameDate) {
+	public void buyTruck(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException {
 		FinanceDepartment.getInstance().buyTruck(truck, gameDate);
 	}
 
@@ -586,6 +585,28 @@ public class GameController {
 		return ProcurementDepartment.getInstance().buyComponents(gameDate, component, quantity, freeStorage);
 	}
 
+	public void receiveComponents() {
+		ProcurementDepartment.getInstance().receiveComponents(GameState.getInstance().getGameDate());
+	}
+
+	public Map<Component, Integer> getReceivedComponents() {
+		return ProcurementDepartment.getInstance().getReceivedComponents();
+	}
+
+	public List<ComponentOrder> getComponentOrders() {
+		return ProcurementDepartment.getInstance().getComponentOrders();
+	}
+
+	public int getQuantityOfOrderedComponents() {
+		return ProcurementDepartment.getInstance().getQuantityOfOrderedComponents();
+	}
+
+	public void clearReceivedComponents() {
+		ProcurementDepartment.getInstance().clearReceivedComponents();
+	}
+
+
+
 	/*
 	 * PRODUCTION
 	 */
@@ -735,14 +756,13 @@ public class GameController {
 				WarehousingDepartment.getInstance().calculateFreeStorage());
 	}
 
-	public double produceProduct(Product product, int quantity) {
+	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {
 		try {
 			return ProductionDepartment.getInstance().produceProduct(product, quantity,
 					WarehousingDepartment.getInstance().calculateFreeStorage());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			throw e;
 		}
-		return 0;
 	}
 
 	public double getAmountProductInProduction(Product product) {
@@ -906,8 +926,12 @@ public class GameController {
 		}
 	}
 
-	public double sellWarehouse(Warehouse warehouse) {
-		return WarehousingDepartment.getInstance().sellWarehouse(warehouse);
+	public double sellWarehouse(Warehouse warehouse) throws StorageCapacityUsedException {
+		try {
+			return WarehousingDepartment.getInstance().sellWarehouse(warehouse);
+		} catch(StorageCapacityUsedException e) {
+			throw e;
+		}
 	}
 
 	public Map<Warehouse, Double> getAllWarehouseResaleValues() {

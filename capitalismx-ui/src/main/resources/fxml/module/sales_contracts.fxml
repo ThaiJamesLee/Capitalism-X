@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,8 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -39,7 +39,40 @@
             </Label>
             <AnchorPane GridPane.rowIndex="1">
                <children>
-                  <ListView fx:id="contractOfferList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <VBox>
+                     <children>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label styleClass="label_medium" text="Name">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" styleClass="label_medium" text="Deadline" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="15.0" />
+                                 </GridPane.margin>
+                              </Label>
+                           </children>
+                        </GridPane>
+                        <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="contractListAnchor">
+                                 <children>
+                                    <ListView fx:id="offeredContractsList" prefHeight="400.0" prefWidth="300.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
             <VBox alignment="BOTTOM_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -51,7 +84,7 @@
                            <children>
                               <HBox alignment="TOP_CENTER">
                                  <children>
-                                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" styleClass="button_module" text="Add Contract">
+                                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="button_module" text="Add Contract">
                                        <graphic>
                                           <FontAwesomeIcon iconName="CARET_RIGHT" size="1.3em" />
                                        </graphic>
@@ -60,7 +93,7 @@
                               </HBox>
                               <HBox alignment="TOP_CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" styleClass="button_module" text="Remove Contract">
+                                    <Button mnemonicParsing="false" onMouseClicked="#removeContract" styleClass="button_module" text="Terminate Contract">
                                        <graphic>
                                           <FontAwesomeIcon iconName="CARET_LEFT" size="1.3em" />
                                        </graphic>
@@ -76,7 +109,44 @@
                   </AnchorPane>
                </children>
             </VBox>
-            <ListView fx:id="contractAcceptedList" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <AnchorPane GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <VBox>
+                     <children>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label styleClass="label_medium" text="Name">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label styleClass="label_medium" text="Deadline" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="15.0" />
+                                 </GridPane.margin>
+                              </Label>
+                           </children>
+                        </GridPane>
+                        <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="contractListAnchor">
+                                 <children>
+                                    <ListView fx:id="acceptedContractsList" prefHeight="400.0" prefWidth="300.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
          </children>
       </GridPane>
    </children>

@@ -20,10 +20,12 @@ import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -33,7 +35,11 @@ import javafx.util.StringConverter;
 //TODO Komponenten lokalisieren
 public class IntroduceProductController extends GameModuleController {
 
-    /****** Product Name Text Fields ******/
+	public TextField getProductTabPane()
+	{
+		return this.tvProductNameTextField;
+	}
+	/****** Product Name Text Fields ******/
     @FXML
     private TextField tvProductNameTextField, consoleProductNameTextField, notebookProductNameTextField, phoneProductNameTextField;
 
@@ -1054,7 +1060,6 @@ public class IntroduceProductController extends GameModuleController {
             this.phoneKeypadList.add(tmpComp);
         }
 
-        DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
         ComponentStringConverter componentStringConverter = new ComponentStringConverter();
 
         //this.tvScreensChoiceBox.setConverter(componentStringConverter);
@@ -1266,9 +1271,8 @@ public class IntroduceProductController extends GameModuleController {
 
         @Override
         public String toString(Component component) {
-            DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
            // LocalDate gameDate = GameState.getInstance().getGameDate();
-            return "" + UIManager.getLocalisedString(component.getSupplierCategory().name().toLowerCase()) + " (" + decimalFormat.format(component.calculateRandomizedBaseCost(GameState.getInstance().getGameDate())) + ")";
+            return "" + UIManager.getLocalisedString(component.getSupplierCategory().name().toLowerCase()) + " (" + CapCoinFormatter.getCapCoins(component.calculateRandomizedBaseCost(GameState.getInstance().getGameDate())) + ")";
             //return "" + component.getSupplierCategory().toString().substring(0, component.getSupplierCategory().toString().length() - 9) + " (" + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())) + ")";
         }
 

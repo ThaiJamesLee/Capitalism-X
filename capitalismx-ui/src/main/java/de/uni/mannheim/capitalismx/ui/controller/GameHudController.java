@@ -111,7 +111,9 @@ public class GameHudController implements UpdateableController {
 	 */
 	public void addNotification(GameNotification notification) {
 		notificationQueue.add(notification);
-		displayNextNotification();
+		Platform.runLater(() -> {
+			displayNextNotification();
+		});
 	}
 
 	/**
@@ -368,6 +370,9 @@ public class GameHudController implements UpdateableController {
 				break;
 			case MARKETING:
 				dep = GameState.getInstance().getMarketingDepartment();
+				break;
+			case LOGISTIC:
+				dep = GameState.getInstance().getLogisticsDepartment();
 				break;
 			default:
 				departmentDropdownIcon.getStyleClass().remove("hud_icon_button");

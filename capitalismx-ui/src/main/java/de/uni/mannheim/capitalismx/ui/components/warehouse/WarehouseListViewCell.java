@@ -4,17 +4,16 @@ import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.warehouse.StorageCapacityUsedException;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -89,10 +88,15 @@ public class WarehouseListViewCell extends ListCell<Warehouse> {
 	 */
 	// TODO what happens when you sell a full Warehouse?
 	private void sellWarehouse() {
-		GameController.getInstance().sellWarehouse(warehouse);
-		this.warehouseListView.getItems().remove(warehouse);
-		if(GameController.getInstance().getWarehouses().isEmpty()) {
-			deactivateWarehouseModules();
+		try {
+			GameController.getInstance().sellWarehouse(warehouse);
+			this.warehouseListView.getItems().remove(warehouse);
+			if (GameController.getInstance().getWarehouses().isEmpty()) {
+				deactivateWarehouseModules();
+			}
+		} catch (StorageCapacityUsedException e) {
+			GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Storage Capacity still in Use", e.getMessage() + "\nThe warehouse provides storage capacity of " + e.getWarehouseCapacity() + " of which " + e.getFreeStorage() + " is not in use");
+			error.showAndWait();
 		}
 	}
 	
