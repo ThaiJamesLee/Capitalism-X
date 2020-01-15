@@ -65,6 +65,7 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
             setText(null);
             setGraphic(gridPane);
             productLabel.setText(product.getProductName());
+            componentsVBox.getChildren().clear();
             for(Component component : product.getComponents()) {
                 componentsVBox.getChildren().add(new Label(component.getComponentName(UIManager.getInstance().getLanguage()) + " - " + component.getSupplierCategoryShortForm()));
             }
