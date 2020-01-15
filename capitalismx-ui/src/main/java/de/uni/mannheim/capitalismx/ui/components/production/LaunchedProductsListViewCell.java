@@ -78,7 +78,7 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
             try {
                 GameController.getInstance().produceProduct(product, quantity);
             } catch (Exception e) {
-                GameAlert error = new GameAlert(Alert.AlertType.CONFIRMATION, "Could not produce " + quantity + "unit(s).", "");
+                GameAlert error = new GameAlert(Alert.AlertType.CONFIRMATION, "Could not produce " + quantity + " unit(s).", "");
                 String exceptionMessage = e.getMessage();
                 int newQuantity = 0;
                 if(e instanceof NotEnoughFreeStorageException) {
@@ -93,6 +93,9 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
                     NotEnoughComponentsException exception = (NotEnoughComponentsException) e;
                     error.setContentText(exceptionMessage + "\nDo you want to produce " +  exception.getMaxmimumProducable() + " unit(s) instead?");
                     newQuantity = exception.getMaxmimumProducable();
+                } else {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
                 Optional<ButtonType> result = error.showAndWait();
                 if(result.get() == ButtonType.OK) {

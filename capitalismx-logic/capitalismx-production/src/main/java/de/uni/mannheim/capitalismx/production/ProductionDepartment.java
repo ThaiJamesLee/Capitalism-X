@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
+import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.skill.ProductionSkill;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,8 @@ public class ProductionDepartment extends DepartmentImpl {
     private List<Product> launchedProducts;
     private boolean machineSlotsAvailable;
     private Map<Component, Integer> storedComponents;
+    /*private Map<ComponentType, Integer> componentTypeOfStoredComponents;
+    private Map<SupplierCategory, Integer> supplierCategoryOfStoredComponents;*/
     private int totalWarehouseCapacity;
     private int decreasedProcessAutomationLevel;
     private double totalEngineerQualityOfWorkDecreasePercentage;
@@ -80,6 +83,9 @@ public class ProductionDepartment extends DepartmentImpl {
         this.machineSlotsAvailable = true;
         this.productionTechnology = ProductionTechnology.DEPRECIATED;
         this.storedComponents = new HashMap<>();
+        /*this.componentTypeOfStoredComponents = new HashMap<>();
+        this.supplierCategoryOfStoredComponents = new HashMap<>();*/
+
         this.totalWarehouseCapacity = 0;
         this.decreasedProcessAutomationLevel = 0;
         this.totalEngineerQualityOfWorkDecreasePercentage = 0;
@@ -274,6 +280,15 @@ public class ProductionDepartment extends DepartmentImpl {
         this.totalWarehouseCapacity = totalWarehouseCapacity;
     }
 
+    /*
+    private void setComponentTypesAndSupplierCategoriesOfStoredComponents() {
+        for(HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
+            this.componentTypeOfStoredComponents.put(entry.getKey().getComponentType(), entry.getValue());
+            this.supplierCategoryOfStoredComponents.put(entry.getKey().getSupplierCategory(), entry.getValue());
+        }
+    }
+    */
+
     public double produceProduct(Product product, int quantity, int freeStorage) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {
         int totalMachineCapacity = 0;
         for(Machinery machinery : this.machines) {
@@ -285,11 +300,18 @@ public class ProductionDepartment extends DepartmentImpl {
                 if (totalMachineCapacity >= quantity) {
                     int maximumProducable = this.totalWarehouseCapacity;
                     for (Component component : product.getComponents()) {
-                        if (this.storedComponents.containsKey(component)) {
-                            if (maximumProducable >= this.storedComponents.get(component)) {
-                                maximumProducable = this.storedComponents.get(component);
+                        boolean matched = false;
+                        //if (this.componentTypeOfStoredComponents.containsKey(component.getComponentType()) && this.supplierCategoryOfStoredComponents.containsKey(component.getSupplierCategory())) {
+                        for (HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
+                            if (component.getComponentType() == entry.getKey().getComponentType() && component.getSupplierCategory() == entry.getKey().getSupplierCategory()) {
+                                matched = true;
+                                if (maximumProducable >= this.storedComponents.get(entry.getKey())) {
+                                    maximumProducable = this.storedComponents.get(entry.getKey());
+                                }
+                                break;
                             }
-                        } else {
+                        }
+                        if(!matched) {
                             maximumProducable = 0;
                         }
                     }
@@ -298,9 +320,20 @@ public class ProductionDepartment extends DepartmentImpl {
                         throw new NotEnoughComponentsException("There are not enough components available to produce " + quantity + " unit(s).", maximumProducable);
                     }
 
+                    /*
                     for (Component component : product.getComponents()) {
                         int newStoredQuantity = this.storedComponents.get(component) - quantity;
                         this.storedComponents.put(component, newStoredQuantity);
+                    }*/
+
+                    for (Component component : product.getComponents()) {
+                        for (HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
+                            if(component.getComponentType() == entry.getKey().getComponentType() && component.getSupplierCategory() == entry.getKey().getSupplierCategory()) {
+                                int newStoredQuantity = this.storedComponents.get(entry.getKey()) - quantity;
+                                this.storedComponents.put(component, newStoredQuantity);
+                                break;
+                            }
+                        }
                     }
 
                     double variableProductCosts = 0;
