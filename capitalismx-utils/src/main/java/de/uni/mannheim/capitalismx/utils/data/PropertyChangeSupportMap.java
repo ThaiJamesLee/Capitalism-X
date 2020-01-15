@@ -77,7 +77,7 @@ public class PropertyChangeSupportMap<K extends Serializable, V extends Serializ
      * @param k the key of the new element to add.
      * @param v the value of the new element to add.
      */
-    public void put(K k, V v) {
+    public synchronized void put(K k, V v) {
         copyMap(oldMap, map);
         map.put(k,v);
         propertyChangeSupport.firePropertyChange(addPropertyName, oldMap, map);
@@ -88,7 +88,7 @@ public class PropertyChangeSupportMap<K extends Serializable, V extends Serializ
      * @param k the key of the new element to add.
      * @param v the value of the new element to add.
      */
-    public void putOne(K k, V v) {
+    public synchronized void putOne(K k, V v) {
         copyMap(oldMap, map);
         map.put(k,v);
         propertyChangeSupport.firePropertyChange(addPropertyName, oldMap, k);
@@ -98,7 +98,7 @@ public class PropertyChangeSupportMap<K extends Serializable, V extends Serializ
      * The event returns with getNewValue they Key {@link K}.
      * @param k the key of the element to remove.
      */
-    public void removeOne(K k) {
+    public synchronized void removeOne(K k) {
         copyMap(oldMap, map);
         map.remove(k);
         propertyChangeSupport.firePropertyChange(removePropertyName, oldMap, k);
@@ -108,7 +108,7 @@ public class PropertyChangeSupportMap<K extends Serializable, V extends Serializ
      *
      * @param k the key of the element to remove.
      */
-    public void remove(K k) {
+    public synchronized void remove(K k) {
         copyMap(oldMap, map);
         map.remove(k);
         propertyChangeSupport.firePropertyChange(removePropertyName, oldMap, map);
@@ -118,7 +118,7 @@ public class PropertyChangeSupportMap<K extends Serializable, V extends Serializ
      *  Replaces the current map with a new map.
      * @param newMap the new map to replace.
      */
-    public void setMap(Map<K,V> newMap) {
+    public synchronized void setMap(Map<K,V> newMap) {
         copyMap(oldMap, map);
         map = newMap;
         propertyChangeSupport.firePropertyChange(removePropertyName, oldMap, map);
