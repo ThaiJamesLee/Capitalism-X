@@ -40,10 +40,10 @@
                   <Label styleClass="label_large" text="%hr.stats.productivity" wrapText="true" GridPane.rowIndex="2" />
                   <Label styleClass="label_large" text="%hr.stats.satisfaction" wrapText="true" GridPane.rowIndex="1" />
                   <Label styleClass="label_large" text="%hr.stats.employees" wrapText="true" />
-                  <Label fx:id="numberEmployeesOverall" styleClass="lael_medium" text="Label" GridPane.columnIndex="1" />
-                  <Label fx:id="employeeSatisfactionOverall" styleClass="lael_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="employeeProductivityOverall" styleClass="lael_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="employeeSalariesOverall" styleClass="lael_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="numberEmployeesOverall" styleClass="label_medium" text="Label" GridPane.columnIndex="1" />
+                  <Label fx:id="employeeSatisfactionOverall" styleClass="label_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="employeeProductivityOverall" styleClass="label_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="employeeSalariesOverall" styleClass="label_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>
