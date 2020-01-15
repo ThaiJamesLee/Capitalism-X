@@ -8,12 +8,21 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.StageStyle;
 
+/**
+ * Custom implementation of the {@link Alert}. Can be configured similarly using
+ * {@link ButtonType}s etc. Call 'showAndWait()' to display it.
+ * 
+ * @author Jonathan
+ *
+ */
 public class GameAlert extends Alert {
+
+	private FontAwesomeIcon icon;
 
 	/**
 	 * Creates a new {@link GameAlert}. GameAlert is a custom version of the
-	 * standard {@link Alert} from JavaFX. It can be configured in the same way
-	 * using {@link ButtonType}s etc.
+	 * standard {@link Alert} from JavaFX. It automatically adds the
+	 * {@link ButtonType}s for the specified {@link AlertType}.
 	 * 
 	 * @param alertType   The {@link AlertType} sets the icon, as well as the
 	 *                    default {@link ButtonType}s.
@@ -25,7 +34,7 @@ public class GameAlert extends Alert {
 	public GameAlert(AlertType alertType, String title, String description) {
 		super(alertType);
 
-		FontAwesomeIcon icon = new FontAwesomeIcon();
+		icon = new FontAwesomeIcon();
 		icon.setSize("2.5em");
 		icon.getStyleClass().add("icon_primary");
 
@@ -51,6 +60,16 @@ public class GameAlert extends Alert {
 				.add(CapXApplication.class.getResource("/css/1080p/general1080p.css").toExternalForm());
 		this.getDialogPane().getStylesheets()
 				.add(CapXApplication.class.getResource("/css/dialog.css").toExternalForm());
+	}
+
+	/**
+	 * Change the icon displayed in the {@link GameAlert}. Has to be called before
+	 * showAndWait().
+	 * 
+	 * @param iconName The {@link FontAwesomeIconName} of the icon to display.
+	 */
+	public void setIcon(FontAwesomeIconName iconName) {
+		this.icon.setIcon(iconName);
 	}
 
 }
