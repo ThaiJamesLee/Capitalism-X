@@ -15,7 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class TutorialPage {
@@ -27,7 +27,7 @@ public class TutorialPage {
 	private EventHandler<ActionEvent> onCompletedHandler;
 	
 	@FXML
-	private Label tutorialMessage;
+	private Text tutorialMessage;
 
 	private TutorialPage(TutorialChapter owningPath, Node target) {
 		this.target = target;

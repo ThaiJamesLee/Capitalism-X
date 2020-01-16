@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.PopOver;
+
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
@@ -25,6 +27,7 @@ import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -274,6 +277,18 @@ public class GameHudController implements UpdateableController {
 
 		UIManager.getInstance().setGameHudController(this);
 		updateLevelUpDropdown(GameViewType.OVERVIEW);
+	}
+
+
+	public void initTutorialCheck() {
+		PopOverFactory factory = new PopOverFactory();
+		factory.createStandardPopover("fxml/components/tutorial_start.fxml");
+		PopOver p = factory.getPopover();
+		p.setArrowSize(0.0);
+		Platform.runLater(() -> {
+			p.show(UIManager.getInstance().getStage());
+		});
+		((TutorialStartCheckController) factory.getPopoverController()).setPopover(p);
 	}
 
 	/**
