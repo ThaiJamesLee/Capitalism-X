@@ -174,7 +174,7 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     /* */
     public int calculateFreeStorage() {
-        this.freeStorage = this.totalCapacity - this.storedUnits;
+        this.freeStorage = this.calculateTotalCapacity() - this.calculateStoredUnits();
         return this.freeStorage;
     }
 
@@ -298,7 +298,8 @@ public class WarehousingDepartment extends DepartmentImpl {
         if(this.calculateTotalCapacity() == 0) {
             return false;
         }
-        if((this.calculateFreeStorage() / this.calculateTotalCapacity()) < 0.1) {
+        double percentage = (double) this.calculateFreeStorage() / (double) this.calculateTotalCapacity();
+        if((percentage) < 0.1) {
             this.daysSinceFreeStorageThreshold++;
             return true;
         } else {
@@ -325,7 +326,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         if(this.totalCapacity == 0) {
             return false;
         }
-        return (this.storedUnits / this.totalCapacity) >= 0.8;
+        return (this.calculateStoredUnits() / this.calculateTotalCapacity()) >= 0.8;
     }
 
     public void decreaseCapacity(int capacity) {

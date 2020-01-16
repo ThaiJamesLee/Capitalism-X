@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.hr.HrStatisticsController">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.hr.HrStatisticsController">
    <children>
       <VBox spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -18,14 +18,14 @@
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label styleClass="label_large" text="%hr.stats.hiring" wrapText="true" GridPane.rowIndex="4" />
@@ -40,10 +40,10 @@
                   <Label styleClass="label_large" text="%hr.stats.productivity" wrapText="true" GridPane.rowIndex="2" />
                   <Label styleClass="label_large" text="%hr.stats.satisfaction" wrapText="true" GridPane.rowIndex="1" />
                   <Label styleClass="label_large" text="%hr.stats.employees" wrapText="true" />
-                  <Label fx:id="numberEmployeesOverall" styleClass="lael_medium" text="Label" GridPane.columnIndex="1" />
-                  <Label fx:id="employeeSatisfactionOverall" styleClass="lael_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="employeeProductivityOverall" styleClass="lael_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="employeeSalariesOverall" styleClass="lael_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="numberEmployeesOverall" styleClass="label_medium" text="Label" GridPane.columnIndex="1" />
+                  <Label fx:id="employeeSatisfactionOverall" styleClass="label_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="employeeProductivityOverall" styleClass="label_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="employeeSalariesOverall" styleClass="label_medium" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>

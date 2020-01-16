@@ -76,7 +76,8 @@ public class GameHudController implements UpdateableController {
 			netWorthChangeLabel, dateLabel;
 
 	@FXML
-	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD, btnMarketing;
+	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD,
+			btnMarketing;
 	@FXML
 	private ToggleGroup departmentButtons;
 
@@ -380,8 +381,8 @@ public class GameHudController implements UpdateableController {
 				return;
 			}
 			upgradeController.setDepartment(dep);
-			
-			if(!departmentDropdownIcon.getStyleClass().contains("hud_icon_button")) {
+
+			if (!departmentDropdownIcon.getStyleClass().contains("hud_icon_button")) {
 				departmentDropdownIcon.getStyleClass().add("hud_icon_button");
 			}
 			departmentDropdownIcon.setOnMouseClicked(e -> {
@@ -462,33 +463,34 @@ public class GameHudController implements UpdateableController {
 	 * @param index The {@link EcoIndex} of the current {@link CompanyEcoIndex}.
 	 */
 	public void updateEcoIndexIcon(EcoIndex index) {
-		// TODO Create and use actual localised name
-		ecoTooltip.setText(index.name());
-		switch (index) {
-		case GOOD:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.getStyleClass().add("icon_green");
-			break;
-		case MODERATE:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.getStyleClass().add("icon_light");
-			break;
-		case UNHEALTHY:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.getStyleClass().add("icon_orange");
-			break;
-		case VERY_UNHEALTHY:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.getStyleClass().add("icon_red");
-			break;
-		case HAZARDOUS:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.setStyle("-fx-background-color: -fx-red;");
-			break;
-		default:
-			break;
-		}
-		;
+		Platform.runLater(() -> {
+			// TODO Create and use actual localised name
+			ecoTooltip.setText(index.name());
+			switch (index) {
+			case GOOD:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_green");
+				break;
+			case MODERATE:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_light");
+				break;
+			case UNHEALTHY:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_orange");
+				break;
+			case VERY_UNHEALTHY:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_red");
+				break;
+			case HAZARDOUS:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.setStyle("-fx-background-color: -fx-red;");
+				break;
+			default:
+				break;
+			}
+		});
 	}
 
 	/**
@@ -498,36 +500,32 @@ public class GameHudController implements UpdateableController {
 	 * @param viewType The {@link GameViewType}, thats title should be displayed.
 	 */
 	public void updateGameViewLabel(GameViewType viewType) {
-		this.departmentLabel.setText(viewType.getTitle());
-		this.departmentLabel.setGraphic(viewType.getGameViewIcon("1.8em"));
+		Platform.runLater(() -> {
+			this.departmentLabel.setText(viewType.getTitle());
+			this.departmentLabel.setGraphic(viewType.getGameViewIcon("1.8em"));
+		});
 	}
 
 	public void updateNetworthLabel(double currentNetWorth) {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
-			}
+		Platform.runLater(() -> {
+			netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
 		});
 	}
 
 	public void updateNetworthChangeLabel(Double diff) {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				if (diff != null) {
-					colorHudLabel(diff, netWorthChangeLabel);
-					netWorthChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
-				}
+		Platform.runLater(() -> {
+			if (diff != null) {
+				colorHudLabel(diff, netWorthChangeLabel);
+				netWorthChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
 			}
 		});
 	}
 
 	public void updateNumOfEmployees() {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				int numOfEmployees = GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees();
-				int capacity = GameState.getInstance().getHrDepartment().getTotalEmployeeCapacity();
-				employeeLabel.setText(numOfEmployees + "/" + capacity);
-			}
+		Platform.runLater(() -> {
+			int numOfEmployees = GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees();
+			int capacity = GameState.getInstance().getHrDepartment().getTotalEmployeeCapacity();
+			employeeLabel.setText(numOfEmployees + "/" + capacity);
 		});
 	}
 

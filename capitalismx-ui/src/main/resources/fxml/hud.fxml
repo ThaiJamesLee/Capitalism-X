@@ -20,7 +20,7 @@
 <AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.GameHudController">
    <children>
       <GridPane fx:id="moduleGrid" hgap="30.0" layoutX="10.0" layoutY="10.0" styleClass="background" vgap="30.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
-         <columnConstraints>
+        <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
             <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
             <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />

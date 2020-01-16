@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
@@ -24,8 +25,8 @@ public class PropertyChangeSupportMap<K extends Serializable, V extends Serializ
     private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public PropertyChangeSupportMap() {
-        map = new ConcurrentSkipListMap<>();
-        oldMap = new ConcurrentSkipListMap<>();
+        map = new ConcurrentHashMap<>();
+        oldMap = new ConcurrentHashMap<>();
     }
 
     /**

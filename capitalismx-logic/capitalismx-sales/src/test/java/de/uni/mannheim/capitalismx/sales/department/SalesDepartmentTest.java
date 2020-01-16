@@ -106,7 +106,16 @@ public class SalesDepartmentTest {
 
         c.setContractDoneDate(c.getContractStart().plusMonths(c.getTimeToFinish()));
 
-        String message = "Contract start:" + c.getContractStart().toString() + "; done:" + c.getContractDoneDate() + "; timetoFinish in Months:" + c.getTimeToFinish();
+        StringBuilder builder = new StringBuilder();
+        builder.append("Contract start:");
+        builder.append(c.getContractStart().toString());
+        builder.append("; done:" );
+        builder.append(c.getContractDoneDate());
+        builder.append("; timetoFinish in Months:");
+        builder.append(c.getTimeToFinish());
+        builder.append("; uuid:");
+        builder.append(c.getuId());
+        String message = builder.toString();
         LOGGER.info(message);
 
         LocalDate overdueDate = initDate.plusMonths(c.getTimeToFinish()).plusDays(2);

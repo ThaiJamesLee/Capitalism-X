@@ -750,7 +750,10 @@ public class GameController {
 	}
 
 	public double launchProduct(Product product) {
-		return ProductionDepartment.getInstance().launchProduct(product, GameState.getInstance().getGameDate());
+		LocalDate gameDate = GameState.getInstance().getGameDate();
+		double launchCosts = ProductionDepartment.getInstance().launchProduct(product, gameDate);
+		FinanceDepartment.getInstance().decreaseCash(gameDate ,launchCosts);
+		return launchCosts;
 	}
 
 	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {

@@ -693,9 +693,17 @@ public class HRDepartment extends DepartmentImpl {
 		Integer oldValue = employeeNumberHistory.get(currentDate.minusDays(30));
 
 		if(oldValue == null) {
-			oldValue = employeeNumberHistory.get(getOldestEmployeeHistoryEntry());
+			LocalDate oldestEntry = getOldestEmployeeHistoryEntry();
+			if(oldestEntry != null ) {
+				Integer val = employeeNumberHistory.get(oldestEntry);
+				oldValue = val == null? 0: val;
+			}
 		}
-		return getTotalNumberOfEmployees() - oldValue;
+		if(oldValue != null) {
+			return getTotalNumberOfEmployees() - oldValue;
+		}
+
+		return getTotalNumberOfEmployees();
 	}
 
 	/**
