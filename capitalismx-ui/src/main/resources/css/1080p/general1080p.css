@@ -341,6 +341,7 @@ FontAwesomeIcon {
 
 .list-cell:empty {
     -fx-opacity: 0.0;
+	-fx-cursor: default;
 }
 
 /**
