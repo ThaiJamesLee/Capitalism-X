@@ -12,18 +12,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SalesContractController extends GameModuleController {
 
     SalesEventListener contractListener;
-
-    private Parent infoPane;
-    private SalesContractInfoController infoPaneController;
-
+    SalesContractInfoController infoPaneController;
+    private ArrayList<String> IDlist = new ArrayList<String>();
+    private boolean firstClick;
 
     @FXML
     private ListView offeredContractsList;
@@ -35,6 +38,10 @@ public class SalesContractController extends GameModuleController {
     @FXML
     private AnchorPane contractInfoPane;
 
+    public SalesContractController(){
+
+    }
+
     @FXML
     public void acceptContract(){
 
@@ -45,9 +52,9 @@ public class SalesContractController extends GameModuleController {
 
     }
 
-    public void addContract(Contract c, int i){
+    public void addContractOffer(Contract c, int i){
         FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_list_cell.fxml"));
-        Parent contract;
+        Parent contract = new Pane();
         SalesContractListCellController cellController = new SalesContractListCellController();
         try{
             contract = contractLoader.load();
@@ -57,13 +64,47 @@ public class SalesContractController extends GameModuleController {
         }
 
         cellController.setContractName(c.getProduct().toString());
-        cellController.setIndex(i);
-        
-
+        IDlist.add(c.getuId());
+        cellController.setID(c.getuId());
+        offeredContracts.add(0, contract);
+        offeredContractsList.setItems(offeredContracts);
     }
 
     public void removeContract(){
         
+    }
+
+    public void showInfoPanel(String ID){
+        for(Contract c : ((List<Contract>)GameState.getInstance().getSalesDepartment().getAvailableContracts())) {
+            if (c.getuId().equals(ID)) {
+                Parent infoPane;
+                if(firstClick){
+                    firstClick = false;
+
+                    FXMLLoader infoLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_info_panel.fxml"));
+                    try {
+                        infoPane = infoLoader.load();
+                        infoPaneController = infoLoader.getController();
+                        contractInfoPane.getChildren().add(infoPane);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                infoPaneController.setInfoPanel(
+                        "" + c.getProduct(),
+                        "" + c.getContractor(),
+                        "" + c.getNumProducts(),
+                        "" + (c.getNumProducts() * c.getPricePerProd()),
+                        "" + c.getPricePerProd(),
+                        "" + c.getTimeToFinish(),
+                        "" + c.getContractStart(),
+                        "" + c.getContractDoneDate(),
+                        "" + c.getPenalty()
+                );
+            }
+        }
+
     }
 
     @Override
@@ -73,10 +114,11 @@ public class SalesContractController extends GameModuleController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        firstClick = true;
         contractListener = new SalesEventListener();
-
+        //infoPaneController = new SalesContractInfoController();
         GameState.getInstance().getSalesDepartment().registerPropertyChangeListener(contractListener);
-
+/*
         FXMLLoader cellLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_list_cell.fxml"));
         try {
             infoPane = cellLoader.load();
@@ -84,9 +126,8 @@ public class SalesContractController extends GameModuleController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
+*/
+        infoPaneController = new SalesContractInfoController();
 
     }
 }
