@@ -15,7 +15,7 @@ public enum GameModuleDefinition {
 	HR_TEAM_DETAIL("team_details.fxml", GameViewType.HR, UIElementType.HR_TEAM_DETAIL, new GridPosition(0, 8, 0, 20), true),
 	HR_RECRUITING_LIST("recruiting_list.fxml", GameViewType.HR, UIElementType.HR_RECRUITING_OVERVIEW, new GridPosition(13, 7, 7, 13),
 			true),
-	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(8, 5, 3, 12), true),
+//	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(8, 5, 3, 12), true),
 	HR_WORKING_CONDITIONS("working_conditions.fxml", GameViewType.HR, UIElementType.HR_WORKING_CONDITIONS, new GridPosition(13, 7, 0, 7),
 			true),
 
