@@ -18,6 +18,8 @@ public class HRSkill implements DepartmentSkill {
 
     /* The level requirement for this skill. */
     private int level;
+
+    /* The new capacity to hire HRWorkers */
     private int newEmployeeCapacity;
 
     /* Defines the distribution of probabilities for employee skill level. */

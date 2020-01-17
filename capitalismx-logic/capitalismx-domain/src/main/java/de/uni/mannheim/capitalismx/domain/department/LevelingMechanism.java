@@ -17,10 +17,17 @@ import java.util.Set;
  */
 public class LevelingMechanism implements Serializable {
 
-    private Department department;
-    private Map<Integer, Double> levelCostMap;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(LevelingMechanism.class);
+
+    /**
+     * The {@link Department} that implements the leveling mechanism.
+     */
+    private Department department;
+
+    /**
+     * The cost map for a level up of the department.
+     */
+    private Map<Integer, Double> levelCostMap;
 
     /**
      *
@@ -36,10 +43,18 @@ public class LevelingMechanism implements Serializable {
         this.levelCostMap = levelCostMap;
     }
 
+    /**
+     *
+     * @return Returns the department.
+     */
     public Department getDepartment() {
         return department;
     }
 
+    /**
+     * The cost map for a level up of the department.
+     * @return Returns the leveling cost map.
+     */
     public Map<Integer, Double> getLevelCostMap() {
         return levelCostMap;
     }
