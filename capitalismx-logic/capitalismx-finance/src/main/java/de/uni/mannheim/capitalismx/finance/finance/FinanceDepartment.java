@@ -877,6 +877,10 @@ public class FinanceDepartment extends DepartmentImpl {
         this.updatedQuarterlyData.addPropertyChangeListener(listener);
     }
 
+    public static FinanceDepartment createInstance() {
+        return new FinanceDepartment();
+    }
+
     public String getLocalisedString(String text) {
         //TODO other languages
         ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", Locale.ENGLISH);

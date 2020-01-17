@@ -428,6 +428,10 @@ public class WarehousingDepartment extends DepartmentImpl {
         return this.monthlyTotalCostWarehousing;
     }
 
+    public static WarehousingDepartment createInstance() {
+	    return new WarehousingDepartment();
+    }
+
     public static void setInstance(WarehousingDepartment instance) {
         WarehousingDepartment.instance = instance;
     }

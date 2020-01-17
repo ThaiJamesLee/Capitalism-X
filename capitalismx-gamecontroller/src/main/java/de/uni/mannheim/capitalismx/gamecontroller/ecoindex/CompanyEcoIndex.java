@@ -224,4 +224,8 @@ public class CompanyEcoIndex implements Serializable {
     public static void setInstance(CompanyEcoIndex instance) {
         CompanyEcoIndex.instance = instance;
     }
+
+    public static CompanyEcoIndex createInstance() {
+        return new CompanyEcoIndex();
+    }
 }

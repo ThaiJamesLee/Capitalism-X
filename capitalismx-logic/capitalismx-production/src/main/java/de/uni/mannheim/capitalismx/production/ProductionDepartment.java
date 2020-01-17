@@ -710,6 +710,10 @@ public class ProductionDepartment extends DepartmentImpl {
         ProductionDepartment.instance = instance;
     }
 
+    public static ProductionDepartment createInstance() {
+        return new ProductionDepartment();
+    }
+
     public PropertyChangeSupportList getLaunchedProductsChange() {
         return launchedProductsChange;
     }
