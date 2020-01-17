@@ -31,9 +31,9 @@ public class HREventListener implements PropertyChangeListener {
 				UIManager.getInstance().getGameHudController().updateNumOfEmployees();
 				
 				//Update Statistics Module
-				HrStatisticsController statsController = (HrStatisticsController) hrView
-						.getModule(UIElementType.HR_STATISTICS).getController();
-				statsController.update();
+				/*HrStatisticsController statsController = (HrStatisticsController) hrView
+						.getModule(UIElementType.HR_STATISTICS).getController();*/
+				//statsController.update();
 			}
 		}
 
