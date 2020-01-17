@@ -6,6 +6,7 @@ package de.uni.mannheim.capitalismx.ui.components;
  * @author Jonathan
  *
  */
+@Deprecated
 public enum GameOverlayDefinition {
 
 	PRODUCTION_SUPPLIER_OPTIONS("supplier_options.fxml", GameViewType.PRODUCTION, UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW),

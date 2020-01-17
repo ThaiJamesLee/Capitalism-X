@@ -11,12 +11,17 @@ import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.Optional;
 
 public class LaunchedProductsListViewCell extends ListCell<Product> {
+
+
+    private GridPane gridPane;
 
     @FXML
     private Label productLabel;
@@ -52,14 +57,15 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
                 loader.setController(this);
 
                 try {
-                    setText(null);
-                    setGraphic(loader.load());
+                    gridPane = loader.load();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            GameController controller = GameController.getInstance();
+            setText(null);
+            setGraphic(gridPane);
             productLabel.setText(product.getProductName());
+            componentsVBox.getChildren().clear();
             for(Component component : product.getComponents()) {
                 componentsVBox.getChildren().add(new Label(component.getComponentName(UIManager.getInstance().getLanguage()) + " - " + component.getSupplierCategoryShortForm()));
             }
@@ -73,7 +79,7 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
             try {
                 GameController.getInstance().produceProduct(product, quantity);
             } catch (Exception e) {
-                GameAlert error = new GameAlert(Alert.AlertType.CONFIRMATION, "Could not produce " + quantity + "unit(s).", "");
+                GameAlert error = new GameAlert(Alert.AlertType.CONFIRMATION, "Could not produce " + quantity + " unit(s).", "");
                 String exceptionMessage = e.getMessage();
                 int newQuantity = 0;
                 if(e instanceof NotEnoughFreeStorageException) {
@@ -88,6 +94,9 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
                     NotEnoughComponentsException exception = (NotEnoughComponentsException) e;
                     error.setContentText(exceptionMessage + "\nDo you want to produce " +  exception.getMaxmimumProducable() + " unit(s) instead?");
                     newQuantity = exception.getMaxmimumProducable();
+                } else {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
                 Optional<ButtonType> result = error.showAndWait();
                 if(result.get() == ButtonType.OK) {

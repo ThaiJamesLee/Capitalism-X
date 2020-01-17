@@ -16,6 +16,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.hr.TeamDetails;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.HREventListener;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -78,10 +79,12 @@ public class TeamDetailController extends GameModuleController {
 	 * @param employees {@link List} of {@link Employee}s containing the new items.
 	 */
 	public void updateTeamList(EmployeeType type, List<Employee> employees) {
-		ListView<Employee> listview = employeeTypeDetails.get(type).getTeamList();
-		listview.setItems(FXCollections.observableArrayList(employees));
-		
-		updateTeamStats(type);
+		Platform.runLater(() -> {
+			ListView<Employee> listview = employeeTypeDetails.get(type).getTeamList();
+			listview.setItems(FXCollections.observableArrayList(employees));
+
+			updateTeamStats(type);
+		});
 	}
 
 	// TODO update when single employee changes

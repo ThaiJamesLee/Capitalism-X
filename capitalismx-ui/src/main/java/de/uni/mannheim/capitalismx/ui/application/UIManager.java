@@ -19,6 +19,7 @@ import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
+import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -43,6 +44,7 @@ import javafx.stage.WindowEvent;
  */
 public class UIManager {
 
+	private Tutorial tutorial;
 	private static UIManager instance;
 	// Provide access to correct Resource Bundle
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.main", Locale.ENGLISH);
@@ -82,6 +84,7 @@ public class UIManager {
 	// Get information about the resolution of the game.
 	private GameResolution gameResolution;
 
+	
 	/**
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
@@ -142,6 +145,10 @@ public class UIManager {
 
 	public GameScene getSceneMenuMain() {
 		return sceneMenuMain;
+	}
+	
+	public Tutorial getTutorial() {
+		return tutorial;
 	}
 
 	/**
@@ -266,6 +273,7 @@ public class UIManager {
 	 */
 	private void prepareGame() {
 		resetUIElements();
+		tutorial = new Tutorial();
 		GameState.getInstance().initiate();
 
 		switchToScene(GameSceneType.LOADING_SCREEN);
@@ -326,6 +334,10 @@ public class UIManager {
 					initKeyboardControls();
 					// start the game once everything is loaded
 					startGame();
+					
+					if (UIManager.getResourceBundle().getLocale().equals(Locale.ENGLISH)) {
+						gameHudController.initTutorialCheck();
+					}
 				} catch (IOException e) {
 					// TODO handle error if module could not be loaded.
 					e.printStackTrace();
@@ -337,7 +349,6 @@ public class UIManager {
 				progress += 1.0 / numOfComponents;
 				this.updateProgress(progress, 1.0);
 			}
-
 		};
 		((LoadingScreenController) sceneLoadingScreen.getController()).initProgressBar(task.progressProperty());
 		task.setOnFailed(e -> {
@@ -345,7 +356,7 @@ public class UIManager {
 			e.getSource().getException().printStackTrace();
 		});
 		task.setOnCancelled(e -> {
-			System.out.println("Failed");
+			System.out.println("Cancelled");
 			e.getSource().getException().printStackTrace();
 		});
 		new Thread(task).start();

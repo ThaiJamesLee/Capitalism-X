@@ -14,6 +14,7 @@ import javafx.scene.Parent;
  * @author Jonathan
  *
  */
+@Deprecated
 public class GameOverlay extends UIElement {
 
 	// the controller of the overlay

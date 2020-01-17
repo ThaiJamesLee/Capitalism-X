@@ -9,11 +9,11 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
 
 /**
  * Controller for the HRStatistics-Module, that displays stats about employees,
@@ -25,26 +25,27 @@ import javafx.util.Duration;
 public class HrStatisticsController extends GameModuleController {
 
 	@FXML
-	private GridPane statGrid;
-
-	@FXML
 	private Label numberEmployeesOverall, employeeSatisfactionOverall, employeeProductivityOverall,
 			employeeSalariesOverall;
 
 	@FXML
-	private Label firingCost, hiringCost, hrCapacity;
+	private Label firingCost, hiringCost, hrCapacity, hrWorkerCapacity;
 
 	@Override
 	public void update() {
+		Platform.runLater(() -> {
+			
 		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
 		employeeProductivityOverall.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(hrDep.getTotalQualityOfWork()));
 		employeeSatisfactionOverall.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(hrDep.getTotalJSS()));
 		numberEmployeesOverall.setText(hrDep.getTotalNumberOfEmployees() + "");
 		employeeSalariesOverall.setText(CapCoinFormatter.getCapCoins(hrDep.calculateTotalSalaries()));
 		
-		hiringCost.setText((int) hrDep.getHiringCost() + "");
-		firingCost.setText((int) hrDep.getFiringCost() + "");
+		hiringCost.setText(CapCoinFormatter.getCapCoins(hrDep.getHiringCost()));
+		firingCost.setText(CapCoinFormatter.getCapCoins(hrDep.getFiringCost()));
 		hrCapacity.setText((int) hrDep.getTotalEmployeeCapacity() + "");
+		hrWorkerCapacity.setText((int) hrDep.getHrCapacity() + "");
+		});
 	}
 
 	@Override

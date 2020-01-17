@@ -70,7 +70,7 @@ public class TruckFleetController extends GameModuleController {
 		buyTruckButton.setOnAction(e -> {
 			showPopover();
 		});
-	}
+	} //TODO update and populate from list in LogisticsController
 
 	public void addTruck(Truck truck) {
 		truckFleetListView.getItems().add(truck);

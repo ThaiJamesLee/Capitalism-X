@@ -2,12 +2,9 @@ package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
@@ -31,7 +28,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 /**
- * The {@link UIElementController} managing all actions on the GamePage.
+ * The {@link UpdateableController} managing all actions on the GamePage.
  * 
  * @author Jonathan
  *
