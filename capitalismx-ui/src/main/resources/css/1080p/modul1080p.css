@@ -46,7 +46,7 @@
 }
 
 .stock_edit_button {
-	-fx-border-width: 2;
+	-fx-border-width: 1;
 	-fx-cursor: hand;
 	-fx-border-color: -fx-primary-dark;
 	-fx-background-color: -fx-complement-light-neutral;

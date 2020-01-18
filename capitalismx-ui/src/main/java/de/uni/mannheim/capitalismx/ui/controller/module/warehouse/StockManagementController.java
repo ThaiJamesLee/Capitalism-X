@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
@@ -22,6 +23,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.ComponentStockCell;
 import de.uni.mannheim.capitalismx.ui.controller.component.TradeComponentPopoverController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.WarehouseEventlistener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -54,37 +56,6 @@ public class StockManagementController extends GameModuleController {
 
 	@FXML
 	private TabPane productTabPane;
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		cells = new HashMap<ComponentType, ComponentStockCell>();
-
-		for (ProductCategory productCat : ProductCategory.values()) {
-			productTabPane.getTabs().add(createTabForProduct(productCat));
-		}
-
-		// Prepare the Popover for the trade buttons
-		FXMLLoader popoverLoader = new FXMLLoader(
-				getClass().getClassLoader().getResource("fxml/components/trade_component_popover.fxml"),
-				UIManager.getResourceBundle());
-		tradePopover = new PopOver();
-		try {
-			tradePopover.setContentNode(popoverLoader.load());
-			tradePopover.setArrowLocation(ArrowLocation.TOP_LEFT);
-			tradePopover.setFadeInDuration(Duration.millis(50));
-			tradePopoverController = ((TradeComponentPopoverController) popoverLoader.getController());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 
 	/**
 	 * Creates and initializes the {@link Tab} for the given {@link ProductCategory}
@@ -158,15 +129,52 @@ public class StockManagementController extends GameModuleController {
 		return gridAnchor;
 	}
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		GameState.getInstance().getWarehousingDepartment().registerPropertyChangeListener(new WarehouseEventlistener());
+		cells = new HashMap<ComponentType, ComponentStockCell>();
+
+		for (ProductCategory productCat : ProductCategory.values()) {
+			productTabPane.getTabs().add(createTabForProduct(productCat));
+		}
+
+		// Prepare the Popover for the trade buttons
+		FXMLLoader popoverLoader = new FXMLLoader(
+				getClass().getClassLoader().getResource("fxml/components/trade_component_popover.fxml"),
+				UIManager.getResourceBundle());
+		tradePopover = new PopOver();
+		try {
+			tradePopover.setContentNode(popoverLoader.load());
+			tradePopover.setArrowLocation(ArrowLocation.TOP_RIGHT);
+			tradePopover.setFadeInDuration(Duration.millis(50));
+			tradePopoverController = ((TradeComponentPopoverController) popoverLoader.getController());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	/**
 	 * Displays the {@link PopOver} for trading a component with a given supplier.
 	 * 
 	 * @param component The {@link Component} to trade.
 	 * @param node      The {@link Node} to display the {@link PopOver} on.
+	 * @param price     The price of the {@link Component} to trade.
 	 */
-	public void showTradePopover(Component component, Node node) {
-		tradePopoverController.updateComponent(component);
+	public void showTradePopover(Component component, Node node, double price) {
+		tradePopoverController.updatePopover(component, price);
 		tradePopover.show(node);
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void updateComponent(Component component) {
+		cells.get(component.getComponentType()).updateQuality(component.getSupplierCategory());
 	}
 
 	/**
@@ -182,6 +190,18 @@ public class StockManagementController extends GameModuleController {
 				entry.getValue().setComponentAvailable(new Component(entry.getKey()).isAvailable(date));
 			}
 		});
+	}
+
+	/**
+	 * Recalculates prices for the {@link Component}s of each
+	 * {@link SupplierCategory}.
+	 * 
+	 * @param date The {@link LocalDate} to calculate prices for.
+	 */
+	public void updateComponentPrices(LocalDate date) {
+		for (Entry<ComponentType, ComponentStockCell> entry : cells.entrySet()) {
+			entry.getValue().updateQuarterlyComponentPrices(date);
+		}
 	}
 
 }

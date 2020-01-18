@@ -7,7 +7,10 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameAlert;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
@@ -18,7 +21,8 @@ import javafx.scene.layout.AnchorPane;
 
 public class TradeComponentPopoverController implements Initializable {
 
-	private Component component;
+	private double componentPrice;
+	private Component component = null;
 
 	@FXML
 	private Button buyButton, sellButton;
@@ -27,30 +31,47 @@ public class TradeComponentPopoverController implements Initializable {
 	private AnchorPane root;
 
 	@FXML
-	private Label componentName, supplierLabel;
+	private Label componentName, priceLabel, qualityLabel;
 
 	@FXML
-	private TextField buyAmountField, sellAmountField;
+	private TextField amountField;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CssHelper.replaceStylesheets(root.getStylesheets());
-		buyButton.setText(UIManager.getLocalisedString("component.buy").replace("XXX", "15 CC")); // TODO get price
-		sellButton.setText(UIManager.getLocalisedString("component.sell").replace("XXX", "10 CC"));
 	}
 
-	public void updateComponent(Component component) {
+	public void updatePopover(Component component, double price) {
+		this.componentPrice = price;
 		this.component = component;
-		supplierLabel.setText(component.getSupplierCategory().getName(UIManager.getResourceBundle().getLocale()));
 		componentName.setText(UIManager.getLocalisedString("component.trade")
-				+ component.getComponentName(UIManager.getResourceBundle().getLocale()));
-		buyAmountField.setText("0");
-		sellAmountField.setText("0");
+				+ component.getComponentType().getName(UIManager.getResourceBundle().getLocale()));
+		amountField.setText("0");
+		this.qualityLabel.setText(component.getSupplierCategoryShortForm()); // TODO localize
+		// force the field to be numeric only
+		amountField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d*")) {
+					amountField.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+				if (newValue.equals("")) {
+					amountField.setText("0");
+				}
+				updatePrice();
+			}
+		});
+		updatePrice();
+	}
+
+	private void updatePrice() {
+		double cost = componentPrice * Integer.parseInt(amountField.getText());
+		priceLabel.setText(UIManager.getLocalisedString("component.price") + CapCoinFormatter.getCapCoins(cost));
 	}
 
 	@FXML
 	private void buyComponent() {
-		String input = buyAmountField.getText();
+		String input = amountField.getText();
 		try {
 			int amount = Integer.parseInt(input);
 			int freeStorage = GameController.getInstance().getFreeStorage();
@@ -59,27 +80,27 @@ public class TradeComponentPopoverController implements Initializable {
 						"Will buy as much as possible (" + freeStorage + ") for now.");
 				alert.showAndWait();
 				if (freeStorage != 0) {
-					GameController.getInstance().buyComponents(component, freeStorage);
+					GameController.getInstance().buyComponents(component, freeStorage); //TODO what happens when there is not enough cash
 				}
 			} else { // TODO costs for component
 				GameController.getInstance().buyComponents(component, amount);
 			}
 		} catch (NumberFormatException e) {
 			// ignore incorrect input and reset text
-			buyAmountField.setText("0");
+			amountField.setText("0");
 			return;
 		}
 	}
 
 	@FXML
 	private void sellComponent() {
-		String input = sellAmountField.getText();
+		String input = amountField.getText();
 		try {
 			int amount = Integer.parseInt(input);
 			// TODO implement selling?
 		} catch (NumberFormatException e) {
 			// ignore incorrect input and reset text
-			sellAmountField.setText("0");
+			amountField.setText("0");
 			return;
 		}
 	}

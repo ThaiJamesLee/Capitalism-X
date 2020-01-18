@@ -77,6 +77,11 @@ FontAwesomeIcon {
 	-fx-fill: -fx-primary; 
 }
 
+.icon_button_bg {
+	-fx-text-fill: -fx-complement-neutral; 
+	-fx-fill: -fx-complement-neutral; 
+}
+
 .tutorial_highlight {
 	-fx-effect: dropshadow(gaussian, -fx-complement, 10, 0.8, 0, 0);
 }
@@ -137,7 +142,16 @@ FontAwesomeIcon {
 .icon_button_invisible {
 	-fx-background-color: transparent;
 	-fx-border-width: 0 0 0 0;
-	-fx-border-color: -fx-primary;
+}
+
+.icon_button {
+	-fx-cursor: hand;
+	-fx-text-fill: -fx-primary-neutral; 
+	-fx-fill: -fx-primary-neutral; 
+}
+.icon_button:hover {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
 }
 
 

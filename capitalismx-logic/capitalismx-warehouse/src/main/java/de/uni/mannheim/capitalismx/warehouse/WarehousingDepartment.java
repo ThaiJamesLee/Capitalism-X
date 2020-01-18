@@ -35,7 +35,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     private int daysSinceFreeStorageThreshold;
     private boolean warehouseSlotsAvailable;
 
-    private PropertyChangeSupportMap inventoryChange;
+    private PropertyChangeSupportMap<Unit, Integer> inventoryChange;
 
     private static final Logger logger = LoggerFactory.getLogger(WarehousingDepartment.class);
 

@@ -31,6 +31,9 @@ public class GameStateEventListener implements PropertyChangeListener {
 		if (evt.getPropertyName().equals("gameDate")) {
 			UIManager.getInstance().getGameHudController().update();
 			LocalDate date = (LocalDate) evt.getNewValue();
+			StockManagementController stockController = ((StockManagementController) UIManager.getInstance()
+					.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+					.getController());
 
 			List<ExternalEvents.ExternalEvent> events = GameController.getInstance()
 					.getExternalEvents(date.minusDays(1));
@@ -47,9 +50,13 @@ public class GameStateEventListener implements PropertyChangeListener {
 			}
 
 			// update yearly tasks
-			if (date.getDayOfYear() == 1 && date.getMonthValue() == 1) {
-				((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE)
-						.getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateComponentAvailability();
+			if (date.getDayOfYear() == 1) {
+				stockController.updateComponentAvailability();
+			}
+
+			// update component prices every three months
+			if (date.getDayOfMonth() == 1 && date.getMonthValue() % 3 == 0) {
+				stockController.updateComponentPrices(date);
 			}
 		}
 
