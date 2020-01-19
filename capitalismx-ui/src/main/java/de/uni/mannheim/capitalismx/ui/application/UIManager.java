@@ -14,11 +14,13 @@ import de.uni.mannheim.capitalismx.ui.components.GameScene;
 import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
+import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListController;
 import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import javafx.application.Platform;
@@ -44,14 +46,22 @@ import javafx.stage.WindowEvent;
  */
 public class UIManager {
 
-	private Tutorial tutorial;
 	private static UIManager instance;
 	// Provide access to correct Resource Bundle
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.main", Locale.ENGLISH);
-
 	public static UIManager getInstance() {
 		return instance;
 	}
+
+	public static String getLocalisedString(String key) {
+		return resourceBundle.getString(key);
+	}
+
+	public static ResourceBundle getResourceBundle() {
+		return resourceBundle;
+	}
+
+	private Tutorial tutorial;
 
 	/**
 	 * The {@link GameScene}s of the game.
@@ -61,19 +71,19 @@ public class UIManager {
 	private GameScene sceneGamePage;
 
 	private GameScene sceneLoadingScreen;
-	
-	private GameScene sceneCreditsPage;
-	
-	private GameScene sceneLostPage;
-	
-	private GameScene sceneWonPage;
 
+	private GameScene sceneCreditsPage;
+
+	private GameScene sceneLostPage;
+
+	private GameScene sceneWonPage;
 	// List containing all GameViews
 	private List<GameView> gameViews;
-
 	// The Stage object representing the window.
 	private Stage window;
+
 	private Locale language;
+
 	// Controller for the main scene of the game.
 	private GamePageController gamePageController;
 
@@ -84,7 +94,6 @@ public class UIManager {
 	// Get information about the resolution of the game.
 	private GameResolution gameResolution;
 
-	
 	/**
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
@@ -105,6 +114,17 @@ public class UIManager {
 
 		// set the initial main menu scene as starting scene
 		window.setScene(new Scene(sceneMenuMain.getScene()));
+	}
+
+	/**
+	 * Called when GameOver condition is reached and directs to the corresponding
+	 * View for Lost or Won
+	 */
+	public void gameOver(boolean won) {
+		GameSceneType next = won ? GameSceneType.GAMEWON_PAGE : GameSceneType.GAMELOST_PAGE;
+
+		stopGame();
+		switchToScene(next);
 	}
 
 	public GameHudController getGameHudController() {
@@ -139,6 +159,15 @@ public class UIManager {
 		return null;
 	}
 
+	/**
+	 * Returns the language file as java.util.locale.
+	 * 
+	 * @return The requested language file as Locale.
+	 */
+	public Locale getLanguage() {
+		return language;
+	}
+
 	public GameScene getSceneGame() {
 		return sceneGamePage;
 	}
@@ -146,16 +175,32 @@ public class UIManager {
 	public GameScene getSceneMenuMain() {
 		return sceneMenuMain;
 	}
-	
+
+	public Stage getStage() {
+		return window;
+	}
+
 	public Tutorial getTutorial() {
 		return tutorial;
+	}
+
+	/**
+	 * This method is being called after initialising all {@link GameModule}s and
+	 * can be used to check if some optional modules should be activated.
+	 */
+	private void initDepartments() {
+		// check WAREHOUSE
+		if (GameState.getInstance().getWarehousingDepartment().getWarehouses().size() > 0) {
+			((WarehouseListController) getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_LIST)
+					.getController()).activateWarehouseModules();
+		}
 	}
 
 	/**
 	 * Initialize the KeyboardControls on the GamePage.
 	 */
 	private void initKeyboardControls() {
-		
+
 		sceneGamePage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -239,22 +284,19 @@ public class UIManager {
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
-			
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/creditsPage.fxml"),
-					resourceBundle);
+
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/creditsPage.fxml"), resourceBundle);
 			root = loader.load();
 			sceneCreditsPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
-			
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameLostPage.fxml"),
-					resourceBundle);
+
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameLostPage.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLostPage = new GameScene(root, GameSceneType.GAMELOST_PAGE, loader.getController());
-			
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameWonPage.fxml"),
-					resourceBundle);
+
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameWonPage.fxml"), resourceBundle);
 			root = loader.load();
 			sceneWonPage = new GameScene(root, GameSceneType.GAMELOST_PAGE, loader.getController());
-			
+
 		} catch (IOException e) {
 			// TODO Handle error if scenes cannot be initialized
 			e.printStackTrace();
@@ -332,9 +374,11 @@ public class UIManager {
 					}
 
 					initKeyboardControls();
+
 					// start the game once everything is loaded
 					startGame();
-					
+					initDepartments();
+
 					if (UIManager.getResourceBundle().getLocale().equals(Locale.ENGLISH)) {
 						gameHudController.initTutorialCheck();
 					}
@@ -376,9 +420,9 @@ public class UIManager {
 	 */
 	public void reloadProperties() {
 		String newProperties;
-		if(this.language.equals(Locale.ENGLISH)){
+		if (this.language.equals(Locale.ENGLISH)) {
 			newProperties = "properties.main";
-			this.language = Locale.GERMAN;	
+			this.language = Locale.GERMAN;
 		} else {
 			newProperties = "properties.main";
 			this.language = Locale.ENGLISH;
@@ -396,24 +440,29 @@ public class UIManager {
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
-			
+
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/creditsPage.fxml"), resourceBundle);
 			root = loader.load();
 			sceneCreditsPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
-			
+
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameLostPage.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLostPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
-			
+
 			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameWonPage.fxml"), resourceBundle);
 			root = loader.load();
 			sceneWonPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
-			
+
 			switchToScene(GameSceneType.MENU_MAIN);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void resetResolution() {
+		// TODO adjust/force size of Scene/Stage to given Resolution or just switch css
+//		CssHelper.adjustCssToCurrentResolution();
 	}
 
 	/**
@@ -425,11 +474,6 @@ public class UIManager {
 		gamePageController = null;
 		gameMapController = null;
 		gameViews.clear();
-	}
-
-	public void resetResolution() {
-		// TODO adjust/force size of Scene/Stage to given Resolution or just switch css
-//		CssHelper.adjustCssToCurrentResolution();
 	}
 
 	public void setGameHudController(GameHudController gameHudController) {
@@ -492,7 +536,7 @@ public class UIManager {
 		case GAMEWON_PAGE:
 			window.getScene().setRoot(sceneWonPage.getScene());
 			break;
-			
+
 		default:
 			// TODO handle if no scene found
 			break;
@@ -504,38 +548,6 @@ public class UIManager {
 	 */
 	public void toggleFullscreen() {
 		window.setFullScreen(!window.isFullScreen());
-	}
-
-	/**
-	 * Returns the language file as java.util.locale.
-	 * 
-	 * @return The requested language file as Locale.
-	 */
-	public Locale getLanguage() {
-		return language;
-	}
-
-	
-	/**
-	 * Called when GameOver condition is reached and directs to the corresponding View for Lost or Won
-	 */
-	public void gameOver(boolean won) {
-		GameSceneType next = won ? GameSceneType.GAMEWON_PAGE : GameSceneType.GAMELOST_PAGE;
-		
-		stopGame();
-		switchToScene(next);
-	}
-	
-	public static ResourceBundle getResourceBundle() {
-		return resourceBundle;
-	}
-
-	public static String getLocalisedString(String key) {
-		return resourceBundle.getString(key);
-	}
-
-	public Stage getStage() {
-		return window;
 	}
 
 }

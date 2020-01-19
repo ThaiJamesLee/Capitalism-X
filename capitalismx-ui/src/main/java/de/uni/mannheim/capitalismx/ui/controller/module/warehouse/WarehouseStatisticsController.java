@@ -48,7 +48,6 @@ public class WarehouseStatisticsController extends GameModuleController {
 		int overallCapacity = warehouse.getTotalCapacity();
 		int currentUnitsStored = warehouse.getStoredUnits();
 		int freeStorage = warehouse.getFreeStorage();
-		int percentStorageUsed = (int) ((currentUnitsStored / (double) overallCapacity) * 100);
 
 		fillOccupied.setPieValue(currentUnitsStored);
 		fillEmpty.setPieValue(freeStorage);

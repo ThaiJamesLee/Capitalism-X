@@ -269,7 +269,7 @@ public class GamePageController implements UpdateableController {
 	 */
 	public void updateDisplayOfCurrentView(GameViewType viewType) {
 		// if the current view is not of the given type, do not update
-		if (currentActiveView.getViewType() != viewType)
+		if (currentActiveView == null || currentActiveView.getViewType() != viewType)
 			return;
 
 		for (GameModule module : currentActiveView.getModules()) {
