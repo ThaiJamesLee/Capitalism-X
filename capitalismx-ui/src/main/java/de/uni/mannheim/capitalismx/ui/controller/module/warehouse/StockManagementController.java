@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
@@ -173,6 +172,11 @@ public class StockManagementController extends GameModuleController {
 
 	}
 
+	/**
+	 * Update the stock of a particular {@link Component}.
+	 * 
+	 * @param component The {@link Component} to update the stored amount for.
+	 */
 	public void updateComponent(Component component) {
 		cells.get(component.getComponentType()).updateQuality(component.getSupplierCategory());
 	}
@@ -180,8 +184,6 @@ public class StockManagementController extends GameModuleController {
 	/**
 	 * Update the availability of the {@link Component}s. Enables/Disables the
 	 * Buttons in the {@link ComponentStockCell}s.
-	 * 
-	 * 
 	 */
 	public void updateComponentAvailability() {
 		Platform.runLater(() -> {

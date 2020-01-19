@@ -413,7 +413,14 @@ FontAwesomeIcon {
  .separator_horizontal {
  	-fx-border-width: 1.0 0.0 0.0 0.0;
  	-fx-border-color: -fx-primary-dark;
- 	-fx-border-insets: 0.0 5.0 0.0 5.0;
+ 	-fx-border-insets: 0.0 2.0 0.0 2.0;
+ }
+ 
+ .stat-box {
+ 	-fx-background-color: -fx-primary-light;
+ 	-fx-border-color: -fx-primary;
+ 	-fx-border-width: 2 0 0 0;
+ 	-fx-padding: -2;
  }
 
 
@@ -488,6 +495,13 @@ FontAwesomeIcon {
 .default-color0.chart-line-symbol{
     -fx-background-color: -fx-primary, -fx-primary;
 }
+
+
+.data0.chart-pie { -fx-pie-color: -fx-primary; }
+.data1.chart-pie { -fx-pie-color: -fx-primary-light-neutral; }
+.data2.chart-pie { -fx-pie-color: -fx-primary-neutral; }
+.data3.chart-pie { -fx-pie-color: -fx-complement; }
+.data4.chart-pie { -fx-pie-color: -fx-complement-light-neutral; }
  
  .axis {
  	-fx-border-color: -fx-primary-dark;
@@ -509,6 +523,11 @@ FontAwesomeIcon {
  	-fx-border-width: 2.0 0.0 0.0 0.0;
  	-fx-border-insets: 0.0 0.0 0.0 -1.0;
  }
+ 
+.chart-pie {
+	-fx-border-color: -fx-primary-neutral;
+	-fx-border-width: 1;
+}
  
 /**
  * Styling of radio buttons
