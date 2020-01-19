@@ -12,6 +12,7 @@ import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.general.CapXPieChart;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
@@ -29,7 +30,7 @@ public class WarehouseStatisticsController extends GameModuleController {
 	@FXML
 	private AnchorPane fillPane, productPane, componentPane;
 
-	private PieChart fillPie, productPie, componentPie;
+	private CapXPieChart fillPie, productPie, componentPie;
 
 	private PieChart.Data fillOccupied, fillEmpty;
 
@@ -61,7 +62,8 @@ public class WarehouseStatisticsController extends GameModuleController {
 				if (productPieces.containsKey(product)) {
 					productPieces.get(product).setPieValue(inventory.get(unit));
 				} else {
-					productPieces.put(product, new PieChart.Data(product.getProductName(), inventory.get(unit)));
+					PieChart.Data data = new PieChart.Data(product.getProductName(), inventory.get(unit));
+					productPieces.put(product, data);
 				}
 			}
 		}
@@ -75,15 +77,15 @@ public class WarehouseStatisticsController extends GameModuleController {
 	public void initialize(URL location, ResourceBundle resources) {
 		fillEmpty = new PieChart.Data(UIManager.getLocalisedString("warehouse.stats.empty"), 0);
 		fillOccupied = new PieChart.Data(UIManager.getLocalisedString("warehouse.stats.occupied"), 0); // TODO localize
-		fillPie = new PieChart(FXCollections.observableArrayList(fillEmpty, fillOccupied));
+		fillPie = new CapXPieChart(FXCollections.observableArrayList(fillEmpty, fillOccupied));
 		AnchorPaneHelper.snapNodeToAnchorPane(fillPie);
 		fillPane.getChildren().add(fillPie);
 
-		productPie = new PieChart();
+		productPie = new CapXPieChart();
 		AnchorPaneHelper.snapNodeToAnchorPane(productPie);
 		productPane.getChildren().add(productPie);
 
-		componentPie = new PieChart();
+		componentPie = new CapXPieChart();
 		AnchorPaneHelper.snapNodeToAnchorPane(componentPie);
 		componentPane.getChildren().add(componentPie);
 

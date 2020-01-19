@@ -10,7 +10,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
-import de.uni.mannheim.capitalismx.ui.controller.module.hr.HrStatsController;
+import de.uni.mannheim.capitalismx.ui.controller.module.hr.HrStatisticsController;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.TeamDetailController;
 
 public class HREventListener implements PropertyChangeListener {
@@ -31,7 +31,7 @@ public class HREventListener implements PropertyChangeListener {
 				UIManager.getInstance().getGameHudController().updateNumOfEmployees();
 
 				// Update Statistics Module
-				HrStatsController statsController = (HrStatsController) hrView.getModule(UIElementType.HR_STATISTICS)
+				HrStatisticsController statsController = (HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS)
 						.getController();
 				statsController.update();
 			}

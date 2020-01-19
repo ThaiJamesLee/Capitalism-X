@@ -6,6 +6,8 @@
    -fx-primary-light: rgb(255.0,252.0,244.0,1.0);
    -fx-primary-light-neutral: rgb(133.0,129.0,117.0,1.0);
    -fx-primary-neutral: rgb( 29.0, 27.0, 21.0,1.0);
+   -fx-secondary-1: rgb1(227,211, 82,1);
+   -fx-secondary-2: rgb1(227,162, 82,1);
    -fx-complement-light: rgb(227.0,228.0,236.0,1.0);	/* Main Complement color */
    -fx-complement-light-neutral:  rgb( 83.0, 83.0, 92.0,1.0);
    -fx-complement-neutral: rgb( 15.0, 16.0, 20.0,1.0) ;
@@ -498,10 +500,17 @@ FontAwesomeIcon {
 
 
 .data0.chart-pie { -fx-pie-color: -fx-primary; }
-.data1.chart-pie { -fx-pie-color: -fx-primary-light-neutral; }
-.data2.chart-pie { -fx-pie-color: -fx-primary-neutral; }
-.data3.chart-pie { -fx-pie-color: -fx-complement; }
-.data4.chart-pie { -fx-pie-color: -fx-complement-light-neutral; }
+.data1.chart-pie { -fx-pie-color: -fx-primary-neutral; }
+.data2.chart-pie { -fx-pie-color: -fx-secondary-1; }
+.data3.chart-pie { -fx-pie-color: -fx-primary-light-neutral; }
+.data4.chart-pie { -fx-pie-color: -fx-secondary-2; }
+.data5.chart-pie { -fx-pie-color: -fx-complement-neutral; }
+.data6.chart-pie { -fx-pie-color: -fx-complement; }
+.data7.chart-pie { -fx-pie-color: -fx-complement-light-neutral; }
+.data8.chart-pie { -fx-pie-color: -fx-primary-dark; }
+.data9.chart-pie { -fx-pie-color: -fx-primary-light; }
+.data10.chart-pie { -fx-pie-color: -fx-complement-dark; }
+.data11.chart-pie { -fx-pie-color: -fx-complement-light; }
  
  .axis {
  	-fx-border-color: -fx-primary-dark;
