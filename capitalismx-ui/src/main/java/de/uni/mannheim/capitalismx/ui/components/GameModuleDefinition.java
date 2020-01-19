@@ -41,7 +41,7 @@ public enum GameModuleDefinition {
 	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 5, 0, 15), true),
 	WAREHOUSE_STOCK_MANAGEMENT("stock_management.fxml", GameViewType.WAREHOUSE,
 			UIElementType.WAREHOUSE_STOCK_MANAGEMENT, new GridPosition(10, 10, 0, 20), false),
-	WAREHOUSE_SEGMENTS("warehouse_information.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_SEGMENTS, new GridPosition(5, 4, 0,
+	WAREHOUSE_STATISTICS("warehouse_statistics.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_STATISTICS, new GridPosition(5, 4, 0,
 			20), false),
 
 	// The modules for HR.

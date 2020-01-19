@@ -108,7 +108,7 @@ public class WarehouseListViewCell extends ListCell<Warehouse> {
 		UIManager manager = UIManager.getInstance();
 		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
 				.setActivated(false);
-		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_SEGMENTS).setActivated(false);
+		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STATISTICS).setActivated(false);
 		manager.getGamePageController().updateDisplayOfCurrentView(GameViewType.WAREHOUSE);
 	}
 

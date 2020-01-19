@@ -101,7 +101,7 @@ public class WarehouseListController extends GameModuleController {
 		UIManager manager = UIManager.getInstance();
 		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
 				.setActivated(true);
-		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_SEGMENTS).setActivated(true);
+		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STATISTICS).setActivated(true);
 		manager.getGamePageController().updateDisplayOfCurrentView(GameViewType.WAREHOUSE);
 	}
 

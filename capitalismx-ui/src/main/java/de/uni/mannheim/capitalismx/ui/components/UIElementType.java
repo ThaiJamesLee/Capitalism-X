@@ -30,7 +30,7 @@ public enum UIElementType {
     PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW("Ordered Components"),
 	RESDEV_CATEGORY_UNLOCKER("Unlock Categories"),
     SALES_CONTRACT_OVERVIEW("Contract Management"),
-	WAREHOUSE_SEGMENTS("Partition"),
+	WAREHOUSE_STATISTICS("Partition"),
 	WAREHOUSE_STOCK_MANAGEMENT("Stock Management"),
 	MARKETING_PRESSRELEASE("Press Releases"),
 	MARKETING_CAMPAIGNS("Marketing Campaigns"),
