@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents.ExternalEvent;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -44,10 +45,9 @@ public class GameStateEventListener implements PropertyChangeListener {
 			// issue here is that the list is not yet updated when the gamedate is updated
 			if (events != null) {
 				for (ExternalEvent event : events) {
-					UIManager.getInstance().getGameHudController()
-							.addNotification(new GameNotification(new MessageObject("your assistant",
-									((LocalDate) evt.getNewValue()).toString(), event.getTitle(),
-									"This is a more detailed description of the event ...", false)));
+					GameState.getInstance().getMessages()
+							.add(new MessageObject("your assistant", ((LocalDate) evt.getNewValue()).toString(),
+									event.getTitle(), "This is a more detailed description of the event ...", false));
 				}
 			}
 
@@ -59,7 +59,9 @@ public class GameStateEventListener implements PropertyChangeListener {
 			// update quarterly
 			if (date.getDayOfMonth() == 1 && date.getMonthValue() % 3 == 1) {
 				stockController.updateComponentPrices(date);
-				((RecruitingListController)UIManager.getInstance().getGameView(GameViewType.HR).getModule(UIElementType.HR_RECRUITING_OVERVIEW).getController()).regenerateRecruitingProspects();
+				((RecruitingListController) UIManager.getInstance().getGameView(GameViewType.HR)
+						.getModule(UIElementType.HR_RECRUITING_OVERVIEW).getController())
+								.regenerateRecruitingProspects();
 			}
 		}
 
