@@ -5,15 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.hr.RecruitingListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.HREventListener;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -58,18 +59,30 @@ public class RecruitingListController extends GameModuleController {
 		GameState.getInstance().getHrDepartment().getHired().addPropertyChangeListener(hrEventListener);
 		observableLists = new HashMap<EmployeeType, ObservableList<Employee>>();
 		listViews = new HashMap<EmployeeType, ListView<Employee>>();
-		EmployeeGenerator generator = EmployeeGenerator.getInstance();
-		generator.setDepartment(GameState.getInstance().getHrDepartment());
 
 		for (EmployeeType employeeType : EmployeeType.values()) {
 			recruitingTabPane.getTabs().add(createEmployeeTypeTab(employeeType));
-
-			//TODO change number of prospects with level of department?
-			for (int i = 0; i < 10; i++) {
-				observableLists.get(employeeType).add(generator.createRandomEmployee(employeeType));
-			}
 		}
+		
+		regenerateRecruitingProspects();
+	}
 
+	/**
+	 * Regenerate the currently displayed recruiting prospects.
+	 */
+	public void regenerateRecruitingProspects() {
+		Platform.runLater(() -> {
+			EmployeeGenerator generator = EmployeeGenerator.getInstance();
+			generator.setDepartment(GameState.getInstance().getHrDepartment());
+
+			for (EmployeeType employeeType : EmployeeType.values()) {
+				observableLists.get(employeeType).clear();
+				// TODO change number of prospects with level of department?
+				for (int i = 0; i < 8; i++) {
+					observableLists.get(employeeType).add(generator.createRandomEmployee(employeeType));
+				}
+			}
+		});
 	}
 
 	/**

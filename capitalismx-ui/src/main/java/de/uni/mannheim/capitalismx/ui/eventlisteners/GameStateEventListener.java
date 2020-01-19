@@ -12,8 +12,10 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
+import javafx.application.Platform;
 
 /**
  * Ein GameState Event Listener.
@@ -54,9 +56,10 @@ public class GameStateEventListener implements PropertyChangeListener {
 				stockController.updateComponentAvailability();
 			}
 
-			// update component prices every three months
-			if (date.getDayOfMonth() == 1 && date.getMonthValue() % 3 == 0) {
+			// update quarterly
+			if (date.getDayOfMonth() == 1 && date.getMonthValue() % 3 == 1) {
 				stockController.updateComponentPrices(date);
+				((RecruitingListController)UIManager.getInstance().getGameView(GameViewType.HR).getModule(UIElementType.HR_RECRUITING_OVERVIEW).getController()).regenerateRecruitingProspects();
 			}
 		}
 
