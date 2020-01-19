@@ -49,6 +49,7 @@ public class UIManager {
 	private static UIManager instance;
 	// Provide access to correct Resource Bundle
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.main", Locale.ENGLISH);
+
 	public static UIManager getInstance() {
 		return instance;
 	}
@@ -267,7 +268,7 @@ public class UIManager {
 	 */
 	public void loadGame() {
 		GameController.getInstance().loadGame();
-		prepareGame();
+		prepareGame(false);
 	}
 
 	/**
@@ -307,26 +308,28 @@ public class UIManager {
 	 * Starts a new Game by preparing all necessary resources.
 	 */
 	public void newGame() {
-		prepareGame();
+		prepareGame(true);
 	}
 
 	/**
 	 * Initializes all components needed for a new Game.
 	 */
-	private void prepareGame() {
+	private void prepareGame(boolean newGame) {
 		resetUIElements();
 		tutorial = new Tutorial();
 		GameState.getInstance().initiate();
 
 		switchToScene(GameSceneType.LOADING_SCREEN);
 		// load all the modules and save them in the gameModules-list
-		prepareGamePage();
+		prepareGamePage(newGame);
 	}
 
 	/**
 	 * Preloads all the {@link GameModule}s and adds them to the list of modules.
+	 * 
+	 * @param newGame Whether a new Game is being prepared or a save game is loaded.
 	 */
-	private void prepareGamePage() {
+	private void prepareGamePage(boolean newGame) {
 		// Create a task to load all the Modules without freezing the GUI
 		Task<Integer> task = new Task<Integer>() {
 
@@ -379,7 +382,7 @@ public class UIManager {
 					startGame();
 					initDepartments();
 
-					if (UIManager.getResourceBundle().getLocale().equals(Locale.ENGLISH)) {
+					if (newGame) {
 						gameHudController.initTutorialCheck();
 					}
 				} catch (IOException e) {
