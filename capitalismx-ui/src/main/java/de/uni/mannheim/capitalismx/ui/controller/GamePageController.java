@@ -79,117 +79,6 @@ public class GamePageController implements UpdateableController {
 	// flag to know whether menu Pane is open or not: true=open false=closed.
 	private boolean openMenuPane = false;
 
-	public StackPane getContentStack() {
-		return contentStack;
-	}
-
-	public boolean isMapControlsEnabled() {
-		return mapControlsEnabled;
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		CssHelper.replaceStylesheets(contentStack.getStylesheets());
-
-		// Bind titleLabel to StringProperty in SideMenuController
-//		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/sidemenu.fxml"));
-//		Parent rootB;
-		try {
-//			rootB = loader.load();
-			// TODO remove or adjust if necessary
-//			SideMenuController controllerB = loader.getController();
-//			viewTitleLabel.textProperty().unbind();
-//			viewTitleLabel.textProperty().bind(controllerB.titleProperty());
-//			sidemenuPane.getChildren().setAll(rootB);
-
-			FXMLLoader loader2 = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/module/overview_map3d.fxml"));
-			mapLayer.getChildren().add(loader2.load());
-			UIManager.getInstance().setGameMapController(loader2.getController());
-			mapLayer.toBack();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		try {
-			FXMLLoader loaderMessageWindow = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
-			Parent rootC = loaderMessageWindow.load();
-			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);
-			;
-			messageController = loaderMessageWindow.getController();
-			messageLayer.getChildren().add(rootC);
-			messageLayer.toBack();
-
-			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 0);
-			MessageObject m2 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event2", true,
-					5);
-			messageController.addMessage(m1);
-			messageController.addMessage(m2);
-
-			// messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1",
-			// "con.event1", true, null);
-			// messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1",
-			// "con.event2", true, GameViewType.PRODUCTION);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		try {
-			FXMLLoader loaderIngameMenu = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"), UIManager.getResourceBundle());
-			Parent root = loaderIngameMenu.load();
-			AnchorPaneHelper.snapNodeToAnchorPane(root);
-			ingameMenuController = loaderIngameMenu.getController();
-			menuLayer.getChildren().add(root);
-			menuLayer.toBack();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		moduleGrid = UIManager.getInstance().getGameHudController().getModuleGrid();
-		overlayLayer.setOnMouseClicked(e -> {
-			resetOverlay();
-		});
-		messageLayer.setOnMouseClicked(e -> {
-			toggleMessageWindow();
-		});
-	}
-
-	public void toggleMessageWindow() {
-		if (!openMessagePane) {
-			messageLayer.toFront();
-			openMessagePane = true;
-		} else {
-			messageLayer.toBack();
-			openMessagePane = false;
-		}
-
-	}
-
-	public void toggleIngameMenu() {
-		if (!openMenuPane) {
-			menuLayer.toFront();
-			openMenuPane = true;
-		} else {
-			menuLayer.toBack();
-			openMenuPane = false;
-		}
-	}
-
-	/**
-	 * Use this method to open the message window and to display a specific message.
-	 * The displayed message must already exist in the message list.
-	 * 
-	 * @param messageToShow The mMessageObject that should be shown.
-	 */
-	public void showMessage(MessageObject messageToShow) {
-		toggleMessageWindow();
-		messageController.showMessage(messageToShow);
-	}
-
 	/**
 	 * Use this method to add a message to the message list and to open the message
 	 * window. It will display the just added message.
@@ -200,36 +89,6 @@ public class GamePageController implements UpdateableController {
 		messageController.addMessage(messageToShow);
 		toggleMessageWindow();
 		messageController.showMessage(messageToShow);
-	}
-
-	@Override
-	public void update() {
-		for (GameModule m : currentActiveView.getModules()) {
-			m.getController().update();
-		}
-	}
-
-	/**
-	 * Removes a {@link GameModule} from the grid on the GamePage, if it is
-	 * currently displayed.
-	 *
-	 * @param module The {@link GameModule} to remove.
-	 */
-	private void removeModuleFromGrid(GameModule module, boolean animated) {
-		if (animated) {
-			// Create a transition for fading out the module
-			FadeTransition fade = new FadeTransition(Duration.millis(700), module.getRootElement());
-			fade.setFromValue(1.0);
-			fade.setToValue(0.0);
-			fade.setCycleCount(1);
-			fade.play();
-			fade.setOnFinished(e -> {
-				moduleGrid.getChildren().remove(module.getRootElement());
-			});
-		} else {
-			moduleGrid.getChildren().remove(module.getRootElement());
-		}
-
 	}
 
 	/**
@@ -258,27 +117,158 @@ public class GamePageController implements UpdateableController {
 		}
 	}
 
-	/**
-	 * Checks whether all {@link GameModule} of the currently active
-	 * {@link GameView} are present on the grid, if it is the of the given
-	 * {@link GameViewType}. If the module is activated but not present, it will be
-	 * added. If it is deactivated but present on the grid, it will be removed.
-	 *
-	 * @param viewType The {@link GameViewType} to update if it is currently
-	 *                 displayed.
-	 */
-	public void updateDisplayOfCurrentView(GameViewType viewType) {
-		// if the current view is not of the given type, do not update
-		if (currentActiveView == null || currentActiveView.getViewType() != viewType)
-			return;
+	public StackPane getContentStack() {
+		return contentStack;
+	}
 
-		for (GameModule module : currentActiveView.getModules()) {
-			if (module.isActivated() && !moduleGrid.getChildren().contains(module.getRootElement())) {
-				addModuleToGrid(module, true);
-			} else if (!module.isActivated() && moduleGrid.getChildren().contains(module.getRootElement())) {
-				removeModuleFromGrid(module, true);
-			}
+	public MessageController getMessageController() {
+		return messageController;
+	}
+
+	/**
+	 * Handle escape key -> If any menu elements are open, close them. If not open
+	 * ingame menu.
+	 */
+	public void handleEscape() {
+		// TODO add auto close of hud elements -> connect to GameHudController
+		if (openMessagePane) {
+			toggleMessageWindow();
+		} else {
+			toggleIngameMenu();
 		}
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		CssHelper.replaceStylesheets(contentStack.getStylesheets());
+
+		try {
+			FXMLLoader loader2 = new FXMLLoader(
+					getClass().getClassLoader().getResource("fxml/module/overview_map3d.fxml"));
+			mapLayer.getChildren().add(loader2.load());
+			UIManager.getInstance().setGameMapController(loader2.getController());
+			mapLayer.toBack();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			FXMLLoader loaderMessageWindow = new FXMLLoader(
+					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
+			Parent rootC = loaderMessageWindow.load();
+			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);
+			;
+			messageController = loaderMessageWindow.getController();
+			messageLayer.getChildren().add(rootC);
+			messageLayer.toBack();
+
+			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 0);
+			MessageObject m2 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event2", true, 5);
+			messageController.addMessage(m1);
+			messageController.addMessage(m2);
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			FXMLLoader loaderIngameMenu = new FXMLLoader(
+					getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"), UIManager.getResourceBundle());
+			Parent root = loaderIngameMenu.load();
+			AnchorPaneHelper.snapNodeToAnchorPane(root);
+			ingameMenuController = loaderIngameMenu.getController();
+			menuLayer.getChildren().add(root);
+			menuLayer.toBack();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		moduleGrid = UIManager.getInstance().getGameHudController().getModuleGrid();
+		overlayLayer.setOnMouseClicked(e -> {
+			resetOverlay();
+		});
+		messageLayer.setOnMouseClicked(e -> {
+			toggleMessageWindow();
+		});
+	}
+
+	public boolean isMapControlsEnabled() {
+		return mapControlsEnabled;
+	}
+
+	/**
+	 * Removes a {@link GameModule} from the grid on the GamePage, if it is
+	 * currently displayed.
+	 *
+	 * @param module The {@link GameModule} to remove.
+	 */
+	private void removeModuleFromGrid(GameModule module, boolean animated) {
+		if (animated) {
+			// Create a transition for fading out the module
+			FadeTransition fade = new FadeTransition(Duration.millis(700), module.getRootElement());
+			fade.setFromValue(1.0);
+			fade.setToValue(0.0);
+			fade.setCycleCount(1);
+			fade.play();
+			fade.setOnFinished(e -> {
+				moduleGrid.getChildren().remove(module.getRootElement());
+			});
+		} else {
+			moduleGrid.getChildren().remove(module.getRootElement());
+		}
+
+	}
+
+	/**
+	 * Remove the displayed overlay from the view and hide it in the background.
+	 */
+	@Deprecated
+	@FXML
+	public void resetOverlay() {
+		overlayLayer.toBack();
+		overlayLayer.getChildren().clear();
+	}
+
+	/**
+	 * Use this method to open the message window and to display a specific message.
+	 * The displayed message must already exist in the message list.
+	 * 
+	 * @param messageToShow The mMessageObject that should be shown.
+	 */
+	public void showMessage(MessageObject messageToShow) {
+		toggleMessageWindow();
+		messageController.showMessage(messageToShow);
+	}
+
+	/**
+	 * Removes currently displayed overlay elements and displays the requested one
+	 * 
+	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
+	 *                    display.
+	 */
+	@Deprecated
+	public void showOverlay(UIElementType elementType) {
+		showOverlay(elementType, new Properties());
+	}
+
+	/**
+	 * Removes currently displayed overlay elements and displays the requested one
+	 * 
+	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
+	 *                    display.
+	 * @param properties  Optional properties for the overlay.
+	 */
+	// TODO remove methods including overlay layer
+	@Deprecated
+	public void showOverlay(UIElementType elementType, Properties properties) {
+		resetOverlay();
+
+		// get requested overlay and display it, if module and overlay are not null
+		GameModule module = currentActiveView.getModule(elementType);
+		if (module == null)
+			return;
 	}
 
 	/**
@@ -314,69 +304,54 @@ public class GamePageController implements UpdateableController {
 		}
 	}
 
-	/**
-	 * Removes currently displayed overlay elements and displays the requested one
-	 * 
-	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
-	 *                    display.
-	 * @param properties  Optional properties for the overlay.
-	 */
-	// TODO remove methods including overlay layer
-	@Deprecated
-	public void showOverlay(UIElementType elementType, Properties properties) {
-		resetOverlay();
-
-		// get requested overlay and display it, if module and overlay are not null
-		GameModule module = currentActiveView.getModule(elementType);
-		if (module == null)
-			return;
-//		GameOverlay overlay = module.getOverlay();
-//		if (overlay == null)
-//			return;
-//
-//		overlay.getController().updateProperties(properties);
-//		overlay.getController().update();
-//		Parent rootElement = overlay.getRootElement();
-//		AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootElement, 10.0);
-//		overlayLayer.getChildren().add(rootElement);
-//		overlayLayer.toFront();
-	}
-
-	/**
-	 * Removes currently displayed overlay elements and displays the requested one
-	 * 
-	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
-	 *                    display.
-	 */
-	@Deprecated
-	public void showOverlay(UIElementType elementType) {
-		showOverlay(elementType, new Properties());
-	}
-
-	/**
-	 * Remove the displayed overlay from the view and hide it in the background.
-	 */
-	@Deprecated
-	@FXML
-	public void resetOverlay() {
-		overlayLayer.toBack();
-		overlayLayer.getChildren().clear();
-	}
-
-	public MessageController getMessageController() {
-		return messageController;
-	}
-
-	/**
-	 * Handle escape key -> If any menu elements are open, close them. If not open
-	 * ingame menu.
-	 */
-	public void handleEscape() {
-		// TODO add auto close of hud elements -> connect to GameHudController
-		if (openMessagePane) {
-			toggleMessageWindow();
+	public void toggleIngameMenu() {
+		if (!openMenuPane) {
+			menuLayer.toFront();
+			openMenuPane = true;
 		} else {
-			toggleIngameMenu();
+			menuLayer.toBack();
+			openMenuPane = false;
+		}
+	}
+
+	public void toggleMessageWindow() {
+		if (!openMessagePane) {
+			messageLayer.toFront();
+			openMessagePane = true;
+		} else {
+			messageLayer.toBack();
+			openMessagePane = false;
+		}
+
+	}
+
+	@Override
+	public void update() {
+		for (GameModule m : currentActiveView.getModules()) {
+			m.getController().update();
+		}
+	}
+
+	/**
+	 * Checks whether all {@link GameModule} of the currently active
+	 * {@link GameView} are present on the grid, if it is the of the given
+	 * {@link GameViewType}. If the module is activated but not present, it will be
+	 * added. If it is deactivated but present on the grid, it will be removed.
+	 *
+	 * @param viewType The {@link GameViewType} to update if it is currently
+	 *                 displayed.
+	 */
+	public void updateDisplayOfCurrentView(GameViewType viewType) {
+		// if the current view is not of the given type, do not update
+		if (currentActiveView == null || currentActiveView.getViewType() != viewType)
+			return;
+
+		for (GameModule module : currentActiveView.getModules()) {
+			if (module.isActivated() && !moduleGrid.getChildren().contains(module.getRootElement())) {
+				addModuleToGrid(module, true);
+			} else if (!module.isActivated() && moduleGrid.getChildren().contains(module.getRootElement())) {
+				removeModuleFromGrid(module, true);
+			}
 		}
 	}
 
