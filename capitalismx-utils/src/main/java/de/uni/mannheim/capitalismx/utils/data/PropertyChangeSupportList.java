@@ -74,7 +74,7 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
         return addPropertyName;
     }
 
-    public List<T> getList() {
+    public synchronized List<T> getList() {
         return list;
     }
 
@@ -100,7 +100,7 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
      *
      * @param t the new element to add.
      */
-    public void addOne(T t) {
+    public synchronized void addOne(T t) {
         copyList(oldList, list);
         list.add(t);
         propertyChangeSupport.firePropertyChange(addPropertyName, oldList, t);
@@ -120,7 +120,7 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
      *
      * @param t the element to remove.
      */
-    public void removeOne(T t) {
+    public synchronized void removeOne(T t) {
         copyList(oldList, list);
         list.remove(t);
         propertyChangeSupport.firePropertyChange(removePropertyName, oldList, t);
@@ -141,7 +141,7 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
      * @param index The index on the list.
      * @return Returns the object from the specified index.
      */
-    public T get(int index) {
+    public synchronized T get(int index) {
         return list.get(index);
     }
 
@@ -152,7 +152,7 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
      * @param dst The destination to copy to.
      * @param src The source to copy from.
      */
-    private void copyList(List<T> dst, List<T> src) {
+    private synchronized void copyList(List<T> dst, List<T> src) {
         dst.addAll(src);
     }
 
@@ -160,7 +160,7 @@ public class PropertyChangeSupportList<T extends Serializable> implements Serial
      *
      * @return Returns the size of the list.
      */
-    public int size() {
+    public synchronized int size() {
         return list.size();
     }
 

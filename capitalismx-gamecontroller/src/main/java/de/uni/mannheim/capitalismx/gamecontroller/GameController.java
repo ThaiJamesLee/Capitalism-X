@@ -83,6 +83,7 @@ public class GameController {
 			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
 			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(GameState.getInstance().getGameDate());
 			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
+			updateSalesDepartment();
 		}
 		this.updateAll();
 	}
@@ -227,6 +228,13 @@ public class GameController {
 
 	private void updateWarehouse() {
 		WarehousingDepartment.getInstance().calculateAll();
+	}
+
+	private void updateSalesDepartment() {
+		GameState state = GameState.getInstance();
+		SalesDepartment salesDepartment = SalesDepartment.getInstance();
+		salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+
 	}
 
 	public void start() {
