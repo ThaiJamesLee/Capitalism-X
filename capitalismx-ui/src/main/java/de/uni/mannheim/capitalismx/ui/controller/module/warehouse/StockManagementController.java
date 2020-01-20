@@ -166,6 +166,14 @@ public class StockManagementController extends GameModuleController {
 		tradePopover.show(node);
 	}
 
+	/**
+	 * Hides the {@link PopOver} for trading {@link Component}s, if it is currently
+	 * displayed.
+	 */
+	public void hideTradePopover() {
+		tradePopover.hide();
+	}
+
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub

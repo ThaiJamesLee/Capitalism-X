@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.warehouse;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -36,8 +37,6 @@ public class WarehouseStatisticsController extends GameModuleController {
 
 	private HashMap<Product, PieChart.Data> productPieces;
 
-	private HashMap<ComponentType, PieChart.Data> componentPieces;
-
 	private HashMap<SupplierCategory, PieChart.Data> qualityPieces;
 
 	@Override
@@ -54,15 +53,14 @@ public class WarehouseStatisticsController extends GameModuleController {
 
 		Map<Unit, Integer> inventory = warehouse.getInventory();
 		for (Unit unit : inventory.keySet()) {
-			if (unit instanceof Component) {
-				// TODO check if actually something in inventory?
-			} else if (unit instanceof Product) {
+			if (unit instanceof Product) {
 				Product product = (Product) unit;
 				if (productPieces.containsKey(product)) {
 					productPieces.get(product).setPieValue(inventory.get(unit));
 				} else {
 					PieChart.Data data = new PieChart.Data(product.getProductName(), inventory.get(unit));
 					productPieces.put(product, data);
+					productPie.addData(data);
 				}
 			}
 		}
@@ -75,7 +73,15 @@ public class WarehouseStatisticsController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fillEmpty = new PieChart.Data(UIManager.getLocalisedString("warehouse.stats.empty"), 0);
-		fillOccupied = new PieChart.Data(UIManager.getLocalisedString("warehouse.stats.occupied"), 0); // TODO localize
+		fillOccupied = new PieChart.Data(UIManager.getLocalisedString("warehouse.stats.occupied"), 0);
+
+		Locale locale = UIManager.getResourceBundle().getLocale();
+		for (SupplierCategory category : SupplierCategory.values()) {
+			PieChart.Data data = new PieChart.Data(category.getName(locale), 0.0);
+			qualityPieces.put(category, data);
+			componentPie.addData(data);
+		}
+
 		fillPie = new CapXPieChart(FXCollections.observableArrayList(fillEmpty, fillOccupied));
 		AnchorPaneHelper.snapNodeToAnchorPane(fillPie);
 		fillPane.getChildren().add(fillPie);
