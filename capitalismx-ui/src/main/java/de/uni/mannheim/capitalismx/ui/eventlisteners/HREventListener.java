@@ -29,10 +29,10 @@ public class HREventListener implements PropertyChangeListener {
 
 				// Update total number of employees in the hud
 				UIManager.getInstance().getGameHudController().updateNumOfEmployees();
-				
-				//Update Statistics Module
-				HrStatisticsController statsController = (HrStatisticsController) hrView
-						.getModule(UIElementType.HR_STATISTICS).getController();
+
+				// Update Statistics Module
+				HrStatisticsController statsController = (HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS)
+						.getController();
 				statsController.update();
 			}
 		}

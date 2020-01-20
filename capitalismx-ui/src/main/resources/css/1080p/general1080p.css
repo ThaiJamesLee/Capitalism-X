@@ -6,6 +6,8 @@
    -fx-primary-light: rgb(255.0,252.0,244.0,1.0);
    -fx-primary-light-neutral: rgb(133.0,129.0,117.0,1.0);
    -fx-primary-neutral: rgb( 29.0, 27.0, 21.0,1.0);
+   -fx-secondary-1: rgb1(227,211, 82,1);
+   -fx-secondary-2: rgb1(227,162, 82,1);
    -fx-complement-light: rgb(227.0,228.0,236.0,1.0);	/* Main Complement color */
    -fx-complement-light-neutral:  rgb( 83.0, 83.0, 92.0,1.0);
    -fx-complement-neutral: rgb( 15.0, 16.0, 20.0,1.0) ;
@@ -77,6 +79,11 @@ FontAwesomeIcon {
 	-fx-fill: -fx-primary; 
 }
 
+.icon_button_bg {
+	-fx-text-fill: -fx-complement-neutral; 
+	-fx-fill: -fx-complement-neutral; 
+}
+
 .tutorial_highlight {
 	-fx-effect: dropshadow(gaussian, -fx-complement, 10, 0.8, 0, 0);
 }
@@ -137,7 +144,16 @@ FontAwesomeIcon {
 .icon_button_invisible {
 	-fx-background-color: transparent;
 	-fx-border-width: 0 0 0 0;
-	-fx-border-color: -fx-primary;
+}
+
+.icon_button {
+	-fx-cursor: hand;
+	-fx-text-fill: -fx-primary-neutral; 
+	-fx-fill: -fx-primary-neutral; 
+}
+.icon_button:hover {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
 }
 
 
@@ -399,7 +415,14 @@ FontAwesomeIcon {
  .separator_horizontal {
  	-fx-border-width: 1.0 0.0 0.0 0.0;
  	-fx-border-color: -fx-primary-dark;
- 	-fx-border-insets: 0.0 5.0 0.0 5.0;
+ 	-fx-border-insets: 0.0 2.0 0.0 2.0;
+ }
+ 
+ .stat-box {
+ 	-fx-background-color: -fx-primary-light;
+ 	-fx-border-color: -fx-primary;
+ 	-fx-border-width: 2 0 0 0;
+ 	-fx-padding: -2;
  }
 
 
@@ -474,6 +497,20 @@ FontAwesomeIcon {
 .default-color0.chart-line-symbol{
     -fx-background-color: -fx-primary, -fx-primary;
 }
+
+
+.data0.chart-pie { -fx-pie-color: -fx-primary; }
+.data1.chart-pie { -fx-pie-color: -fx-primary-neutral; }
+.data2.chart-pie { -fx-pie-color: -fx-secondary-1; }
+.data3.chart-pie { -fx-pie-color: -fx-primary-light-neutral; }
+.data4.chart-pie { -fx-pie-color: -fx-secondary-2; }
+.data5.chart-pie { -fx-pie-color: -fx-complement-neutral; }
+.data6.chart-pie { -fx-pie-color: -fx-complement; }
+.data7.chart-pie { -fx-pie-color: -fx-complement-light-neutral; }
+.data8.chart-pie { -fx-pie-color: -fx-primary-dark; }
+.data9.chart-pie { -fx-pie-color: -fx-primary-light; }
+.data10.chart-pie { -fx-pie-color: -fx-complement-dark; }
+.data11.chart-pie { -fx-pie-color: -fx-complement-light; }
  
  .axis {
  	-fx-border-color: -fx-primary-dark;
@@ -495,6 +532,11 @@ FontAwesomeIcon {
  	-fx-border-width: 2.0 0.0 0.0 0.0;
  	-fx-border-insets: 0.0 0.0 0.0 -1.0;
  }
+ 
+.chart-pie {
+	-fx-border-color: -fx-primary-neutral;
+	-fx-border-width: 1;
+}
  
 /**
  * Styling of radio buttons

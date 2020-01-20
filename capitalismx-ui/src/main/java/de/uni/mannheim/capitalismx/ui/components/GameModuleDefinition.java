@@ -15,7 +15,7 @@ public enum GameModuleDefinition {
 	HR_TEAM_DETAIL("team_details.fxml", GameViewType.HR, UIElementType.HR_TEAM_DETAIL, new GridPosition(0, 8, 0, 20), true),
 	HR_RECRUITING_LIST("recruiting_list.fxml", GameViewType.HR, UIElementType.HR_RECRUITING_OVERVIEW, new GridPosition(13, 7, 7, 13),
 			true),
-//	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(8, 5, 3, 12), true),
+	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(8, 5, 0, 20), true),
 	HR_WORKING_CONDITIONS("working_conditions.fxml", GameViewType.HR, UIElementType.HR_WORKING_CONDITIONS, new GridPosition(13, 7, 0, 7),
 			true),
 
@@ -38,11 +38,11 @@ public enum GameModuleDefinition {
 			UIElementType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(15, 5, 10, 10), true),
 
 	// The modules for the warehouse.
-	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 5, 0, 15), true),
 	WAREHOUSE_STOCK_MANAGEMENT("stock_management.fxml", GameViewType.WAREHOUSE,
-			UIElementType.WAREHOUSE_STOCK_MANAGEMENT, new GridPosition(12, 8, 0, 20), false),
-	WAREHOUSE_SEGMENTS("warehouse_information.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_SEGMENTS, new GridPosition(6, 4, 0,
+			UIElementType.WAREHOUSE_STOCK_MANAGEMENT, new GridPosition(10, 10, 0, 20), false),
+	WAREHOUSE_STATISTICS("warehouse_statistics.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_STATISTICS, new GridPosition(5, 4, 0,
 			20), false),
+	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 5, 0, 15), true),
 
 	// The modules for HR.
 	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, new GridPosition(10,
