@@ -26,11 +26,11 @@ public class WarehouseEventlistener implements PropertyChangeListener {
 				 * TODO update currently deactivated 
 				 * @see issue #123
 				 */
-//				GameView warehouse = UIManager.getInstance().getGameView(GameViewType.WAREHOUSE);
-//				if (evt.getNewValue() instanceof Component) {
-//					((StockManagementController) warehouse.getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
-//							.getController()).updateComponent((Component) evt.getNewValue());
-//				}
+				GameView warehouse = UIManager.getInstance().getGameView(GameViewType.WAREHOUSE);
+				if (evt.getNewValue() instanceof Component) {
+					((StockManagementController) warehouse.getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+							.getController()).updateComponent((Component) evt.getNewValue());
+				}
 //				warehouse.getModule(UIElementType.WAREHOUSE_SEGMENTS).getController().update();
 			});
 		}

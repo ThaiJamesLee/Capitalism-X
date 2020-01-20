@@ -362,7 +362,9 @@ public class WarehousingDepartment extends DepartmentImpl {
     public void clearUsedComponents() {
         Map<Component, Integer> storedComponents = ProductionDepartment.getInstance().getStoredComponents();
         for(Map.Entry<Component, Integer> entry : storedComponents.entrySet()) {
-            this.inventoryChange.putOne(entry.getKey(), entry.getValue());
+            if(this.inventory.containsKey(entry.getKey()) && this.inventory.get(entry.getKey()) != entry.getValue()) {
+                this.inventoryChange.putOne(entry.getKey(), entry.getValue());
+            }
         }
     }
 
