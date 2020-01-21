@@ -78,8 +78,6 @@ public class WarehouseStatisticsController extends GameModuleController {
 		Locale locale = UIManager.getResourceBundle().getLocale();
 		for (SupplierCategory category : SupplierCategory.values()) {
 			PieChart.Data data = new PieChart.Data(category.getName(locale), 0.0);
-			qualityPieces.put(category, data);
-			componentPie.addData(data);
 		}
 
 		fillPie = new CapXPieChart(FXCollections.observableArrayList(fillEmpty, fillOccupied));
