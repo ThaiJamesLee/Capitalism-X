@@ -11,8 +11,6 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.marketing.MarketResearchViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.overlay.marketing.NewMarketResearchController;
@@ -58,9 +56,7 @@ public class MarketResearchListController extends GameModuleController {
 		
 		reportsList.setCellFactory(reportsList -> new MarketResearchViewCell(reportsList));
 
-//		for(PressRelease pr : pressReleases) {
-//			pressReleaseListObservable.add(pr);
-//		}
+		updateList();
 		
 		PopOverFactory helper = new PopOverFactory();
 		helper.createStandardOverlay("fxml/overlay/mkt_newMarketResearch_options.fxml");
@@ -70,7 +66,6 @@ public class MarketResearchListController extends GameModuleController {
 		conductNewBtn.setOnAction(e -> {
 			showPopover();	
 		});
-		//GameState.getInstance().getMarketingDepartment().getPressReleases().addPropertyChangeListener(marketingEventListener);
 	}
 
 	private void showPopover() {
