@@ -52,8 +52,9 @@ public class CampaignsOverviewController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
 		
-
 		campaignsList.setCellFactory(campaignList -> new CampaignsCell());
+		
+		updateList();
 		
 		PopOverFactory helper = new PopOverFactory();
 		helper.createStandardOverlay("fxml/overlay/mkt_newCampaign_options.fxml");

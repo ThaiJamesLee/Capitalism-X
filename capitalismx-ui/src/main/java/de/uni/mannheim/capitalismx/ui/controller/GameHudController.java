@@ -388,6 +388,9 @@ public class GameHudController implements UpdateableController {
 			case PRODUCTION:
 				dep = GameState.getInstance().getProductionDepartment();
 				break;
+			case MARKETING:
+				dep = GameState.getInstance().getMarketingDepartment();
+				break;
 			case LOGISTIC:
 				dep = GameState.getInstance().getLogisticsDepartment();
 				break;

@@ -7,10 +7,14 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.marketing.MarketResearchViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.overlay.marketing.NewMarketResearchController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.MarketingEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -34,6 +38,8 @@ public class MarketResearchListController extends GameModuleController {
 	
 	private PopOver popover;
 	
+	private NewMarketResearchController popoverController;
+	
 	public MarketResearchListController() {
 	}
 
@@ -45,22 +51,21 @@ public class MarketResearchListController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
 		
-
+		MarketingDepartment dep = (MarketingDepartment) GameState.getInstance().getMarketingDepartment();
+		dep.registerPropertyChangeListener(new MarketingEventListener());
+		
 		reportsList.setCellFactory(reportsList -> new MarketResearchViewCell(reportsList));
 
-//		for(PressRelease pr : pressReleases) {
-//			pressReleaseListObservable.add(pr);
-//		}
+		updateList();
 		
 		PopOverFactory helper = new PopOverFactory();
 		helper.createStandardOverlay("fxml/overlay/mkt_newMarketResearch_options.fxml");
 		popover = helper.getPopover();
+		popoverController = (NewMarketResearchController) helper.getPopoverController();
 		
 		conductNewBtn.setOnAction(e -> {
-			showPopover();
-			
+			showPopover();	
 		});
-		//GameState.getInstance().getMarketingDepartment().getPressReleases().addPropertyChangeListener(marketingEventListener);
 	}
 
 	private void showPopover() {
@@ -81,5 +86,12 @@ public class MarketResearchListController extends GameModuleController {
 		List<MarketResearch> conductedReports = controller.getConductedMarketResearch();
 
 		reportsList.setItems(FXCollections.observableArrayList(conductedReports));
+	}
+	
+	/**
+	 * Enables the button for choosing Internal Market Research in the overlay/popover
+	 */
+	public void enableInternalMarketResearch (){
+		popoverController.enableInternalMarketResearch();
 	}
 }
