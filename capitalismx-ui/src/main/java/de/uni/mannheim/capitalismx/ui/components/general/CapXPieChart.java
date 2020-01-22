@@ -13,6 +13,8 @@ import javafx.scene.control.Tooltip;
  */
 public class CapXPieChart extends PieChart {
 
+	// Fake placeholder that displays is displayed in the empty chart. If removed,
+	// nothing will be displayed when the chart is empty.
 	private PieChart.Data placeholder;
 
 	/**
@@ -24,7 +26,7 @@ public class CapXPieChart extends PieChart {
 	 */
 	public CapXPieChart(String placeholder) {
 		super();
-		this.setLegendVisible(true);
+		this.setLegendVisible(false);
 		this.setLabelsVisible(false);
 		this.placeholder = new PieChart.Data(placeholder, 0.0000001);
 		addData(this.placeholder);
