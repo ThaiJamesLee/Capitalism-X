@@ -180,7 +180,12 @@ public class GameController {
 		customerSatisfaction.setLogisticIndex(logisticsDepartment.getLogisticsIndex());
 
 		customerSatisfaction.calculateAll(gameDate);
-		customerDemand.calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON), gameDate);
+
+		// caluclate customer demand
+		double qoW = this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON);
+		customerDemand.calculateAll(qoW, gameDate);
+		customerDemand.calculateOverallAppealDemand(qoW, gameDate);
+		customerDemand.calculateDemandPercentage(qoW, gameDate);
 		/*String message = "jss= " + jss + "; companyImage=" + companyImage + "; employerBranding=" + employerBranding;
 		LOGGER.info(message);*/
 	}
