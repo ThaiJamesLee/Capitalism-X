@@ -26,8 +26,8 @@ public enum GameModuleDefinition {
 			UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, new GridPosition(12, 5, 5, 9), true),
 
 	// The modules for Procurement.
-	PROCUREMENT_ORDERED_COMPONENTS_LIST("ordered_components_list.fxml", GameViewType.WAREHOUSE,
-			UIElementType.PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW, new GridPosition(0, 5, 15, 15), false),
+//	PROCUREMENT_ORDERED_COMPONENTS_LIST("ordered_components_list.fxml", GameViewType.WAREHOUSE,
+//			UIElementType.PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW, new GridPosition(0, 5, 15, 15), false),
 
 	// The modules for Production.
 	PRODUCTION_INTRODUCE_PRODUCT_MENU("introduce_product_menu.fxml", GameViewType.PRODUCTION,
