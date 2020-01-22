@@ -3,10 +3,15 @@ package de.uni.mannheim.capitalismx.ui.controller.component;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.PopOver;
+
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameAlert;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.beans.value.ChangeListener;
@@ -19,6 +24,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * {@link PopOver} for trading {@link Component}s. Can be used for buying as
+ * well as selling of components of a given quality.
+ * 
+ * @author Jonathan
+ *
+ */
 public class TradeComponentPopoverController implements Initializable {
 
 	private double componentPrice;
@@ -41,6 +53,13 @@ public class TradeComponentPopoverController implements Initializable {
 		CssHelper.replaceStylesheets(root.getStylesheets());
 	}
 
+	/**
+	 * Update the {@link TradeComponentPopoverController} with a new component and
+	 * the price per unit.
+	 * 
+	 * @param component The new {@link Component} to display.
+	 * @param price     The price of a single {@link Component}.
+	 */
 	public void updatePopover(Component component, double price) {
 		this.componentPrice = price;
 		this.component = component;
@@ -69,6 +88,10 @@ public class TradeComponentPopoverController implements Initializable {
 		priceLabel.setText(UIManager.getLocalisedString("component.price") + CapCoinFormatter.getCapCoins(cost));
 	}
 
+	/**
+	 * Buy the given amount of the {@link Component}, that is currently set in the
+	 * {@link TradeComponentPopoverController}.
+	 */
 	@FXML
 	private void buyComponent() {
 		String input = amountField.getText();
@@ -80,11 +103,14 @@ public class TradeComponentPopoverController implements Initializable {
 						"Will buy as much as possible (" + freeStorage + ") for now.");
 				alert.showAndWait();
 				if (freeStorage != 0) {
-					GameController.getInstance().buyComponents(component, freeStorage); //TODO what happens when there is not enough cash
+					GameController.getInstance().buyComponents(component, freeStorage); // TODO what happens when there
+																						// is not enough cash
 				}
 			} else { // TODO costs for component
 				GameController.getInstance().buyComponents(component, amount);
 			}
+			((StockManagementController) UIManager.getInstance().getGameView(GameViewType.WAREHOUSE)
+					.getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).hideTradePopover();
 		} catch (NumberFormatException e) {
 			// ignore incorrect input and reset text
 			amountField.setText("0");

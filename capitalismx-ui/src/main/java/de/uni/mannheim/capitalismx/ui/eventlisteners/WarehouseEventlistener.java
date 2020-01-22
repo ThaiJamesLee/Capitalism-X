@@ -31,7 +31,7 @@ public class WarehouseEventlistener implements PropertyChangeListener {
 					((StockManagementController) warehouse.getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
 							.getController()).updateComponent((Component) evt.getNewValue());
 				}
-//				warehouse.getModule(UIElementType.WAREHOUSE_SEGMENTS).getController().update();
+				warehouse.getModule(UIElementType.WAREHOUSE_STATISTICS).getController().update();
 			});
 		}
 	}
