@@ -18,6 +18,7 @@ import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
@@ -1187,6 +1188,8 @@ public class IntroduceProductController extends GameModuleController {
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
         }
+        
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
     }
 
     public void launchConsole() {
@@ -1215,6 +1218,8 @@ public class IntroduceProductController extends GameModuleController {
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
         }
+        
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
     }
 
     public void launchNotebook() {
@@ -1241,6 +1246,8 @@ public class IntroduceProductController extends GameModuleController {
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
         }
+        
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
     }
 
     public void launchPhone() {
@@ -1270,10 +1277,8 @@ public class IntroduceProductController extends GameModuleController {
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public void showSupplierOptions() {
-        UIManager.getInstance().getGamePageController().showOverlay(UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
+        
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
     }
 
     

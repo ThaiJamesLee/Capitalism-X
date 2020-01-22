@@ -30,12 +30,12 @@ public enum GameModuleDefinition {
 //			UIElementType.PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW, new GridPosition(0, 5, 15, 15), false),
 
 	// The modules for Production.
-	PRODUCTION_INTRODUCE_PRODUCT_MENU("introduce_product_menu.fxml", GameViewType.PRODUCTION,
-			UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, new GridPosition(0, 15, 0, 18), true),
+//	PRODUCTION_INTRODUCE_PRODUCT_MENU("introduce_product_menu.fxml", GameViewType.PRODUCTION,
+//			UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, new GridPosition(0, 15, 0, 18), true),
 	PRODUCTION_MACHINERY_LIST("machinery_list.fxml", GameViewType.PRODUCTION,
-			UIElementType.PRODUCTION_MACHINERY_OVERVIEW, new GridPosition(15, 5, 0, 10), true),
+			UIElementType.PRODUCTION_MACHINERY_OVERVIEW, new GridPosition(14, 6, 0, 10), true),
 	PRODUCTION_PRODUCE_PRODUCT_MENU("produce_product_menu.fxml", GameViewType.PRODUCTION,
-			UIElementType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(15, 5, 10, 10), true),
+			UIElementType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(0, 14, 0, 15), true),
 
 	// The modules for the warehouse.
 	WAREHOUSE_STOCK_MANAGEMENT("stock_management.fxml", GameViewType.WAREHOUSE,

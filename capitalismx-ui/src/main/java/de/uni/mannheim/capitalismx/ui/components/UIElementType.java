@@ -21,7 +21,7 @@ public enum UIElementType {
 	FINANCE_OVERVIEW("module.statistics"),
 	LOGISTICS_PARTNER_OVERVIEW("module.logistics.external"),
 	LOGISTICS_TRUCK_FLEET_OVERVIEW("module.logistics.trucks"),
-	PRODUCTION_NEW_PRODUCT_OVERVIEW("module.statistics"),
+//	PRODUCTION_NEW_PRODUCT_OVERVIEW("module.statistics"),
 	PRODUCTION_PRODUCE_PRODUCT("module.production.produce"),
 	PRODUCTION_MACHINERY_OVERVIEW("module.production.machines"),
 	PROCUREMENT_BUY_COMPONENT_OVERVIEW("Buy Component"),

@@ -79,6 +79,7 @@ public class WarehouseStatisticsController extends GameModuleController {
 		fillPane.getChildren().add(fillPie);
 
 		productPie = new CapXPieChart(UIManager.getLocalisedString("warehouse.stats.empty.pie"));
+		productPieces = new HashMap<Product, PieChart.Data>();
 		AnchorPaneHelper.snapNodeToAnchorPane(productPie);
 		productPane.getChildren().add(productPie);
 
