@@ -77,7 +77,7 @@ public class HrStatisticsController extends GameModuleController {
 			pieChartData.add(dataSegments.get(employeeType));
 		}
 
-		CapXPieChart chart = new CapXPieChart(pieChartData);
+		CapXPieChart chart = new CapXPieChart(pieChartData, UIManager.getLocalisedString("warehouse.stats.empty.pie"));
 		pieAnchor.getChildren().add(chart);
 		AnchorPaneHelper.snapNodeToAnchorPane(chart);
 

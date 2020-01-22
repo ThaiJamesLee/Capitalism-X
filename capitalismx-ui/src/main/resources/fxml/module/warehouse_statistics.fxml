@@ -55,8 +55,6 @@
             <AnchorPane fx:id="fillPane" />
             <Label styleClass="label_large" text="%warehouse.stats.products" />
             <AnchorPane fx:id="productPane" />
-            <Label styleClass="label_large" text="%warehouse.stats.components" />
-            <AnchorPane fx:id="componentPane" />
          </children>
       </VBox>
    </children>

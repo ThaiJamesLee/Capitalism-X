@@ -499,15 +499,15 @@ FontAwesomeIcon {
 }
 
 
-.data0.chart-pie { -fx-pie-color: -fx-primary; }
-.data1.chart-pie { -fx-pie-color: -fx-primary-neutral; }
-.data2.chart-pie { -fx-pie-color: -fx-secondary-1; }
-.data3.chart-pie { -fx-pie-color: -fx-primary-light-neutral; }
-.data4.chart-pie { -fx-pie-color: -fx-secondary-2; }
-.data5.chart-pie { -fx-pie-color: -fx-complement-neutral; }
-.data6.chart-pie { -fx-pie-color: -fx-complement; }
-.data7.chart-pie { -fx-pie-color: -fx-complement-light-neutral; }
-.data8.chart-pie { -fx-pie-color: -fx-primary-dark; }
+.data0.chart-pie { -fx-pie-color: -fx-primary-dark; }
+.data1.chart-pie { -fx-pie-color: -fx-primary; }
+.data2.chart-pie { -fx-pie-color: -fx-primary-neutral; }
+.data3.chart-pie { -fx-pie-color: -fx-secondary-1; }
+.data4.chart-pie { -fx-pie-color: -fx-primary-light-neutral; }
+.data5.chart-pie { -fx-pie-color: -fx-secondary-2; }
+.data6.chart-pie { -fx-pie-color: -fx-complement-neutral; }
+.data7.chart-pie { -fx-pie-color: -fx-complement; }
+.data8.chart-pie { -fx-pie-color: -fx-complement-light-neutral; }
 .data9.chart-pie { -fx-pie-color: -fx-primary-light; }
 .data10.chart-pie { -fx-pie-color: -fx-complement-dark; }
 .data11.chart-pie { -fx-pie-color: -fx-complement-light; }

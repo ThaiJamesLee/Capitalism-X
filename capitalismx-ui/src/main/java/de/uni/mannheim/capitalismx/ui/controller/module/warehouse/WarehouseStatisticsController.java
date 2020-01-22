@@ -29,15 +29,13 @@ public class WarehouseStatisticsController extends GameModuleController {
 	private Label capacityLabel, costLabel;
 
 	@FXML
-	private AnchorPane fillPane, productPane, componentPane;
+	private AnchorPane fillPane, productPane;
 
-	private CapXPieChart fillPie, productPie, componentPie;
+	private CapXPieChart fillPie, productPie;
 
 	private PieChart.Data fillOccupied, fillEmpty;
 
 	private HashMap<Product, PieChart.Data> productPieces;
-
-	private HashMap<SupplierCategory, PieChart.Data> qualityPieces;
 
 	@Override
 	public void update() {
@@ -75,22 +73,14 @@ public class WarehouseStatisticsController extends GameModuleController {
 		fillEmpty = new PieChart.Data(UIManager.getLocalisedString("warehouse.stats.empty"), 0);
 		fillOccupied = new PieChart.Data(UIManager.getLocalisedString("warehouse.stats.occupied"), 0);
 
-		Locale locale = UIManager.getResourceBundle().getLocale();
-		for (SupplierCategory category : SupplierCategory.values()) {
-			PieChart.Data data = new PieChart.Data(category.getName(locale), 0.0);
-		}
-
-		fillPie = new CapXPieChart(FXCollections.observableArrayList(fillEmpty, fillOccupied));
+		fillPie = new CapXPieChart(FXCollections.observableArrayList(fillEmpty, fillOccupied),
+				UIManager.getLocalisedString("warehouse.stats.empty.pie"));
 		AnchorPaneHelper.snapNodeToAnchorPane(fillPie);
 		fillPane.getChildren().add(fillPie);
 
-		productPie = new CapXPieChart();
+		productPie = new CapXPieChart(UIManager.getLocalisedString("warehouse.stats.empty.pie"));
 		AnchorPaneHelper.snapNodeToAnchorPane(productPie);
 		productPane.getChildren().add(productPie);
-
-		componentPie = new CapXPieChart();
-		AnchorPaneHelper.snapNodeToAnchorPane(componentPie);
-		componentPane.getChildren().add(componentPie);
 
 		update();
 	}

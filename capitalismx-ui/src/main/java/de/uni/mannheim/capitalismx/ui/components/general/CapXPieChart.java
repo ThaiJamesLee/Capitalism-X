@@ -13,24 +13,46 @@ import javafx.scene.control.Tooltip;
  */
 public class CapXPieChart extends PieChart {
 
-	public CapXPieChart() {
+	private PieChart.Data placeholder;
+
+	/**
+	 * Create a new {@link CapXPieChart} with a String for the default element, when
+	 * there is no data.
+	 * 
+	 * @param placeholder The name of the placeholder Data to display, if the chart
+	 *                    is empty.
+	 */
+	public CapXPieChart(String placeholder) {
+		super();
 		this.setLegendVisible(true);
 		this.setLabelsVisible(false);
+		this.placeholder = new PieChart.Data(placeholder, 0.0000001);
+		addData(this.placeholder);
 	}
 
-	public CapXPieChart(ObservableList<PieChart.Data> data) {
-		this();
+	/**
+	 * Create a new {@link CapXPieChart}
+	 * 
+	 * @param data        {@link ObservableList} of {@link PieChart.Data} objects to
+	 *                    init the chart with.
+	 * @param placeholder The name of the placeholder Data to display, if the chart
+	 *                    is empty.
+	 */
+	public CapXPieChart(ObservableList<PieChart.Data> data, String placeholder) {
+		this(placeholder);
 		updateData(data);
 	}
 
 	/**
 	 * Use this instead of setData(), if the PieChart should have {@link Tooltip}s
-	 * containing the names of the pieces.
+	 * containing the names of the pieces. (Replaces existing data.)
 	 * 
 	 * @param data {@link ObservableList} of the data to set.
 	 */
 	public void updateData(ObservableList<PieChart.Data> data) {
-		setData(data);
+		this.getData().clear();
+		this.getData().add(placeholder);
+		this.getData().addAll(data);
 		TooltipFactory factory = new TooltipFactory();
 		for (PieChart.Data date : data) {
 			Tooltip tip = factory.createTooltip(date.getName());
@@ -47,7 +69,7 @@ public class CapXPieChart extends PieChart {
 	public void addData(PieChart.Data data) {
 		this.getData().add(data);
 		Tooltip tip = new Tooltip();
-		tip.setText(data.getName() + ": " + data.getPieValue());
+		tip.setText(data.getName());
 		Tooltip.install(data.getNode(), tip);
 	}
 
