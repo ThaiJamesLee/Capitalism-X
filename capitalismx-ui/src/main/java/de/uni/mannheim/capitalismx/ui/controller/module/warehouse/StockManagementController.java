@@ -164,6 +164,7 @@ public class StockManagementController extends GameModuleController {
 	public void showTradePopover(Component component, Node node, double price) {
 		tradePopoverController.updatePopover(component, price);
 		tradePopover.show(node);
+		tradePopoverController.focus();
 	}
 
 	/**

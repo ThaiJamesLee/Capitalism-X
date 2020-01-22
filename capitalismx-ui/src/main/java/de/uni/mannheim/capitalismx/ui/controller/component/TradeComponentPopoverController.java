@@ -131,4 +131,8 @@ public class TradeComponentPopoverController implements Initializable {
 		}
 	}
 
+	public void focus() {
+		amountField.requestFocus();
+	}
+
 }

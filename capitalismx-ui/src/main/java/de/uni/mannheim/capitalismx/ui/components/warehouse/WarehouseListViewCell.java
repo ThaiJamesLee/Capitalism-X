@@ -3,6 +3,8 @@ package de.uni.mannheim.capitalismx.ui.components.warehouse;
 import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
@@ -71,6 +73,7 @@ public class WarehouseListViewCell extends ListCell<Warehouse> {
 				sellButton.setText(UIManager.getLocalisedString("warehouse.rent.cancel"));
 				warehouseLabel.setText(UIManager.getLocalisedString("warehouse.list.info.rent"));
 			} else {
+				sellButton.setText(UIManager.getLocalisedString("warehouse.buy.sell"));
 				warehouseLabel.setText(UIManager.getLocalisedString("warehouse.list.info.buy"));
 			}
 
@@ -86,15 +89,15 @@ public class WarehouseListViewCell extends ListCell<Warehouse> {
 	/**
 	 * Sells the {@link Warehouse} of this cell.
 	 */
-	// TODO what happens when you sell a full Warehouse?
 	private void sellWarehouse() {
 		try {
 			GameController.getInstance().sellWarehouse(warehouse);
+			GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), warehouse.getResaleValue());
 			this.warehouseListView.getItems().remove(warehouse);
 			if (GameController.getInstance().getWarehouses().isEmpty()) {
 				deactivateWarehouseModules();
 			}
-		} catch (StorageCapacityUsedException e) {
+		} catch (StorageCapacityUsedException e) {//TODO localize
 			GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Storage Capacity still in Use", e.getMessage() + "\nThe warehouse provides storage capacity of " + e.getWarehouseCapacity() + " of which " + e.getFreeStorage() + " is not in use");
 			error.showAndWait();
 		}
