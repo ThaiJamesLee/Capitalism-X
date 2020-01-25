@@ -1,9 +1,15 @@
 package de.uni.mannheim.capitalismx.gamecontroller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GameThread extends Thread {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
+
     private static GameThread instance;
-    private int secondsPerDay;
+
+    private long secondsPerDay;
     private boolean pause;
     private boolean running;
 
@@ -19,6 +25,7 @@ public class GameThread extends Thread {
         this.running = true;
     }
 
+    @Override
     public synchronized void run() {
         while (running) {
             if (!pause) {
@@ -27,7 +34,8 @@ public class GameThread extends Thread {
             try {
                 wait(this.secondsPerDay * 1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -35,7 +43,7 @@ public class GameThread extends Thread {
 
     public void terminate() {
         this.running = false;
-        instance = null;
+        GameThread.instance = null;
     }
 
     public void setSecondsPerDay(int secondsPerDay) {

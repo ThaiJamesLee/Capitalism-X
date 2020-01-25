@@ -494,6 +494,9 @@ public class MarketingDepartment extends DepartmentImpl {
     	this.employerBranding = employerBranding;
     }
 
+    public static MarketingDepartment createInstance() {
+        return new MarketingDepartment();
+    }
 
     public static void setInstance(MarketingDepartment instance) {
         MarketingDepartment.instance = instance;

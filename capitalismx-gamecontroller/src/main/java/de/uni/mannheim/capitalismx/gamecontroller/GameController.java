@@ -85,6 +85,7 @@ public class GameController {
 			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
 			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(GameState.getInstance().getGameDate());
 			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
+			updateSalesDepartment();
 		}
 		this.updateAll();
 	}
@@ -181,7 +182,12 @@ public class GameController {
 		customerSatisfaction.setLogisticIndex(logisticsDepartment.getLogisticsIndex());
 
 		customerSatisfaction.calculateAll(gameDate);
-		customerDemand.calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON), gameDate);
+
+		// caluclate customer demand
+		double qoW = this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON);
+		customerDemand.calculateAll(qoW, gameDate);
+		customerDemand.calculateOverallAppealDemand(qoW, gameDate);
+		customerDemand.calculateDemandPercentage(qoW, gameDate);
 		/*String message = "jss= " + jss + "; companyImage=" + companyImage + "; employerBranding=" + employerBranding;
 		LOGGER.info(message);*/
 	}
@@ -229,6 +235,13 @@ public class GameController {
 
 	private void updateWarehouse() {
 		WarehousingDepartment.getInstance().calculateAll();
+	}
+
+	private void updateSalesDepartment() {
+		GameState state = GameState.getInstance();
+		SalesDepartment salesDepartment = SalesDepartment.getInstance();
+		salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+
 	}
 
 	public void start() {

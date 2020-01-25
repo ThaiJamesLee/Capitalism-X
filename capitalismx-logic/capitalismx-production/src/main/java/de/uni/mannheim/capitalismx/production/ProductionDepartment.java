@@ -629,7 +629,7 @@ public class ProductionDepartment extends DepartmentImpl {
         return  capacity;
     }
 
-    public List<Product> getLaunchedProducts() {
+    public synchronized List<Product> getLaunchedProducts() {
         return this.launchedProducts;
     }
 
@@ -710,7 +710,11 @@ public class ProductionDepartment extends DepartmentImpl {
         ProductionDepartment.instance = instance;
     }
 
-    public PropertyChangeSupportList getLaunchedProductsChange() {
+    public static ProductionDepartment createInstance() {
+        return new ProductionDepartment();
+    }
+
+    public synchronized PropertyChangeSupportList getLaunchedProductsChange() {
         return launchedProductsChange;
     }
 

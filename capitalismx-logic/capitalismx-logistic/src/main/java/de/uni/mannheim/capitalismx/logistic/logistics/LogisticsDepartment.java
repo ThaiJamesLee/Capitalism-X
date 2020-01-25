@@ -324,6 +324,10 @@ public class LogisticsDepartment extends DepartmentImpl {
         InternalFleet.getInstance().increaseCapacityFleetRel(amount);
     }
 
+    public static LogisticsDepartment createInstance() {
+        return new LogisticsDepartment();
+    }
+
     public static void setInstance(LogisticsDepartment instance) {
         LogisticsDepartment.instance = instance;
     }

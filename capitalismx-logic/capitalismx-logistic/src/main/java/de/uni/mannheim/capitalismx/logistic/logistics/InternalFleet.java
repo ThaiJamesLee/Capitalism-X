@@ -169,4 +169,8 @@ public class InternalFleet implements Serializable {
     public static void setInstance(InternalFleet instance) {
         InternalFleet.instance = instance;
     }
+
+    public static InternalFleet createInstance() {
+        return new InternalFleet();
+    }
 }
