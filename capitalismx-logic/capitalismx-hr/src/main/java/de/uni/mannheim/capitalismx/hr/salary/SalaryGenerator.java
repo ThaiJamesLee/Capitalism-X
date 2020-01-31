@@ -34,9 +34,7 @@ public class SalaryGenerator {
         SalaryTier[] tiers = SalaryTier.values();
 
         for (SalaryTier tier : tiers) {
-
             if (inRange(skillLevel, tier.getLowerLevel(), tier.getUpperLevel())) {
-
                 return random.nextInt((int)tier.getUpperSalary() - (int)tier.getLowerSalary()) + tier.getLowerSalary();
 
             }
