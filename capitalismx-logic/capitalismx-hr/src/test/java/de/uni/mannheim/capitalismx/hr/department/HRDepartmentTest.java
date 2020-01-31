@@ -10,7 +10,7 @@ import de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
-import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
