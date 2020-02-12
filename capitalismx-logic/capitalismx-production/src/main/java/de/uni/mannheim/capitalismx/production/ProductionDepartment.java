@@ -330,7 +330,7 @@ public class ProductionDepartment extends DepartmentImpl {
                         for (HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
                             if(component.getComponentType() == entry.getKey().getComponentType() && component.getSupplierCategory() == entry.getKey().getSupplierCategory()) {
                                 int newStoredQuantity = this.storedComponents.get(entry.getKey()) - quantity;
-                                this.storedComponents.put(component, newStoredQuantity);
+                                this.storedComponents.put(entry.getKey(), newStoredQuantity);
                                 break;
                             }
                         }
@@ -344,6 +344,7 @@ public class ProductionDepartment extends DepartmentImpl {
                         }
                     }
                     this.numberProducedProducts.put(product, newQuantity);
+
                     /* LocalDate.now() placeholder for gameDate */ // NEEDED? TODO
                     //LocalDate gameDate = LocalDate.now();
                     this.numberUnitsProducedPerMonth += quantity;
