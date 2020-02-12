@@ -11,7 +11,7 @@
       <VBox alignment="CENTER" spacing="12.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
                 <ListView fx:id="launchedProductsListView" />
-            <Button mnemonicParsing="false" onAction="#introduceProduct" styleClass="button_module" text="%production.introduce" />
+            <Button mnemonicParsing="false" onAction="#introduceProduct" styleClass="button_module" text="%production.introduce" fx:id="introduceProductButton" />
          </children>
       </VBox>
     </children>

@@ -35,7 +35,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
 
-//TODO Komponenten lokalisieren
+//TODO internationalize Components
 public class IntroduceProductController extends GameModuleController {
 
 	public List<Node> getTutorialNodes(){

@@ -3,8 +3,10 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.ResourceBundle;
 
@@ -34,6 +36,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -108,6 +111,10 @@ public class GameHudController implements UpdateableController {
 
 	public ToggleButton getProductionDepButton() {
 		return this.btnProduction;
+	}
+	
+	public ToggleButton getOverviewDepButton() {
+		return this.btnOverview;
 	}
 	
 	/**
@@ -545,6 +552,42 @@ public class GameHudController implements UpdateableController {
 			int capacity = GameState.getInstance().getHrDepartment().getTotalEmployeeCapacity();
 			employeeLabel.setText(numOfEmployees + "/" + capacity);
 		});
+	}
+	
+	
+	
+	//TODO order of nodes 
+	//Elements 
+	//1. GamePage Title
+	//Pause Button
+	//Networth 
+	//Cash  --> vBox
+	//Employees --> vBox
+	//Skip Btn
+	//Fast Forward Btn
+	//Messages  Btn
+	//Settings Btn
+
+	/**
+	 *  returns List of Nodes (UI-Elements) that will be highlighted in this tutorial chapter in the given order.
+	 * @return List<Nodes> 
+	 */
+	public List<Node> getTimeControlTutorialNodes(){
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.add(departmentLabel);
+		nodes.add(dateLabel);
+		nodes.add(playPauseIconButton);
+		nodes.add(netWorthVBox);
+		nodes.add(cashVBox);
+		nodes.add(employeeVBox);
+		nodes.add(ecoIcon);
+		nodes.add(forwardIconButton);
+		nodes.add(skipIconButton);
+		nodes.add(messageIconLabel);
+		nodes.add(settingsIconLabel);
+		
+		//TODO add cash / networth / employees infos with short message...
+		return nodes;
 	}
 
 }

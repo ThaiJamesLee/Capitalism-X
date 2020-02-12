@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.production;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -16,6 +17,7 @@ import de.uni.mannheim.capitalismx.ui.eventlisteners.ProductionEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
@@ -28,6 +30,16 @@ public class ProduceProductController extends GameModuleController {
 	private Button introduceProductButton;
 
 	private PopOver introduceProductPopover;
+	
+	private IntroduceProductController popoverController;
+	
+	
+	public List<Node> getTutorialNodes(){
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.add(introduceProductButton);
+		nodes.addAll(popoverController.getTutorialNodes());
+		return nodes;
+	}
 
 	@Override
 	public void update() {
@@ -65,6 +77,8 @@ public class ProduceProductController extends GameModuleController {
 		PopOverFactory factory = new PopOverFactory();
 		factory.createStandardOverlay("fxml/module/introduce_product_menu.fxml");
 		introduceProductPopover = factory.getPopover();
+		popoverController = (IntroduceProductController) factory.getPopoverController();
+		
 	}
 
 	/**

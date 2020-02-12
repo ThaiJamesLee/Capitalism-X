@@ -56,15 +56,7 @@ public class UIManager {
 	public static UIManager getInstance() {
 		return instance;
 	}
-
-	public static String getLocalisedString(String key) {
-		return resourceBundle.getString(key);
-	}
-
-	public static ResourceBundle getResourceBundle() {
-		return resourceBundle;
-	}
-
+	
 	private Tutorial tutorial;
 
 	/**
@@ -98,6 +90,7 @@ public class UIManager {
 	// Get information about the resolution of the game.
 	private GameResolution gameResolution;
 
+	
 	/**
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
@@ -120,6 +113,21 @@ public class UIManager {
 		window.setScene(new Scene(sceneMenuMain.getScene()));
 	}
 
+	
+	/**
+	 * Returns the corresponding message for the given key from the stored {@link ResourceBundle} - default englisch: properties.main_en
+	 * @param key
+	 * @return String message
+	 */
+	public static String getLocalisedString(String key) {
+		return resourceBundle.getString(key);
+	}
+
+	public static ResourceBundle getResourceBundle() {
+		return resourceBundle;
+	}
+
+	
 	/**
 	 * Called when GameOver condition is reached and directs to the corresponding
 	 * View for Lost or Won
