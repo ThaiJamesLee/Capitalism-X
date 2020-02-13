@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.SalesEventListener;
@@ -20,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SalesContractController extends GameModuleController {
 
@@ -52,7 +54,11 @@ public class SalesContractController extends GameModuleController {
 
     }
 
-
+    /**
+     *
+     * @param c
+     * @param i
+     */
     public void addContractOffer(Contract c, int i){
         /*
         FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader()
@@ -95,11 +101,15 @@ public class SalesContractController extends GameModuleController {
     }
 
     public void showInfoPanel(String ID){
-        for(Contract c : ((List<Contract>)GameState.getInstance().getSalesDepartment().getAvailableContracts().getList())) {
+        System.out.println("showInfoPanel  Check");
+        for(Contract c : ((ArrayList<Contract>)GameState.getInstance().getSalesDepartment().getAvailableContracts().getList())) {
+            System.out.println("First Loop Check");
             if (c.getuId().equals(ID)) {
                 Parent infoPane;
                 if(firstClick){
                     firstClick = false;
+                    System.out.println("Loop - If Check");
+                    //ResourceBundle bundle = ResourceBundle.getBundle("properties.main");
 
                     FXMLLoader infoLoader = new FXMLLoader(getClass().getClassLoader()
                             .getResource("fxml/components/sales_info_panel.fxml"));

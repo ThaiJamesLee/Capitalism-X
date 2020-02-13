@@ -30,9 +30,7 @@ public class SalesContractListCellController implements Initializable {
     @FXML
     public void showInfoPanel(){
         System.out.println("List Cell clicked");
-        ID = "a";
-        System.out.println(ID);
-        //((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
+        ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
     }
 
     public void setContractName(String contractName) {

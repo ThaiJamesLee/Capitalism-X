@@ -20,7 +20,7 @@ public class SalesContractInfoController implements Initializable {
     private Label unitNumberInfo;
 
     @FXML
-    private Label totalNumberInfo;
+    private Label totalVolumeInfo;
 
     @FXML
     private Label productPriceInfo;
@@ -59,7 +59,7 @@ public class SalesContractInfoController implements Initializable {
         this.productInfo.setText(productInfo);
         this.contractorInfo.setText(contractorInfo);
         this.unitNumberInfo.setText(unitNumberInfo);
-        this.totalNumberInfo.setText(totalNumberInfo);
+        this.totalVolumeInfo.setText(totalNumberInfo);
         this.productPriceInfo.setText(productPriceInfo);
         this.timeToFinish.setText(timeToFinish);
         this.startDate.setText(startDate);
@@ -79,8 +79,8 @@ public class SalesContractInfoController implements Initializable {
         this.unitNumberInfo = unitNumberInfo;
     }
 
-    public void setTotalNumberInfo(Label totalNumberInfo) {
-        this.totalNumberInfo = totalNumberInfo;
+    public void setTotalVolumeInfo(Label totalNumberInfo) {
+        this.totalVolumeInfo = totalNumberInfo;
     }
 
     public void setProductPriceInfo(Label productPriceInfo) {
@@ -109,7 +109,7 @@ public class SalesContractInfoController implements Initializable {
         this.productInfo.setText("");
         this.contractorInfo.setText("");
         this.unitNumberInfo.setText("");
-        this.totalNumberInfo.setText("");
+        this.totalVolumeInfo.setText("");
         this.productPriceInfo.setText("");
         this.timeToFinish.setText("");
         this.startDate.setText("");

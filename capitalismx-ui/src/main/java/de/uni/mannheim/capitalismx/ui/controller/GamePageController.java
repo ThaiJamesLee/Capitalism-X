@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
@@ -197,8 +198,9 @@ public class GamePageController implements UpdateableController {
 			messageLayer.toFront();
 			openMessagePane = true;
 			//test contract adding
+			/*
 			try{
-				LocalDate ldate = LocalDate.of(1975, 6, 14);
+				LocalDate ldate = LocalDate.of(1991, 6, 14);
 
 				List<Component> testList= new ArrayList<Component>();
 				testList.add(new Component(ComponentType.T_DISPLAY_LEVEL_1));
@@ -225,6 +227,13 @@ public class GamePageController implements UpdateableController {
 				ex.printStackTrace();
 			}
 
+			 */
+
+			//GameState.getInstance().getSalesDepartment().generateContracts(LocalDate.of(1990,1,1),GameState.getInstance().getProductionDepartment(),);
+			LocalDate initDate = LocalDate.of(1990,11,1);
+			GameState.getInstance().getSalesDepartment().generateContracts(initDate, ProductionDepartment.getInstance(), 1);
+			ArrayList<Contract> listContract = (ArrayList<Contract>)GameState.getInstance().getSalesDepartment().getAvailableContracts().getList();
+			System.out.println(listContract.get(0).getClass());
 		} else {
 			messageLayer.toBack();
 			openMessagePane = false;
