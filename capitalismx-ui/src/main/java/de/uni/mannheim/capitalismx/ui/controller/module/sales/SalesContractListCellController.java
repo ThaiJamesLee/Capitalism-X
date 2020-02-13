@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -28,7 +29,10 @@ public class SalesContractListCellController implements Initializable {
 
     @FXML
     public void showInfoPanel(){
-        ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
+        System.out.println("List Cell clicked");
+        ID = "a";
+        System.out.println(ID);
+        //((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
     }
 
     public void setContractName(String contractName) {
@@ -49,6 +53,12 @@ public class SalesContractListCellController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /*
+        contractCellHBox.setOnMouseClicked(e -> {
+            System.out.println("List Cell clicked");
+            ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
+        });
 
+         */
     }
 }

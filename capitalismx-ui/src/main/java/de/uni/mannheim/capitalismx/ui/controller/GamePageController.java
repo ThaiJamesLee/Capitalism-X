@@ -9,7 +9,13 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
+import de.uni.mannheim.capitalismx.production.InvalidSetOfComponentsException;
+import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
@@ -17,6 +23,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
@@ -132,7 +139,29 @@ public class GamePageController implements UpdateableController {
 					5);
 			messageController.addMessage(m1);
 			messageController.addMessage(m2);
+/*
+			LocalDate ldate = LocalDate.of(1975, 6, 14);
 
+			List<Component> testList= new ArrayList<Component>();
+			testList.add(new Component(ComponentType.T_DISPLAY_LEVEL_1));
+			testList.add(new Component(ComponentType.T_SOUND_LEVEL_1));
+			testList.add(new Component(ComponentType.T_OS_LEVEL_1));
+			testList.add(new Component(ComponentType.T_CASE_LEVEL_1));
+
+			Contract c = new Contract(
+				"Media Markt",
+				ldate,
+				new Product(
+					"Blaaa",
+					ProductCategory.TELEVISION,
+					testList),
+				100,
+				10.5,
+				300,
+				1000.5
+			);
+			System.out.println(UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController().getClass());
+*/
 			// messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1",
 			// "con.event1", true, null);
 			// messageController.messageInserter("sen.event1", "01.01.1990", "sub.event1",
@@ -167,6 +196,35 @@ public class GamePageController implements UpdateableController {
 		if (!openMessagePane) {
 			messageLayer.toFront();
 			openMessagePane = true;
+			//test contract adding
+			try{
+				LocalDate ldate = LocalDate.of(1975, 6, 14);
+
+				List<Component> testList= new ArrayList<Component>();
+				testList.add(new Component(ComponentType.T_DISPLAY_LEVEL_1));
+				testList.add(new Component(ComponentType.T_SOUND_LEVEL_1));
+				testList.add(new Component(ComponentType.T_OS_LEVEL_1));
+				testList.add(new Component(ComponentType.T_CASE_LEVEL_1));
+
+				Contract c = new Contract(
+						"Media Markt",
+						ldate,
+						new Product(
+								"Contract Name",
+								ProductCategory.TELEVISION,
+								testList),
+						100,
+						10.5,
+						300,
+						1000.5
+				);
+				c.setuId("a");
+				((SalesContractController)UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).addContractOffer(c, 1);
+
+			}catch (InvalidSetOfComponentsException ex) {
+				ex.printStackTrace();
+			}
+
 		} else {
 			messageLayer.toBack();
 			openMessagePane = false;

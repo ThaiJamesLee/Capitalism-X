@@ -44,7 +44,7 @@ public class SalesContractController extends GameModuleController {
 
     @FXML
     public void acceptContract(){
-
+        System.out.println("Accept Button Clicked");
     }
 
     @FXML
@@ -52,22 +52,42 @@ public class SalesContractController extends GameModuleController {
 
     }
 
+
     public void addContractOffer(Contract c, int i){
-        FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_list_cell.fxml"));
+        /*
+        FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader()
+                .getResource("fxml/components/sales_list_cell.fxml"));
         Parent contract = new Pane();
         SalesContractListCellController cellController = new SalesContractListCellController();
+        */
+        FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader()
+                .getResource("fxml/components/sales_list_cell.fxml"));
+
+        Parent contract;
+        SalesContractListCellController cellController;
         try{
+
+            //Parent contract = new Pane();
+            //SalesContractListCellController cellController = new SalesContractListCellController();
             contract = contractLoader.load();
             cellController = contractLoader.getController();
+
+            cellController.setContractName(c.getProduct().toString());
+            IDlist.add(c.getuId());
+            cellController.setID(c.getuId());
+            offeredContracts.add(0, contract);
+            offeredContractsList.setItems(offeredContracts);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        /*
         cellController.setContractName(c.getProduct().toString());
         IDlist.add(c.getuId());
         cellController.setID(c.getuId());
         offeredContracts.add(0, contract);
         offeredContractsList.setItems(offeredContracts);
+        */
     }
 
     public void removeContract(){
@@ -75,13 +95,14 @@ public class SalesContractController extends GameModuleController {
     }
 
     public void showInfoPanel(String ID){
-        for(Contract c : ((List<Contract>)GameState.getInstance().getSalesDepartment().getAvailableContracts())) {
+        for(Contract c : ((List<Contract>)GameState.getInstance().getSalesDepartment().getAvailableContracts().getList())) {
             if (c.getuId().equals(ID)) {
                 Parent infoPane;
                 if(firstClick){
                     firstClick = false;
 
-                    FXMLLoader infoLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_info_panel.fxml"));
+                    FXMLLoader infoLoader = new FXMLLoader(getClass().getClassLoader()
+                            .getResource("fxml/components/sales_info_panel.fxml"));
                     try {
                         infoPane = infoLoader.load();
                         infoPaneController = infoLoader.getController();
