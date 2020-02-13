@@ -402,7 +402,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     //TODO
     protected double calculateTotalWarehouseCosts(LocalDate gameDate){
-        double warehouseCosts = WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(gameDate);
+        double warehouseCosts = WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing();
         warehouseCosts /= gameDate.lengthOfMonth();
         double storageCosts = WarehousingDepartment.getInstance().calculateDailyStorageCost();
 

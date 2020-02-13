@@ -195,7 +195,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
             warehouse.setBuildDate(gameDate);
             warehouses.add(warehouse);
-            this.calculateMonthlyCostWarehousing(gameDate);
+            this.calculateMonthlyCostWarehousing();
             if(this.warehouseSlots == this.warehouses.size()) {
                 this.warehouseSlotsAvailable = false;
             }
@@ -210,7 +210,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         if(this.warehouseSlots > this.warehouses.size()) {
             Warehouse warehouse = new Warehouse(WarehouseType.RENTED);
             warehouses.add(warehouse);
-            this.calculateMonthlyCostWarehousing(gameDate);
+            this.calculateMonthlyCostWarehousing();
             if(this.warehouseSlots == this.warehouses.size()) {
                 this.warehouseSlotsAvailable = false;
             }
@@ -259,15 +259,12 @@ public class WarehousingDepartment extends DepartmentImpl {
         }
     }
 
-    public double calculateMonthlyCostWarehousing(LocalDate gameDate) {
+    public double calculateMonthlyCostWarehousing() {
         double fixCostWarehouses = 0;
         double rentalCostsWarehouses = 0;
-        LocalDate oldDate = gameDate.plusDays(-1);
-        if(oldDate.getMonth() != gameDate.getMonth()) {
-            for(Warehouse warehouse : this.warehouses) {
-                fixCostWarehouses += warehouse.getMonthlyFixCostWarehouse();
-                rentalCostsWarehouses += warehouse.getMonthlyRentalCost();
-            }
+        for(Warehouse warehouse : this.warehouses) {
+            fixCostWarehouses += warehouse.getMonthlyFixCostWarehouse();
+            rentalCostsWarehouses += warehouse.getMonthlyRentalCost();
         }
         this.monthlyCostWarehousing = fixCostWarehouses + rentalCostsWarehouses;
         return this.monthlyCostWarehousing;
@@ -275,7 +272,7 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public double calculateDailyStorageCost() {
         int variableStorageCost = 5;
-        this.dailyStorageCost = 5 * calculateStoredUnits();
+        this.dailyStorageCost = 5 * this.calculateStoredUnits();
         this.monthlyStorageCost += this.dailyStorageCost;
         return this.dailyStorageCost;
     }
@@ -379,7 +376,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         }*/
     }
 
-    public void calculateAll() {
+    public void calculateAll(LocalDate gameDate) {
         this.clearUsedComponents();
         this.storeUnits();
         this.setProductionDepartmentStoredComponents();
@@ -387,7 +384,9 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.calculateTotalCapacity();
         this.calculateFreeStorage();
         this.setProductionDepartmentTotalWarehouseCapacity();
+        this.depreciateAllWarehouseResaleValues(gameDate);
         this.calculateDailyStorageCost();
+        this.calculateMonthlyCostWarehousing();
         this.calculateTotalMonthlyWarehousingCost();
     }
 
