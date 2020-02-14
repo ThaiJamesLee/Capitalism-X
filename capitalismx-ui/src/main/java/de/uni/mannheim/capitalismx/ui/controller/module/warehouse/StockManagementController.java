@@ -17,6 +17,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.ComponentStockCell;
@@ -37,6 +38,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 /**
@@ -51,7 +53,8 @@ public class StockManagementController extends GameModuleController {
 	private PopOver tradePopover;
 	private TradeComponentPopoverController tradePopoverController;
 
-	private HashMap<ComponentType, ComponentStockCell> cells;
+	private HashMap<ComponentType, ComponentStockCell> componentCells;
+	private HashMap<Product, ProductStockCell> productCells;
 
 	@FXML
 	private TabPane productTabPane;
@@ -76,6 +79,22 @@ public class StockManagementController extends GameModuleController {
 		Tab productTab = new Tab(productCategory.name());
 		productTab.setContent(anchor);
 		productAccordion.autosize();
+		return productTab;
+	}
+
+	/**
+	 * Creates and initializes the {@link Tab} for an overview of the stored
+	 * Products.
+	 *
+	 * @return The newly created {@link Tab}.
+	 */
+	private Tab createProductTab() {
+		Tab productTab = new Tab("Products"); // TODO localise
+		
+		VBox productBox = new VBox();
+		AnchorPane anchor = new AnchorPane(productBox);
+		AnchorPaneHelper.snapNodeToAnchorPane(productBox);
+		
 		return productTab;
 	}
 
@@ -112,7 +131,7 @@ public class StockManagementController extends GameModuleController {
 		for (int i = 0; i < types.size(); i++) {
 			constraints.add(rc);
 			ComponentStockCell cell = new ComponentStockCell(types.get(i));
-			cells.put(types.get(i), cell);
+			componentCells.put(types.get(i), cell);
 			grid.add(cell.getRoot(), 0, i + 1, 4, 1);
 			if (!new Component(types.get(i)).isAvailable(GameState.getInstance().getGameDate())) {
 				cell.setComponentAvailable(false);
@@ -131,7 +150,7 @@ public class StockManagementController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameState.getInstance().getWarehousingDepartment().registerPropertyChangeListener(new WarehouseEventlistener());
-		cells = new HashMap<ComponentType, ComponentStockCell>();
+		componentCells = new HashMap<ComponentType, ComponentStockCell>();
 
 		for (ProductCategory productCat : ProductCategory.values()) {
 			productTabPane.getTabs().add(createTabForProduct(productCat));
@@ -180,6 +199,10 @@ public class StockManagementController extends GameModuleController {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void updateProducts() {
+		
+	}
 
 	/**
 	 * Update the stock of a particular {@link Component}.
@@ -187,7 +210,7 @@ public class StockManagementController extends GameModuleController {
 	 * @param component The {@link Component} to update the stored amount for.
 	 */
 	public void updateComponent(Component component) {
-		cells.get(component.getComponentType()).updateQuality(component.getSupplierCategory());
+		componentCells.get(component.getComponentType()).updateQuality(component.getSupplierCategory());
 	}
 
 	/**
@@ -197,7 +220,7 @@ public class StockManagementController extends GameModuleController {
 	public void updateComponentAvailability() {
 		Platform.runLater(() -> {
 			LocalDate date = GameState.getInstance().getGameDate();
-			for (Entry<ComponentType, ComponentStockCell> entry : cells.entrySet()) {
+			for (Entry<ComponentType, ComponentStockCell> entry : componentCells.entrySet()) {
 				entry.getValue().setComponentAvailable(new Component(entry.getKey()).isAvailable(date));
 			}
 		});
@@ -210,7 +233,7 @@ public class StockManagementController extends GameModuleController {
 	 * @param date The {@link LocalDate} to calculate prices for.
 	 */
 	public void updateComponentPrices(LocalDate date) {
-		for (Entry<ComponentType, ComponentStockCell> entry : cells.entrySet()) {
+		for (Entry<ComponentType, ComponentStockCell> entry : componentCells.entrySet()) {
 			entry.getValue().updateQuarterlyComponentPrices(date);
 		}
 	}
