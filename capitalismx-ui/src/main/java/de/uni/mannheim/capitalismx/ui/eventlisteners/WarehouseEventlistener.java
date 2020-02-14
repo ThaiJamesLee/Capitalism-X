@@ -4,6 +4,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
@@ -22,15 +23,10 @@ public class WarehouseEventlistener implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals("inventoryChange")) {
 			Platform.runLater(() -> {
-				/**
-				 * TODO update currently deactivated 
-				 * @see issue #123
-				 */
 				GameView warehouse = UIManager.getInstance().getGameView(GameViewType.WAREHOUSE);
-				if (evt.getNewValue() instanceof Component) {
-					((StockManagementController) warehouse.getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
-							.getController()).updateComponent((Component) evt.getNewValue());
-				}
+
+				((StockManagementController) warehouse.getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+						.getController()).updateUnitStock((Unit) evt.getNewValue());
 				warehouse.getModule(UIElementType.WAREHOUSE_STATISTICS).getController().update();
 			});
 		}

@@ -17,10 +17,12 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.ComponentStockCell;
+import de.uni.mannheim.capitalismx.ui.components.warehouse.ProductStockCell;
 import de.uni.mannheim.capitalismx.ui.controller.component.TradeComponentPopoverController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.WarehouseEventlistener;
@@ -53,6 +55,8 @@ public class StockManagementController extends GameModuleController {
 	private PopOver tradePopover;
 	private TradeComponentPopoverController tradePopoverController;
 
+	private VBox productBox;
+
 	private HashMap<ComponentType, ComponentStockCell> componentCells;
 	private HashMap<Product, ProductStockCell> productCells;
 
@@ -66,11 +70,11 @@ public class StockManagementController extends GameModuleController {
 	 * @param productCategory The {@link ProductCategory} to create the content for.
 	 * @return The resulting {@link Tab}.
 	 */
-	private Tab createTabForProduct(ProductCategory productCategory) {
+	private Tab createComponentTabForProductCategory(ProductCategory productCategory) {
 		Accordion productAccordion = new Accordion();
 		for (ComponentCategory componentCategory : ProductCategory.getComponentCategories(productCategory)) {
 			TitledPane componentPane = new TitledPane(componentCategory.toString(),
-					createTitledPaneForComponent(componentCategory));
+					createTitledPaneForComponentTab(componentCategory));
 			productAccordion.getPanes().add(componentPane);
 		}
 
@@ -89,12 +93,32 @@ public class StockManagementController extends GameModuleController {
 	 * @return The newly created {@link Tab}.
 	 */
 	private Tab createProductTab() {
-		Tab productTab = new Tab("Products"); // TODO localise
+		Tab productTab = new Tab(UIManager.getLocalisedString("warehouse.stock.tab.products"));
+
+		productBox = new VBox();
+		productBox.setSpacing(8.0);
 		
-		VBox productBox = new VBox();
+		// Prepare a gird with labels that functions as a title row for the 'list of products'
+		GridPane titleGrid = new GridPane();
+		ColumnConstraints cTitle = new ColumnConstraints();
+		cTitle.setPercentWidth(35);
+		ColumnConstraints cStock = new ColumnConstraints();
+		cStock.setPercentWidth(15);
+		titleGrid.getColumnConstraints().add(cTitle);
+		titleGrid.getColumnConstraints().add(cStock);
+		Label titleLabel = new Label(UIManager.getLocalisedString("warehouse.stock.product.name"));
+		titleLabel.getStyleClass().add("label_large");
+		Label stockLabel = new Label(UIManager.getLocalisedString("warehouse.stock.product.amount"));
+		stockLabel.getStyleClass().add("label_large");
+		titleGrid.add(titleLabel, 0, 0);
+		titleGrid.add(stockLabel, 1, 0);
+		titleGrid.setStyle("-fx-padding-bottom: 12;");
+		
+		productBox.getChildren().add(titleGrid);
 		AnchorPane anchor = new AnchorPane(productBox);
-		AnchorPaneHelper.snapNodeToAnchorPane(productBox);
-		
+		AnchorPaneHelper.snapNodeToAnchorPane(productBox, 4);
+		productTab.setContent(anchor);
+
 		return productTab;
 	}
 
@@ -105,7 +129,7 @@ public class StockManagementController extends GameModuleController {
 	 * @param category The {@link ComponentCategory} to generate the content for.
 	 * @return {@link TitledPane} for the component wrapped in an AnchorPane.
 	 */
-	private Node createTitledPaneForComponent(ComponentCategory category) {
+	private Node createTitledPaneForComponentTab(ComponentCategory category) {
 		// Create grid with 40%, 20%, 20%, 20% columns
 		GridPane grid = new GridPane();
 		ColumnConstraints c1 = new ColumnConstraints();
@@ -116,7 +140,6 @@ public class StockManagementController extends GameModuleController {
 		grid.setHgap(5);
 		grid.setVgap(5);
 
-		// fill header row TODO locale
 		grid.add(new Label("Level"), 0, 0);
 		grid.add(new Label(SupplierCategory.CHEAP.getName(UIManager.getResourceBundle().getLocale())), 1, 0);
 		grid.add(new Label(SupplierCategory.REGULAR.getName(UIManager.getResourceBundle().getLocale())), 2, 0);
@@ -147,13 +170,23 @@ public class StockManagementController extends GameModuleController {
 		return gridAnchor;
 	}
 
+	/**
+	 * Hides the {@link PopOver} for trading {@link Component}s, if it is currently
+	 * displayed.
+	 */
+	public void hideTradePopover() {
+		tradePopover.hide();
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameState.getInstance().getWarehousingDepartment().registerPropertyChangeListener(new WarehouseEventlistener());
 		componentCells = new HashMap<ComponentType, ComponentStockCell>();
+		productCells = new HashMap<Product, ProductStockCell>();
 
+		productTabPane.getTabs().add(createProductTab());
 		for (ProductCategory productCat : ProductCategory.values()) {
-			productTabPane.getTabs().add(createTabForProduct(productCat));
+			productTabPane.getTabs().add(createComponentTabForProductCategory(productCat));
 		}
 
 		// Prepare the Popover for the trade buttons
@@ -186,22 +219,10 @@ public class StockManagementController extends GameModuleController {
 		tradePopoverController.focus();
 	}
 
-	/**
-	 * Hides the {@link PopOver} for trading {@link Component}s, if it is currently
-	 * displayed.
-	 */
-	public void hideTradePopover() {
-		tradePopover.hide();
-	}
-
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 
-	}
-	
-	public void updateProducts() {
-		
 	}
 
 	/**
@@ -209,7 +230,7 @@ public class StockManagementController extends GameModuleController {
 	 * 
 	 * @param component The {@link Component} to update the stored amount for.
 	 */
-	public void updateComponent(Component component) {
+	private void updateComponent(Component component) {
 		componentCells.get(component.getComponentType()).updateQuality(component.getSupplierCategory());
 	}
 
@@ -235,6 +256,34 @@ public class StockManagementController extends GameModuleController {
 	public void updateComponentPrices(LocalDate date) {
 		for (Entry<ComponentType, ComponentStockCell> entry : componentCells.entrySet()) {
 			entry.getValue().updateQuarterlyComponentPrices(date);
+		}
+	}
+
+	/**
+	 * Update the amount in stock of a specific {@link Product}.
+	 * 
+	 * @param product The product to update the stock for.
+	 */
+	private void updateProduct(Product product) {
+		if (productCells.containsKey(product)) {
+			productCells.get(product).updateStock();
+		} else {
+			ProductStockCell stockCell = new ProductStockCell(product);
+			productCells.put(product, stockCell);
+			productBox.getChildren().add(stockCell.getRoot());
+		}
+	}
+
+	/**
+	 * Update the amount in stock of a specific {@link Unit}.
+	 * 
+	 * @param unit The {@link Unit} to update the stock for.
+	 */
+	public void updateUnitStock(Unit unit) {
+		if (unit instanceof Product) {
+			updateProduct((Product) unit);
+		} else if (unit instanceof Component) {
+			updateComponent((Component) unit);
 		}
 	}
 

@@ -69,7 +69,7 @@ public class WarehouseStatisticsController extends GameModuleController {
 
 		// init stats
 		this.capacityLabel.setText(overallCapacity + "");
-		this.costLabel.setText((int) warehouse.getMonthlyCostWarehousing() + "");
+		this.costLabel.setText((int) warehouse.getMonthlyTotalCostWarehousing() + "");
 	}
 
 	@Override

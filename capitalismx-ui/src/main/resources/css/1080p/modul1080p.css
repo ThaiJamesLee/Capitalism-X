@@ -50,6 +50,8 @@
 	-fx-cursor: hand;
 	-fx-border-color: -fx-primary-dark;
 	-fx-background-color: -fx-complement-light-neutral;
+	-fx-text-fill: -fx-primary;
+	-fx-font-family: 'Prime';
 }
 
 .stock_edit_button FontAwesomeIcon {
@@ -64,6 +66,7 @@
 .stock_edit_button:pressed {
 	-fx-border-color: -fx-primary-dark;
 	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-dark;
 }
 
 
