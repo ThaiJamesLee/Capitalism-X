@@ -21,6 +21,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -1187,9 +1188,11 @@ public class IntroduceProductController extends GameModuleController {
             GameController.getInstance().launchProduct(this.tv);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
+            return;
         }
         
         ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.tv);
     }
 
     public void launchConsole() {
@@ -1217,9 +1220,11 @@ public class IntroduceProductController extends GameModuleController {
             GameController.getInstance().launchProduct(this.console);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
+            return;
         }
         
         ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.console);
     }
 
     public void launchNotebook() {
@@ -1245,9 +1250,11 @@ public class IntroduceProductController extends GameModuleController {
             GameController.getInstance().launchProduct(this.notebook);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
+            return;
         }
         
         ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.notebook);
     }
 
     public void launchPhone() {
@@ -1276,9 +1283,11 @@ public class IntroduceProductController extends GameModuleController {
             GameController.getInstance().launchProduct(this.phone);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
+            return;
         }
         
         ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.phone);
     }
 
     
