@@ -31,8 +31,6 @@ import javafx.scene.layout.AnchorPane;
  */
 public class ComponentStockCell {
 
-	private ComponentType type; // TODO necessary?
-
 	private HashMap<SupplierCategory, Double> componentPrices; // TODO recalculate and store prices in the department,
 																// as these prices do not affect the actual buying
 																// process
@@ -59,7 +57,6 @@ public class ComponentStockCell {
 		LocalDate gameDate = GameState.getInstance().getGameDate();
 
 		warehouse = GameState.getInstance().getWarehousingDepartment();
-		this.type = type;
 		components = new HashMap<SupplierCategory, Component>();
 		components.put(SupplierCategory.CHEAP, new Component(type, SupplierCategory.CHEAP, gameDate));
 		components.put(SupplierCategory.REGULAR, new Component(type, SupplierCategory.REGULAR, gameDate));

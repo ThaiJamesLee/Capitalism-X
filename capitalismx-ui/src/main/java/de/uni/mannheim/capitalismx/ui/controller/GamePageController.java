@@ -156,7 +156,7 @@ public class GamePageController implements UpdateableController {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
 					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
 			Parent rootC = loaderMessageWindow.load();
-			AnchorPaneHelper.snapNodeToAnchorPaneWithPadding(rootC, 500);
+			AnchorPaneHelper.snapNodeToAnchorPane(rootC, 500);
 			;
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
