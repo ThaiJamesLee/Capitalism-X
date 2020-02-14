@@ -329,30 +329,24 @@ FontAwesomeIcon {
 }
 
 .list-cell {
-	-fx-background-color: -fx-complement-light;
-	-fx-border-insets: 0.0 5.0 0.0 5.0;
-	-fx-background-insets: 0.0 5.0 0.0 5.0;
-	-fx-border-width: 0.0;
-	-fx-border-color: -fx-complement-neutral;
-	-fx-cursor: hand;
+	-fx-padding: 2px;
+	-fx-background-color: -fx-primary-light;
+	-fx-border-insets: 2.0 5.0 2.0 4.0;
+	-fx-background-insets: 2.0 5.0 2.0 4.0;
+	-fx-border-width: 0 0 0 2;
+	-fx-border-color: -fx-primary;
 }
 
-.list-cell:hover {
+.list-view .list-cell:hover {
 	-fx-background-color: -fx-complement-light-neutral;
 	-fx-text-fill: -fx-primary;
+	-fx-border-color: -fx-primary-dark;
 }
 
-.list-cell:odd {
-	-fx-border-width: 1.0 0.0 1.0 0.0;
-}
-
-.list-cell:even {
-	-fx-border-width: 0.0 0.0 0.0 0.0;
-}
-
-.list-cell:selected {
+.list-view .list-cell:selected {
 	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-primary-dark;
+	-fx-border-color: -fx-primary-dark;
 }
 
 .list-cell:empty {
