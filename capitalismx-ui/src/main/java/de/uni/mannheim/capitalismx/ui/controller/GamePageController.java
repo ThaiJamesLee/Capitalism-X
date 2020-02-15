@@ -176,6 +176,7 @@ public class GamePageController implements UpdateableController {
 			FXMLLoader loaderIngameMenu = new FXMLLoader(
 					getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"), UIManager.getResourceBundle());
 			Parent root = loaderIngameMenu.load();
+			CssHelper.replaceStylesheets(root.getStylesheets());
 			AnchorPaneHelper.snapNodeToAnchorPane(root);
 			ingameMenuController = loaderIngameMenu.getController();
 			menuLayer.getChildren().add(root);

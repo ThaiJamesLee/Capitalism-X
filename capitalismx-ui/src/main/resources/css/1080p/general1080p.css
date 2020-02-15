@@ -14,6 +14,7 @@
    -fx-complement: rgb( 71.0, 77.0,157.0,1.0);
    -fx-complement-dark: rgb(  2.0,  3.0,  7.0,1.0);
    -fx-complement-dark-transparent: rgb(  2.0,  3.0,  7.0,0.7);
+   -fx-primary-light-transparent: rgb(255.0,252.0,244.0,0.5);
    -fx-transparent-background: rgb(132.0, 132.0, 132.0, 0.6);
    -fx-green: rgb(99,192, 70, 1);
    -fx-red: rgb(216, 78, 97,1);
@@ -654,24 +655,8 @@ FontAwesomeIcon {
 	-fx-text-fill: white;
 }
 
-.ressource_label {
-	-fx-background-color: #E0E0E0;
-    -fx-background-insets: 0.0,1.0,4.0,5.0;
-    -fx-background-radius: 9.0,8.0,5.0,4.0;
-	-fx-background-color: #423f39;
-	-fx-text-fill: white;
-}
-
 .wholeOverlayBackground {
-	-fx-background-color: #E0E0E0;
-}
-
-.currentView_label {
-	-fx-text-fill: -fx-primary;
-    -fx-font-family: "Prime";
-    -fx-font-size: 20.0px;
-    -fx-font-weight: bold;
-
+	-fx-background-color: -fx-primary-light-transparent;
 }
 
 

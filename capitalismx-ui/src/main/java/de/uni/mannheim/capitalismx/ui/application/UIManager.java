@@ -23,6 +23,7 @@ import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListController;
 import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -218,6 +219,9 @@ public class UIManager {
 			@Override
 			public void handle(KeyEvent event) {
 				switch (event.getCode()) {
+				case P:
+					gameHudController.playPause();
+					break;
 				case DIGIT1:
 					gamePageController.switchView(GameViewType.getTypeById(1));
 					break;
