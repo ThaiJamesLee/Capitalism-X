@@ -18,6 +18,7 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
+import de.uni.mannheim.capitalismx.ui.controller.MainMenuController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListController;
@@ -57,7 +58,7 @@ public class UIManager {
 	public static UIManager getInstance() {
 		return instance;
 	}
-	
+
 	private Tutorial tutorial;
 
 	/**
@@ -81,17 +82,14 @@ public class UIManager {
 
 	private Locale language;
 
-	// Controller for the main scene of the game.
+	// Various Controller classes.
 	private GamePageController gamePageController;
-
 	private GameHudController gameHudController;
-
 	private OverviewMap3DController gameMapController;
 
 	// Get information about the resolution of the game.
 	private GameResolution gameResolution;
 
-	
 	/**
 	 * Constructor for the {@link UIManager}. Loads and saves all the FXML-files.
 	 * 
@@ -114,9 +112,10 @@ public class UIManager {
 		window.setScene(new Scene(sceneMenuMain.getScene()));
 	}
 
-	
 	/**
-	 * Returns the corresponding message for the given key from the stored {@link ResourceBundle} - default englisch: properties.main_en
+	 * Returns the corresponding message for the given key from the stored
+	 * {@link ResourceBundle} - default englisch: properties.main_en
+	 * 
 	 * @param key
 	 * @return String message
 	 */
@@ -128,7 +127,6 @@ public class UIManager {
 		return resourceBundle;
 	}
 
-	
 	/**
 	 * Called when GameOver condition is reached and directs to the corresponding
 	 * View for Lost or Won
@@ -279,7 +277,7 @@ public class UIManager {
 
 	/**
 	 * Loads an existing Game via the {@link GameController} and prepares all
-	 * necessary elements.
+	 * necessary elements. TODO incorporate multiple savegames
 	 */
 	public void loadGame() {
 		GameController.getInstance().loadGame();
@@ -537,6 +535,7 @@ public class UIManager {
 		// more scenes are needed
 		switch (sceneType) {
 		case MENU_MAIN:
+			sceneMenuMain.getController().update();
 			window.getScene().setRoot(sceneMenuMain.getScene());
 			break;
 		case GAME_PAGE:
