@@ -266,8 +266,12 @@ public class GameController {
 		return GameThread.getInstance().isPause();
 	}
 
-	public void setSecondsPerDay(int seconds) {
-		GameThread.getInstance().setSecondsPerDay(seconds);
+	public GameThread.Speed getSpeed() {
+		return GameThread.getInstance().getSpeed();
+	}
+	
+	public void setSpeed(GameThread.Speed speed) {
+		GameThread.getInstance().setSpeed(speed);
 	}
 
 	// TODO load game state

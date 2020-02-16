@@ -5,61 +5,82 @@ import org.slf4j.LoggerFactory;
 
 public class GameThread extends Thread {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
+	/**
+	 * Enum that defines the possible speed settings, the player can choose from and
+	 * the seconds the given setting takes per day.
+	 */
+	public enum Speed {
 
-    private static GameThread instance;
+		SLOW(5), MEDIUM(3), FAST(1);
 
-    private long secondsPerDay;
-    private boolean pause;
-    private boolean running;
+		private final int secondsPerDay;
 
-    public static GameThread getInstance() {
-        if (instance == null) {
-            instance = new GameThread();
-        }
-        return instance;
-    }
+		private Speed(int secondsPerDay) {
+			this.secondsPerDay = secondsPerDay;
+		}
 
-    private GameThread() {
-        this.secondsPerDay = 1;
-        this.running = true;
-    }
+		public int getSecondsPerDay() {
+			return secondsPerDay;
+		}
+	}
 
-    @Override
-    public synchronized void run() {
-        while (running) {
-            if (!pause) {
-                GameController.getInstance().nextDay();
-            }
-            try {
-                wait(this.secondsPerDay * 1000);
-            } catch (InterruptedException e) {
-                LOGGER.error(e.getMessage(), e);
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameThread.class);
 
+	private static GameThread instance;
+	private Speed speed;
+	private boolean pause;
+	private boolean running;
 
-    public void terminate() {
-        this.running = false;
-        GameThread.instance = null;
-    }
+	public static GameThread getInstance() {
+		if (instance == null) {
+			instance = new GameThread();
+		}
+		return instance;
+	}
 
-    public void setSecondsPerDay(int secondsPerDay) {
-        this.secondsPerDay = secondsPerDay;
-    }
+	private GameThread() {
+		this.speed = Speed.SLOW;
+		this.running = true;
+	}
 
-    public void pause() {
-        this.pause = true;
-    }
+	@Override
+	public synchronized void run() {
+		while (running) {
+			if (!pause) {
+				GameController.getInstance().nextDay();
+			}
+			try {
+				wait(this.speed.getSecondsPerDay() * 1000);
+			} catch (InterruptedException e) {
+				LOGGER.error(e.getMessage(), e);
+				Thread.currentThread().interrupt();
+			}
+		}
+	}
 
-    public void unpause() {
-        this.pause = false;
-    }
+	public void terminate() {
+		this.running = false;
+		GameThread.instance = null;
+	}
 
-    public boolean isPause() {
-        return pause;
-    }
+	public void setSpeed(Speed speed) {
+		this.speed = speed;
+	}
+
+	public void pause() {
+		this.pause = true;
+	}
+
+	public void unpause() {
+		this.pause = false;
+	}
+
+	public boolean isPause() {
+		return pause;
+	}
+	
+	public Speed getSpeed() {
+		return this.speed;
+	}
 
 }

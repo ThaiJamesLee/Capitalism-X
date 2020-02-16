@@ -112,9 +112,27 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label fx:id="forwardIconLabel" GridPane.columnIndex="2">
+                        <Label fx:id="forwardIconLabel" contentDisplay="CENTER" textAlignment="CENTER" GridPane.columnIndex="2">
                            <graphic>
-                              <FontAwesomeIcon fx:id="forwardIconButton" iconName="FORWARD" size="1.5em" styleClass="hud_icon_button" />
+                              <HBox>
+                                 <children>
+                                    <FontAwesomeIcon fx:id="speedIcon1" iconName="PLAY" scaleX="0.65" size="1.5em" styleClass="hud_icon_button">
+                                       <HBox.margin>
+                                          <Insets right="-3.0" />
+                                       </HBox.margin>
+                                    </FontAwesomeIcon>
+                                    <FontAwesomeIcon fx:id="speedIcon2" iconName="PLAY" scaleX="0.65" size="1.5em" styleClass="hud_icon_button">
+                                       <HBox.margin>
+                                          <Insets left="-3.0" right="-3.0" />
+                                       </HBox.margin>
+                                    </FontAwesomeIcon>
+                                    <FontAwesomeIcon fx:id="speedIcon3" iconName="PLAY" scaleX="0.65" size="1.5em" styleClass="hud_icon_button" text="">
+                                       <HBox.margin>
+                                          <Insets left="-3.0" />
+                                       </HBox.margin>
+                                    </FontAwesomeIcon>
+                                 </children>
+                              </HBox>
                            </graphic>
                         </Label>
                         <Label fx:id="playPauseIconLabel">

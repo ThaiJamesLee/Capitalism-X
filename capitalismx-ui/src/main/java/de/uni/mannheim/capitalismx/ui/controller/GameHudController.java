@@ -17,6 +17,8 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameThread;
+import de.uni.mannheim.capitalismx.gamecontroller.GameThread.Speed;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex.EcoIndex;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -60,6 +62,9 @@ import javafx.util.Duration;
  */
 public class GameHudController implements UpdateableController {
 
+	/**
+	 * Components for the Dropdown that enables the LevelUp of Departments.
+	 */
 	private DepartmentUpgradeController upgradeController;
 	private AnchorPane departmentUpgradePane;
 
@@ -92,7 +97,8 @@ public class GameHudController implements UpdateableController {
 	private GridPane moduleGrid;
 
 	@FXML
-	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton, ecoIcon, departmentDropdownIcon;
+	private FontAwesomeIcon playPauseIconButton, skipIconButton, ecoIcon, departmentDropdownIcon, speedIcon1,
+			speedIcon2, speedIcon3;
 	@FXML
 	private Label playPauseIconLabel, forwardIconLabel, skipIconLabel, messageIconLabel, settingsIconLabel;
 
@@ -112,11 +118,11 @@ public class GameHudController implements UpdateableController {
 	public ToggleButton getProductionDepButton() {
 		return this.btnProduction;
 	}
-	
+
 	public ToggleButton getOverviewDepButton() {
 		return this.btnOverview;
 	}
-	
+
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
 	 * currently being displayed, it will be added to a queue and displayed
@@ -129,6 +135,32 @@ public class GameHudController implements UpdateableController {
 		Platform.runLater(() -> {
 			displayNextNotification();
 		});
+	}
+
+	/**
+	 * Changes the speed of the game to the given {@link Speed}.
+	 * 
+	 * @param The {@link Speed} to set the game to.
+	 */
+	public void changeSpeed(GameThread.Speed speed) {
+		GameController contr = GameController.getInstance();
+		contr.setSpeed(speed);
+		switch (speed) {
+		case SLOW:
+			speedIcon2.setOpacity(0.5);
+			speedIcon3.setOpacity(0.5);
+			break;
+		case MEDIUM:
+			speedIcon2.setOpacity(1);
+			speedIcon3.setOpacity(0.5);
+			break;
+		case FAST:
+			speedIcon2.setOpacity(1);
+			speedIcon3.setOpacity(1);
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -271,6 +303,18 @@ public class GameHudController implements UpdateableController {
 				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.settings")));
 		messageIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.messages")));
 
+		// ClickHandlers for the speed buttons
+		speedIcon1.setOnMouseClicked(e -> {
+			changeSpeed(Speed.SLOW);
+		});
+		speedIcon2.setOnMouseClicked(e -> {
+			changeSpeed(Speed.MEDIUM);
+		});
+		speedIcon3.setOnMouseClicked(e -> {
+			changeSpeed(Speed.FAST);
+		});
+		changeSpeed(Speed.SLOW);
+
 		// Switch to view when clicking on hud info labels
 		cashVBox.setOnMouseClicked(e -> {
 			switchView(GameViewType.FINANCES);
@@ -285,7 +329,6 @@ public class GameHudController implements UpdateableController {
 		UIManager.getInstance().setGameHudController(this);
 		updateLevelUpDropdown(GameViewType.OVERVIEW);
 	}
-
 
 	public void initTutorialCheck() {
 		PopOverFactory factory = new PopOverFactory();
@@ -553,26 +596,26 @@ public class GameHudController implements UpdateableController {
 			employeeLabel.setText(numOfEmployees + "/" + capacity);
 		});
 	}
-	
-	
-	
-	//TODO order of nodes 
-	//Elements 
-	//1. GamePage Title
-	//Pause Button
-	//Networth 
-	//Cash  --> vBox
-	//Employees --> vBox
-	//Skip Btn
-	//Fast Forward Btn
-	//Messages  Btn
-	//Settings Btn
+
+	// TODO order of nodes
+	// Elements
+	// 1. GamePage Title
+	// Pause Button
+	// Networth
+	// Cash --> vBox
+	// Employees --> vBox
+	// Skip Btn
+	// Fast Forward Btn
+	// Messages Btn
+	// Settings Btn
 
 	/**
-	 *  returns List of Nodes (UI-Elements) that will be highlighted in this tutorial chapter in the given order.
-	 * @return List<Nodes> 
+	 * returns List of Nodes (UI-Elements) that will be highlighted in this tutorial
+	 * chapter in the given order.
+	 * 
+	 * @return List<Nodes>
 	 */
-	public List<Node> getTimeControlTutorialNodes(){
+	public List<Node> getTimeControlTutorialNodes() {
 		List<Node> nodes = new ArrayList<Node>();
 		nodes.add(departmentLabel);
 		nodes.add(dateLabel);
@@ -581,12 +624,12 @@ public class GameHudController implements UpdateableController {
 		nodes.add(cashVBox);
 		nodes.add(employeeVBox);
 		nodes.add(ecoIcon);
-		nodes.add(forwardIconButton);
+		nodes.add(speedIcon2);
 		nodes.add(skipIconButton);
 		nodes.add(messageIconLabel);
 		nodes.add(settingsIconLabel);
-		
-		//TODO add cash / networth / employees infos with short message...
+
+		// TODO add cash / networth / employees infos with short message...
 		return nodes;
 	}
 
