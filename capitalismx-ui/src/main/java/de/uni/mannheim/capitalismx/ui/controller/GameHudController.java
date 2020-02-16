@@ -368,7 +368,6 @@ public class GameHudController implements UpdateableController {
 		speedIcon3.setOnMouseClicked(e -> {
 			changeSpeed(Speed.FAST);
 		});
-		changeSpeed(Speed.SLOW);
 
 		// Switch to view when clicking on hud info labels
 		cashVBox.setOnMouseClicked(e -> {
@@ -382,6 +381,7 @@ public class GameHudController implements UpdateableController {
 		});
 
 		UIManager.getInstance().setGameHudController(this);
+		playPause();
 		updateLevelUpDropdown(GameViewType.OVERVIEW);
 	}
 
