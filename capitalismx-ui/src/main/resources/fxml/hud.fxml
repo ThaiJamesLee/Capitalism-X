@@ -121,12 +121,12 @@
                                           <Insets right="-3.0" />
                                        </HBox.margin>
                                     </FontAwesomeIcon>
-                                    <FontAwesomeIcon fx:id="speedIcon2" iconName="PLAY" scaleX="0.65" size="1.5em" styleClass="hud_icon_button">
+                                    <FontAwesomeIcon fx:id="speedIcon2" iconName="PLAY" opacity="0.5" scaleX="0.65" size="1.5em" styleClass="hud_icon_button">
                                        <HBox.margin>
                                           <Insets left="-3.0" right="-3.0" />
                                        </HBox.margin>
                                     </FontAwesomeIcon>
-                                    <FontAwesomeIcon fx:id="speedIcon3" iconName="PLAY" scaleX="0.65" size="1.5em" styleClass="hud_icon_button" text="">
+                                    <FontAwesomeIcon fx:id="speedIcon3" iconName="PLAY" opacity="0.5" scaleX="0.65" size="1.5em" styleClass="hud_icon_button" text="">
                                        <HBox.margin>
                                           <Insets left="-3.0" />
                                        </HBox.margin>
