@@ -55,8 +55,8 @@ public class SalesContractController extends GameModuleController {
     }
 
     /**
-     *
-     * @param c
+     * Receives a contract object and displays it in the UI under "Sales" -> "Contract Management" -> "Contract Offers"
+     * @param c The finished contract that should be displayed in UI.
      * @param i
      */
     public void addContractOffer(Contract c, int i){
@@ -100,6 +100,11 @@ public class SalesContractController extends GameModuleController {
         
     }
 
+    /**
+     * This methods displays the info panel for a "Offered Contracts" list entry that was cicked.
+     * This method is called by 
+     * @param ID
+     */
     public void showInfoPanel(String ID){
         System.out.println("showInfoPanel  Check");
         for(Contract c : ((ArrayList<Contract>)GameState.getInstance().getSalesDepartment().getAvailableContracts().getList())) {
