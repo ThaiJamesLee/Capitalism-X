@@ -60,6 +60,9 @@ public class ProductStockCell {
 		buyAllComponents.setOnAction(e -> {
 			buyAllComponents();
 		});
+		discardProducts.setOnAction(e -> {
+			
+		});
 	}
 
 	public AnchorPane getRoot() {

@@ -89,6 +89,14 @@ public class GameController {
 		}
 		this.updateAll();
 	}
+	
+	public void goToDay(LocalDate newDate) {
+		GameState state = GameState.getInstance();
+
+		while(newDate.isAfter(state.getGameDate())) {
+			nextDay();
+		}
+	}
 
 	private void updateAll() {
 		// TODO update all values of the departments
