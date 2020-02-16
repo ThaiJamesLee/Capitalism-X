@@ -17,34 +17,234 @@ import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
-import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.*;
 
 /**
+ * This class represents the finance department.
+ * It implements the calculation of all relevant revenues and costs of the company.
+ * Based on the report p.69-80
+ *
  * @author sdupper
  */
 public class FinanceDepartment extends DepartmentImpl {
 
+    /**
+     * The singleton pointer.
+     */
     private static FinanceDepartment instance;
 
+    /**
+     * The current net worth of the company
+     */
     private PropertyChangeSupportDouble netWorth;
+
+    /**
+     * The current cash of the company
+     */
     private PropertyChangeSupportDouble cash;
+
+    /**
+     * The current assets of the company
+     */
     private PropertyChangeSupportDouble assets;
+
+    /**
+     * The current liabilities of the company
+     */
     private PropertyChangeSupportDouble liabilities;
+
+    /**
+     * The current amount invested into real estate.
+     */
+    private PropertyChangeSupportDouble realEstateInvestmentAmount;
+
+    /**
+     * The current amount invested into stocks.
+     */
+    private PropertyChangeSupportDouble stocksInvestmentAmount;
+
+    /**
+     * The current amount invested into venture capital.
+     */
+    private PropertyChangeSupportDouble ventureCapitalInvestmentAmount;
+
+    /**
+     * The factor by which the nopat is decreased, e.g., in case of penalties.
+     */
+    private double decreaseNopatFactor;
+
+    /**
+     * The constant by which the nopat is decreased, e.g., in case of penalties.
+     */
+    private double decreaseNopatConstant;
+
+    /**
+     * The difference between the current net worth compared to 30 days before.
+     */
+    private PropertyChangeSupportDouble netWorthDifference;
+
+    /**
+     * The difference between the current cash compared to 30 days before.
+     */
+    private PropertyChangeSupportDouble cashDifference;
+
+    /**
+     * A boolean indicating whether the game is over.
+     */
+    private PropertyChangeSupportBoolean gameOver;
+
+    /**
+     * A boolean indicating that the current loan was removed.
+     */
+    private PropertyChangeSupportBoolean loanRemoved;
+
+    /**
+     * A list of all warehouses that were sold on the current day.
+     */
+    private List<Warehouse> warehousesSold;
+
+    /**
+     * A list of all trucks that were sold on the current day.
+     */
+    private List<Truck> trucksSold;
+
+    /**
+     * A list of all machines that were sold on the current day.
+     */
+    private List<Machinery> machinesSold;
+
+    /**
+     * A list of the nopat over the last 5 years.
+     */
+    private List<Double> nopatLast5Years;
+
+    /**
+     * A list of all sales amounts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> salesHistory;
+
+    /**
+     * A list of all hrCosts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> hrCostsHistory;
+
+    /**
+     * A list of all warehouseCosts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> warehouseCostsHistory;
+
+    /**
+     * A list of all logisticsCosts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> logisticsCostsHistory;
+
+    /**
+     * A list of all productionCosts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> productionCostsHistory;
+
+    /**
+     * A list of all marketingCosts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> marketingCostsHistory;
+
+    /**
+     * A list of all supportCosts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> supportCostsHistory;
+
+    /**
+     * A list of all ebit amounts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> ebitHistory;
+
+    /**
+     * A list of all tax amounts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> taxHistory;
+
+    /**
+     * A list of all nopat amounts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> nopatHistory;
+
+    /**
+     * A list of all cash amounts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> cashHistory;
+
+    /**
+     * A list of all asset amounts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> assetsHistory;
+
+    /**
+     * A list of all liability amounts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> liabilitiesHistory;
+
+    /**
+     * A list of all net worth amounts with the corresponding date.
+     */
+    private TreeMap<LocalDate, Double> netWorthHistory;
+
+    /**
+     * A map containing the cash, assets, liabilities, and net worth histories.
+     */
+    private Map<String, TreeMap<LocalDate, Double>> histories;
+
+    /**
+     * A map containing the sales, hrCosts, warehouseCosts, logisticsCosts, productionCosts, marketingCosts,
+     * supportCosts, ebit, tax, and nopat histories.
+     */
+    private Map<String, TreeMap<LocalDate, Double>> historiesForQuarterlyData;
+
+    /**
+     * A map containing the monthly data for the finance charts.
+     */
+    private TreeMap<String, String[]> monthlyData;
+
+    /**
+     * A map containing the quarterly data for the operations table in the finance department GUI.
+     */
+    private TreeMap<String, String[]> quarterlyData;
+
+    //TODO just to notify gui to update finance table with new monthlyData / quarterlyData every day
+    /**
+     * Notifies the GUI about updates to the monthly data.
+     */
+    private PropertyChangeSupportBoolean updatedMonthlyData;
+
+    /**
+     * Notifies the GUI about updates to the quarterly data.
+     */
+    private PropertyChangeSupportBoolean updatedQuarterlyData;
+
+    /**
+     * Specifies the cash amount at the start of a new game.
+     */
+    private double initialCash = 1000000.0;
+
+    /**
+     * Specifies the tax rate at the start of a new game.
+     */
+    private double taxRate = 0.2;
+
+    /**
+     * A list that contains all investments of the company.
+     */
+    private List<Investment> investments;
+
     private double totalTruckValues;
     private double totalMachineValues;
     private double totalWarehousingValues;
     private double totalInvestmentAmount;
-    private PropertyChangeSupportDouble realEstateInvestmentAmount;
-    private PropertyChangeSupportDouble stocksInvestmentAmount;
-    private PropertyChangeSupportDouble ventureCapitalInvestmentAmount;
     private double nopat;
     private double assetsSold;
     private double ebit;
     private double incomeTax;
-    private double taxRate;
     private double totalRevenue;
     private double totalHRCosts;
     private double totalWarehouseCosts;
@@ -53,47 +253,11 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalMarketingCosts;
     private double totalSupportCosts;
     private double totalExpenses;
-    private double decreaseNopatFactor;
-    private double decreaseNopatConstant;
-    private PropertyChangeSupportDouble netWorthDifference;
-    private PropertyChangeSupportDouble cashDifference;
-    private PropertyChangeSupportBoolean gameOver;
-    private PropertyChangeSupportBoolean loanRemoved;
 
-    private List<Warehouse> warehousesSold;
-    private List<Truck> trucksSold;
-    private List<Machinery> machinesSold;
-    private List<Double> nopatLast5Years;
-
-    private TreeMap<LocalDate, Double> salesHistory;
-    private TreeMap<LocalDate, Double> hrCostsHistory;
-    private TreeMap<LocalDate, Double> warehouseCostsHistory;
-    private TreeMap<LocalDate, Double> logisticsCostsHistory;
-    private TreeMap<LocalDate, Double> productionCostsHistory;
-    private TreeMap<LocalDate, Double> marketingCostsHistory;
-    private TreeMap<LocalDate, Double> supportCostsHistory;
-    private TreeMap<LocalDate, Double> ebitHistory;
-    private TreeMap<LocalDate, Double> taxHistory;
-    private TreeMap<LocalDate, Double> nopatHistory;
-
-    private TreeMap<LocalDate, Double> cashHistory;
-    private TreeMap<LocalDate, Double> assetsHistory;
-    private TreeMap<LocalDate, Double> liabilitiesHistory;
-    private TreeMap<LocalDate, Double> netWorthHistory;
-    private Map<String, TreeMap<LocalDate, Double>> histories;
-    private Map<String, TreeMap<LocalDate, Double>> historiesForQuarterlyData;
-    private TreeMap<String, String[]> monthlyData;
-    private TreeMap<String, String[]> quarterlyData;
-    //TODO just to notify gui to update finance table with new monthlyData / quarterlyData every day
-    private PropertyChangeSupportBoolean updatedMonthlyData;
-    private PropertyChangeSupportBoolean updatedQuarterlyData;
-    private double initialCash = 1000000.0;
-
-
-    //private BankingSystem bankingSystem;
-    private List<Investment> investments;
-
-
+    /**
+     * Constructor
+     * Initializes all variables, including the PropertyChangeSupport variables and the different histories.
+     */
     protected FinanceDepartment(){
         super("Finance");
         this.gameOver = new PropertyChangeSupportBoolean();
@@ -193,9 +357,7 @@ public class FinanceDepartment extends DepartmentImpl {
         this.updatedQuarterlyData.setValue(false);
         this.updatedQuarterlyData.setPropertyChangedName("updatedQuarterlyData");
 
-        this.taxRate = 0.2;
-        //this.bankingSystem = new BankingSystem();
-        this.investments = new ArrayList<Investment>();
+        this.investments = new ArrayList<>();
         this.investments.add(new Investment(0, Investment.InvestmentType.REAL_ESTATE));
         this.investments.add(new Investment(0, Investment.InvestmentType.STOCKS));
         this.investments.add(new Investment(0, Investment.InvestmentType.VENTURE_CAPITAL));
@@ -205,9 +367,12 @@ public class FinanceDepartment extends DepartmentImpl {
         this.trucksSold = new ArrayList<>();
         this.machinesSold = new ArrayList<>();
         this.nopatLast5Years = new ArrayList<>();
-        //this.bankingSystem = BankingSystem.getInstance();
     }
 
+    /**
+     *
+     * @return Returns the singleton instance
+     */
     public static synchronized FinanceDepartment getInstance() {
         if(FinanceDepartment.instance == null) {
             FinanceDepartment.instance = new FinanceDepartment();
@@ -215,28 +380,42 @@ public class FinanceDepartment extends DepartmentImpl {
         return FinanceDepartment.instance;
     }
 
-    // liabilities = loanAmount
+    /**
+     * Calculates the net worth based on the cash, assets, and liabilities according to p.70 and adds it to the
+     * respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the net worth.
+     */
     public double calculateNetWorth(LocalDate gameDate){
-        //this.netWorth = this.cash + this.assets - this.liabilities;
         //TODO maybe getCash() instead of calculateCash(), because calculateCash() only once per day?
         this.netWorth.setValue(this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities(gameDate));
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
         return this.netWorth.getValue();
     }
 
+    /**
+     * Calculates the company's assets based on the totalTruckValues, totalMachineValues, totalWarehousingValues, and
+     * totalInvestmentAmount according to p.71 and adds it to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the asset amount.
+     */
     protected double calculateAssets(LocalDate gameDate){
-        //this.assets = this.totalTruckValues + this.totalMachineValues + this.totalWarehousingValues + this.totalInvestmentAmount;
         this.assets.setValue(this.calculateTotalTruckValues(gameDate) + this.calculateTotalMachineValues(gameDate) +
                 this.calculateTotalWarehousingValues(gameDate) + this.calculateTotalInvestmentAmount());
         this.assetsHistory.put(gameDate, this.assets.getValue());
         return this.assets.getValue();
     }
 
-    // calculated daily
     //TODO reset assetsSold and nopat of current day?
     //TODO consider liabilities for cash calculation?
+    /**
+     * Calculates the company's cash based on the previous cash amount, the current nopat, and the assets sold similarly
+     * to p.71 (here, monthly loan rate is deducted from the cash amount) and adds it to the respective history.
+     * Moreover, ends the game if cash < 0.
+     * @param gameDate The current date in the game.
+     * @return Returns the cash amount.
+     */
     protected double calculateCash(LocalDate gameDate){
-        //this.cash += this.nopat + this.assetsSold;
         double cash = this.cash.getValue() +  this.calculateNopat(gameDate) + this.calculateAssetsSold(gameDate);
         cash -= BankingSystem.getInstance().calculateMonthlyLoanRate(gameDate);
         if(cash < 0){
@@ -248,14 +427,33 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.cash.getValue();
     }
 
+    /**
+     * Calculates the annual depreciation of assets according to p.71.
+     * @param purchasePrice The purchase price of the asset.
+     * @param usefulLife The useful life of the asset.
+     * @return Returns the annual depreciation of the asset.
+     */
     private double calculateAnnualDepreciation(double purchasePrice, double usefulLife){
         return purchasePrice / usefulLife;
     }
 
+    /**
+     * Calculates the resell price of assets according to p.72.
+     * @param purchasePrice The purchase price of the asset.
+     * @param usefulLife The useful life of the asset.
+     * @param timeUsed The time that the asset was used for.
+     * @return Returns the resell price of the asset.
+     */
     public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed){
         return purchasePrice - this.calculateAnnualDepreciation(purchasePrice, usefulLife) * timeUsed;
     }
 
+    /**
+     * Calculates the total warehousing values of the company by adding up the resell prices of built warehouses
+     * according to p.72.
+     * @param gameDate The current date in the game.
+     * @return Returns the total warehousing values.
+     */
     protected double calculateTotalWarehousingValues(LocalDate gameDate){
         this.totalWarehousingValues = 0;
         List<Warehouse> warehouses = WarehousingDepartment.getInstance().getWarehouses();
@@ -268,6 +466,12 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.totalWarehousingValues;
     }
 
+    /**
+     * Calculates the total truck values of the company by adding up the resell prices of all trucks in the internal
+     * fleet according to p.72.
+     * @param gameDate The current date in the game.
+     * @return Returns the total truck values.
+     */
     protected double calculateTotalTruckValues(LocalDate gameDate){
         this.totalTruckValues = 0;
         ArrayList<Truck> trucks = InternalFleet.getInstance().getTrucks();
@@ -278,6 +482,12 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.totalTruckValues;
     }
 
+    /**
+     * Calculates the total machine values of the company by adding up the resell prices of all machines
+     * according to p.72.
+     * @param gameDate The current date in the game.
+     * @return Returns the total machine values.
+     */
     protected double calculateTotalMachineValues(LocalDate gameDate){
         this.totalMachineValues = 0;
         List<Machinery> machines = ProductionDepartment.getInstance().getMachines();
@@ -290,10 +500,21 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     //TODO timestamp or thread in class that checks if new day
+    /**
+     * Adds a warehouse to the list of sold warehouses.
+     * @param warehouse The warehouse to be sold.
+     */
     public void sellWarehouse(Warehouse warehouse){
         this.warehousesSold.add(warehouse);
     }
 
+    /**
+     * Processes the purchase of a truck. The new truck is added to the internal fleet, the cash and net worth amount
+     * are decreased, and the asset amount is increased according to the purchase and resell price.
+     * @param truck The truck to be bought.
+     * @param gameDate The current date in the game
+     * @throws NotEnoughTruckCapacityException if the internal fleet does not have enough capacity.
+     */
     public void buyTruck(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException {
         LogisticsDepartment.getInstance().addTruckToFleet(truck, gameDate);
         this.decreaseCash(gameDate, truck.getPurchasePrice());

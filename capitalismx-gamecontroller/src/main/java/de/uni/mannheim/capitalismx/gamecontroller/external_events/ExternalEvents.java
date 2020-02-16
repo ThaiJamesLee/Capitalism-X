@@ -17,7 +17,7 @@ import java.util.TreeMap;
 
 /**
  * This class represents the external events that can occur during the game.
- * This class implements the external events, factors that cause these events, and checks which external events occurred.
+ * It implements the external events, factors that cause these events, and checks which external events occurred.
  * Based on the report p.80-83
  *
  * @author sdupper

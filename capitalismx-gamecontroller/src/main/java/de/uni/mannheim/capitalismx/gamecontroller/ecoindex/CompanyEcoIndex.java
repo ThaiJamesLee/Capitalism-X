@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 /**
  * This class represents the company ecoIndex.
- * This class implements the ecoIndex, factors that change the eco index, and their impacts.
+ * It implements the ecoIndex, factors that change the eco index, and their impacts.
  * Based on the report p.28-30
  *
  * @author sdupper
