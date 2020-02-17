@@ -23,8 +23,8 @@ public class Warehouse implements Serializable {
         this.warehouseType = warehouseType;
         this.variableStorageCost = 5;
         this.monthlyFixCostWarehouse = 1000;
-        this.depreciationRateWarehouse = 1/14;
         this.usefulLife = 14;
+        this.depreciationRateWarehouse = 1 / this.usefulLife;
         if(this.warehouseType == WarehouseType.BUILT) {
             this.buildingCost = 250000;
             this.monthlyRentalCost = 0;

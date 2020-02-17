@@ -83,7 +83,6 @@ public class GameController {
 		
 		if (oldDate.getMonth() != newDate.getMonth()) {
 			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
-			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(GameState.getInstance().getGameDate());
 			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
 			updateSalesDepartment();
 		}
@@ -242,7 +241,7 @@ public class GameController {
 	}
 
 	private void updateWarehouse() {
-		WarehousingDepartment.getInstance().calculateAll();
+		WarehousingDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
 	}
 
 	private void updateSalesDepartment() {
@@ -337,7 +336,7 @@ public class GameController {
 
 	private void setInitialWarehouseValues() {
 		// TODO really needed?
-		WarehousingDepartment.getInstance().calculateAll();
+		WarehousingDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
 	}
 
 	/* Finance */
@@ -959,6 +958,10 @@ public class GameController {
 		} catch(StorageCapacityUsedException e) {
 			throw e;
 		}
+	}
+
+	public void depreciateAllWarehouseResaleValues() {
+		WarehousingDepartment.getInstance().depreciateAllWarehouseResaleValues(GameState.getInstance().getGameDate());
 	}
 
 	public Map<Warehouse, Double> getAllWarehouseResaleValues() {
