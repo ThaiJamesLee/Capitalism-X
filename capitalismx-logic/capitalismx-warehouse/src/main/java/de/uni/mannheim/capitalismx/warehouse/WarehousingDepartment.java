@@ -342,6 +342,21 @@ public class WarehousingDepartment extends DepartmentImpl {
         return earnedMoney;
     }
 
+    public double sellComponent(Unit unit, int quantity) {
+        for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
+            if(entry.getKey().getUnitType() == UnitType.COMPONENT_UNIT && unit.getUnitType() == UnitType.COMPONENT_UNIT) {
+                Component componentEntry = (Component) entry;
+                Component componentUnit = (Component) unit;
+                if(componentEntry.getComponentType() == componentUnit.getComponentType() && componentEntry.getSupplierCategory() == componentUnit.getSupplierCategory()
+                && entry.getValue() >= quantity) {
+                    this.inventory.put(entry.getKey(), entry.getValue() - quantity);
+                    return quantity * componentEntry.getSalesPrice();
+                }
+            }
+        }
+        return 0;
+    }
+
     public void setProductionDepartmentStoredComponents() {
         Map<Component, Integer> storedComponents = new HashMap<>();
         for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
