@@ -61,7 +61,6 @@ public class EmployeeGenerator {
         }
         Map<String, Double> distribution = department.getCurrentEmployeeDistribution();
         int skillLevel = getRandomSkillLevel(distribution);
-        
         return generateEmployee(skillLevel, type);
     }
 
