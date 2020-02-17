@@ -408,6 +408,7 @@ public class FinanceDepartment extends DepartmentImpl {
 
     //TODO reset assetsSold and nopat of current day?
     //TODO consider liabilities for cash calculation?
+
     /**
      * Calculates the company's cash based on the previous cash amount, the current nopat, and the assets sold similarly
      * to p.71 (here, monthly loan rate is deducted from the cash amount) and adds it to the respective history.
@@ -524,6 +525,12 @@ public class FinanceDepartment extends DepartmentImpl {
         this.decreaseNetWorth(gameDate, truck.getPurchasePrice() - resellPrice);
     }
 
+    /**
+     * Processes the sale of a truck. The truck is removed from the internal fleet, the cash amount is increased, and
+     * the asset amount is decreased according to the resell price.
+     * @param truck The truck to be sold.
+     * @param gameDate The current date in the game.
+     */
     public void sellTruck(Truck truck, LocalDate gameDate){
         //TODO timestamp or thread in class that checks if new day
         //this.trucksSold.add(truck);
@@ -534,12 +541,24 @@ public class FinanceDepartment extends DepartmentImpl {
         LogisticsDepartment.getInstance().removeTruckFromFleet(truck);
     }
 
+    /**
+     * Processes the purchase of a machine. The cash and net worth amount are decreased and the asset amount is
+     * increased according to the purchase and resell price.
+     * @param machinery The machine to be bought.
+     * @param gameDate The current date in the game.
+     */
     public void buyMachinery(Machinery machinery, LocalDate gameDate){
         this.decreaseCash(gameDate, machinery.getPurchasePrice());
         this.increaseAssets(gameDate, machinery.calculateResellPrice());
         this.decreaseNetWorth(gameDate, machinery.getPurchasePrice() - machinery.getResellPrice());
     }
 
+    /**
+     * Processes the sale of a machine. The cash amount is increased and the asset amount is decreased according to the
+     * resell price.
+     * @param machinery The machine to be sold.
+     * @param gameDate The current date in the game.
+     */
     public void sellMachinery(Machinery machinery, LocalDate gameDate){
         //TODO timestamp or thread in class that checks if new day
         //this.machinesSold.add(machinery);
@@ -547,7 +566,11 @@ public class FinanceDepartment extends DepartmentImpl {
         this.decreaseAssets(gameDate, machinery.calculateResellPrice());
     }
 
-
+    /**
+     * Calculates the value of all assets sold on the current day, e.g., warehouses.
+     * @param gameDate The current date in the game.
+     * @return Returns the total value of assets sold on the current day.
+     */
     protected double calculateAssetsSold(LocalDate gameDate){
         this.assetsSold = 0;
         for(Warehouse warehouse : this.warehousesSold){
@@ -567,19 +590,30 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.assetsSold;
     }
 
-    // corrected formula in documentation
+    /**
+     * Calculates the NOPAT of the company based on the EBIT and income tax according to p.73. Note that unlike the
+     * report, this method does not consider interest loan for calculating the NOPAT, because the NOPAT does not depend
+     * on interest loan. Moreover, NOPAT decreases (factor and constant, e.g., due to penalties) are considered in the
+     * NOPAT calculation. Finally, the NOPAT amount is added to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the NOPAT of the company.
+     */
     public double calculateNopat(LocalDate gameDate){
         //this.nopat = this.ebit - this.incomeTax;
-        //TODO what to do when ebit is negative
         //TODO display decreaseNopatFactor/decreaseNopatConstant in operations table (finance ui)
-        this.nopat = ((this.calculateEbit(gameDate) - Math.max(this.calculateIncomeTax(gameDate), 0.0)) * (1 - this.decreaseNopatFactor)) - this.decreaseNopatConstant;
+        this.nopat = ((this.calculateEbit(gameDate) - Math.max(this.calculateIncomeTax(gameDate), 0.0))
+                * (1 - this.decreaseNopatFactor)) - this.decreaseNopatConstant;
         this.nopatHistory.put(gameDate, this.nopat);
         return this.nopat;
     }
 
-    //TODO negative EBIT
+    /**
+     * Calculates the income tax based on the EBIT and tax rate according to p.73 and adds it to the respective history.
+     * If the EBIT is <= 0, the income tax is 0.
+     * @param gameDate The current date in the game.
+     * @return Returns the income tax of the company.
+     */
     protected double calculateIncomeTax(LocalDate gameDate){
-        //this.incomeTax = this.ebit * this.taxRate;
         this.incomeTax = 0;
         if(this.calculateEbit(gameDate) >= 0){
             this.incomeTax = this.ebit * this.taxRate;
@@ -604,13 +638,26 @@ public class FinanceDepartment extends DepartmentImpl {
         return 0.0;
     }
 
+    /**
+     * Calculates the total expenses of the company by adding up the total HR, warehousing, logistics, production,
+     * marketing, and support costs according to p.76.
+     * @param gameDate The current date in the game.
+     * @return Returns the total expenses of the company
+     */
     private double calculateTotalExpenses(LocalDate gameDate){
-        //this.totalExpenses = this.totalHRCosts + this.totalWarehouseCosts + this.totalLogisticsCosts + this.totalProductionCosts + this.totalMarketingCosts + this.totalSupportCosts;
-        this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts(gameDate) + this.calculateTotalLogisticsCosts(gameDate) + this.calculateTotalProductionCosts(gameDate)
+        this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts(gameDate)
+                + this.calculateTotalLogisticsCosts(gameDate) + this.calculateTotalProductionCosts(gameDate)
                 + this.calculateTotalMarketingCosts(gameDate) + this.calculateTotalSupportCosts(gameDate);
         return this.totalExpenses;
     }
 
+    /**
+     * Calculates the total HR costs of the company based on the training costs and salaries according to p.74. The
+     * salaries are divided by the length of the year to calculate the daily salary costs. The total HR costs are then
+     * added to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the total HR costs of the company.
+     */
     protected double calculateTotalHRCosts(LocalDate gameDate){
         //TODO only trainings of current day
         double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
@@ -621,7 +668,13 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.totalHRCosts;
     }
 
-    //TODO
+    /**
+     * Calculates the total warehouse costs of the company based on the monthly warehousing costs and the daily storage
+     * costs according to p.75. The monthly warehousing costs are divided by the length of the month to calculate the
+     * daily warehousing costs. The total warehouse costs are then added to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the total warehouse costs of the company.
+     */
     protected double calculateTotalWarehouseCosts(LocalDate gameDate){
         double warehouseCosts = WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(gameDate);
         warehouseCosts /= gameDate.lengthOfMonth();
@@ -632,38 +685,51 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.totalWarehouseCosts;
     }
 
-    //TODO
+    /**
+     * Calculates the total logistics costs of the company according to p.75. The actual calculation is implemented in
+     * the logistics department. The total logistics costs are then added to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the total logistics costs of the company.
+     */
     protected double calculateTotalLogisticsCosts(LocalDate gameDate){
         this.totalLogisticsCosts = LogisticsDepartment.getInstance().getTotalLogisticsCosts(gameDate);
         this.logisticsCostsHistory.put(gameDate, this.totalLogisticsCosts);
         return this.totalLogisticsCosts;
     }
 
-    //TODO
+    /**
+     * Calculates the total production costs of the company according to p.75. The actual calculation is implemented in
+     * the production department. The total production costs are then added to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the total production costs of the company.
+     */
     protected double calculateTotalProductionCosts(LocalDate gameDate){
-        //double totalProductionCosts = Production.getInstance().calculateProductionVariableCosts() + Production.getInstance().calculateProductionFixCosts();
-
         this.totalProductionCosts = ProductionDepartment.getInstance().getTotalProductionCosts();
-        //ProductionDepartment.getInstance().getProductionVariableCosts() + ProductionDepartment.getInstance().getProductionFixCosts();
         this.productionCostsHistory.put(gameDate, this.totalProductionCosts);
         return this.totalProductionCosts;
     }
 
-    //TODO
+    /**
+     * Calculates the total marketing costs of the company according to p.76. The actual calculation is implemented in
+     * the marketing department. The total marketing costs are then added to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the total marketing costs of the company.
+     */
     private double calculateTotalMarketingCosts(LocalDate gameDate){
-        /**
-        double priceManagementConsultancy = ;
-        double priceMarketResearch = ;
-        double priceCampaign = ;
-        double priceLobbyist = ;
-        this.totalMarketingCosts = priceManagementConsultancy + priceMarketResearch + priceCampaign + priceLobbyist;
-        return this.totalMarketingCosts;**/
         this.totalMarketingCosts = MarketingDepartment.getInstance().getTotalMarketingCosts();
         this.marketingCostsHistory.put(gameDate, this.totalMarketingCosts);
+        //TODO
         this.marketingCostsHistory.put(gameDate, 0.0);
         return 0.0;
     }
 
+    /**
+     * Calculates the total support costs of the company according to p.76. The actual calculation is implemented in
+     * the product support class. The total support costs are divided by the length of the month to calculate the daily
+     * total support costs. The daily total support costs are then added to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the total support costs of the company.
+     */
     private double calculateTotalSupportCosts(LocalDate gameDate){
         double totalSupportCosts = ProductSupport.getInstance().calculateTotalSupportCosts();
         this.totalSupportCosts = totalSupportCosts / gameDate.lengthOfMonth();
@@ -671,14 +737,26 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.totalSupportCosts;
     }
 
+    /**
+     * Calculates the EBIT of the company based on the total revenues and expenses according to p.76. The EBIT is then
+     * added to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the EBIT of the company.
+     */
     protected double calculateEbit(LocalDate gameDate){
-        //this.ebit = this.totalRevenue - this.totalExpenses;
         this.ebit = this.calculateTotalRevenue(gameDate) - this.calculateTotalExpenses(gameDate);
         this.ebitHistory.put(gameDate, this.ebit);
         return this.ebit;
     }
 
     //TODO update cash and netWorth?
+
+    /**
+     * Generates a selection of three loans according to p.76. The actual generation is implemented in the banking
+     * system. The desired loan amount can not exceed 70 percent of the current net worth.
+     * @param desiredLoanAmount The requested loan amount.
+     * @return Returns a list of three loans with different characteristics.
+     */
     public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount){
         if(this.cash.getValue() == 0.0){
             //TODO popup
@@ -690,6 +768,12 @@ public class FinanceDepartment extends DepartmentImpl {
         return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
     }
 
+    /**
+     * Adds a loan to the company (implemented in the banking system) and updates the cash and liabilities amount
+     * accordingly.
+     * @param loan The loan to be added.
+     * @param gameDate The current date in the game.
+     */
     public void addLoan(BankingSystem.Loan loan, LocalDate gameDate){
         BankingSystem.getInstance().addLoan(loan, gameDate);
         this.increaseCash(gameDate, loan.getLoanAmount());
@@ -697,18 +781,32 @@ public class FinanceDepartment extends DepartmentImpl {
         this.loanRemoved.setValue(false);
     }
 
+    /**
+     * Notifies the GUI when a loan is removed.
+     */
     protected void removeLoan(){
         this.loanRemoved.setValue(true);
     }
 
-    //TODO
+    /**
+     * Calculates the liabilities of the company according to p.70. The actual calculation is implemented in the
+     * banking system. The liabilities amount is then added to the respective history.
+     * @param gameDate The current date in the game.
+     * @return Returns the liabilities amount of the company.
+     */
     protected double calculateLiabilities(LocalDate gameDate){
-        //this.liabilities = BankingSystem.getInstance().getAnnualPrincipalBalance();
         this.liabilities.setValue(BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate));
         this.liabilitiesHistory.put(gameDate, this.liabilities.getValue());
         return this.liabilities.getValue();
     }
 
+    /**
+     * Calculates the total investment amount of the company. This corresponds to the value of all real estate, stock,
+     * and venture capital investments added up. It further calculates the values of the individual investment
+     * categories (real estate, stocks, venture capital). The value of each investment is calculated in the investment
+     * class.
+     * @return Returns the total investment amount of the company.
+     */
     protected double calculateTotalInvestmentAmount(){
         this.totalInvestmentAmount = 0;
         this.realEstateInvestmentAmount.setValue(0.0);
@@ -733,6 +831,10 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.totalInvestmentAmount;
     }
 
+    /**
+     * Checks if NOPAT increased by at least 30 percent per year for the last 5 years (according to Table A.1).
+     * @return Returns true if the NOPAT increased by at least 30 percent per year. Returns false otherwise.
+     */
     public boolean checkIncreasingNopat(){
         if(this.nopatLast5Years.size() < 5){
             return false;
@@ -745,6 +847,13 @@ public class FinanceDepartment extends DepartmentImpl {
         return true;
     }
 
+    /**
+     * Decreases the cash amount of the company by the specified amount. If the new cash amount is < 0, the game is
+     * over. Otherwise, the new cash amount is added to the respective history and the monthly data and cash difference
+     * are updated.
+     * @param gameDate The current date in the game.
+     * @param amount The amount by which the cash should be decreased.
+     */
     public void decreaseCash(LocalDate gameDate, double amount){
         double cash = this.cash.getValue() - amount;
         if(cash < 0){
@@ -757,6 +866,12 @@ public class FinanceDepartment extends DepartmentImpl {
         }
     }
 
+    /**
+     * Increases the cash amount of the company by the specified amount. The new cash amount is added to the respective
+     * history and the monthly data and cash difference are updated.
+     * @param gameDate The current date in the game.
+     * @param amount The amount by which the cash should be increased.
+     */
     public void increaseCash(LocalDate gameDate, double amount){
         this.cash.setValue(this.cash.getValue() + amount);
         this.cashHistory.put(gameDate, this.cash.getValue());
@@ -764,6 +879,12 @@ public class FinanceDepartment extends DepartmentImpl {
         this.updateCashDifference(gameDate);
     }
 
+    /**
+     * Decreases the net worth of the company by the specified amount. The new net worth is added to the respective
+     * history and the monthly data and net worth difference are updated.
+     * @param gameDate The current date in the game.
+     * @param amount The amount by which the net worth should be decreased.
+     */
     public void decreaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() - amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
@@ -771,6 +892,12 @@ public class FinanceDepartment extends DepartmentImpl {
         this.updateNetWorthDifference(gameDate);
     }
 
+    /**
+     * Increases the net worth of the company by the specified amount. The new net worth is added to the respective
+     * history and the monthly data and net worth difference are updated.
+     * @param gameDate The current date in the game.
+     * @param amount The amount by which the net worth should be increased.
+     */
     public void increaseNetWorth(LocalDate gameDate, double amount){
         this.netWorth.setValue(this.netWorth.getValue() + amount);
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
@@ -778,56 +905,107 @@ public class FinanceDepartment extends DepartmentImpl {
         this.updateNetWorthDifference(gameDate);
     }
 
+    /**
+     * Increases the asset amount of the company by the specified amount. The new asset amount is added to the
+     * respective history and the monthly data is updated.
+     * @param gameDate The current date in the game.
+     * @param amount The amount by which the assets should be increased.
+     */
     public void increaseAssets(LocalDate gameDate, double amount){
         this.assets.setValue(this.assets.getValue() + amount);
         this.assetsHistory.put(gameDate, this.assets.getValue());
         this.updateMonthlyData(gameDate);
     }
 
+    /**
+     * Decreases the asset amount of the company by the specified amount. The new asset amount is added to the
+     * respective history and the monthly data is updated.
+     * @param gameDate The current date in the game.
+     * @param amount The amount by which the assets should be decreased.
+     */
     public void decreaseAssets(LocalDate gameDate, double amount){
         this.assets.setValue(this.assets.getValue() - amount);
         this.assetsHistory.put(gameDate, this.assets.getValue());
         this.updateMonthlyData(gameDate);
     }
 
+    /**
+     * Increases the liabilities amount of the company by the specified amount. The new liabilities amount is added to
+     * the respective history and the monthly data is updated.
+     * @param gameDate The current date in the game.
+     * @param amount The amount by which the liabilities should be increased.
+     */
     public void increaseLiabilities(LocalDate gameDate, double amount){
         this.liabilities.setValue(this.liabilities.getValue() + amount);
         this.liabilitiesHistory.put(gameDate, this.liabilities.getValue());
         this.updateMonthlyData(gameDate);
     }
 
+    /**
+     * Processes the acquisition of another company according to Table A.1.
+     * @param gameDate The current date in the game.
+     */
     //TODO decide on suitable consequences of acquisition, e.g., increase assets
     public void acquireCompany(LocalDate gameDate){
         this.increaseCash(gameDate, 10000);
         this.decreaseCash(gameDate, this.calculateNopat(gameDate) * 0.70);
     }
 
+    /**
+     * Increases the factor by which the NOPAT is decreased (e.g., due to penalties).
+     * @param amount The amount by which the factor should be increased.
+     */
     public void decreaseNopatRelPermanently(double amount){
         this.decreaseNopatFactor += amount;
     }
 
+    /**
+     * Decreases the factor by which the NOPAT is decreased (e.g., due to the end of penalties).
+     * @param amount The amount by which the factor should be decreased.
+     */
     public void increaseNopatRelPermanently(double amount){
         this.decreaseNopatFactor -= amount;
     }
 
+    /**
+     * Increases the tax rate (e.g., due to penalties).
+     * @param amount The amount by which the tax rate should be increased.
+     */
     public void increaseTaxRate(double amount){
         this.taxRate += amount;
     }
 
     //TODO only for one year?
+
+    /**
+     * Decreases the tax rate (e.g., due to the end of penalties).
+     * @param amount The amount by which the tax rate should be decreased.
+     */
     public void decreaseTaxRate(double amount){
         this.taxRate -= amount;
     }
 
+    /**
+     * Represents a NOPAT fine that decreases the cash of the company relative to its NOPAT.
+     * @param gameDate The current date in the game.
+     * @param amount The percentage of the NOPAT by which the company should be fined.
+     */
     public void nopatFine(LocalDate gameDate, double amount){
-        //this.decreaseCash(this.calculateNopat(gameDate) * amount);
         this.decreaseCash(gameDate, this.nopat * amount);
     }
 
+    /**
+     * Increases the constant amount by which the NOPAT is decreased (e.g., due to penalties)
+     * @param amount The amount by which the constant should be increased.
+     */
     public void decreaseNopatConstant(double amount){
         this.decreaseNopatConstant += amount;
     }
 
+    /**
+     * Sets the constant amount by which the NOPAT is decreased (e.g., due to penalties)
+     * @param amount The new value of the constant.
+     */
     public void setDecreaseNopatConstant(double amount){
         this.decreaseNopatConstant = amount;
     }
@@ -872,6 +1050,14 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.ventureCapitalInvestmentAmount.getValue();
     }
 
+    /**
+     * Increases the investment amount for a specified investment type if the company has enough cash. Consequently, the
+     * cash is decreased and the asset amount is increased.
+     * @param gameDate The current date in the game.
+     * @param amount The amount to be invested.
+     * @param investmentType The type of investment that should be invested in.
+     * @return Returns true if the investment was processed successfully. Returns false otherwise.
+     */
     public boolean increaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
         if(amount > this.cash.getValue()){
             //TODO popup
@@ -902,6 +1088,15 @@ public class FinanceDepartment extends DepartmentImpl {
         return true;
     }
 
+    /**
+     * Decreases the investment amount for a specified investment type. If the specified amount exceeds the amount that
+     * the company owns, the maximum possible amount is used. Consequently, the cash is increased and the asset amount
+     * is decreased.
+     * @param gameDate The current date in the game.
+     * @param amount The amount to be disinvested.
+     * @param investmentType The type of investment that should be disinvested in.
+     * @return Returns true if the disinvestment was processed successfully. Returns false otherwise.
+     */
     public boolean decreaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
         if(amount < 0){
             //TODO popup
@@ -938,8 +1133,15 @@ public class FinanceDepartment extends DepartmentImpl {
         return true;
     }
 
+    /**
+     * Updates the quarterly data (of the 4 most recent quarters) for the operations table in the finance ui, e.g., HR
+     * costs. For each of the histories represented in the operations table, the daily data in the relevant time frame
+     * (4 quarters) is extracted and added up for each quarter. Lastly, the GUI is notified about the changes.
+     * @param gameDate The current date in the game.
+     */
     public void updateQuarterlyData(LocalDate gameDate){
         String[] colNames = new String[4];
+        //Iterate over the different histories represented in the operations table, e.g., the history of HR costs
         for(Map.Entry<String,TreeMap<LocalDate,Double>> history : historiesForQuarterlyData.entrySet()){
             TreeMap<LocalDate,Double> map = history.getValue();
             double[] cols = {0.0, 0.0, 0.0, 0.0};
@@ -980,8 +1182,16 @@ public class FinanceDepartment extends DepartmentImpl {
         this.updatedQuarterlyData.setValue(!this.updatedQuarterlyData.getValue());
     }
 
+    /**
+     * Updates the monthly data (of the 12 most recent months) for the charts in the finance ui, e.g., cash. For each
+     * of the histories in the finance charts, the data of the last day of each month in the relevant time frame
+     * (12 months) is extracted. For the current month, the most recent value is used. Lastly, the GUI is notified
+     * about the changes.
+     * @param gameDate The current date in the game.
+     */
     public void updateMonthlyData(LocalDate gameDate){
         String[] xNames = new String[12];
+        //Iterate over the different histories represented in the finance charts, e.g., the history of cash amounts
         for(Map.Entry<String,TreeMap<LocalDate,Double>> history : histories.entrySet()){
             TreeMap<LocalDate,Double> map = history.getValue();
             double[] values = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
@@ -1029,6 +1239,11 @@ public class FinanceDepartment extends DepartmentImpl {
         this.updatedMonthlyData.setValue(!this.updatedMonthlyData.getValue());
     }
 
+    /**
+     * Updates the net worth difference between the current day and 30 days before. If there is no data for 30 days ago,
+     * the oldest value is used.
+     * @param gameDate The current date in the game.
+     */
     public void updateNetWorthDifference(LocalDate gameDate){
         Double oldNetWorth = this.netWorthHistory.get(gameDate.minusDays(30));
         // if no entry 30 days ago, use oldest value
@@ -1043,6 +1258,11 @@ public class FinanceDepartment extends DepartmentImpl {
         }
     }
 
+    /**
+     * Updates the cash difference between the current day and 30 days before. If there is no data for 30 days ago, the
+     * oldest value is used.
+     * @param gameDate The current date in the game.
+     */
     public void updateCashDifference(LocalDate gameDate){
         Double oldCash = this.cashHistory.get(gameDate.minusDays(30));
         // if no entry 30 days ago, use oldest value
@@ -1081,6 +1301,11 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.cashDifference.getValue();
     }
 
+    /**
+     * Register a change listener that notifies, if a property has changed.
+     *
+     * @param listener A property change listener.
+     */
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.gameOver.addPropertyChangeListener(listener);

@@ -560,8 +560,7 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	/**
-	 *
-	 * @author sdupper
+	 * Calculates the total training costs of the company.
 	 */
 	public double calculateTotalTrainingCosts() {
 		double totalTrainingCosts = 0.0;

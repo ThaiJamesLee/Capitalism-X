@@ -110,7 +110,7 @@ public class ExternalEvents implements Serializable {
         private String title;
         private boolean increase;
 
-        private ExternalEvent(String title){
+        ExternalEvent(String title){
             this.title = title;
         }
 

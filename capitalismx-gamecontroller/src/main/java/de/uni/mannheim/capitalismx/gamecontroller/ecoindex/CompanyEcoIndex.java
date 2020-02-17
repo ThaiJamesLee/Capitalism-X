@@ -46,7 +46,7 @@ public class CompanyEcoIndex implements Serializable {
         private int max;
         private int points;
 
-        private EcoIndex(int index, int min, int max){
+        EcoIndex(int index, int min, int max){
             this.index = index;
             this.min = min;
             this.max = max;
