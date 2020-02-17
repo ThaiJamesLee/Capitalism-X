@@ -25,6 +25,7 @@ public class Product extends Unit implements Serializable {
     private double salesPrice;
     private double profitMargin;
     private double averageProductQuality;
+    private double warehouseSalesPrice;
 
     public Product(String productName, ProductCategory productCategory, List<Component> components) throws InvalidSetOfComponentsException {
         if(this.hasValidSetOfComponents(productCategory, components)) {
@@ -187,6 +188,11 @@ public class Product extends Unit implements Serializable {
             productCosts += component.getBaseCost();
         }
         return productCosts;
+    }
+
+    // set warehouseSalesPrice to half of the totalComponentCosts, should be reconsidered for future balancing
+    public double getWarehouseSalesPrice() {
+        return this.totalComponentCosts / 2;
     }
 
 

@@ -77,6 +77,7 @@ public class WarehousingDepartmentTest {
         }
     }
 
+    /*
     @Test
     public void sellProductTest() {
         HashMap<Unit, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
@@ -87,7 +88,7 @@ public class WarehousingDepartmentTest {
             numberStoredUnits += entry.getValue();
         }
         Assert.assertEquals(numberStoredUnits, 0);
-    }
+    }*/
 
     @Test
     public void sellWarehouseTest() {

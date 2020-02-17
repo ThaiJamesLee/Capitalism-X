@@ -27,7 +27,7 @@ public class Component extends Unit implements Serializable {
     private int supplierEcoIndex;
     private double baseCost;
     private ComponentType componentType;
-    private double salesPrice;
+    private double warehouseSalesPrice;
 
     public Component(ComponentType componentType) {
         this.unitType = UnitType.COMPONENT_UNIT;
@@ -55,19 +55,19 @@ public class Component extends Unit implements Serializable {
                 this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(0.7, 1.0);
                 this.supplierQuality = RandomNumberGenerator.getRandomInt(80, 100);
                 this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(80, 100);
-                this.salesPrice = 0.7 * this.componentType.getInitialSalesPrice();
+                this.warehouseSalesPrice = 0.7 * this.componentType.getInitialSalesPrice();
                 break;
             case REGULAR:
                 this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(0.85, 1.2);
                 this.supplierQuality = RandomNumberGenerator.getRandomInt(55, 85);
                 this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(55, 85);
-                this.salesPrice = 0.85 * this.componentType.getInitialSalesPrice();
+                this.warehouseSalesPrice = 0.85 * this.componentType.getInitialSalesPrice();
                 break;
             case PREMIUM:
                 this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(1.1, 1.5);
                 this.supplierQuality = RandomNumberGenerator.getRandomInt(10, 60);
                 this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(10, 60);
-                this.salesPrice = 1.1 * this.componentType.getInitialSalesPrice();
+                this.warehouseSalesPrice = 1.1 * this.componentType.getInitialSalesPrice();
         }
         this.calculateRandomizedBaseCost(gameDate);
     }
@@ -79,19 +79,19 @@ public class Component extends Unit implements Serializable {
                 this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(1.1, 1.5);
                 this.supplierQuality = RandomNumberGenerator.getRandomInt(80, 100);
                 this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(80, 100);
-                this.salesPrice = 0.7 * this.componentType.getInitialSalesPrice();
+                this.warehouseSalesPrice = 0.7 * this.componentType.getInitialSalesPrice();
                 break;
             case REGULAR:
                 this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(0.85, 1.2);
                 this.supplierQuality = RandomNumberGenerator.getRandomInt(55, 85);
                 this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(55, 85);
-                this.salesPrice = 0.85 * this.componentType.getInitialSalesPrice();
+                this.warehouseSalesPrice = 0.85 * this.componentType.getInitialSalesPrice();
                 break;
             case CHEAP:
                 this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(0.7, 1.0);
                 this.supplierQuality = RandomNumberGenerator.getRandomInt(10, 60);
                 this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(10, 60);
-                this.salesPrice = 1.1 * this.componentType.getInitialSalesPrice();
+                this.warehouseSalesPrice = 1.1 * this.componentType.getInitialSalesPrice();
         }
         this.calculateRandomizedBaseCost(gameDate);
     }
@@ -186,8 +186,8 @@ public class Component extends Unit implements Serializable {
         return this.unitType;
     }
 
-    public double getSalesPrice() {
-        return this.salesPrice;
+    public double getWarehouseSalesPrice() {
+        return this.warehouseSalesPrice;
     }
 
 }
