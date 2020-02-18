@@ -120,7 +120,6 @@ FontAwesomeIcon {
 }
 
 .button_module:hover {
-	-fx-underline: true; 
 	-fx-background-color: -fx-complement-neutral;
 }
 
@@ -128,6 +127,27 @@ FontAwesomeIcon {
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-primary-neutral;
 	-fx-text-fill: -fx-primary-light;
+}
+
+.big_buttons {
+	-fx-pref-width: 200.0px;
+	-fx-pref-height: 67.0px;
+	-fx-background-color: -fx-primary-neutral;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-text-fill: -fx-primary-light;
+    -fx-font-family: "Prime";
+    -fx-font-size: 20.0px;
+    -fx-font-weight: bold;
+	-fx-border-size: medium;
+}
+
+.big_buttons:hover {
+	-fx-background-color: -fx-complement-neutral;
+	-fx-underline: true; 
+}
+
+.big_buttons:pressed {
+	-fx-background-color: -fx-primary;
 }
 
 .nav_button {
@@ -438,6 +458,10 @@ FontAwesomeIcon {
 	-fx-border-color: -fx-primary-neutral;
 	-fx-border-width: 1 1 0 1;
 	-fx-background-radius: 5.0 5.0 0.0 0.0;
+}
+
+.tab-pane .tab:hover {
+	-fx-background-color: -fx-primary-neutral;
 }
 
 .tab-pane .tab:selected, .tab-pane .tab-pane:focused {

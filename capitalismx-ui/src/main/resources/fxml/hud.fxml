@@ -68,7 +68,7 @@
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </padding>
       </GridPane>
-      <HBox alignment="CENTER" layoutX="246.0" layoutY="-15.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="246.0" layoutY="-15.0" pickOnBounds="false" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox fx:id="departmentVBox" alignment="CENTER" prefWidth="380.0">
                <children>
