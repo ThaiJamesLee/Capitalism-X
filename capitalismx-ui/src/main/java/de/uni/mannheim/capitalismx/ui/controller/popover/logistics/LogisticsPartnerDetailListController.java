@@ -1,18 +1,17 @@
 package de.uni.mannheim.capitalismx.ui.controller.popover.logistics;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.ui.components.logistics.LogisticsPartnerDetailListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.ResourceBundle;
-
-public class LogisticsPartnerDetailListController extends GameOverlayController {
+public class LogisticsPartnerDetailListController implements UpdateableController {
 
     @FXML
     ListView<ExternalPartner> logisticsPartnerDetailListView;
@@ -32,16 +31,6 @@ public class LogisticsPartnerDetailListController extends GameOverlayController 
             logisticsPartnerDetailListView.getItems().add(externalPartner);
         }
 
-    }
-
-    @Override
-    public Properties getProperties() {
-        return this.properties;
-    }
-
-    @Override
-    public void updateProperties(Properties properties) {
-        this.properties = properties;
     }
 
 }

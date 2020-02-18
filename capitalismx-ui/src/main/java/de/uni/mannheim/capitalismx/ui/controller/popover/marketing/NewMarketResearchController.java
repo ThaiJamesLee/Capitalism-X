@@ -4,11 +4,9 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.marketing;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.ToggleSwitch;
-import org.testng.internal.ExtraOutput;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
@@ -17,8 +15,8 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketResearchListController;
-import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -31,7 +29,7 @@ import javafx.scene.control.Label;
  *
  */
 
-public class NewMarketResearchController extends GameOverlayController {
+public class NewMarketResearchController implements UpdateableController {
     @FXML 
     ToggleSwitch externToggle;
     
@@ -83,16 +81,6 @@ public class NewMarketResearchController extends GameOverlayController {
     	});	
     }
 
-    @Override
-    public Properties getProperties() {
-        return this.properties;
-    }
-
-    @Override
-    public void updateProperties(Properties properties) {
-        this.properties = properties;
-    }
-    
     /**
      * Enables the button which can be used create an internal MarketResearch instead of the default external.
      */

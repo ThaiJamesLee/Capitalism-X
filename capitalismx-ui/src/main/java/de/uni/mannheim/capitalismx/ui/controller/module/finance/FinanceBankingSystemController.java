@@ -12,7 +12,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.finance.LoanRequestListController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.finance.LoanRequestListController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
@@ -92,7 +92,7 @@ public class FinanceBankingSystemController extends GameModuleController {
         // Prepare the Popover for the trainButton
         PopOverFactory factory = new PopOverFactory();
 
-        factory.createStandardPopover("fxml/overlay/loan_request_list.fxml");
+        factory.createStandardPopover("fxml/popover/loan_request_list.fxml");
         loanRequestPopover = factory.getPopover();
         loanRequestListController = (LoanRequestListController)factory.getPopoverController();
 

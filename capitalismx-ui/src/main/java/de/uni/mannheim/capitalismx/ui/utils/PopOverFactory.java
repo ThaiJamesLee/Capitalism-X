@@ -74,8 +74,8 @@ public class PopOverFactory {
 	}
 
 	/**
-	 * Create a standard overlay, that is centered on screen, using the
-	 * {@link PopOver}.
+	 * Create a standard overlay. Compared to the regular {@link PopOver}, this is
+	 * centered on the screen and not attached to any node.
 	 * 
 	 * @param fxmlFile The path of the fxml-File, starting at the resource
 	 *                 directory.

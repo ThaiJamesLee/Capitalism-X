@@ -2,7 +2,6 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.marketing;
 
 
 import java.net.URL;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
@@ -11,8 +10,8 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.marketing.NewPressReleaseViewCell;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.PressReleaseListController;
-import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,7 +24,7 @@ import javafx.scene.control.ListView;
  *
  */
 
-public class NewPressReleaseController extends GameOverlayController {
+public class NewPressReleaseController implements UpdateableController {
 	//TODO PressRelease kostet noch nichts
 	//TODO PressRelease effekt: Abmilderung ExternalEvent oder Strafe im Company Image
 
@@ -66,16 +65,6 @@ public class NewPressReleaseController extends GameOverlayController {
     		uiController.updateList();
     		uiController.hidePopover();
     	});
-    }
-
-    @Override
-    public Properties getProperties() {
-        return this.properties;
-    }
-
-    @Override
-    public void updateProperties(Properties properties) {
-        this.properties = properties;
     }
 
 }

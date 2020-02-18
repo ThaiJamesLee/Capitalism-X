@@ -52,7 +52,7 @@ public class PressReleaseListController extends GameModuleController {
 		updateList();
 		
 		PopOverFactory helper = new PopOverFactory();
-		helper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");
+		helper.createStandardOverlay("fxml/popover/mkt_newPR_options.fxml");
 		popover = helper.getPopover();
 		
 		newReleaseBtn.setOnAction(e -> {
