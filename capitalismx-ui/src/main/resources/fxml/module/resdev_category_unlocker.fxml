@@ -11,7 +11,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.resdev.CategoryUpgraderController">
    <children>
-      <GridPane fx:id="categoryGrid" alignment="CENTER" layoutX="168.0" layoutY="129.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="categoryGrid" alignment="CENTER" hgap="16.0" layoutX="168.0" layoutY="129.0" vgap="12.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
@@ -43,22 +43,22 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Button fx:id="btnTV" mnemonicParsing="false" onMouseClicked="#unlockTV" text="Button" GridPane.rowIndex="1">
+            <Button fx:id="btnTV" mnemonicParsing="false" onMouseClicked="#unlockTV" styleClass="button_module" text="%resdev.unlock" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="btnConsole" mnemonicParsing="false" onMouseClicked="#unlockConsole" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="btnConsole" mnemonicParsing="false" onMouseClicked="#unlockConsole" styleClass="button_module" text="%resdev.unlock" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="btnNotebook" mnemonicParsing="false" onMouseClicked="#unlockNotebook" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="btnNotebook" mnemonicParsing="false" onMouseClicked="#unlockNotebook" styleClass="button_module" text="%resdev.unlock" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="btnPhone" mnemonicParsing="false" onMouseClicked="#unlockPhone" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Button fx:id="btnPhone" mnemonicParsing="false" onMouseClicked="#unlockPhone" styleClass="button_module" text="%resdev.unlock" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
@@ -70,4 +70,7 @@
       <URL value="@../../css/general.css" />
       <URL value="@../../css/modul.css" />
    </stylesheets>
+   <padding>
+      <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+   </padding>
 </AnchorPane>
