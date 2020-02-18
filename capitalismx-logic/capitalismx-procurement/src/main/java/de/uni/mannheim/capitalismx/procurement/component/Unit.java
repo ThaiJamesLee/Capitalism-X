@@ -8,5 +8,5 @@ public abstract class Unit implements Serializable {
 
     public abstract UnitType getUnitType();
     public abstract double getWarehouseSalesPrice();
-
+    public abstract double getSalesPrice();
 }

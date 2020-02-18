@@ -178,7 +178,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         return this.freeStorage;
     }
 
-    /*
+
     public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
         if(this.inventory.get(soldProduct.getKey()) != null && this.inventory.get(soldProduct.getKey()) >= soldProduct.getValue()) {
             int newInventoryUnits = this.inventory.get(soldProduct.getKey()) - soldProduct.getValue();
@@ -189,7 +189,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             }
         }
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
-    }*/
+    }
 
     public double buildWarehouse(LocalDate gameDate) throws NoWarehouseSlotsAvailableException {
         if(this.warehouseSlots > this.warehouses.size()) {
@@ -332,7 +332,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         damagedWarehouse.setCapacity(damagedWarehouse.getCapacity() - capacity);
     }
 
-    /*
+
     public double sellProducts(Map<Unit, Integer> sales) {
         double earnedMoney = 0;
         for(Map.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
@@ -342,9 +342,9 @@ public class WarehousingDepartment extends DepartmentImpl {
             }
         }
         return earnedMoney;
-    }*/
+    }
 
-    public double sellProducts(Unit unit, int quantity) {
+    public double sellWarehouseProducts(Unit unit, int quantity) {
         for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
             if(entry.getKey().getUnitType() == UnitType.PRODUCT_UNIT && unit.getUnitType() == UnitType.PRODUCT_UNIT) {
                 Product productEntry = (Product) entry.getKey();
@@ -358,7 +358,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         return 0;
     }
 
-    public double sellComponents(Unit unit, int quantity) {
+    public double sellWarehouseComponents(Unit unit, int quantity) {
         for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
             if(entry.getKey().getUnitType() == UnitType.COMPONENT_UNIT && unit.getUnitType() == UnitType.COMPONENT_UNIT) {
                 Component componentEntry = (Component) entry.getKey();
