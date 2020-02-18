@@ -6,6 +6,7 @@ import de.uni.mannheim.capitalismx.ui.application.CapXApplication;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 
 /**
@@ -55,6 +56,8 @@ public class GameAlert extends Alert {
 		this.setContentText(description);
 		this.setGraphic(icon);
 		this.initOwner(UIManager.getInstance().getStage());
+		this.initModality(Modality.NONE);
+		this.getDialogPane().setCursor(UIManager.getInstance().getCursor());
 		this.initStyle(StageStyle.UNDECORATED);
 		this.getDialogPane().getStylesheets()
 				.add(CapXApplication.class.getResource("/css/1080p/general1080p.css").toExternalForm());
