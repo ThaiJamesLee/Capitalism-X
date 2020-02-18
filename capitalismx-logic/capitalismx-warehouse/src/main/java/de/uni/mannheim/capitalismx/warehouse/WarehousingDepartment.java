@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportInteger;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
 import de.uni.mannheim.capitalismx.warehouse.skill.WarehouseSkill;
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     private boolean warehouseSlotsAvailable;
 
     private PropertyChangeSupportMap<Unit, Integer> inventoryChange;
+    private PropertyChangeSupportInteger freeStorageChange;
 
     private static final Logger logger = LoggerFactory.getLogger(WarehousingDepartment.class);
 
@@ -68,6 +70,9 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.inventoryChange = new PropertyChangeSupportMap();
         this.inventoryChange.setMap(this.inventory);
         this.inventoryChange.setAddPropertyName("inventoryChange");
+        this.freeStorageChange = new PropertyChangeSupportInteger();
+        this.freeStorageChange.setValue(this.freeStorage);
+        this.freeStorageChange.setPropertyChangedName("freeStorageChange");
 
         this.init();
     }
@@ -175,6 +180,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     /* */
     public int calculateFreeStorage() {
         this.freeStorage = this.calculateTotalCapacity() - this.calculateStoredUnits();
+        this.freeStorageChange.setValue(this.freeStorage);
         return this.freeStorage;
     }
 
@@ -484,5 +490,6 @@ public class WarehousingDepartment extends DepartmentImpl {
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.inventoryChange.addPropertyChangeListener(listener);
+        this.freeStorageChange.addPropertyChangeListener(listener);
     }
 }
