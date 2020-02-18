@@ -18,25 +18,23 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
-import de.uni.mannheim.capitalismx.ui.controller.MainMenuController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListController;
 import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -59,27 +57,42 @@ public class UIManager {
 		return instance;
 	}
 
+	/**
+	 * Returns the corresponding message for the given key from the stored
+	 * {@link ResourceBundle} - default englisch: properties.main_en
+	 * 
+	 * @param key
+	 * @return String message
+	 */
+	public static String getLocalisedString(String key) {
+		return resourceBundle.getString(key);
+	}
+
+	public static ResourceBundle getResourceBundle() {
+		return resourceBundle;
+	}
+
+	// The game's Tutorial
 	private Tutorial tutorial;
+
+	// The custom cursor used in the game
+	private Cursor cursor;
 
 	/**
 	 * The {@link GameScene}s of the game.
 	 */
 	private GameScene sceneMenuMain;
-
 	private GameScene sceneGamePage;
-
 	private GameScene sceneLoadingScreen;
-
 	private GameScene sceneCreditsPage;
-
 	private GameScene sceneLostPage;
-
 	private GameScene sceneWonPage;
+
 	// List containing all GameViews
 	private List<GameView> gameViews;
+
 	// The Stage object representing the window.
 	private Stage window;
-
 	private Locale language;
 
 	// Various Controller classes.
@@ -105,26 +118,14 @@ public class UIManager {
 
 		resetResolution();
 		// static loading of the scenes
-		loadScenes();
+		loadGameScenes();
 		gameViews = new ArrayList<GameView>();
 
 		// set the initial main menu scene as starting scene
-		window.setScene(new Scene(sceneMenuMain.getScene()));
-	}
-
-	/**
-	 * Returns the corresponding message for the given key from the stored
-	 * {@link ResourceBundle} - default englisch: properties.main_en
-	 * 
-	 * @param key
-	 * @return String message
-	 */
-	public static String getLocalisedString(String key) {
-		return resourceBundle.getString(key);
-	}
-
-	public static ResourceBundle getResourceBundle() {
-		return resourceBundle;
+		prepareCustomCursor();
+		Scene scene = new Scene(sceneMenuMain.getScene());
+		scene.setCursor(cursor);
+		window.setScene(scene);
 	}
 
 	/**
@@ -136,6 +137,10 @@ public class UIManager {
 
 		stopGame();
 		switchToScene(next);
+	}
+
+	public Cursor getCursor() {
+		return this.cursor;
 	}
 
 	public GameHudController getGameHudController() {
@@ -191,6 +196,10 @@ public class UIManager {
 		return window;
 	}
 
+	public void setTutorial(Tutorial tutorial) {
+		this.tutorial = tutorial;
+	}
+	
 	public Tutorial getTutorial() {
 		return tutorial;
 	}
@@ -244,6 +253,9 @@ public class UIManager {
 				case DIGIT8:
 					gamePageController.switchView(GameViewType.getTypeById(8));
 					break;
+				case DIGIT9:
+					gamePageController.switchView(GameViewType.getTypeById(9));
+					break;
 				case F12:
 					UIManager.getInstance().toggleFullscreen();
 					break;
@@ -285,9 +297,9 @@ public class UIManager {
 	}
 
 	/**
-	 * Loads the main scenes and stores them in the respective variables.
+	 * Loads the main {@link GameScene}s and stores them in the respective variables.
 	 */
-	private void loadScenes() {
+	private void loadGameScenes() {
 		Parent root;
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"),
@@ -325,11 +337,18 @@ public class UIManager {
 	}
 
 	/**
+	 * Prepares the custom cursor used in the Game.
+	 */
+	private void prepareCustomCursor() {
+		Image image = new Image(getClass().getClassLoader().getResourceAsStream("img/cursor.png"));
+		cursor = new ImageCursor(image);
+	}
+
+	/**
 	 * Initializes all components needed for a new Game.
 	 */
 	private void prepareGame(boolean newGame) {
 		resetUIElements();
-		tutorial = new Tutorial();
 		GameState.getInstance().initiate();
 
 		switchToScene(GameSceneType.LOADING_SCREEN);

@@ -7,20 +7,23 @@ import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 public class TutorialStartCheckController implements UpdateableController {
 
 	private PopOver popover;
-	
+
 	@FXML
 	private Button accept, refuse;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Tutorial tutorial = new Tutorial();
 		accept.setOnAction(e -> {
-			UIManager.getInstance().getTutorial().start();
+			UIManager.getInstance().setTutorial(tutorial);
+			tutorial.nextChapter();
 			popover.hide();
 		});
 		refuse.setOnAction(e -> {
@@ -35,7 +38,7 @@ public class TutorialStartCheckController implements UpdateableController {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
