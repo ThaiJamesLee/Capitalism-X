@@ -232,7 +232,9 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public void depreciateAllWarehouseResaleValues(LocalDate gameDate) {
         for(Warehouse warehouse : this.warehouses) {
-            warehouse.depreciateWarehouseResaleValue(gameDate);
+            if(warehouse.getWarehouseType() == WarehouseType.BUILT) {
+                warehouse.depreciateWarehouseResaleValue(gameDate);
+            }
         }
     }
 
