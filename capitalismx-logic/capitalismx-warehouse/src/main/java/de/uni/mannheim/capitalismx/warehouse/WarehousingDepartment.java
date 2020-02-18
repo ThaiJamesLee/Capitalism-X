@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportInteger;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
 import de.uni.mannheim.capitalismx.warehouse.skill.WarehouseSkill;
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     private boolean warehouseSlotsAvailable;
 
     private PropertyChangeSupportMap<Unit, Integer> inventoryChange;
+    private PropertyChangeSupportInteger freeStorageChange;
 
     private static final Logger logger = LoggerFactory.getLogger(WarehousingDepartment.class);
 
@@ -68,6 +70,9 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.inventoryChange = new PropertyChangeSupportMap();
         this.inventoryChange.setMap(this.inventory);
         this.inventoryChange.setAddPropertyName("inventoryChange");
+        this.freeStorageChange = new PropertyChangeSupportInteger();
+        this.freeStorageChange.setValue(this.freeStorage);
+        this.freeStorageChange.setPropertyChangedName("freeStorageChange");
 
         this.init();
     }
@@ -175,10 +180,11 @@ public class WarehousingDepartment extends DepartmentImpl {
     /* */
     public int calculateFreeStorage() {
         this.freeStorage = this.calculateTotalCapacity() - this.calculateStoredUnits();
+        this.freeStorageChange.setValue(this.freeStorage);
         return this.freeStorage;
     }
 
-    /*
+
     public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
         if(this.inventory.get(soldProduct.getKey()) != null && this.inventory.get(soldProduct.getKey()) >= soldProduct.getValue()) {
             int newInventoryUnits = this.inventory.get(soldProduct.getKey()) - soldProduct.getValue();
@@ -189,7 +195,7 @@ public class WarehousingDepartment extends DepartmentImpl {
             }
         }
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
-    }*/
+    }
 
     public double buildWarehouse(LocalDate gameDate) throws NoWarehouseSlotsAvailableException {
         if(this.warehouseSlots > this.warehouses.size()) {
@@ -201,6 +207,7 @@ public class WarehousingDepartment extends DepartmentImpl {
                 this.warehouseSlotsAvailable = false;
             }
             this.calculateTotalCapacity();
+            this.calculateFreeStorage();
             return warehouse.getBuildingCost();
         }
         this.warehouseSlotsAvailable = false;
@@ -216,6 +223,7 @@ public class WarehousingDepartment extends DepartmentImpl {
                 this.warehouseSlotsAvailable = false;
             }
             this.calculateTotalCapacity();
+            this.calculateFreeStorage();
             return warehouse.getMonthlyRentalCost();
         }
         this.warehouseSlotsAvailable = false;
@@ -224,7 +232,9 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public void depreciateAllWarehouseResaleValues(LocalDate gameDate) {
         for(Warehouse warehouse : this.warehouses) {
-            warehouse.depreciateWarehouseResaleValue(gameDate);
+            if(warehouse.getWarehouseType() == WarehouseType.BUILT) {
+                warehouse.depreciateWarehouseResaleValue(gameDate);
+            }
         }
     }
 
@@ -332,7 +342,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         damagedWarehouse.setCapacity(damagedWarehouse.getCapacity() - capacity);
     }
 
-    /*
+
     public double sellProducts(Map<Unit, Integer> sales) {
         double earnedMoney = 0;
         for(Map.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
@@ -342,9 +352,9 @@ public class WarehousingDepartment extends DepartmentImpl {
             }
         }
         return earnedMoney;
-    }*/
+    }
 
-    public double sellProducts(Unit unit, int quantity) {
+    public double sellWarehouseProducts(Unit unit, int quantity) {
         for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
             if(entry.getKey().getUnitType() == UnitType.PRODUCT_UNIT && unit.getUnitType() == UnitType.PRODUCT_UNIT) {
                 Product productEntry = (Product) entry.getKey();
@@ -358,7 +368,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         return 0;
     }
 
-    public double sellComponents(Unit unit, int quantity) {
+    public double sellWarehouseComponents(Unit unit, int quantity) {
         for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
             if(entry.getKey().getUnitType() == UnitType.COMPONENT_UNIT && unit.getUnitType() == UnitType.COMPONENT_UNIT) {
                 Component componentEntry = (Component) entry.getKey();
@@ -482,5 +492,6 @@ public class WarehousingDepartment extends DepartmentImpl {
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.inventoryChange.addPropertyChangeListener(listener);
+        this.freeStorageChange.addPropertyChangeListener(listener);
     }
 }
