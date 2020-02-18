@@ -199,7 +199,7 @@ public class UIManager {
 	public void setTutorial(Tutorial tutorial) {
 		this.tutorial = tutorial;
 	}
-	
+
 	public Tutorial getTutorial() {
 		return tutorial;
 	}
@@ -268,7 +268,10 @@ public class UIManager {
 					loadGame();
 					break;
 				case ESCAPE:
-					gamePageController.handleEscape();
+					// first try to close open hud elements. Let GamePage handle input otherwise.
+					if (!gameHudController.handleEscapeInput()) {
+						gamePageController.handleEscapeInput();
+					}
 					break;
 				default:
 					break;
@@ -297,7 +300,8 @@ public class UIManager {
 	}
 
 	/**
-	 * Loads the main {@link GameScene}s and stores them in the respective variables.
+	 * Loads the main {@link GameScene}s and stores them in the respective
+	 * variables.
 	 */
 	private void loadGameScenes() {
 		Parent root;

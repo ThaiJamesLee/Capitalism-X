@@ -282,6 +282,20 @@ public class GameHudController implements UpdateableController {
 	}
 
 	/**
+	 * Handles the ESC-Input from the user. Tries to close the department
+	 * Level-Up-Dropdown.
+	 * 
+	 * @return true if the Dropdown could be closed, else otherwise.
+	 */
+	public boolean handleEscapeInput() {
+		if (levelUpDropdownOpen) {
+			toggleLevelUpDropdown();
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Initiates the department buttons by adding the necessary EventHandlers.
 	 * 
 	 * @param button     The {@link ToggleButton} to initiate.
