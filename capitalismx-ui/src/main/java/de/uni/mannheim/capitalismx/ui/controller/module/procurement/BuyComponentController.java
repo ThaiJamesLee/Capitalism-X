@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,6 +22,8 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 
+@Deprecated
+//TODO remove cause unused?
 public class BuyComponentController extends GameModuleController {
 
     /****** Amount of Components ******/
