@@ -190,4 +190,7 @@ public class Component extends Unit implements Serializable {
         return this.warehouseSalesPrice;
     }
 
+    public double getSalesPrice() {
+        return this.warehouseSalesPrice;
+    }
 }
