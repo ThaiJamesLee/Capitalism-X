@@ -13,7 +13,6 @@ import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
-import de.uni.mannheim.capitalismx.ui.controller.component.TradeComponentPopoverController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 import javafx.fxml.FXML;
@@ -21,18 +20,27 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
 
+/**
+ * A visual representation of the current stock of all {@link Component}s of a
+ * certain {@link ComponentType}. Allows trading these {@link Component}s as
+ * well, as soon as they are unlocked by the year.
+ * 
+ * @author Jonathan
+ *
+ */
 public class ComponentStockCell {
 
-	private ComponentType type; // TODO necessary?
+	private HashMap<SupplierCategory, Double> componentPrices; // TODO recalculate and store prices in the department,
+																// as these prices do not affect the actual buying
+																// process
 
 	private HashMap<SupplierCategory, Component> components;
 
+	WarehousingDepartment warehouse;
+
 	@FXML
 	private AnchorPane root;
-
-	private PopOver tradePopover;
 
 	@FXML
 	private Label componentType, cheapQualityAmount, regularQualityAmount, premiumQualityAmount;
@@ -40,11 +48,15 @@ public class ComponentStockCell {
 	@FXML
 	private Button cheapQualityTrade, regularQualityTrade, premiumQualityTrade;
 
+	/**
+	 * Constructor for a {@link ComponentStockCell}.
+	 * 
+	 * @param type The {@link ComponentType} to create a cell for.
+	 */
 	public ComponentStockCell(ComponentType type) {
 		LocalDate gameDate = GameState.getInstance().getGameDate();
 
-		WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
-		this.type = type;
+		warehouse = GameState.getInstance().getWarehousingDepartment();
 		components = new HashMap<SupplierCategory, Component>();
 		components.put(SupplierCategory.CHEAP, new Component(type, SupplierCategory.CHEAP, gameDate));
 		components.put(SupplierCategory.REGULAR, new Component(type, SupplierCategory.REGULAR, gameDate));
@@ -68,31 +80,22 @@ public class ComponentStockCell {
 		premiumQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.PREMIUM)) + "");
 		// TODO add cost/locale to button text
 		cheapQualityTrade.setOnAction(e -> {
-			tradeComponents(SupplierCategory.CHEAP, cheapQualityTrade);
+			showTradeComponentMenu(SupplierCategory.CHEAP, cheapQualityTrade);
 		});
 		regularQualityTrade.setOnAction(e -> {
-			tradeComponents(SupplierCategory.REGULAR, regularQualityTrade);
+			showTradeComponentMenu(SupplierCategory.REGULAR, regularQualityTrade);
 		});
 		premiumQualityTrade.setOnAction(e -> {
-			tradeComponents(SupplierCategory.PREMIUM, premiumQualityTrade);
+			showTradeComponentMenu(SupplierCategory.PREMIUM, premiumQualityTrade);
 		});
 
-		// Prepare the Popover for the trade buttons
-		FXMLLoader popoverLoader = new FXMLLoader(
-				getClass().getClassLoader().getResource("fxml/components/trade_component_popover.fxml"),
-				UIManager.getResourceBundle());
-		tradePopover = new PopOver();
-		try {
-			tradePopover.setDetachable(false);
-			tradePopover.setContentNode(popoverLoader.load());
-			tradePopover.setFadeInDuration(Duration.millis(50));
-			TradeComponentPopoverController popOverController = ((TradeComponentPopoverController) popoverLoader
-					.getController());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		componentPrices = new HashMap<SupplierCategory, Double>();
+		updateQuarterlyComponentPrices(gameDate);
 
+	}
+
+	public AnchorPane getRoot() {
+		return root;
 	}
 
 	/**
@@ -102,19 +105,57 @@ public class ComponentStockCell {
 	 */
 	public void setComponentAvailable(boolean available) {
 		cheapQualityTrade.setDisable(!available);
-		premiumQualityTrade.setDisable(!available);
 		regularQualityTrade.setDisable(!available);
+		premiumQualityTrade.setDisable(!available);
 	}
 
-	public AnchorPane getRoot() {
-		return root;
-	}
-
-	private void tradeComponents(SupplierCategory category, Button button) {
-		StockManagementController controller = (StockManagementController) UIManager.getInstance()
+	/**
+	 * Show the menu for trading components.
+	 * 
+	 * @param category The {@link SupplierCategory} to display the trade popover
+	 *                 for.
+	 * @param button   {@link Button} to display the {@link PopOver} on.
+	 */
+	private void showTradeComponentMenu(SupplierCategory category, Button button) {
+		StockManagementController stockController = (StockManagementController) UIManager.getInstance()
 				.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
 				.getController();
-		controller.showTradePopover(components.get(category), button);
+		stockController.showTradePopover(components.get(category), button, componentPrices.get(category));
+	}
+
+	/**
+	 * Update the calculation of the prices the player has to pay for the different
+	 * {@link SupplierCategory}s of this {@link Component}. Currently updated every
+	 * 3 months. TODO maybe change later?
+	 * 
+	 * @param date The date to calculate them for.
+	 */
+	public void updateQuarterlyComponentPrices(LocalDate date) {
+		for (SupplierCategory supplier : SupplierCategory.values()) {
+			componentPrices.put(supplier, components.get(supplier).calculateRandomizedBaseCost(date));
+		}
+	}
+
+	/**
+	 * Update the amount stored for the given {@link SupplierCategory}.
+	 * 
+	 * @param supplierCategory The {@link SupplierCategory}, whose {@link Label}
+	 *                         needs to be updated.
+	 */
+	public void updateQuality(SupplierCategory supplierCategory) {
+		switch (supplierCategory) {
+		case CHEAP:
+			cheapQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.CHEAP)) + "");
+			break;
+		case REGULAR:
+			regularQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.REGULAR)) + "");
+			break;
+		case PREMIUM:
+			premiumQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.PREMIUM)) + "");
+			break;
+		default:
+			break;
+		}
 	}
 
 }

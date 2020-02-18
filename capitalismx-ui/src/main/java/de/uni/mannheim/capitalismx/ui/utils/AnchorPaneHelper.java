@@ -33,7 +33,7 @@ public class AnchorPaneHelper {
 	 * 
 	 * @param node The {@link Node} to snap to the {@link AnchorPane}.
 	 */
-	public static void snapNodeToAnchorPaneWithPadding(Node node, double distance) {
+	public static void snapNodeToAnchorPane(Node node, double distance) {
 		AnchorPane.setBottomAnchor(node, distance);
 		AnchorPane.setRightAnchor(node, distance);
 		AnchorPane.setTopAnchor(node, distance);

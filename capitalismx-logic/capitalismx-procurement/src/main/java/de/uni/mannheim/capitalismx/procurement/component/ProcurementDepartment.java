@@ -134,6 +134,10 @@ public class ProcurementDepartment extends DepartmentImpl {
         ProcurementDepartment.instance = instance;
     }
 
+    public static ProcurementDepartment createInstance() {
+        return new ProcurementDepartment();
+    }
+
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.componentOrdersChange.addPropertyChangeListener(listener);

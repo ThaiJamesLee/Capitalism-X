@@ -6,54 +6,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-
 
 <AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane hgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane hgap="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
             <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="40.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="20.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="20.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="20.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="0.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="8.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="0.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="8.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="0.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="8.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label fx:id="componentType" text="Label" />
-            <HBox alignment="CENTER" spacing="15.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-               <children>
-                  <Label fx:id="cheapQualityAmount" text="0" />
-                  <Button fx:id="cheapQualityTrade" mnemonicParsing="false" styleClass="stock_edit_button">
-                     <graphic>
-                        <FontAwesomeIcon iconName="CUBE" size="1.1em" />
-                     </graphic>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" spacing="15.0" GridPane.columnIndex="2" GridPane.halignment="CENTER">
-               <children>
-                  <Label fx:id="regularQualityAmount" text="0" />
-                  <Button fx:id="regularQualityTrade" mnemonicParsing="false" styleClass="stock_edit_button">
-                     <graphic>
-                        <FontAwesomeIcon iconName="CUBE" size="1.1em" />
-                     </graphic>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" spacing="15.0" GridPane.columnIndex="3" GridPane.halignment="CENTER">
-               <children>
-                  <Label fx:id="premiumQualityAmount" text="0" />
-                  <Button fx:id="premiumQualityTrade" mnemonicParsing="false" styleClass="stock_edit_button">
-                     <graphic>
-                        <FontAwesomeIcon iconName="CUBE" size="1.1em" />
-                     </graphic>
-                  </Button>
-               </children>
-            </HBox>
+            <Button fx:id="cheapQualityTrade" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="stock_edit_button" GridPane.columnIndex="3">
+               <graphic>
+                  <FontAwesomeIcon iconName="EXCHANGE" size="1.1em" />
+               </graphic>
+            </Button>
+            <Button fx:id="regularQualityTrade" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="stock_edit_button" GridPane.columnIndex="6">
+               <graphic>
+                  <FontAwesomeIcon iconName="EXCHANGE" size="1.1em" />
+               </graphic>
+            </Button>
+            <Button fx:id="premiumQualityTrade" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="stock_edit_button" GridPane.columnIndex="9">
+               <graphic>
+                  <FontAwesomeIcon iconName="EXCHANGE" size="1.1em" />
+               </graphic>
+            </Button>
+            <Label fx:id="cheapQualityAmount" text="0" GridPane.columnIndex="2" />
+            <Label fx:id="regularQualityAmount" text="0" GridPane.columnIndex="5" />
+            <Label fx:id="premiumQualityAmount" text="0" GridPane.columnIndex="8" />
          </children>
       </GridPane>
    </children>

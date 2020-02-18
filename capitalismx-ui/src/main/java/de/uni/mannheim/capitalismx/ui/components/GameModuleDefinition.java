@@ -15,40 +15,40 @@ public enum GameModuleDefinition {
 	HR_TEAM_DETAIL("team_details.fxml", GameViewType.HR, UIElementType.HR_TEAM_DETAIL, new GridPosition(0, 8, 0, 20), true),
 	HR_RECRUITING_LIST("recruiting_list.fxml", GameViewType.HR, UIElementType.HR_RECRUITING_OVERVIEW, new GridPosition(13, 7, 7, 13),
 			true),
-	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(8, 5, 0, 12), true),
+	HR_STATISTICS("hr_statistics.fxml", GameViewType.HR, UIElementType.HR_STATISTICS, new GridPosition(8, 5, 0, 20), true),
 	HR_WORKING_CONDITIONS("working_conditions.fxml", GameViewType.HR, UIElementType.HR_WORKING_CONDITIONS, new GridPosition(13, 7, 0, 7),
 			true),
 
 	// The modules for Logistics.
 	LOGISTICS_PARTNER_SELECTION("logistics_partner_selection.fxml", GameViewType.LOGISTIC,
-			UIElementType.LOGISTICS_PARTNER_OVERVIEW, new GridPosition(0, 5, 0, 15), true),
+			UIElementType.LOGISTICS_PARTNER_OVERVIEW, new GridPosition(3, 5, 7, 7), true),
 	LOGISTICS_TRUCK_FLEET("truck_fleet_overview.fxml", GameViewType.LOGISTIC,
-			UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, new GridPosition(5, 5, 0, 15), true),
+			UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW, new GridPosition(12, 5, 5, 9), true),
 
 	// The modules for Procurement.
-	PROCUREMENT_ORDERED_COMPONENTS_LIST("ordered_components_list.fxml", GameViewType.WAREHOUSE,
-			UIElementType.PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW, new GridPosition(0, 5, 15, 15), false),
+//	PROCUREMENT_ORDERED_COMPONENTS_LIST("ordered_components_list.fxml", GameViewType.WAREHOUSE,
+//			UIElementType.PROCUREMENT_ORDERED_COMPONENTS_OVERVIEW, new GridPosition(0, 5, 15, 15), false),
 
 	// The modules for Production.
-	PRODUCTION_INTRODUCE_PRODUCT_MENU("introduce_product_menu.fxml", GameViewType.PRODUCTION,
-			UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, new GridPosition(0, 15, 0, 18), true),
+//	PRODUCTION_INTRODUCE_PRODUCT_MENU("introduce_product_menu.fxml", GameViewType.PRODUCTION,
+//			UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW, new GridPosition(0, 15, 0, 18), true),
 	PRODUCTION_MACHINERY_LIST("machinery_list.fxml", GameViewType.PRODUCTION,
-			UIElementType.PRODUCTION_MACHINERY_OVERVIEW, new GridPosition(15, 5, 0, 15), true),
+			UIElementType.PRODUCTION_MACHINERY_OVERVIEW, new GridPosition(14, 6, 0, 10), true),
 	PRODUCTION_PRODUCE_PRODUCT_MENU("produce_product_menu.fxml", GameViewType.PRODUCTION,
-			UIElementType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(15, 5, 15, 5), true),
+			UIElementType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(0, 14, 0, 15), true),
 
 	// The modules for the warehouse.
-	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 5, 0, 15), true),
 	WAREHOUSE_STOCK_MANAGEMENT("stock_management.fxml", GameViewType.WAREHOUSE,
-			UIElementType.WAREHOUSE_STOCK_MANAGEMENT, new GridPosition(12, 8, 0, 20), false),
-	WAREHOUSE_SEGMENTS("warehouse_information.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_SEGMENTS, new GridPosition(6, 4, 0,
+			UIElementType.WAREHOUSE_STOCK_MANAGEMENT, new GridPosition(10, 10, 0, 20), false),
+	WAREHOUSE_STATISTICS("warehouse_statistics.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_STATISTICS, new GridPosition(6, 4, 0,
 			20), false),
+	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 6, 0, 15), true),
 
 	// The modules for HR.
-	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, new GridPosition(5,
-			9, 7, 19), true),
-	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, new GridPosition(0, 19, 0, 7), true),
-	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml", GameViewType.FINANCES, UIElementType.FINANCE_BANKING_SYSTEM, new GridPosition(0, 5, 7, 19), true),
+	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, new GridPosition(10,
+			9, 7, 13), true),
+	FINANCE_OVERVIEW("finance_overview.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OVERVIEW, new GridPosition(0, 20, 0, 7), true),
+	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml", GameViewType.FINANCES, UIElementType.FINANCE_BANKING_SYSTEM, new GridPosition(1, 7, 7, 13), true),
 	//FINANCE_SALES_CHART("finance_statistics_charts.fxml", GameViewType.FINANCES, UIElementType.FINANCE_SALES_CHART, new GridPosition(14,
 	//		5, 0, 19), true),
 
@@ -56,13 +56,13 @@ public enum GameModuleDefinition {
 	MARKETING_PRESSRELEASE_LIST("mkt_pressReleases_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_PRESSRELEASE, new GridPosition(0, 6, 7, 11), true),
 	MARKETING_CAMPAIGNS_LIST("mkt_campaigns_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_CAMPAIGNS, new GridPosition(6, 7, 7, 11), true),
 	MARKETING_MARKETRESEARCH_LIST("mkt_marketResearch_list.fxml", GameViewType.MARKETING, UIElementType.MARKETING_MARKETRESEARCH, new GridPosition(13, 7, 7, 11), true),
-	MARKETING_OVERVIEW("mkt_general_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(0, 10, 2, 3), true),
+	MARKETING_OVERVIEW("mkt_general_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(5, 10, 2, 3), true),
 
     //The modules for Research and Development.
     RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameViewType.R_AND_D, UIElementType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(1, 5, 1, 4),true),
 
     // The modules for Sales
-    SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml", GameViewType.SALES, UIElementType.SALES_CONTRACT_OVERVIEW, new GridPosition(0, 10, 0, 15) , true);
+    SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml", GameViewType.SALES, UIElementType.SALES_CONTRACT_OVERVIEW, new GridPosition(5, 10, 3, 15) , true);
     ;
 
 	// The name of the fxml-file defining this type.

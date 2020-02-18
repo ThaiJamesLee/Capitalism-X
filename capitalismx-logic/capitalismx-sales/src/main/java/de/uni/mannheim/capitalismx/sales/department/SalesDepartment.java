@@ -19,6 +19,7 @@ import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This is the sales department. Leveling up this department will allow the user to get better
@@ -43,6 +44,7 @@ public class SalesDepartment extends DepartmentImpl {
      * List of finish contracts.
      */
     private PropertyChangeSupportList<Contract> doneContracts;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesDepartment.class);
 
@@ -198,31 +200,39 @@ public class SalesDepartment extends DepartmentImpl {
         this.activeContracts.remove(contract);
         this.doneContracts.add(contract);
     }
+    
 
     /**
      *
      * @param date The date when the contracts are generated.
      * @param productionDepartment The {@link ProductionDepartment} instance.
      */
-    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, double demandPercentage) {
+    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) {
         SalesDepartmentSkill skill = (SalesDepartmentSkill)skillMap.get(getLevel());
         int numContracts = skill.getNumContracts();
         Range factor = skill.getPriceFactor();
-
         double penalty = skill.getPenaltyFactor();
 
-        numContracts = (int)(numContracts * demandPercentage);
         List<Contract> newContracts = new ArrayList<>();
-
-        List<Product> products = productionDepartment.getLaunchedProducts();
+        List<Product> products = productionDepartment.getLaunchedProductsChange().getList();
         ContractFactory contractFactory = new ContractFactory(productionDepartment);
-        for(int i = 0; i<numContracts; i++) {
-            int max = Math.max(products.size()-1, 0);
-            Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
-            Contract c = contractFactory.getContract(p, date, factor);
-            c.setPenalty(c.getPenalty() * penalty);
-            c.setuId(UUID.randomUUID().toString());
-            newContracts.add(c);
+
+        if(!products.isEmpty()) {
+            for(int i = 0; i<numContracts; i++) {
+                int max = Math.max(products.size()-1, 0);
+                Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
+
+                double demand = demandPercentage.get(p) != null ? demandPercentage.get(p) : 0.0;
+
+                if(demand > 0.0) {
+                    LOGGER.info("demand bigger zero");
+                    Contract c = contractFactory.getContract(p, date, factor);
+                    c.setPenalty(c.getPenalty() * penalty);
+                    c.setNumProducts((int)(c.getNumProducts() * demand));
+                    c.setuId(UUID.randomUUID().toString());
+                    newContracts.add(c);
+                }
+            }
         }
         availableContracts.setList(newContracts);
     }

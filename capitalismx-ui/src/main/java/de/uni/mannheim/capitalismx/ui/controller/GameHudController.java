@@ -3,10 +3,14 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.ResourceBundle;
+
+import org.controlsfx.control.PopOver;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
@@ -25,12 +29,14 @@ import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -76,7 +82,8 @@ public class GameHudController implements UpdateableController {
 			netWorthChangeLabel, dateLabel;
 
 	@FXML
-	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD, btnMarketing;
+	private ToggleButton btnOverview, btnFinance, btnHr, btnSales, btnProduction, btnLogistics, btnWarehouse, btnRAndD,
+			btnMarketing;
 	@FXML
 	private ToggleGroup departmentButtons;
 
@@ -102,6 +109,14 @@ public class GameHudController implements UpdateableController {
 	@FXML
 	private VBox netWorthVBox, cashVBox, employeeVBox, departmentVBox;
 
+	public ToggleButton getProductionDepButton() {
+		return this.btnProduction;
+	}
+	
+	public ToggleButton getOverviewDepButton() {
+		return this.btnOverview;
+	}
+	
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
 	 * currently being displayed, it will be added to a queue and displayed
@@ -271,6 +286,18 @@ public class GameHudController implements UpdateableController {
 		updateLevelUpDropdown(GameViewType.OVERVIEW);
 	}
 
+
+	public void initTutorialCheck() {
+		PopOverFactory factory = new PopOverFactory();
+		factory.createStandardPopover("fxml/components/tutorial_start.fxml");
+		PopOver p = factory.getPopover();
+		p.setArrowSize(0.0);
+		Platform.runLater(() -> {
+			p.show(UIManager.getInstance().getStage());
+		});
+		((TutorialStartCheckController) factory.getPopoverController()).setPopover(p);
+	}
+
 	/**
 	 * Checks whether the game is currently playing or paused, changes the state to
 	 * the other one and updates the hud accordingly.
@@ -368,6 +395,9 @@ public class GameHudController implements UpdateableController {
 			case PRODUCTION:
 				dep = GameState.getInstance().getProductionDepartment();
 				break;
+			case MARKETING:
+				dep = GameState.getInstance().getMarketingDepartment();
+				break;
 			case LOGISTIC:
 				dep = GameState.getInstance().getLogisticsDepartment();
 				break;
@@ -376,8 +406,8 @@ public class GameHudController implements UpdateableController {
 				return;
 			}
 			upgradeController.setDepartment(dep);
-			
-			if(!departmentDropdownIcon.getStyleClass().contains("hud_icon_button")) {
+
+			if (!departmentDropdownIcon.getStyleClass().contains("hud_icon_button")) {
 				departmentDropdownIcon.getStyleClass().add("hud_icon_button");
 			}
 			departmentDropdownIcon.setOnMouseClicked(e -> {
@@ -458,33 +488,34 @@ public class GameHudController implements UpdateableController {
 	 * @param index The {@link EcoIndex} of the current {@link CompanyEcoIndex}.
 	 */
 	public void updateEcoIndexIcon(EcoIndex index) {
-		// TODO Create and use actual localised name
-		ecoTooltip.setText(index.name());
-		switch (index) {
-		case GOOD:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.getStyleClass().add("icon_green");
-			break;
-		case MODERATE:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.getStyleClass().add("icon_light");
-			break;
-		case UNHEALTHY:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.getStyleClass().add("icon_orange");
-			break;
-		case VERY_UNHEALTHY:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.getStyleClass().add("icon_red");
-			break;
-		case HAZARDOUS:
-			ecoIcon.getStyleClass().clear();
-			ecoIcon.setStyle("-fx-background-color: -fx-red;");
-			break;
-		default:
-			break;
-		}
-		;
+		Platform.runLater(() -> {
+			// TODO Create and use actual localised name
+			ecoTooltip.setText(index.name());
+			switch (index) {
+			case GOOD:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_green");
+				break;
+			case MODERATE:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_light");
+				break;
+			case UNHEALTHY:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_orange");
+				break;
+			case VERY_UNHEALTHY:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_red");
+				break;
+			case HAZARDOUS:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.setStyle("-fx-background-color: -fx-red;");
+				break;
+			default:
+				break;
+			}
+		});
 	}
 
 	/**
@@ -494,37 +525,69 @@ public class GameHudController implements UpdateableController {
 	 * @param viewType The {@link GameViewType}, thats title should be displayed.
 	 */
 	public void updateGameViewLabel(GameViewType viewType) {
-		this.departmentLabel.setText(viewType.getTitle());
-		this.departmentLabel.setGraphic(viewType.getGameViewIcon("1.8em"));
+		Platform.runLater(() -> {
+			this.departmentLabel.setText(viewType.getTitle());
+			this.departmentLabel.setGraphic(viewType.getGameViewIcon("1.8em"));
+		});
 	}
 
 	public void updateNetworthLabel(double currentNetWorth) {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
-			}
+		Platform.runLater(() -> {
+			netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
 		});
 	}
 
 	public void updateNetworthChangeLabel(Double diff) {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				if (diff != null) {
-					colorHudLabel(diff, netWorthChangeLabel);
-					netWorthChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
-				}
+		Platform.runLater(() -> {
+			if (diff != null) {
+				colorHudLabel(diff, netWorthChangeLabel);
+				netWorthChangeLabel.setText(((diff >= 0) ? "+" : "") + CapCoinFormatter.getCapCoins(diff));
 			}
 		});
 	}
 
 	public void updateNumOfEmployees() {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				int numOfEmployees = GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees();
-				int capacity = GameState.getInstance().getHrDepartment().getTotalEmployeeCapacity();
-				employeeLabel.setText(numOfEmployees + "/" + capacity);
-			}
+		Platform.runLater(() -> {
+			int numOfEmployees = GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees();
+			int capacity = GameState.getInstance().getHrDepartment().getTotalEmployeeCapacity();
+			employeeLabel.setText(numOfEmployees + "/" + capacity);
 		});
+	}
+	
+	
+	
+	//TODO order of nodes 
+	//Elements 
+	//1. GamePage Title
+	//Pause Button
+	//Networth 
+	//Cash  --> vBox
+	//Employees --> vBox
+	//Skip Btn
+	//Fast Forward Btn
+	//Messages  Btn
+	//Settings Btn
+
+	/**
+	 *  returns List of Nodes (UI-Elements) that will be highlighted in this tutorial chapter in the given order.
+	 * @return List<Nodes> 
+	 */
+	public List<Node> getTimeControlTutorialNodes(){
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.add(departmentLabel);
+		nodes.add(dateLabel);
+		nodes.add(playPauseIconButton);
+		nodes.add(netWorthVBox);
+		nodes.add(cashVBox);
+		nodes.add(employeeVBox);
+		nodes.add(ecoIcon);
+		nodes.add(forwardIconButton);
+		nodes.add(skipIconButton);
+		nodes.add(messageIconLabel);
+		nodes.add(settingsIconLabel);
+		
+		//TODO add cash / networth / employees infos with short message...
+		return nodes;
 	}
 
 }

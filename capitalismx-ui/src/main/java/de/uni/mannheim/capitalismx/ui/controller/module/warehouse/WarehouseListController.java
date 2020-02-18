@@ -97,11 +97,11 @@ public class WarehouseListController extends GameModuleController {
 	 * Activates all the other {@link GameModule}s, that depend on the existence of
 	 * a Warehouse.
 	 */
-	private void activateWarehouseModules() {
+	public void activateWarehouseModules() {
 		UIManager manager = UIManager.getInstance();
 		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
 				.setActivated(true);
-		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_SEGMENTS).setActivated(true);
+		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STATISTICS).setActivated(true);
 		manager.getGamePageController().updateDisplayOfCurrentView(GameViewType.WAREHOUSE);
 	}
 

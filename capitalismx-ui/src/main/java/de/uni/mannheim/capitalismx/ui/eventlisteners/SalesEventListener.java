@@ -17,10 +17,10 @@ public class SalesEventListener implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         //evt.getPropertyName()
-        System.out.println(evt.getPropertyName());
+        System.out.println("SalesEventListener called");
         SalesContractController salesController = (SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController();
         if(evt.getPropertyName().equals(SalesDepartment.AVAILABLE_CONTRACTS_EVENT)){
-            System.out.println(evt.getPropertyName());
+            System.out.println("Available Contracts changed");
             List<Contract> availableContracts = ((List<Contract>)evt.getNewValue());
 
             for(int i = 0; i < availableContracts.size(); i++){

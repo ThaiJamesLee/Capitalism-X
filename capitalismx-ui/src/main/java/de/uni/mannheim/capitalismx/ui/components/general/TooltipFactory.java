@@ -32,7 +32,7 @@ public class TooltipFactory {
 	/**
 	 * The {@link Duration} it takes until the tooltip shows up. (Default 0.5)
 	 */
-	private Duration fadeInDuration = Duration.seconds(0.1);
+	private Duration fadeInDuration = Duration.millis(150);
 
 	/**
 	 * The {@link AnchorLocation} of the Tooltip.
@@ -129,7 +129,7 @@ public class TooltipFactory {
 	public Tooltip createTooltip(String textToDisplay) {
 		Tooltip tooltip = new Tooltip();
 		tooltip.setText(textToDisplay);
-		//tooltip.setShowDelay(fadeInDuration);
+//		tooltip.setShowDelay(fadeInDuration);
 		tooltip.setAnchorLocation(anchorLocation);
 		return tooltip;
 	}

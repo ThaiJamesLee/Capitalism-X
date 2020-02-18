@@ -32,11 +32,12 @@ public enum GameSceneType {
 	 * The page containing credits info, accessible from the MainMenu
 	 */
 	CREDITS_PAGE,
-	
-	/**
-	 * The page containing the leaderboard with previously achieved highscores, accessible from the MainMenu
-	 */
-	LEADERBOARD_PAGE,
+
+//	TODO
+//	/**
+//	 * The page containing the leaderboard with previously achieved highscores, accessible from the MainMenu
+//	 */
+//	LEADERBOARD_PAGE,
 	
 	/**
 	 * Displayed if the players lost the game

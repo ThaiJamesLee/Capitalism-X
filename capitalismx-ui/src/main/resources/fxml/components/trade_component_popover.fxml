@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -13,37 +14,41 @@
    <children>
       <GridPane hgap="20.0" vgap="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="NEVER" percentWidth="30.0" />
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="70.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="NEVER" percentWidth="50.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="140.0" percentWidth="50.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints vgrow="SOMETIMES" />
-          <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="35.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <AnchorPane GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyComponent" styleClass="button_module" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Button fx:id="buyButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#buyComponent" styleClass="button_module" text="%component.buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="0.0">
+                     <graphic>
+                        <FontAwesomeIcon iconName="PLUS" size="1.8em" />
+                     </graphic></Button>
                </children>
             </AnchorPane>
             <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="sellButton" mnemonicParsing="false" onAction="#sellComponent" styleClass="button_module" text="Sell" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Button fx:id="sellButton" contentDisplay="RIGHT" graphicTextGap="8.0" layoutX="29.0" layoutY="-14.0" mnemonicParsing="false" onAction="#sellComponent" styleClass="button_module" text="%component.sell" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="-0.0">
+                     <graphic>
+                        <FontAwesomeIcon iconName="MINUS" size="1.8em" />
+                     </graphic>
+                  </Button>
                </children>
             </AnchorPane>
-            <Label fx:id="componentName" styleClass="header" text="Label" GridPane.columnSpan="2" GridPane.halignment="CENTER">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin></Label>
-            <TextField fx:id="sellAmountField" alignment="CENTER_RIGHT" prefWidth="70.0" promptText="0" GridPane.rowIndex="3" />
-            <TextField fx:id="buyAmountField" alignment="CENTER_RIGHT" prefWidth="70.0" promptText="0" GridPane.rowIndex="2" />
-            <Label fx:id="supplierLabel" style="-fx-text-fill: -fx-primary;" styleClass="label_large" text="Label" GridPane.columnSpan="2" GridPane.rowIndex="1">
+            <Label fx:id="componentName" style="-fx-text-fill: -fx-primary;" styleClass="label_very_large" text="Label" GridPane.columnSpan="2147483647">
                <padding>
-                  <Insets bottom="25.0" />
+                  <Insets bottom="5.0" />
                </padding>
             </Label>
+            <Label fx:id="priceLabel" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
+            <TextField fx:id="amountField" alignment="CENTER_RIGHT" prefWidth="70.0" promptText="0" GridPane.rowIndex="2" />
+            <Label fx:id="qualityLabel" text="Label" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

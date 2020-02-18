@@ -1,7 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.production;
 
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,27 +18,40 @@ import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
 
-//TODO Komponenten lokalisieren
+//TODO internationalize Components
 public class IntroduceProductController extends GameModuleController {
 
-	public TextField getProductTabPane()
-	{
-		return this.tvProductNameTextField;
+	public List<Node> getTutorialNodes(){
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.add(tutorialPane);
+		nodes.add(tvProductNameTextField);
+		nodes.add(tvSalesPriceTextField);
+		nodes.add(launchTvButton);
+		return nodes;
 	}
+	
+	@FXML
+	private GridPane tutorialPane;
+	@FXML
+	private Button launchTvButton;
 	/****** Product Name Text Fields ******/
     @FXML
     private TextField tvProductNameTextField, consoleProductNameTextField, notebookProductNameTextField, phoneProductNameTextField;
@@ -1176,7 +1188,11 @@ public class IntroduceProductController extends GameModuleController {
             GameController.getInstance().launchProduct(this.tv);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
+            return;
         }
+        
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.tv);
     }
 
     public void launchConsole() {
@@ -1204,7 +1220,11 @@ public class IntroduceProductController extends GameModuleController {
             GameController.getInstance().launchProduct(this.console);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
+            return;
         }
+        
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.console);
     }
 
     public void launchNotebook() {
@@ -1230,7 +1250,11 @@ public class IntroduceProductController extends GameModuleController {
             GameController.getInstance().launchProduct(this.notebook);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
+            return;
         }
+        
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.notebook);
     }
 
     public void launchPhone() {
@@ -1259,11 +1283,11 @@ public class IntroduceProductController extends GameModuleController {
             GameController.getInstance().launchProduct(this.phone);
         } catch (InvalidSetOfComponentsException e) {
             System.out.println(e.getMessage());
+            return;
         }
-    }
-
-    public void showSupplierOptions() {
-        UIManager.getInstance().getGamePageController().showOverlay(UIElementType.PRODUCTION_NEW_PRODUCT_OVERVIEW);
+        
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.phone);
     }
 
     

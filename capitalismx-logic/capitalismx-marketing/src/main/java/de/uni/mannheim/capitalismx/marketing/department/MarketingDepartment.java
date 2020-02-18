@@ -6,12 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
+import de.uni.mannheim.capitalismx.marketing.department.skill.MarketingSkill;
 import de.uni.mannheim.capitalismx.marketing.domain.Action;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
@@ -19,6 +23,7 @@ import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 
 /**
  * This class represents the marketing department.
@@ -28,7 +33,6 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
  */
 public class MarketingDepartment extends DepartmentImpl {
 
-	
 	//TODO CSR campaigns score relative to profit of the year, 
 	//the others on quantitiy of this type of campaign per year, mechanism cant deal with this yet...
 	//TODO Consultancy is seriously flawed...
@@ -46,8 +50,6 @@ public class MarketingDepartment extends DepartmentImpl {
     //campaigns that the department issued orderer by release date
     private List<Campaign> campaignsWithDates;
 
-    private double employerBranding;
-
 	// press releases the company made
     private List<PressRelease> pressReleases;
 
@@ -56,26 +58,90 @@ public class MarketingDepartment extends DepartmentImpl {
 
     // list of issued market researches
     private List<MarketResearch> marketResearches;
+    
+    //TODO kann das weg?
+    private double employerBranding;
 
+  //leveling related stuff
+    private static final String LEVELING_PROPERTIES = "marketing-leveling-definition";
+    private static final String MAX_LEVEL_PROPERTY = "marketing.department.max.level";
+    private static final String SKILL_COST_PROPERTY_PREFIX = "marketing.skill.cost.";
+    
+    private PropertyChangeSupportDouble currentLevel;
+    
+    
     private static MarketingDepartment instance = null;
 
+       
     private MarketingDepartment() {
         super("Marketing");
         init();
     }
 
-    private void init() {
+    private void init() {	
+        this.initProperties();
+        this.initSkills();
+        
         // initialize map
         issuedActions = new HashMap<>();
         for (String c : CAMPAIGN_NAMES) {
-            issuedActions.put(c, new ArrayList<>());
+        	issuedActions.put(c, new ArrayList<>());
         }
 
-        campaignsWithDates = new ArrayList<Campaign>();
+        campaignsWithDates = new ArrayList<>();
         pressReleases = new ArrayList<>();
         consultancies = new ArrayList<>();
         marketResearches = new ArrayList<>();
     }
+    
+	/**
+	 * Init default values from properties.
+	 */
+    private void initProperties() {
+        setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
+        this.currentLevel = new PropertyChangeSupportDouble();
+        currentLevel.setPropertyChangedName("level");
+        currentLevel.setValue(0.0);
+    }
+
+	/**
+	 * Initialize {@link MarketingSkill}s.
+	 */
+    private void initSkills() {
+        Map<Integer, Double> costMap = initCostMap();
+        try {
+            setLevelingMechanism(new LevelingMechanism(this, costMap));
+        } catch (InconsistentLevelException e) {
+            String error = "The costMap size " + costMap.size() +  " does not match the maximum level " + this.getMaxLevel() + " of this department!";
+            logger.error(error, e);
+        }
+
+//        ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            skillMap.put(i, new MarketingSkill(i));
+        }
+    }
+ 
+	/**
+	 * Initializes the cost map. This is used for the {@link LevelingMechanism}.
+	 */
+    private Map<Integer, Double> initCostMap() {
+        Map<Integer, Double> costMap = new HashMap<>();
+        ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            double cost = Integer.parseInt(bundle.getString(SKILL_COST_PROPERTY_PREFIX + i));
+            costMap.put(i, cost);
+        }
+        return costMap;
+    }
+
+    @Override //TODO wirklich nötig?
+    public void setLevel(int level) {
+        super.setLevel(level);
+        this.currentLevel.setValue(new Double(level));
+//       this.updateWarehouseSlots();TODO
+    }
+
 
     public static MarketingDepartment getInstance() {
         if(instance == null) {
@@ -335,24 +401,29 @@ public class MarketingDepartment extends DepartmentImpl {
         return ConsultancyType.values();
     }
 
-//    /**
-//     * TODO
-//     * @param conType
-//     * @param totalSupportQuality
-//     * @param logisticIndex
-//     * @param companyImage
-//     * @param productionTechnology
-//     * @param manufactureEfficiency
-//     * @param totalJobSatisfaction
-//     * @return
-//     */
-//    public String orderConsultantReport(ConsultancyType conType, 
-//			double totalSupportQuality,	double logisticIndex, double companyImage, double productionTechnology, 
-//			double manufactureEfficiency, double totalJobSatisfaction) {
-//    	
-//    	
-//    	
-//    }
+    /**
+     * TODO
+     */
+    public  String orderConsultantReport(ConsultancyType conType, Double[] metrics) {
+    	//TODO Sven fragen wegen totalSupportQuality...
+    	double[] weights = conType.getWeights();
+    	
+    	String[] metricNames = {"totalSupportQuality", "logisticIndex", "companyImage", "productionTechnology", "manufactureEfficiency", "totalJobSatisfaction"};
+    	
+    	int minIndex = 0;
+    	double min = 100;
+    	
+    	for(int i = 0; i < metrics.length; i++) {
+    		metrics[i] = metrics[i] * weights[i];
+    		if(metrics[i] < min) {
+    			min = metrics[i];
+    			minIndex = i;		
+    		}
+    	}
+    	
+    	return metricNames[minIndex];	
+    }  
+    
     
     /* Market Research */
 
@@ -423,6 +494,9 @@ public class MarketingDepartment extends DepartmentImpl {
     	this.employerBranding = employerBranding;
     }
 
+    public static MarketingDepartment createInstance() {
+        return new MarketingDepartment();
+    }
 
     public static void setInstance(MarketingDepartment instance) {
         MarketingDepartment.instance = instance;
@@ -430,6 +504,6 @@ public class MarketingDepartment extends DepartmentImpl {
     
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
-    	//this.pressReleases.addPropertyChangeListener(listener);
+    	currentLevel.addPropertyChangeListener(listener);
     }
 }

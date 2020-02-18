@@ -35,7 +35,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     private int daysSinceFreeStorageThreshold;
     private boolean warehouseSlotsAvailable;
 
-    private PropertyChangeSupportMap inventoryChange;
+    private PropertyChangeSupportMap<Unit, Integer> inventoryChange;
 
     private static final Logger logger = LoggerFactory.getLogger(WarehousingDepartment.class);
 
@@ -174,7 +174,7 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     /* */
     public int calculateFreeStorage() {
-        this.freeStorage = this.totalCapacity - this.storedUnits;
+        this.freeStorage = this.calculateTotalCapacity() - this.calculateStoredUnits();
         return this.freeStorage;
     }
 
@@ -298,7 +298,8 @@ public class WarehousingDepartment extends DepartmentImpl {
         if(this.calculateTotalCapacity() == 0) {
             return false;
         }
-        if((this.calculateFreeStorage() / this.calculateTotalCapacity()) < 0.1) {
+        double percentage = (double) this.calculateFreeStorage() / (double) this.calculateTotalCapacity();
+        if((percentage) < 0.1) {
             this.daysSinceFreeStorageThreshold++;
             return true;
         } else {
@@ -325,7 +326,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         if(this.totalCapacity == 0) {
             return false;
         }
-        return (this.storedUnits / this.totalCapacity) >= 0.8;
+        return (this.calculateStoredUnits() / this.calculateTotalCapacity()) >= 0.8;
     }
 
     public void decreaseCapacity(int capacity) {
@@ -359,10 +360,23 @@ public class WarehousingDepartment extends DepartmentImpl {
     }
 
     public void clearUsedComponents() {
-        Map<Component, Integer> storedComponents = ProductionDepartment.getInstance().getStoredComponents();
-        for(Map.Entry<Component, Integer> entry : storedComponents.entrySet()) {
-            this.inventoryChange.putOne(entry.getKey(), entry.getValue());
+        for(Map.Entry<Unit, Integer> unit : this.inventory.entrySet()) {
+            Map<Component, Integer> storedComponents = ProductionDepartment.getInstance().getStoredComponents();
+            if(unit.getKey().getUnitType() == UnitType.COMPONENT_UNIT) {
+                Component component = (Component) unit.getKey();
+                for(Map.Entry<Component, Integer> entry : storedComponents.entrySet()) {
+                    if(component.getComponentType() == entry.getKey().getComponentType() && component.getSupplierCategory() == entry.getKey().getSupplierCategory()) {
+                        this.inventoryChange.putOne(unit.getKey(), entry.getValue());
+                    }
+                }
+            }
         }
+
+        /*for(Map.Entry<Component, Integer> entry : storedComponents.entrySet()) {
+            if (this.inventory.containsKey(entry.getKey()) && this.inventory.get(entry.getKey()) != entry.getValue()) {
+                this.inventoryChange.putOne(entry.getKey(), entry.getValue());
+            }
+        }*/
     }
 
     public void calculateAll() {
@@ -425,6 +439,10 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public double getMonthlyTotalCostWarehousing() {
         return this.monthlyTotalCostWarehousing;
+    }
+
+    public static WarehousingDepartment createInstance() {
+	    return new WarehousingDepartment();
     }
 
     public static void setInstance(WarehousingDepartment instance) {

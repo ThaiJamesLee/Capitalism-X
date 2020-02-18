@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseStatisticsController">
+   <children>
+      <VBox spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane hgap="12.0" vgap="8.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Region styleClass="stat-box" GridPane.rowSpan="2">
+                     <GridPane.margin>
+                        <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                     </GridPane.margin>
+                  </Region>
+                  <Region styleClass="stat-box" GridPane.columnIndex="1" GridPane.rowSpan="2147483647">
+                     <GridPane.margin>
+                        <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                     </GridPane.margin>
+                  </Region>
+                  <Label styleClass="label_small" text="%warehouse.stats.cost" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets top="8.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label styleClass="label_small" text="%warehouse.stats.capacity">
+                     <GridPane.margin>
+                        <Insets top="8.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="capacityLabel" text="Label" GridPane.rowIndex="1" />
+                  <Label fx:id="costLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+               <padding>
+                  <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+               </padding>
+            </GridPane>
+            <Label styleClass="label_large" text="%warehouse.stats.fill" />
+            <AnchorPane fx:id="fillPane" />
+            <Label styleClass="label_large" text="%warehouse.stats.products" />
+            <AnchorPane fx:id="productPane" />
+         </children>
+      </VBox>
+   </children>
+   <stylesheets>
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/modul.css" />
+   </stylesheets>
+</AnchorPane>

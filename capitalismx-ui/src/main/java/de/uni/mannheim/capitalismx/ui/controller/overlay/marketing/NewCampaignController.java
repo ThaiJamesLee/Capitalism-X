@@ -126,13 +126,10 @@ public class NewCampaignController extends GameOverlayController {
     	GameModule modul = UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_OVERVIEW);
     	
     	if(modul.isActivated()) {
-    		GameController controller = GameController.getInstance();
-        	double companyImage = controller.computeCompanyImage();
-        	double employerBranding =  controller.getEmployerBranding();
-        	
+    	
         	MarketingOverviewController con = (MarketingOverviewController) modul.getController();
-        	con.setCompanyImageLabel(DecimalRound.round(companyImage, 2) + "");
-        	con.setEmployerBrandingLabel(DecimalRound.round(employerBranding, 2) + "");		
+        	con.updateCompanyImageLabel();
+        	con.updateEmployerBrandingLabel();		
     	}
     }
 }

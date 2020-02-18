@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.tutorial;
 
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
@@ -23,12 +24,12 @@ public class Highlighter {
 		node.getStyleClass().add("tutorial_highlight");
 	}
 
-	//TODO optional keep eventlistener and add again afterwards
+	// TODO optional keep eventlistener and add again afterwards
 	public void removeHighlight(Node node) {
-		highlight.stop();
-		node.getStyleClass().remove("tutorial_highlight");
-		node.setOnMouseReleased(e -> {
-			
+		Platform.runLater(() -> {
+			highlight.stop();
+			node.setOpacity(1.0);
+			node.getStyleClass().remove("tutorial_highlight");
 		});
 	}
 

@@ -451,4 +451,8 @@ public class ExternalEvents implements Serializable {
     public static void setInstance(ExternalEvents instance) {
         ExternalEvents.instance = instance;
     }
+
+    public static ExternalEvents createInstance() {
+        return new ExternalEvents();
+    }
 }

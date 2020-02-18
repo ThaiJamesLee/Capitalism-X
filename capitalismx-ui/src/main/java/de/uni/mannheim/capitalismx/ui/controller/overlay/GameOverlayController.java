@@ -2,7 +2,6 @@ package de.uni.mannheim.capitalismx.ui.controller.overlay;
 
 import java.util.Properties;
 
-import de.uni.mannheim.capitalismx.ui.components.GameOverlay;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 
 /**
