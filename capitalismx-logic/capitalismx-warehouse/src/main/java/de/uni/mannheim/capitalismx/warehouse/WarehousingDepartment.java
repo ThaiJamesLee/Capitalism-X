@@ -201,6 +201,7 @@ public class WarehousingDepartment extends DepartmentImpl {
                 this.warehouseSlotsAvailable = false;
             }
             this.calculateTotalCapacity();
+            this.calculateFreeStorage();
             return warehouse.getBuildingCost();
         }
         this.warehouseSlotsAvailable = false;
@@ -216,6 +217,7 @@ public class WarehousingDepartment extends DepartmentImpl {
                 this.warehouseSlotsAvailable = false;
             }
             this.calculateTotalCapacity();
+            this.calculateFreeStorage();
             return warehouse.getMonthlyRentalCost();
         }
         this.warehouseSlotsAvailable = false;
