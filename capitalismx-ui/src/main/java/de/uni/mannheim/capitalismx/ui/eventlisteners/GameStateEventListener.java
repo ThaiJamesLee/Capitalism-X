@@ -46,7 +46,7 @@ public class GameStateEventListener implements PropertyChangeListener {
 			if (events != null) {
 				for (ExternalEvent event : events) {
 					GameState.getInstance().getMessages()
-							.add(new MessageObject("your assistant", ((LocalDate) evt.getNewValue()).toString(),
+							.add(new MessageObject("Your assistant", ((LocalDate) evt.getNewValue()).toString(),
 									event.getTitle(), "This is a more detailed description of the event ...", false));
 				}
 			}

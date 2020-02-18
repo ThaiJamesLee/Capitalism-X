@@ -98,6 +98,7 @@ public class StockManagementController extends GameModuleController {
 		productBox = new VBox();
 		productBox.setSpacing(8.0);
 		
+		/**
 		// Prepare a gird with labels that functions as a title row for the 'list of products'
 		GridPane titleGrid = new GridPane();
 		ColumnConstraints cTitle = new ColumnConstraints();
@@ -112,9 +113,9 @@ public class StockManagementController extends GameModuleController {
 		stockLabel.getStyleClass().add("label_large");
 		titleGrid.add(titleLabel, 0, 0);
 		titleGrid.add(stockLabel, 1, 0);
-		titleGrid.setStyle("-fx-padding-bottom: 12;");
+		titleGrid.setStyle("-fx-padding-bottom: 12;"); 
 		
-		productBox.getChildren().add(titleGrid);
+		productBox.getChildren().add(titleGrid);*/
 		AnchorPane anchor = new AnchorPane(productBox);
 		AnchorPaneHelper.snapNodeToAnchorPane(productBox, 4);
 		productTab.setContent(anchor);
