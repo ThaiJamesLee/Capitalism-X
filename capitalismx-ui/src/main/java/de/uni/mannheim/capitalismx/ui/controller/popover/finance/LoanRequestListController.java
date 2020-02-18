@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.overlay.finance;
+package de.uni.mannheim.capitalismx.ui.controller.popover.finance;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.components.finance.LoanRequestBox;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;

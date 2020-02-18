@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.overlay.marketing;
+package de.uni.mannheim.capitalismx.ui.controller.popover.marketing;
 
 
 import java.net.URL;
@@ -18,7 +18,7 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.marketing.CampaignsCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.CampaignsOverviewController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketingOverviewController;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;

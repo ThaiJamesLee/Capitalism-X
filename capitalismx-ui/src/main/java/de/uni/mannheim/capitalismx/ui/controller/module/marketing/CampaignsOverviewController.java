@@ -57,7 +57,7 @@ public class CampaignsOverviewController extends GameModuleController {
 		updateList();
 		
 		PopOverFactory helper = new PopOverFactory();
-		helper.createStandardOverlay("fxml/overlay/mkt_newCampaign_options.fxml");
+		helper.createStandardOverlay("fxml/popover/mkt_newCampaign_options.fxml");
 		popover = helper.getPopover();
 		
 		newReleaseBtn.setOnAction(e -> {

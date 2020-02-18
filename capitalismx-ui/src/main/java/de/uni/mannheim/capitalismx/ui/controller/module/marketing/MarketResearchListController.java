@@ -13,7 +13,7 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.marketing.MarketResearchViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.marketing.NewMarketResearchController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.marketing.NewMarketResearchController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.MarketingEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
@@ -59,7 +59,7 @@ public class MarketResearchListController extends GameModuleController {
 		updateList();
 		
 		PopOverFactory helper = new PopOverFactory();
-		helper.createStandardOverlay("fxml/overlay/mkt_newMarketResearch_options.fxml");
+		helper.createStandardOverlay("fxml/popover/mkt_newMarketResearch_options.fxml");
 		popover = helper.getPopover();
 		popoverController = (NewMarketResearchController) helper.getPopoverController();
 		

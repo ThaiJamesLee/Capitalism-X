@@ -1,10 +1,10 @@
-package de.uni.mannheim.capitalismx.ui.controller.overlay.production;
-
-import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
+package de.uni.mannheim.capitalismx.ui.controller.popover.production;
 
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
+import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
 
 public class SupplierOptionsController extends GameOverlayController {
 

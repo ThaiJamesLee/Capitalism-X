@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.overlay.hr;
+package de.uni.mannheim.capitalismx.ui.controller.popover.hr;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,7 +11,7 @@ import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.component.TrainingPopoverController;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;

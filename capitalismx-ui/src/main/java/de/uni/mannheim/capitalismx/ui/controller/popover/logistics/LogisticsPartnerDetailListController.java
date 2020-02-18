@@ -1,9 +1,9 @@
-package de.uni.mannheim.capitalismx.ui.controller.overlay.logistics;
+package de.uni.mannheim.capitalismx.ui.controller.popover.logistics;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.ui.components.logistics.LogisticsPartnerDetailListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 

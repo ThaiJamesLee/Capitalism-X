@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.overlay.marketing;
+package de.uni.mannheim.capitalismx.ui.controller.popover.marketing;
 
 
 import java.net.URL;
@@ -18,7 +18,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketResearchListController;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;

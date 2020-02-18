@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.overlay.marketing;
+package de.uni.mannheim.capitalismx.ui.controller.popover.marketing;
 
 
 import java.net.URL;
@@ -12,7 +12,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.components.marketing.NewPressReleaseViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.PressReleaseListController;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.GameOverlayController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.GameOverlayController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

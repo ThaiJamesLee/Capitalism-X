@@ -64,7 +64,7 @@ public class TruckFleetController extends GameModuleController {
 		truckFleetListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.truck")));
 
 		PopOverFactory helper = new PopOverFactory();
-		helper.createStandardOverlay("fxml/overlay/truck_detail_list.fxml");
+		helper.createStandardOverlay("fxml/popover/truck_detail_list.fxml");
 		popover = helper.getPopover();
 
 		buyTruckButton.setOnAction(e -> {
