@@ -128,7 +128,7 @@ public class GamePageController implements UpdateableController {
 	 * Handle escape key -> If any menu elements are open, close them. If not open
 	 * ingame menu.
 	 */
-	public void handleEscape() {
+	public void handleEscapeInput() {
 		// TODO add auto close of hud elements -> connect to GameHudController
 		if (openMessagePane) {
 			toggleMessageWindow();
@@ -327,11 +327,8 @@ public class GamePageController implements UpdateableController {
 
 	@Override
 	public void update() {
-		for (GameModule m : currentActiveView.getModules()) {
-			m.getController().update();
-		}
 	}
-
+	
 	/**
 	 * Checks whether all {@link GameModule} of the currently active
 	 * {@link GameView} are present on the grid, if it is the of the given

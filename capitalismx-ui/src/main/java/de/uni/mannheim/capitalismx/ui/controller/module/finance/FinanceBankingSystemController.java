@@ -15,6 +15,7 @@ import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.popover.finance.LoanRequestListController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -95,6 +96,11 @@ public class FinanceBankingSystemController extends GameModuleController {
         factory.createStandardPopover("fxml/popover/loan_request_list.fxml");
         loanRequestPopover = factory.getPopover();
         loanRequestListController = (LoanRequestListController)factory.getPopoverController();
+        
+		TextFieldHelper.makeTextFieldNumeric(ventureCapitalTextField);
+		TextFieldHelper.makeTextFieldNumeric(loanAmountTextField);
+		TextFieldHelper.makeTextFieldNumeric(stocksTextField);
+		TextFieldHelper.makeTextFieldNumeric(realEstateTextField);
 
         loanRequestButton.setOnAction(e -> {
             try {

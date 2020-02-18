@@ -39,10 +39,6 @@
     src: url('../fonts/Reckoner-Bold.ttf');
 }
 
-.cursor-clickable {
-	-fx-cursor: hand;
-}
-
 .label {
 	-fx-font-family: "Prime";
 	-fx-text-fill: -fx-primary-dark;
@@ -63,7 +59,7 @@
 }
 
 .label_small {
-	-fx-font-size: 9.0;
+	-fx-font-size: 10.0;
 }
 
 .label_light {
@@ -94,7 +90,6 @@ FontAwesomeIcon {
  */
 .fontAwesomeButtonDark, .fontAwesomeButtonDark FontAwesomeIcon {
 	-fx-background-color: -fx-primary-dark;
-	-fx-cursor: hand;
 	-fx-text-fill: -fx-primary-light; 
 	-fx-fill: -fx-primary-light; 
 }
@@ -122,24 +117,41 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-primary;
 	-fx-font-family: "Prime";
 	-fx-font-size: 14.0;	
-	-fx-cursor: hand;
 }
 
 .button_module:hover {
-	-fx-text-fill: -fx-primary-light;
-	-fx-background-color: -fx-primary-dark;
+	-fx-background-color: -fx-complement-neutral;
 }
 
 .button_module:pressed {
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-primary-neutral;
-	-fx-text-fill: -fx-primary-dark;
-	-fx-cursor: closed_hand;
+	-fx-text-fill: -fx-primary-light;
+}
+
+.big_buttons {
+	-fx-pref-width: 200.0px;
+	-fx-pref-height: 67.0px;
+	-fx-background-color: -fx-primary-neutral;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-text-fill: -fx-primary-light;
+    -fx-font-family: "Prime";
+    -fx-font-size: 20.0px;
+    -fx-font-weight: bold;
+	-fx-border-size: medium;
+}
+
+.big_buttons:hover {
+	-fx-background-color: -fx-complement-neutral;
+	-fx-underline: true; 
+}
+
+.big_buttons:pressed {
+	-fx-background-color: -fx-primary;
 }
 
 .nav_button {
 	-fx-background-color: -fx-light;
-	-fx-text-fill: -fx-dark;
 }
 
 .icon_button_invisible {
@@ -148,7 +160,6 @@ FontAwesomeIcon {
 }
 
 .icon_button {
-	-fx-cursor: hand;
 	-fx-text-fill: -fx-primary-neutral; 
 	-fx-fill: -fx-primary-neutral; 
 }
@@ -167,7 +178,6 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-primary;
 	-fx-font-family: "Prime";
 	-fx-font-size: 12.0;	
-	-fx-cursor: hand;
 	-fx-mark-color : -fx-primary-light-neutral;
 }
 
@@ -175,9 +185,6 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-primary-light;
 	-fx-background-color: -fx-primary-dark;
 	-fx-mark-color : -fx-primary-light;
-}
-
-.choice-box:pressed {
 }
 
 .choice-box .label {
@@ -213,7 +220,6 @@ FontAwesomeIcon {
 	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary;
 	-fx-text-fill: -fx-primary;
-	-fx-cursor: hand;
 }
 .toggle-button:disabled {
 	-fx-background-color: -fx-primary-light-neutral;
@@ -352,7 +358,6 @@ FontAwesomeIcon {
 
 .list-cell:empty {
     -fx-opacity: 0.0;
-	-fx-cursor: default;
 }
 
 /**
@@ -361,7 +366,6 @@ FontAwesomeIcon {
 .scroll-bar {
 	-fx-background-color: transparent;
 	-fx-border-width: 0.0;
-	-fx-cursor: open_hand;
 }
 
 .scroll-bar .track {
@@ -394,7 +398,6 @@ FontAwesomeIcon {
 
 .scroll-bar .thumb:pressed {
 	-fx-background-color: -fx-primary-dark;
-	-fx-cursor: closed_hand;
 }
 
 
@@ -405,6 +408,12 @@ FontAwesomeIcon {
  	-fx-border-width: 0.0 1.0 0.0 0.0;
  	-fx-border-color: -fx-primary-dark;
  	-fx-border-insets: 0.0 -5.0 0.0 0.0;
+ }
+ 
+ .separator_left {
+ 	-fx-border-width: 0.0 0.0 0.0 1.0;
+ 	-fx-border-color: -fx-primary-dark;
+ 	-fx-border-insets: 0.0 0.0 0.0 0.0;
  }
  
  .separator_horizontal {
@@ -452,6 +461,10 @@ FontAwesomeIcon {
 	-fx-border-color: -fx-primary-neutral;
 	-fx-border-width: 1 1 0 1;
 	-fx-background-radius: 5.0 5.0 0.0 0.0;
+}
+
+.tab-pane .tab:hover {
+	-fx-background-color: -fx-primary-neutral;
 }
 
 .tab-pane .tab:selected, .tab-pane .tab-pane:focused {
@@ -584,7 +597,6 @@ FontAwesomeIcon {
 	-fx-border-width: 2;
 }
 
-
 .accordion .content {
 	-fx-background-color: -fx-primary-light;
 	-fx-border-width: 0;
@@ -594,11 +606,6 @@ FontAwesomeIcon {
 /**
  * TODO: in eigene Dateien f�r das jeweilige Element auslagern
  */
-.sidemenu_color {
-	-fx-background-color: -fx-dark;
-	-fx-backgound-insets: 0.0 0.0 0.0 100.0;
-}
-
 .title_label {
     -fx-margin: 5.0 20.0 5.0 20.0;
     -fx-font-family: "Prime";
@@ -614,45 +621,6 @@ FontAwesomeIcon {
     -fx-font-size: 28.0px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;     
-}
-
-.big_buttons {
-	-fx-pref-width: 200.0px;
-	-fx-pref-height: 67.0px;
-	-fx-background-color: #423f39;
-	-fx-text-fill: white;
-    -fx-font-family: "Prime";
-    -fx-font-size: 20.0px;
-    -fx-font-weight: bold;
-	-fx-border-size: medium;
-}
-
-.big_button_sprache {
-	-fx-pref-width: 107.0px;
-	-fx-pref-height: 67.0px;
-	-fx-background-color: #423f39;
-	-fx-text-fill: white;
-    -fx-font-family: "Prime";
-    -fx-font-weight: bold;
-	-fx-border-size: medium;
-}
-
-.big_buttons:hover {
-	-fx-border-color: blue;
-	-fx-text-color: blue;
-}
-
-.big_buttons:pressed {
-	-fx-background-color: lightgrey;
-}
-
-
-.date_label {
-	-fx-background-color: -fx-dark;
-    -fx-background-insets: 0.0,1.0,4.0,5.0;
-    -fx-background-radius: 9.0,8.0,5.0,4.0;
-	-fx-font-size: 15.0px;
-	-fx-text-fill: white;
 }
 
 .wholeOverlayBackground {

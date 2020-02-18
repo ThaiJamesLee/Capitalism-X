@@ -23,6 +23,7 @@ import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -401,7 +402,11 @@ public class IntroduceProductController extends GameModuleController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+		TextFieldHelper.makeTextFieldNumeric(tvSalesPriceTextField);
+		TextFieldHelper.makeTextFieldNumeric(notebookSalesPriceTextField);
+		TextFieldHelper.makeTextFieldNumeric(consoleSalesPriceTextField);
+		TextFieldHelper.makeTextFieldNumeric(phoneSalesPriceTextField);
+    	
         this.tvScreens = new HashMap<>();
         this.tvScreens.put(tvScreenToggleButton0, new Component(ComponentType.T_DISPLAY_LEVEL_1));
         this.tvScreens.put(tvScreenToggleButton1, new Component(ComponentType.T_DISPLAY_LEVEL_2));

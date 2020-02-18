@@ -1,6 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.tutorial;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.PopOver.ArrowLocation;
@@ -18,6 +20,15 @@ import javafx.scene.Parent;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+/**
+ * A {@link TutorialPage} is the smallest tutorial entity. It is a single step
+ * of a {@link TutorialChapter} and highlights a given {@link Node}, while
+ * displaying a message to the player, explaining how something works of what he
+ * needs to do.
+ * 
+ * @author Jonathan
+ *
+ */
 public class TutorialPage {
 
 	private Highlighter highlighter;
@@ -25,7 +36,8 @@ public class TutorialPage {
 	private PopOver infoPopover;
 	private Node target;
 	private EventHandler<ActionEvent> onCompletedHandler;
-	
+	private ResourceBundle bundle = ResourceBundle.getBundle("properties.tutorial", UIManager.getResourceBundle().getLocale());
+
 	@FXML
 	private Text tutorialMessage;
 
@@ -34,25 +46,25 @@ public class TutorialPage {
 		this.owningPath = owningPath;
 		highlighter = new Highlighter();
 		onCompletedHandler = e -> {
-			//TODO 
+			// TODO
 		};
 	}
-	
+
 	public TutorialPage(TutorialChapter owningPath, Node target, PopOver popOver) {
 		this(owningPath, target);
 		infoPopover = popOver;
 		initPopover();
 	}
-
-	public TutorialPage(TutorialChapter owningPath, Node target, String message) {
+	//TODO boolean for confirm?
+	public TutorialPage(TutorialChapter owningPath, Node target, String messageKey) {
 		this(owningPath, target);
-		FXMLLoader loader = new FXMLLoader(PopOverFactory.class.getClassLoader().getResource("fxml/tutorial_pane.fxml"),
+		FXMLLoader loader = new FXMLLoader(PopOverFactory.class.getClassLoader().getResource("fxml/tutorialPane.fxml"),
 				UIManager.getResourceBundle());
 		Parent root;
 		try {
 			loader.setController(this);
 			root = loader.load();
-			tutorialMessage.setText(message);
+			tutorialMessage.setText(bundle.getString(messageKey));
 			infoPopover = new PopOver(root);
 		} catch (IOException e) {
 			e.printStackTrace();

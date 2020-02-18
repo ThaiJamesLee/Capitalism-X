@@ -47,7 +47,6 @@
 
 .stock_edit_button {
 	-fx-border-width: 1;
-	-fx-cursor: hand;
 	-fx-border-color: -fx-primary-dark;
 	-fx-background-color: -fx-complement-light-neutral;
 	-fx-text-fill: -fx-primary;
@@ -66,7 +65,7 @@
 .stock_edit_button:pressed {
 	-fx-border-color: -fx-primary-dark;
 	-fx-background-color: -fx-primary;
-	-fx-text-fill: -fx-dark;
+	-fx-text-fill: -fx-primary-dark;
 }
 
 
@@ -81,7 +80,6 @@
 	-fx-background-radius: 3;
 	-fx-border-color: -fx-primary-neutral;
 	-fx-border-radius: 3;
-	-fx-cursor: hand;
 }
 
 .grid_button .label {
@@ -101,7 +99,6 @@
 .grid_button:pressed {
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-primary-neutral;
-	-fx-cursor: closed_hand;
 }
 
 .grid_button:pressed .label {

@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -60,18 +61,7 @@ public class BuyProductComponentsPopoverController implements Initializable {
 		amountInput.setText("0");
 		
 		// force the field to be numeric only
-		amountInput.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (!newValue.matches("\\d*")) {
-					amountInput.setText(newValue.replaceAll("[^\\d]", ""));
-				}
-				if (newValue.equals("")) {
-					amountInput.setText("0");
-				}
-				updatePrice();
-			}
-		});
+		TextFieldHelper.makeTextFieldNumeric(amountInput);
 		updatePrice();
 	}
 

@@ -42,7 +42,7 @@ public enum GameModuleDefinition {
 			UIElementType.WAREHOUSE_STOCK_MANAGEMENT, new GridPosition(10, 10, 0, 20), false),
 	WAREHOUSE_STATISTICS("warehouse_statistics.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_STATISTICS, new GridPosition(6, 4, 0,
 			20), false),
-	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 6, 0, 15), true),
+	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 6, 0, 20), true),
 
 	// The modules for HR.
 	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, new GridPosition(10,
