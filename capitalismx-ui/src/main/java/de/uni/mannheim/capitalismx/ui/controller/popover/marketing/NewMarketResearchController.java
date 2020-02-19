@@ -14,7 +14,7 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketResearchListController;
 import javafx.fxml.FXML;
@@ -93,7 +93,7 @@ public class NewMarketResearchController implements UpdateableController {
      */
     private void updateMarketResearchsList() {
 
-    	MarketResearchListController uiController = (MarketResearchListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_MARKETRESEARCH).getController();
+    	MarketResearchListController uiController = (MarketResearchListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(GameModuleType.MARKETING_MARKETRESEARCH).getController();
 		uiController.updateList();
 		uiController.hidePopover();
     }

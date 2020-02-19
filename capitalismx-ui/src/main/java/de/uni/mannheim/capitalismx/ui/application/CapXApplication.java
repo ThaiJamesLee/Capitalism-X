@@ -25,7 +25,6 @@ import javafx.stage.WindowEvent;
  */
 public class CapXApplication extends Application {
 
-	protected static final boolean testMode = false;
 	private Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
 	@Override
@@ -33,20 +32,25 @@ public class CapXApplication extends Application {
 		try {
 			loadFonts();
 
-			prepareScreen(primaryStage);
+			prepareStage(primaryStage);
 
 			GameResolution resolution = new GameResolution((int) primaryScreenBounds.getWidth(),
 					(int) primaryScreenBounds.getHeight(), CssHelper.getOptimalResolution(primaryScreenBounds));
 
 			new UIManager(primaryStage, resolution);
-			
+
 			primaryStage.setFullScreenExitHint(UIManager.getLocalisedString("hint.fullscreen"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void prepareScreen(Stage window) {
+	/**
+	 * Configure and display the {@link Stage}.
+	 * 
+	 * @param window The {@link Stage} to configure.
+	 */
+	private void prepareStage(Stage window) {
 		// set Stage boundaries to visible bounds of the main screen TODO
 		// adjust and move somewhere else
 		window.setX(primaryScreenBounds.getMinX());
@@ -59,27 +63,36 @@ public class CapXApplication extends Application {
 				ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY));
 //		window.setMaximized(true);
 		window.setResizable(false);
-		window.setOnCloseRequest(e -> closeStage(e, window));
+		window.setOnCloseRequest(e -> closeStage(e));
 		window.show();
 	}
 
-	private void closeStage(WindowEvent e, Stage primaryStage) {
-		if (!testMode) {
-			//TODO localization
-			GameAlert closeConfirmation = new GameAlert(AlertType.CONFIRMATION, "Quit the game", "Do you really want to quit?");
-			Optional<ButtonType> response = closeConfirmation.showAndWait();
+	/**
+	 * Can be called on when a {@link WindowEvent} is caught. Asks the player to
+	 * confirm and stops the game before closing the {@link Application}.
+	 * 
+	 * @param e The {@link WindowEvent} that was fired.
+	 */
+	private void closeStage(WindowEvent e) {
+		// TODO localization
+		GameAlert closeConfirmation = new GameAlert(AlertType.CONFIRMATION, "Quit the game",
+				"Do you really want to quit?");
+		Optional<ButtonType> response = closeConfirmation.showAndWait();
 
-			// closes the application if the user confirms
-		    if (response.isPresent() && response.get().equals(ButtonType.OK)) {
+		// closes the application if the user confirms
+		if (response.isPresent() && response.get().equals(ButtonType.OK)) {
 
-				UIManager.getInstance().stopGame();
-		    	//TODO save game if ingame?
-		    } else {
-		    	e.consume();
-		    }
+			UIManager.getInstance().stopGame();
+			// TODO save game if ingame?
+		} else {
+			e.consume();
 		}
 	}
 
+	/**
+	 * Loads the fonts defined in the css. Necessary, so that the application can
+	 * find them.
+	 */
 	private void loadFonts() {
 		Font.loadFont(CapXApplication.class.getResource("/fonts/Prime-Regular.ttf").toExternalForm(), 10);
 		Font.loadFont(CapXApplication.class.getResource("/fonts/Prime-Light.ttf").toExternalForm(), 10);
@@ -87,6 +100,11 @@ public class CapXApplication extends Application {
 		Font.loadFont(CapXApplication.class.getResource("/fonts/Reckoner_Bold.ttf").toExternalForm(), 10);
 	}
 
+	/**
+	 * Starts the {@link Application}.
+	 * 
+	 * @param args Optional arguments. (Not used)
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

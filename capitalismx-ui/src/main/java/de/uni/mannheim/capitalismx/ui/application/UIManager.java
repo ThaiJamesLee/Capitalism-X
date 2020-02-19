@@ -14,7 +14,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameScene;
 import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
@@ -33,7 +33,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -45,32 +44,12 @@ import javafx.stage.WindowEvent;
  * the {@link Stage}. Additionally it provides some useful methods.
  * 
  * @author Jonathan
- *
  */
 public class UIManager {
 
 	private static UIManager instance;
 	// Provide access to correct Resource Bundle
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.main", Locale.ENGLISH);
-
-	public static UIManager getInstance() {
-		return instance;
-	}
-
-	/**
-	 * Returns the corresponding message for the given key from the stored
-	 * {@link ResourceBundle} - default englisch: properties.main_en
-	 * 
-	 * @param key
-	 * @return String message
-	 */
-	public static String getLocalisedString(String key) {
-		return resourceBundle.getString(key);
-	}
-
-	public static ResourceBundle getResourceBundle() {
-		return resourceBundle;
-	}
 
 	// The game's Tutorial
 	private Tutorial tutorial;
@@ -116,7 +95,6 @@ public class UIManager {
 		this.language = Locale.ENGLISH;
 		this.gameResolution = calculatedResolution;
 
-		resetResolution();
 		// static loading of the scenes
 		loadGameScenes();
 		gameViews = new ArrayList<GameView>();
@@ -139,6 +117,25 @@ public class UIManager {
 		switchToScene(next);
 	}
 
+	public static UIManager getInstance() {
+		return instance;
+	}
+
+	/**
+	 * Returns the corresponding message for the given key from the stored
+	 * {@link ResourceBundle} - default englisch: properties.main_en
+	 * 
+	 * @param key The key to look up in the resources.
+	 * @return The localised message as a String.
+	 */
+	public static String getLocalisedString(String key) {
+		return resourceBundle.getString(key);
+	}
+
+	public static ResourceBundle getResourceBundle() {
+		return resourceBundle;
+	}
+
 	public Cursor getCursor() {
 		return this.cursor;
 	}
@@ -147,8 +144,16 @@ public class UIManager {
 		return gameHudController;
 	}
 
+	public void setGameHudController(GameHudController gameHudController) {
+		this.gameHudController = gameHudController;
+	}
+
 	public OverviewMap3DController getGameMapController() {
 		return gameMapController;
+	}
+
+	public void setGameMapController(OverviewMap3DController gameMapController) {
+		this.gameMapController = gameMapController;
 	}
 
 	public GamePageController getGamePageController() {
@@ -205,13 +210,13 @@ public class UIManager {
 	}
 
 	/**
-	 * This method is being called after initialising all {@link GameModule}s and
+	 * This method is being called after initializing all {@link GameModule}s and
 	 * can be used to check if some optional modules should be activated.
 	 */
 	private void initDepartments() {
 		// check WAREHOUSE
 		if (GameState.getInstance().getWarehousingDepartment().getWarehouses().size() > 0) {
-			((WarehouseListController) getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_LIST)
+			((WarehouseListController) getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_LIST)
 					.getController()).activateWarehouseModules();
 		}
 	}
@@ -222,7 +227,6 @@ public class UIManager {
 	private void initKeyboardControls() {
 
 		sceneGamePage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
-
 			@Override
 			public void handle(KeyEvent event) {
 				switch (event.getCode()) {
@@ -282,17 +286,12 @@ public class UIManager {
 
 		sceneGamePage.getScene().addEventHandler(ScrollEvent.SCROLL, gameMapController.getMouseEventHandler());
 		sceneGamePage.getScene().setOnMousePressed(gameMapController.getMouseEventHandler());
-		sceneGamePage.getScene().setOnMouseDragged(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				gameMapController.getMouseEventHandler().handle(event);
-			}
-		});
+		sceneGamePage.getScene().setOnMouseDragged(gameMapController.getMouseEventHandler());
 	}
 
 	/**
 	 * Loads an existing Game via the {@link GameController} and prepares all
-	 * necessary elements. TODO incorporate multiple savegames
+	 * necessary elements.
 	 */
 	public void loadGame() {
 		GameController.getInstance().loadGame();
@@ -330,6 +329,7 @@ public class UIManager {
 		} catch (IOException e) {
 			// TODO Handle error if scenes cannot be initialized
 			e.printStackTrace();
+			Platform.exit();
 		}
 	}
 
@@ -499,28 +499,15 @@ public class UIManager {
 		}
 	}
 
-	public void resetResolution() {
-		// TODO adjust/force size of Scene/Stage to given Resolution or just switch css
-//		CssHelper.adjustCssToCurrentResolution();
-	}
-
 	/**
-	 * Resets all the UIElements and Controller that might still contain data from
-	 * previous games.
+	 * Resets all the {@link GameView}s and Controllers that might still contain
+	 * data from the previous games.
 	 */
 	private void resetUIElements() {
 		gameHudController = null;
 		gamePageController = null;
 		gameMapController = null;
 		gameViews.clear();
-	}
-
-	public void setGameHudController(GameHudController gameHudController) {
-		this.gameHudController = gameHudController;
-	}
-
-	public void setGameMapController(OverviewMap3DController gameMapController) {
-		this.gameMapController = gameMapController;
 	}
 
 	/**
@@ -554,8 +541,6 @@ public class UIManager {
 	 * @param sceneType The type of the {@link GameScene} to switch to.
 	 */
 	public void switchToScene(GameSceneType sceneType) {
-		// TODO static scene choice at the moment, maybe change that later if
-		// more scenes are needed
 		switch (sceneType) {
 		case MENU_MAIN:
 			sceneMenuMain.getController().update();
@@ -576,9 +561,7 @@ public class UIManager {
 		case GAMEWON_PAGE:
 			window.getScene().setRoot(sceneWonPage.getScene());
 			break;
-
 		default:
-			// TODO handle if no scene found
 			break;
 		}
 	}

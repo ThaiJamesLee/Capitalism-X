@@ -8,7 +8,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.components.marketing.NewPressReleaseViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.PressReleaseListController;
@@ -61,7 +61,7 @@ public class NewPressReleaseController implements UpdateableController {
     		controller.makePressRelease(pr);
     		
     		//update PressReleases Module
-    		PressReleaseListController uiController = (PressReleaseListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_PRESSRELEASE).getController();
+    		PressReleaseListController uiController = (PressReleaseListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(GameModuleType.MARKETING_PRESSRELEASE).getController();
     		uiController.updateList();
     		uiController.hidePopover();
     	});

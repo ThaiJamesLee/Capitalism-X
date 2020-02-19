@@ -19,7 +19,7 @@ import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.production.ProduceProductController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
@@ -1197,8 +1197,8 @@ public class IntroduceProductController extends GameModuleController {
             return;
         }
         
-        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
-        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.tv);
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.tv);
     }
 
     public void launchConsole() {
@@ -1229,8 +1229,8 @@ public class IntroduceProductController extends GameModuleController {
             return;
         }
         
-        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
-        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.console);
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.console);
     }
 
     public void launchNotebook() {
@@ -1259,8 +1259,8 @@ public class IntroduceProductController extends GameModuleController {
             return;
         }
         
-        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
-        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.notebook);
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.notebook);
     }
 
     public void launchPhone() {
@@ -1292,8 +1292,8 @@ public class IntroduceProductController extends GameModuleController {
             return;
         }
         
-        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
-        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.phone);
+        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.phone);
     }
 
     

@@ -4,7 +4,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.LogisticsPartnerController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.fxml.FXML;
@@ -80,7 +80,7 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
             variableCostsLabel.setText("Delivery Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getVariableDeliveryCost()));
             gridPane.setOnMouseClicked(e -> {
                 controller.addExternalPartner(externalPartner);
-                LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_PARTNER_OVERVIEW).getController();
+                LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(GameModuleType.LOGISTICS_PARTNER_OVERVIEW).getController();
                 uiController.addExternalPartner(externalPartner);
                 
                 logisticsPartnerDetailListView.getSelectionModel().clearSelection();

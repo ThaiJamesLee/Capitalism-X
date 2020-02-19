@@ -6,7 +6,7 @@ import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.TruckFleetController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.fxml.FXML;
@@ -81,7 +81,7 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
                 }else{
                     try {
                         controller.buyTruck(truck, GameState.getInstance().getGameDate());
-                        TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(UIElementType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
+                        TruckFleetController uiController = (TruckFleetController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(GameModuleType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
                         uiController.addTruck(truck);
                         truckDetailListView.getSelectionModel().clearSelection();
                     } catch (NotEnoughTruckCapacityException ex) {

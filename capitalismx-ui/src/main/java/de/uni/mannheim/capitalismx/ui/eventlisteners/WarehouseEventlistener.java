@@ -7,7 +7,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 import javafx.application.Platform;
@@ -25,11 +25,11 @@ public class WarehouseEventlistener implements PropertyChangeListener {
 		Platform.runLater(() -> {
 			GameView warehouse = UIManager.getInstance().getGameView(GameViewType.WAREHOUSE);
 			if (evt.getPropertyName().equals("inventoryChange")) {
-				((StockManagementController) warehouse.getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+				((StockManagementController) warehouse.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
 						.getController()).updateUnitStock((Unit) evt.getNewValue());
-				warehouse.getModule(UIElementType.WAREHOUSE_STATISTICS).getController().update();
+				warehouse.getModule(GameModuleType.WAREHOUSE_STATISTICS).getController().update();
 			} else if (evt.getPropertyName().equals("freeStorageChange")) {
-				warehouse.getModule(UIElementType.WAREHOUSE_STATISTICS).getController().update();
+				warehouse.getModule(GameModuleType.WAREHOUSE_STATISTICS).getController().update();
 			}
 		});
 	}

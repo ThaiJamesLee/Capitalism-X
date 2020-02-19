@@ -12,7 +12,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
@@ -35,7 +35,7 @@ public class GameStateEventListener implements PropertyChangeListener {
 			UIManager.getInstance().getGameHudController().update();
 			LocalDate date = (LocalDate) evt.getNewValue();
 			StockManagementController stockController = ((StockManagementController) UIManager.getInstance()
-					.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+					.getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
 					.getController());
 
 			List<ExternalEvents.ExternalEvent> events = GameController.getInstance()
@@ -60,7 +60,7 @@ public class GameStateEventListener implements PropertyChangeListener {
 			if (date.getDayOfMonth() == 1 && date.getMonthValue() % 3 == 1) {
 				stockController.updateComponentPrices(date);
 				((RecruitingListController) UIManager.getInstance().getGameView(GameViewType.HR)
-						.getModule(UIElementType.HR_RECRUITING_OVERVIEW).getController())
+						.getModule(GameModuleType.HR_RECRUITING_OVERVIEW).getController())
 								.regenerateRecruitingProspects();
 			}
 		}

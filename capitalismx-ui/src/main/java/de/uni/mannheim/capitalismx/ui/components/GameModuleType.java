@@ -3,25 +3,24 @@ package de.uni.mannheim.capitalismx.ui.components;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 
 /**
- * The {@link UIElementType} describes the role that the {@link UIElement}
+ * The {@link GameModuleType} describes the role that the {@link GameModule}
  * has in its department and contains the title that is displayed on top of each
  * element.
  * 
  * @author Jonathan
  *
  */
-public enum UIElementType {
+public enum GameModuleType {
 
 	HR_TEAM_DETAIL("module.hr.detail"),
 	HR_STATISTICS("module.statistics"), 
 	HR_WORKING_CONDITIONS("module.hr.conditions"), 
 	HR_RECRUITING_OVERVIEW("module.hr.hire"),
-	FINANCE_BANKING_SYSTEM("module.finance.bank"), //TODO better name in german properties?
+	FINANCE_BANKING_SYSTEM("module.finance.bank"),
     FINANCE_OPERATIONS_TABLE("module.finance.table"),
 	FINANCE_OVERVIEW("module.statistics"),
 	LOGISTICS_PARTNER_OVERVIEW("module.logistics.external"),
 	LOGISTICS_TRUCK_FLEET_OVERVIEW("module.logistics.trucks"),
-//	PRODUCTION_NEW_PRODUCT_OVERVIEW("module.statistics"),
 	PRODUCTION_PRODUCE_PRODUCT("module.production.produce"),
 	PRODUCTION_MACHINERY_OVERVIEW("module.production.machines"),
 	PROCUREMENT_BUY_COMPONENT_OVERVIEW("Buy Component"),
@@ -40,7 +39,7 @@ public enum UIElementType {
 	// The title of the GameElement, that will be displayed on top.
 	private final String titleProperty;
 
-	private UIElementType(String title) {
+	private GameModuleType(String title) {
 		this.titleProperty = title;
 	}
 	public String getTitle() {

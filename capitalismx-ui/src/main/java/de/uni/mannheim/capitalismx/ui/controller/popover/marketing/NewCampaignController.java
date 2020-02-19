@@ -11,7 +11,7 @@ import de.uni.mannheim.capitalismx.marketing.domain.Media;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.components.marketing.CampaignsCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.CampaignsOverviewController;
@@ -88,17 +88,17 @@ public class NewCampaignController implements UpdateableController {
     }
 
     /**
-     * Function updates the campaigns ListView in the {@link CampaignsOverviewController} Modul
+     * Function updates the campaigns ListView in the {@link CampaignsOverviewController} Module
      */
     private void updateCampaignsList() {
 		updateCompanyImage();
     	
-    	CampaignsOverviewController uiController = (CampaignsOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_CAMPAIGNS).getController();
+    	CampaignsOverviewController uiController = (CampaignsOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(GameModuleType.MARKETING_CAMPAIGNS).getController();
 		uiController.updateList();
 		uiController.hidePopover();
 		
 		//update CompanyImage View
-//		MarketingOverviewController mktController = (MarketingOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_OVERVIEW).getController();
+//		MarketingOverviewController mktController = (MarketingOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(GameModuleType.MARKETING_OVERVIEW).getController();
 //		mktController.setCompanyImageLabel(text);
 		
     }
@@ -109,7 +109,7 @@ public class NewCampaignController implements UpdateableController {
     //TODO refactor to prevent nullpointer if OverviewModule is not displayed
     private void updateCompanyImage() {    	
     	
-    	GameModule modul = UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_OVERVIEW);
+    	GameModule modul = UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(GameModuleType.MARKETING_OVERVIEW);
     	
     	if(modul.isActivated()) {
     	

@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSystemController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableController;
@@ -30,13 +30,13 @@ public class FinanceEventListener implements PropertyChangeListener {
         if(evt.getPropertyName().equals("loanRemoved")){
             PropertyChangeSupportBoolean newVal = (PropertyChangeSupportBoolean) evt.getSource();
             if(newVal.getValue() == true){
-                FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_BANKING_SYSTEM).getController();
+                FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
                 financeBankingSystemController.removeLoan();
             }
         }
 
         if (evt.getPropertyName().equals("updatedMonthlyData")) {
-            FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OVERVIEW).getController();
+            FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_OVERVIEW).getController();
 
             TreeMap<String, String[]> monthlyData = GameController.getInstance().getMonthlyData();
             String[] xNames = monthlyData.get("xNames");
@@ -48,7 +48,7 @@ public class FinanceEventListener implements PropertyChangeListener {
         }
 
         if (evt.getPropertyName().equals("updatedQuarterlyData")) {
-            OperationsTableController operationsTableController = (OperationsTableController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OPERATIONS_TABLE).getController();
+            OperationsTableController operationsTableController = (OperationsTableController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_OPERATIONS_TABLE).getController();
 
             TreeMap<String, String[]> quarterlyData = GameController.getInstance().getQuarterlyData();
             String[] colNames = quarterlyData.get("colNames");
@@ -59,7 +59,7 @@ public class FinanceEventListener implements PropertyChangeListener {
             }
         }
 
-        FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_OVERVIEW).getController();
+        FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_OVERVIEW).getController();
 
         if (evt.getPropertyName().equals("netWorth")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
@@ -83,7 +83,7 @@ public class FinanceEventListener implements PropertyChangeListener {
             UIManager.getInstance().getGameHudController().updateCashChangeLabel(newVal.getValue());
         }
 
-        FinanceBankingSystemController bankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_BANKING_SYSTEM).getController();
+        FinanceBankingSystemController bankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
 
         if (evt.getPropertyName().equals("realEstateInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();

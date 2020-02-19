@@ -1,10 +1,10 @@
 package de.uni.mannheim.capitalismx.ui.components;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.controller.ModuleFrameController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,9 +14,18 @@ import javafx.scene.Parent;
  * the grid and the FX-elements it consists of.
  * 
  * @author Jonathan
- *
  */
-public class GameModule extends UIElement {
+public class GameModule {
+
+
+	// The type of the element.
+	private GameModuleType type;
+
+	// The root element of the module.
+	private Parent rootElement;
+
+	// The controller for the frame of the element.
+	private ModuleFrameController frameController;
 
 	private GameModuleController controller;
 
@@ -49,19 +58,35 @@ public class GameModule extends UIElement {
 	 */
 	public GameModule(Parent contentRoot, GameModuleDefinition definition, GameModuleController controller)
 			throws IOException {
- 
-		super("fxml/module/standard.fxml", definition.viewType, definition.elementType.getTitle(), contentRoot,
-				definition.elementType);
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/module/module_frame.fxml"));
+		this.rootElement = loader.load();
+		frameController = ((ModuleFrameController) loader.getController());
+		frameController.setTitleLabel(definition.elementType.getTitle());
+		this.type = definition.elementType;
+		frameController.initContent(contentRoot, type);
 
-		// TODO nutze richtiges ResourceBundle
-		ResourceBundle bundle = UIManager.getResourceBundle();
-
+		// Use css of the current resolution
+		CssHelper.replaceStylesheets(this.rootElement.getStylesheets());
+		CssHelper.replaceStylesheets(contentRoot.getStylesheets());
+		
 		// Initialize the module with the title
 		this.setGridPosition(definition.gridPosition);
 		this.activated = definition.activated;
 		this.controller = controller;
 	}
 
+	public Parent getRootElement() {
+		return rootElement;
+	}
+
+	public void setRootElement(Parent rootElement) {
+		this.rootElement = rootElement;
+	}
+	
+	public GameModuleType getType() {
+		return type;
+	}
+	
 	public GridPosition getGridPosition() {
 		return gridPosition;
 	}

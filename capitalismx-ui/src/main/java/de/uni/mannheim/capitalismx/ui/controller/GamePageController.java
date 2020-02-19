@@ -9,7 +9,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
@@ -245,24 +245,24 @@ public class GamePageController implements UpdateableController {
 	/**
 	 * Removes currently displayed overlay elements and displays the requested one
 	 * 
-	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
+	 * @param elementType The {@link GameModuleType} of the {@link GameOverlay} to
 	 *                    display.
 	 */
 	@Deprecated
-	public void showOverlay(UIElementType elementType) {
+	public void showOverlay(GameModuleType elementType) {
 		showOverlay(elementType, new Properties());
 	}
 
 	/**
 	 * Removes currently displayed overlay elements and displays the requested one
 	 * 
-	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
+	 * @param elementType The {@link GameModuleType} of the {@link GameOverlay} to
 	 *                    display.
 	 * @param properties  Optional properties for the overlay.
 	 */
 	// TODO remove methods including overlay layer
 	@Deprecated
-	public void showOverlay(UIElementType elementType, Properties properties) {
+	public void showOverlay(GameModuleType elementType, Properties properties) {
 		resetOverlay();
 
 		// get requested overlay and display it, if module and overlay are not null
