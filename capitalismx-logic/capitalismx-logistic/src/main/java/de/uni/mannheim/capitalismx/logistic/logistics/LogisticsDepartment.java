@@ -14,22 +14,26 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
+ * This class represents the logistics department.
+ * Based on the report p.48-54
+ *
  * @author sdupper
  */
 public class LogisticsDepartment extends DepartmentImpl {
+
+    /**
+     * The singleton pointer.
+     */
     private static LogisticsDepartment instance;
 
-    private static final Logger logger = LoggerFactory.getLogger(LogisticsDepartment.class);
-
-    //private InternalFleet internalFleet;
+    /**
+     * The external logistics partner of the company.
+     */
     private ExternalPartner externalPartner;
-    private double shippingFee;
-    private double costLogistics;
-    private double logisticsIndex;
-    private double totalDeliveryCosts;
-    private double costsExternalDelivery;
-    private double totalLogisticsCosts;
-    //delivered products per day
+
+    /**
+     * The number of delivered products per day.
+     */
     private int deliveredProducts;
 
     /**
@@ -43,6 +47,17 @@ public class LogisticsDepartment extends DepartmentImpl {
      */
     private int initialLogisticsCapacity;
 
+    /**
+     * The costs for shipping by post.
+     */
+    private double shippingFee;
+
+    private static final Logger logger = LoggerFactory.getLogger(LogisticsDepartment.class);
+    private double costLogistics;
+    private double logisticsIndex;
+    private double totalDeliveryCosts;
+    private double costsExternalDelivery;
+    private double totalLogisticsCosts;
 
     private static final String LEVELING_PROPERTIES = "logistics-leveling-definition";
     private static final String MAX_LEVEL_PROPERTY = "logistics.department.max.level";
@@ -51,9 +66,12 @@ public class LogisticsDepartment extends DepartmentImpl {
     private static final String SKILL_COST_PROPERTY_PREFIX = "logistics.skill.cost.";
     private static final String SKILL_CAPACITY_PREFIX = "logistics.skill.capacity.";
 
+    /**
+     * Constructor
+     * Initializes the variables and calculates all relevant values of the logistics department.
+     */
     private LogisticsDepartment(){
         super("Logistics");
-        //this.internalFleet = new InternalFleet();
         this.shippingFee = 15;
         this.deliveredProducts = 0;
         this.calculateAll(LocalDate.now());
@@ -61,6 +79,10 @@ public class LogisticsDepartment extends DepartmentImpl {
         this.initSkills();
     }
 
+    /**
+     *
+     * @return Returns the singleton instance
+     */
     public static synchronized LogisticsDepartment getInstance() {
         if(LogisticsDepartment.instance == null) {
             LogisticsDepartment.instance = new LogisticsDepartment();
@@ -133,6 +155,9 @@ public class LogisticsDepartment extends DepartmentImpl {
         updateLogisticsCapacity();
     }
 
+    /**
+     * Calculates different values of the logistics department, e.g., the total logistics costs.
+     */
     public void calculateAll(LocalDate gameDate){
         this.calculateCostsLogistics();
         this.calculateLogisticsIndex();
@@ -140,6 +165,11 @@ public class LogisticsDepartment extends DepartmentImpl {
         this.calculateTotalLogisticsCosts(gameDate);
     }
 
+    /**
+     * Calculates the costs for logistics based on the total truck costs and the contractual costs of the external
+     * partner according to p.52.
+     * @return Returns the costs for logistics.
+     */
     private double calculateCostsLogistics(){
         if(externalPartner == null){
             this.costLogistics = InternalFleet.getInstance().getTotalTruckCost();
@@ -151,6 +181,13 @@ public class LogisticsDepartment extends DepartmentImpl {
 
     //TODO what if no external partner hired
     //TODO set deliveredProducts
+
+    /**
+     * Calculates the logistics index according to p.52. The calculation differs based on the number of delivered
+     * products and the capacity of the internal fleet. The external logistics partner is only used for deliveries if
+     * the internal fleet does not have enough capacity.
+     * @return Returns the logistics index of the company.
+     */
     private double calculateLogisticsIndex(){
         if(externalPartner == null){
             return this.logisticsIndex = -1.0;
@@ -166,6 +203,13 @@ public class LogisticsDepartment extends DepartmentImpl {
         return this.logisticsIndex;
     }
 
+    /**
+     * Calculates the total delivery costs according to p.50. The calculation differs based on the number of delivered
+     * products and the capacity of the internal fleet. The external logistics partner is only used for deliveries if
+     * the internal fleet does not have enough capacity. If no external partner was hired, the remaining products
+     * are sent by post.
+     * @return Returns the total delivery costs.
+     */
     private double calculateTotalDeliveryCosts(){
         if(this.deliveredProducts <= InternalFleet.getInstance().getCapacityFleet()){
             this.totalDeliveryCosts = (Math.ceil(this.deliveredProducts / 1000.0) * InternalFleet.getInstance().getFixCostsDelivery())
@@ -179,6 +223,12 @@ public class LogisticsDepartment extends DepartmentImpl {
     }
 
     //TODO possibility to select logistics approach (e.g., only external partner, although internal fleet exists)
+
+    /**
+     * Calculates the costs for external deliveries according to p.52. If an external logistics partner is hired, the
+     * products are delivered by the partner. Otherwise, the products are sent by post.
+     * @return Returns the costs for external deliveries.
+     */
     private double calculateCostsExternalDelivery(){
         if(externalPartner != null){
             this.costsExternalDelivery = (this.deliveredProducts - InternalFleet.getInstance().getCapacityFleet()) * externalPartner.getVariableDeliveryCost();
@@ -188,13 +238,20 @@ public class LogisticsDepartment extends DepartmentImpl {
         return this.costsExternalDelivery;
     }
 
+    /**
+     * Calculates the total (daily) logistics costs based on the costs for logistics and the total delivery costs
+     * according to p.53.
+     * @param gameDate The current date in the game.
+     * @return Returns the total (daily) logistics costs.
+     */
     private double calculateTotalLogisticsCosts(LocalDate gameDate){
         this.totalLogisticsCosts = (this.calculateCostsLogistics() / gameDate.lengthOfMonth()) + this.calculateTotalDeliveryCosts();
         return this.totalLogisticsCosts;
     }
 
     /**
-     * generate external partners to choose from
+     * Generates a selection of external logistics partners with different characteristics according to p.52.
+     * @return Returns a list of 9 different external logistics partners.
      */
     public ArrayList<ExternalPartner> generateExternalPartnerSelection(){
         ArrayList<ExternalPartner> externalPartnerSelection = new ArrayList<ExternalPartner>();
@@ -225,7 +282,8 @@ public class LogisticsDepartment extends DepartmentImpl {
     }
 
     /**
-     * generate six trucks to choose from
+     * Generates a selection of trucks with different characteristics according to p.49.
+     * @return Returns a list of 6 different trucks.
      */
     public ArrayList<Truck> generateTruckSelection(){
         ArrayList<Truck> truckSelection = new ArrayList<Truck>();
@@ -246,20 +304,37 @@ public class LogisticsDepartment extends DepartmentImpl {
         return truckSelection;
     }
 
+    /**
+     * Sets the number of delivered products.
+     * @param deliveredProducts The number of delivered products.
+     */
     public void setDeliveredProducts(int deliveredProducts){
         this.deliveredProducts = deliveredProducts;
     }
 
+    /**
+     * Adds an external logistics partner.
+     * @param externalPartner The external logistics partner to be added.
+     */
     public void addExternalPartner(ExternalPartner externalPartner){
         this.externalPartner = externalPartner;
         //this.calculateAll();
     }
 
+    /**
+     * Removes the currently hired external logistics partner.
+     */
     public void removeExternalPartner(){
         this.externalPartner = null;
         //this.calculateAll();
     }
 
+    /**
+     * Adds a truck to the internal fleet.
+     * @param truck The truck to be added to the internal fleet.
+     * @param gameDate The current date in the game.
+     * @throws NotEnoughTruckCapacityException if the internal fleet does not have enough capacity.
+     */
     public void addTruckToFleet(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException{
         if(this.logisticsCapacity > InternalFleet.getInstance().getTrucks().size()){
             InternalFleet.getInstance().addTruckToFleet(truck, gameDate);
@@ -270,6 +345,10 @@ public class LogisticsDepartment extends DepartmentImpl {
         }
     }
 
+    /**
+     * Removes a truck from the internal fleet.
+     * @param truck The truck to be removed from the internal fleet.
+     */
     public void removeTruckFromFleet(Truck truck){
         InternalFleet.getInstance().removeTruckFromFleet(truck);
         //this.calculateAll();
@@ -312,14 +391,26 @@ public class LogisticsDepartment extends DepartmentImpl {
         return this.deliveredProducts;
     }
 
+    /**
+     * Checks if the eco index of the fleet is below the threshold.
+     * @return Returns true if the eco index is below the threshold. Returns false otherwise.
+     */
     public boolean checkEcoIndexFleetBelowThreshold(){
         return InternalFleet.getInstance().checkEcoIndexFleetBelowThreshold();
     }
 
+    /**
+     * Increases the factor by which the capacity of the internal fleet is decreased.
+     * @param amount The amount by which the factor should be increased.
+     */
     public void decreaseCapacityFleetRel(double amount){
         InternalFleet.getInstance().decreaseCapacityFleetRel(amount);
     }
 
+    /**
+     * Decreases the factor by which the capacity of the internal fleet is decreased.
+     * @param amount The amount by which the factor should be decreased.
+     */
     public void increaseCapacityFleetRel(double amount){
         InternalFleet.getInstance().increaseCapacityFleetRel(amount);
     }
@@ -332,6 +423,11 @@ public class LogisticsDepartment extends DepartmentImpl {
         LogisticsDepartment.instance = instance;
     }
 
+    /**
+     * Register the PropertyChangeListener to all PropertyChangeSupport objects.
+     *
+     * @param listener The PropertyChangeListener to register to listen to all PropertyChangeSupport objects.
+     */
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         throw new UnsupportedOperationException();

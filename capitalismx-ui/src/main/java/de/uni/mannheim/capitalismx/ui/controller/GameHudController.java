@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,8 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.GameThread;
+import de.uni.mannheim.capitalismx.gamecontroller.GameThread.Speed;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex.EcoIndex;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -24,6 +27,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.component.DepartmentUpgradeController;
+import de.uni.mannheim.capitalismx.ui.controller.component.TutorialStartCheckController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
@@ -39,6 +43,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -60,6 +65,9 @@ import javafx.util.Duration;
  */
 public class GameHudController implements UpdateableController {
 
+	/**
+	 * Components for the Dropdown that enables the LevelUp of Departments.
+	 */
 	private DepartmentUpgradeController upgradeController;
 	private AnchorPane departmentUpgradePane;
 
@@ -92,7 +100,8 @@ public class GameHudController implements UpdateableController {
 	private GridPane moduleGrid;
 
 	@FXML
-	private FontAwesomeIcon playPauseIconButton, forwardIconButton, skipIconButton, ecoIcon, departmentDropdownIcon;
+	private FontAwesomeIcon playPauseIconButton, skipIconButton, ecoIcon, departmentDropdownIcon, speedIcon1,
+			speedIcon2, speedIcon3;
 	@FXML
 	private Label playPauseIconLabel, forwardIconLabel, skipIconLabel, messageIconLabel, settingsIconLabel;
 
@@ -109,14 +118,6 @@ public class GameHudController implements UpdateableController {
 	@FXML
 	private VBox netWorthVBox, cashVBox, employeeVBox, departmentVBox;
 
-	public ToggleButton getProductionDepButton() {
-		return this.btnProduction;
-	}
-	
-	public ToggleButton getOverviewDepButton() {
-		return this.btnOverview;
-	}
-	
 	/**
 	 * Display a {@link GameNotification} on the GamePage, if another one is
 	 * currently being displayed, it will be added to a queue and displayed
@@ -129,6 +130,32 @@ public class GameHudController implements UpdateableController {
 		Platform.runLater(() -> {
 			displayNextNotification();
 		});
+	}
+
+	/**
+	 * Changes the speed of the game to the given {@link Speed}.
+	 * 
+	 * @param The {@link Speed} to set the game to.
+	 */
+	public void changeSpeed(GameThread.Speed speed) {
+		GameController contr = GameController.getInstance();
+		contr.setSpeed(speed);
+		switch (speed) {
+		case SLOW:
+			speedIcon2.setOpacity(0.5);
+			speedIcon3.setOpacity(0.5);
+			break;
+		case MEDIUM:
+			speedIcon2.setOpacity(1);
+			speedIcon3.setOpacity(0.5);
+			break;
+		case FAST:
+			speedIcon2.setOpacity(1);
+			speedIcon3.setOpacity(1);
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -156,6 +183,33 @@ public class GameHudController implements UpdateableController {
 			label.getStyleClass().remove("hud_label_green");
 			label.getStyleClass().remove("hud_label_red");
 		}
+	}
+
+	/**
+	 * Prepares a Popover containing a {@link DatePicker}, that allows skipping to
+	 * any day in the future. The {@link PopOver} will show, when the user clicks on
+	 * the datelabel. <\br> NOTE: This mechanic is mainly meant for
+	 * testing/debugging.
+	 */
+	private void createChangeDateControl() {
+		// create Popover and content
+		DatePicker datepicker = new DatePicker(GameState.getInstance().getGameDate());
+		Button setDateButton = new Button("Change Date (DEBUGGING)");
+		setDateButton.setOnMouseClicked(e -> {
+			LocalDate newdate = datepicker.getValue();
+			if (newdate.isAfter(GameState.getInstance().getGameDate())) {
+				GameController.getInstance().goToDay(newdate);
+			}
+		});
+		VBox vbox = new VBox(datepicker, setDateButton);
+		PopOverFactory factory = new PopOverFactory();
+		factory.createStandardPopover(vbox);
+		PopOver popover = factory.getPopover();
+		// display on click
+		dateLabel.setOnMouseClicked(e -> {
+			popover.show(dateLabel);
+			datepicker.setValue(GameState.getInstance().getGameDate());
+		});
 	}
 
 	public void deselectDepartmentButton(GameViewType type) {
@@ -194,6 +248,52 @@ public class GameHudController implements UpdateableController {
 
 	public GridPane getModuleGrid() {
 		return moduleGrid;
+	}
+
+	public ToggleButton getOverviewDepButton() {
+		return this.btnOverview;
+	}
+
+	public ToggleButton getProductionDepButton() {
+		return this.btnProduction;
+	}
+
+	/**
+	 * returns List of Nodes (UI-Elements) that will be highlighted in this tutorial
+	 * chapter in the given order.
+	 * 
+	 * @return List<Nodes>
+	 */
+	public List<Node> getTimeControlTutorialNodes() {
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.add(departmentLabel);
+		nodes.add(dateLabel);
+		nodes.add(playPauseIconButton);
+		nodes.add(netWorthVBox);
+		nodes.add(cashVBox);
+		nodes.add(employeeVBox);
+		nodes.add(ecoIcon);
+		nodes.add(speedIcon2);
+		nodes.add(skipIconButton);
+		nodes.add(messageIconLabel);
+		nodes.add(settingsIconLabel);
+
+		// TODO add cash / networth / employees infos with short message...
+		return nodes;
+	}
+
+	/**
+	 * Handles the ESC-Input from the user. Tries to close the department
+	 * Level-Up-Dropdown.
+	 * 
+	 * @return true if the Dropdown could be closed, else otherwise.
+	 */
+	public boolean handleEscapeInput() {
+		if (levelUpDropdownOpen) {
+			toggleLevelUpDropdown();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -262,6 +362,8 @@ public class GameHudController implements UpdateableController {
 		initDepartmentButton(btnRAndD, GameViewType.R_AND_D);
 		initDepartmentButton(btnMarketing, GameViewType.MARKETING);
 
+		createChangeDateControl();
+
 		playPauseIconLabel
 				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.playPause")));
 		skipIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.skip")));
@@ -270,6 +372,17 @@ public class GameHudController implements UpdateableController {
 		settingsIconLabel
 				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.settings")));
 		messageIconLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.tooltip.messages")));
+
+		// ClickHandlers for the speed buttons
+		speedIcon1.setOnMouseClicked(e -> {
+			changeSpeed(Speed.SLOW);
+		});
+		speedIcon2.setOnMouseClicked(e -> {
+			changeSpeed(Speed.MEDIUM);
+		});
+		speedIcon3.setOnMouseClicked(e -> {
+			changeSpeed(Speed.FAST);
+		});
 
 		// Switch to view when clicking on hud info labels
 		cashVBox.setOnMouseClicked(e -> {
@@ -283,10 +396,14 @@ public class GameHudController implements UpdateableController {
 		});
 
 		UIManager.getInstance().setGameHudController(this);
+		playPause();
 		updateLevelUpDropdown(GameViewType.OVERVIEW);
 	}
 
-
+	/**
+	 * Displays a {@link PopOver}, asking the user, if he wants to skip the Tutorial
+	 * .
+	 */
 	public void initTutorialCheck() {
 		PopOverFactory factory = new PopOverFactory();
 		factory.createStandardPopover("fxml/components/tutorial_start.fxml");
@@ -357,66 +474,6 @@ public class GameHudController implements UpdateableController {
 	}
 
 	/**
-	 * Updates all hud elements for the given {@link GameViewType}.
-	 * 
-	 * @param viewType The {@link GameViewType} to update for.
-	 */
-	protected void updateView(GameViewType viewType) {
-		selectDepartmentButton(viewType);
-		updateGameViewLabel(viewType);
-		updateLevelUpDropdown(viewType);
-
-		if (levelUpDropdownOpen)
-			toggleLevelUpDropdown();
-	}
-
-	/**
-	 * Update the department level-up dropdown for the given {@link GameViewType}.
-	 * 
-	 * @param viewType {@link GameViewType} being displayed.
-	 */
-	private void updateLevelUpDropdown(GameViewType viewType) {
-		if (!viewType.isUpgradeable()) {
-			departmentDropdownIcon.setOnMouseClicked(e -> {
-			});
-			departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
-		} else {
-			DepartmentImpl dep;
-			switch (viewType) {
-			case HR:
-				dep = GameState.getInstance().getHrDepartment();
-				break;
-			case R_AND_D:
-				dep = GameState.getInstance().getResearchAndDevelopmentDepartment();
-				break;
-			case WAREHOUSE:
-				dep = GameState.getInstance().getWarehousingDepartment();
-				break;
-			case PRODUCTION:
-				dep = GameState.getInstance().getProductionDepartment();
-				break;
-			case MARKETING:
-				dep = GameState.getInstance().getMarketingDepartment();
-				break;
-			case LOGISTIC:
-				dep = GameState.getInstance().getLogisticsDepartment();
-				break;
-			default:
-				departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
-				return;
-			}
-			upgradeController.setDepartment(dep);
-
-			if (!departmentDropdownIcon.getStyleClass().contains("hud_icon_button")) {
-				departmentDropdownIcon.getStyleClass().add("hud_icon_button");
-			}
-			departmentDropdownIcon.setOnMouseClicked(e -> {
-				toggleLevelUpDropdown();
-			});
-		}
-	}
-
-	/**
 	 * Toggles the dropdown menu for the department level up.
 	 */
 	private void toggleLevelUpDropdown() {
@@ -461,14 +518,6 @@ public class GameHudController implements UpdateableController {
 		});
 	}
 
-	public void updateCashLabel(double currentCash) {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				cashLabel.setText(CapCoinFormatter.getCapCoins(currentCash));
-			}
-		});
-	}
-
 	public void updateCashChangeLabel(Double diff) {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -478,6 +527,14 @@ public class GameHudController implements UpdateableController {
 				} else {
 					cashChangeLabel.setText("+0 CC");
 				}
+			}
+		});
+	}
+
+	public void updateCashLabel(double currentCash) {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				cashLabel.setText(CapCoinFormatter.getCapCoins(currentCash));
 			}
 		});
 	}
@@ -531,10 +588,50 @@ public class GameHudController implements UpdateableController {
 		});
 	}
 
-	public void updateNetworthLabel(double currentNetWorth) {
-		Platform.runLater(() -> {
-			netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
-		});
+	/**
+	 * Update the department level-up dropdown for the given {@link GameViewType}.
+	 * 
+	 * @param viewType {@link GameViewType} being displayed.
+	 */
+	private void updateLevelUpDropdown(GameViewType viewType) {
+		if (!viewType.isUpgradeable()) {
+			departmentDropdownIcon.setOnMouseClicked(e -> {
+			});
+			departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
+		} else {
+			DepartmentImpl dep;
+			switch (viewType) {
+			case HR:
+				dep = GameState.getInstance().getHrDepartment();
+				break;
+			case R_AND_D:
+				dep = GameState.getInstance().getResearchAndDevelopmentDepartment();
+				break;
+			case WAREHOUSE:
+				dep = GameState.getInstance().getWarehousingDepartment();
+				break;
+			case PRODUCTION:
+				dep = GameState.getInstance().getProductionDepartment();
+				break;
+			case MARKETING:
+				dep = GameState.getInstance().getMarketingDepartment();
+				break;
+			case LOGISTIC:
+				dep = GameState.getInstance().getLogisticsDepartment();
+				break;
+			default:
+				departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
+				return;
+			}
+			upgradeController.setDepartment(dep);
+
+			if (!departmentDropdownIcon.getStyleClass().contains("hud_icon_button")) {
+				departmentDropdownIcon.getStyleClass().add("hud_icon_button");
+			}
+			departmentDropdownIcon.setOnMouseClicked(e -> {
+				toggleLevelUpDropdown();
+			});
+		}
 	}
 
 	public void updateNetworthChangeLabel(Double diff) {
@@ -546,6 +643,12 @@ public class GameHudController implements UpdateableController {
 		});
 	}
 
+	public void updateNetworthLabel(double currentNetWorth) {
+		Platform.runLater(() -> {
+			netWorthLabel.setText(CapCoinFormatter.getCapCoins(currentNetWorth));
+		});
+	}
+
 	public void updateNumOfEmployees() {
 		Platform.runLater(() -> {
 			int numOfEmployees = GameState.getInstance().getHrDepartment().getTotalNumberOfEmployees();
@@ -553,41 +656,31 @@ public class GameHudController implements UpdateableController {
 			employeeLabel.setText(numOfEmployees + "/" + capacity);
 		});
 	}
-	
-	
-	
-	//TODO order of nodes 
-	//Elements 
-	//1. GamePage Title
-	//Pause Button
-	//Networth 
-	//Cash  --> vBox
-	//Employees --> vBox
-	//Skip Btn
-	//Fast Forward Btn
-	//Messages  Btn
-	//Settings Btn
+
+	// TODO order of nodes
+	// Elements
+	// 1. GamePage Title
+	// Pause Button
+	// Networth
+	// Cash --> vBox
+	// Employees --> vBox
+	// Skip Btn
+	// Fast Forward Btn
+	// Messages Btn
+	// Settings Btn
 
 	/**
-	 *  returns List of Nodes (UI-Elements) that will be highlighted in this tutorial chapter in the given order.
-	 * @return List<Nodes> 
+	 * Updates all hud elements for the given {@link GameViewType}.
+	 * 
+	 * @param viewType The {@link GameViewType} to update for.
 	 */
-	public List<Node> getTimeControlTutorialNodes(){
-		List<Node> nodes = new ArrayList<Node>();
-		nodes.add(departmentLabel);
-		nodes.add(dateLabel);
-		nodes.add(playPauseIconButton);
-		nodes.add(netWorthVBox);
-		nodes.add(cashVBox);
-		nodes.add(employeeVBox);
-		nodes.add(ecoIcon);
-		nodes.add(forwardIconButton);
-		nodes.add(skipIconButton);
-		nodes.add(messageIconLabel);
-		nodes.add(settingsIconLabel);
-		
-		//TODO add cash / networth / employees infos with short message...
-		return nodes;
+	protected void updateView(GameViewType viewType) {
+		selectDepartmentButton(viewType);
+		updateGameViewLabel(viewType);
+		updateLevelUpDropdown(viewType);
+
+		if (levelUpDropdownOpen)
+			toggleLevelUpDropdown();
 	}
 
 }

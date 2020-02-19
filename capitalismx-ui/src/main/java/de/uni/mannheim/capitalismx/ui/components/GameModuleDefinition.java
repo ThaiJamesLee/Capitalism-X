@@ -42,7 +42,7 @@ public enum GameModuleDefinition {
 			UIElementType.WAREHOUSE_STOCK_MANAGEMENT, new GridPosition(10, 10, 0, 20), false),
 	WAREHOUSE_STATISTICS("warehouse_statistics.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_STATISTICS, new GridPosition(6, 4, 0,
 			20), false),
-	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 6, 0, 15), true),
+	WAREHOUSE_LIST("warehouse_list.fxml", GameViewType.WAREHOUSE, UIElementType.WAREHOUSE_LIST, new GridPosition(0, 6, 0, 20), true),
 
 	// The modules for HR.
 	FINANCE_OPERATIONS_TABLE("operations_table.fxml", GameViewType.FINANCES, UIElementType.FINANCE_OPERATIONS_TABLE, new GridPosition(10,
@@ -59,7 +59,7 @@ public enum GameModuleDefinition {
 	MARKETING_OVERVIEW("mkt_general_overview.fxml", GameViewType.MARKETING, UIElementType.MARKETING_OVERVIEW, new GridPosition(5, 10, 2, 3), true),
 
     //The modules for Research and Development.
-    RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameViewType.R_AND_D, UIElementType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(1, 5, 1, 4),true),
+    RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameViewType.R_AND_D, UIElementType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(5, 8, 5, 8),true),
 
     // The modules for Sales
     SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml", GameViewType.SALES, UIElementType.SALES_CONTRACT_OVERVIEW, new GridPosition(5, 10, 3, 15) , true);

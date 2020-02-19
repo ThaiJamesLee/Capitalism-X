@@ -21,14 +21,15 @@
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="50.0" />
               </columnConstraints>
               <rowConstraints>
+                  <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
                 <RowConstraints percentHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
                   <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
-                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                <RowConstraints percentHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <GridPane fx:id="buyGridButton" styleClass="grid_button" vgap="8.0" GridPane.rowIndex="4">
+                  <GridPane fx:id="buyGridButton" styleClass="grid_button" vgap="8.0" GridPane.rowIndex="5">
                      <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="100.0" />
                      </columnConstraints>
@@ -47,7 +48,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </GridPane>
-                  <GridPane fx:id="rentGridButton" styleClass="grid_button" vgap="8.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <GridPane fx:id="rentGridButton" styleClass="grid_button" vgap="8.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="100.0" />
                      </columnConstraints>
@@ -66,21 +67,56 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </GridPane>
-                  <VBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <children>
-                        <Label fx:id="capacityLabel" alignment="CENTER_RIGHT" text="%warehouse.list.capacity" VBox.vgrow="ALWAYS" />
-                        <Label fx:id="fixCostLabel" alignment="CENTER_RIGHT" text="%warehouse.list.fixcost" VBox.vgrow="ALWAYS" />
-                     </children>
+                  <VBox alignment="CENTER" spacing="10.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
+                     <children>
+                        <GridPane hgap="12.0" vgap="8.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="SOMETIMES" />
+                              <RowConstraints vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Region styleClass="stat-box" GridPane.rowSpan="2">
+                                 <GridPane.margin>
+                                    <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                                 </GridPane.margin>
+                              </Region>
+                              <Region styleClass="stat-box" GridPane.columnIndex="1" GridPane.rowSpan="2147483647">
+                                 <GridPane.margin>
+                                    <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                                 </GridPane.margin>
+                              </Region>
+                              <Label fx:id="capacityLabel" styleClass="label_large" text="Label" GridPane.rowIndex="1" />
+                              <Label fx:id="costLabel" styleClass="label_large" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label alignment="CENTER_RIGHT" styleClass="label_small" text="%warehouse.list.fixcost" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets top="8.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" styleClass="label_small" text="%warehouse.list.capacity">
+                                 <GridPane.margin>
+                                    <Insets top="8.0" />
+                                 </GridPane.margin>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
                   </VBox>
-                  <Label contentDisplay="CENTER" styleClass="label_large" text="%warehouse.effects" GridPane.halignment="CENTER">
+                  <Label contentDisplay="CENTER" styleClass="label_very_large" text="%warehouse.effects" GridPane.columnSpan="2" GridPane.halignment="CENTER">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin></Label>
-                  <Label styleClass="label_very_large" text="%warehouse.list.acquire" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
-                  <Region styleClass="separator_horizontal" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                  <Label styleClass="label_very_large" text="%warehouse.list.acquire" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
+                  <Region styleClass="separator_horizontal" GridPane.columnSpan="2" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>

@@ -1,25 +1,41 @@
 package de.uni.mannheim.capitalismx.ui.tutorial;
 
-import de.uni.mannheim.capitalismx.ui.tutorial.chapter.IntroduceProductChapter;
-import de.uni.mannheim.capitalismx.ui.tutorial.chapter.TimeControlsChapter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
+import de.uni.mannheim.capitalismx.ui.tutorial.chapter.HudControlsChapter;
+import de.uni.mannheim.capitalismx.ui.tutorial.chapter.TutorialChapter;
+
+/**
+ * The {@link Tutorial} of the game. Contains multiple {@link TutorialChapter}s
+ * (each of them explaining one topic/mechanic), that will be started
+ * sequentially.
+ * 
+ * @author Jonathan
+ *
+ */
 public class Tutorial {
-	
-	
-	//TODO add list of chapters and iterate over those -> how to implement sequence / Pauses as in chapter itself or EventHandler?
-	//right now: all start in parallel...
 
-	public void start() {
-		//new TimeControlsChapter().prepareAndStart();
-		new IntroduceProductChapter().prepareAndStart();
+	private List<TutorialChapter> chapters = new ArrayList<TutorialChapter>();
+	private Iterator<TutorialChapter> currentChapter;
+
+	// TODO add list of chapters and iterate over those -> how to implement sequence
+	// / Pauses as in chapter itself or EventHandler?
+	// right now: all start in parallel...
+
+	public Tutorial() {
+		chapters.add(new HudControlsChapter());
+//		chapters.add(new IntroduceProductChapter());
+		
+		currentChapter = chapters.iterator();
 	}
 	
-	
-	
-	//TODO
-//		order: 	1. Do you want tutorial?
-//				2. Explanation of time Controls (-> GamHud Controller???)
-//				3: Introduce Product chapter -> adjust for overlay -> Which Controllers???
-
+	public void nextChapter() {
+		if (currentChapter.hasNext()) {
+			currentChapter.next().beginChapter();
+		}
+	}
 
 }

@@ -65,7 +65,7 @@ public class MarketingOverviewController extends GameModuleController {
 		controller = GameController.getInstance();
 		
 		PopOverFactory helper = new PopOverFactory();
-		helper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");
+		helper.createStandardOverlay("fxml/popover/mkt_newPR_options.fxml");
 		popover = helper.getPopover();
 		
 		MarketingDepartment dep = MarketingDepartment.getInstance();

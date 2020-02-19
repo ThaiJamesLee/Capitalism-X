@@ -20,7 +20,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
-import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.Engineer;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson;
@@ -63,14 +63,16 @@ public class HRDepartment extends DepartmentImpl {
 	private int initialHrCapacity;
 
 
-	private static final String LEVELING_PROPERTIES = "hr-leveling-definition";
+	private static final String PROPERTIES_FILE = "hr-leveling-definition";
 	private static final String MAX_LEVEL_PROPERTY = "hr.department.max.level";
 	private static final String BASE_COST_PROPERTY = "hr.department.base.cost";
 	private static final String INITIAL_CAPACITY_PROPERTY = "hr.department.init.capacity";
-
 	private static final String SKILL_COST_PROPERTY_PREFIX = "hr.skill.cost.";
 	private static final String SKILL_CAPACITY_PREFIX = "hr.skill.capacity.";
 	private static final String EMPLOYEE_DISTRIBUTION_PROPERTY_PREFIX = "hr.skill.distribution.";
+
+	private static final String HR_MODULE_PROPERIES_FILE = "hr-module";
+	private static final String NEW_EMPLOYEES_AVAILABLE_TEXT_PROPERTY = "hr.message.new.prospects";
 
 
 	/**
@@ -87,11 +89,13 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * List of hired employees.
+	 * This list is currently not used in the controller.
 	 */
 	private PropertyChangeSupportList<Employee> hired;
 
 	/**
 	 * List of fired employees.
+	 * This list is currently not used in the controller.
 	 */
 	private PropertyChangeSupportList<Employee> fired;
 
@@ -142,9 +146,9 @@ public class HRDepartment extends DepartmentImpl {
 	 * Init default values from properties.
 	 */
 	private void initProperties() {
-		setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
-		this.baseCost = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(BASE_COST_PROPERTY));
-		this.initialHrCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
+		setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(PROPERTIES_FILE).getString(MAX_LEVEL_PROPERTY)));
+		this.baseCost = Integer.parseInt(ResourceBundle.getBundle(PROPERTIES_FILE).getString(BASE_COST_PROPERTY));
+		this.initialHrCapacity = Integer.parseInt(ResourceBundle.getBundle(PROPERTIES_FILE).getString(INITIAL_CAPACITY_PROPERTY));
 		this.hrCapacity = initialHrCapacity;
 	}
 
@@ -160,7 +164,7 @@ public class HRDepartment extends DepartmentImpl {
 			logger.error(error, e);
 		}
 
-		ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+		ResourceBundle skillBundle = ResourceBundle.getBundle(PROPERTIES_FILE);
 		for (int i=1; i <= getMaxLevel(); i++) {
 			int eCapacity = Integer.parseInt(skillBundle.getString(SKILL_CAPACITY_PREFIX + i));
 			skillMap.put(i, new HRSkill(i, eCapacity, getDistribution(i)));
@@ -173,7 +177,7 @@ public class HRDepartment extends DepartmentImpl {
 	 * @return Returns a map of probability distributions for employee generation.
 	 */
 	private Map<String, Double> getDistribution(int level) {
-		String distributionString = ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(EMPLOYEE_DISTRIBUTION_PROPERTY_PREFIX + level);
+		String distributionString = ResourceBundle.getBundle(PROPERTIES_FILE).getString(EMPLOYEE_DISTRIBUTION_PROPERTY_PREFIX + level);
 		List<String> keys = EmployeeTier.getSkillLevelNames();
 
 		return DataFormatter.stringToStringDoubleMap(keys, distributionString);
@@ -188,7 +192,7 @@ public class HRDepartment extends DepartmentImpl {
 		/* TODO BALANCING NEEDED*/
 		Map<Integer, Double> costMap = new ConcurrentHashMap<>();
 
-		ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+		ResourceBundle bundle = ResourceBundle.getBundle(PROPERTIES_FILE);
 		for(int i = 1; i <= getMaxLevel(); i++) {
 			double cost = Integer.parseInt(bundle.getString(SKILL_COST_PROPERTY_PREFIX + i));
 			costMap.put(i, cost);
@@ -560,8 +564,7 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	/**
-	 *
-	 * @author sdupper
+	 * Calculates the total training costs of the company.
 	 */
 	public double calculateTotalTrainingCosts() {
 		double totalTrainingCosts = 0.0;
@@ -728,5 +731,15 @@ public class HRDepartment extends DepartmentImpl {
 	 */
 	public Map<LocalDate, Integer> getEmployeeNumberHistory() {
 		return employeeNumberHistory;
+	}
+
+	/**
+	 * Show this message as a notification to the player, when new employees are generated.
+	 * @param locale Support DE and EN.
+	 * @return Returns the message when new employees are available.
+	 */
+	public String getUpdatedProspectsNotification(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle(HR_MODULE_PROPERIES_FILE, locale);
+		return bundle.getString(NEW_EMPLOYEES_AVAILABLE_TEXT_PROPERTY);
 	}
 }

@@ -58,6 +58,7 @@ public class SalesDepartment extends DepartmentImpl {
     private static final String PRICE_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.price.factor.";
     private static final String PENALTY_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.penalty.";
     private static final String LEVELING_COST_PROPERTY_PREFIX = "sales.skill.cost.";
+    private static final String NEW_CONTRACTS_AVAILABLE_MESSAGE_PROPERTY = "sales.message.new.contracts";
 
     private static SalesDepartment instance;
 
@@ -235,6 +236,16 @@ public class SalesDepartment extends DepartmentImpl {
             }
         }
         availableContracts.setList(newContracts);
+    }
+
+    /**
+     * Show this message as a notification for the player, when there are new contracts.
+     * @param locale Supports DE and EN.
+     * @return Returns the message, when new contracts are available.
+     */
+    public String getUpdatedContractsNotification(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle(SALES_PROPERTY_FILE, locale);
+        return bundle.getString(NEW_CONTRACTS_AVAILABLE_MESSAGE_PROPERTY);
     }
 
 }

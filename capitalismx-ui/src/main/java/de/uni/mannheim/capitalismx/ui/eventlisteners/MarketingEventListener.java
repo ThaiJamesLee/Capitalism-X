@@ -13,7 +13,7 @@ import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableC
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketResearchListController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketingOverviewController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.PressReleaseListController;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.marketing.NewMarketResearchController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.marketing.NewMarketResearchController;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;

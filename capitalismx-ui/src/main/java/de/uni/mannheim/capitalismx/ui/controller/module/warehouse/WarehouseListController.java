@@ -33,12 +33,24 @@ public class WarehouseListController extends GameModuleController {
 	ListView<Warehouse> warehouseListView;
 
 	@FXML
-	private Label buyCostLabel, rentCostLabel, capacityLabel, fixCostLabel;
+	private Label buyCostLabel, rentCostLabel, capacityLabel, costLabel;
 
 	@FXML
 	private GridPane buyGridButton, rentGridButton;
 
 	public WarehouseListController() {
+	}
+
+	/**
+	 * Activates all the other {@link GameModule}s, that depend on the existence of
+	 * a Warehouse.
+	 */
+	public void activateWarehouseModules() {
+		UIManager manager = UIManager.getInstance();
+		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+				.setActivated(true);
+		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STATISTICS).setActivated(true);
+		manager.getGamePageController().updateDisplayOfCurrentView(GameViewType.WAREHOUSE);
 	}
 
 	/**
@@ -58,7 +70,7 @@ public class WarehouseListController extends GameModuleController {
 		boolean firstWarehouse = controller.getWarehouses().isEmpty();
 		try {
 			double costs = controller.buildWarehouse();
-			controller.decreaseCash(gameDate, costs);// TODO what if capacity reached? -> cannot just add the last one
+			controller.decreaseCash(gameDate, costs);
 			addLatestWarehouseToList();
 			if (firstWarehouse)
 				activateWarehouseModules();
@@ -71,10 +83,8 @@ public class WarehouseListController extends GameModuleController {
 	public void initialize(URL location, ResourceBundle resources) {
 		Warehouse standardWarehouse = new Warehouse(WarehouseType.BUILT);
 
-		fixCostLabel.setText(UIManager.getLocalisedString("warehouse.list.fixcost").replace("XXX",
-				CapCoinFormatter.getCapCoins(standardWarehouse.getMonthlyFixCostWarehouse())));
-		capacityLabel.setText(UIManager.getLocalisedString("warehouse.list.capacity").replace("XXX",
-				standardWarehouse.getCapacity() + ""));
+		costLabel.setText(CapCoinFormatter.getCapCoins(standardWarehouse.getMonthlyFixCostWarehouse()));
+		capacityLabel.setText(standardWarehouse.getCapacity() + "");
 		buyCostLabel.setText(UIManager.getLocalisedString("warehouse.buy.cost").replace("XXX",
 				CapCoinFormatter.getCapCoins(new Warehouse(WarehouseType.BUILT).getBuildingCost())));
 		rentCostLabel.setText(UIManager.getLocalisedString("warehouse.rent.cost").replace("XXX",
@@ -94,18 +104,6 @@ public class WarehouseListController extends GameModuleController {
 	}
 
 	/**
-	 * Activates all the other {@link GameModule}s, that depend on the existence of
-	 * a Warehouse.
-	 */
-	public void activateWarehouseModules() {
-		UIManager manager = UIManager.getInstance();
-		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
-				.setActivated(true);
-		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STATISTICS).setActivated(true);
-		manager.getGamePageController().updateDisplayOfCurrentView(GameViewType.WAREHOUSE);
-	}
-
-	/**
 	 * Initiates the rental of a new {@link Warehouse}.
 	 */
 	private void rentWarehouse() {
@@ -113,7 +111,7 @@ public class WarehouseListController extends GameModuleController {
 
 		boolean firstWarehouse = controller.getWarehouses().isEmpty();
 		try {
-			controller.rentWarehouse(); // TODO what if capacity reached? -> cannot just add the last one
+			controller.rentWarehouse();
 			addLatestWarehouseToList();
 			if (firstWarehouse)
 				activateWarehouseModules();

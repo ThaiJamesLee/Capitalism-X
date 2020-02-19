@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.hr.domain.employee;
 
 
 
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 
 import java.beans.PropertyChangeListener;
@@ -82,8 +83,7 @@ public class Team implements Serializable {
     }
 
     /**
-     *
-     * @author sdupper
+     * Calculates the total training costs of a team.
      */
     public double calculateTotalTrainingCosts(){
         double totalTrainingCosts = 0.0;

@@ -11,9 +11,6 @@ import javafx.scene.input.ScrollEvent;
 /**
  * Implementation of an EventHandler for {@link InputEvent}s, that regard the
  * 3D-Map in the Game.
- * 
- * @author Jonathan
- *
  */
 public class Map3DInputHandler implements EventHandler<InputEvent> {
 
@@ -23,7 +20,6 @@ public class Map3DInputHandler implements EventHandler<InputEvent> {
 	private static final double SHIFT_MULTIPLIER = 10.0;
 	private static final double MOUSE_SPEED = 0.1;
 	private static final double ROTATION_SPEED = 2.0;
-	private static final double TRACK_SPEED = 1.0;
 
 	Xform cameraXform = null;
 	Xform cameraXform2 = null;
@@ -50,6 +46,11 @@ public class Map3DInputHandler implements EventHandler<InputEvent> {
 		mouseDeltaX = (mousePosX - mouseOldX);
 		mouseDeltaY = (mousePosY - mouseOldY);
 
+		// Fixes an issue with detected drag when opening a PopOver while in the
+		// Map-GameView
+		if (Math.abs(mouseDeltaX) > 200 || Math.abs(mouseDeltaY) > 200)
+			return;
+
 		double modifier = 1.0;
 
 		if (me.isControlDown()) {
@@ -60,8 +61,6 @@ public class Map3DInputHandler implements EventHandler<InputEvent> {
 		}
 		if (me.isPrimaryButtonDown()) {
 			cameraXform.ry.setAngle(cameraXform.ry.getAngle() + mouseDeltaX * MOUSE_SPEED * modifier * ROTATION_SPEED);
-			// System.out.println("ry: " + (cameraXform.ry.getAngle() +
-			// mouseDeltaX*MOUSE_SPEED*modifier*ROTATION_SPEED));
 			// to ensure that camera stays overground
 			double newX = cameraXform.rx.getAngle() - mouseDeltaY * MOUSE_SPEED * modifier * ROTATION_SPEED;
 			if (-180 < newX && newX <= 0) {

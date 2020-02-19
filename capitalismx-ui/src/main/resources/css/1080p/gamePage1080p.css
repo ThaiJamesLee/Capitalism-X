@@ -59,7 +59,6 @@
 }
 
 .hud_icon_button {
-	-fx-cursor: hand;
 	-fx-text-fill: -fx-primary; 
 	-fx-fill: -fx-primary; 
 }
@@ -71,7 +70,6 @@
 .hud_department_button {
 	-fx-font-size: 16.0;
 	-fx-background-radius: 0.0 3.0 3.0 0.0;
-	-fx-cursor: hand;
 	-fx-border-insets: 3.0 3.0 3.0 0.0;
 	-fx-border-width: 0.0 2.0 0.0 0.0;
 	-fx-background-color: -fx-complement-light-neutral;
@@ -141,7 +139,6 @@
 
 .notification_root:hover {
 	-fx-effect: dropshadow(gaussian, -fx-primary-light, 10.0, 0.5, 0.0, 0.0);
-	-fx-cursor: hand;
 }
 
 .icon_light {

@@ -22,7 +22,7 @@
          <children>
             <Label fx:id="warehouseLabel" styleClass="label_large" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
                <graphic>
-                  <FontAwesomeIcon iconName="CUBES" size="1.2em" />
+                  <FontAwesomeIcon iconName="CUBE" size="1.2em" />
                </graphic>
             </Label>
             <AnchorPane GridPane.columnIndex="1">

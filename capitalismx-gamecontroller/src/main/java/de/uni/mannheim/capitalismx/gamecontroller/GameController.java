@@ -26,7 +26,7 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
-import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
@@ -83,11 +83,18 @@ public class GameController {
 		
 		if (oldDate.getMonth() != newDate.getMonth()) {
 			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
-			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(GameState.getInstance().getGameDate());
 			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
 			updateSalesDepartment();
 		}
 		this.updateAll();
+	}
+	
+	public void goToDay(LocalDate newDate) {
+		GameState state = GameState.getInstance();
+
+		while(newDate.isAfter(state.getGameDate())) {
+			nextDay();
+		}
 	}
 
 	private void updateAll() {
@@ -234,7 +241,7 @@ public class GameController {
 	}
 
 	private void updateWarehouse() {
-		WarehousingDepartment.getInstance().calculateAll();
+		WarehousingDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
 	}
 
 	private void updateSalesDepartment() {
@@ -266,8 +273,12 @@ public class GameController {
 		return GameThread.getInstance().isPause();
 	}
 
-	public void setSecondsPerDay(int seconds) {
-		GameThread.getInstance().setSecondsPerDay(seconds);
+	public GameThread.Speed getSpeed() {
+		return GameThread.getInstance().getSpeed();
+	}
+	
+	public void setSpeed(GameThread.Speed speed) {
+		GameThread.getInstance().setSpeed(speed);
 	}
 
 	// TODO load game state
@@ -325,7 +336,7 @@ public class GameController {
 
 	private void setInitialWarehouseValues() {
 		// TODO really needed?
-		WarehousingDepartment.getInstance().calculateAll();
+		WarehousingDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
 	}
 
 	/* Finance */
@@ -947,6 +958,10 @@ public class GameController {
 		} catch(StorageCapacityUsedException e) {
 			throw e;
 		}
+	}
+
+	public void depreciateAllWarehouseResaleValues() {
+		WarehousingDepartment.getInstance().depreciateAllWarehouseResaleValues(GameState.getInstance().getGameDate());
 	}
 
 	public Map<Warehouse, Double> getAllWarehouseResaleValues() {

@@ -68,7 +68,7 @@
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </padding>
       </GridPane>
-      <HBox alignment="CENTER" layoutX="246.0" layoutY="-15.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="246.0" layoutY="-15.0" pickOnBounds="false" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox fx:id="departmentVBox" alignment="CENTER" prefWidth="380.0">
                <children>
@@ -112,9 +112,27 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label fx:id="forwardIconLabel" GridPane.columnIndex="2">
+                        <Label fx:id="forwardIconLabel" contentDisplay="CENTER" textAlignment="CENTER" GridPane.columnIndex="2">
                            <graphic>
-                              <FontAwesomeIcon fx:id="forwardIconButton" iconName="FORWARD" size="1.5em" styleClass="hud_icon_button" />
+                              <HBox>
+                                 <children>
+                                    <FontAwesomeIcon fx:id="speedIcon1" iconName="PLAY" scaleX="0.65" size="1.5em" styleClass="hud_icon_button">
+                                       <HBox.margin>
+                                          <Insets right="-3.0" />
+                                       </HBox.margin>
+                                    </FontAwesomeIcon>
+                                    <FontAwesomeIcon fx:id="speedIcon2" iconName="PLAY" opacity="0.5" scaleX="0.65" size="1.5em" styleClass="hud_icon_button">
+                                       <HBox.margin>
+                                          <Insets left="-3.0" right="-3.0" />
+                                       </HBox.margin>
+                                    </FontAwesomeIcon>
+                                    <FontAwesomeIcon fx:id="speedIcon3" iconName="PLAY" opacity="0.5" scaleX="0.65" size="1.5em" styleClass="hud_icon_button" text="">
+                                       <HBox.margin>
+                                          <Insets left="-3.0" />
+                                       </HBox.margin>
+                                    </FontAwesomeIcon>
+                                 </children>
+                              </HBox>
                            </graphic>
                         </Label>
                         <Label fx:id="playPauseIconLabel">

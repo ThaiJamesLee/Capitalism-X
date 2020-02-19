@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportInteger;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportMap;
 import de.uni.mannheim.capitalismx.warehouse.skill.WarehouseSkill;
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     private boolean warehouseSlotsAvailable;
 
     private PropertyChangeSupportMap<Unit, Integer> inventoryChange;
+    private PropertyChangeSupportInteger freeStorageChange;
 
     private static final Logger logger = LoggerFactory.getLogger(WarehousingDepartment.class);
 
@@ -68,6 +70,9 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.inventoryChange = new PropertyChangeSupportMap();
         this.inventoryChange.setMap(this.inventory);
         this.inventoryChange.setAddPropertyName("inventoryChange");
+        this.freeStorageChange = new PropertyChangeSupportInteger();
+        this.freeStorageChange.setValue(this.freeStorage);
+        this.freeStorageChange.setPropertyChangedName("freeStorageChange");
 
         this.init();
     }
@@ -175,8 +180,10 @@ public class WarehousingDepartment extends DepartmentImpl {
     /* */
     public int calculateFreeStorage() {
         this.freeStorage = this.calculateTotalCapacity() - this.calculateStoredUnits();
+        this.freeStorageChange.setValue(this.freeStorage);
         return this.freeStorage;
     }
+
 
     public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
         if(this.inventory.get(soldProduct.getKey()) != null && this.inventory.get(soldProduct.getKey()) >= soldProduct.getValue()) {
@@ -195,11 +202,12 @@ public class WarehousingDepartment extends DepartmentImpl {
             Warehouse warehouse = new Warehouse(WarehouseType.BUILT);
             warehouse.setBuildDate(gameDate);
             warehouses.add(warehouse);
-            this.calculateMonthlyCostWarehousing(gameDate);
+            this.calculateMonthlyCostWarehousing();
             if(this.warehouseSlots == this.warehouses.size()) {
                 this.warehouseSlotsAvailable = false;
             }
             this.calculateTotalCapacity();
+            this.calculateFreeStorage();
             return warehouse.getBuildingCost();
         }
         this.warehouseSlotsAvailable = false;
@@ -210,11 +218,12 @@ public class WarehousingDepartment extends DepartmentImpl {
         if(this.warehouseSlots > this.warehouses.size()) {
             Warehouse warehouse = new Warehouse(WarehouseType.RENTED);
             warehouses.add(warehouse);
-            this.calculateMonthlyCostWarehousing(gameDate);
+            this.calculateMonthlyCostWarehousing();
             if(this.warehouseSlots == this.warehouses.size()) {
                 this.warehouseSlotsAvailable = false;
             }
             this.calculateTotalCapacity();
+            this.calculateFreeStorage();
             return warehouse.getMonthlyRentalCost();
         }
         this.warehouseSlotsAvailable = false;
@@ -223,7 +232,9 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public void depreciateAllWarehouseResaleValues(LocalDate gameDate) {
         for(Warehouse warehouse : this.warehouses) {
-            warehouse.depreciateWarehouseResaleValue(gameDate);
+            if(warehouse.getWarehouseType() == WarehouseType.BUILT) {
+                warehouse.depreciateWarehouseResaleValue(gameDate);
+            }
         }
     }
 
@@ -259,15 +270,12 @@ public class WarehousingDepartment extends DepartmentImpl {
         }
     }
 
-    public double calculateMonthlyCostWarehousing(LocalDate gameDate) {
+    public double calculateMonthlyCostWarehousing() {
         double fixCostWarehouses = 0;
         double rentalCostsWarehouses = 0;
-        LocalDate oldDate = gameDate.plusDays(-1);
-        if(oldDate.getMonth() != gameDate.getMonth()) {
-            for(Warehouse warehouse : this.warehouses) {
-                fixCostWarehouses += warehouse.getMonthlyFixCostWarehouse();
-                rentalCostsWarehouses += warehouse.getMonthlyRentalCost();
-            }
+        for(Warehouse warehouse : this.warehouses) {
+            fixCostWarehouses += warehouse.getMonthlyFixCostWarehouse();
+            rentalCostsWarehouses += warehouse.getMonthlyRentalCost();
         }
         this.monthlyCostWarehousing = fixCostWarehouses + rentalCostsWarehouses;
         return this.monthlyCostWarehousing;
@@ -275,7 +283,7 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public double calculateDailyStorageCost() {
         int variableStorageCost = 5;
-        this.dailyStorageCost = 5 * calculateStoredUnits();
+        this.dailyStorageCost = 5 * this.calculateStoredUnits();
         this.monthlyStorageCost += this.dailyStorageCost;
         return this.dailyStorageCost;
     }
@@ -334,6 +342,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         damagedWarehouse.setCapacity(damagedWarehouse.getCapacity() - capacity);
     }
 
+
     public double sellProducts(Map<Unit, Integer> sales) {
         double earnedMoney = 0;
         for(Map.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
@@ -343,6 +352,35 @@ public class WarehousingDepartment extends DepartmentImpl {
             }
         }
         return earnedMoney;
+    }
+
+    public double sellWarehouseProducts(Unit unit, int quantity) {
+        for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
+            if(entry.getKey().getUnitType() == UnitType.PRODUCT_UNIT && unit.getUnitType() == UnitType.PRODUCT_UNIT) {
+                Product productEntry = (Product) entry.getKey();
+                Product productUnit = (Product) unit;
+                if(productEntry == productUnit && entry.getValue() >= quantity) {
+                    this.inventoryChange.putOne(entry.getKey(), entry.getValue() - quantity);
+                    return quantity * productEntry.getWarehouseSalesPrice();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public double sellWarehouseComponents(Unit unit, int quantity) {
+        for(HashMap.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
+            if(entry.getKey().getUnitType() == UnitType.COMPONENT_UNIT && unit.getUnitType() == UnitType.COMPONENT_UNIT) {
+                Component componentEntry = (Component) entry.getKey();
+                Component componentUnit = (Component) unit;
+                if(componentEntry.getComponentType() == componentUnit.getComponentType() && componentEntry.getSupplierCategory() == componentUnit.getSupplierCategory()
+                && entry.getValue() >= quantity) {
+                    this.inventoryChange.putOne(entry.getKey(), entry.getValue() - quantity);
+                    return quantity * componentEntry.getWarehouseSalesPrice();
+                }
+            }
+        }
+        return 0;
     }
 
     public void setProductionDepartmentStoredComponents() {
@@ -379,7 +417,7 @@ public class WarehousingDepartment extends DepartmentImpl {
         }*/
     }
 
-    public void calculateAll() {
+    public void calculateAll(LocalDate gameDate) {
         this.clearUsedComponents();
         this.storeUnits();
         this.setProductionDepartmentStoredComponents();
@@ -387,7 +425,9 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.calculateTotalCapacity();
         this.calculateFreeStorage();
         this.setProductionDepartmentTotalWarehouseCapacity();
+        this.depreciateAllWarehouseResaleValues(gameDate);
         this.calculateDailyStorageCost();
+        this.calculateMonthlyCostWarehousing();
         this.calculateTotalMonthlyWarehousingCost();
     }
 
@@ -452,5 +492,6 @@ public class WarehousingDepartment extends DepartmentImpl {
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         this.inventoryChange.addPropertyChangeListener(listener);
+        this.freeStorageChange.addPropertyChangeListener(listener);
     }
 }
