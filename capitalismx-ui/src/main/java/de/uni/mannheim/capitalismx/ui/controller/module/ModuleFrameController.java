@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller;
+package de.uni.mannheim.capitalismx.ui.controller.module;
 
 import java.net.URL;
 import java.util.ResourceBundle;

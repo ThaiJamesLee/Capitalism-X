@@ -2,12 +2,6 @@
 	-fx-background-color: none;
 }
 
-
-.overlayPane {	
-	-fx-background-color: -fx-transparent-background;
-	-fx-padding: 66.0;
-}
-
 .department_label {
 	-fx-text-fill: -fx-primary-dark;
 }

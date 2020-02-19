@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.application;
 
 import java.util.Optional;
 
-import de.uni.mannheim.capitalismx.ui.components.GameAlert;
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import javafx.application.Application;

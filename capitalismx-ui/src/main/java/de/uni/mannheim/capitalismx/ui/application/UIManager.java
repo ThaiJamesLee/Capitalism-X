@@ -15,9 +15,9 @@ import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.controller.GameHudController;
-import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
+import de.uni.mannheim.capitalismx.ui.controller.gamepage.GameHudController;
+import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListController;
@@ -305,24 +305,24 @@ public class UIManager {
 	private void loadGameScenes() {
 		Parent root;
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"),
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/main_menu.fxml"),
 					resourceBundle);
 			root = loader.load();
 			sceneMenuMain = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loading_screen.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
 
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/creditsPage.fxml"), resourceBundle);
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/credits_page.fxml"), resourceBundle);
 			root = loader.load();
 			sceneCreditsPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
 
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameLostPage.fxml"), resourceBundle);
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game_lost_page.fxml"), resourceBundle);
 			root = loader.load();
 			sceneLostPage = new GameScene(root, GameSceneType.GAMELOST_PAGE, loader.getController());
 
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameWonPage.fxml"), resourceBundle);
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game_won_page.fxml"), resourceBundle);
 			root = loader.load();
 			sceneWonPage = new GameScene(root, GameSceneType.GAMELOST_PAGE, loader.getController());
 
