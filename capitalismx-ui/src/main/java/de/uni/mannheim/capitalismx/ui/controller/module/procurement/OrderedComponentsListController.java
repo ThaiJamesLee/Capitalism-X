@@ -1,18 +1,25 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.procurement;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.procurement.component.*;
-import de.uni.mannheim.capitalismx.ui.components.procurement.OrderedComponentsListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentOrder;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
+import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
+import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.ui.components.procurement.OrderedComponentsListViewCell;
+import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.ProcurementEventListener;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
+
+/**
+ * Currently not used, but should work...
+ */
+@Deprecated
 public class OrderedComponentsListController extends GameModuleController {
 
     @FXML
@@ -36,5 +43,9 @@ public class OrderedComponentsListController extends GameModuleController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         orderedComponentsListView.setCellFactory(orderedComponentsListView -> new OrderedComponentsListViewCell(orderedComponentsListView));
+        ProcurementEventListener eventlistener = new ProcurementEventListener();
+        ProcurementDepartment procurementDepartment = GameState.getInstance().getProcurementDepartment();
+        procurementDepartment.getComponentOrdersChange().addPropertyChangeListener(eventlistener);
+        procurementDepartment.registerPropertyChangeListener(eventlistener);
     }
 }

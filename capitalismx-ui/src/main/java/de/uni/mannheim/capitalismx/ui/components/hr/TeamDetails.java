@@ -89,7 +89,7 @@ public class TeamDetails {
 		// TODO init with Tooltip explaining kpi
 		number.setText(team.getTeam().size() + "");
 		satisfaction.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(team.getAverageJobSatisfactionScore()));
-		salary.setText(CapCoinFormatter.getCapCoins(0));
+		salary.setText(CapCoinFormatter.getCapCoins(team.calculateTotalSalaries()));
 		productivity.setText(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(hrDep.getTotalQualityOfWorkByEmployeeType(team.getType())));
 
 	}

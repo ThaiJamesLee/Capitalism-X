@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.hr.training;
 
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
-import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
 import de.uni.mannheim.capitalismx.hr.domain.SalaryTier;
 

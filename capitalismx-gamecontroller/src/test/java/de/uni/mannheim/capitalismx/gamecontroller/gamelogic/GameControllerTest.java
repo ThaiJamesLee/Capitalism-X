@@ -16,11 +16,6 @@ public class GameControllerTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GameControllerTest.class);
 
-    @BeforeTest
-    public void setUp() {
-        GameController.getInstance();
-    }
-
     @Test(timeOut = 5000, expectedExceptions = {ThreadTimeoutException.class})
     public void nextDayTest() {
         GameController.getInstance().start();

@@ -17,11 +17,9 @@ import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This is the sales department. Leveling up this department will allow the user to get better
@@ -47,6 +45,7 @@ public class SalesDepartment extends DepartmentImpl {
      */
     private PropertyChangeSupportList<Contract> doneContracts;
 
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesDepartment.class);
 
     public static final String ACTIVE_CONTRACTS_EVENT = "activeContractListChanged";
@@ -59,6 +58,7 @@ public class SalesDepartment extends DepartmentImpl {
     private static final String PRICE_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.price.factor.";
     private static final String PENALTY_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.penalty.";
     private static final String LEVELING_COST_PROPERTY_PREFIX = "sales.skill.cost.";
+    private static final String NEW_CONTRACTS_AVAILABLE_MESSAGE_PROPERTY = "sales.message.new.contracts";
 
     private static SalesDepartment instance;
 
@@ -201,32 +201,51 @@ public class SalesDepartment extends DepartmentImpl {
         this.activeContracts.remove(contract);
         this.doneContracts.add(contract);
     }
+    
 
     /**
      *
      * @param date The date when the contracts are generated.
      * @param productionDepartment The {@link ProductionDepartment} instance.
      */
-    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, double demandPercentage) {
+    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) {
         SalesDepartmentSkill skill = (SalesDepartmentSkill)skillMap.get(getLevel());
         int numContracts = skill.getNumContracts();
         Range factor = skill.getPriceFactor();
-
         double penalty = skill.getPenaltyFactor();
 
-        numContracts = (int)(numContracts * demandPercentage);
         List<Contract> newContracts = new ArrayList<>();
-
-        List<Product> products = productionDepartment.getLaunchedProducts();
+        List<Product> products = productionDepartment.getLaunchedProductsChange().getList();
         ContractFactory contractFactory = new ContractFactory(productionDepartment);
-        for(int i = 0; i<numContracts; i++) {
-            int max = Math.max(products.size()-1, 0);
-            Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
-            Contract c = contractFactory.getContract(p, date, factor);
-            c.setPenalty(c.getPenalty() * penalty);
-            newContracts.add(c);
+
+        if(!products.isEmpty()) {
+            for(int i = 0; i<numContracts; i++) {
+                int max = Math.max(products.size()-1, 0);
+                Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
+
+                double demand = demandPercentage.get(p) != null ? demandPercentage.get(p) : 0.0;
+
+                if(demand > 0.0) {
+                    LOGGER.info("demand bigger zero");
+                    Contract c = contractFactory.getContract(p, date, factor);
+                    c.setPenalty(c.getPenalty() * penalty);
+                    c.setNumProducts((int)(c.getNumProducts() * demand));
+                    c.setuId(UUID.randomUUID().toString());
+                    newContracts.add(c);
+                }
+            }
         }
         availableContracts.setList(newContracts);
+    }
+
+    /**
+     * Show this message as a notification for the player, when there are new contracts.
+     * @param locale Supports DE and EN.
+     * @return Returns the message, when new contracts are available.
+     */
+    public String getUpdatedContractsNotification(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle(SALES_PROPERTY_FILE, locale);
+        return bundle.getString(NEW_CONTRACTS_AVAILABLE_MESSAGE_PROPERTY);
     }
 
 }

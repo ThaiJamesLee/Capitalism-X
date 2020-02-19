@@ -61,7 +61,6 @@ public class EmployeeGenerator {
         }
         Map<String, Double> distribution = department.getCurrentEmployeeDistribution();
         int skillLevel = getRandomSkillLevel(distribution);
-        
         return generateEmployee(skillLevel, type);
     }
 
@@ -121,8 +120,9 @@ public class EmployeeGenerator {
     }
 
     /**
-     * @deprecated
      * Generate an engineer.
+     * @deprecated Use {@link EmployeeGenerator#createRandomEmployee(EmployeeType)} instead.
+     *
      * @param skillLevel generate the engineer with this skill level.
      * @return Returns a randomly generated engineer employee with set skill level
      * and salary randomly generated based of the skill level
@@ -149,8 +149,9 @@ public class EmployeeGenerator {
     }
 
     /**
-     * @deprecated
      * Generate a salesperson.
+     * @deprecated Use {@link EmployeeGenerator#createRandomEmployee(EmployeeType)} instead.
+     *
      * @param skillLevel generate the engineer with this skill level.
      * @return Returns a randomly generated salesperson employee with set skill level
      * and salary randomly generated based of the skill level

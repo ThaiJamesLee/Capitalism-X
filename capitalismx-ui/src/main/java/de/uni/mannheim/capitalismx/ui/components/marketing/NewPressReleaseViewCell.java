@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.marketing.NewPressReleaseController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.marketing.NewPressReleaseController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;

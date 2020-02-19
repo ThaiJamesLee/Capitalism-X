@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.hr.domain.employee;
 
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
 import de.uni.mannheim.capitalismx.hr.training.EmployeeTraining;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

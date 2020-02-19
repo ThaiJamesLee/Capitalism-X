@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.controller.overlay.marketing.NewMarketResearchController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.marketing.NewMarketResearchController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;

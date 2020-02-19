@@ -6,11 +6,17 @@ import java.time.LocalDate;
 import java.util.List;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents.ExternalEvent;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
-import de.uni.mannheim.capitalismx.ui.utils.MessageObject;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
+import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
+import de.uni.mannheim.capitalismx.utils.data.MessageObject;
+import javafx.application.Platform;
 
 /**
  * Ein GameState Event Listener.
@@ -27,21 +33,36 @@ public class GameStateEventListener implements PropertyChangeListener {
 
 		if (evt.getPropertyName().equals("gameDate")) {
 			UIManager.getInstance().getGameHudController().update();
+			LocalDate date = (LocalDate) evt.getNewValue();
+			StockManagementController stockController = ((StockManagementController) UIManager.getInstance()
+					.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+					.getController());
 
 			List<ExternalEvents.ExternalEvent> events = GameController.getInstance()
-					.getExternalEvents(((LocalDate) evt.getNewValue()).minusDays(1));
+					.getExternalEvents(date.minusDays(1));
 			// TODO display on the same day -> create propertyChangeAttribute for External
 			// Events to update them
 			// issue here is that the list is not yet updated when the gamedate is updated
 			if (events != null) {
 				for (ExternalEvent event : events) {
-					UIManager.getInstance().getGameHudController()
-							.addNotification(new GameNotification(new MessageObject("your assistant",
-									((LocalDate) evt.getNewValue()).toString(), event.getTitle(),
-									"This is a more detailed description of the event ...", false)));
+					GameState.getInstance().getMessages()
+							.add(new MessageObject("Your assistant", ((LocalDate) evt.getNewValue()).toString(),
+									event.getTitle(), "This is a more detailed description of the event ...", false));
 				}
 			}
 
+			// update yearly tasks
+			if (date.getDayOfYear() == 1) {
+				stockController.updateComponentAvailability();
+			}
+
+			// update quarterly
+			if (date.getDayOfMonth() == 1 && date.getMonthValue() % 3 == 1) {
+				stockController.updateComponentPrices(date);
+				((RecruitingListController) UIManager.getInstance().getGameView(GameViewType.HR)
+						.getModule(UIElementType.HR_RECRUITING_OVERVIEW).getController())
+								.regenerateRecruitingProspects();
+			}
 		}
 
 	}

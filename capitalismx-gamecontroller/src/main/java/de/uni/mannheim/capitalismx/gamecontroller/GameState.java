@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 
 import de.uni.mannheim.capitalismx.customer.CustomerDemand;
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
+import de.uni.mannheim.capitalismx.domain.department.Department;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
@@ -18,12 +19,16 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 
+import de.uni.mannheim.capitalismx.utils.data.MessageObject;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class contains all instances for the game to work.
@@ -45,30 +50,47 @@ public class GameState implements Serializable {
 	 */
 	private double employerBranding;
 
+	/**
+	 * A property change support. This class can to fire events, if implemented.
+	 */
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-	
+
+	/**
+	 * This boolean fires an event when the end of the game is reached.
+	 */
     private PropertyChangeSupportBoolean endGameReached;
 
-	// Departments
-	private HRDepartment hrDepartment;
-	private ProcurementDepartment procurementDepartment;
-	private ProductionDepartment productionDepartment;
-	private WarehousingDepartment warehousingDepartment;
-	private FinanceDepartment financeDepartment;
-	private MarketingDepartment marketingDepartment;
-	private LogisticsDepartment logisticsDepartment;
+	/**
+	 * The list that contains the {@link MessageObject}s.
+	 */
+	private PropertyChangeSupportList<MessageObject> messages;
+
+	/**
+	 * Event name when the {@link PropertyChangeSupportList} changes.
+	 */
+	public static final String MESSAGE_LIST_CHANGED_EVENT = "messageListChanged";
+
+	/**
+	 * All department classes are saved in this map.
+	 * To retrieve a specific department, one needs to call
+	 * {@link Map}.get(Department.class.getSimpleName())
+	 */
+	private Map<String, Department> allDepartments;
+
 	private CustomerSatisfaction customerSatisfaction;
 	private CustomerDemand customerDemand;
 	private ExternalEvents externalEvents;
 	private CompanyEcoIndex companyEcoIndex;
 	private InternalFleet internalFleet;
-	private ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment;
 	private ProductSupport productSupport;
-	private SalesDepartment salesDepartment;
 
 	private GameState() {
 		this.gameDate = LocalDate.of(1990, 1, 1);
-		
+		allDepartments = new ConcurrentHashMap<>();
+		messages = new PropertyChangeSupportList<>();
+		messages.setAddPropertyName(MESSAGE_LIST_CHANGED_EVENT);
+		messages.setRemovePropertyName(MESSAGE_LIST_CHANGED_EVENT);
+
 		 this.endGameReached = new PropertyChangeSupportBoolean();
 	     this.endGameReached.setValue(false);
 	     this.endGameReached.setPropertyChangedName("gameWon");
@@ -85,21 +107,22 @@ public class GameState implements Serializable {
 	 * Initialize all instances as singletons.
 	 */
 	public void initiate() {
-		hrDepartment = HRDepartment.getInstance();
-		productionDepartment = ProductionDepartment.getInstance();
-		warehousingDepartment = WarehousingDepartment.getInstance();
-		financeDepartment = FinanceDepartment.getInstance();
-		marketingDepartment = MarketingDepartment.getInstance();
-		logisticsDepartment = LogisticsDepartment.getInstance();
+		allDepartments.put(HRDepartment.class.getSimpleName(), HRDepartment.getInstance());
+		allDepartments.put(ProductionDepartment.class.getSimpleName(), ProductionDepartment.getInstance());
+		allDepartments.put(WarehousingDepartment.class.getSimpleName(), WarehousingDepartment.getInstance());
+		allDepartments.put(FinanceDepartment.class.getSimpleName(), FinanceDepartment.getInstance());
+		allDepartments.put(MarketingDepartment.class.getSimpleName(), MarketingDepartment.getInstance());
+		allDepartments.put(LogisticsDepartment.class.getSimpleName(), LogisticsDepartment.getInstance());
+		allDepartments.put(ProcurementDepartment.class.getSimpleName(), ProcurementDepartment.getInstance());
+		allDepartments.put(ResearchAndDevelopmentDepartment.class.getSimpleName(), ResearchAndDevelopmentDepartment.getInstance());
+		allDepartments.put(SalesDepartment.class.getSimpleName(), SalesDepartment.getInstance());
+
 		customerSatisfaction = CustomerSatisfaction.getInstance();
 		customerDemand = CustomerDemand.getInstance();
-		procurementDepartment = ProcurementDepartment.getInstance();
 		externalEvents = ExternalEvents.getInstance();
 		companyEcoIndex = CompanyEcoIndex.getInstance();
 		internalFleet = InternalFleet.getInstance();
-		researchAndDevelopmentDepartment = ResearchAndDevelopmentDepartment.getInstance();
 		productSupport = ProductSupport.getInstance();
-		salesDepartment = SalesDepartment.getInstance();
 	}
 
 	/**
@@ -109,17 +132,21 @@ public class GameState implements Serializable {
 	 * TODO: Does not work!
 	 */
 	public void resetDepartments() {
-		HRDepartment.setInstance(null);
-		ProductionDepartment.setInstance(null);
-		WarehousingDepartment.setInstance(null);
-		FinanceDepartment.setInstance(null);
-		MarketingDepartment.setInstance(null);
-		LogisticsDepartment.setInstance(null);
-		CustomerSatisfaction.setInstance(null);
-		CustomerDemand.setInstance(null);
-		ProcurementDepartment.setInstance(null);
-		ExternalEvents.setInstance(null);
-		CompanyEcoIndex.setInstance(null);
+		HRDepartment.setInstance(HRDepartment.createInstance());
+		ProductionDepartment.setInstance(ProductionDepartment.createInstance());
+		WarehousingDepartment.setInstance(WarehousingDepartment.createInstance());
+		FinanceDepartment.setInstance(FinanceDepartment.createInstance());
+		MarketingDepartment.setInstance(MarketingDepartment.createInstance());
+		LogisticsDepartment.setInstance(LogisticsDepartment.createInstance());
+		SalesDepartment.setInstance(SalesDepartment.createInstance());
+		ResearchAndDevelopmentDepartment.setInstance(ResearchAndDevelopmentDepartment.createInstance());
+		ProcurementDepartment.setInstance(ProcurementDepartment.createInstance());
+
+
+		CustomerSatisfaction.setInstance(CustomerSatisfaction.createInstance());
+		CustomerDemand.setInstance(CustomerDemand.createInstance());
+		ExternalEvents.setInstance(ExternalEvents.createInstance());
+		CompanyEcoIndex.setInstance(CompanyEcoIndex.createInstance());
 		InternalFleet.setInstance(null);
 	}
 
@@ -146,6 +173,7 @@ public class GameState implements Serializable {
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		this.propertyChangeSupport.addPropertyChangeListener(listener);
+		this.messages.addPropertyChangeListener(listener);
 		this.endGameReached.addPropertyChangeListener(listener);
 	}
 
@@ -172,7 +200,7 @@ public class GameState implements Serializable {
 		this.gameDate = gameDate;
 		this.propertyChangeSupport.firePropertyChange("gameDate", oldDate, gameDate);
 	}
-	
+
 	/**
 	 * Fires a property changed event that the game end date was reached
 	 * @param gameDate
@@ -200,61 +228,118 @@ public class GameState implements Serializable {
 		return new GameState();
 	}
 
+	/**
+	 * Retrieves the department using the {@link HRDepartment}.class.getSimpleName() as key.
+	 * @return returns the current {@link HRDepartment} instance.
+	 */
 	public HRDepartment getHrDepartment() {
-		return hrDepartment;
+		return (HRDepartment) this.allDepartments.get(HRDepartment.class.getSimpleName());
 	}
 
+	/**
+	 * Store the instance in the map.
+	 * @param hrDepartment set the {@link HRDepartment} into the departments {@link Map}.
+	 */
 	public void setHrDepartment(HRDepartment hrDepartment) {
-		this.hrDepartment = hrDepartment;
+		this.allDepartments.put(HRDepartment.class.getSimpleName(), hrDepartment);
 	}
 
+	/**
+	 * Retrieves the department using the {@link ProductionDepartment}.class.getSimpleName() as key.
+	 * @return returns the current {@link ProductionDepartment} instance.
+	 */
 	public ProductionDepartment getProductionDepartment() {
-		return productionDepartment;
+		return (ProductionDepartment) this.allDepartments.get(ProductionDepartment.class.getSimpleName());
 	}
 
+	/**
+	 * Store the instance in the map.
+	 * @param productionDepartment set the {@link ProductionDepartment} into the departments {@link Map}.
+	 */
 	public void setProductionDepartment(ProductionDepartment productionDepartment) {
-		this.productionDepartment = productionDepartment;
+		this.allDepartments.put(ProductionDepartment.class.getSimpleName(), productionDepartment);
 	}
 
+	/**
+	 * Retrieves the department using the {@link ProcurementDepartment}.class.getSimpleName() as key.
+	 * @return returns the current {@link ProcurementDepartment} instance.
+	 */
 	public ProcurementDepartment getProcurementDepartment() {
-		return this.procurementDepartment;
+		return (ProcurementDepartment) this.allDepartments.get(ProcurementDepartment.class.getSimpleName());
 	}
 
+	/**
+	 * Store the instance in the map.
+	 * @param procurementDepartment set the {@link ProcurementDepartment} into the departments {@link Map}.
+	 */
 	public void setProcurementDepartment(ProcurementDepartment procurementDepartment) {
-		this.procurementDepartment = procurementDepartment;
+		this.allDepartments.put(ProcurementDepartment.class.getSimpleName(), procurementDepartment);
 	}
 
+	/**
+	 * Retrieves the department using the {@link WarehousingDepartment}.class.getSimpleName() as key.
+	 * @return returns the current {@link WarehousingDepartment} instance.
+	 */
 	public WarehousingDepartment getWarehousingDepartment() {
-		return warehousingDepartment;
+		return (WarehousingDepartment) this.allDepartments.get(WarehousingDepartment.class.getSimpleName());
 	}
 
+	/**
+	 * Store the instance in the map.
+	 * @param warehousingDepartment set the {@link WarehousingDepartment} into the departments {@link Map}.
+	 */
 	public void setWarehousingDepartment(WarehousingDepartment warehousingDepartment) {
-		this.warehousingDepartment = warehousingDepartment;
+		this.allDepartments.put(WarehousingDepartment.class.getSimpleName(), warehousingDepartment);
 	}
 
+	/**
+	 * Retrieves the department using the {@link FinanceDepartment}.class.getSimpleName() as key.
+	 * @return returns the current {@link FinanceDepartment} instance.
+	 */
 	public FinanceDepartment getFinanceDepartment() {
-		return financeDepartment;
+		return (FinanceDepartment) this.allDepartments.get(FinanceDepartment.class.getSimpleName());
 	}
 
+	/**
+	 * Store the instance in the map.
+	 * @param financeDepartment set the {@link FinanceDepartment} into the departments {@link Map}.
+	 */
 	public void setFinanceDepartment(FinanceDepartment financeDepartment) {
-		this.financeDepartment = financeDepartment;
+		this.allDepartments.put(FinanceDepartment.class.getSimpleName(), financeDepartment);
 	}
 
+	/**
+	 * Retrieves the department using the {@link MarketingDepartment}.class.getSimpleName() as key.
+	 * @return returns the current {@link MarketingDepartment} instance.
+	 */
 	public MarketingDepartment getMarketingDepartment() {
-		return marketingDepartment;
+		return (MarketingDepartment) this.allDepartments.get(MarketingDepartment.class.getSimpleName());
 	}
 
+	/**
+	 * Store the instance in the map.
+	 * @param marketingDepartment set the {@link MarketingDepartment} into the departments {@link Map}.
+	 */
 	public void setMarketingDepartment(MarketingDepartment marketingDepartment) {
-		this.marketingDepartment = marketingDepartment;
+		this.allDepartments.put(MarketingDepartment.class.getSimpleName(), marketingDepartment);
 	}
 
+	/**
+	 * Retrieves the department using the {@link LogisticsDepartment}.class.getSimpleName() as key.
+	 * @return returns the current {@link LogisticsDepartment} instance.
+	 */
 	public LogisticsDepartment getLogisticsDepartment() {
-		return logisticsDepartment;
+		return (LogisticsDepartment) this.allDepartments.get(LogisticsDepartment.class.getSimpleName());
 	}
 
+	/**
+	 * Store the instance in the map.
+	 * @param logisticsDepartment set the {@link LogisticsDepartment} into the departments {@link Map}.
+	 */
 	public void setLogisticsDepartment(LogisticsDepartment logisticsDepartment) {
-		this.logisticsDepartment = logisticsDepartment;
+		this.allDepartments.put(LogisticsDepartment.class.getSimpleName(), logisticsDepartment);
 	}
+
 
 	public CustomerSatisfaction getCustomerSatisfaction() {
 		return customerSatisfaction;
@@ -296,13 +381,22 @@ public class GameState implements Serializable {
 		this.internalFleet = internalFleet;
 	}
 
+	/**
+	 * Retrieves the department using the {@link ResearchAndDevelopmentDepartment}.class.getSimpleName() as key.
+	 * @return returns the current {@link ResearchAndDevelopmentDepartment} instance.
+	 */
 	public ResearchAndDevelopmentDepartment getResearchAndDevelopmentDepartment() {
-		return researchAndDevelopmentDepartment;
+		return (ResearchAndDevelopmentDepartment) this.allDepartments.get(ResearchAndDevelopmentDepartment.class.getSimpleName());
 	}
 
+	/**
+	 * Store the instance in the map.
+	 * @param researchAndDevelopmentDepartment set the {@link ResearchAndDevelopmentDepartment} into the departments {@link Map}.
+	 */
 	public void setResearchAndDevelopmentDepartment(ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment) {
-		this.researchAndDevelopmentDepartment = researchAndDevelopmentDepartment;
+		this.allDepartments.put(ResearchAndDevelopmentDepartment.class.getSimpleName(), researchAndDevelopmentDepartment);
 	}
+
 	public ProductSupport getProductSupport() {
 		return productSupport;
 	}
@@ -311,11 +405,27 @@ public class GameState implements Serializable {
 		this.productSupport = productSupport;
 	}
 
+	/**
+	 * Retrieves the department using the {@link SalesDepartment}.class.getSimpleName() as key.
+	 * @return returns the current {@link SalesDepartment} instance.
+	 */
 	public SalesDepartment getSalesDepartment() {
-		return salesDepartment;
+		return (SalesDepartment) this.allDepartments.get(SalesDepartment.class.getSimpleName());
 	}
 
+	/**
+	 * Store the instance in the map.
+	 * @param salesDepartment set the {@link SalesDepartment} into the departments {@link Map}.
+	 */
 	public void setSalesDepartment(SalesDepartment salesDepartment) {
-		this.salesDepartment = salesDepartment;
+		this.allDepartments.put(SalesDepartment.class.getSimpleName(), salesDepartment);
+	}
+
+	/**
+	 *
+	 * @return Returns the list of messages.
+	 */
+	public PropertyChangeSupportList<MessageObject> getMessages() {
+		return messages;
 	}
 }

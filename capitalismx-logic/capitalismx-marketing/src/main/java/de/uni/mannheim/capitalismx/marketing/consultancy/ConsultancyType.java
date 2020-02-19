@@ -12,6 +12,7 @@ public enum ConsultancyType {
 
 
     private String name;
+    private int cost;
 
     //weights
     private double totalSupportQuality;
@@ -20,9 +21,7 @@ public enum ConsultancyType {
     private double productionTechnology;
     private double manufactureEfficiency;
     private double totalJobSatisfaction;
-    private Double[] weights;
-
-    private int cost;
+    private double[] weights;
 
     ConsultancyType(String name, int cost, double totalSupportQuality, double logisticIndex, double companyImage, double productionTechnology, double manufactureEfficiency, double totalJobSatisfaction, double[] weights) {
         this.name = name;
@@ -34,6 +33,7 @@ public enum ConsultancyType {
         this.productionTechnology = productionTechnology;
         this.manufactureEfficiency = manufactureEfficiency;
         this.totalJobSatisfaction = totalJobSatisfaction;
+        this.weights = weights;
     }
 
     public String getName() {
@@ -66,5 +66,9 @@ public enum ConsultancyType {
 
     public int getCost() {
         return cost;
+    }
+    
+    public double[] getWeights() {
+        return weights;
     }
 }

@@ -6,10 +6,11 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
-import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +18,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Controller for the {@link PopOver} allowing the player to select a training
+ * for an employee.
+ * 
+ * @author Jonathan
+ *
+ */
 public class TrainingPopoverController implements Initializable {
 
 	@FXML
@@ -45,8 +53,8 @@ public class TrainingPopoverController implements Initializable {
 		courseGrid.setOnMouseClicked(e -> {
 			trainEmployeeCourse();
 		});
-		this.training1CostLabel.setText(Training.WORKSHOP.getPrice() + "CC");
-		this.training2CostLabel.setText(Training.COURSES.getPrice() + "CC");
+		this.training1CostLabel.setText(CapCoinFormatter.getCapCoins(Training.WORKSHOP.getPrice()));
+		this.training2CostLabel.setText(CapCoinFormatter.getCapCoins(Training.COURSES.getPrice()));
 		this.training1NameLabel.setText(Training.WORKSHOP.name());
 		this.training2NameLabel.setText(Training.COURSES.name());
 		this.training1EffectLabel.setText(UIManager.getLocalisedString("training.effect.skill")

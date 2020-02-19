@@ -6,12 +6,15 @@
    -fx-primary-light: rgb(255.0,252.0,244.0,1.0);
    -fx-primary-light-neutral: rgb(133.0,129.0,117.0,1.0);
    -fx-primary-neutral: rgb( 29.0, 27.0, 21.0,1.0);
+   -fx-secondary-1: rgb1(227,211, 82,1);
+   -fx-secondary-2: rgb1(227,162, 82,1);
    -fx-complement-light: rgb(227.0,228.0,236.0,1.0);	/* Main Complement color */
    -fx-complement-light-neutral:  rgb( 83.0, 83.0, 92.0,1.0);
    -fx-complement-neutral: rgb( 15.0, 16.0, 20.0,1.0) ;
    -fx-complement: rgb( 71.0, 77.0,157.0,1.0);
    -fx-complement-dark: rgb(  2.0,  3.0,  7.0,1.0);
    -fx-complement-dark-transparent: rgb(  2.0,  3.0,  7.0,0.7);
+   -fx-primary-light-transparent: rgb(255.0,252.0,244.0,0.5);
    -fx-transparent-background: rgb(132.0, 132.0, 132.0, 0.6);
    -fx-green: rgb(99,192, 70, 1);
    -fx-red: rgb(216, 78, 97,1);
@@ -36,10 +39,6 @@
     src: url('../fonts/Reckoner-Bold.ttf');
 }
 
-.cursor-clickable {
-	-fx-cursor: hand;
-}
-
 .label {
 	-fx-font-family: "Prime";
 	-fx-text-fill: -fx-primary-dark;
@@ -60,7 +59,7 @@
 }
 
 .label_small {
-	-fx-font-size: 9.0;
+	-fx-font-size: 10.0;
 }
 
 .label_light {
@@ -77,12 +76,20 @@ FontAwesomeIcon {
 	-fx-fill: -fx-primary; 
 }
 
+.icon_button_bg {
+	-fx-text-fill: -fx-complement-neutral; 
+	-fx-fill: -fx-complement-neutral; 
+}
+
+.tutorial_highlight {
+	-fx-effect: dropshadow(gaussian, -fx-complement, 10, 0.8, 0, 0);
+}
+
 /**
  * Various button designs
  */
 .fontAwesomeButtonDark, .fontAwesomeButtonDark FontAwesomeIcon {
 	-fx-background-color: -fx-primary-dark;
-	-fx-cursor: hand;
 	-fx-text-fill: -fx-primary-light; 
 	-fx-fill: -fx-primary-light; 
 }
@@ -110,30 +117,55 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-primary;
 	-fx-font-family: "Prime";
 	-fx-font-size: 14.0;	
-	-fx-cursor: hand;
 }
 
 .button_module:hover {
-	-fx-text-fill: -fx-primary-light;
-	-fx-background-color: -fx-primary-dark;
+	-fx-background-color: -fx-complement-neutral;
 }
 
 .button_module:pressed {
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-primary-neutral;
-	-fx-text-fill: -fx-primary-dark;
-	-fx-cursor: closed_hand;
+	-fx-text-fill: -fx-primary-light;
+}
+
+.big_buttons {
+	-fx-pref-width: 200.0px;
+	-fx-pref-height: 67.0px;
+	-fx-background-color: -fx-primary-neutral;
+	-fx-border-color: -fx-primary-neutral;
+	-fx-text-fill: -fx-primary-light;
+    -fx-font-family: "Prime";
+    -fx-font-size: 20.0px;
+    -fx-font-weight: bold;
+	-fx-border-size: medium;
+}
+
+.big_buttons:hover {
+	-fx-background-color: -fx-complement-neutral;
+	-fx-underline: true; 
+}
+
+.big_buttons:pressed {
+	-fx-background-color: -fx-primary;
 }
 
 .nav_button {
 	-fx-background-color: -fx-light;
-	-fx-text-fill: -fx-dark;
 }
 
 .icon_button_invisible {
 	-fx-background-color: transparent;
 	-fx-border-width: 0 0 0 0;
-	-fx-border-color: -fx-primary;
+}
+
+.icon_button {
+	-fx-text-fill: -fx-primary-neutral; 
+	-fx-fill: -fx-primary-neutral; 
+}
+.icon_button:hover {
+	-fx-text-fill: -fx-primary; 
+	-fx-fill: -fx-primary; 
 }
 
 
@@ -146,7 +178,6 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-primary;
 	-fx-font-family: "Prime";
 	-fx-font-size: 12.0;	
-	-fx-cursor: hand;
 	-fx-mark-color : -fx-primary-light-neutral;
 }
 
@@ -154,9 +185,6 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-primary-light;
 	-fx-background-color: -fx-primary-dark;
 	-fx-mark-color : -fx-primary-light;
-}
-
-.choice-box:pressed {
 }
 
 .choice-box .label {
@@ -192,7 +220,6 @@ FontAwesomeIcon {
 	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary;
 	-fx-text-fill: -fx-primary;
-	-fx-cursor: hand;
 }
 .toggle-button:disabled {
 	-fx-background-color: -fx-primary-light-neutral;
@@ -309,30 +336,24 @@ FontAwesomeIcon {
 }
 
 .list-cell {
-	-fx-background-color: -fx-complement-light;
-	-fx-border-insets: 0.0 5.0 0.0 5.0;
-	-fx-background-insets: 0.0 5.0 0.0 5.0;
-	-fx-border-width: 0.0;
-	-fx-border-color: -fx-complement-neutral;
-	-fx-cursor: hand;
+	-fx-padding: 2px;
+	-fx-background-color: -fx-primary-light;
+	-fx-border-insets: 2.0 5.0 2.0 4.0;
+	-fx-background-insets: 2.0 5.0 2.0 4.0;
+	-fx-border-width: 0 0 0 2;
+	-fx-border-color: -fx-primary;
 }
 
-.list-cell:hover {
+.list-view .list-cell:hover {
 	-fx-background-color: -fx-complement-light-neutral;
 	-fx-text-fill: -fx-primary;
+	-fx-border-color: -fx-primary-dark;
 }
 
-.list-cell:odd {
-	-fx-border-width: 1.0 0.0 1.0 0.0;
-}
-
-.list-cell:even {
-	-fx-border-width: 0.0 0.0 0.0 0.0;
-}
-
-.list-cell:selected {
+.list-view .list-cell:selected {
 	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-primary-dark;
+	-fx-border-color: -fx-primary-dark;
 }
 
 .list-cell:empty {
@@ -345,7 +366,6 @@ FontAwesomeIcon {
 .scroll-bar {
 	-fx-background-color: transparent;
 	-fx-border-width: 0.0;
-	-fx-cursor: open_hand;
 }
 
 .scroll-bar .track {
@@ -378,7 +398,6 @@ FontAwesomeIcon {
 
 .scroll-bar .thumb:pressed {
 	-fx-background-color: -fx-primary-dark;
-	-fx-cursor: closed_hand;
 }
 
 
@@ -391,10 +410,23 @@ FontAwesomeIcon {
  	-fx-border-insets: 0.0 -5.0 0.0 0.0;
  }
  
+ .separator_left {
+ 	-fx-border-width: 0.0 0.0 0.0 1.0;
+ 	-fx-border-color: -fx-primary-dark;
+ 	-fx-border-insets: 0.0 0.0 0.0 0.0;
+ }
+ 
  .separator_horizontal {
  	-fx-border-width: 1.0 0.0 0.0 0.0;
  	-fx-border-color: -fx-primary-dark;
- 	-fx-border-insets: 0.0 5.0 0.0 5.0;
+ 	-fx-border-insets: 0.0 2.0 0.0 2.0;
+ }
+ 
+ .stat-box {
+ 	-fx-background-color: -fx-primary-light;
+ 	-fx-border-color: -fx-primary;
+ 	-fx-border-width: 2 0 0 0;
+ 	-fx-padding: -2;
  }
 
 
@@ -429,6 +461,10 @@ FontAwesomeIcon {
 	-fx-border-color: -fx-primary-neutral;
 	-fx-border-width: 1 1 0 1;
 	-fx-background-radius: 5.0 5.0 0.0 0.0;
+}
+
+.tab-pane .tab:hover {
+	-fx-background-color: -fx-primary-neutral;
 }
 
 .tab-pane .tab:selected, .tab-pane .tab-pane:focused {
@@ -469,6 +505,20 @@ FontAwesomeIcon {
 .default-color0.chart-line-symbol{
     -fx-background-color: -fx-primary, -fx-primary;
 }
+
+
+.data0.chart-pie { -fx-pie-color: -fx-primary-dark; }
+.data1.chart-pie { -fx-pie-color: -fx-primary; }
+.data2.chart-pie { -fx-pie-color: -fx-primary-neutral; }
+.data3.chart-pie { -fx-pie-color: -fx-secondary-1; }
+.data4.chart-pie { -fx-pie-color: -fx-primary-light-neutral; }
+.data5.chart-pie { -fx-pie-color: -fx-secondary-2; }
+.data6.chart-pie { -fx-pie-color: -fx-complement-neutral; }
+.data7.chart-pie { -fx-pie-color: -fx-complement; }
+.data8.chart-pie { -fx-pie-color: -fx-complement-light-neutral; }
+.data9.chart-pie { -fx-pie-color: -fx-primary-light; }
+.data10.chart-pie { -fx-pie-color: -fx-complement-dark; }
+.data11.chart-pie { -fx-pie-color: -fx-complement-light; }
  
  .axis {
  	-fx-border-color: -fx-primary-dark;
@@ -490,6 +540,11 @@ FontAwesomeIcon {
  	-fx-border-width: 2.0 0.0 0.0 0.0;
  	-fx-border-insets: 0.0 0.0 0.0 -1.0;
  }
+ 
+.chart-pie {
+	-fx-border-color: -fx-primary-neutral;
+	-fx-border-width: 1;
+}
  
 /**
  * Styling of radio buttons
@@ -542,7 +597,6 @@ FontAwesomeIcon {
 	-fx-border-width: 2;
 }
 
-
 .accordion .content {
 	-fx-background-color: -fx-primary-light;
 	-fx-border-width: 0;
@@ -552,11 +606,6 @@ FontAwesomeIcon {
 /**
  * TODO: in eigene Dateien f�r das jeweilige Element auslagern
  */
-.sidemenu_color {
-	-fx-background-color: -fx-dark;
-	-fx-backgound-insets: 0.0 0.0 0.0 100.0;
-}
-
 .title_label {
     -fx-margin: 5.0 20.0 5.0 20.0;
     -fx-font-family: "Prime";
@@ -574,63 +623,8 @@ FontAwesomeIcon {
     -fx-text-fill: #333333;     
 }
 
-.big_buttons {
-	-fx-pref-width: 200.0px;
-	-fx-pref-height: 67.0px;
-	-fx-background-color: #423f39;
-	-fx-text-fill: white;
-    -fx-font-family: "Prime";
-    -fx-font-size: 20.0px;
-    -fx-font-weight: bold;
-	-fx-border-size: medium;
-}
-
-.big_button_sprache {
-	-fx-pref-width: 107.0px;
-	-fx-pref-height: 67.0px;
-	-fx-background-color: #423f39;
-	-fx-text-fill: white;
-    -fx-font-family: "Prime";
-    -fx-font-weight: bold;
-	-fx-border-size: medium;
-}
-
-.big_buttons:hover {
-	-fx-border-color: blue;
-	-fx-text-color: blue;
-}
-
-.big_buttons:pressed {
-	-fx-background-color: lightgrey;
-}
-
-
-.date_label {
-	-fx-background-color: -fx-dark;
-    -fx-background-insets: 0.0,1.0,4.0,5.0;
-    -fx-background-radius: 9.0,8.0,5.0,4.0;
-	-fx-font-size: 15.0px;
-	-fx-text-fill: white;
-}
-
-.ressource_label {
-	-fx-background-color: #E0E0E0;
-    -fx-background-insets: 0.0,1.0,4.0,5.0;
-    -fx-background-radius: 9.0,8.0,5.0,4.0;
-	-fx-background-color: #423f39;
-	-fx-text-fill: white;
-}
-
 .wholeOverlayBackground {
-	-fx-background-color: #E0E0E0;
-}
-
-.currentView_label {
-	-fx-text-fill: -fx-primary;
-    -fx-font-family: "Prime";
-    -fx-font-size: 20.0px;
-    -fx-font-weight: bold;
-
+	-fx-background-color: -fx-primary-light-transparent;
 }
 
 

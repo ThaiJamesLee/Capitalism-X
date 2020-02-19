@@ -18,6 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class DepartmentImpl implements Department, Serializable {
 
+    /**
+     * The name of the department.
+     */
     private String name;
 
     /**
@@ -30,9 +33,14 @@ public abstract class DepartmentImpl implements Department, Serializable {
      */
     private LevelingMechanism levelingMechanism;
 
+    /**
+     * A skill map. The key is the level, and the value is the corresponding skill that is being unlocked.
+     */
     protected Map<Integer, DepartmentSkill> skillMap;
 
-    /* Default max level is set to 8 */
+    /**
+     * The maximum level the department can be leveled.
+     */
     private int maxLevel;
 
 
@@ -65,6 +73,10 @@ public abstract class DepartmentImpl implements Department, Serializable {
         return levelingMechanism;
     }
 
+    /**
+     * Set the  {@link LevelingMechanism} to be able to level up and get the cost of level ups.
+     * @param levelingMechanism The leveling mechanism contains the function for level up.
+     */
     public void setLevelingMechanism(LevelingMechanism levelingMechanism) {
         this.levelingMechanism = levelingMechanism;
     }

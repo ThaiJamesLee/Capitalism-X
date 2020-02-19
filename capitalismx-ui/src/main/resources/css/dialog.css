@@ -24,7 +24,6 @@
 	-fx-text-fill: -fx-primary;
 	-fx-font-family: "Prime";
 	-fx-font-size: 14.0;	
-	-fx-cursor: hand;
 }
 
 .button:hover {
@@ -36,5 +35,4 @@
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-primary-neutral;
 	-fx-text-fill: -fx-primary-dark;
-	-fx-cursor: closed_hand;
 }

@@ -50,7 +50,7 @@ public class LogisticsPartnerController extends GameModuleController {
 		}
 
 		PopOverFactory factory = new PopOverFactory();
-		factory.createStandardOverlay("fxml/overlay/logistics_partner_detail_list.fxml");
+		factory.createStandardOverlay("fxml/popover/logistics_partner_detail_list.fxml");
 		popover = factory.getPopover();
 		
 		logisticsPartnerButton.setOnAction(e -> {

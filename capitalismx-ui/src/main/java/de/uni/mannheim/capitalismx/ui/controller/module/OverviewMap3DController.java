@@ -39,7 +39,7 @@ import javafx.stage.Screen;
 public class OverviewMap3DController extends GameModuleController {
 
 	@FXML
-	AnchorPane overviewMap3D;
+	private AnchorPane overviewMap3D;
 
 	final Group root = new Group();
 	final Xform axisGroup = new Xform();

@@ -28,29 +28,17 @@
 							vgrow="SOMETIMES" />
 					</rowConstraints>
 					<children>
-						<Label fx:id="compImTitleLbl"
+						<Label fx:id="compImTitleLbl" styleClass="label_large"
 							text="%marketing.overview.companyImage">
-							<font>
-								<Font size="18.0" />
-							</font>
 						</Label>
-						<Label fx:id="compImValueLbl" text="Label"
+						<Label fx:id="compImValueLbl" styleClass="label_large" text="Label"
 							GridPane.columnIndex="1">
-							<font>
-								<Font size="18.0" />
-							</font>
 						</Label>
-						<Label fx:id="emplBrTitleLbl"
+						<Label fx:id="emplBrTitleLbl" styleClass="label_large"
 							text="%marketing.overview.employerBranding" GridPane.rowIndex="1">
-							<font>
-								<Font size="18.0" />
-							</font>
 						</Label>
-						<Label fx:id="emplBrValueLbl" text="Label"
+						<Label fx:id="emplBrValueLbl" text="Label" styleClass="label_large"
 							GridPane.columnIndex="1" GridPane.rowIndex="1">
-							<font>
-								<Font size="18.0" />
-							</font>
 						</Label>
 					</children>
 				</GridPane>
@@ -68,14 +56,14 @@
 							vgrow="SOMETIMES" />
 					</rowConstraints>
 					<children>
-						<Label fx:id="consTitleLbl"
+						<Label fx:id="consTitleLbl" styleClass="label_large"
 							text="%marketing.overview.consultancyTitle" />
-						<Label fx:id="consTextLbl" text="Explanation Consultancies"
+						<Label fx:id="consTextLbl" text="Explanation Consultancies" styleClass="label_large"
 							GridPane.rowIndex="1" />
-						<Label fx:id="consCurrentLbl" text="Label"
+						<Label fx:id="consCurrentLbl" text="None" styleClass="label_large"
 							GridPane.columnIndex="1" />
 						<Button fx:id="consChangeBtn" mnemonicParsing="false"
-							styleClass="button_module"
+							styleClass="button_module" 
 							text="%marketing.overview.consChangeBtn" GridPane.columnIndex="1"
 							GridPane.rowIndex="1" />
 					</children>

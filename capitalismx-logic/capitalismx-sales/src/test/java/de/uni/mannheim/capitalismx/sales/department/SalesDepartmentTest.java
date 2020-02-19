@@ -13,7 +13,9 @@ import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author duly
@@ -25,11 +27,15 @@ public class SalesDepartmentTest {
     private ProductionDepartment productionDepartment;
     private LocalDate initDate;
 
+    private Map<Product, Double> demandPercentages;
+
 
     @BeforeTest
     public void setUp() {
         initDate = LocalDate.of(1990,11,1);
+        demandPercentages = new HashMap<>();
         productionDepartment = ProductionDepartment.getInstance();
+
         for(int i = 0; i<5; i++) {
             productionDepartment.getLevelingMechanism().levelUp();
         }
@@ -49,14 +55,18 @@ public class SalesDepartmentTest {
         try {
             Product p = new Product("test", ProductCategory.GAME_BOY, components);
             p.setLaunchDate(LocalDate.of(1990, 1, 1));
-            System.out.println(productionDepartment.launchProduct(p, 100, 200));
-            String launchInfo = "Cost of product P launch: " + productionDepartment.launchProduct(p, 100, 200);
+            System.out.println(productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1)));
+            String launchInfo = "Cost of product P launch: " + productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1));
             LOGGER.info(launchInfo);
 
             Product p2 = new Product("test2", ProductCategory.GAME_BOY, components);
             p2.setLaunchDate(LocalDate.of(1990, 1, 1));
-            String launchInfo2 = "Cost of product P2 launch: " + productionDepartment.launchProduct(p2, 100, 200);
+            String launchInfo2 = "Cost of product P2 launch: " + productionDepartment.launchProduct(p2, LocalDate.of(1990, 1, 1));
             LOGGER.info(launchInfo2);
+
+            demandPercentages.put(p, 0.9);
+            demandPercentages.put(p2, 1.2);
+
         } catch (InvalidSetOfComponentsException e) {
             e.printStackTrace();
         }
@@ -78,7 +88,7 @@ public class SalesDepartmentTest {
     public void salesDepartmentSkillTest() {
         SalesDepartment salesDepartment = SalesDepartment.createInstance();
         System.out.println( productionDepartment.getLaunchedProducts().size());
-        salesDepartment.generateContracts(initDate, productionDepartment, 1);
+        salesDepartment.generateContracts(initDate, productionDepartment, demandPercentages);
 
         String machineCapacity = "Machine Capacity: " + productionDepartment.getDailyMachineCapacity() + " per day";
         LOGGER.info(machineCapacity);
@@ -93,7 +103,7 @@ public class SalesDepartmentTest {
     public void activeContractTest() {
         SalesDepartment salesDepartment = SalesDepartment.createInstance();
         System.out.println( productionDepartment.getLaunchedProducts().size());
-        salesDepartment.generateContracts(initDate, productionDepartment, 1);
+        salesDepartment.generateContracts(initDate, productionDepartment, demandPercentages);
 
         Assert.assertTrue(salesDepartment.getAvailableContracts().size() > 0);
 
@@ -106,7 +116,16 @@ public class SalesDepartmentTest {
 
         c.setContractDoneDate(c.getContractStart().plusMonths(c.getTimeToFinish()));
 
-        String message = "Contract start:" + c.getContractStart().toString() + "; done:" + c.getContractDoneDate() + "; timetoFinish in Months:" + c.getTimeToFinish();
+        StringBuilder builder = new StringBuilder();
+        builder.append("Contract start:");
+        builder.append(c.getContractStart().toString());
+        builder.append("; done:" );
+        builder.append(c.getContractDoneDate());
+        builder.append("; timetoFinish in Months:");
+        builder.append(c.getTimeToFinish());
+        builder.append("; uuid:");
+        builder.append(c.getuId());
+        String message = builder.toString();
         LOGGER.info(message);
 
         LocalDate overdueDate = initDate.plusMonths(c.getTimeToFinish()).plusDays(2);

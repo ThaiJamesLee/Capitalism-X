@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.IntroduceProductController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.popover.IntroduceProductController">
 	<children>
 		<TabPane layoutX="79.0" layoutY="70.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<tabs>
@@ -51,7 +51,7 @@
 										</GridPane>
                               <AnchorPane GridPane.rowIndex="1">
                                  <children>
-      										<GridPane hgap="10.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      										<GridPane fx:id="tutorialPane" hgap="10.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       											<columnConstraints>
       												<ColumnConstraints hgrow="SOMETIMES" percentWidth="3.0" />
       												<ColumnConstraints hgrow="SOMETIMES" percentWidth="7.0" />
@@ -156,7 +156,7 @@
                               </AnchorPane>
 										<AnchorPane GridPane.rowIndex="3">
 											<children>
-												<Button mnemonicParsing="false" onAction="#launchTv" styleClass="button_module" text="%product.tv.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+												<Button fx:id="launchTvButton" mnemonicParsing="false" onAction="#launchTv" styleClass="button_module" text="%product.tv.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 											</children>
 										</AnchorPane>
                               <GridPane hgap="10.0" GridPane.rowIndex="2">

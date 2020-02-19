@@ -1,10 +1,12 @@
 package de.uni.mannheim.capitalismx.procurement.component;
 
-public abstract class Unit {
+import java.io.Serializable;
+
+public abstract class Unit implements Serializable {
 
     private UnitType unitType;
 
     public abstract UnitType getUnitType();
+    public abstract double getWarehouseSalesPrice();
     public abstract double getSalesPrice();
-
 }

@@ -35,11 +35,8 @@ public class PressReleaseListController extends GameModuleController {
 	private Button newReleaseBtn;
 	
 	private PopOver popover;
-//	private MarketingEventListener marketingEventListener;
-
 	
 	public PressReleaseListController() {
-//		marketingEventListener = new MarketingEventListener();
 	}
 
 	@Override
@@ -50,24 +47,17 @@ public class PressReleaseListController extends GameModuleController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
 		
-
 		pressReleaseList.setCellFactory(pressReleaseList -> new NewPressReleaseViewCell(pressReleaseList));
 
-//		for(PressRelease pr : pressReleases) {
-//			pressReleaseListObservable.add(pr);
-//		}
+		updateList();
 		
 		PopOverFactory helper = new PopOverFactory();
-		helper.createStandardOverlay("fxml/overlay/mkt_newPR_options.fxml");
+		helper.createStandardOverlay("fxml/popover/mkt_newPR_options.fxml");
 		popover = helper.getPopover();
-	
-//		popover.setCloseButtonEnabled(true);
 		
 		newReleaseBtn.setOnAction(e -> {
-			showPopover();
-			
+			showPopover();	
 		});
-		//GameState.getInstance().getMarketingDepartment().getPressReleases().addPropertyChangeListener(marketingEventListener);
 	}
 
 	private void showPopover() {

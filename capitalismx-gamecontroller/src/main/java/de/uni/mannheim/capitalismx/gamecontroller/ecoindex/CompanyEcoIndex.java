@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 /**
  * This class represents the company ecoIndex.
- * This class implements the ecoIndex, factors that change the eco index, and their impacts.
+ * It implements the ecoIndex, factors that change the eco index, and their impacts.
  * Based on the report p.28-30
  *
  * @author sdupper
@@ -46,7 +46,7 @@ public class CompanyEcoIndex implements Serializable {
         private int max;
         private int points;
 
-        private EcoIndex(int index, int min, int max){
+        EcoIndex(int index, int min, int max){
             this.index = index;
             this.min = min;
             this.max = max;
@@ -223,5 +223,9 @@ public class CompanyEcoIndex implements Serializable {
 
     public static void setInstance(CompanyEcoIndex instance) {
         CompanyEcoIndex.instance = instance;
+    }
+
+    public static CompanyEcoIndex createInstance() {
+        return new CompanyEcoIndex();
     }
 }

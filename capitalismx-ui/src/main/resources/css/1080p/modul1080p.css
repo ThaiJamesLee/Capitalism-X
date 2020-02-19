@@ -3,25 +3,30 @@
  */
  
 .headerPane {
-	-fx-padding: 10;
-	-fx-background-radius: 5 5 0 0;
-	-fx-border-radius: 5 5 0 0;
+	-fx-padding: 6 0 6 24;
+	-fx-background-radius: 3 3 0 0;
+	-fx-border-radius: 3 3 0 0;
 	-fx-background-color: -fx-complement-neutral;
+}
+
+.header_hbox {
+	-fx-spacing: 200;
+
 }
 
 .contentPane {
 	-fx-border-width: 2 0 0 0;
-	-fx-border-radius: 0 0 5 5;
+	-fx-border-radius: 0 0 3 3;
 	-fx-background-insets: 0 1 1 1;
 	-fx-border-insets: 0 1 1 1;
-	-fx-background-radius: 0 0 5 5;
+	-fx-background-radius: 0 0 3 3;
 	-fx-border-color: -fx-primary;
 	-fx-background-color: -fx-complement-light;
 }
 
 
 .header {
-	-fx-font: bold 26 'Prime';
+	-fx-font: bold 22 'Prime';
 	-fx-text-fill: -fx-primary;
 }
 
@@ -41,10 +46,11 @@
 }
 
 .stock_edit_button {
-	-fx-border-width: 2;
-	-fx-cursor: hand;
+	-fx-border-width: 1;
 	-fx-border-color: -fx-primary-dark;
 	-fx-background-color: -fx-complement-light-neutral;
+	-fx-text-fill: -fx-primary;
+	-fx-font-family: 'Prime';
 }
 
 .stock_edit_button FontAwesomeIcon {
@@ -59,6 +65,7 @@
 .stock_edit_button:pressed {
 	-fx-border-color: -fx-primary-dark;
 	-fx-background-color: -fx-primary;
+	-fx-text-fill: -fx-primary-dark;
 }
 
 
@@ -73,7 +80,6 @@
 	-fx-background-radius: 3;
 	-fx-border-color: -fx-primary-neutral;
 	-fx-border-radius: 3;
-	-fx-cursor: hand;
 }
 
 .grid_button .label {
@@ -93,7 +99,6 @@
 .grid_button:pressed {
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-primary-neutral;
-	-fx-cursor: closed_hand;
 }
 
 .grid_button:pressed .label {

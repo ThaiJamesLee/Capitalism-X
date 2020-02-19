@@ -1,7 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -9,26 +10,11 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.finance.OperationsTableViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
 
 public class OperationsTableController  extends GameModuleController {
 

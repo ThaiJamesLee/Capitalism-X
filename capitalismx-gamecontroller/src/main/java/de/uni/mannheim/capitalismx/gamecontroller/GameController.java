@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -25,12 +26,13 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
-import de.uni.mannheim.capitalismx.hr.domain.employee.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
+import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.marketing.domain.Media;
@@ -81,10 +83,18 @@ public class GameController {
 		
 		if (oldDate.getMonth() != newDate.getMonth()) {
 			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
-			WarehousingDepartment.getInstance().calculateMonthlyCostWarehousing(GameState.getInstance().getGameDate());
 			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
+			updateSalesDepartment();
 		}
 		this.updateAll();
+	}
+	
+	public void goToDay(LocalDate newDate) {
+		GameState state = GameState.getInstance();
+
+		while(newDate.isAfter(state.getGameDate())) {
+			nextDay();
+		}
 	}
 
 	private void updateAll() {
@@ -179,7 +189,12 @@ public class GameController {
 		customerSatisfaction.setLogisticIndex(logisticsDepartment.getLogisticsIndex());
 
 		customerSatisfaction.calculateAll(gameDate);
-		customerDemand.calculateAll(this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON), gameDate);
+
+		// caluclate customer demand
+		double qoW = this.getTotalQualityOfWorkByEmployeeType(EmployeeType.SALESPERSON);
+		customerDemand.calculateAll(qoW, gameDate);
+		customerDemand.calculateOverallAppealDemand(qoW, gameDate);
+		customerDemand.calculateDemandPercentage(qoW, gameDate);
 		/*String message = "jss= " + jss + "; companyImage=" + companyImage + "; employerBranding=" + employerBranding;
 		LOGGER.info(message);*/
 	}
@@ -226,7 +241,14 @@ public class GameController {
 	}
 
 	private void updateWarehouse() {
-		WarehousingDepartment.getInstance().calculateAll();
+		WarehousingDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
+	}
+
+	private void updateSalesDepartment() {
+		GameState state = GameState.getInstance();
+		SalesDepartment salesDepartment = SalesDepartment.getInstance();
+		salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+
 	}
 
 	public void start() {
@@ -251,8 +273,12 @@ public class GameController {
 		return GameThread.getInstance().isPause();
 	}
 
-	public void setSecondsPerDay(int seconds) {
-		GameThread.getInstance().setSecondsPerDay(seconds);
+	public GameThread.Speed getSpeed() {
+		return GameThread.getInstance().getSpeed();
+	}
+	
+	public void setSpeed(GameThread.Speed speed) {
+		GameThread.getInstance().setSpeed(speed);
 	}
 
 	// TODO load game state
@@ -310,7 +336,7 @@ public class GameController {
 
 	private void setInitialWarehouseValues() {
 		// TODO really needed?
-		WarehousingDepartment.getInstance().calculateAll();
+		WarehousingDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
 	}
 
 	/* Finance */
@@ -749,9 +775,11 @@ public class GameController {
 		return product.getProductCosts(GameState.getInstance().getGameDate());
 	}
 
-	public double launchProduct(Product product, int quantity) {
-		return ProductionDepartment.getInstance().launchProduct(product, quantity,
-				WarehousingDepartment.getInstance().calculateFreeStorage());
+	public double launchProduct(Product product) {
+		LocalDate gameDate = GameState.getInstance().getGameDate();
+		double launchCosts = ProductionDepartment.getInstance().launchProduct(product, gameDate);
+		FinanceDepartment.getInstance().decreaseCash(gameDate ,launchCosts);
+		return launchCosts;
 	}
 
 	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {
@@ -932,6 +960,10 @@ public class GameController {
 		}
 	}
 
+	public void depreciateAllWarehouseResaleValues() {
+		WarehousingDepartment.getInstance().depreciateAllWarehouseResaleValues(GameState.getInstance().getGameDate());
+	}
+
 	public Map<Warehouse, Double> getAllWarehouseResaleValues() {
 		return WarehousingDepartment.getInstance().getAllWarehouseResaleValues();
 	}
@@ -1083,35 +1115,38 @@ public class GameController {
 		decreaseCash(GameState.getInstance().getGameDate(), cost);
 	}
 
-	/**
-	 *
+	/*** @param 
 	 * @return Returns list of conducted market researches.
 	 */
+
 	public List<MarketResearch> getConductedMarketResearch() {
 		return MarketingDepartment.getInstance().getMarketResearches();
 	}
-
-	//TODO INtervalle der Metrics sind bullshit...
-	//tSQ ist immer 0, lI = ???, pT = [1-5], cI = [0-100], mE = [0-1],tJS nicht definiert, 
-	//
-//	public String orderConsultantReport(ConsultancyType conType) 
-////			double totalSupportQuality,	double logisticIndex, double companyImage, double productionTechnology, 
-////			double manufactureEfficiency, double totalJobSatisfaction) 
-//	{
-//		String weakest = "Yolo";
-//		double totalSupportQuality = getTotalSupportQuality();
-//		double logisticIndex = getL
-//		double companyImage = getCom
-//		double productionTechnology = getProductionTechnology();
-//		double manufactureEfficiency
-//		double totalJobSatisfaction
-//		
-//		MarketingDepartment.getInstance().orderConsultantReport(conType, 
-//				totalSupportQuality, logisticIndex, companyImage, productionTechnology, 
-//				manufactureEfficiency, totalJobSatisfaction);
-//		
-//		return weakest;	
-//	}
+	
+	
+	//TODO check ranges of all that stuff...
+//  * @param totalSupportQuality
+//  * @param logisticIndex
+//  * @param companyImage
+//  * @param productionTechnology 		????
+//  * @param manufactureEfficiency
+//  * @param totalJobSatisfaction
+	public String orderConsultancyReport(ConsultancyType conType) {
+		
+		//Money first
+		decreaseCash(GameState.getInstance().getGameDate(), conType.getCost());
+		
+		//gather metrics
+		Double[] values = new Double[6];		
+		values[0] = getTotalSupportQuality();
+		values[1] = LogisticsDepartment.getInstance().getLogisticsIndex();
+		values[2] = computeCompanyImage();
+		values[3] =	new Double (getProductionTechnology().getRange());	//Quatsch - besser: ProductQualtity?	
+		values[4] =	getManufactureEfficiency();	
+		values[5] = getTotalJSS();
+		
+		return MarketingDepartment.getInstance().orderConsultantReport(conType, values);	
+	}
 	
 	/* Human Resources */
 
@@ -1169,6 +1204,10 @@ public class GameController {
 
 	public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
 		return HRDepartment.getInstance().getTotalQualityOfWorkByEmployeeType(employeeType);
+	}
+	
+	public double getTotalJSS() {
+		return HRDepartment.getInstance().getTotalJSS();
 	}
 	
 	
