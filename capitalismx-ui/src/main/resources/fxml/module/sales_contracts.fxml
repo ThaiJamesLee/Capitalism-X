@@ -64,11 +64,7 @@
                         </GridPane>
                         <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="contractListAnchor">
-                                 <children>
-                                    <ListView fx:id="offeredContractsList" prefHeight="400.0" prefWidth="300.0" />
-                                 </children>
-                              </AnchorPane>
+                              <ListView fx:id="offeredContractsList" prefHeight="400.0" prefWidth="300.0" />
                           </content>
                         </ScrollPane>
                      </children>
