@@ -48,6 +48,6 @@
 	</children>
 	<stylesheets>
 		<URL value="@../../css/general.css" />
-		<URL value="@../../css/overlay.css" />
+		<URL value="@../../css/popover.css" />
 	</stylesheets>
 </AnchorPane>
