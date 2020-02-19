@@ -531,6 +531,21 @@ public class HRDepartment extends DepartmentImpl {
 		calculateAndUpdateEmployeesMeta();
 	}
 
+	/**
+	 * The total cost is calculated by totalBenefitCost * #employees.
+	 * totalBenefitCost = sum of monetaryImpact of all active benefits.
+	 *
+	 * This cost will be subtracted every month.
+	 * @return Returns the total cost of the benefit settings.
+	 */
+	public double getBenefitSettingsCost() {
+		double cost = 0.0;
+		for(Map.Entry<BenefitType, Benefit> benefit : benefitSettings.getBenefits().entrySet()) {
+			cost += benefit.getValue().getMonetaryImpact();
+		}
+		return cost * getTotalNumberOfEmployees();
+	}
+
 	/* Trainings */
 
 	/**

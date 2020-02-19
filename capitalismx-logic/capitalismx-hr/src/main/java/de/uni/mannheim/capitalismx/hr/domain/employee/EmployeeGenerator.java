@@ -12,6 +12,7 @@ import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -19,7 +20,7 @@ import java.util.*;
  *
  * @author duly
  */
-public class EmployeeGenerator {
+public class EmployeeGenerator implements Serializable {
 
     private EmployeeMarketSample employeeMarketSample;
 
@@ -42,6 +43,10 @@ public class EmployeeGenerator {
 
     public static EmployeeGenerator createInstance() {
         return new EmployeeGenerator();
+    }
+
+    public static void setInstance(EmployeeGenerator employeeGenerator) {
+        EmployeeGenerator.instance = employeeGenerator;
     }
 
     public void setDepartment(HRDepartment department) {

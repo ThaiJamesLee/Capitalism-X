@@ -23,21 +23,21 @@ public enum Benefit {
 
     WORK_TIME_0(BenefitType.WORKTIME, 0,0, 0, "10 Hours"),
     WORK_TIME_1(BenefitType.WORKTIME, 1,3, 0, "8 Hours"),
-    WORK_TIME_2(BenefitType.WORKTIME, 2,5, -1000, "6 Hours"),
+    WORK_TIME_2(BenefitType.WORKTIME, 2,5, 1000, "6 Hours"),
 
     COMPANY_CAR_0(BenefitType.COMPANY_CAR, 0,0, 0, "Not offered"),
-    COMPANY_CAR_1(BenefitType.COMPANY_CAR, 1,2, -300, "Medium Size"),
-    COMPANY_CAR_2(BenefitType.COMPANY_CAR, 2,5, -600, "Full Size"),
+    COMPANY_CAR_1(BenefitType.COMPANY_CAR, 1,2, 300, "Medium Size"),
+    COMPANY_CAR_2(BenefitType.COMPANY_CAR, 2,5, 600, "Full Size"),
 
     IT_EQUIPMENT_0(BenefitType.IT_EQUIPMENT, 0,0, 0, "Average IT Equipment"),
-    IT_EQUIPMENT_1(BenefitType.IT_EQUIPMENT, 1,2, -50, "High-End IT Equipment"),
+    IT_EQUIPMENT_1(BenefitType.IT_EQUIPMENT, 1,2, 50, "High-End IT Equipment"),
 
-    FOOD_AND_COFFEE_1(BenefitType.FOOD_AND_COFFEE, 1,4, -100, "Employee Payment"),
+    FOOD_AND_COFFEE_1(BenefitType.FOOD_AND_COFFEE, 1,4, 100, "Employee Payment"),
     FOOD_AND_COFFEE_0(BenefitType.FOOD_AND_COFFEE, 0,0, 0, "Offered for free"),
 
     GYM_AND_SPORTS_0(BenefitType.GYM_AND_SPORTS, 0,0, 0, "Not offered"),
-    GYM_AND_SPORTS_1(BenefitType.GYM_AND_SPORTS, 1,2, -40, "Subsidized"),
-    GYM_AND_SPORTS_2(BenefitType.GYM_AND_SPORTS, 2,4, -100, "Offered for free");
+    GYM_AND_SPORTS_1(BenefitType.GYM_AND_SPORTS, 1,2, 40, "Subsidized"),
+    GYM_AND_SPORTS_2(BenefitType.GYM_AND_SPORTS, 2,4, 100, "Offered for free");
 
     private BenefitType type;
     private int points;
