@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.module.production;
+package de.uni.mannheim.capitalismx.ui.controller.popover;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -21,6 +21,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.module.production.ProduceProductController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;

@@ -27,6 +27,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameNotification;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.component.DepartmentUpgradeController;
+import de.uni.mannheim.capitalismx.ui.controller.component.TutorialStartCheckController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;

@@ -13,6 +13,7 @@ import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.production.LaunchedProductsListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.IntroduceProductController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.ProductionEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
