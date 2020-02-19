@@ -7,6 +7,16 @@ Install:
 - JDK 12 or higher
 - Maven 3.5.0 or higher
 
+You need to have JDK 12 or higher installed in order to execute the Runnable Jar. 
+<br>
+If you want to build the project by yourself, install also Maven 3.5.0 or higher and run
+`
+mvn clean install
+`
+in the root folder. 
+<br><br>
+Afterwards, you can find the Jar in *Capitalism-X/capitalismx-main/target/capitalismx-main-[version].jar*
+
 # Documentation
 [Documentation here](http://bccecfaf-acdc-4fcd-82a5-275ef7314639.ma.bw-cloud-instance.org)
 
