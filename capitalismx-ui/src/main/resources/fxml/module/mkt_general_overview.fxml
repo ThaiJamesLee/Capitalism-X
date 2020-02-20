@@ -53,7 +53,7 @@
       						<Label fx:id="consTitleLbl" styleClass="label_large" text="%marketing.overview.consultancyTitle" />
       						<Label fx:id="consTextLbl" styleClass="label_large" text="Explanation Consultancies" GridPane.rowIndex="1" />
       						<Label fx:id="consCurrentLbl" styleClass="label_large" text="None" GridPane.columnIndex="1" />
-      						<Button fx:id="consChangeBtn" mnemonicParsing="false" styleClass="button_module" text="%marketing.overview.consChangeBtn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      						<Button fx:id="consChangeBtn" mnemonicParsing="false" styleClass="btn_standard" text="%marketing.overview.consChangeBtn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       					</children>
       				</GridPane>
          </children>

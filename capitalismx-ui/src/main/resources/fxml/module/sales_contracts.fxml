@@ -84,7 +84,7 @@
                            <children>
                               <HBox alignment="TOP_CENTER">
                                  <children>
-                                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="button_module" text="Add Contract">
+                                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="btn_standard" text="Add Contract">
                                        <graphic>
                                           <FontAwesomeIcon iconName="CARET_RIGHT" size="1.3em" />
                                        </graphic>
@@ -93,7 +93,7 @@
                               </HBox>
                               <HBox alignment="TOP_CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#removeContract" styleClass="button_module" text="Terminate Contract">
+                                    <Button mnemonicParsing="false" onMouseClicked="#removeContract" styleClass="btn_standard" text="Terminate Contract">
                                        <graphic>
                                           <FontAwesomeIcon iconName="CARET_LEFT" size="1.3em" />
                                        </graphic>

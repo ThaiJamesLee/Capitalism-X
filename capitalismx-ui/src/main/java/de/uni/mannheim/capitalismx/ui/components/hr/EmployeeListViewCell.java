@@ -130,8 +130,8 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 	private void prepareExtendedCell() {
 		trainButton = new Button(bundle.getString("employeeList.train"));
 		fireButton = new Button(bundle.getString("employeeList.fire"));
-		trainButton.getStyleClass().add("button_module");
-		fireButton.getStyleClass().add("button_module");
+		trainButton.getStyleClass().add("btn_standard");
+		fireButton.getStyleClass().add("btn_standard");
 		satisfactionLabel = new Label(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(employee.getJobSatisfaction()));
 		satisfactionLabel.getStyleClass().add("list-label-large");
 		satisfactionIcon.setIconName("SMILE_ALT");

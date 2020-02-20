@@ -27,7 +27,7 @@
 				<Label styleClass="header" text="%marketing.mkrRes.reportTypeTitle" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
 				<ComboBox fx:id="reportTypeCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
 				<Label fx:id="costLbl" styleClass="header" text="Cost Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-				<Button fx:id="runBtn" styleClass="button_module" text="%marketing.camp.runBtn" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+				<Button fx:id="runBtn" styleClass="btn_standard" text="%marketing.camp.runBtn" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 			</children>
 			<columnConstraints>
 				<ColumnConstraints />

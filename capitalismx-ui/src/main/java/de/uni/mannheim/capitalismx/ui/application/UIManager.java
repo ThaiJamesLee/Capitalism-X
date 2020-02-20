@@ -468,35 +468,8 @@ public class UIManager {
 		}
 
 		resourceBundle = ResourceBundle.getBundle(newProperties, this.language);
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"),
-				resourceBundle);
-		try {
-
-			Parent root = loader.load();
-			GameScene scene = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
-			sceneMenuMain = scene;
-
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loadingScreen.fxml"), resourceBundle);
-			root = loader.load();
-			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
-
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/creditsPage.fxml"), resourceBundle);
-			root = loader.load();
-			sceneCreditsPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
-
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameLostPage.fxml"), resourceBundle);
-			root = loader.load();
-			sceneLostPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
-
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/gameWonPage.fxml"), resourceBundle);
-			root = loader.load();
-			sceneWonPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
-
-			switchToScene(GameSceneType.MENU_MAIN);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		loadGameScenes();
+		switchToScene(GameSceneType.MENU_MAIN);
 	}
 
 	/**
