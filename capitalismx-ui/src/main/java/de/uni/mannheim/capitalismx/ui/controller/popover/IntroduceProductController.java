@@ -18,6 +18,7 @@ import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
@@ -29,11 +30,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
@@ -1192,8 +1189,9 @@ public class IntroduceProductController extends GameModuleController {
             }
             this.tv.setSalesPrice(salesPrice);
             GameController.getInstance().launchProduct(this.tv);
-        } catch (InvalidSetOfComponentsException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
+            error.showAndWait();
             return;
         }
         
@@ -1224,8 +1222,9 @@ public class IntroduceProductController extends GameModuleController {
             }
             this.console.setSalesPrice(salesPrice);
             GameController.getInstance().launchProduct(this.console);
-        } catch (InvalidSetOfComponentsException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
+            error.showAndWait();
             return;
         }
         
@@ -1254,8 +1253,9 @@ public class IntroduceProductController extends GameModuleController {
             }
             this.notebook.setSalesPrice(salesPrice);
             GameController.getInstance().launchProduct(this.notebook);
-        } catch (InvalidSetOfComponentsException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
+            error.showAndWait();
             return;
         }
         
@@ -1287,8 +1287,9 @@ public class IntroduceProductController extends GameModuleController {
             }
             this.phone.setSalesPrice(Double.valueOf(salesPrice));
             GameController.getInstance().launchProduct(this.phone);
-        } catch (InvalidSetOfComponentsException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
+            error.showAndWait();
             return;
         }
         

@@ -266,9 +266,13 @@ public class ProductionDepartment extends DepartmentImpl {
         }
     }
 
-    public double launchProduct(Product product, LocalDate gameDate) {
-        product.setLaunchDate(gameDate);
-        this.launchedProductsChange.add(product);
+    public double launchProduct(Product product, LocalDate gameDate, boolean productCategoryUnlocked) throws ProductCategoryNotUnlockedException {
+        if(productCategoryUnlocked) {
+            product.setLaunchDate(gameDate);
+            this.launchedProductsChange.add(product);
+        } else {
+            throw new ProductCategoryNotUnlockedException("The product category " +  product.getProductCategory() + " is not unlocked yet.", product.getProductCategory());
+        }
         return LAUNCH_COSTS;
     }
 

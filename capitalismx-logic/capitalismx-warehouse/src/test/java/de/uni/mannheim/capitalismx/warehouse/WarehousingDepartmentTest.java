@@ -52,7 +52,7 @@ public class WarehousingDepartmentTest {
 
         try {
             Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, components);
-            ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1));
+            ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true);
             WarehousingDepartment.getInstance().storeUnits();
             int numberStoredUnits = 0;
             HashMap<Unit, Integer> inventory = new HashMap<>(WarehousingDepartment.getInstance().getInventory());
@@ -62,7 +62,7 @@ public class WarehousingDepartmentTest {
             //TODO
             //Assert.assertEquals(numberStoredUnits, 10);
             //Assert.assertEquals(WarehousingDepartment.getInstance().calculateStoredUnits(), 10);
-        } catch (InvalidSetOfComponentsException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }

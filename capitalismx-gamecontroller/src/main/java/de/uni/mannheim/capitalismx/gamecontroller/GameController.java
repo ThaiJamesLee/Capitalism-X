@@ -775,11 +775,16 @@ public class GameController {
 		return product.getProductCosts(GameState.getInstance().getGameDate());
 	}
 
-	public double launchProduct(Product product) {
-		LocalDate gameDate = GameState.getInstance().getGameDate();
-		double launchCosts = ProductionDepartment.getInstance().launchProduct(product, gameDate);
-		FinanceDepartment.getInstance().decreaseCash(gameDate ,launchCosts);
-		return launchCosts;
+	public double launchProduct(Product product) throws ProductCategoryNotUnlockedException{
+		try {
+			LocalDate gameDate = GameState.getInstance().getGameDate();
+			boolean productCategoryUnlocked = ResearchAndDevelopmentDepartment.getInstance().isCategoryUnlocked(product.getProductCategory());
+			double launchCosts = ProductionDepartment.getInstance().launchProduct(product, gameDate, productCategoryUnlocked);
+			FinanceDepartment.getInstance().decreaseCash(gameDate, launchCosts);
+			return launchCosts;
+		} catch (ProductCategoryNotUnlockedException e) {
+			throw e;
+		}
 	}
 
 	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {

@@ -85,9 +85,9 @@ public class ProductionDepartmentTest {
     public void launchProductTest() {
         try {
             Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
-            Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1)), 10000.0);
-            ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1));
-        } catch(InvalidSetOfComponentsException e) {
+            Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true), 10000.0);
+            ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true);
+        } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
