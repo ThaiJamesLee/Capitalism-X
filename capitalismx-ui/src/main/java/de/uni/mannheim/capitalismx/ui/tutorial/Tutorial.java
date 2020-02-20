@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.uni.mannheim.capitalismx.ui.tutorial.chapter.HudControlsChapter;
+import de.uni.mannheim.capitalismx.ui.tutorial.chapter.IntroduceProductChapter;
 import de.uni.mannheim.capitalismx.ui.tutorial.chapter.TutorialChapter;
 
 /**
@@ -26,8 +27,8 @@ public class Tutorial {
 	// right now: all start in parallel...
 
 	public Tutorial() {
-		chapters.add(new HudControlsChapter());
-//		chapters.add(new IntroduceProductChapter());
+//		chapters.add(new HudControlsChapter());
+		chapters.add(new IntroduceProductChapter());
 		
 		currentChapter = chapters.iterator();
 	}

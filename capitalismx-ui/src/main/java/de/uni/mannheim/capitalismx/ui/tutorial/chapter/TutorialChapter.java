@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.tutorial.TutorialPage;
+import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
