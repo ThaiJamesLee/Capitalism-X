@@ -28,24 +28,23 @@ public class IntroduceProductChapter extends TutorialChapter {
 
 		List<Node> nodes = con.getTutorialNodes();
 		pages.add(new TutorialPage(this, UIManager.getInstance().getGameHudController().getProductionDepButton(),
-				"Navigate to your ProductionDepartment!", TutorialPage.NextPageCondition.TARGET_CLICK));
-		pages.add(new TutorialPage(this, nodes.get(0), "Press this Button to introduce a new Product.",
-				TutorialPage.NextPageCondition.TARGET_CLICK));
+				"chapter.product.introduce.department", TutorialPage.NextPageCondition.CLICK));
+		pages.add(new TutorialPage(this, nodes.get(0), "chapter.product.introduce.new",
+				TutorialPage.NextPageCondition.CLICK));
 
-		pages.add(new TutorialPage(this, nodes.get(1),
-				"Here you can choose the components for \nthe Product, that you want to launch, \nas well as the quality of their supplier.",
+		pages.add(new TutorialPage(this, nodes.get(1), "chapter.product.introduce.components",
 				TutorialPage.NextPageCondition.CONFIRM));
-		TutorialPage pageName = new TutorialPage(this, nodes.get(2), "Try to think of a unique name for your product.",
+		TutorialPage pageName = new TutorialPage(this, nodes.get(2), "chapter.product.introduce.name",
 				TutorialPage.NextPageCondition.PROPERTY_EQUALS);
 		pageName.setNextPageCondition(((TextField) nodes.get(2)).textProperty(), "CommunismX");
 		pages.add(pageName);
-		TutorialPage pagePrice = new TutorialPage(this, nodes.get(3),
-				"Set a sensible price for your product. \nYou should take the prices of the single components into account.",
+		TutorialPage pagePrice = new TutorialPage(this, nodes.get(3), "chapter.product.introduce.price",
 				TutorialPage.NextPageCondition.PROPERTY_EQUALS);
 		pagePrice.setNextPageCondition(((TextField) nodes.get(3)).textProperty(), "500");
 
 		pages.add(pagePrice);
-		pages.add(new TutorialPage(this, nodes.get(4), "Perfect! \nNow you can launch your very first own product.", TutorialPage.NextPageCondition.TARGET_CLICK));
+		pages.add(new TutorialPage(this, nodes.get(4), "chapter.product.introduce.launch",
+				TutorialPage.NextPageCondition.CLICK));
 
 	}
 

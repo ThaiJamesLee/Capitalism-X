@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.PopOver.ArrowLocation;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.tutorial.Highlighter;
 import de.uni.mannheim.capitalismx.ui.tutorial.chapter.TutorialChapter;
@@ -14,12 +16,12 @@ import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -34,6 +36,10 @@ import javafx.util.Duration;
  */
 public class TutorialPage {
 
+	public enum NextPageCondition {
+		CONFIRM, CLICK, PROPERTY_EQUALS;
+	}
+
 	private boolean propertyCheckSet;
 	private Highlighter highlighter;
 	private TutorialChapter owningChapter;
@@ -42,13 +48,11 @@ public class TutorialPage {
 	private Node target;
 	private ResourceBundle bundle = ResourceBundle.getBundle("properties.tutorial",
 			UIManager.getResourceBundle().getLocale());
-
-	public void setTargetNode(Node targetNode) {
-		this.target = targetNode;
-	}
-
 	@FXML
 	private Text tutorialMessage;
+
+	@FXML
+	private VBox vBox;
 
 	private TutorialPage(TutorialChapter owningChapter, Node target, NextPageCondition condition) {
 		this.target = target;
@@ -63,7 +67,6 @@ public class TutorialPage {
 		initPopover();
 	}
 
-	// TODO boolean for confirm?
 	public TutorialPage(TutorialChapter owningChapter, Node target, String messageKey, NextPageCondition condition) {
 		this(owningChapter, target, condition);
 		FXMLLoader loader = new FXMLLoader(PopOverFactory.class.getClassLoader().getResource("fxml/tutorial_pane.fxml"),
@@ -80,6 +83,17 @@ public class TutorialPage {
 		initPopover();
 	}
 
+	private void addButton() {
+		FontAwesomeIcon icon = new FontAwesomeIcon();
+		icon.setIcon(FontAwesomeIconName.CHECK);
+		Button confirm = new Button("", icon);
+		confirm.getStyleClass().add("btn_standard");
+		confirm.setOnAction(e -> {
+			turnPage();
+		});
+		vBox.getChildren().add(confirm);
+	}
+
 	/**
 	 * 
 	 */
@@ -89,48 +103,60 @@ public class TutorialPage {
 		infoPopover.setArrowLocation(ArrowLocation.TOP_LEFT);
 	}
 
-	public void start() {
-		Platform.runLater(() -> {
-			highlighter.highlight(target);
-			infoPopover.show(target);
-			switch (condition) {
-			case CONFIRM:
-				// TODO create button
-//				break;
-			case TARGET_CLICK:
-				target.setOnMouseReleased(e -> {
-					turnPage();
-				});
-				break;
-			case PROPERTY_EQUALS:
-				if (!propertyCheckSet)
-					System.err.println("Could not continue Tutorial, as Trigger was not correctly set.");
-			default:
-				break;
-			}
-
-		});
-	}
-
-	private void turnPage() {
-		highlighter.removeHighlight(target);
-		infoPopover.hide();
-		owningChapter.nextPage();
-	}
-
 	public void setNextPageCondition(Property<?> p, Object expectedResult) {
 		p.addListener(new ChangeListener<Object>() {
 			@Override
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
 				if (newValue.equals(expectedResult)) {
 					turnPage();
+					p.removeListener(this);
 				}
 			}
 		});
 	}
 
-	public enum NextPageCondition {
-		CONFIRM, TARGET_CLICK, PROPERTY_EQUALS;
+	public void setTargetNode(Node targetNode) {
+		this.target = targetNode;
+	}
+
+	private void showPage() {
+		highlighter.highlight(target);
+		infoPopover.show(target);
+	}
+
+	public void start() {
+		if (target != null) {
+			Platform.runLater(() -> {
+				showPage();
+				switch (condition) {
+				case CONFIRM:
+					addButton();
+					break;
+				case CLICK:
+					target.setOnMouseReleased(e -> {
+						turnPage();
+					});
+					break;
+				case PROPERTY_EQUALS:
+					if (!propertyCheckSet)
+						System.err.println("Could not continue Tutorial, as Trigger was not correctly set.");
+					break;
+				default:
+					break;
+				}
+			});
+		} else {
+			owningChapter.restart();
+		}
+
+	}
+
+	private void turnPage() {
+		if (target != null) {
+			highlighter.removeHighlight(target);
+			infoPopover.hide();
+			owningChapter.nextPage();
+		}
 	}
 
 }

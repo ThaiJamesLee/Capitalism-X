@@ -39,8 +39,8 @@
                   <Label text="Let's start by introducing a new Product!" />
                </children>
             </VBox>
-            <Button fx:id="accept" mnemonicParsing="false" styleClass="button_module" text="Explain everything!" GridPane.rowIndex="3" />
-            <Button fx:id="refuse" mnemonicParsing="false" styleClass="button_module" text="Don't bother me!" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="accept" mnemonicParsing="false" styleClass="btn_standard" text="Explain everything!" GridPane.rowIndex="3" />
+            <Button fx:id="refuse" mnemonicParsing="false" styleClass="btn_standard" text="Don't bother me!" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label styleClass="label_small" text="(Start Tutorial)" GridPane.rowIndex="4" />
             <Label styleClass="label_small" text="(Skip Tutorial)" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>

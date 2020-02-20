@@ -25,14 +25,14 @@ public class HudControlsChapter extends TutorialChapter {
 
 		pages.add(new TutorialPage(this, nodes.get(0), "chapter.controls.hud.welcome", TutorialPage.NextPageCondition.CONFIRM));
 		pages.add(new TutorialPage(this, nodes.get(1), "chapter.controls.hud.date", TutorialPage.NextPageCondition.CONFIRM));
-		pages.add(new TutorialPage(this, nodes.get(2), "chapter.controls.hud.pause", TutorialPage.NextPageCondition.TARGET_CLICK));
+		pages.add(new TutorialPage(this, nodes.get(2), "chapter.controls.hud.pause", TutorialPage.NextPageCondition.CLICK));
 		pages.add(new TutorialPage(this, nodes.get(3), "chapter.controls.hud.networth", TutorialPage.NextPageCondition.CONFIRM));
 		pages.add(new TutorialPage(this, nodes.get(4), "chapter.controls.hud.cash", TutorialPage.NextPageCondition.CONFIRM)); // TODO what last actions?
 		pages.add(new TutorialPage(this, nodes.get(5), "chapter.controls.hud.employees", TutorialPage.NextPageCondition.CONFIRM));
 		pages.add(new TutorialPage(this, nodes.get(6), "chapter.controls.hud.eco", TutorialPage.NextPageCondition.CONFIRM));
-		pages.add(new TutorialPage(this, nodes.get(7), "chapter.controls.hud.speed", TutorialPage.NextPageCondition.TARGET_CLICK));
-		pages.add(new TutorialPage(this, nodes.get(8), "chapter.controls.hud.skip", TutorialPage.NextPageCondition.TARGET_CLICK));
-		pages.add(new TutorialPage(this, nodes.get(9), "chapter.controls.hud.messages", TutorialPage.NextPageCondition.TARGET_CLICK));
+		pages.add(new TutorialPage(this, nodes.get(7), "chapter.controls.hud.speed", TutorialPage.NextPageCondition.CLICK));
+		pages.add(new TutorialPage(this, nodes.get(8), "chapter.controls.hud.skip", TutorialPage.NextPageCondition.CLICK));
+		pages.add(new TutorialPage(this, nodes.get(9), "chapter.controls.hud.messages", TutorialPage.NextPageCondition.CLICK));
 		pages.add(new TutorialPage(this, nodes.get(10), "chapter.controls.hud.settings", TutorialPage.NextPageCondition.CONFIRM));
 	}
 
