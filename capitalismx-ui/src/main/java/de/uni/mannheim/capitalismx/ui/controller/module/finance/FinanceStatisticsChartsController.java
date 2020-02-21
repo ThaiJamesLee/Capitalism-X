@@ -8,6 +8,9 @@ import javafx.scene.chart.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Currently not used.
+ */
 public class FinanceStatisticsChartsController extends GameModuleController {
 
     @FXML
