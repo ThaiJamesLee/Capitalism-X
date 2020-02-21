@@ -18,6 +18,12 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
+/**
+ * This class represents an entry in the truck selection in the logistics UI. It displays information like the price and
+ * quality of a specific truck.
+ *
+ * @author sdupper
+ */
 public class TruckDetailListViewCell extends ListCell<Truck> {
 
 	@FXML
@@ -40,12 +46,24 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
 
 	private FXMLLoader loader;
 
+    /**
+     * The ListView of all available trucks.
+     */
 	private ListView<Truck> truckDetailListView;
 
+    /**
+     * Constructor
+     * @param truckDetailListView The ListView of all available trucks.
+     */
 	public TruckDetailListViewCell(ListView<Truck> truckDetailListView) {
 		this.truckDetailListView = truckDetailListView;
 	}
 
+    /*
+     * Generates an entry in the truck selection for each new truck added to the truckDetailListView according to the
+     * truck's characteristics. If the user clicks on one and has enough capacity, the truck is bought and added to the
+     * internal fleet.
+     */
 	@Override
 	protected void updateItem(Truck truck, boolean empty) {
 		super.updateItem(truck, empty);

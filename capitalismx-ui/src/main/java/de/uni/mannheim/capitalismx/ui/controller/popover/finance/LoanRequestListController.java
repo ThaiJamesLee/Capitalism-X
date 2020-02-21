@@ -13,6 +13,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 
+/**
+ * This class represents the loan selection in the finance UI. It displays different loans that the user can choose from.
+ *
+ * @author sdupper
+ */
 public class LoanRequestListController implements UpdateableController {
 
     @FXML
@@ -23,6 +28,9 @@ public class LoanRequestListController implements UpdateableController {
     
     private double loanAmount;
 
+    /**
+     * Generates an entry in the loan selection for all available loans.
+     */
     @Override
     public void update() {
     	loanVBox.getChildren().clear();
@@ -41,7 +49,11 @@ public class LoanRequestListController implements UpdateableController {
 			}
         }
     }
-    
+
+    /**
+     * Sets the desired loan amount and updates the loan selection accordingly.
+     * @param amount
+     */
     public void setLoanAmount(double amount) {
     	this.loanAmount = amount;
     	update();

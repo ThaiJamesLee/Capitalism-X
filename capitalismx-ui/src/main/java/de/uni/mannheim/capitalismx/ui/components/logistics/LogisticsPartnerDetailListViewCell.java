@@ -18,6 +18,12 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.text.NumberFormat;
 
+/**
+ * This class represents an entry in the external logistics partner selection in the logistics UI. It thus shows
+ * information about the characteristics of a specific external partner.
+ *
+ * @author sdupper
+ */
 public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner> {
 
 	@FXML
@@ -46,12 +52,24 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 
 	private FXMLLoader loader;
 
-	private ListView<ExternalPartner> logisticsPartnerDetailListView;
+    /**
+     * The ListView of all available external logistics partners.
+     */
+    private ListView<ExternalPartner> logisticsPartnerDetailListView;
 
-	public LogisticsPartnerDetailListViewCell(ListView<ExternalPartner> logisticsPartnerDetailListView) {
-		this.logisticsPartnerDetailListView = logisticsPartnerDetailListView;
-	}
+    /**
+     * Constructor
+     * @param logisticsPartnerDetailListView The ListView of all available external logistics partners.
+     */
+    public LogisticsPartnerDetailListViewCell(ListView<ExternalPartner> logisticsPartnerDetailListView){
+        this.logisticsPartnerDetailListView = logisticsPartnerDetailListView;
+    }
 
+    /*
+     * Generates an entry in the external logistics partner selection for each new external partner added to the
+     * logisticsPartnerDetailListView according to the partner's characteristics. If the user clicks on one, the partner
+     * is hired.
+     */
 	@Override
 	protected void updateItem(ExternalPartner externalPartner, boolean empty) {
 		super.updateItem(externalPartner, empty);

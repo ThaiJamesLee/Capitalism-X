@@ -23,6 +23,12 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.util.StringConverter;
 
+/**
+ * This class represents the finance overview including the charts in the finance UI. It provides an overview of the
+ * most important financial figures.
+ *
+ * @author sdupper
+ */
 public class FinanceOverviewController implements Initializable {
 
 	@FXML
@@ -61,18 +67,34 @@ public class FinanceOverviewController implements Initializable {
 	@FXML
 	NumberAxis xAxisNetWorth;
 
+	/**
+	 * The data for the cash chart.
+	 */
 	XYChart.Series<Number, Number> cashSeries;
+
+	/**
+	 * The data for the assets chart.
+	 */
 	XYChart.Series<Number, Number> assetsSeries;
+
+	/**
+	 * The data for the liabilities chart.
+	 */
 	XYChart.Series<Number, Number> liabilitiesSeries;
+
+	/**
+	 * The data for the net worth chart.
+	 */
 	XYChart.Series<Number, Number> netWorthSeries;
 
+	/**
+	 * The EventListener for finance events (changes relevant for the finance UI).
+	 */
 	private FinanceEventListener financeEventListener;
-	private LoanRequestListController loanRequestListController;
 
-	private double loanAmount;
-
-	private PopOver loanRequestPopover;
-
+	/*
+	 * Initializes the cash, assets, liabilities, and net worth labels and charts.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameController controller = GameController.getInstance();
@@ -85,14 +107,6 @@ public class FinanceOverviewController implements Initializable {
 		assetsLabel.setText(DecimalRound.round(controller.getAssets(), 2) + "");
 		liabilitiesLabel.setText(DecimalRound.round(controller.getLiabilities(), 2) + "");
 		netWorthLabel.setText(DecimalRound.round(controller.getNetWorth(), 2) + "");
-
-		// Prepare the Popover for the trainButton
-		PopOverFactory factory = new PopOverFactory();
-		
-		factory.createStandardPopover("fxml/popover/loan_request_list.fxml");
-		loanRequestPopover = factory.getPopover();
-		loanRequestListController = (LoanRequestListController)factory.getPopoverController();
-
 
 		cashSeries = new XYChart.Series<>();
 		for(int i = 1; i < 13; i++){
@@ -124,6 +138,11 @@ public class FinanceOverviewController implements Initializable {
 		this.initAxes();
 	}
 
+	/**
+	 * Initializes/Formats the chart axes. In particular, to ensure a correct order of the values, the current month was
+	 * assigned the number 11, the previous month the number 10, and so on. Here, the numbers are converted back to the
+	 * correct month name.
+	 */
 	private void initAxes(){
 		xAxisCash.setTickLabelRotation(90);
 		xAxisCash.setTickLabelFormatter(new StringConverter<Number>() {
@@ -198,6 +217,11 @@ public class FinanceOverviewController implements Initializable {
 		});
 	}
 
+	/**
+	 * Updates the layout of the x axis in the cash chart (necessary when data is updated).
+	 * @param lowerBound The lower bound of the x axis in the cash chart.
+	 * @param upperBound The upper bound of the x axis in the cash chart.
+	 */
 	private void updateCashAxis(int lowerBound, int upperBound){
 		xAxisCash.setAutoRanging(false);
 		xAxisCash.setLowerBound(lowerBound);
@@ -206,6 +230,11 @@ public class FinanceOverviewController implements Initializable {
 		xAxisCash.setMinorTickVisible(false);
 	}
 
+	/**
+	 * Updates the layout of the x axis in the assets chart (necessary when data is updated).
+	 * @param lowerBound The lower bound of the x axis in the assets chart.
+	 * @param upperBound The upper bound of the x axis in the assets chart.
+	 */
 	private void updateAssetsAxis(int lowerBound, int upperBound){
 		xAxisAssets.setAutoRanging(false);
 		xAxisAssets.setLowerBound(lowerBound);
@@ -214,6 +243,11 @@ public class FinanceOverviewController implements Initializable {
 		xAxisAssets.setMinorTickVisible(false);
 	}
 
+	/**
+	 * Updates the layout of the x axis in the liabilities chart (necessary when data is updated).
+	 * @param lowerBound The lower bound of the x axis in the liabilities chart.
+	 * @param upperBound The upper bound of the x axis in the liabilities chart.
+	 */
 	private void updateLiabilitiesAxis(int lowerBound, int upperBound){
 		xAxisLiabilities.setAutoRanging(false);
 		xAxisLiabilities.setLowerBound(lowerBound);
@@ -222,6 +256,11 @@ public class FinanceOverviewController implements Initializable {
 		xAxisLiabilities.setMinorTickVisible(false);
 	}
 
+	/**
+	 * Updates the layout of the x axis in the net worth chart (necessary when data is updated).
+	 * @param lowerBound The lower bound of the x axis in the net worth chart.
+	 * @param upperBound The upper bound of the x axis in the net worth chart.
+	 */
 	private void updateNetWorthAxis(int lowerBound, int upperBound){
 		xAxisNetWorth.setAutoRanging(false);
 		xAxisNetWorth.setLowerBound(lowerBound);
@@ -262,11 +301,17 @@ public class FinanceOverviewController implements Initializable {
 		});
 	}
 
-	public void updateCharts(String rowName, String[] yValues, String[] xNames){
+	/**
+	 * Updates the data of the specified chart.
+	 * @param chartName The name of the chart to be updated.
+	 * @param yValues The new y values of the chart to be updated.
+	 * @param xNames The new x values (month values/names) of the chart to be updated.
+	 */
+	public void updateCharts(String chartName, String[] yValues, String[] xNames){
 		Platform.runLater(new Runnable() {
 			public void run() {
 				initAxes();
-				switch (rowName){
+				switch (chartName){
 					case "cash":
 						updateCashAxis(Integer.valueOf(xNames[0]), Integer.valueOf(xNames[11]));
 						for(int i = 0; i < yValues.length; i++){

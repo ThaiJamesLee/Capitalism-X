@@ -11,6 +11,12 @@ import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
+/**
+ * This class represents the selection (list) of external logistics partners in the logistics UI. Each available partner
+ * is displayed with the corresponding characteristics.
+ *
+ * @author sdupper
+ */
 public class LogisticsPartnerDetailListController implements UpdateableController {
 
     @FXML
@@ -20,6 +26,9 @@ public class LogisticsPartnerDetailListController implements UpdateableControlle
     public void update() {
     }
 
+    /*
+     * Generates an entry in the logisticsPartnerDetailListView for each available external logistics partner.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();

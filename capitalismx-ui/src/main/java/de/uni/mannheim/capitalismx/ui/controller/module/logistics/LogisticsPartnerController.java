@@ -14,6 +14,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+/**
+ * This class represents the external logistics partner in the logistics UI. It allows the user to hire an external
+ * logistics partner.
+ *
+ * @author sdupper
+ */
 public class LogisticsPartnerController implements Initializable {
 
 	@FXML
@@ -22,11 +28,18 @@ public class LogisticsPartnerController implements Initializable {
 	@FXML
 	private Label currentlyEmployingTextArea;
 
+	/**
+	 * The popover for the external logistics partner selection.
+	 */
 	private PopOver popover;
 
 	public LogisticsPartnerController() {
 	}
 
+	/*
+	 * Displays information about the current external logistics partner and generates the external logistics partner
+	 * selection popover. The popover is displayed after clicking the logisticsPartnerButton.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameController controller = GameController.getInstance();
@@ -47,12 +60,19 @@ public class LogisticsPartnerController implements Initializable {
 		});
 	}
 
+	/**
+	 * Updates the logistics UI when an external partner is hired.
+	 * @param externalPartner The new external logistics partner.
+	 */
 	public void addExternalPartner(ExternalPartner externalPartner) {
 		currentlyEmployingTextArea
 				.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl") + externalPartner.getName());
 		popover.hide();
 	}
 
+	/**
+	 * Displays the external logistics partner selection popover.
+	 */
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());
 	}

@@ -17,6 +17,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
+/**
+ * This class represents the internal fleet in the logistics UI. It allows the user to add new trucks to the internal
+ * fleet.
+ *
+ * @author sdupper
+ */
 public class TruckFleetController implements Initializable {
 
 	@FXML
@@ -25,11 +31,18 @@ public class TruckFleetController implements Initializable {
 	@FXML
 	private Button buyTruckButton;
 
+	/**
+	 * The popover for the truck selection.
+	 */
 	private PopOver popover;
 
 	public TruckFleetController() {
 	}
 
+	/*
+	 * Displays information about the trucks currently in the internal fleet and generates the truck selection popover.
+	 * The popover is displayed after clicking the buyTruckButton.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameController controller = GameController.getInstance();
@@ -67,11 +80,18 @@ public class TruckFleetController implements Initializable {
 		});
 	} //TODO update and populate from list in LogisticsController
 
+	/**
+	 * Updates the list of trucks in the internal fleet when a new truck is added.
+	 * @param truck The new truck.
+	 */
 	public void addTruck(Truck truck) {
 		truckFleetListView.getItems().add(truck);
 		popover.hide();
 	}
 
+	/**
+	 * Displays the truck selection popover.
+	 */
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());
 	}

@@ -16,8 +16,17 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 
+/**
+ * This class represents the EventListener for the finance UI. It handles UI updates relevant for the finance UI.
+ *
+ * @author sdupper
+ */
 public class FinanceEventListener implements PropertyChangeListener {
 
+    /*
+     * Determines the name of the PropertyChangeEvent and updates the GUI accordingly, e.g., if the net worth changes,
+     * the corresponding labels are updated.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals("gameOver")){

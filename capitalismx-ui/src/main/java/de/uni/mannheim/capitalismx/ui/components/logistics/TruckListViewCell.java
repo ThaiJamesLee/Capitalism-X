@@ -15,6 +15,12 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
+/**
+ * This class represents an entry in the list of trucks in the internal logistics fleet. It displays information like
+ * the value of a specific truck the company owns.
+ *
+ * @author sdupper
+ */
 public class TruckListViewCell extends ListCell<Truck> {
 
     @FXML
@@ -31,12 +37,24 @@ public class TruckListViewCell extends ListCell<Truck> {
 
     private FXMLLoader loader;
 
+    /**
+     * The ListView of all trucks in the internal logistics fleet.
+     */
     private ListView<Truck> truckFleetListView;
 
+    /**
+     * Constructor
+     * @param truckFleetListView The ListView of all trucks in the internal logistics fleet.
+     */
     public TruckListViewCell(ListView<Truck> truckFleetListView){
         this.truckFleetListView = truckFleetListView;
     }
 
+    /*
+     * Generates an entry in the list of trucks in the internal fleet for each new truck added to the truckFleetListView
+     * according to the truck's characteristics. If the user clicks on the sell button of a truck, the truck is sold and
+     * removed from the internal fleet.
+     */
     @Override
     protected void updateItem(Truck truck, boolean empty) {
         super.updateItem(truck, empty);
