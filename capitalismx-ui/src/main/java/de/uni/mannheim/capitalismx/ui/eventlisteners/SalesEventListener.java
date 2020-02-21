@@ -17,19 +17,25 @@ public class SalesEventListener implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         //evt.getPropertyName()
-        System.out.println("SalesEventListener called");
         SalesContractController salesController = (SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController();
         if(evt.getPropertyName().equals(SalesDepartment.AVAILABLE_CONTRACTS_EVENT)){
-            System.out.println("Available Contracts changed");
+
+            ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();
+            /*
             List<Contract> availableContracts = ((List<Contract>)evt.getNewValue());
 
             for(int i = 0; i < availableContracts.size(); i++){
                 salesController.addContractOffer(availableContracts.get(i), i);
             }
+            */
         } else if(evt.getPropertyName().equals(SalesDepartment.ACTIVE_CONTRACTS_EVENT)){
             System.out.println(evt.getPropertyName());
+            ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).refreshAcceptedContracts();
+            ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();
         } else if(evt.getPropertyName().equals(SalesDepartment.DONE_CONTRACTS_EVENT)){
             System.out.println(evt.getPropertyName());
+            ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).refreshAcceptedContracts();
+            ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();
         }
 
     }

@@ -2,8 +2,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
-import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
+import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.SalesEventListener;
 import javafx.collections.FXCollections;
@@ -13,13 +12,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -27,12 +23,13 @@ public class SalesContractController extends GameModuleController {
 
     SalesEventListener contractListener;
     SalesContractInfoController infoPaneController;
-    private ArrayList<String> IDlist = new ArrayList<String>();
+    private ArrayList<String> availableIDlist = new ArrayList<String>();
+    private ArrayList<String> acceptedIDlist = new ArrayList<String>();
     private boolean firstClick;
 
     @FXML
-    private ListView offeredContractsList;
-    private ObservableList<Parent> offeredContracts = FXCollections.observableArrayList();
+    private ListView availableContractsList;
+    private ObservableList<Parent> availableContracts = FXCollections.observableArrayList();
     @FXML
     private ListView acceptedContractsList;
     private ObservableList<Parent> acceptedContracts = FXCollections.observableArrayList();
@@ -47,58 +44,63 @@ public class SalesContractController extends GameModuleController {
     @FXML
     public void acceptContract(){
         System.out.println("Accept Button Clicked");
+        int index = availableContractsList.getSelectionModel().getSelectedIndex();
+        System.out.println(index);
+        SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+        salesDep.addContractToActive(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
+        refreshAvailableContracts();
+        refreshAcceptedContracts();
     }
 
-    @FXML
-    public void terminateContract(){
-
+    public void refreshAvailableContracts(){
+        removeAllAvailableContracts();
+        ArrayList<Contract> contractList = ((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList());
+        for(int i = 0; i < contractList.size(); i++){
+            addContractOffer(contractList.get(i), i, false);
+        }
     }
+
+    public void refreshAcceptedContracts(){
+        removeAllAcceptedContracts();
+        CopyOnWriteArrayList<Contract> contractList = ((CopyOnWriteArrayList<Contract>)GameState.getInstance().getSalesDepartment().getActiveContracts().getList());
+        for(int i = 0; i < contractList.size(); i++){
+            addContractOffer(contractList.get(i), i, true);
+        }
+    }
+
 
     /**
      * Receives a contract object and displays it in the UI under "Sales" -> "Contract Management" -> "Contract Offers"
      * @param c The finished contract that should be displayed in UI.
-     * @param i
+     * @param i the index at which it is inserted
      */
-    public void addContractOffer(Contract c, int i){
-        /*
-        FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader()
-                .getResource("fxml/components/sales_list_cell.fxml"));
-        Parent contract = new Pane();
-        SalesContractListCellController cellController = new SalesContractListCellController();
-        */
+    public void addContractOffer(Contract c, int i, boolean isAccepted){
         FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader()
                 .getResource("fxml/components/sales_list_cell.fxml"));
 
         Parent contract;
         SalesContractListCellController cellController;
         try{
-
-            //Parent contract = new Pane();
-            //SalesContractListCellController cellController = new SalesContractListCellController();
             contract = contractLoader.load();
             cellController = contractLoader.getController();
-
             cellController.setContractName(c.getProduct().toString());
-            IDlist.add(c.getuId());
             cellController.setID(c.getuId());
-            offeredContracts.add(0, contract);
-            offeredContractsList.setItems(offeredContracts);
+
+            if(isAccepted){
+                acceptedIDlist.add(i, c.getuId());
+                acceptedContracts.add(i, contract);
+                acceptedContractsList.setItems(acceptedContracts);
+            } else {
+                availableIDlist.add(i, c.getuId());
+                availableContracts.add(i, contract);
+                availableContractsList.setItems(availableContracts);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*
-        cellController.setContractName(c.getProduct().toString());
-        IDlist.add(c.getuId());
-        cellController.setID(c.getuId());
-        offeredContracts.add(0, contract);
-        offeredContractsList.setItems(offeredContracts);
-        */
     }
 
-    public void removeContract(){
-        
-    }
+
 
     /**
      * This methods displays the info panel for a "Offered Contracts" list entry that was cicked.
@@ -141,6 +143,26 @@ public class SalesContractController extends GameModuleController {
             }
         }
 
+    }
+
+    /**
+     * Removes a contract from the list of accepted contracts
+     */
+    @FXML
+    public void removeAcceptedContract(){
+
+    }
+
+    public void removeAllAcceptedContracts(){
+        acceptedContracts.clear();
+        acceptedIDlist.clear();
+        acceptedContractsList.setItems(acceptedContracts);
+    }
+
+    public void removeAllAvailableContracts(){
+        availableContracts.clear();
+        availableIDlist.clear();
+        availableContractsList.setItems(availableContracts);
     }
 
     @Override

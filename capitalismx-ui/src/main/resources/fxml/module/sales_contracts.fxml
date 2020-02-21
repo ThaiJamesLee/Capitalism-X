@@ -64,7 +64,7 @@
                         </GridPane>
                         <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
                           <content>
-                              <ListView fx:id="offeredContractsList" prefHeight="400.0" prefWidth="300.0" />
+                              <ListView fx:id="availableContractsList" prefHeight="400.0" prefWidth="300.0" />
                           </content>
                         </ScrollPane>
                      </children>
@@ -89,7 +89,7 @@
                               </HBox>
                               <HBox alignment="TOP_CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#removeContract" styleClass="button_module" text="Terminate Contract">
+                                    <Button mnemonicParsing="false" onMouseClicked="#removeAcceptedContract" styleClass="button_module" text="Terminate Contract">
                                        <graphic>
                                           <FontAwesomeIcon iconName="CARET_LEFT" size="1.3em" />
                                        </graphic>
