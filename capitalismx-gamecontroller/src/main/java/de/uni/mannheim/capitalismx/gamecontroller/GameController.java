@@ -146,6 +146,7 @@ public class GameController {
 			ExternalEvents.setInstance(state.getExternalEvents());
 			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
 			InternalFleet.setInstance(state.getInternalFleet());
+			BankingSystem.setInstance(state.getBankingSystem());
 			ResearchAndDevelopmentDepartment.setInstance(state.getResearchAndDevelopmentDepartment());
 			ProductSupport.setInstance(state.getProductSupport());
 			SalesDepartment.setInstance(state.getSalesDepartment());
