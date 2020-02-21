@@ -109,7 +109,7 @@ public class NewCampaignController implements UpdateableController {
     //TODO refactor to prevent nullpointer if OverviewModule is not displayed
     private void updateCompanyImage() {    	
     	
-    	GameModule modul = UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(GameModuleType.MARKETING_OVERVIEW);
+    	GameModule modul = UIManager.getInstance().getModule(GameModuleType.MARKETING_OVERVIEW);
     	
     	if(modul.isActivated()) {
     	

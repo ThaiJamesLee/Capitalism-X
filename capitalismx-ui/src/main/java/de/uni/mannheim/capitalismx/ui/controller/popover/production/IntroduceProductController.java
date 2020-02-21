@@ -1191,8 +1191,8 @@ public class IntroduceProductController implements Initializable {
             return;
         }
         
-        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
-        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.tv);
+        ((ProduceProductController)UIManager.getInstance().getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.tv);
     }
 
     public void launchConsole() {
@@ -1223,7 +1223,7 @@ public class IntroduceProductController implements Initializable {
             return;
         }
         
-        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((ProduceProductController)UIManager.getInstance().getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
         ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.console);
     }
 
@@ -1253,8 +1253,8 @@ public class IntroduceProductController implements Initializable {
             return;
         }
         
-        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
-        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.notebook);
+        ((ProduceProductController)UIManager.getInstance().getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.notebook);
     }
 
     public void launchPhone() {
@@ -1286,8 +1286,8 @@ public class IntroduceProductController implements Initializable {
             return;
         }
         
-        ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
-        ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.phone);
+        ((ProduceProductController)UIManager.getInstance().getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).hidePopOver();
+        ((StockManagementController)UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.phone);
     }
 
     

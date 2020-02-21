@@ -61,8 +61,8 @@ public class GameModule {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/module/module_frame.fxml"));
 		this.rootElement = loader.load();
 		frameController = ((ModuleFrameController) loader.getController());
-		frameController.setTitleLabel(definition.elementType.getTitle());
-		this.type = definition.elementType;
+		frameController.setTitleLabel(definition.moduleType.getTitle());
+		this.type = definition.moduleType;
 		frameController.initContent(contentRoot, type);
 
 		// Use css of the current resolution

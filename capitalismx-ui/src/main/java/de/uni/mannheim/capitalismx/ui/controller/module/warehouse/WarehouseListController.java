@@ -47,9 +47,9 @@ public class WarehouseListController implements Initializable {
 	 */
 	public void activateWarehouseModules() {
 		UIManager manager = UIManager.getInstance();
-		manager.getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
+		manager.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
 				.setActivated(true);
-		manager.getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STATISTICS).setActivated(true);
+		manager.getModule(GameModuleType.WAREHOUSE_STATISTICS).setActivated(true);
 		manager.getGamePageController().updateDisplayOfCurrentView(GameViewType.WAREHOUSE);
 	}
 

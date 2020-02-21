@@ -11,7 +11,6 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
@@ -111,9 +110,10 @@ public class ComponentStockCell {
 	 */
 	private void showTradeComponentMenu(SupplierCategory category, Button button) {
 		StockManagementController stockController = (StockManagementController) UIManager.getInstance()
-				.getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
-				.getController();
-		stockController.showTradePopover(components.get(category), button, components.get(category).getSalesPrice()); //TODO salesPrice correct?
+				.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController();
+		stockController.showTradePopover(components.get(category), button, components.get(category).getSalesPrice()); // TODO
+																														// salesPrice
+																														// correct?
 	}
 
 	/**

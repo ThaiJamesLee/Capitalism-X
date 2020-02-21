@@ -23,7 +23,7 @@ public class IntroduceProductChapter extends TutorialChapter {
 //				nodes.add(launchTvButton);
 
 		ProduceProductController con = (ProduceProductController) UIManager.getInstance()
-				.getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT)
+				.getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT)
 				.getController();
 
 		List<Node> nodes = con.getTutorialNodes();

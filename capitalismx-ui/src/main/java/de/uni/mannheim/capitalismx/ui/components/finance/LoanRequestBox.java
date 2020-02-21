@@ -58,7 +58,7 @@ public class LoanRequestBox {
         gridPane.setOnMouseClicked(e -> {
         	//TODO can this fail?
             gameContr.addLoan(loan, GameState.getInstance().getGameDate());
-            FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
+            FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
             financeBankingSystemController.addLoan(loan);
         });
 	}

@@ -180,6 +180,16 @@ public class UIManager {
 	}
 
 	/**
+	 * Get the requested {@link GameModule}.
+	 * 
+	 * @param type The {@link GameModuleType} to get the {@link GameModule} for.
+	 * @return Requested {@link GameModule}.
+	 */
+	public GameModule getModule(GameModuleType type) {
+		return getGameView(type.viewType).getModule(type);
+	}
+
+	/**
 	 * Returns the language file as java.util.locale.
 	 * 
 	 * @return The requested language file as Locale.
@@ -215,7 +225,7 @@ public class UIManager {
 	private void initDepartments() {
 		// check WAREHOUSE
 		if (GameState.getInstance().getWarehousingDepartment().getWarehouses().size() > 0) {
-			((WarehouseListController) getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_LIST)
+			((WarehouseListController) getModule(GameModuleType.WAREHOUSE_LIST)
 					.getController()).activateWarehouseModules();
 		}
 	}
@@ -409,7 +419,7 @@ public class UIManager {
 
 						// create new GameModule from the type and add it to its view.
 						GameModule module = new GameModule(root, moduleDefinition, controller);
-						getGameView(moduleDefinition.viewType).addModule(module);
+						getGameView(moduleDefinition.moduleType.viewType).addModule(module);
 
 						// update the progressbar
 						updateProgress();

@@ -20,75 +20,87 @@ import java.text.NumberFormat;
 
 public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner> {
 
-    @FXML
-    private Label nameLabel;
+	@FXML
+	private Label nameLabel;
 
-    @FXML
-    private Label reliabilityIndexLabel;
+	@FXML
+	private Label reliabilityIndexLabel;
 
-    @FXML
-    private Label ecoIndexLabel;
+	@FXML
+	private Label ecoIndexLabel;
 
-    @FXML
-    private Label qualityIndexLabel;
+	@FXML
+	private Label qualityIndexLabel;
 
-    @FXML
-    GridPane gridPane;
+	@FXML
+	GridPane gridPane;
 
-    @FXML
-    private Label contractualCostsLabel;
+	@FXML
+	private Label contractualCostsLabel;
 
-    @FXML
-    private Label variableCostsLabel;
+	@FXML
+	private Label variableCostsLabel;
 
-    @FXML
-    private Button buyButton;
+	@FXML
+	private Button buyButton;
 
-    private FXMLLoader loader;
+	private FXMLLoader loader;
 
-    private ListView<ExternalPartner> logisticsPartnerDetailListView;
+	private ListView<ExternalPartner> logisticsPartnerDetailListView;
 
-    public LogisticsPartnerDetailListViewCell(ListView<ExternalPartner> logisticsPartnerDetailListView){
-        this.logisticsPartnerDetailListView = logisticsPartnerDetailListView;
-    }
+	public LogisticsPartnerDetailListViewCell(ListView<ExternalPartner> logisticsPartnerDetailListView) {
+		this.logisticsPartnerDetailListView = logisticsPartnerDetailListView;
+	}
 
-    @Override
-    protected void updateItem(ExternalPartner externalPartner, boolean empty) {
-        super.updateItem(externalPartner, empty);
-        if(empty || externalPartner == null) {
-            setText(null);
-            setGraphic(null);
-        } else {
-            if (loader == null) {
-                loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/logistics_partner_detail_list_cell.fxml"), UIManager.getResourceBundle());
-                loader.setController(this);
+	@Override
+	protected void updateItem(ExternalPartner externalPartner, boolean empty) {
+		super.updateItem(externalPartner, empty);
+		if (empty || externalPartner == null) {
+			setText(null);
+			setGraphic(null);
+		} else {
+			if (loader == null) {
+				loader = new FXMLLoader(
+						getClass().getClassLoader()
+								.getResource("fxml/components/logistics_partner_detail_list_cell.fxml"),
+						UIManager.getResourceBundle());
+				loader.setController(this);
 
-                try {
-                    loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+				try {
+					loader.load();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-            }
+			}
 
-            GameController controller = GameController.getInstance();
-            nameLabel.setText(externalPartner.getName()); //TODO localization
-            reliabilityIndexLabel.setText("Reliability: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(externalPartner.getReliabilityIndexPartner()));
-            ecoIndexLabel.setText("Eco Index: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(externalPartner.getEcoIndexPartner()));
-            qualityIndexLabel.setText("Quality: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(externalPartner.getQualityIndexPartner()));
-            contractualCostsLabel.setText("Contractual Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCost()));
-            variableCostsLabel.setText("Delivery Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getVariableDeliveryCost()));
-            gridPane.setOnMouseClicked(e -> {
-                controller.addExternalPartner(externalPartner);
-                LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance().getGameView(GameViewType.LOGISTIC).getModule(GameModuleType.LOGISTICS_PARTNER_OVERVIEW).getController();
-                uiController.addExternalPartner(externalPartner);
-                
-                logisticsPartnerDetailListView.getSelectionModel().clearSelection();
-            });
+			GameController controller = GameController.getInstance();
+			nameLabel.setText(externalPartner.getName()); // TODO localization
+			reliabilityIndexLabel.setText(
+					"Reliability: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+							.format(externalPartner.getReliabilityIndexPartner()));
+			ecoIndexLabel
+					.setText("Eco Index: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+							.format(externalPartner.getEcoIndexPartner()));
+			qualityIndexLabel
+					.setText("Quality: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+							.format(externalPartner.getQualityIndexPartner()));
+			contractualCostsLabel.setText(
+					"Contractual Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCost()));
+			variableCostsLabel.setText(
+					"Delivery Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getVariableDeliveryCost()));
+			gridPane.setOnMouseClicked(e -> {
+				controller.addExternalPartner(externalPartner);
+				LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance()
+						.getModule(GameModuleType.LOGISTICS_PARTNER_OVERVIEW).getController();
+				uiController.addExternalPartner(externalPartner);
 
-            setText(null);
-            setGraphic(gridPane);
-        }
-    }
+				logisticsPartnerDetailListView.getSelectionModel().clearSelection();
+			});
+
+			setText(null);
+			setGraphic(gridPane);
+		}
+	}
 
 }

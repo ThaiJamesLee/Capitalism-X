@@ -33,8 +33,7 @@ public class GameStateEventListener implements PropertyChangeListener {
 			UIManager.getInstance().getGameHudController().update();
 			LocalDate date = (LocalDate) evt.getNewValue();
 			StockManagementController stockController = ((StockManagementController) UIManager.getInstance()
-					.getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
-					.getController());
+					.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController());
 
 			List<ExternalEvents.ExternalEvent> events = GameController.getInstance()
 					.getExternalEvents(date.minusDays(1));

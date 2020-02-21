@@ -8,7 +8,6 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.fxml.FXML;
@@ -77,8 +76,8 @@ public class DepartmentUpgradeController implements Initializable {
 		GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), cost);
 		update();
 		if (department instanceof HRDepartment) {
-			((RecruitingListController) UIManager.getInstance().getGameView(GameViewType.HR)
-					.getModule(GameModuleType.HR_RECRUITING_OVERVIEW).getController()).regenerateRecruitingProspects();
+			((RecruitingListController) UIManager.getInstance().getModule(GameModuleType.HR_RECRUITING_OVERVIEW)
+					.getController()).regenerateRecruitingProspects();
 		}
 	}
 

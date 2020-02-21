@@ -5,9 +5,8 @@ import java.io.IOException;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.GraphicHelper;
@@ -85,7 +84,7 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 		double hireCost = GameState.getInstance().getHrDepartment().hire(employee);
 		if (hireCost > 0) {
 			RecruitingListController recruitingController = (RecruitingListController) UIManager.getInstance()
-					.getGameView(GameViewType.HR).getModule(GameModuleType.HR_RECRUITING_OVERVIEW).getController();
+					.getModule(GameModuleType.HR_RECRUITING_OVERVIEW).getController();
 			recruitingController.removeEmployee(employee);
 			GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(),
 					hireCost);

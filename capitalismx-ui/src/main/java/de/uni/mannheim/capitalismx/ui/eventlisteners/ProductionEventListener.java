@@ -13,7 +13,7 @@ public class ProductionEventListener implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals("launchedProductsChange")) {
-            ((ProduceProductController)UIManager.getInstance().getGameView(GameViewType.PRODUCTION).getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).update();
+            ((ProduceProductController)UIManager.getInstance().getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController()).update();
         }
     }
 }
