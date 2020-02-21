@@ -38,8 +38,31 @@ import javafx.util.Duration;
  */
 public class TutorialPage {
 
+	/**
+	 * Defines the condition for the TutorialPage to finish and continue with the
+	 * next page.
+	 * 
+	 * <li>{@link #CONFIRM}</li>
+	 * <li>{@link #CLICK}</li>
+	 * <li>{@link #PROPERTY_EQUALS}</li>
+	 * 
+	 * @author Jonathan
+	 */
 	public enum NextPageCondition {
-		CONFIRM, CLICK, PROPERTY_EQUALS;
+		
+		/**
+		 * Confirm via a button next to the message.
+		 */
+		CONFIRM,
+		/**
+		 * Click on the {@link Node}, the message is attached to.
+		 */
+		CLICK,
+		/**
+		 * Set a {@link Property}, that needs to equal a certain Value. Once the
+		 * {@link Property} is changed and has that value, the tutorial continues.
+		 */
+		PROPERTY_EQUALS;
 	}
 
 	private EventHandler<? super MouseEvent> overwrittenHandler;
@@ -164,6 +187,10 @@ public class TutorialPage {
 			target.setOnMouseClicked(overwrittenHandler);
 			overwrittenHandler.handle(m);
 		}
+	}
+
+	public static class TutorialPageBuilder {
+		
 	}
 
 }

@@ -43,5 +43,5 @@ public class HudControlsChapter extends TutorialChapter {
 		pages.add(new TutorialPage(this, nodes.get(9), "chapter.controls.hud.messages", TutorialPage.NextPageCondition.CLICK));
 		pages.add(new TutorialPage(this, nodes.get(10), "chapter.controls.hud.settings", TutorialPage.NextPageCondition.CONFIRM));
 	}
-
+	
 }
