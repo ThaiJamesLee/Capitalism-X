@@ -430,6 +430,7 @@ public class UIManager {
 					// start the game once everything is loaded
 					startGame();
 					initDepartments();
+					GameController.getInstance().nextDay();
 
 					if (newGame) {
 						gameHudController.initTutorialCheck();
