@@ -43,13 +43,21 @@ public class SalesContractController extends GameModuleController {
 
     @FXML
     public void acceptContract(){
-        System.out.println("Accept Button Clicked");
         int index = availableContractsList.getSelectionModel().getSelectedIndex();
-        System.out.println(index);
         SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
         salesDep.addContractToActive(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
         refreshAvailableContracts();
         refreshAcceptedContracts();
+    }
+
+    /**
+     * Removes a contract from the list of accepted contracts
+     */
+    @FXML
+    public void terminateContract(){
+        int index = acceptedContractsList.getSelectionModel().getSelectedIndex();
+        SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+        /* todo: decrease cash as penalty */
     }
 
     public void refreshAvailableContracts(){
@@ -142,14 +150,6 @@ public class SalesContractController extends GameModuleController {
                 );
             }
         }
-
-    }
-
-    /**
-     * Removes a contract from the list of accepted contracts
-     */
-    @FXML
-    public void removeAcceptedContract(){
 
     }
 
