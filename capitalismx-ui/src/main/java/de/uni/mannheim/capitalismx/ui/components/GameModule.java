@@ -2,11 +2,11 @@ package de.uni.mannheim.capitalismx.ui.components;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.ModuleFrameController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 
 /**
@@ -27,7 +27,7 @@ public class GameModule {
 	// The controller for the frame of the element.
 	private ModuleFrameController frameController;
 
-	private GameModuleController controller;
+	private Initializable controller;
 
 	// The module's position on the grid.
 	private GridPosition gridPosition;
@@ -52,11 +52,11 @@ public class GameModule {
 	 * 
 	 * @param contentRoot The root element of the module's content.
 	 * @param definition  The {@link GameModuleDefinition} of the module.
-	 * @param controller  The {@link GameModuleController} of this module.
+	 * @param controller  The {@link Initializable} of this module.
 	 * @throws IOException If the {@link FXMLLoader}could not read the fxml-file
 	 *                     correctly.
 	 */
-	public GameModule(Parent contentRoot, GameModuleDefinition definition, GameModuleController controller)
+	public GameModule(Parent contentRoot, GameModuleDefinition definition, Initializable controller)
 			throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/module/module_frame.fxml"));
 		this.rootElement = loader.load();
@@ -95,7 +95,7 @@ public class GameModule {
 		this.gridPosition = gridPosition;
 	}
 
-	public GameModuleController getController() {
+	public Initializable getController() {
 		return controller;
 	}
 

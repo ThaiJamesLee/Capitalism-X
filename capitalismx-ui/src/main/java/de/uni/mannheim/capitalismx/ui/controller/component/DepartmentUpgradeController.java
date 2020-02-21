@@ -5,7 +5,11 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,8 +52,10 @@ public class DepartmentUpgradeController implements Initializable {
 			if (!upgradeVBox.getChildren().contains(upgradeGrid)) {
 				upgradeVBox.getChildren().add(upgradeGrid);
 			}
-			nextLevelDescriptionLabel.setText(department.getSkillMap().get(level + 1).getDescription(UIManager.getResourceBundle().getLocale()));
-			nextLevelLabel.setText(UIManager.getLocalisedString("hud.dropdown.next.benefits").replace("XXX", (level+1) + ""));
+			nextLevelDescriptionLabel.setText(
+					department.getSkillMap().get(level + 1).getDescription(UIManager.getResourceBundle().getLocale()));
+			nextLevelLabel.setText(
+					UIManager.getLocalisedString("hud.dropdown.next.benefits").replace("XXX", (level + 1) + ""));
 			levelUpButton.setText(UIManager.getLocalisedString("hud.dropdown.next.button")
 					+ CapCoinFormatter.getCapCoins(department.getLevelingMechanism().getNextLevelUpCost()));
 		} else {
@@ -68,6 +74,10 @@ public class DepartmentUpgradeController implements Initializable {
 	@FXML
 	private void levelUp() {
 		Double cost = department.getLevelingMechanism().levelUp();
+		if (department instanceof HRDepartment) {
+			((RecruitingListController) UIManager.getInstance().getGameView(GameViewType.HR)
+					.getModule(GameModuleType.HR_RECRUITING_OVERVIEW).getController()).regenerateRecruitingProspects();
+		}
 		GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), cost);
 		update();
 	}

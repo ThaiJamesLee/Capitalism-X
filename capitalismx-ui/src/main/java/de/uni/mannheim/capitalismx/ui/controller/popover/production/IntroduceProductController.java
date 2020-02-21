@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.popover;
+package de.uni.mannheim.capitalismx.ui.controller.popover.production;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -16,11 +16,9 @@ import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.InvalidSetOfComponentsException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
-import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.module.production.ProduceProductController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
@@ -28,6 +26,7 @@ import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -39,7 +38,7 @@ import javafx.util.StringConverter;
 
 
 //TODO internationalize Components
-public class IntroduceProductController extends GameModuleController {
+public class IntroduceProductController implements Initializable {
 
 	public List<Node> getTutorialNodes(){
 		List<Node> nodes = new ArrayList<Node>();
@@ -395,11 +394,6 @@ public class IntroduceProductController extends GameModuleController {
     private ToggleGroup phoneConnectivitiesToggleGroup;
     private ToggleGroup phonePowersuppliesToggleGroup;
     private ToggleGroup phoneKeypadsToggleGroup;
-
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

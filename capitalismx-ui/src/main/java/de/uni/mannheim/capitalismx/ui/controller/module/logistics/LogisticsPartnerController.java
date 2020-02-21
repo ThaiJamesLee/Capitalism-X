@@ -1,26 +1,20 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.logistics;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameController;
-import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
-import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.util.Duration;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
-import org.controlsfx.control.PopOver.ArrowLocation;
 
-public class LogisticsPartnerController extends GameModuleController {
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+
+public class LogisticsPartnerController implements Initializable {
 
 	@FXML
 	private Button logisticsPartnerButton;
@@ -31,11 +25,6 @@ public class LogisticsPartnerController extends GameModuleController {
 	private PopOver popover;
 
 	public LogisticsPartnerController() {
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

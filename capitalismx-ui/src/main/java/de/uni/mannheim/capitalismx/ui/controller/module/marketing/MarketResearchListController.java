@@ -12,12 +12,12 @@ import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.marketing.MarketResearchViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.popover.marketing.NewMarketResearchController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.MarketingEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
@@ -28,7 +28,7 @@ import javafx.scene.control.ListView;
  *
  */
 
-public class MarketResearchListController extends GameModuleController {
+public class MarketResearchListController implements Initializable {
 
 	@FXML
 	private ListView<MarketResearch> reportsList;
@@ -41,11 +41,6 @@ public class MarketResearchListController extends GameModuleController {
 	private NewMarketResearchController popoverController;
 	
 	public MarketResearchListController() {
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

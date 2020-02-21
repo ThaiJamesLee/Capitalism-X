@@ -9,15 +9,15 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.WarehouseListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
@@ -27,7 +27,7 @@ import javafx.scene.layout.GridPane;
  * 
  * @author Jonathan
  */
-public class WarehouseListController extends GameModuleController {
+public class WarehouseListController implements Initializable {
 
 	@FXML
 	ListView<Warehouse> warehouseListView;
@@ -118,11 +118,6 @@ public class WarehouseListController extends GameModuleController {
 		} catch (NoWarehouseSlotsAvailableException e) {
 			System.out.println(e.getMessage());
 		}
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
 	}
 
 }

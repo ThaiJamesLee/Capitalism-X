@@ -110,7 +110,6 @@ public class GamePageController implements UpdateableController {
 		GridPosition position = module.getGridPosition();
 		Parent root = module.getRootElement();
 
-		module.getController().update();
 		if (module.isActivated()) {
 			moduleGrid.add(root, position.getxStart(), position.getyStart(), position.getxSpan(), position.getySpan());
 		}

@@ -1,20 +1,19 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
-import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SalesContractController extends GameModuleController {
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
+
+public class SalesContractController implements Initializable {
 
     private Parent infoPane;
     private SalesContractInfoController infoPaneController;
@@ -45,11 +44,6 @@ public class SalesContractController extends GameModuleController {
 
     public void removeContract(){
         
-    }
-
-    @Override
-    public void update() {
-
     }
 
     @Override

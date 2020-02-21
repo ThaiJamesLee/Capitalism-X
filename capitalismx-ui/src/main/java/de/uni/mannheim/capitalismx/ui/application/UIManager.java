@@ -10,15 +10,14 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
 import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListController;
 import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
@@ -27,6 +26,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
@@ -402,7 +402,7 @@ public class UIManager {
 
 						// load root and controller of the module from the fxml
 						Parent root = loader.load();
-						GameModuleController controller = loader.getController();
+						Initializable controller = loader.getController();
 
 						// create new GameModule from the type and add it to its view.
 						GameModule module = new GameModule(root, moduleDefinition, controller);

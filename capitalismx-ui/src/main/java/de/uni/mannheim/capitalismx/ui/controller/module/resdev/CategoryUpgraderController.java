@@ -1,8 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.resdev;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -10,10 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class CategoryUpgraderController extends GameModuleController {
+public class CategoryUpgraderController implements Initializable {
 
     @FXML
     private GridPane categoryGrid;
@@ -70,13 +67,7 @@ public class CategoryUpgraderController extends GameModuleController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        GameState.getInstance().getResearchAndDevelopmentDepartment().getInstance();
 
     }
 
-
-    @Override
-    public void update() {
-
-    }
 }

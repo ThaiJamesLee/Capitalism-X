@@ -8,15 +8,15 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.finance.OperationsTableViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-public class OperationsTableController  extends GameModuleController {
+public class OperationsTableController  implements Initializable {
 
     @FXML
     private VBox operationsVBox;
@@ -24,11 +24,6 @@ public class OperationsTableController  extends GameModuleController {
     private Map<String, OperationsTableViewCell> controllers;
 
     public OperationsTableController() {
-    }
-
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
     }
 
     @Override

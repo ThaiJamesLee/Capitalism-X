@@ -11,11 +11,12 @@ import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.general.CapXPieChart;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -27,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Jonathan
  *
  */
-public class WarehouseStatisticsController extends GameModuleController {
+public class WarehouseStatisticsController implements UpdateableController {
 
 	@FXML
 	private Label capacityLabel, costLabel;

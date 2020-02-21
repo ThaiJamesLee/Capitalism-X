@@ -5,30 +5,25 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.util.StringConverter;
 import org.controlsfx.control.PopOver;
 
-import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
-import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.popover.finance.LoanRequestListController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 
-public class FinanceOverviewController extends GameModuleController {
+public class FinanceOverviewController implements Initializable {
 
 	@FXML
 	Label cashLabel;
@@ -77,11 +72,6 @@ public class FinanceOverviewController extends GameModuleController {
 	private double loanAmount;
 
 	private PopOver loanRequestPopover;
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

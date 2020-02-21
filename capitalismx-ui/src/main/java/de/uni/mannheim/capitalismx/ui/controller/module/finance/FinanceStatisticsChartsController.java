@@ -1,14 +1,14 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.chart.*;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class FinanceStatisticsChartsController extends GameModuleController {
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
+
+public class FinanceStatisticsChartsController implements Initializable {
 
     @FXML
     LineChart<String, Number> cashChart;
@@ -26,11 +26,6 @@ public class FinanceStatisticsChartsController extends GameModuleController {
     XYChart.Series<String, Number> assetsSeries;
     XYChart.Series<String, Number> liabilitiesSeries;
     XYChart.Series<String, Number> netWorthSeries;
-
-    @Override
-    public void update() {
-
-    }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
