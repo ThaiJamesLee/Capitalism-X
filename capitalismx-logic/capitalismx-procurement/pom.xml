@@ -11,6 +11,10 @@
 
     <artifactId>capitalismx-procurement</artifactId>
 
+    <description>
+        This module contains the logic for the procurement.
+    </description>
+
     <dependencies>
         <dependency>
             <groupId>de.uni.mannheim</groupId>

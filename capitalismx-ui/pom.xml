@@ -10,6 +10,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>capitalismx-ui</artifactId>
+
+	<description>
+		This module contains the ui, ui-controller and all ui assets.
+	</description>
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
 		<dependency>
@@ -49,11 +54,6 @@
 			<groupId>de.jensd</groupId>
 			<artifactId>fontawesomefx</artifactId>
 			<version>8.1</version>
-		</dependency>
-		<dependency>
-			<groupId>de.uni.mannheim</groupId>
-			<artifactId>capitalismx-hr</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.uni.mannheim</groupId>
