@@ -2,14 +2,12 @@ package de.uni.mannheim.capitalismx.ui.controller.gamepage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.message.MessageController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
@@ -154,7 +152,7 @@ public class GamePageController implements UpdateableController {
 
 		try {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/message/messagePane3.fxml"),
+					getClass().getClassLoader().getResource("fxml/message/message_pane.fxml"),
 					UIManager.getResourceBundle());
 			Parent rootC = loaderMessageWindow.load();
 			AnchorPaneHelper.snapNodeToAnchorPane(rootC, 500);

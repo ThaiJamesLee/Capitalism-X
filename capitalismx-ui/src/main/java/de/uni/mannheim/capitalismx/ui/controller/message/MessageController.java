@@ -71,8 +71,8 @@ public class MessageController implements Initializable {
 
 		ResourceBundle bundle = ResourceBundle.getBundle(LangFILE, lang);
 
-		FXMLLoader subjectLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/message/messagePaneSubject.fxml"));
-		FXMLLoader contentLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/message/messagePaneContent.fxml"));
+		FXMLLoader subjectLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/message/message_pane_subject.fxml"));
+		FXMLLoader contentLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/message/message_pane_content.fxml"));
 
 		try {
 			messageSubject = subjectLoader.load();
