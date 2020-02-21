@@ -10,18 +10,57 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * This class computes the current customer demand (depending on the GameState).
+ * This class requires the {@link CustomerSatisfaction#calculateCustomerSatisfaction(LocalDate)}.
+ * @author dzhao
+ * @author duly
  *
+ * @since 1.0.0
  */
 public class CustomerDemand implements Serializable {
+
     private static CustomerDemand instance;
+
+    /**
+     * The customer satisfaction overall appeal.
+     * See in {@link CustomerSatisfaction}.
+     */
     private Map<Product, Double> productCustomerSatisfactionOverallAppeal;
-    private double totalSalesQualityOfWork;
+
+    /**
+     * The overall appeal demand for each product.
+     */
     private Map<Product, Double> overallAppealDemand;
+
+    /**
+     * The demand percentage for each product.
+     */
     private Map<Product, Double> demandPercentage;
+
+    /**
+     * The demand amount for each product.
+     */
     private Map<Product, Double> demandAmount;
+
+    /**
+     * The days since the launch of the products.
+     */
     private Map<Product, Integer> daysSinceLaunchDate;
+
+    /**
+     * The perioduc demand amount for each product.
+     */
     private Map<Product, Double> periodicDemandAmount;
+
+    /**
+     * TODO
+     */
     private Map<Product, Integer> salesFigures;
+
+    /**
+     * The game population. Probably not necessary and also not defined
+     * in the original report, even though the demand function depends on this.
+     */
     private int gamePopulation;
 
     private CustomerDemand() {
@@ -59,8 +98,13 @@ public class CustomerDemand implements Serializable {
         return this.productCustomerSatisfactionOverallAppeal;
     }
 
+    /**
+     *
+     * @param totalSalesQualityOfWork The quality of work of the {@link de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson}. See in {@link de.uni.mannheim.capitalismx.hr.department.HRDepartment}.
+     * @param gameDate The current date of the GameState.
+     * @return Returns the overall appeal demand for each product.
+     */
     public Map<Product, Double> calculateOverallAppealDemand(double totalSalesQualityOfWork, LocalDate gameDate) {
-        this.totalSalesQualityOfWork = totalSalesQualityOfWork;
         Map<Product, Double> overallAppealDemand = new ConcurrentHashMap<>();
         Map<Product, Double> productOverallAppeal = this.calculateProductOverallAppeal(gameDate);
         for(Map.Entry<Product, Double> entry : productOverallAppeal.entrySet()) {
@@ -70,6 +114,12 @@ public class CustomerDemand implements Serializable {
         return this.overallAppealDemand;
     }
 
+    /**
+     *
+     * @param totalSalesQualityOfWork The quality of work of the {@link de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson}. See in {@link de.uni.mannheim.capitalismx.hr.department.HRDepartment}.
+     * @param gameDate The current date of the GameState.
+     * @return Returns the demand percentage for each product.
+     */
     public Map<Product, Double> calculateDemandPercentage(double totalSalesQualityOfWork, LocalDate gameDate) {
         this.calculateOverallAppealDemand(totalSalesQualityOfWork, gameDate);
         Map<Product, Double> demandPercentage = new ConcurrentHashMap<>();
@@ -80,6 +130,12 @@ public class CustomerDemand implements Serializable {
         return this.demandPercentage;
     }
 
+    /**
+     *
+     * @param totalSalesQualityOfWork The quality of work of the {@link de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson}. See in {@link de.uni.mannheim.capitalismx.hr.department.HRDepartment}.
+     * @param gameDate The current date of the GameState.
+     * @return Returns the overall appeal demand for each product.
+     */
     private Map<Product, Double> calculateDemandAmount(double totalSalesQualityOfWork, LocalDate gameDate) {
         Map<Product, Double> demandAmount = new ConcurrentHashMap<>();
         Map<Product, Double> demandPercentage = this.calculateDemandPercentage(totalSalesQualityOfWork, gameDate);
@@ -136,6 +192,10 @@ public class CustomerDemand implements Serializable {
         CustomerDemand.instance = instance;
     }
 
+    /**
+     * Requires this class to be refreshed and also the {@link CustomerSatisfaction}.
+     * @return Returns the demand percentage for each product.
+     */
     public Map<Product, Double> getDemandPercentage() {
         return demandPercentage;
     }
