@@ -20,7 +20,7 @@ jobs:
       run: mvn -B package --file pom.xml
       
     - name: Generate Documentation
-      run: mvn -Pcreate-docs site
+      run: mvn -Pcreate-docs site -Dshow=private
     - uses: montudor/action-zip@v0.1.0
       with:
         args: zip -qq -r ./capitalismx-docs.zip ./docs
