@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.production.Product;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Locale;
 
 /**
  *
@@ -63,6 +64,13 @@ public class Contract implements Serializable {
      * The date when the contract is done.
      */
     private LocalDate contractDone;
+
+    /**
+     * The date when the contract was terminated.
+     * This is the case, when the contract was not fulfilled.
+     * Either the player decided to terminate the contract himself, or the due date for this contract is reached.
+     */
+    private LocalDate terminateDate;
 
     /**
      * The number of products produced for this product.
@@ -224,6 +232,22 @@ public class Contract implements Serializable {
      */
     public void setContractDoneDate(LocalDate contractDone) {
         this.contractDone = contractDone;
+    }
+
+    /**
+     * Get the date, when the contract was closed, because it was not fulfilled.
+     * @return Returns the date.
+     */
+    public LocalDate getTerminateDate() {
+        return terminateDate;
+    }
+
+    /**
+     * Set this date, when the contract is not fulfilled, but not active any more.
+     * @param terminateDate The date this contract was terminated.
+     */
+    public void setTerminateDate(LocalDate terminateDate) {
+        this.terminateDate = terminateDate;
     }
 
     /**

@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
@@ -77,6 +78,7 @@ public class GameState implements Serializable {
 	 */
 	private Map<String, Department> allDepartments;
 
+	private EmployeeGenerator employeeGenerator;
 	private CustomerSatisfaction customerSatisfaction;
 	private CustomerDemand customerDemand;
 	private ExternalEvents externalEvents;
@@ -123,6 +125,8 @@ public class GameState implements Serializable {
 		companyEcoIndex = CompanyEcoIndex.getInstance();
 		internalFleet = InternalFleet.getInstance();
 		productSupport = ProductSupport.getInstance();
+		employeeGenerator = EmployeeGenerator.getInstance();
+		employeeGenerator.setDepartment((HRDepartment) allDepartments.get(HRDepartment.class.getSimpleName()));
 	}
 
 	/**
@@ -147,6 +151,8 @@ public class GameState implements Serializable {
 		CustomerDemand.setInstance(CustomerDemand.createInstance());
 		ExternalEvents.setInstance(ExternalEvents.createInstance());
 		CompanyEcoIndex.setInstance(CompanyEcoIndex.createInstance());
+		EmployeeGenerator.setInstance(EmployeeGenerator.createInstance());
+		EmployeeGenerator.getInstance().setDepartment(HRDepartment.getInstance());
 		InternalFleet.setInstance(null);
 	}
 
@@ -379,6 +385,14 @@ public class GameState implements Serializable {
 
 	public void setInternalFleet(InternalFleet internalFleet) {
 		this.internalFleet = internalFleet;
+	}
+
+	public EmployeeGenerator getEmployeeGenerator() {
+		return employeeGenerator;
+	}
+
+	public void setEmployeeGenerator(EmployeeGenerator employeeGenerator) {
+		this.employeeGenerator = employeeGenerator;
 	}
 
 	/**

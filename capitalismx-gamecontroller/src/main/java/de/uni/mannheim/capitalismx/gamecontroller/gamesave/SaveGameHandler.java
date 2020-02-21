@@ -21,15 +21,31 @@ public class SaveGameHandler {
     private static final String SAVE_GAME_FILE = "capitalismx.savegame";
     private static final Logger logger = LoggerFactory.getLogger(SaveGameHandler.class);
 
+    /**
+     * The path of the savegame file.
+     */
     private String filePath;
+
+    /**
+     * The path to the directory of the savegame file.
+     */
     private String dir;
 
+    /**
+     * This constructor uses the current directory.
+     * It creates a ./data/ directory in the current directory to write the gamesave file.
+     */
     public SaveGameHandler() {
         dir = System.getProperty("user.dir") + File.separator + "data";
         filePath = dir + File.separator + SAVE_GAME_FILE;
         createDir(dir);
     }
 
+    /**
+     * This constructor allows to specify a path.
+     * Saves the savegame in {dir}/data/*.savegame
+     * @param dir The path to the savegame directory.
+     */
     public SaveGameHandler(String dir) {
         this.dir = dir;
         filePath = dir + File.separator + SAVE_GAME_FILE;
