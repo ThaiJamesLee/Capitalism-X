@@ -16,11 +16,13 @@ import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -40,6 +42,7 @@ public class TutorialPage {
 		CONFIRM, CLICK, PROPERTY_EQUALS;
 	}
 
+	private EventHandler<? super MouseEvent> overwrittenHandler;
 	private boolean propertyCheckSet;
 	private Highlighter highlighter;
 	private TutorialChapter owningChapter;
@@ -86,10 +89,11 @@ public class TutorialPage {
 	private void addButton() {
 		FontAwesomeIcon icon = new FontAwesomeIcon();
 		icon.setIcon(FontAwesomeIconName.CHECK);
+		icon.getStyleClass().add("icon_light");
 		Button confirm = new Button("", icon);
 		confirm.getStyleClass().add("btn_standard");
 		confirm.setOnAction(e -> {
-			turnPage();
+			turnPage(null);
 		});
 		vBox.getChildren().add(confirm);
 	}
@@ -99,7 +103,7 @@ public class TutorialPage {
 	 */
 	private void initPopover() {
 		infoPopover.setFadeInDuration(Duration.millis(300));
-		infoPopover.setFadeOutDuration(Duration.millis(300));
+		infoPopover.setFadeOutDuration(Duration.millis(0));
 		infoPopover.setArrowLocation(ArrowLocation.TOP_LEFT);
 	}
 
@@ -108,7 +112,7 @@ public class TutorialPage {
 			@Override
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
 				if (newValue.equals(expectedResult)) {
-					turnPage();
+					turnPage(null);
 					p.removeListener(this);
 				}
 			}
@@ -133,8 +137,9 @@ public class TutorialPage {
 					addButton();
 					break;
 				case CLICK:
-					target.setOnMouseReleased(e -> {
-						turnPage();
+					overwrittenHandler = target.getOnMouseClicked();
+					target.setOnMouseClicked(e -> {
+						turnPage(e);
 					});
 					break;
 				case PROPERTY_EQUALS:
@@ -151,11 +156,13 @@ public class TutorialPage {
 
 	}
 
-	private void turnPage() {
-		if (target != null) {
-			highlighter.removeHighlight(target);
-			infoPopover.hide();
-			owningChapter.nextPage();
+	private void turnPage(MouseEvent m) {
+		infoPopover.hide();
+		highlighter.removeHighlight(target);
+		owningChapter.nextPage();
+		if (m != null && overwrittenHandler != null) {
+			target.setOnMouseClicked(overwrittenHandler);
+			overwrittenHandler.handle(m);
 		}
 	}
 
