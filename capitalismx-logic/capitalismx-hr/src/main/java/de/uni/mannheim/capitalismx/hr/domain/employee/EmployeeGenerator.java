@@ -12,6 +12,7 @@ import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -19,7 +20,7 @@ import java.util.*;
  *
  * @author duly
  */
-public class EmployeeGenerator {
+public class EmployeeGenerator implements Serializable {
 
     private EmployeeMarketSample employeeMarketSample;
 
@@ -44,6 +45,14 @@ public class EmployeeGenerator {
         return new EmployeeGenerator();
     }
 
+    public static void setInstance(EmployeeGenerator employeeGenerator) {
+        EmployeeGenerator.instance = employeeGenerator;
+    }
+
+    /**
+     * Set the {@link HRDepartment} to get the current probability distribution.
+     * @param department The current {@link HRDepartment} of the GameState.
+     */
     public void setDepartment(HRDepartment department) {
         this.department = department;
     }

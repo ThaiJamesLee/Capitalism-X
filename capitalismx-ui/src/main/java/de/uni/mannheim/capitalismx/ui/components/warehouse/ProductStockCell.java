@@ -62,7 +62,7 @@ public class ProductStockCell {
 			e.printStackTrace();
 		}
 
-		amountField.setPromptText("Enter amount..."); //TODO
+		amountField.setPromptText("Enter amount..."); // TODO
 		TextFieldHelper.makeTextFieldNumeric(amountField);
 		productName.setText(product.getProductName());
 		productCount.setText(warehouse.getAmountStored(this.product) + "");
@@ -72,11 +72,13 @@ public class ProductStockCell {
 				factory.createTooltip("Sell the entered amount of products for less than their production value.")); // TODO
 		buyAllComponents.setOnAction(e -> {
 			buyAllComponents();
-			//TODO give player info about price beforehand
+			// TODO give player info about price beforehand
 			amountField.setText(0 + "");
 		});
 		discardProducts.setOnAction(e -> {
-			warehouse.sellWarehouseProducts(product, Integer.parseInt(amountField.getText())); //TODO feedback? do I have to check the amount stored? 
+			warehouse.sellWarehouseProducts(product, Integer.parseInt(amountField.getText())); // TODO feedback? do I
+																								// have to check the
+																								// amount stored?
 			amountField.setText(0 + "");
 		});
 
@@ -86,14 +88,21 @@ public class ProductStockCell {
 		return root;
 	}
 
+	/**
+	 * Update the displayed current stock of this {@link Product}.
+	 */
 	public void updateStock() {
 		productCount.setText(warehouse.getAmountStored(product) + "");
 	}
 
+	/**
+	 * Buy the given amount of each {@link Component} necessary for this
+	 * {@link Product}.
+	 */
 	private void buyAllComponents() {
 		GameController contr = GameController.getInstance();
 		int amount = Integer.valueOf(amountField.getText());
-		for(Component component : product.getComponents() ) {
+		for (Component component : product.getComponents()) {
 			contr.buyComponents(component, amount);
 		}
 	}

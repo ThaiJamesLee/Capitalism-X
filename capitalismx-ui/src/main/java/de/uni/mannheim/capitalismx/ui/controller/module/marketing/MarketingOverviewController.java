@@ -8,12 +8,12 @@ import org.controlsfx.control.PopOver;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.MarketingEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -24,7 +24,7 @@ import javafx.scene.control.Label;
  *
  */
 
-public class MarketingOverviewController extends GameModuleController {
+public class MarketingOverviewController implements Initializable {
 
 	//TODO Was tun mit den Consultancies???
 	//TODO replace current pressReleasePopover
@@ -52,11 +52,6 @@ public class MarketingOverviewController extends GameModuleController {
 	private GameController controller;
 	
 	public MarketingOverviewController() {
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

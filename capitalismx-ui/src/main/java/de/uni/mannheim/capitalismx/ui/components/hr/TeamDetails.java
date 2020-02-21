@@ -36,19 +36,20 @@ public class TeamDetails {
 
 	private Parent root;
 
-	public ListView<Employee> getTeamList() {
-		return teamListView;
-	}
-
-	public Parent getRoot() {
-		return root;
-	}
 
 	@FXML
 	private AnchorPane listAnchor;
 
 	@FXML
 	private Label teamName, teamBenefits, number, salary, satisfaction, productivity;
+
+	public ListView<Employee> getTeamList() {
+		return teamListView;
+	}
+	
+	public Parent getRoot() {
+		return root;
+	}
 
 	public TeamDetails(Team team) {
 		this.team = team;

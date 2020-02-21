@@ -1,12 +1,11 @@
 package de.uni.mannheim.capitalismx.ui.tutorial.chapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.tutorial.TutorialPage;
+import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
@@ -25,7 +24,7 @@ public class TutorialChapter {
 	protected List<TutorialPage> pages = new ArrayList<TutorialPage>();
 	protected Iterator<TutorialPage> currentPage;
 
-	private final int PAUSE_BETWEEN_STEPS = 1200;
+	private final int PAUSE_BETWEEN_STEPS = 1000;
 
 	/**
 	 * Can be called to begin with the first {@link TutorialPage} of this chapter.

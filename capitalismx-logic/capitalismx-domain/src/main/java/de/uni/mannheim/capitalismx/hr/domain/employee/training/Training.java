@@ -11,7 +11,14 @@ import java.util.ResourceBundle;
  */
 public enum Training {
 
+    /**
+     * The course improves the employee skills by a little.
+     */
     COURSES ("courses"),
+
+    /**
+     * The workshop improves the employee skills more.
+     */
     WORKSHOP ("workshop");
 
     private static final String PROPERTIES_FILE = "domain-defaults";

@@ -2,8 +2,8 @@ package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,7 +30,7 @@ public class SalesContractListCellController implements Initializable {
     @FXML
     public void showInfoPanel(){
         System.out.println("List Cell clicked");
-        ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(UIElementType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
+        ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
     }
 
     public void setContractName(String contractName) {
@@ -45,7 +45,7 @@ public class SalesContractListCellController implements Initializable {
         this.ID = i;
     }
 
-    public String getIndex(){
+    public String getID(){
         return ID;
     }
 

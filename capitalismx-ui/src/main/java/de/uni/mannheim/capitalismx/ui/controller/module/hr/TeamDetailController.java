@@ -6,19 +6,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.hr.TeamDetails;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.HREventListener;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -30,17 +30,12 @@ import javafx.scene.control.TabPane;
  * @author Jonathan
  *
  */
-public class TeamDetailController extends GameModuleController {
+public class TeamDetailController implements Initializable {
 
 	@FXML
 	private TabPane employeeTabPane;
 
 	private Map<EmployeeType, TeamDetails> employeeTypeDetails;
-
-	@Override
-	public void update() {
-
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

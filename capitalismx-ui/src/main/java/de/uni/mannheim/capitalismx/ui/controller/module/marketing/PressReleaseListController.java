@@ -10,10 +10,10 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.marketing.NewPressReleaseViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
@@ -24,7 +24,7 @@ import javafx.scene.control.ListView;
  *
  */
 
-public class PressReleaseListController extends GameModuleController {
+public class PressReleaseListController implements Initializable {
 
 	//TODO Label mit gesamten Kosten
 	//TODO Unterschiedliche Zellen für published (mit Datum???) und possible Releases
@@ -37,11 +37,6 @@ public class PressReleaseListController extends GameModuleController {
 	private PopOver popover;
 	
 	public PressReleaseListController() {
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

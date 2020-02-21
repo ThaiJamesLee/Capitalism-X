@@ -38,7 +38,7 @@
                         <String fx:value="label_medium" />
                      </styleClass>
                   </Label>
-                  <Button fx:id="levelUpButton" mnemonicParsing="false" onAction="#levelUp" styleClass="button_module" text="Button" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <Button fx:id="levelUpButton" mnemonicParsing="false" onAction="#levelUp" styleClass="btn_standard" text="Button" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <graphic>
                         <FontAwesomeIcon iconName="ARROW_CIRCLE_UP" size="1.5em" styleClass="icon_light" />
                      </graphic>

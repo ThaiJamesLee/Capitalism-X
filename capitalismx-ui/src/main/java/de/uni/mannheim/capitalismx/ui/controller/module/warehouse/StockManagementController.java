@@ -24,12 +24,12 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.ComponentStockCell;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.ProductStockCell;
 import de.uni.mannheim.capitalismx.ui.controller.component.TradeComponentPopoverController;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.WarehouseEventlistener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
@@ -44,13 +44,13 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 /**
- * {@link GameModuleController} for the module allowing the management of the
+ * {@link Initializable} for the module allowing the management of the
  * {@link Component}s. Buying and selling components.
  * 
  * @author Jonathan
  *
  */
-public class StockManagementController extends GameModuleController {
+public class StockManagementController implements Initializable {
 
 	private PopOver tradePopover;
 	private TradeComponentPopoverController tradePopoverController;
@@ -220,12 +220,6 @@ public class StockManagementController extends GameModuleController {
 		tradePopoverController.focus();
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * Update the stock of a particular {@link Component}.
 	 * 
@@ -246,18 +240,6 @@ public class StockManagementController extends GameModuleController {
 				entry.getValue().setComponentAvailable(new Component(entry.getKey()).isAvailable(date));
 			}
 		});
-	}
-
-	/**
-	 * Recalculates prices for the {@link Component}s of each
-	 * {@link SupplierCategory}.
-	 * 
-	 * @param date The {@link LocalDate} to calculate prices for.
-	 */
-	public void updateComponentPrices(LocalDate date) {
-		for (Entry<ComponentType, ComponentStockCell> entry : componentCells.entrySet()) {
-			entry.getValue().updateQuarterlyComponentPrices(date);
-		}
 	}
 
 	/**

@@ -76,24 +76,25 @@
                   <AnchorPane fx:id="contractInfoPane" />
                   <AnchorPane>
                      <children>
-                        <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <VBox alignment="CENTER" prefWidth="225.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <children>
-                              <HBox alignment="TOP_CENTER">
+                              <HBox alignment="CENTER">
                                  <children>
-                                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="button_module" text="Add Contract">
+                                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="btn_standard" text="Add Contract">
                                        <graphic>
                                           <FontAwesomeIcon iconName="CARET_RIGHT" size="1.3em" />
                                        </graphic>
                                     </Button>
                                  </children>
                               </HBox>
-                              <HBox alignment="TOP_CENTER">
+                              <HBox alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="button_module" text="Terminate Contract">
-                                       <graphic>
-                                          <FontAwesomeIcon iconName="CARET_LEFT" size="1.3em" />
-                                       </graphic>
-                                    </Button>
+                                    <Button mnemonicParsing="false" onMouseClicked="#fulfillContract" styleClass="btn_standard" text="Fulfill Contract" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Button mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="btn_standard" text="Terminate Contract" />
                                  </children>
                               </HBox>
                            </children>

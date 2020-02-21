@@ -45,12 +45,29 @@ public class SalesDepartment extends DepartmentImpl {
      */
     private PropertyChangeSupportList<Contract> doneContracts;
 
+    /**
+     * List of failed contracts.
+     */
+    private PropertyChangeSupportList<Contract> failedContracts;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesDepartment.class);
 
+    /**
+     * The event that is fired, when the list {@link SalesDepartment#activeContracts} changes.
+     */
     public static final String ACTIVE_CONTRACTS_EVENT = "activeContractListChanged";
+
+    /**
+     * The event that is fired, when the list {@link SalesDepartment#availableContracts} changes.
+     */
     public static final String AVAILABLE_CONTRACTS_EVENT = "availableContractListChanged";
+
+    /**
+     * The event that is fired, when the list {@link SalesDepartment#doneContracts} changes.
+     */
     public static final String DONE_CONTRACTS_EVENT = "doneContractsListChanged";
+    public static final String FAILED_CONTRACTS_EVENT = "failedContractsListChanged";
 
     private static final String SALES_PROPERTY_FILE = "sales-module";
     private static final String MAX_LEVEL_PROPERTY = "sales.department.level.max";
@@ -68,6 +85,7 @@ public class SalesDepartment extends DepartmentImpl {
         activeContracts = new PropertyChangeSupportList<>();
         availableContracts = new PropertyChangeSupportList<>();
         doneContracts = new PropertyChangeSupportList<>();
+        failedContracts = new PropertyChangeSupportList<>();
         init();
     }
 
@@ -83,6 +101,9 @@ public class SalesDepartment extends DepartmentImpl {
 
         this.doneContracts.setAddPropertyName(DONE_CONTRACTS_EVENT);
         this.doneContracts.setRemovePropertyName(DONE_CONTRACTS_EVENT);
+
+        this.failedContracts.setRemovePropertyName(FAILED_CONTRACTS_EVENT);
+        this.failedContracts.setAddPropertyName(FAILED_CONTRACTS_EVENT);
         initProperties();
     }
 
@@ -200,6 +221,18 @@ public class SalesDepartment extends DepartmentImpl {
         contract.setContractDoneDate(doneDate);
         this.activeContracts.remove(contract);
         this.doneContracts.add(contract);
+    }
+
+    /**
+     * Call this, when the player terminates the contract or because he failed to fulfill the contract in time
+     * (when the contract is due).
+     * @param contract The contract to terminate.
+     * @param terminateDate The date the contract was terminated.
+     */
+    public void terminateContract(Contract contract, LocalDate terminateDate) {
+        contract.setTerminateDate(terminateDate);
+        this.activeContracts.remove(contract);
+        this.failedContracts.add(contract);
     }
     
 

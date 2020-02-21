@@ -40,3 +40,7 @@
 	-fx-border-insets: 5 -25 5 -25;
 }
 
+.icon_primary {
+	-fx-text-fill: -fx-primary;
+	-fx-fill: -fx-primary;
+}

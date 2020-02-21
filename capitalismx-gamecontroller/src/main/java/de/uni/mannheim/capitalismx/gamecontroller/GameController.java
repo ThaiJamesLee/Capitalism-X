@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.production.*;
@@ -43,6 +44,8 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 
+import javax.swing.*;
+
 /**
  * This class is the entry point for the UI.
  * It aggregates the game-logic and allows all objects to be updated.
@@ -59,8 +62,7 @@ public class GameController {
 
 	private static GameController instance;
 
-	private GameController() {
-	}
+	private GameController() {}
 
 	public static GameController getInstance() {
 		if (instance == null) {
@@ -82,11 +84,19 @@ public class GameController {
 		}
 		
 		if (oldDate.getMonth() != newDate.getMonth()) {
-			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
-			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
-			updateSalesDepartment();
+			monthlyUpdate();
 		}
 		this.updateAll();
+	}
+
+	/**
+	 * All events or objects that are updated in a monthly fashion.
+	 */
+	private void monthlyUpdate() {
+		ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
+		WarehousingDepartment.getInstance().resetMonthlyStorageCost();
+		updateSalesDepartment();
+		updateBenefitCost();
 	}
 	
 	public void goToDay(LocalDate newDate) {
@@ -138,9 +148,11 @@ public class GameController {
 			ExternalEvents.setInstance(state.getExternalEvents());
 			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
 			InternalFleet.setInstance(state.getInternalFleet());
+			BankingSystem.setInstance(state.getBankingSystem());
 			ResearchAndDevelopmentDepartment.setInstance(state.getResearchAndDevelopmentDepartment());
 			ProductSupport.setInstance(state.getProductSupport());
 			SalesDepartment.setInstance(state.getSalesDepartment());
+			EmployeeGenerator.setInstance(state.getEmployeeGenerator());
 
 		} catch (ClassNotFoundException e) {
 			LOGGER.error(e.getMessage(), e);
@@ -210,6 +222,14 @@ public class GameController {
 	private void updateHR() {
 		HRDepartment.getInstance().updateEmployeeHistory(GameState.getInstance().getGameDate());
 		HRDepartment.getInstance().calculateAndUpdateEmployeesMeta();
+	}
+
+	private void updateBenefitCost() {
+		double cost = HRDepartment.getInstance().getBenefitSettingsCost();
+		if(cost > 0.0) {
+			decreaseCash(GameState.getInstance().getGameDate(), cost);
+		}
+
 	}
 
 	private void updateLogistics() {

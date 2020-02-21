@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller;
+package de.uni.mannheim.capitalismx.ui.controller.message;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameNotification;
+import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.MessageEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
@@ -75,8 +76,8 @@ public class MessageController implements Initializable {
 
 		ResourceBundle bundle = ResourceBundle.getBundle(LangFILE, lang);
 
-		FXMLLoader subjectLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePaneSubject.fxml"));
-		FXMLLoader contentLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/messagePaneContent.fxml"));
+		FXMLLoader subjectLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/message/message_pane_subject.fxml"));
+		FXMLLoader contentLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/message/message_pane_content.fxml"));
 
 		try {
 			messageSubject = subjectLoader.load();

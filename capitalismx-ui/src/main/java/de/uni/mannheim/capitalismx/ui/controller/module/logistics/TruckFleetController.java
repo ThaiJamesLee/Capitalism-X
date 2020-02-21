@@ -10,14 +10,14 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
-public class TruckFleetController extends GameModuleController {
+public class TruckFleetController implements Initializable {
 
 	@FXML
 	ListView<Truck> truckFleetListView;
@@ -28,11 +28,6 @@ public class TruckFleetController extends GameModuleController {
 	private PopOver popover;
 
 	public TruckFleetController() {
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

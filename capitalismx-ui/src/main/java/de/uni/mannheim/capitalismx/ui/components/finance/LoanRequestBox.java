@@ -8,7 +8,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSystemController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
@@ -58,7 +58,7 @@ public class LoanRequestBox {
         gridPane.setOnMouseClicked(e -> {
         	//TODO can this fail?
             gameContr.addLoan(loan, GameState.getInstance().getGameDate());
-            FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(UIElementType.FINANCE_BANKING_SYSTEM).getController();
+            FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
             financeBankingSystemController.addLoan(loan);
         });
 	}

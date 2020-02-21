@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.eventhandlers.Map3DInputHandler;
-import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
 import de.uni.mannheim.capitalismx.ui.utils.Xform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -36,7 +35,7 @@ import javafx.stage.Screen;
  *
  */
 
-public class OverviewMap3DController extends GameModuleController {
+public class OverviewMap3DController implements Initializable {
 
 	@FXML
 	private AnchorPane overviewMap3D;
@@ -77,11 +76,6 @@ public class OverviewMap3DController extends GameModuleController {
 
 	public Map3DInputHandler getMouseEventHandler() {
 		return mouseEventHandler;
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
 	}
 
 	private SubScene buildSubScene(Group group) {

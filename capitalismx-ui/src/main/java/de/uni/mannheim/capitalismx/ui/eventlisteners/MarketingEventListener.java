@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketResearchListController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketingOverviewController;
@@ -32,12 +32,12 @@ public class MarketingEventListener implements PropertyChangeListener {
 //        }
 
         if(evt.getPropertyName().equals("pressReleases")){
-            PressReleaseListController pressReleaseController = (PressReleaseListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_PRESSRELEASE).getController();
+            PressReleaseListController pressReleaseController = (PressReleaseListController) UIManager.getInstance().getModule(GameModuleType.MARKETING_PRESSRELEASE).getController();
             pressReleaseController.hidePopover();
         }
 
         if(evt.getPropertyName().equals("level")){
-            MarketingOverviewController overviewCon = (MarketingOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_OVERVIEW).getController();
+            MarketingOverviewController overviewCon = (MarketingOverviewController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(GameModuleType.MARKETING_OVERVIEW).getController();
             
            int newLevel = ((Double) evt.getNewValue()).intValue();
             switch(newLevel) {
@@ -48,7 +48,7 @@ public class MarketingEventListener implements PropertyChangeListener {
             	//TODO Wirkdauer von Pressemitteilung wird verdoppelt 
             	break;
             case 3:
-            	MarketResearchListController mrCon = (MarketResearchListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(UIElementType.MARKETING_MARKETRESEARCH).getController();
+            	MarketResearchListController mrCon = (MarketResearchListController) UIManager.getInstance().getGameView(GameViewType.MARKETING).getModule(GameModuleType.MARKETING_MARKETRESEARCH).getController();
             	mrCon.enableInternalMarketResearch();
             	break;
             case 4:

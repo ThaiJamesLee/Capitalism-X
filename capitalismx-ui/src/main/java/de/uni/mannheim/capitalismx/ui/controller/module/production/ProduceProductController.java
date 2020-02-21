@@ -12,8 +12,8 @@ import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.production.LaunchedProductsListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.controller.popover.IntroduceProductController;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.production.IntroduceProductController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.ProductionEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
@@ -22,7 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
-public class ProduceProductController extends GameModuleController {
+public class ProduceProductController implements UpdateableController {
 
 	@FXML
 	ListView<Product> launchedProductsListView;

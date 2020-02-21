@@ -1,14 +1,20 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.SalesEventListener;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -19,7 +25,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class SalesContractController extends GameModuleController {
+public class SalesContractController implements Initializable {
 
     SalesEventListener contractListener;
     SalesContractInfoController infoPaneController;
@@ -41,13 +47,27 @@ public class SalesContractController extends GameModuleController {
 
     }
 
+    /**
+     *
+     */
     @FXML
     public void acceptContract(){
-        int index = availableContractsList.getSelectionModel().getSelectedIndex();
-        SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
-        salesDep.addContractToActive(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
-        refreshAvailableContracts();
-        refreshAcceptedContracts();
+        if(availableContractsList.getSelectionModel().getSelectedIndices().size() > 0) {
+            int index = availableContractsList.getSelectionModel().getSelectedIndex();
+            SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+            salesDep.addContractToActive(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
+            refreshAllContracts();
+        }
+    }
+
+    @FXML
+    public void fulfillContract(){
+        if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0){
+            int index = availableContractsList.getSelectionModel().getSelectedIndex();
+            SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+            salesDep.contractDone(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
+            refreshAcceptedContracts();
+        }
     }
 
     /**
@@ -55,26 +75,16 @@ public class SalesContractController extends GameModuleController {
      */
     @FXML
     public void terminateContract(){
-        int index = acceptedContractsList.getSelectionModel().getSelectedIndex();
-        SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
-        /* todo: decrease cash as penalty */
-    }
-
-    public void refreshAvailableContracts(){
-        removeAllAvailableContracts();
-        ArrayList<Contract> contractList = ((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList());
-        for(int i = 0; i < contractList.size(); i++){
-            addContractOffer(contractList.get(i), i, false);
+        if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0) {
+            int index = acceptedContractsList.getSelectionModel().getSelectedIndex();
+            SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+            GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), salesDep.getActiveContracts().get(index).getPenalty());
+            salesDep.terminateContract(salesDep.getActiveContracts().get(index), GameState.getInstance().getGameDate());
+            refreshAcceptedContracts();
         }
     }
 
-    public void refreshAcceptedContracts(){
-        removeAllAcceptedContracts();
-        CopyOnWriteArrayList<Contract> contractList = ((CopyOnWriteArrayList<Contract>)GameState.getInstance().getSalesDepartment().getActiveContracts().getList());
-        for(int i = 0; i < contractList.size(); i++){
-            addContractOffer(contractList.get(i), i, true);
-        }
-    }
+
 
 
     /**
@@ -112,11 +122,12 @@ public class SalesContractController extends GameModuleController {
 
     /**
      * This methods displays the info panel for a "Offered Contracts" list entry that was cicked.
-     * This method is called by 
+     * This method is called by
      * @param ID
      */
     public void showInfoPanel(String ID){
         System.out.println("showInfoPanel  Check");
+        //GameState.getInstance().getSalesDepartment().getAvailableContracts().getList().contains();
         for(Contract c : ((ArrayList<Contract>)GameState.getInstance().getSalesDepartment().getAvailableContracts().getList())) {
             System.out.println("First Loop Check");
             if (c.getuId().equals(ID)) {
@@ -153,20 +164,51 @@ public class SalesContractController extends GameModuleController {
 
     }
 
+    public void refreshAllContracts(){
+        refreshAvailableContracts();
+        refreshAcceptedContracts();
+    }
+
+    public void refreshAvailableContracts(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                removeAllAvailableContracts();
+                ArrayList<Contract> contractList = ((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList());
+                for(int i = 0; i < contractList.size(); i++){
+                    addContractOffer(contractList.get(i), i, false);
+                }
+            }
+        });
+    }
+
+    public void refreshAcceptedContracts(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                removeAllAcceptedContracts();
+                CopyOnWriteArrayList<Contract> contractList = ((CopyOnWriteArrayList<Contract>)GameState.getInstance().getSalesDepartment().getActiveContracts().getList());
+                for(int i = 0; i < contractList.size(); i++){
+                    addContractOffer(contractList.get(i), i, true);
+                }
+            }
+        });
+    }
+
     public void removeAllAcceptedContracts(){
-        acceptedContracts.clear();
-        acceptedIDlist.clear();
-        acceptedContractsList.setItems(acceptedContracts);
+        if(acceptedContracts.size() > 0){
+            acceptedContracts.clear();
+            acceptedIDlist.clear();
+            acceptedContractsList.setItems(acceptedContracts);
+        }
     }
 
     public void removeAllAvailableContracts(){
-        availableContracts.clear();
-        availableIDlist.clear();
-        availableContractsList.setItems(availableContracts);
-    }
-
-    @Override
-    public void update() {
+        if(availableContracts.size() > 0){
+            availableContracts.clear();
+            availableIDlist.clear();
+            availableContractsList.setItems(availableContracts);
+        }
 
     }
 
