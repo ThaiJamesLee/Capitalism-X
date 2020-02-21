@@ -3,7 +3,7 @@ package de.uni.mannheim.capitalismx.ui.eventlisteners;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.controller.GamePageController;
+import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 

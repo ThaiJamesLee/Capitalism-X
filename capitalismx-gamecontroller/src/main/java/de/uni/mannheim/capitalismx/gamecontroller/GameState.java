@@ -3,10 +3,12 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 import de.uni.mannheim.capitalismx.customer.CustomerDemand;
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
 import de.uni.mannheim.capitalismx.domain.department.Department;
+import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
@@ -77,12 +79,14 @@ public class GameState implements Serializable {
 	 */
 	private Map<String, Department> allDepartments;
 
+	private EmployeeGenerator employeeGenerator;
 	private CustomerSatisfaction customerSatisfaction;
 	private CustomerDemand customerDemand;
 	private ExternalEvents externalEvents;
 	private CompanyEcoIndex companyEcoIndex;
 	private InternalFleet internalFleet;
 	private ProductSupport productSupport;
+	private BankingSystem bankingSystem;
 
 	private GameState() {
 		this.gameDate = LocalDate.of(1990, 1, 1);
@@ -122,7 +126,10 @@ public class GameState implements Serializable {
 		externalEvents = ExternalEvents.getInstance();
 		companyEcoIndex = CompanyEcoIndex.getInstance();
 		internalFleet = InternalFleet.getInstance();
+		bankingSystem = BankingSystem.getInstance();
 		productSupport = ProductSupport.getInstance();
+		employeeGenerator = EmployeeGenerator.getInstance();
+		employeeGenerator.setDepartment((HRDepartment) allDepartments.get(HRDepartment.class.getSimpleName()));
 	}
 
 	/**
@@ -147,7 +154,10 @@ public class GameState implements Serializable {
 		CustomerDemand.setInstance(CustomerDemand.createInstance());
 		ExternalEvents.setInstance(ExternalEvents.createInstance());
 		CompanyEcoIndex.setInstance(CompanyEcoIndex.createInstance());
-		InternalFleet.setInstance(null);
+		EmployeeGenerator.setInstance(EmployeeGenerator.createInstance());
+		EmployeeGenerator.getInstance().setDepartment(HRDepartment.getInstance());
+		InternalFleet.setInstance(InternalFleet.createInstance());
+		BankingSystem.setInstance(BankingSystem.createInstance());
 	}
 
 	/**
@@ -381,6 +391,14 @@ public class GameState implements Serializable {
 		this.internalFleet = internalFleet;
 	}
 
+	public EmployeeGenerator getEmployeeGenerator() {
+		return employeeGenerator;
+	}
+
+	public void setEmployeeGenerator(EmployeeGenerator employeeGenerator) {
+		this.employeeGenerator = employeeGenerator;
+	}
+
 	/**
 	 * Retrieves the department using the {@link ResearchAndDevelopmentDepartment}.class.getSimpleName() as key.
 	 * @return returns the current {@link ResearchAndDevelopmentDepartment} instance.
@@ -419,6 +437,14 @@ public class GameState implements Serializable {
 	 */
 	public void setSalesDepartment(SalesDepartment salesDepartment) {
 		this.allDepartments.put(SalesDepartment.class.getSimpleName(), salesDepartment);
+	}
+
+	public BankingSystem getBankingSystem() {
+		return bankingSystem;
+	}
+
+	public void setBankingSystem(BankingSystem bankingSystem) {
+		this.bankingSystem = bankingSystem;
 	}
 
 	/**

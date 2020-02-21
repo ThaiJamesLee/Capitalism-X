@@ -10,10 +10,10 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.marketing.domain.Campaign;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.marketing.CampaignsCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
@@ -25,7 +25,7 @@ import javafx.scene.control.ListView;
  *
  */
 
-public class CampaignsOverviewController extends GameModuleController {
+public class CampaignsOverviewController implements Initializable {
 
 
 	//TODO setCompanyImage in Customer when changed
@@ -42,11 +42,6 @@ public class CampaignsOverviewController extends GameModuleController {
 
 	
 	public CampaignsOverviewController() {
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

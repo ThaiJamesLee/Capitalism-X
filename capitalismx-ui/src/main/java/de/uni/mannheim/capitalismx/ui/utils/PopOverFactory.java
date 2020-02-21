@@ -7,6 +7,7 @@ import org.controlsfx.control.PopOver;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.util.Duration;
@@ -21,7 +22,7 @@ public class PopOverFactory {
 
 	private PopOver popover = null;
 
-	private UpdateableController popoverController;
+	private Initializable popoverController;
 
 	/**
 	 * @return The generated {@link PopOver}.
@@ -31,9 +32,9 @@ public class PopOverFactory {
 	}
 
 	/**
-	 * @return The {@link UpdateableController} of the PopOver.
+	 * @return The {@link Initializable} Controller of the PopOver.
 	 */
-	public UpdateableController getPopoverController() {
+	public Initializable getPopoverController() {
 		return popoverController;
 	}
 

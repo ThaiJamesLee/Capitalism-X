@@ -11,7 +11,6 @@ import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.controller.popover.finance.LoanRequestListController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
@@ -19,11 +18,18 @@ import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class FinanceBankingSystemController extends GameModuleController {
+/**
+ * This class represents the banking system in the finance UI. Users have the option to request loans and invest into
+ * real estate, stocks, and venture capital.
+ *
+ * @author sdupper
+ */
+public class FinanceBankingSystemController implements Initializable {
 
     @FXML
     Button loanRequestButton;
@@ -70,18 +76,27 @@ public class FinanceBankingSystemController extends GameModuleController {
     @FXML
     Button sellVentureCapitalButton;
 
+    /**
+     * The EventListener for finance events (changes relevant for the finance UI).
+     */
     private FinanceEventListener financeEventListener;
+
+    /**
+     * The controller of the loan request list with all available loans.
+     */
     private LoanRequestListController loanRequestListController;
+
+    /**
+     * The popover for the loan selection.
+     */
+    private PopOver loanRequestPopover;
 
     private double loanAmount;
 
-    private PopOver loanRequestPopover;
-
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
-    }
-
+    /*
+     * Handles loan requests and investments/disinvestments in real estate, stocks, and venture capital within the
+     * respective action listeners.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
@@ -90,7 +105,7 @@ public class FinanceBankingSystemController extends GameModuleController {
         FinanceDepartment f = GameState.getInstance().getFinanceDepartment();
         f.registerPropertyChangeListener(financeEventListener);
 
-        // Prepare the Popover for the trainButton
+        // Prepare the Popover for the loan request
         PopOverFactory factory = new PopOverFactory();
 
         factory.createStandardPopover("fxml/popover/loan_request_list.fxml");
@@ -263,6 +278,10 @@ public class FinanceBankingSystemController extends GameModuleController {
         return this.loanAmount;
     }
 
+    /**
+     * Updates the banking system UI when a new loan is added.
+     * @param loan The new loan.
+     */
     public void addLoan(BankingSystem.Loan loan) {
         Platform.runLater(new Runnable() {
             public void run() {
@@ -277,6 +296,9 @@ public class FinanceBankingSystemController extends GameModuleController {
         });
     }
 
+    /**
+     * Updates the banking system UI when a loan is removed.
+     */
     public void removeLoan(){
         Platform.runLater(new Runnable() {
             public void run() {

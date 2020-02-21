@@ -21,31 +21,19 @@ public class EmployeeMarketSample implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(EmployeeMarketSample.class);
 
     private static final int MINIMUM_SAMPLE_SIZE = 500;
-    private static final int MINIMUM_PERSON_META_SIZE = 10;
+    private static final int MINIMUM_PERSON_META_SIZE = 20;
     private static final String EMPLOYEE_SAMPLE_FILE_DIR = "data" + File.separator + "employeesample.capx";
 
     private String rootDir;
 
-    /* Idea: depending on level of progress, the chance of being able to higher employees with higher skill level increases.
-    * Therefore, we currently have 4 different distribution of the employee sample */
-    private static final double[][] DISTRIBUTION =
-            {
-                    {50, 24, 21, 3, 2},
-                    {50, 22, 20, 5, 3},
-                    {45, 20, 15, 6, 4},
-                    {40, 15, 20, 15, 10}
-            };
-
     private List<PersonMeta> personMetas;
 
     private String filePath;
-    private List<Employee> potentialEmployeeSample;
 
 
     public EmployeeMarketSample() {
         rootDir = System.getProperty("user.dir");
         filePath = rootDir + File.separator + EMPLOYEE_SAMPLE_FILE_DIR;
-        potentialEmployeeSample = new ArrayList<>();
         personMetas = new ArrayList<>();
         loadInitialPersonList();
     }
@@ -57,7 +45,6 @@ public class EmployeeMarketSample implements Serializable {
     public EmployeeMarketSample(String rootDir) {
         this.rootDir = rootDir;
         filePath = this.rootDir + File.separator + EMPLOYEE_SAMPLE_FILE_DIR;
-        potentialEmployeeSample = new ArrayList<>();
         personMetas = new ArrayList<>();
         loadInitialPersonList();
     }
@@ -66,9 +53,6 @@ public class EmployeeMarketSample implements Serializable {
      * Load the json file a
      */
     private void loadInitialPersonList() {
-        // load employeesample.capx file first.
-        loadSample();
-
         // use jsons if no file exists.
         if(personMetas.isEmpty()) {
             JsonFileReader jReader = new JsonFileReader();
@@ -91,14 +75,12 @@ public class EmployeeMarketSample implements Serializable {
 
             Collections.shuffle(personMetas);
         }
-
     }
-
-
 
     /**
      * Load the employee stack file.
      */
+    @Deprecated(since = "v0.0.5")
     public void loadSample() {
         List<PersonMeta> personStack = null;
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File(filePath)))) {
@@ -118,6 +100,7 @@ public class EmployeeMarketSample implements Serializable {
      *
      * @param stack the pre-generated PersonMeta List to be saved.
      */
+    @Deprecated(since = "v0.0.5")
     public void saveSample(List<PersonMeta> stack) {
         File f = new File(rootDir + File.separator + "data");
 
@@ -143,7 +126,7 @@ public class EmployeeMarketSample implements Serializable {
      * @return Returns a PersonMeta from the initial set.
      */
     public PersonMeta randomChoosing() {
-        int index = RandomNumberGenerator.getRandomInt(0, personMetas.size()-1);
+        int index = RandomNumberGenerator.getRandomInt(0, personMetas.size() - 1);
         PersonMeta e = personMetas.get(index);
         personMetas.remove(index);
 
@@ -151,7 +134,6 @@ public class EmployeeMarketSample implements Serializable {
         if(personMetas.size() < MINIMUM_PERSON_META_SIZE) {
             personMetas.addAll(NameGenerator.getInstance().getGeneratedPersonMeta(MINIMUM_SAMPLE_SIZE));
         }
-
         return e;
     }
 

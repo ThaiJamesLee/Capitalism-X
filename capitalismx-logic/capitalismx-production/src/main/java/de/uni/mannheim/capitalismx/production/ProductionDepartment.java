@@ -484,14 +484,20 @@ public class ProductionDepartment extends DepartmentImpl {
     }
 
     public void setTotalProcurementQuality() {
-        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+        /*for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             entry.getKey().calculateTotalProcurementQuality();
+        }*/
+        for(Product product : this.launchedProducts) {
+            product.calculateTotalProcurementQuality();
         }
     }
 
     public void setTotalProductQuality() {
-        for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+        /*for(HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
             entry.getKey().calculateTotalProductQuality(this.calculateProductionTechnologyFactor(), this.calculateTotalEngineerProductivity(), this.calculateResearchAndDevelopmentFactor());
+        }*/
+        for(Product product : this.launchedProducts) {
+            product.calculateTotalProductQuality(this.calculateProductionTechnologyFactor(), this. calculateTotalEngineerProductivity(), this.calculateResearchAndDevelopmentFactor());
         }
     }
 

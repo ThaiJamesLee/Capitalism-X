@@ -32,7 +32,7 @@
                 <TextField fx:id="loanAmountTextField" promptText="%finance.bank.newLoan" />
                 <AnchorPane>
                     <children>
-                        <Button fx:id="loanRequestButton" mnemonicParsing="false" styleClass="button_module" text="%finance.bank.btnRequestLoan" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button fx:id="loanRequestButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.bank.btnRequestLoan" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </children>
                     <VBox.margin>
                         <Insets bottom="15.0" />
@@ -60,8 +60,8 @@
                                 <Insets />
                             </HBox.margin>
                         </TextField>
-                        <Button fx:id="buyRealEstateButton" mnemonicParsing="false" styleClass="button_module" text="%finance.investments.btnBuyRealEstates" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="sellRealEstateButton" layoutX="183.0" layoutY="10.0" mnemonicParsing="false" styleClass="button_module" text="%finance.investments.btnSellRealEstates" />
+                        <Button fx:id="buyRealEstateButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyRealEstates" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="sellRealEstateButton" layoutX="183.0" layoutY="10.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellRealEstates" />
                     </children>
                 </HBox>
                 <Label layoutX="10.0" layoutY="305.0" styleClass="label_large" text="%finance.investments.stocks">
@@ -73,8 +73,8 @@
                 <HBox alignment="CENTER" spacing="5.0">
                     <children>
                         <TextField fx:id="stocksTextField" promptText="%finance.investments.promptStocks" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="buyStocksButton" mnemonicParsing="false" styleClass="button_module" text="%finance.investments.btnBuyStocks" />
-                        <Button fx:id="sellStocksButton" layoutX="408.0" layoutY="10.0" mnemonicParsing="false" styleClass="button_module" text="%finance.investments.btnSellStocks" />
+                        <Button fx:id="buyStocksButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyStocks" />
+                        <Button fx:id="sellStocksButton" layoutX="408.0" layoutY="10.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellStocks" />
                     </children>
                 </HBox>
                 <Label layoutX="10.0" layoutY="366.0" styleClass="label_large" text="%finance.investments.ventureCapital">
@@ -86,8 +86,8 @@
                 <HBox spacing="5.0" VBox.vgrow="ALWAYS">
                     <children>
                         <TextField fx:id="ventureCapitalTextField" promptText="%finance.investments.promptVentureCapital" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="buyVentureCapitalButton" mnemonicParsing="false" styleClass="button_module" text="%finance.investments.btnBuyVentureCapital" />
-                        <Button fx:id="sellVentureCapitalButton" layoutX="364.0" layoutY="10.0" mnemonicParsing="false" styleClass="button_module" text="%finance.investments.btnSellVentureCapital" />
+                        <Button fx:id="buyVentureCapitalButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyVentureCapital" />
+                        <Button fx:id="sellVentureCapitalButton" layoutX="364.0" layoutY="10.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellVentureCapital" />
                     </children>
                 </HBox>
             </children>

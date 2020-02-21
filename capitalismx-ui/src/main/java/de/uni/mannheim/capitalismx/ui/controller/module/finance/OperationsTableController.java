@@ -8,29 +8,37 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.finance.OperationsTableViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-public class OperationsTableController  extends GameModuleController {
+/**
+ * This class represents the operations table (quarterly figures) in the finance UI. It shows information like sales, HR
+ * costs, etc. for the 4 most recent quarters.
+ *
+ * @author sdupper
+ */
+public class OperationsTableController  implements Initializable {
 
     @FXML
     private VBox operationsVBox;
 
+    /**
+     * A map of the controller of each table row.
+     */
     private Map<String, OperationsTableViewCell> controllers;
 
     public OperationsTableController() {
     }
 
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
-    }
-
+    /*
+     * Generates and customizes an OperationsTableViewCell for each row (including the header row) and adds it to the
+     * operations vBox (the "table"). Some rows are separated by a horizontal line.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         controllers = new HashMap<>();
@@ -81,7 +89,13 @@ public class OperationsTableController  extends GameModuleController {
         operationsVBox.getChildren().add(1, regions[4]);
     }
 
-
+    /**
+     * Updates the specified row of the table according to the specified column values. Moreover, the header row is
+     * updated with the new names (the 4 most recent quarters).
+     * @param rowName The name of the row to be updated.
+     * @param cols The new values for each column in the row.
+     * @param colNames The new values for each column in the header row.
+     */
     public void updateTable(String rowName, String[] cols, String[] colNames){
         Platform.runLater(new Runnable() {
             public void run() {

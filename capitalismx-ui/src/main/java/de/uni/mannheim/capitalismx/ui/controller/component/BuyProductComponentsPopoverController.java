@@ -6,13 +6,10 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -27,10 +24,10 @@ import javafx.scene.layout.AnchorPane;
  * @author Jonathan
  *
  */
+@Deprecated //TODO remove?
 public class BuyProductComponentsPopoverController implements Initializable {
 
 	private double componentPrice;
-	private Product product = null;
 
 	@FXML
 	private Button buyButton;
@@ -50,16 +47,15 @@ public class BuyProductComponentsPopoverController implements Initializable {
 	}
 
 	/**
-	 * Update the {@link BuyProductComponentsPopoverController} with a new component and
-	 * the price per unit.
+	 * Update the {@link BuyProductComponentsPopoverController} with a new component
+	 * and the price per unit.
 	 * 
 	 * @param component The new {@link Component} to display.
 	 * @param price     The price of a single {@link Component}.
 	 */
-	public void updatePopover(Product product) {
-		this.product = product;
+	public void updatePopover() {
 		amountInput.setText("0");
-		
+
 		// force the field to be numeric only
 		TextFieldHelper.makeTextFieldNumeric(amountInput);
 		updatePrice();

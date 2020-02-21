@@ -2,8 +2,10 @@ package de.uni.mannheim.capitalismx.ui.tutorial.chapter;
 
 import java.util.List;
 
+import org.controlsfx.control.PopOver.ArrowLocation;
+
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.tutorial.TutorialPage;
+import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage;
 import javafx.scene.Node;
 
 /**
@@ -21,17 +23,25 @@ public class HudControlsChapter extends TutorialChapter {
 	public HudControlsChapter() {
 		List<Node> nodes = UIManager.getInstance().getGameHudController().getTimeControlTutorialNodes();
 
-		pages.add(new TutorialPage(this, nodes.get(0), "chapter.controls.hud.welcome"));
-		pages.add(new TutorialPage(this, nodes.get(1), "chapter.controls.hud.date"));
-		pages.add(new TutorialPage(this, nodes.get(2), "chapter.controls.hud.pause"));
-		pages.add(new TutorialPage(this, nodes.get(3), "chapter.controls.hud.networth"));
-		pages.add(new TutorialPage(this, nodes.get(4), "chapter.controls.hud.cash")); // TODO what last actions?
-		pages.add(new TutorialPage(this, nodes.get(5), "chapter.controls.hud.employees"));
-		pages.add(new TutorialPage(this, nodes.get(6), "chapter.controls.hud.eco"));
-		pages.add(new TutorialPage(this, nodes.get(7), "chapter.controls.hud.speed"));
-		pages.add(new TutorialPage(this, nodes.get(8), "chapter.controls.hud.skip"));
-		pages.add(new TutorialPage(this, nodes.get(9), "chapter.controls.hud.messages"));
-		pages.add(new TutorialPage(this, nodes.get(10), "chapter.controls.hud.settings"));
+		pages.add(new TutorialPage(this, nodes.get(0), "chapter.controls.hud.welcome", TutorialPage.NextPageCondition.CONFIRM));
+		pages.add(new TutorialPage(this, nodes.get(1), "chapter.controls.hud.date", TutorialPage.NextPageCondition.CONFIRM));
+		pages.add(new TutorialPage(this, nodes.get(2), "chapter.controls.hud.pause", TutorialPage.NextPageCondition.CLICK));
+		TutorialPage pageNetWorth = new TutorialPage(this, nodes.get(3), "chapter.controls.hud.networth", TutorialPage.NextPageCondition.CONFIRM);
+		pageNetWorth.setArrowLocation(ArrowLocation.BOTTOM_LEFT);
+		pages.add(pageNetWorth);
+		TutorialPage pageCash = new TutorialPage(this, nodes.get(4), "chapter.controls.hud.cash", TutorialPage.NextPageCondition.CONFIRM);
+		pageCash.setArrowLocation(ArrowLocation.BOTTOM_LEFT);
+		pages.add(pageCash); // TODO what last actions?
+		TutorialPage pageEmployees = new TutorialPage(this, nodes.get(5), "chapter.controls.hud.employees", TutorialPage.NextPageCondition.CONFIRM);
+		pageEmployees.setArrowLocation(ArrowLocation.BOTTOM_LEFT);
+		pages.add(pageEmployees);
+		TutorialPage pageEco = new TutorialPage(this, nodes.get(6), "chapter.controls.hud.eco", TutorialPage.NextPageCondition.CONFIRM);
+		pageEco.setArrowLocation(ArrowLocation.BOTTOM_LEFT);
+		pages.add(pageEco);
+		pages.add(new TutorialPage(this, nodes.get(7), "chapter.controls.hud.speed", TutorialPage.NextPageCondition.CLICK));
+		pages.add(new TutorialPage(this, nodes.get(8), "chapter.controls.hud.skip", TutorialPage.NextPageCondition.CLICK));
+		pages.add(new TutorialPage(this, nodes.get(9), "chapter.controls.hud.messages", TutorialPage.NextPageCondition.CLICK));
+		pages.add(new TutorialPage(this, nodes.get(10), "chapter.controls.hud.settings", TutorialPage.NextPageCondition.CONFIRM));
 	}
 
 }

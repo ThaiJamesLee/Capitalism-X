@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 /**
+ * The sales person employee.
  * @author duly
  *
  * @since 1.0.0

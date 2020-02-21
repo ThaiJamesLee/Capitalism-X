@@ -10,6 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>capitalismx-production</artifactId>
+
+    <description>
+        This module contains the logic for the production department.
+    </description>
+
     <dependencies>
         <dependency>
             <groupId>de.uni.mannheim</groupId>

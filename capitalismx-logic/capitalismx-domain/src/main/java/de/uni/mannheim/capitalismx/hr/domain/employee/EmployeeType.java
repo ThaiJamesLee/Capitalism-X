@@ -9,9 +9,24 @@ import java.util.ResourceBundle;
  */
 public enum EmployeeType {
 
+    /**
+     * The {@link de.uni.mannheim.capitalismx.hr.domain.employee.impl.Engineer}, contains the {@link ResourceBundle} property key and also the team key for {@link java.beans.PropertyChangeSupport}.
+     */
     ENGINEER("Engineer", "name.engineer", "engineerTeamChanged"),
+
+    /**
+     * The {@link de.uni.mannheim.capitalismx.hr.domain.employee.impl.SalesPerson}, contains the {@link ResourceBundle} property key and also the team key for {@link java.beans.PropertyChangeSupport}.
+     */
     SALESPERSON("Salesperson", "name.salesperson", "salespersonTeamChanged"),
+
+    /**
+     * The {@link de.uni.mannheim.capitalismx.hr.domain.employee.impl.ProductionWorker}, contains the {@link ResourceBundle} property key and also the team key for {@link java.beans.PropertyChangeSupport}.
+     */
     PRODUCTION_WORKER("Production Worker", "name.productionworker", "productionworkerTeamChanged"),
+
+    /**
+     * The {@link de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker}, contains the {@link ResourceBundle} property key and also the team key for {@link java.beans.PropertyChangeSupport}.
+     */
     HR_WORKER("HR Worker", "name.hrworker", "hrworkerTeamChanged");
 
     private String type;
@@ -41,6 +56,10 @@ public enum EmployeeType {
         return bundle.getString(propertyKey);
     }
 
+    /**
+     * This the key used for changes in Teams in the HRDepartment.
+     * @return Returns the team event property key.
+     */
     public String getTeamEventPropertyChangedKey() {
         return teamEventPropertyChangedKey;
     }

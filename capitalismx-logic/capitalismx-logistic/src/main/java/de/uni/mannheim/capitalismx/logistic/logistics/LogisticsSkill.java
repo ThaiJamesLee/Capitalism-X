@@ -4,7 +4,6 @@ package de.uni.mannheim.capitalismx.logistic.logistics;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -18,11 +17,19 @@ public class LogisticsSkill implements DepartmentSkill {
 
     /* The level requirement for this skill. */
     private int level;
+
+    /* The new capacity for trucks in the internal fleet. */
     private int newFleetCapacity;
 
     private static final String LANG_PROPERTIES = "logistics-module";
     private static final String DESCRIPTION_PROPERTY_PREFIX = "logistics.skill.description.";
 
+    /**
+     * Constructor
+     * Initializes the level and new fleet capacity.
+     * @param level The required level for this skill.
+     * @param newFleetCapacity The new capacity for trucks in the internal fleet.
+     */
     public LogisticsSkill(int level, int newFleetCapacity) {
         this.level = level;
         this.newFleetCapacity = newFleetCapacity;

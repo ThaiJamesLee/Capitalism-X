@@ -225,4 +225,12 @@ public class BankingSystem implements Serializable {
     public Loan getLoan() {
         return this.loan;
     }
+
+    public static BankingSystem createInstance() {
+        return new BankingSystem();
+    }
+
+    public static void setInstance(BankingSystem instance) {
+        BankingSystem.instance = instance;
+    }
 }

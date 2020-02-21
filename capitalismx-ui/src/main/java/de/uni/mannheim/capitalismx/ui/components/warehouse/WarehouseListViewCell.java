@@ -4,18 +4,21 @@ import java.io.IOException;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.warehouse.StorageCapacityUsedException;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -109,9 +112,9 @@ public class WarehouseListViewCell extends ListCell<Warehouse> {
 	 */
 	private void deactivateWarehouseModules() {
 		UIManager manager = UIManager.getInstance();
-		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
+		manager.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
 				.setActivated(false);
-		manager.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STATISTICS).setActivated(false);
+		manager.getModule(GameModuleType.WAREHOUSE_STATISTICS).setActivated(false);
 		manager.getGamePageController().updateDisplayOfCurrentView(GameViewType.WAREHOUSE);
 	}
 

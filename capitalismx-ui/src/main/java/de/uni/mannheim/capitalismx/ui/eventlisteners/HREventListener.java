@@ -9,7 +9,7 @@ import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.HrStatisticsController;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.TeamDetailController;
 
@@ -24,14 +24,14 @@ public class HREventListener implements PropertyChangeListener {
 
 				// update list of employees
 				TeamDetailController employeeController = (TeamDetailController) hrView
-						.getModule(UIElementType.HR_TEAM_DETAIL).getController();
+						.getModule(GameModuleType.HR_TEAM_DETAIL).getController();
 				employeeController.updateTeamList(employeeType, (List<Employee>) evt.getNewValue());
 
 				// Update total number of employees in the hud
 				UIManager.getInstance().getGameHudController().updateNumOfEmployees();
 
 				// Update Statistics Module
-				HrStatisticsController statsController = (HrStatisticsController) hrView.getModule(UIElementType.HR_STATISTICS)
+				HrStatisticsController statsController = (HrStatisticsController) hrView.getModule(GameModuleType.HR_STATISTICS)
 						.getController();
 				statsController.update();
 			}

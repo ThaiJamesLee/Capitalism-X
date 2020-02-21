@@ -18,7 +18,7 @@
          <children>
             <Label styleClass="header" text="%marketing.pressRel.newTitle" />
             <ListView fx:id="newPressReleaseOptionsList" prefWidth="700.0" />
-        	<Button fx:id="publishBtn" styleClass="button_module" text="%marketing.pressRel.publishBtn" />
+        	<Button fx:id="publishBtn" styleClass="btn_standard" text="%marketing.pressRel.publishBtn" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -27,6 +27,6 @@
     </children>
    <stylesheets>
       <URL value="@../../css/general.css" />
-      <URL value="@../../css/overlay.css" />
+      <URL value="@../../css/popover.css" />
    </stylesheets>
 </AnchorPane>

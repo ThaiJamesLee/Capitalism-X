@@ -13,6 +13,10 @@
     <artifactId>capitalismx-logic</artifactId>
     <packaging>pom</packaging>
 
+    <description>
+        This module contains all the back-end logic. It contains all department modules.
+    </description>
+
     <modules>
         <module>capitalismx-logistic</module>
         <module>capitalismx-warehouse</module>
@@ -27,29 +31,4 @@
         <module>capitalismx-sales</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>de.uni.mannheim</groupId>
-            <artifactId>capitalismx-utils</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-        </dependency>
-    </dependencies>
 </project>

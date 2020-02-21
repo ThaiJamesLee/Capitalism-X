@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.production.*;
@@ -59,8 +60,7 @@ public class GameController {
 
 	private static GameController instance;
 
-	private GameController() {
-	}
+	private GameController() {}
 
 	public static GameController getInstance() {
 		if (instance == null) {
@@ -82,11 +82,19 @@ public class GameController {
 		}
 		
 		if (oldDate.getMonth() != newDate.getMonth()) {
-			ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
-			WarehousingDepartment.getInstance().resetMonthlyStorageCost();
-			updateSalesDepartment();
+			monthlyUpdate();
 		}
 		this.updateAll();
+	}
+
+	/**
+	 * All events or objects that are updated in a monthly fashion.
+	 */
+	private void monthlyUpdate() {
+		ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
+		WarehousingDepartment.getInstance().resetMonthlyStorageCost();
+		updateSalesDepartment();
+		updateBenefitCost();
 	}
 	
 	public void goToDay(LocalDate newDate) {
@@ -138,19 +146,28 @@ public class GameController {
 			ExternalEvents.setInstance(state.getExternalEvents());
 			CompanyEcoIndex.setInstance(state.getCompanyEcoIndex());
 			InternalFleet.setInstance(state.getInternalFleet());
+			BankingSystem.setInstance(state.getBankingSystem());
 			ResearchAndDevelopmentDepartment.setInstance(state.getResearchAndDevelopmentDepartment());
 			ProductSupport.setInstance(state.getProductSupport());
 			SalesDepartment.setInstance(state.getSalesDepartment());
+			EmployeeGenerator.setInstance(state.getEmployeeGenerator());
 
 		} catch (ClassNotFoundException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
+	/**
+	 * Updates the relevant values regarding the company eco index.
+	 */
 	private void updateCompanyEcoIndex() {
 		CompanyEcoIndex.getInstance().calculateAll();
 	}
 
+	/**
+	 * Checks which external events occurred on the current day.
+	 * @param gameDate The current date in the game.
+	 */
 	private void updateExternalEvents(LocalDate gameDate) {
 		ExternalEvents.getInstance().checkEvents(gameDate);
 	}
@@ -199,6 +216,9 @@ public class GameController {
 		LOGGER.info(message);*/
 	}
 
+	/**
+	 * Updates the relevant values in the finance department.
+	 */
 	private void updateFinance() {
 		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
 		FinanceDepartment.getInstance().updateMonthlyData(GameState.getInstance().getGameDate());
@@ -212,6 +232,17 @@ public class GameController {
 		HRDepartment.getInstance().calculateAndUpdateEmployeesMeta();
 	}
 
+	private void updateBenefitCost() {
+		double cost = HRDepartment.getInstance().getBenefitSettingsCost();
+		if(cost > 0.0) {
+			decreaseCash(GameState.getInstance().getGameDate(), cost);
+		}
+
+	}
+
+	/**
+	 * Updates the relevant values in the logistics department.
+	 */
 	private void updateLogistics() {
 		InternalFleet.getInstance().calculateAll();
 		if (LogisticsDepartment.getInstance().getExternalPartner() != null) {
@@ -339,94 +370,6 @@ public class GameController {
 		WarehousingDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
 	}
 
-	/* Finance */
-
-	public double getCash() {
-		double cash = FinanceDepartment.getInstance().getCash();
-		return cash;
-	}
-
-	public double getNetWorth() {
-		// double netWorth = Finance.getInstance().calculateNetWorth(gameDate);
-		double netWorth = FinanceDepartment.getInstance().getNetWorth();
-		return netWorth;
-	}
-
-    public List<Investment> getInvestments() {
-        return FinanceDepartment.getInstance().getInvestments();
-    }
-
-	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount) {
-		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount);
-	}
-
-	public void addLoan(BankingSystem.Loan loan, LocalDate loanDate) {
-		FinanceDepartment.getInstance().addLoan(loan, loanDate);
-	}
-
-	public BankingSystem.Loan getLoan() {
-		return FinanceDepartment.getInstance().getLoan();
-	}
-
-	public ArrayList<ExternalPartner> generateExternalPartnerSelection() {
-		return LogisticsDepartment.getInstance().generateExternalPartnerSelection();
-	}
-
-	public ArrayList<Truck> generateTruckSelection() {
-		return LogisticsDepartment.getInstance().generateTruckSelection();
-	}
-
-	public void addExternalPartner(ExternalPartner externalPartner) {
-		LogisticsDepartment.getInstance().addExternalPartner(externalPartner);
-	}
-
-	public void removeExternalPartner() {
-		LogisticsDepartment.getInstance().removeExternalPartner();
-	}
-
-	public ArrayList<ProductSupport.SupportType> generateSupportTypeSelection() {
-		return ProductSupport.getInstance().generateSupportTypeSelection();
-	}
-
-	public void addSupport(ProductSupport.SupportType supportType) {
-		ProductSupport.getInstance().addSupport(supportType);
-	}
-
-	public void removeSupport(ProductSupport.SupportType supportType) {
-		ProductSupport.getInstance().removeSupport(supportType);
-	}
-
-	public ArrayList<ProductSupport.ExternalSupportPartner> generateExternalSupportPartnerSelection() {
-		return ProductSupport.getInstance().generateExternalSupportPartnerSelection();
-	}
-
-	public void addExternalSupportPartner(ProductSupport.ExternalSupportPartner externalSupportPartner) {
-		ProductSupport.getInstance().addExternalSupportPartner(externalSupportPartner);
-	}
-
-	public void removeExternalSupportPartner() {
-		ProductSupport.getInstance().removeExternalSupportPartner();
-	}
-
-	public ArrayList<ProductSupport.SupportType> getSupportTypes() {
-		return ProductSupport.getInstance().getSupportTypes();
-	}
-
-	public ProductSupport.ExternalSupportPartner getExternalSupportPartner() {
-		return ProductSupport.getInstance().getExternalSupportPartner();
-	}
-
-	public int getTotalSupportTypeQuality() {
-		return ProductSupport.getInstance().getTotalSupportTypeQuality();
-	}
-
-	public double getTotalSupportQuality() {
-		return ProductSupport.getInstance().getTotalSupportQuality();
-	}
-
-	public double getTotalSupportCosts() {
-		return ProductSupport.getInstance().getTotalSupportCosts();
-	}
 
 	public CompanyEcoIndex.EcoIndex getEcoIndex() {
 		return CompanyEcoIndex.getInstance().getEcoIndex();
@@ -448,14 +391,78 @@ public class GameController {
 		return ExternalEvents.getInstance().getExternalEventsHistory();
 	}
 
+
+	/*
+	 * FINANCE
+	 */
+
+	public double getCash() {
+		double cash = FinanceDepartment.getInstance().getCash();
+		return cash;
+	}
+
+	public double getNetWorth() {
+		// double netWorth = Finance.getInstance().calculateNetWorth(gameDate);
+		double netWorth = FinanceDepartment.getInstance().getNetWorth();
+		return netWorth;
+	}
+
+    public List<Investment> getInvestments() {
+        return FinanceDepartment.getInstance().getInvestments();
+    }
+
+	/**
+	 * Generates a selection of three loans according to p.76. The actual generation is implemented in the banking
+	 * system. The desired loan amount can not exceed 70 percent of the current net worth.
+	 * @param loanAmount The requested loan amount.
+	 * @return Returns a list of three loans with different characteristics.
+	 */
+	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount) {
+		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount);
+	}
+
+	/**
+	 * Adds a loan to the company (implemented in the banking system) and updates the cash and liabilities amount
+	 * accordingly.
+	 * @param loan The loan to be added.
+	 * @param loanDate The current date in the game.
+	 */
+	public void addLoan(BankingSystem.Loan loan, LocalDate loanDate) {
+		FinanceDepartment.getInstance().addLoan(loan, loanDate);
+	}
+
+	public BankingSystem.Loan getLoan() {
+		return FinanceDepartment.getInstance().getLoan();
+	}
+
+	/**
+	 * Calculates the resell price of assets according to p.72.
+	 * @param purchasePrice The purchase price of the asset.
+	 * @param usefulLife The useful life of the asset.
+	 * @param timeUsed The time that the asset was used for.
+	 * @return Returns the resell price of the asset.
+	 */
 	public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed) {
 		return FinanceDepartment.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
 	}
 
+	/**
+	 * Processes the purchase of a truck. The new truck is added to the internal fleet, the cash and net worth amount
+	 * are decreased, and the asset amount is increased according to the purchase and resell price.
+	 * @param truck The truck to be bought.
+	 * @param gameDate The current date in the game
+	 * @throws NotEnoughTruckCapacityException if the internal fleet does not have enough capacity.
+	 */
 	public void buyTruck(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException {
 		FinanceDepartment.getInstance().buyTruck(truck, gameDate);
 	}
 
+	/**
+	 * Processes the sale of a truck. The truck is removed from the internal fleet, the cash amount is increased, and
+	 * the asset amount is decreased according to the resell price.
+	 * @param truck The truck to be sold.
+	 * @param gameDate The current date in the game.
+	 */
 	public void sellTruck(Truck truck, LocalDate gameDate) {
 		FinanceDepartment.getInstance().sellTruck(truck, gameDate);
 	}
@@ -468,34 +475,83 @@ public class GameController {
 		return FinanceDepartment.getInstance().getLiabilities();
 	}
 
+	/**
+	 * Calculates the net worth based on the cash, assets, and liabilities according to p.70 and adds it to the
+	 * respective history.
+	 * @param gameDate The current date in the game.
+	 * @return Returns the net worth.
+	 */
 	public double calculateNetWorth(LocalDate gameDate) {
 		return FinanceDepartment.getInstance().calculateNetWorth(gameDate);
 	}
 
+	/**
+	 * Increases the cash amount of the company by the specified amount. The new cash amount is added to the respective
+	 * history and the monthly data and cash difference are updated.
+	 * @param gameDate The current date in the game.
+	 * @param amount The amount by which the cash should be increased.
+	 */
 	public void increaseCash(LocalDate gameDate, double amount) {
 		FinanceDepartment.getInstance().increaseCash(gameDate, amount);
 	}
 
+	/**
+	 * Decreases the cash amount of the company by the specified amount. If the new cash amount is < 0, the game is
+	 * over. Otherwise, the new cash amount is added to the respective history and the monthly data and cash difference
+	 * are updated.
+	 * @param gameDate The current date in the game.
+	 * @param amount The amount by which the cash should be decreased.
+	 */
 	public void decreaseCash(LocalDate gameDate, double amount) {
 		FinanceDepartment.getInstance().decreaseCash(gameDate, amount);
 	}
 
+	/**
+	 * Increases the net worth of the company by the specified amount. The new net worth is added to the respective
+	 * history and the monthly data and net worth difference are updated.
+	 * @param gameDate The current date in the game.
+	 * @param amount The amount by which the net worth should be increased.
+	 */
 	public void increaseNewWorth(LocalDate gameDate, double amount) {
 		FinanceDepartment.getInstance().increaseNetWorth(gameDate, amount);
 	}
 
+	/**
+	 * Decreases the net worth of the company by the specified amount. The new net worth is added to the respective
+	 * history and the monthly data and net worth difference are updated.
+	 * @param gameDate The current date in the game.
+	 * @param amount The amount by which the net worth should be decreased.
+	 */
 	public void decreaseNetWorth(LocalDate gameDate, double amount) {
 		FinanceDepartment.getInstance().decreaseNetWorth(gameDate, amount);
 	}
 
+	/**
+	 * Increases the asset amount of the company by the specified amount. The new asset amount is added to the
+	 * respective history and the monthly data is updated.
+	 * @param gameDate The current date in the game.
+	 * @param amount The amount by which the assets should be increased.
+	 */
 	public void increaseAssets(LocalDate gameDate, double amount) {
 		FinanceDepartment.getInstance().increaseAssets(gameDate, amount);
 	}
 
+	/**
+	 * Decreases the asset amount of the company by the specified amount. The new asset amount is added to the
+	 * respective history and the monthly data is updated.
+	 * @param gameDate The current date in the game.
+	 * @param amount The amount by which the assets should be decreased.
+	 */
 	public void decreaseAssets(LocalDate gameDate, double amount) {
 		FinanceDepartment.getInstance().decreaseAssets(gameDate, amount);
 	}
 
+	/**
+	 * Increases the liabilities amount of the company by the specified amount. The new liabilities amount is added to
+	 * the respective history and the monthly data is updated.
+	 * @param gameDate The current date in the game.
+	 * @param amount The amount by which the liabilities should be increased.
+	 */
 	public void increaseLiabilities(LocalDate gameDate, double amount) {
 		FinanceDepartment.getInstance().increaseLiabilities(gameDate, amount);
 	}
@@ -512,10 +568,27 @@ public class GameController {
 		return FinanceDepartment.getInstance().getVentureCapitalInvestmentAmount();
 	}
 
+	/**
+	 * Increases the investment amount for a specified investment type if the company has enough cash. Consequently, the
+	 * cash is decreased and the asset amount is increased.
+	 * @param gameDate The current date in the game.
+	 * @param amount The amount to be invested.
+	 * @param investmentType The type of investment that should be invested in.
+	 * @return Returns true if the investment was processed successfully. Returns false otherwise.
+	 */
 	public boolean increaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
 		return FinanceDepartment.getInstance().increaseInvestmentAmount(gameDate, amount, investmentType);
 	}
 
+	/**
+	 * Decreases the investment amount for a specified investment type. If the specified amount exceeds the amount that
+	 * the company owns, the maximum possible amount is used. Consequently, the cash is increased and the asset amount
+	 * is decreased.
+	 * @param gameDate The current date in the game.
+	 * @param amount The amount to be disinvested.
+	 * @param investmentType The type of investment that should be disinvested in.
+	 * @return Returns true if the disinvestment was processed successfully. Returns false otherwise.
+	 */
     public boolean decreaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
         return FinanceDepartment.getInstance().decreaseInvestmentAmount(gameDate, amount, investmentType);
     }
@@ -540,6 +613,22 @@ public class GameController {
 	 * LOGISTICS
 	 */
 
+	/**
+	 * Generates a selection of external logistics partners with different characteristics according to p.52.
+	 * @return Returns a list of 9 different external logistics partners.
+	 */
+	public ArrayList<ExternalPartner> generateExternalPartnerSelection() {
+		return LogisticsDepartment.getInstance().generateExternalPartnerSelection();
+	}
+
+	/**
+	 * Generates a selection of trucks with different characteristics according to p.49.
+	 * @return Returns a list of 6 different trucks.
+	 */
+	public ArrayList<Truck> generateTruckSelection() {
+		return LogisticsDepartment.getInstance().generateTruckSelection();
+	}
+
 	public ExternalPartner getExternalPartner() {
 		return LogisticsDepartment.getInstance().getExternalPartner();
 	}
@@ -548,9 +637,93 @@ public class GameController {
 		return LogisticsDepartment.getInstance().getInternalFleet();
 	}
 
+	/**
+	 * Adds an external logistics partner.
+	 * @param externalPartner The external logistics partner to be added.
+	 */
+	public void addExternalPartner(ExternalPartner externalPartner) {
+		LogisticsDepartment.getInstance().addExternalPartner(externalPartner);
+	}
+
+	/**
+	 * Removes the currently hired external logistics partner.
+	 */
+	public void removeExternalPartner() {
+		LogisticsDepartment.getInstance().removeExternalPartner();
+	}
+
+	/**
+	 * Generates a list of the available support types to choose from.
+	 * @return Returns a list of the available support types.
+	 */
+	public ArrayList<ProductSupport.SupportType> generateSupportTypeSelection() {
+		return ProductSupport.getInstance().generateSupportTypeSelection();
+	}
+
+	/**
+	 * Adds a new support type to the list of support types provided by the company. Only possible if an external
+	 * support partner is hired.
+	 * @param supportType The new support type to be added.
+	 */
+	public void addSupport(ProductSupport.SupportType supportType) {
+		ProductSupport.getInstance().addSupport(supportType);
+	}
+
+	/**
+	 * Removes a support type from the list of support types provided by the company.
+	 * @param supportType The support type to be removed.
+	 */
+	public void removeSupport(ProductSupport.SupportType supportType) {
+		ProductSupport.getInstance().removeSupport(supportType);
+	}
+
+	/**
+	 * Generates a list of the available external support partners to choose from.
+	 * @return Returns a list of the available external support partners.
+	 */
+	public ArrayList<ProductSupport.ExternalSupportPartner> generateExternalSupportPartnerSelection() {
+		return ProductSupport.getInstance().generateExternalSupportPartnerSelection();
+	}
+
+	/**
+	 * Hires the specified external support partner.
+	 * @param externalSupportPartner The external support partner to be hired.
+	 */
+	public void addExternalSupportPartner(ProductSupport.ExternalSupportPartner externalSupportPartner) {
+		ProductSupport.getInstance().addExternalSupportPartner(externalSupportPartner);
+	}
+
+	/**
+	 * Fires the currently hired external support partner.
+	 */
+	public void removeExternalSupportPartner() {
+		ProductSupport.getInstance().removeExternalSupportPartner();
+	}
+
+	public ArrayList<ProductSupport.SupportType> getSupportTypes() {
+		return ProductSupport.getInstance().getSupportTypes();
+	}
+
+	public ProductSupport.ExternalSupportPartner getExternalSupportPartner() {
+		return ProductSupport.getInstance().getExternalSupportPartner();
+	}
+
+	public int getTotalSupportTypeQuality() {
+		return ProductSupport.getInstance().getTotalSupportTypeQuality();
+	}
+
+	public double getTotalSupportQuality() {
+		return ProductSupport.getInstance().getTotalSupportQuality();
+	}
+
+	public double getTotalSupportCosts() {
+		return ProductSupport.getInstance().getTotalSupportCosts();
+	}
+
 	/*
 	 * PROCUREMENT
 	 */
+
 	public String getComponentName(ComponentType component) {
 		return component.getComponentName();
 	}

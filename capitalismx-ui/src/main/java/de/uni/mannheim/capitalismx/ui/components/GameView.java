@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The view of a department in the game and its {@link GameModule}s. TODO
- * implement differentiation between active and inactive modules (different
- * lists? attribute in module?)
+ * The view of a department in the game and its {@link GameModule}s. 
  * 
  * @author Jonathan
  *
@@ -36,13 +34,13 @@ public class GameView {
 	}
 
 	/**
-	 * Get the {@link GameModule} of the given {@link UIElementType}.
+	 * Get the {@link GameModule} of the given {@link GameModuleType}.
 	 * 
 	 * @param type
-	 *            The {@link UIElementType} of the module.
+	 *            The {@link GameModuleType} of the module.
 	 * @return The {@link GameModule} or null if no module was found.
 	 */
-	public GameModule getModule(UIElementType type) {
+	public GameModule getModule(GameModuleType type) {
 		for (GameModule module : modules) {
 			if (module.getType() == type) {
 				return module;

@@ -11,7 +11,7 @@ import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.ui.components.procurement.OrderedComponentsListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.ProcurementEventListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -20,7 +20,7 @@ import javafx.scene.control.ListView;
  * Currently not used, but should work...
  */
 @Deprecated
-public class OrderedComponentsListController extends GameModuleController {
+public class OrderedComponentsListController implements UpdateableController {
 
     @FXML
     ListView<ComponentOrder> orderedComponentsListView;

@@ -4,6 +4,8 @@ import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 /**
+ * The production worker employee.
+ * Currently not implemented in the game.
  * @author duly
  *
  * @since 1.0.0

@@ -11,7 +11,7 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.general.CapXPieChart;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.application.Platform;
@@ -28,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Jonathan
  *
  */
-public class HrStatisticsController extends GameModuleController {
+public class HrStatisticsController implements UpdateableController {
 
 	private HRDepartment hrDep;
 

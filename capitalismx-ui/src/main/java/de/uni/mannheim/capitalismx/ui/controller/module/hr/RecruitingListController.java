@@ -6,18 +6,19 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.hr.RecruitingListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.HREventListener;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -31,7 +32,7 @@ import javafx.scene.control.TabPane;
  * 
  * @author Jonathan
  */
-public class RecruitingListController extends GameModuleController {
+public class RecruitingListController implements Initializable {
 
 	private Map<EmployeeType, ListView<Employee>> listViews;
 	private Map<EmployeeType, ObservableList<Employee>> observableLists;
@@ -44,14 +45,6 @@ public class RecruitingListController extends GameModuleController {
 	public RecruitingListController() {
 		hrEventListener = new HREventListener();
 
-		// TODO remove when ui for upgrading departments is done
-		GameState.getInstance().getHrDepartment().getLevelingMechanism().levelUp();
-
-	}
-
-	@Override
-	public void update() {
-		// TODO regenerate list (or some part of it) every month
 	}
 
 	@Override
@@ -63,7 +56,7 @@ public class RecruitingListController extends GameModuleController {
 		for (EmployeeType employeeType : EmployeeType.values()) {
 			recruitingTabPane.getTabs().add(createEmployeeTypeTab(employeeType));
 		}
-		
+
 		regenerateRecruitingProspects();
 	}
 
@@ -71,9 +64,12 @@ public class RecruitingListController extends GameModuleController {
 	 * Regenerate the currently displayed recruiting prospects.
 	 */
 	public void regenerateRecruitingProspects() {
+		HRDepartment hrDep = GameState.getInstance().getHrDepartment();
+		if (hrDep.getLevel() <= 0)
+			return;
 		Platform.runLater(() -> {
 			EmployeeGenerator generator = EmployeeGenerator.getInstance();
-			generator.setDepartment(GameState.getInstance().getHrDepartment());
+			generator.setDepartment(hrDep);
 
 			for (EmployeeType employeeType : EmployeeType.values()) {
 				observableLists.get(employeeType).clear();

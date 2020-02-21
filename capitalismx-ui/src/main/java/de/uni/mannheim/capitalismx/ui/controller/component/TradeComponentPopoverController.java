@@ -9,9 +9,8 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameAlert;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
@@ -70,8 +69,8 @@ public class TradeComponentPopoverController implements Initializable {
 			} else { // TODO costs for component
 				GameController.getInstance().buyComponents(component, amount);
 			}
-			((StockManagementController) UIManager.getInstance().getGameView(GameViewType.WAREHOUSE)
-					.getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT).getController()).hideTradePopover();
+			((StockManagementController) UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
+					.getController()).hideTradePopover();
 		} catch (NumberFormatException e) {
 			// ignore incorrect input and reset text
 			amountField.setText("0");

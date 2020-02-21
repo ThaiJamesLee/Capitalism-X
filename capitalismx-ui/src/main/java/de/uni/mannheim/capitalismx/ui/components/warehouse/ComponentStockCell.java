@@ -11,8 +11,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 import javafx.fxml.FXML;
@@ -30,10 +29,6 @@ import javafx.scene.layout.AnchorPane;
  *
  */
 public class ComponentStockCell {
-
-	private HashMap<SupplierCategory, Double> componentPrices; // TODO recalculate and store prices in the department,
-																// as these prices do not affect the actual buying
-																// process
 
 	private HashMap<SupplierCategory, Component> components;
 
@@ -89,9 +84,6 @@ public class ComponentStockCell {
 			showTradeComponentMenu(SupplierCategory.PREMIUM, premiumQualityTrade);
 		});
 
-		componentPrices = new HashMap<SupplierCategory, Double>();
-		updateQuarterlyComponentPrices(gameDate);
-
 	}
 
 	public AnchorPane getRoot() {
@@ -118,22 +110,10 @@ public class ComponentStockCell {
 	 */
 	private void showTradeComponentMenu(SupplierCategory category, Button button) {
 		StockManagementController stockController = (StockManagementController) UIManager.getInstance()
-				.getGameView(GameViewType.WAREHOUSE).getModule(UIElementType.WAREHOUSE_STOCK_MANAGEMENT)
-				.getController();
-		stockController.showTradePopover(components.get(category), button, componentPrices.get(category));
-	}
-
-	/**
-	 * Update the calculation of the prices the player has to pay for the different
-	 * {@link SupplierCategory}s of this {@link Component}. Currently updated every
-	 * 3 months. TODO maybe change later?
-	 * 
-	 * @param date The date to calculate them for.
-	 */
-	public void updateQuarterlyComponentPrices(LocalDate date) {
-		for (SupplierCategory supplier : SupplierCategory.values()) {
-			componentPrices.put(supplier, components.get(supplier).calculateRandomizedBaseCost(date));
-		}
+				.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController();
+		stockController.showTradePopover(components.get(category), button, components.get(category).getSalesPrice()); // TODO
+																														// salesPrice
+																														// correct?
 	}
 
 	/**
