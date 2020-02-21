@@ -3,6 +3,9 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author dzhao
+ */
 public class GameThread extends Thread {
 
 	/**

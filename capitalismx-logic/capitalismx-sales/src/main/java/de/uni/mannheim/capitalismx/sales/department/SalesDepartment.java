@@ -53,8 +53,19 @@ public class SalesDepartment extends DepartmentImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesDepartment.class);
 
+    /**
+     * The event that is fired, when the list {@link SalesDepartment#activeContracts} changes.
+     */
     public static final String ACTIVE_CONTRACTS_EVENT = "activeContractListChanged";
+
+    /**
+     * The event that is fired, when the list {@link SalesDepartment#availableContracts} changes.
+     */
     public static final String AVAILABLE_CONTRACTS_EVENT = "availableContractListChanged";
+
+    /**
+     * The event that is fired, when the list {@link SalesDepartment#doneContracts} changes.
+     */
     public static final String DONE_CONTRACTS_EVENT = "doneContractsListChanged";
     public static final String FAILED_CONTRACTS_EVENT = "failedContractsListChanged";
 

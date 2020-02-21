@@ -12,10 +12,29 @@ import java.util.List;
  */
 public enum EmployeeTier {
 
+    /**
+     * The employee has the skill level of a worker.
+     */
     TIER_1("worker", 1, 20),
+
+    /**
+     * The employee has the skill level of a student.
+     */
     TIER_2("student", 2, 30),
+
+    /**
+     * The employee has the skill level of a graduate.
+     */
     TIER_3("graduate", 3, 40),
+
+    /**
+     * The employee has the skill level of a specialist.
+     */
     TIER_4("specialist", 4, 60),
+
+    /**
+     * The employee has the skill level of a expert.
+     */
     TIER_5("expert", 5, 80);
 
     /**
@@ -25,6 +44,12 @@ public enum EmployeeTier {
     private int initLevel;
     private int tier;
 
+    /**
+     * The constructor.
+     * @param name The name of the EmployeeTier.
+     * @param tier The tier level in the hierarchy.
+     * @param initLevel The initial skill level to be in the employee tier.
+     */
     EmployeeTier(String name, int tier, int initLevel) {
         this.name = name;
         this.initLevel = initLevel;

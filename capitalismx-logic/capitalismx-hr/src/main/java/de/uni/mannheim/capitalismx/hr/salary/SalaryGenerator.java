@@ -7,7 +7,11 @@ import java.security.SecureRandom;
 
 
 /**
+ * The salary generator is used during the employee generation.
+ * It randomly generates the salary depending on the skill level.
  * @author duly
+ *
+ * @since 0.0.1
  */
 public class SalaryGenerator {
 

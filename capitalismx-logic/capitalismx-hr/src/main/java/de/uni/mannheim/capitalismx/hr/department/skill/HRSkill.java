@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 /**
  *
  * This class represents the skills that can be unlocked in the HR Department, when leveling up.
+ * It increases the employee capacity on level up.
+ * It changes the distribution of probabilities to get better skill level employees on higher skill level.
  * @author ly
  *
  * @since 1.0.0
@@ -28,6 +30,12 @@ public class HRSkill implements DepartmentSkill {
     private static final String LANG_PROPERTIES = "hr-module";
     private static final String DESCRIPTION_PROPERTY_PREFIX = "hr.skill.description.";
 
+    /**
+     * The constructor to initialize a skill.
+     * @param level The level of the skill.
+     * @param newEmployeeCapacity The employeee capacity to increase.
+     * @param skillDistribution The new employee distribution by skill level.
+     */
     public HRSkill(int level, int newEmployeeCapacity, Map<String, Double> skillDistribution) {
         this.level = level;
         this.newEmployeeCapacity = newEmployeeCapacity;
@@ -42,10 +50,19 @@ public class HRSkill implements DepartmentSkill {
         return level;
     }
 
+    /**
+     *  The new employee capacity when unlocking this skill.
+     * @return Returns the new employee capacity.
+     */
     public int getNewEmployeeCapacity() {
         return newEmployeeCapacity;
     }
 
+    /**
+     * The new employee distribution when unlocking this skill.
+     * The player has higher chances to roll employees with higher skill level for recruiting.
+     * @return Returns the distribution.
+     */
     public Map<String, Double> getSkillDistribution() {
         return skillDistribution;
     }
