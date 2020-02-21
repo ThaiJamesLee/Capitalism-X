@@ -9,10 +9,17 @@ import java.util.Map;
 
 /**
  * This class should save and load settings of benefits.
+ * For each {@link BenefitType} there can only be one {@link Benefit}.
  * @author duly
+ *
+ * @since 1.0.0
  */
 public class BenefitSettings implements Serializable {
 
+    /**
+     * Maintains the setting in a map.
+     * Therefore, for each {@link BenefitType} there can only be one {@link Benefit}.
+     */
     private Map<BenefitType, Benefit> benefits;
 
     /* Constructor */
@@ -20,6 +27,10 @@ public class BenefitSettings implements Serializable {
         initBenefitSettings();
     }
 
+    /**
+     *
+     * @param benefits The benefit setting.
+     */
     public BenefitSettings (Map<BenefitType, Benefit> benefits) {
         this.benefits = benefits;
     }
@@ -40,22 +51,20 @@ public class BenefitSettings implements Serializable {
         }
     }
 
-    public void loadSettings () {
-        //TODO load exsisting settings, if available
-    }
-
     public Map<BenefitType, Benefit> getBenefits() {
         return benefits;
     }
 
+    /**
+     *
+     * @param benefits Set the new BenefitSettings.
+     */
     public void setBenefits(Map<BenefitType, Benefit> benefits) {
         if (benefits == null) {
             throw new NullPointerException("Benefits can not be null!");
         }
         this.benefits = benefits;
     }
-
-
 
     /**
      * Overwrite the benefit with the same benefit type with new benefit

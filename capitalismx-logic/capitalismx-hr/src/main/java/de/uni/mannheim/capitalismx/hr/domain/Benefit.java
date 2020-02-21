@@ -11,32 +11,114 @@ import java.util.List;
  */
 public enum Benefit {
 
+    /**
+     * Salary below average.
+     */
     SALARY_0(BenefitType.SALARY, 0,0, 0, "Salary below average"),
+
+    /**
+     * SSalary on average.
+     */
     SALARY_1(BenefitType.SALARY, 1, 2, 0, "Salary on average"),
+
+    /**
+     * Salary above average.
+     */
     SALARY_2(BenefitType.SALARY,2,4, 0, "Salary above average"),
 
+
+    /**
+     * Working Time Model - Fixed Model.
+     */
     WTM_0(BenefitType.WORKING_TIME_MODEL, 0,0, 0, "Fixed Model"),
+
+    /**
+     * Working Time Model - Flextime Model.
+     */
     WTM_1(BenefitType.WORKING_TIME_MODEL, 1,1, 0, "Flextime Model"),
+
+    /**
+     * Working Time Model - Trust-based.
+     */
     WTM_2(BenefitType.WORKING_TIME_MODEL, 2,2, 0, "Trust-based"),
+
+    /**
+     * Working Time Model - rust-based + Home Office once a week.
+     */
     WTM_3(BenefitType.WORKING_TIME_MODEL,3, 3, 0, "Trust-based + Home Office once a week"),
+
+    /**
+     * Working Time Model - Trust-based + Home Office always allowed.
+     */
     WTM_4(BenefitType.WORKING_TIME_MODEL, 4,4, 0, "Trust-based + Home Office always allowed"),
 
+
+    /**
+     * Work Time - 10 Hours.
+     */
     WORK_TIME_0(BenefitType.WORKTIME, 0,0, 0, "10 Hours"),
+
+    /**
+     * Work Time - 8 Hours.
+     */
     WORK_TIME_1(BenefitType.WORKTIME, 1,3, 0, "8 Hours"),
+
+    /**
+     * Work Time - 6 Hours.
+     */
     WORK_TIME_2(BenefitType.WORKTIME, 2,5, 1000, "6 Hours"),
 
+
+    /**
+     * Company Car - Not offered.
+     */
     COMPANY_CAR_0(BenefitType.COMPANY_CAR, 0,0, 0, "Not offered"),
+
+    /**
+     * Company Car - Medium Size.
+     */
     COMPANY_CAR_1(BenefitType.COMPANY_CAR, 1,2, 300, "Medium Size"),
+
+    /**
+     * Company Car - Full Size.
+     */
     COMPANY_CAR_2(BenefitType.COMPANY_CAR, 2,5, 600, "Full Size"),
 
+
+    /**
+     * IT Equipment - Average IT Equipment.
+     */
     IT_EQUIPMENT_0(BenefitType.IT_EQUIPMENT, 0,0, 0, "Average IT Equipment"),
+
+    /**
+     * IT Equipment - High-End IT Equipment.
+     */
     IT_EQUIPMENT_1(BenefitType.IT_EQUIPMENT, 1,2, 50, "High-End IT Equipment"),
 
-    FOOD_AND_COFFEE_1(BenefitType.FOOD_AND_COFFEE, 1,4, 100, "Employee Payment"),
-    FOOD_AND_COFFEE_0(BenefitType.FOOD_AND_COFFEE, 0,0, 0, "Offered for free"),
 
+    /**
+     * Food and Coffee - Offered for free.
+     */
+    FOOD_AND_COFFEE_1(BenefitType.FOOD_AND_COFFEE, 1,4, 100, "Offered for free"),
+
+    /**
+     * Food and Coffee - Employee Payment.
+     */
+    FOOD_AND_COFFEE_0(BenefitType.FOOD_AND_COFFEE, 0,0, 0, "Employee Payment"),
+
+    /**
+     * Gym and Sports - Not offered.
+     */
     GYM_AND_SPORTS_0(BenefitType.GYM_AND_SPORTS, 0,0, 0, "Not offered"),
+
+    /**
+     * Gym and Sports - Subsidized.
+     */
     GYM_AND_SPORTS_1(BenefitType.GYM_AND_SPORTS, 1,2, 40, "Subsidized"),
+
+    /**
+     * Gym and Sports - Offered for free.
+     */
     GYM_AND_SPORTS_2(BenefitType.GYM_AND_SPORTS, 2,4, 100, "Offered for free");
 
     private BenefitType type;
@@ -63,20 +145,40 @@ public enum Benefit {
         this.tier = tier;
     }
 
+    /**
+     * The points are used to compute the original scale of the job satisfaction.
+     * @return Returns the points for the benefit.
+     */
     public int getPoints() {
         return points;
     }
 
+    /**
+     * The cost for this benefit.
+     * @return Returns the cost of the benefit.
+     */
     public int getMonetaryImpact() {
         return monetaryImpact;
     }
 
+    /**
+     * The tier of the benefit. The higher, the higher the points.
+     * @return Returns the tier of the benefit.
+     */
     public int getTier() { return tier; }
 
+    /**
+     * See in {@link BenefitType}.
+     * @return Returns the type of the benefit.
+     */
     public BenefitType getType() {
         return type;
     }
 
+    /**
+     *
+     * @return Returns the benefit name.
+     */
     public String getName() {
         return name;
     }

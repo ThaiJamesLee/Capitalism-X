@@ -49,6 +49,10 @@ public class EmployeeGenerator implements Serializable {
         EmployeeGenerator.instance = employeeGenerator;
     }
 
+    /**
+     * Set the {@link HRDepartment} to get the current probability distribution.
+     * @param department The current {@link HRDepartment} of the GameState.
+     */
     public void setDepartment(HRDepartment department) {
         this.department = department;
     }

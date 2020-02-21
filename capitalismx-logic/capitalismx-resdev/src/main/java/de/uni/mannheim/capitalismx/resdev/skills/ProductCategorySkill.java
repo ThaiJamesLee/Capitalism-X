@@ -36,7 +36,7 @@ public class ProductCategorySkill extends ResDevSkillImpl {
 
     /**
      *
-     * @return
+     * @return Not supported!
      * @throws UnsupportedOperationException This method is not supported in this class.
      */
     @Override
