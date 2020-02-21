@@ -5,7 +5,7 @@
     <parent>
         <artifactId>capitalismx</artifactId>
         <groupId>de.uni.mannheim</groupId>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,52 +20,52 @@
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-marketing</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-production</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-procurement</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-finance</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-logistic</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-hr</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-warehouse</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-customer</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-resdev</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-sales</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </dependency>
 
         <!-- test & logging -->
