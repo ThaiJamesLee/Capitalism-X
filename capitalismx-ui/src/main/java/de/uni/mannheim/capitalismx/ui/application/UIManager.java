@@ -176,7 +176,6 @@ public class UIManager {
 				return view;
 			}
 		}
-		// TODO error handling? Custom Exceptions?
 		return null;
 	}
 
@@ -310,7 +309,8 @@ public class UIManager {
 			root = loader.load();
 			sceneMenuMain = new GameScene(root, GameSceneType.MENU_MAIN, loader.getController());
 
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loading_screen.fxml"), resourceBundle);
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/loading_screen.fxml"),
+					resourceBundle);
 			root = loader.load();
 			sceneLoadingScreen = new GameScene(root, GameSceneType.GAME_PAGE, loader.getController());
 
@@ -318,7 +318,8 @@ public class UIManager {
 			root = loader.load();
 			sceneCreditsPage = new GameScene(root, GameSceneType.CREDITS_PAGE, loader.getController());
 
-			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game_lost_page.fxml"), resourceBundle);
+			loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game_lost_page.fxml"),
+					resourceBundle);
 			root = loader.load();
 			sceneLostPage = new GameScene(root, GameSceneType.GAMELOST_PAGE, loader.getController());
 
@@ -341,7 +342,9 @@ public class UIManager {
 	}
 
 	/**
-	 * Prepares the custom cursor used in the Game.
+	 * Prepares the custom {@link Cursor} used in the Game. Multiple different
+	 * custom cursors via css cannot be easily implemented due to
+	 * https://bugs.openjdk.java.net/browse/JDK-8089191.
 	 */
 	private void prepareCustomCursor() {
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream("img/cursor.png"));

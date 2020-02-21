@@ -61,7 +61,6 @@ public class RecruitingListViewCell extends ListCell<Employee> {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
 			}
 
 			this.employee = employee;

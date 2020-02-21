@@ -31,10 +31,6 @@ import javafx.scene.layout.AnchorPane;
  */
 public class ComponentStockCell {
 
-	private HashMap<SupplierCategory, Double> componentPrices; // TODO recalculate and store prices in the department,
-																// as these prices do not affect the actual buying
-																// process
-
 	private HashMap<SupplierCategory, Component> components;
 
 	WarehousingDepartment warehouse;
@@ -89,9 +85,6 @@ public class ComponentStockCell {
 			showTradeComponentMenu(SupplierCategory.PREMIUM, premiumQualityTrade);
 		});
 
-		componentPrices = new HashMap<SupplierCategory, Double>();
-		updateQuarterlyComponentPrices(gameDate);
-
 	}
 
 	public AnchorPane getRoot() {
@@ -120,20 +113,7 @@ public class ComponentStockCell {
 		StockManagementController stockController = (StockManagementController) UIManager.getInstance()
 				.getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
 				.getController();
-		stockController.showTradePopover(components.get(category), button, componentPrices.get(category));
-	}
-
-	/**
-	 * Update the calculation of the prices the player has to pay for the different
-	 * {@link SupplierCategory}s of this {@link Component}. Currently updated every
-	 * 3 months. TODO maybe change later?
-	 * 
-	 * @param date The date to calculate them for.
-	 */
-	public void updateQuarterlyComponentPrices(LocalDate date) {
-		for (SupplierCategory supplier : SupplierCategory.values()) {
-			componentPrices.put(supplier, components.get(supplier).calculateRandomizedBaseCost(date));
-		}
+		stockController.showTradePopover(components.get(category), button, components.get(category).getSalesPrice()); //TODO salesPrice correct?
 	}
 
 	/**

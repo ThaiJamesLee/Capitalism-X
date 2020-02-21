@@ -74,12 +74,12 @@ public class DepartmentUpgradeController implements Initializable {
 	@FXML
 	private void levelUp() {
 		Double cost = department.getLevelingMechanism().levelUp();
+		GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), cost);
+		update();
 		if (department instanceof HRDepartment) {
 			((RecruitingListController) UIManager.getInstance().getGameView(GameViewType.HR)
 					.getModule(GameModuleType.HR_RECRUITING_OVERVIEW).getController()).regenerateRecruitingProspects();
 		}
-		GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), cost);
-		update();
 	}
 
 }

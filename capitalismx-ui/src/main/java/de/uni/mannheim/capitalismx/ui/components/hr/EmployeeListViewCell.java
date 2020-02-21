@@ -71,41 +71,11 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 		});
 	}
 
-	@Override
-	protected void updateItem(Employee employee, boolean empty) {
-		super.updateItem(employee, empty);
-		this.employee = employee;
-		if (empty || employee == null) {
-			setText(null);
-			setGraphic(null);
-		} else {
-			if (loader == null) {
-				bundle = UIManager.getResourceBundle();
-				loader = new FXMLLoader(
-						getClass().getClassLoader().getResource("fxml/components/employee_list_cell.fxml"), bundle);
-				loader.setController(this);
-
-				try {
-					loader.load();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				prepareExtendedCell();
-			}
-
-			update();
-
-			setText(null);
-			setGraphic(gridPane);
-		}
-	}
-
 	/**
 	 * Shows the extended version of the Cell with the buttons for firing and hiring
 	 * the employee.
 	 */
-	private void displayExtended() { //TODO fix issue with cells when hiring many employees
+	private void displayExtended() {
 		if (isSelected()) {
 			gridPane.add(fireButton, 4, 1, 2, 1);
 			gridPane.add(trainButton, 3, 1, 1, 1);
@@ -127,12 +97,21 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 		}
 	}
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+	}
+
+	/**
+	 * Prepare all the content (buttons/labels and the {@link PopOver} for training)
+	 * of the extended list cell, that will be displayed when clicked on the cell.
+	 */
 	private void prepareExtendedCell() {
 		trainButton = new Button(bundle.getString("employeeList.train"));
 		fireButton = new Button(bundle.getString("employeeList.fire"));
 		trainButton.getStyleClass().add("btn_standard");
 		fireButton.getStyleClass().add("btn_standard");
-		satisfactionLabel = new Label(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(employee.getJobSatisfaction()));
+		satisfactionLabel = new Label(NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+				.format(employee.getJobSatisfaction()));
 		satisfactionLabel.getStyleClass().add("list-label-large");
 		satisfactionIcon.setIconName("SMILE_ALT");
 		satisfactionIcon.setSize("1.5em");
@@ -162,18 +141,42 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void update() {
 		nameLabel.setText(employee.getName());
 		wageLabel.setText(CapCoinFormatter.getCapCoins(employee.getSalary()));
 		skillPane.getChildren().clear();
 		skillPane.getChildren().add(GraphicHelper.createSkillGraphic(employee.getSkillLevel(), "1.5em"));
 		satisfactionLabel.setText(employee.getJobSatisfaction() + "");
+	}
+
+	@Override
+	protected void updateItem(Employee employee, boolean empty) {
+		super.updateItem(employee, empty);
+		this.employee = employee;
+		if (empty || employee == null) {
+			setText(null);
+			setGraphic(null);
+		} else {
+			if (loader == null) {
+				bundle = UIManager.getResourceBundle();
+				loader = new FXMLLoader(
+						getClass().getClassLoader().getResource("fxml/components/employee_list_cell.fxml"), bundle);
+				loader.setController(this);
+
+				try {
+					loader.load();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				prepareExtendedCell();
+			}
+
+			update();
+
+			setText(null);
+			setGraphic(gridPane);
+		}
 	}
 
 }

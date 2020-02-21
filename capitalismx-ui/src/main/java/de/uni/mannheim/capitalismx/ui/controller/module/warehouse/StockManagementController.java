@@ -243,18 +243,6 @@ public class StockManagementController implements Initializable {
 	}
 
 	/**
-	 * Recalculates prices for the {@link Component}s of each
-	 * {@link SupplierCategory}.
-	 * 
-	 * @param date The {@link LocalDate} to calculate prices for.
-	 */
-	public void updateComponentPrices(LocalDate date) {
-		for (Entry<ComponentType, ComponentStockCell> entry : componentCells.entrySet()) {
-			entry.getValue().updateQuarterlyComponentPrices(date);
-		}
-	}
-
-	/**
 	 * Update the amount in stock of a specific {@link Product}.
 	 * 
 	 * @param product The product to update the stock for.

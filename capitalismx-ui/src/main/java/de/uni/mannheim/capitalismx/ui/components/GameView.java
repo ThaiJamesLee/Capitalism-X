@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The view of a department in the game and its {@link GameModule}s. TODO
- * implement differentiation between active and inactive modules (different
- * lists? attribute in module?)
+ * The view of a department in the game and its {@link GameModule}s. 
  * 
  * @author Jonathan
  *
