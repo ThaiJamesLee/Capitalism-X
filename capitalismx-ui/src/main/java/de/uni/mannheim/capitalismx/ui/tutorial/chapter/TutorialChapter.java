@@ -1,7 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.tutorial.chapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class TutorialChapter {
 	protected List<TutorialPage> pages = new ArrayList<TutorialPage>();
 	protected Iterator<TutorialPage> currentPage;
 
-	private final int PAUSE_BETWEEN_STEPS = 600;
+	private final int PAUSE_BETWEEN_STEPS = 1000;
 
 	/**
 	 * Can be called to begin with the first {@link TutorialPage} of this chapter.
@@ -51,10 +50,6 @@ public class TutorialChapter {
 				}
 			});
 		});
-	}
-
-	public void restart() {
-		beginChapter();
 	}
 
 }

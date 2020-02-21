@@ -93,14 +93,12 @@ public class TutorialPage {
 		Button confirm = new Button("", icon);
 		confirm.getStyleClass().add("btn_standard");
 		confirm.setOnAction(e -> {
+			infoPopover.setOnHidden(null);
 			turnPage(null);
 		});
 		vBox.getChildren().add(confirm);
 	}
 
-	/**
-	 * 
-	 */
 	private void initPopover() {
 		infoPopover.setFadeInDuration(Duration.millis(300));
 		infoPopover.setFadeOutDuration(Duration.millis(0));
@@ -123,37 +121,39 @@ public class TutorialPage {
 		this.target = targetNode;
 	}
 
+	public void setArrowLocation(ArrowLocation location) {
+		infoPopover.setArrowLocation(location);
+	}
+
 	private void showPage() {
 		highlighter.highlight(target);
 		infoPopover.show(target);
 	}
 
 	public void start() {
-		if (target != null) {
-			Platform.runLater(() -> {
-				showPage();
-				switch (condition) {
-				case CONFIRM:
-					addButton();
-					break;
-				case CLICK:
-					overwrittenHandler = target.getOnMouseClicked();
-					target.setOnMouseClicked(e -> {
-						turnPage(e);
-					});
-					break;
-				case PROPERTY_EQUALS:
-					if (!propertyCheckSet)
-						System.err.println("Could not continue Tutorial, as Trigger was not correctly set.");
-					break;
-				default:
-					break;
-				}
-			});
-		} else {
-			owningChapter.restart();
-		}
-
+		Platform.runLater(() -> {
+			showPage();
+			switch (condition) {
+			case CONFIRM:
+				addButton();
+				infoPopover.setOnHidden(e -> {
+					turnPage(null);
+				});
+				break;
+			case CLICK:
+				overwrittenHandler = target.getOnMouseClicked();
+				target.setOnMouseClicked(e -> {
+					turnPage(e);
+				});
+				break;
+			case PROPERTY_EQUALS:
+				if (!propertyCheckSet)
+					System.err.println("Could not continue Tutorial, as Trigger was not correctly set.");
+				break;
+			default:
+				break;
+			}
+		});
 	}
 
 	private void turnPage(MouseEvent m) {
