@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 import de.uni.mannheim.capitalismx.customer.CustomerDemand;
 import de.uni.mannheim.capitalismx.customer.CustomerSatisfaction;
 import de.uni.mannheim.capitalismx.domain.department.Department;
+import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
@@ -85,6 +86,7 @@ public class GameState implements Serializable {
 	private CompanyEcoIndex companyEcoIndex;
 	private InternalFleet internalFleet;
 	private ProductSupport productSupport;
+	private BankingSystem bankingSystem;
 
 	private GameState() {
 		this.gameDate = LocalDate.of(1990, 1, 1);
@@ -124,6 +126,7 @@ public class GameState implements Serializable {
 		externalEvents = ExternalEvents.getInstance();
 		companyEcoIndex = CompanyEcoIndex.getInstance();
 		internalFleet = InternalFleet.getInstance();
+		bankingSystem = BankingSystem.getInstance();
 		productSupport = ProductSupport.getInstance();
 		employeeGenerator = EmployeeGenerator.getInstance();
 		employeeGenerator.setDepartment((HRDepartment) allDepartments.get(HRDepartment.class.getSimpleName()));
@@ -153,7 +156,8 @@ public class GameState implements Serializable {
 		CompanyEcoIndex.setInstance(CompanyEcoIndex.createInstance());
 		EmployeeGenerator.setInstance(EmployeeGenerator.createInstance());
 		EmployeeGenerator.getInstance().setDepartment(HRDepartment.getInstance());
-		InternalFleet.setInstance(null);
+		InternalFleet.setInstance(InternalFleet.createInstance());
+		BankingSystem.setInstance(BankingSystem.createInstance());
 	}
 
 	/**
@@ -433,6 +437,14 @@ public class GameState implements Serializable {
 	 */
 	public void setSalesDepartment(SalesDepartment salesDepartment) {
 		this.allDepartments.put(SalesDepartment.class.getSimpleName(), salesDepartment);
+	}
+
+	public BankingSystem getBankingSystem() {
+		return bankingSystem;
+	}
+
+	public void setBankingSystem(BankingSystem bankingSystem) {
+		this.bankingSystem = bankingSystem;
 	}
 
 	/**
