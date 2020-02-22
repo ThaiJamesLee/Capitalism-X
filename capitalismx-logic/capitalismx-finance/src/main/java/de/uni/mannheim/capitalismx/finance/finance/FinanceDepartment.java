@@ -1078,8 +1078,6 @@ public class FinanceDepartment extends DepartmentImpl {
      */
     public boolean increaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
         if(amount > this.cash.getValue()){
-            //TODO popup
-            System.out.println("Not enough cash!");
             return false;
         }
 

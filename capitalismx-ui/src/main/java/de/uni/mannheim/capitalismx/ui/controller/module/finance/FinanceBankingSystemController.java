@@ -3,6 +3,8 @@ package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
+import javafx.scene.control.Alert;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
@@ -130,8 +132,9 @@ public class FinanceBankingSystemController implements Initializable {
                 // this.loanAmount = NULL;
                 loanAmountTextField.clear();
             } catch (NumberFormatException exception) {
-                // TODO tooltip/popup
-                System.out.println("Not a valid loan amount!");
+                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
+                        UIManager.getLocalisedString("finance.error.number.description"));
+                error.showAndWait();
             }
         });
 
@@ -140,20 +143,15 @@ public class FinanceBankingSystemController implements Initializable {
                 double amount = Double.parseDouble(realEstateTextField.getText());
                 boolean successful = controller.increaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.REAL_ESTATE);
                 if (!successful) {
-                    // TODO popup not enough cash
+                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash.title"),
+                            UIManager.getLocalisedString("finance.error.cash.description"));
+                    error.showAndWait();
                 }
                 realEstateTextField.clear();
-                // TODO auskommentierten Code entfernen
-//        realEstateButton.setOnAction(e -> {
-//            ArrayList<Investment> investmentSelection = controller.generateInvestmentSelection(Double.parseDouble(realEstateTextField.getText()));
-//            if(investmentSelection != null){
-//                Investment investment = investmentSelection.get(0);
-//                controller.addInvestment(investment);
-//                realEstateLabel.setText(UIManager.getLocalisedString("finance.amountLabel.realEstate") + ": " + investment.getAmount());
-//
-//                realEstateTextField.clear();
             } catch (NumberFormatException exception) {
-                // TODO invalid input
+                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
+                        UIManager.getLocalisedString("finance.error.number.description"));
+                error.showAndWait();
             }
         });
 
@@ -162,11 +160,14 @@ public class FinanceBankingSystemController implements Initializable {
                 double amount = Double.parseDouble(stocksTextField.getText());
                 boolean successful = controller.increaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.STOCKS);
                 if (!successful) {
-                    // TODO popup not enough cash
-                }
+                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash.title"),
+                            UIManager.getLocalisedString("finance.error.cash.description"));
+                    error.showAndWait();                }
                 stocksTextField.clear();
             } catch (NumberFormatException exception) {
-                // TODO invalid input
+                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
+                        UIManager.getLocalisedString("finance.error.number.description"));
+                error.showAndWait();
             }
         });
 
@@ -176,11 +177,14 @@ public class FinanceBankingSystemController implements Initializable {
                 boolean successful = controller.increaseInvestmentAmount(GameState.getInstance().getGameDate(), amount,
                         Investment.InvestmentType.VENTURE_CAPITAL);
                 if (!successful) {
-                    // TODO popup not enough cash
-                }
+                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash.title"),
+                            UIManager.getLocalisedString("finance.error.cash.description"));
+                    error.showAndWait();                }
                 ventureCapitalTextField.clear();
             } catch (NumberFormatException exception) {
-                // TODO invalid input
+                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
+                        UIManager.getLocalisedString("finance.error.number.description"));
+                error.showAndWait();
             }
         });
 
@@ -189,12 +193,14 @@ public class FinanceBankingSystemController implements Initializable {
                 double amount = Double.parseDouble(realEstateTextField.getText());
                 boolean successful = controller.decreaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.REAL_ESTATE);
                 if (!successful) {
-                    // TODO popup not enough cash
-                }
+                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash2.title"),
+                            UIManager.getLocalisedString("finance.error.cash2.description"));
+                    error.showAndWait();                }
                 realEstateTextField.clear();
             } catch (NumberFormatException exception) {
-                // TODO invalid input
-            }
+                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
+                        UIManager.getLocalisedString("finance.error.number.description"));
+                error.showAndWait();            }
 
         });
 
@@ -203,25 +209,14 @@ public class FinanceBankingSystemController implements Initializable {
                 double amount = Double.parseDouble(stocksTextField.getText());
                 boolean successful = controller.decreaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.STOCKS);
                 if (!successful) {
-                    // TODO popup not enough cash
-                }
+                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash2.title"),
+                            UIManager.getLocalisedString("finance.error.cash2.description"));
+                    error.showAndWait();                }
                 stocksTextField.clear();
-//        stocksButton.setOnAction(e -> {
-//            ArrayList<Investment> investmentSelection = controller.generateInvestmentSelection(Double.parseDouble(stocksTextField.getText()));
-//            if(investmentSelection != null){
-//                Investment investment = investmentSelection.get(1);
-//                controller.addInvestment(investment);
-//                stocksLabel.setText(UIManager.getLocalisedString("finance.amountLabel.stocks") + ": " + investment.getAmount());
-//                stocksTextField.clear();
-//                //TODO update GUI
-//                //controller.calculateNetWorth(GameState.getInstance().getGameDate());
-//            }else{
-//                //TODO popup
-//
-//                stocksTextField.clear();
             } catch (NumberFormatException exception) {
-                // TODO invalid input
-            }
+                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
+                        UIManager.getLocalisedString("finance.error.number.description"));
+                error.showAndWait();            }
 
         });
 
@@ -231,26 +226,14 @@ public class FinanceBankingSystemController implements Initializable {
                 boolean successful = controller.decreaseInvestmentAmount(GameState.getInstance().getGameDate(), amount,
                         Investment.InvestmentType.VENTURE_CAPITAL);
                 if (!successful) {
-                    // TODO popup not enough cash
-                }
+                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash2.title"),
+                            UIManager.getLocalisedString("finance.error.cash2.description"));
+                    error.showAndWait();                }
                 ventureCapitalTextField.clear();
-
-//        ventureCapitalButton.setOnAction(e -> {
-//            ArrayList<Investment> investmentSelection = controller.generateInvestmentSelection(Double.parseDouble(ventureCapitalTextField.getText()));
-//            if(investmentSelection != null){
-//                Investment investment = investmentSelection.get(2);
-//                controller.addInvestment(investment);
-//                ventureCapitalLabel.setText(UIManager.getLocalisedString("finance.amountLabel.ventureCapital") + ": " + investment.getAmount());
-//                ventureCapitalTextField.clear();
-//                //TODO update GUI
-//                //controller.calculateNetWorth(GameState.getInstance().getGameDate());
-//            }else{
-//                //TODO popup
-//
-//                ventureCapitalTextField.clear();
             } catch (NumberFormatException exception) {
-                // TODO invalid input
-            }
+                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
+                        UIManager.getLocalisedString("finance.error.number.description"));
+                error.showAndWait();            }
 
         });
     }

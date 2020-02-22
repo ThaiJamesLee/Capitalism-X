@@ -52,7 +52,7 @@ public class LoanRequestListController implements UpdateableController {
 
     /**
      * Sets the desired loan amount and updates the loan selection accordingly.
-     * @param amount
+     * @param amount The desired loan amount.
      */
     public void setLoanAmount(double amount) {
     	this.loanAmount = amount;
