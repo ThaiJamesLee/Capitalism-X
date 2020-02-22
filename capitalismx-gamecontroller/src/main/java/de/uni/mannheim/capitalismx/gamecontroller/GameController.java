@@ -44,6 +44,8 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 
+import javax.swing.*;
+
 /**
  * This class is the entry point for the UI.
  * It aggregates the game-logic and allows all objects to be updated.

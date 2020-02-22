@@ -64,11 +64,7 @@
                         </GridPane>
                         <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="contractListAnchor">
-                                 <children>
-                                    <ListView fx:id="offeredContractsList" prefHeight="400.0" prefWidth="300.0" />
-                                 </children>
-                              </AnchorPane>
+                              <ListView fx:id="availableContractsList" prefHeight="400.0" prefWidth="300.0" />
                           </content>
                         </ScrollPane>
                      </children>
@@ -80,9 +76,9 @@
                   <AnchorPane fx:id="contractInfoPane" />
                   <AnchorPane>
                      <children>
-                        <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <VBox alignment="CENTER" prefWidth="225.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <children>
-                              <HBox alignment="TOP_CENTER">
+                              <HBox alignment="CENTER">
                                  <children>
                                     <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="btn_standard" text="Add Contract">
                                        <graphic>
@@ -91,13 +87,14 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <HBox alignment="TOP_CENTER">
+                              <HBox alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#removeContract" styleClass="btn_standard" text="Terminate Contract">
-                                       <graphic>
-                                          <FontAwesomeIcon iconName="CARET_LEFT" size="1.3em" />
-                                       </graphic>
-                                    </Button>
+                                    <Button mnemonicParsing="false" onMouseClicked="#fulfillContract" styleClass="btn_standard" text="Fulfill Contract" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Button mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="btn_standard" text="Terminate Contract" />
                                  </children>
                               </HBox>
                            </children>
