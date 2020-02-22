@@ -7,7 +7,7 @@ import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.exceptions.*;
 import de.uni.mannheim.capitalismx.production.skill.ProductionSkill;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.LoggerFactory;

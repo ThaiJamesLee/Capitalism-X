@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.*;
+import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailableException;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import org.junit.Assert;
 import org.slf4j.Logger;

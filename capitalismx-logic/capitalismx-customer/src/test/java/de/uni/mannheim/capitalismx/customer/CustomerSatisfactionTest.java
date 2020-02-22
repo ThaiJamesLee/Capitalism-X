@@ -3,7 +3,7 @@ package de.uni.mannheim.capitalismx.customer;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
-import de.uni.mannheim.capitalismx.production.InvalidSetOfComponentsException;
+import de.uni.mannheim.capitalismx.production.exceptions.InvalidSetOfComponentsException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;

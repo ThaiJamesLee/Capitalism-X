@@ -1,4 +1,6 @@
-package de.uni.mannheim.capitalismx.production;
+package de.uni.mannheim.capitalismx.production.exceptions;
+
+import de.uni.mannheim.capitalismx.production.ProductCategory;
 
 public class ProductCategoryNotUnlockedException extends Exception {
 

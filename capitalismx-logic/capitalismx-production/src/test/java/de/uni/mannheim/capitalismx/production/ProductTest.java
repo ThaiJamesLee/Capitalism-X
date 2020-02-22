@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.production;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.exceptions.InvalidSetOfComponentsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -11,7 +12,6 @@ import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProductTest {
 

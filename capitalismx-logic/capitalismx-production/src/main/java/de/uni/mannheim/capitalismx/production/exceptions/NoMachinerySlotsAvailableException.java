@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.production;
+package de.uni.mannheim.capitalismx.production.exceptions;
 
 public class NoMachinerySlotsAvailableException extends Exception {
 

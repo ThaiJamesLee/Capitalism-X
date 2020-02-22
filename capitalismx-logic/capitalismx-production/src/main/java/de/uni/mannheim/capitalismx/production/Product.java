@@ -2,9 +2,8 @@ package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
-import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
+import de.uni.mannheim.capitalismx.production.exceptions.InvalidSetOfComponentsException;
 
-import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;

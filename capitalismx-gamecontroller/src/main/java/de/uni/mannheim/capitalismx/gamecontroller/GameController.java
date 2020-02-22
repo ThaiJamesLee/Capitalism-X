@@ -2,7 +2,6 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -10,6 +9,7 @@ import java.util.TreeMap;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.production.*;
+import de.uni.mannheim.capitalismx.production.exceptions.*;
 import de.uni.mannheim.capitalismx.warehouse.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -775,7 +775,7 @@ public class GameController {
 		return product.getProductCosts(GameState.getInstance().getGameDate());
 	}
 
-	public double launchProduct(Product product) throws ProductCategoryNotUnlockedException{
+	public double launchProduct(Product product) throws ProductCategoryNotUnlockedException {
 		try {
 			LocalDate gameDate = GameState.getInstance().getGameDate();
 			boolean productCategoryUnlocked = ResearchAndDevelopmentDepartment.getInstance().isCategoryUnlocked(product.getProductCategory());
