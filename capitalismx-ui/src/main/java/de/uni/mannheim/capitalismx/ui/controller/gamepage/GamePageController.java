@@ -2,14 +2,21 @@ package de.uni.mannheim.capitalismx.ui.controller.gamepage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.message.MessageController;
+import de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
@@ -88,7 +95,7 @@ public class GamePageController implements UpdateableController {
 	/**
 	 * Use this method to add a message to the message list and to open the message
 	 * window. It will display the just added message.
-	 * 
+	 *
 	 * @param messageToShow The MessageObject that should be added and shown.
 	 */
 	public void addAndShowMessage(MessageObject messageToShow) {

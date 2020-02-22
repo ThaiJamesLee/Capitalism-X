@@ -62,6 +62,11 @@ public class MessageController implements Initializable {
 		messageSubjectSave = new ArrayList<MessageSubjectController>();
 	}
 
+    /**
+     * Receives a @MessageObject and adds it's content as components to the message window.
+     *
+     * @param m
+     */
 	public void addMessage(MessageObject m) {
 		Parent messageSubject;
 		Parent messageContent;
