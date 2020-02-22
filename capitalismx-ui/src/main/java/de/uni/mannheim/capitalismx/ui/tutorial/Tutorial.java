@@ -3,7 +3,9 @@ package de.uni.mannheim.capitalismx.ui.tutorial;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.tutorial.chapter.HudControlsChapter;
 import de.uni.mannheim.capitalismx.ui.tutorial.chapter.IntroduceProductChapter;
 import de.uni.mannheim.capitalismx.ui.tutorial.chapter.TutorialChapter;
@@ -18,20 +20,26 @@ import de.uni.mannheim.capitalismx.ui.tutorial.chapter.TutorialChapter;
  */
 public class Tutorial {
 
+	private static ResourceBundle bundle = ResourceBundle.getBundle("properties.tutorial",
+			UIManager.getResourceBundle().getLocale());
 	private List<TutorialChapter> chapters = new ArrayList<TutorialChapter>();
 	private Iterator<TutorialChapter> currentChapter;
 
 	public Tutorial() {
-		chapters.add(new HudControlsChapter());
+//		chapters.add(new HudControlsChapter());
 		chapters.add(new IntroduceProductChapter());
-		
+
 		currentChapter = chapters.iterator();
 	}
-	
+
 	public void nextChapter() {
 		if (currentChapter.hasNext()) {
 			currentChapter.next().beginChapter();
 		}
+	}
+
+	public static ResourceBundle getBundle() {
+		return bundle;
 	}
 
 }

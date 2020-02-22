@@ -5,7 +5,8 @@ import java.util.List;
 import org.controlsfx.control.PopOver.ArrowLocation;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage;
+import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage.NextPageCondition;
+import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage.TutorialPageBuilder;
 import javafx.scene.Node;
 
 /**
@@ -23,25 +24,17 @@ public class HudControlsChapter extends TutorialChapter {
 	public HudControlsChapter() {
 		List<Node> nodes = UIManager.getInstance().getGameHudController().getTimeControlTutorialNodes();
 
-		pages.add(new TutorialPage(this, nodes.get(0), "chapter.controls.hud.welcome", TutorialPage.NextPageCondition.CONFIRM));
-		pages.add(new TutorialPage(this, nodes.get(1), "chapter.controls.hud.date", TutorialPage.NextPageCondition.CONFIRM));
-		pages.add(new TutorialPage(this, nodes.get(2), "chapter.controls.hud.pause", TutorialPage.NextPageCondition.CLICK));
-		TutorialPage pageNetWorth = new TutorialPage(this, nodes.get(3), "chapter.controls.hud.networth", TutorialPage.NextPageCondition.CONFIRM);
-		pageNetWorth.setArrowLocation(ArrowLocation.BOTTOM_LEFT);
-		pages.add(pageNetWorth);
-		TutorialPage pageCash = new TutorialPage(this, nodes.get(4), "chapter.controls.hud.cash", TutorialPage.NextPageCondition.CONFIRM);
-		pageCash.setArrowLocation(ArrowLocation.BOTTOM_LEFT);
-		pages.add(pageCash); // TODO what last actions?
-		TutorialPage pageEmployees = new TutorialPage(this, nodes.get(5), "chapter.controls.hud.employees", TutorialPage.NextPageCondition.CONFIRM);
-		pageEmployees.setArrowLocation(ArrowLocation.BOTTOM_LEFT);
-		pages.add(pageEmployees);
-		TutorialPage pageEco = new TutorialPage(this, nodes.get(6), "chapter.controls.hud.eco", TutorialPage.NextPageCondition.CONFIRM);
-		pageEco.setArrowLocation(ArrowLocation.BOTTOM_LEFT);
-		pages.add(pageEco);
-		pages.add(new TutorialPage(this, nodes.get(7), "chapter.controls.hud.speed", TutorialPage.NextPageCondition.CLICK));
-		pages.add(new TutorialPage(this, nodes.get(8), "chapter.controls.hud.skip", TutorialPage.NextPageCondition.CLICK));
-		pages.add(new TutorialPage(this, nodes.get(9), "chapter.controls.hud.messages", TutorialPage.NextPageCondition.CLICK));
-		pages.add(new TutorialPage(this, nodes.get(10), "chapter.controls.hud.settings", TutorialPage.NextPageCondition.CONFIRM));
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(0)).setMessageKey("chapter.controls.hud.welcome").build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(1)).setMessageKey("chapter.controls.hud.date").build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(2)).setMessageKey("chapter.controls.hud.pause").setCondition(NextPageCondition.CLICK).build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(3)).setMessageKey("chapter.controls.hud.networth").setArrowLocation(ArrowLocation.BOTTOM_CENTER).setCondition(NextPageCondition.CONFIRM).build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(4)).setMessageKey("chapter.controls.hud.cash").setArrowLocation(ArrowLocation.BOTTOM_CENTER).build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(5)).setMessageKey("chapter.controls.hud.employees").setArrowLocation(ArrowLocation.BOTTOM_CENTER).build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(6)).setMessageKey("chapter.controls.hud.eco").setArrowLocation(ArrowLocation.BOTTOM_RIGHT).build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(7)).setMessageKey("chapter.controls.hud.speed").setCondition(NextPageCondition.CLICK).build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(8)).setMessageKey("chapter.controls.hud.skip").setCondition(NextPageCondition.CLICK).build());		
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(9)).setMessageKey("chapter.controls.hud.messages").setArrowLocation(ArrowLocation.TOP_RIGHT).build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(10)).setMessageKey("chapter.controls.hud.settings").build());
 	}
 	
 }
