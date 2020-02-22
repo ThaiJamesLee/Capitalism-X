@@ -46,9 +46,15 @@ public class TruckFleetController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameController controller = GameController.getInstance();
+
+		//load internal fleet
+		for(Truck truck : controller.getInternalFleet().getTrucks()){
+			truckFleetListView.getItems().add(truck);
+		}
+
 		// ObservableList<Truck> truckFleetListObservable =
 		// FXCollections.observableArrayList();
-		ArrayList<Truck> trucks = controller.generateTruckSelection();
+		//ArrayList<Truck> trucks = controller.generateTruckSelection();
 		/*
 		 * for(Truck truck : trucks){ truckFleetListObservable.add(truck); }
 		 */
