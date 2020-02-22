@@ -636,6 +636,12 @@ public class ProductionDepartment extends DepartmentImpl {
         return  capacity;
     }
 
+    public int getMonthlyMachineCapacity(LocalDate gameDate) {
+        int dailyCapacity = this.getDailyMachineCapacity();
+        int numberOfDaysInMonth = gameDate.lengthOfMonth();
+        return numberOfDaysInMonth * dailyCapacity;
+    }
+
     public synchronized List<Product> getLaunchedProducts() {
         return this.launchedProducts;
     }
