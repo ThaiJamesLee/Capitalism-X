@@ -84,7 +84,7 @@ public class TruckFleetController implements Initializable {
 		buyTruckButton.setOnAction(e -> {
 			showPopover();
 		});
-	} //TODO update and populate from list in LogisticsController
+	}
 
 	/**
 	 * Updates the list of trucks in the internal fleet when a new truck is added.
