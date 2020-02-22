@@ -34,7 +34,12 @@ public class LogisticsPartnerDetailListController implements UpdateableControlle
         GameController controller = GameController.getInstance();
         logisticsPartnerDetailListView.setCellFactory(truckListView -> new LogisticsPartnerDetailListViewCell(logisticsPartnerDetailListView));
 
-        ArrayList<ExternalPartner> externalPartners = controller.generateExternalPartnerSelection();
+        ArrayList<ExternalPartner> externalPartners;
+        if(controller.getExternalPartnerSelection() == null){
+            externalPartners = controller.generateExternalPartnerSelection();
+        }else{
+            externalPartners = controller.getExternalPartnerSelection();
+        }
 
         for(ExternalPartner externalPartner : externalPartners) {
             logisticsPartnerDetailListView.getItems().add(externalPartner);

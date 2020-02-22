@@ -52,6 +52,11 @@ public class LogisticsDepartment extends DepartmentImpl {
      */
     private double shippingFee;
 
+    /**
+     * A list of external partners to choose from.
+     */
+    private ArrayList<ExternalPartner> externalPartnerSelection;
+
     private static final Logger logger = LoggerFactory.getLogger(LogisticsDepartment.class);
     private double costLogistics;
     private double logisticsIndex;
@@ -278,7 +283,8 @@ public class LogisticsDepartment extends DepartmentImpl {
         externalPartnerSelection.add(new ExternalPartner("Partner 9", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40),
                 RandomNumberGenerator.getRandomDouble(0.7, 0.9), RandomNumberGenerator.getRandomDouble(1.1, 1.3)));
 
-        return externalPartnerSelection;
+        this.externalPartnerSelection = externalPartnerSelection;
+        return this.externalPartnerSelection;
     }
 
     /**
@@ -431,5 +437,9 @@ public class LogisticsDepartment extends DepartmentImpl {
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         throw new UnsupportedOperationException();
+    }
+
+    public ArrayList<ExternalPartner> getExternalPartnerSelection() {
+        return externalPartnerSelection;
     }
 }

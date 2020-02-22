@@ -626,6 +626,10 @@ public class GameController {
 		return LogisticsDepartment.getInstance().getExternalPartner();
 	}
 
+	public ArrayList<ExternalPartner> getExternalPartnerSelection() {
+		return LogisticsDepartment.getInstance().getExternalPartnerSelection();
+	}
+
 	public InternalFleet getInternalFleet() {
 		return LogisticsDepartment.getInstance().getInternalFleet();
 	}

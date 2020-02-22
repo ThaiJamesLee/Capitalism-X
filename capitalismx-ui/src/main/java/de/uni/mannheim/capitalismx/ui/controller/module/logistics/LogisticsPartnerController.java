@@ -76,8 +76,9 @@ public class LogisticsPartnerController implements Initializable {
 	 * @param externalPartner The new external logistics partner.
 	 */
 	public void addExternalPartner(ExternalPartner externalPartner) {
-		currentlyEmployingTextArea
-				.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl") + externalPartner.getName());
+		currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl")
+				+ externalPartner.getName() + " "
+				+ externalPartner.getContractualCost());
 		popover.hide();
 		fireLogisticsPartnerButton.setVisible(true);
 	}
