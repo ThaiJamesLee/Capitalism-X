@@ -117,6 +117,11 @@ public class FinanceBankingSystemController implements Initializable {
 		TextFieldHelper.makeTextFieldNumeric(stocksTextField);
 		TextFieldHelper.makeTextFieldNumeric(realEstateTextField);
 
+		//load loan data
+        if(controller.getLoan() != null){
+            this.addLoan(controller.getLoan());
+        }
+
         loanRequestButton.setOnAction(e -> {
             try {
                 this.loanAmount = Double.parseDouble(loanAmountTextField.getText());
