@@ -26,6 +26,9 @@ public class LogisticsPartnerController implements Initializable {
 	private Button logisticsPartnerButton;
 
 	@FXML
+	private Button fireLogisticsPartnerButton;
+
+	@FXML
 	private Label currentlyEmployingTextArea;
 
 	/**
@@ -47,8 +50,10 @@ public class LogisticsPartnerController implements Initializable {
 			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl")
 					+ controller.getExternalPartner().getName() + " "
 					+ controller.getExternalPartner().getContractualCost());
+			fireLogisticsPartnerButton.setVisible(true);
 		} else {
 			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyNo"));
+			fireLogisticsPartnerButton.setVisible(false);
 		}
 
 		PopOverFactory factory = new PopOverFactory();
@@ -57,6 +62,12 @@ public class LogisticsPartnerController implements Initializable {
 		
 		logisticsPartnerButton.setOnAction(e -> {
 			showPopover();
+		});
+
+		fireLogisticsPartnerButton.setOnAction(e -> {
+			controller.removeExternalPartner();
+			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyNo"));
+			fireLogisticsPartnerButton.setVisible(false);
 		});
 	}
 
@@ -68,6 +79,7 @@ public class LogisticsPartnerController implements Initializable {
 		currentlyEmployingTextArea
 				.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl") + externalPartner.getName());
 		popover.hide();
+		fireLogisticsPartnerButton.setVisible(true);
 	}
 
 	/**
