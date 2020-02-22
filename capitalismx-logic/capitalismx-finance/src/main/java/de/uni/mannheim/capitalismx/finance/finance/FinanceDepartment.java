@@ -673,10 +673,14 @@ public class FinanceDepartment extends DepartmentImpl {
      */
     protected double calculateTotalHRCosts(LocalDate gameDate){
         //TODO only trainings of current day
-        double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
-        double totalSalaries = HRDepartment.getInstance().calculateTotalSalaries();
+        HRDepartment hrDepartment = HRDepartment.getInstance();
+        double totalTrainingCosts = hrDepartment.calculateTotalTrainingCosts();
+        double totalSalaries = hrDepartment.calculateTotalSalaries();
         totalSalaries /= gameDate.lengthOfYear();
-        this.totalHRCosts = totalSalaries + totalTrainingCosts;
+        // the benefit costs are per month.
+        double totalBenefitsCost = hrDepartment.getBenefitSettingsCost();
+        totalBenefitsCost /= gameDate.lengthOfMonth();
+        this.totalHRCosts = totalSalaries + totalTrainingCosts + totalBenefitsCost;
         this.hrCostsHistory.put(gameDate, this.totalHRCosts);
         return this.totalHRCosts;
     }

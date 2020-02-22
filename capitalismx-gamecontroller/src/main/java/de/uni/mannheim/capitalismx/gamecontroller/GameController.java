@@ -96,7 +96,6 @@ public class GameController {
 		ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
 		WarehousingDepartment.getInstance().resetMonthlyStorageCost();
 		updateSalesDepartment();
-		updateBenefitCost();
 	}
 	
 	public void goToDay(LocalDate newDate) {
@@ -232,14 +231,6 @@ public class GameController {
 	private void updateHR() {
 		HRDepartment.getInstance().updateEmployeeHistory(GameState.getInstance().getGameDate());
 		HRDepartment.getInstance().calculateAndUpdateEmployeesMeta();
-	}
-
-	private void updateBenefitCost() {
-		double cost = HRDepartment.getInstance().getBenefitSettingsCost();
-		if(cost > 0.0) {
-			decreaseCash(GameState.getInstance().getGameDate(), cost);
-		}
-
 	}
 
 	/**
