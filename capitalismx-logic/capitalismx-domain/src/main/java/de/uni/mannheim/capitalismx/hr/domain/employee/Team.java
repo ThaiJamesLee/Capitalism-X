@@ -8,6 +8,7 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -91,6 +92,22 @@ public class Team implements Serializable {
         for(Employee employee : team.getList()){
             for(TrainingEntry training : employee.getTrainingsList()){
                 totalTrainingCosts += training.getTraining().getPrice();
+            }
+        }
+        return totalTrainingCosts;
+    }
+
+    /**
+     * Calculates the total training costs of a team on a specified date.
+     * @param date The date for which the costs should be calculated.
+     */
+    public double calculateTotalTrainingCosts(LocalDate date){
+        double totalTrainingCosts = 0.0;
+        for(Employee employee : team.getList()){
+            for(TrainingEntry training : employee.getTrainingsList()){
+                if(training.getDate().equals(date)){
+                    totalTrainingCosts += training.getTraining().getPrice();
+                }
             }
         }
         return totalTrainingCosts;

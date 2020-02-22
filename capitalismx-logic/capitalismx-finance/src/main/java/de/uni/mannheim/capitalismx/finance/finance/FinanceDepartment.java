@@ -672,9 +672,9 @@ public class FinanceDepartment extends DepartmentImpl {
      * @return Returns the total HR costs of the company.
      */
     protected double calculateTotalHRCosts(LocalDate gameDate){
-        //TODO only trainings of current day
         HRDepartment hrDepartment = HRDepartment.getInstance();
-        double totalTrainingCosts = hrDepartment.calculateTotalTrainingCosts();
+        double totalTrainingCosts = hrDepartment.calculateTotalTrainingCosts(gameDate);
+        // the salaries are per year.
         double totalSalaries = hrDepartment.calculateTotalSalaries();
         totalSalaries /= gameDate.lengthOfYear();
         // the benefit costs are per month.

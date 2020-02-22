@@ -590,6 +590,18 @@ public class HRDepartment extends DepartmentImpl {
 		return totalTrainingCosts;
 	}
 
+	/**
+	 * Calculates the total training costs of the company on a specified date.
+	 * @param date The date for which the costs should be calculated.
+	 */
+	public double calculateTotalTrainingCosts(LocalDate date) {
+		double totalTrainingCosts = 0.0;
+		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			totalTrainingCosts += entry.getValue().calculateTotalTrainingCosts();
+		}
+		return totalTrainingCosts;
+	}
+
 	public static void setInstance(HRDepartment instance) {
 		HRDepartment.instance = instance;
 	}
