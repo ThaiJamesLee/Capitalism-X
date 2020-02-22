@@ -95,11 +95,11 @@ public class HRDepartmentTest {
         /*
         * Train engineers with the trainings provided by the enum Training.
         */
-        department.trainEmployee(salesman1, Training.WORKSHOP);
-        department.trainEmployee(salesman2, Training.COURSES);
+        department.trainEmployee(salesman1, Training.WORKSHOP, LocalDate.now());
+        department.trainEmployee(salesman2, Training.COURSES, LocalDate.now());
 
-        department.trainEmployee(engineer1, Training.WORKSHOP);
-        department.trainEmployee(engineer2, Training.COURSES);
+        department.trainEmployee(engineer1, Training.WORKSHOP, LocalDate.now());
+        department.trainEmployee(engineer2, Training.COURSES, LocalDate.now());
 
         Assert.assertEquals(salesman1.getSkillLevel(), 22 );
         Assert.assertEquals(salesman2.getSkillLevel(), 21);

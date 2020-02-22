@@ -560,10 +560,11 @@ public class HRDepartment extends DepartmentImpl {
 	 *
 	 * @param employee The employee to train.
 	 * @param training The type of training for the employee.
+	 * @param gameDate The current game date.
 	 * @return Returns the cost of the training.
 	 */
-	public double trainEmployee(Employee employee, Training training) {
-		return EmployeeTraining.getInstance().trainEmployee(employee, training);
+	public double trainEmployee(Employee employee, Training training, LocalDate gameDate) {
+		return EmployeeTraining.getInstance().trainEmployee(employee, training, gameDate);
 	}
 
 	/**

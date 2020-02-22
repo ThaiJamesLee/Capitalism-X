@@ -1358,15 +1358,6 @@ public class GameController {
 		return HRDepartment.getInstance().getAllTrainings();
 	}
 
-	/**
-	 * Train the employee. Note: each employee maintains a list of trainings he did.
-	 *
-	 * @param e the employee you want to train.
-	 * @param t the training he should do.
-	 */
-	public void trainEmployee(Employee e, Training t) {
-		HRDepartment.getInstance().trainEmployee(e, t);
-	}
 
 	public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
 		return HRDepartment.getInstance().getTotalQualityOfWorkByEmployeeType(employeeType);

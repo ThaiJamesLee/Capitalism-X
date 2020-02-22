@@ -10,6 +10,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
+
 /**
  * @author duly
  */
@@ -45,9 +47,9 @@ public class EmployeeTest {
 
         Assert.assertEquals(worker.getCapacity(),  (int)(worker.getSkillLevel()/2.0));
 
-        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP);
-        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP);
-        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP);
+        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP, LocalDate.now());
+        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP, LocalDate.now());
+        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP, LocalDate.now());
 
         Assert.assertEquals(worker.getCapacity(),  (int)(worker.getSkillLevel()/2.0));
         String message = "Employee skillLevel=" + worker.getSkillLevel() + "; capacity=" + worker.getCapacity();
