@@ -647,8 +647,9 @@ public class FinanceDepartment extends DepartmentImpl {
                 dailyRevenue += c.getRevenue();
             }
         }
-        this.salesHistory.put(gameDate, dailyRevenue);
-        return dailyRevenue;
+        this.totalRevenue = dailyRevenue;
+        this.salesHistory.put(gameDate, this.totalRevenue);
+        return this.totalRevenue;
     }
 
     /**

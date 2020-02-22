@@ -593,11 +593,12 @@ public class HRDepartment extends DepartmentImpl {
 	/**
 	 * Calculates the total training costs of the company on a specified date.
 	 * @param date The date for which the costs should be calculated.
+	 * @return Returns the total training costs of the company on the specified date.
 	 */
 	public double calculateTotalTrainingCosts(LocalDate date) {
 		double totalTrainingCosts = 0.0;
 		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
-			totalTrainingCosts += entry.getValue().calculateTotalTrainingCosts();
+			totalTrainingCosts += entry.getValue().calculateTotalTrainingCosts(date);
 		}
 		return totalTrainingCosts;
 	}

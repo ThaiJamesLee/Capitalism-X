@@ -100,6 +100,7 @@ public class Team implements Serializable {
     /**
      * Calculates the total training costs of a team on a specified date.
      * @param date The date for which the costs should be calculated.
+     * @return Returns the total training costs of a team on the specified date.
      */
     public double calculateTotalTrainingCosts(LocalDate date){
         double totalTrainingCosts = 0.0;
