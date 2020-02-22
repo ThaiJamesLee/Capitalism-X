@@ -204,6 +204,14 @@ public class SalesDepartment extends DepartmentImpl {
     }
 
     /**
+     *
+     * @return Returns contracts failed.
+     */
+    public PropertyChangeSupportList<Contract> getFailedContracts() {
+        return failedContracts;
+    }
+
+    /**
      * @param contract A new contract to the active contract.
      */
     public void addContractToActive(Contract contract, LocalDate contractStart) {
