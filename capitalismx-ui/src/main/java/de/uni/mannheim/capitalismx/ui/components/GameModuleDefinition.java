@@ -45,8 +45,9 @@ public enum GameModuleDefinition {
     RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameModuleType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(5, 8, 5, 8),true),
 
     // The modules for Sales
-    SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(5, 10, 3, 15) , true);
-    ;
+    SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(3, 15, 5, 15) , true),
+	SALES_KPI_OVERVIEW("sales_kpi.fxml", GameModuleType.SALES_KPI_OVERVIEW, new GridPosition(1, 18, 0, 5), true);
+	;
 
 	// The name of the fxml-file defining this type.
 	public final String fxmlFile;

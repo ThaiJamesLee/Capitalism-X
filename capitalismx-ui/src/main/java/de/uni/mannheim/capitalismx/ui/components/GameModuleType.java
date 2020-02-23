@@ -24,6 +24,7 @@ public enum GameModuleType {
 	PRODUCTION_PRODUCE_PRODUCT("module.production.produce", GameViewType.PRODUCTION),
 	PRODUCTION_MACHINERY_OVERVIEW("module.production.machines", GameViewType.PRODUCTION),
     SALES_CONTRACT_OVERVIEW("module.sales.contract", GameViewType.SALES),
+	SALES_KPI_OVERVIEW("module.sales.kpi", GameViewType.SALES),
     WAREHOUSE_LIST("module.warehouse.list", GameViewType.WAREHOUSE),
 	WAREHOUSE_STATISTICS("module.statistics", GameViewType.WAREHOUSE),
 	WAREHOUSE_STOCK_MANAGEMENT("module.warehouse.stock", GameViewType.WAREHOUSE),
