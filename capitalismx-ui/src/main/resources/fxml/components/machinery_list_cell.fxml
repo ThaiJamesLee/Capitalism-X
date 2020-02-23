@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="gridPane" hgap="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="gridPane" hgap="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="9.0" />
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="38.0" />
@@ -32,7 +32,7 @@
             </font>
         </Label>
       <Button fx:id="sellButton" layoutX="161.0" layoutY="13.0" mnemonicParsing="false" style="-fx-background-color: red;" text="%truck.btnSell" GridPane.columnIndex="3" GridPane.rowSpan="2" />
-      <FontAwesomeIcon iconName="COGS" text="" />
+      <FontAwesomeIcon iconName="COG" size="1.5em" />
     </children>
    <padding>
       <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
