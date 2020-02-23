@@ -24,7 +24,6 @@ import javafx.scene.layout.AnchorPane;
  * @author Jonathan
  *
  */
-@Deprecated //TODO remove?
 public class BuyProductComponentsPopoverController implements Initializable {
 
 	private double componentPrice;
@@ -61,8 +60,12 @@ public class BuyProductComponentsPopoverController implements Initializable {
 		updatePrice();
 	}
 
+	/**
+	 * 
+	 */
 	private void updatePrice() {
 		double cost = componentPrice * Integer.parseInt(amountInput.getText());
+		
 		priceLabel.setText(UIManager.getLocalisedString("component.price") + CapCoinFormatter.getCapCoins(cost));
 	}
 

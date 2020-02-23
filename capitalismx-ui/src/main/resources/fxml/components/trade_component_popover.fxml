@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="root" styleClass="popover_pane" stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.component.TradeComponentPopoverController">
+<AnchorPane fx:id="root" styleClass="popover_pane" stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.component.TradeComponentPopoverController">
    <children>
       <GridPane hgap="20.0" vgap="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -19,8 +20,8 @@
         </columnConstraints>
         <rowConstraints>
             <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-            <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
-          <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="15.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints percentHeight="35.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -46,7 +47,12 @@
                   <Insets bottom="5.0" />
                </padding>
             </Label>
-            <Label fx:id="priceLabel" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
+            <VBox alignment="CENTER" spacing="4.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+               <children>
+                  <Label fx:id="priceLabelBuy" text="Label" />
+                  <Label fx:id="priceLabelSell" text="Label" />
+               </children>
+            </VBox>
             <TextField fx:id="amountField" alignment="CENTER_RIGHT" prefWidth="70.0" promptText="0" GridPane.rowIndex="2" />
             <Label fx:id="qualityLabel" text="Label" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
          </children>
