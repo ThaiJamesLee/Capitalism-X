@@ -27,12 +27,12 @@
           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label styleClass="label_large" text="Contract Offers">
+            <Label styleClass="label_large" text="%sales.contract.available">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
             </Label>
-            <Label styleClass="label_large" text="Accepted Contracts" GridPane.columnIndex="2">
+            <Label styleClass="label_large" text="%sales.contract.accepted" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
@@ -50,12 +50,12 @@
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label styleClass="label_medium" text="Name">
+                              <Label styleClass="label_medium" text="%sales.contract.name">
                                  <GridPane.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" styleClass="label_medium" text="Deadline" GridPane.columnIndex="1">
+                              <Label alignment="CENTER_RIGHT" styleClass="label_medium" text="%sales.contract.deadline" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="5.0" right="15.0" />
                                  </GridPane.margin>
@@ -80,7 +80,7 @@
                            <children>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="btn_standard" text="Add Contract">
+                                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="btn_standard" text="%sales.contract.accept">
                                        <graphic>
                                           <FontAwesomeIcon iconName="CARET_RIGHT" size="1.3em" />
                                        </graphic>
@@ -89,12 +89,12 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#fulfillContract" styleClass="btn_standard" text="Fulfill Contract" />
+                                    <Button mnemonicParsing="false" onMouseClicked="#fulfillContract" styleClass="btn_standard" text="%sales.contract.fulfill" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="btn_standard" text="Terminate Contract" />
+                                    <Button mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="btn_standard" text="%sales.contract.terminate" />
                                  </children>
                               </HBox>
                            </children>
@@ -119,12 +119,12 @@
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label styleClass="label_medium" text="Name">
+                              <Label styleClass="label_medium" text="%sales.contract.name">
                                  <GridPane.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label styleClass="label_medium" text="Deadline" GridPane.columnIndex="1">
+                              <Label styleClass="label_medium" text="%sales.contract.deadline" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="5.0" right="15.0" />
                                  </GridPane.margin>
