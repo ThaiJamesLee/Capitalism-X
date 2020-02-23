@@ -173,6 +173,7 @@ public class SalesDepartment extends DepartmentImpl {
         this.activeContracts.addPropertyChangeListener(listener);
         this.availableContracts.addPropertyChangeListener(listener);
         this.doneContracts.addPropertyChangeListener(listener);
+        this.failedContracts.addPropertyChangeListener(listener);
     }
 
     /**

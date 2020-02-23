@@ -30,14 +30,16 @@ public class SalesEventListener implements PropertyChangeListener {
             System.out.println(evt.getPropertyName());
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAcceptedContracts();
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();
-            ((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFailedKPIs();
+            //((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFailedKPIs();
 
         } else if(evt.getPropertyName().equals(SalesDepartment.DONE_CONTRACTS_EVENT)){
             System.out.println(evt.getPropertyName());
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAcceptedContracts();
             ((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFulfilledKPIs();
             //((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();
+        } else if(evt.getPropertyName().equals(SalesDepartment.FAILED_CONTRACTS_EVENT)){
+            ((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFailedKPIs();
+            System.out.println("Failed Contract Event");
         }
-
     }
 }
