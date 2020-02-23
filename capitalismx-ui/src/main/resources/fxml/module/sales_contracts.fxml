@@ -14,13 +14,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController">
    <children>
-      <GridPane>
+      <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="35.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="35.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -39,12 +39,12 @@
             </Label>
             <AnchorPane GridPane.rowIndex="1">
                <children>
-                  <VBox>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <GridPane>
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -61,10 +61,13 @@
                                  </GridPane.margin>
                               </Label>
                            </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
                         </GridPane>
-                        <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
                           <content>
-                              <ListView fx:id="availableContractsList" prefHeight="400.0" prefWidth="300.0" />
+                              <ListView fx:id="availableContractsList" />
                           </content>
                         </ScrollPane>
                      </children>
@@ -76,7 +79,7 @@
                   <AnchorPane fx:id="contractInfoPane" />
                   <AnchorPane>
                      <children>
-                        <VBox alignment="CENTER" prefWidth="225.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <children>
                               <HBox alignment="CENTER">
                                  <children>
@@ -108,12 +111,12 @@
             </VBox>
             <AnchorPane GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
-                  <VBox>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <GridPane>
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -130,12 +133,15 @@
                                  </GridPane.margin>
                               </Label>
                            </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
                         </GridPane>
-                        <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="contractListAnchor">
+                            <AnchorPane styleClass="contractListAnchor">
                                  <children>
-                                    <ListView fx:id="acceptedContractsList" prefHeight="400.0" prefWidth="300.0" />
+                                    <ListView fx:id="acceptedContractsList" prefHeight="400.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                           </content>
