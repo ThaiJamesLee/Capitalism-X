@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.domain.department;
 
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
+
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ public abstract class DepartmentImpl implements Department, Serializable {
     }
 
     @Override
-    public void setLevel(int level) {
+    public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
         this.level = level;
     }
 

@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.sales.department;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
@@ -81,7 +82,11 @@ public class SalesDepartment extends DepartmentImpl {
 
     private SalesDepartment() {
         super("Sales Department");
-        setLevel(1);
+        try {
+            setLevel(1);
+        } catch (LevelingRequirementNotFulFilledException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
         activeContracts = new PropertyChangeSupportList<>();
         availableContracts = new PropertyChangeSupportList<>();
         doneContracts = new PropertyChangeSupportList<>();

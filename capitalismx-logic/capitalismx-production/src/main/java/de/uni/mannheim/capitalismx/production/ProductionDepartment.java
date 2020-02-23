@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
@@ -149,13 +150,13 @@ public class ProductionDepartment extends DepartmentImpl {
         this.machineSlotsAvailable = true;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
         ProductionSkill productionSkill = (ProductionSkill) skillMap.get(level);
         if(productionSkill.getProductionWorkersNeeded() <= this.numberOfProductionWorkers) {
             super.setLevel(level);
             this.updateProductionSlots();
         } else {
-            //TODO THROW NOTENOUGHPRODUCTIONWORKERSEXCEPTION
+            throw new LevelingRequirementNotFulFilledException("");
         }
     }
 

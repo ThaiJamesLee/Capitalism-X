@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.sales.department;
 
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
@@ -38,7 +39,11 @@ public class SalesDepartmentTest {
         productionDepartment = ProductionDepartment.getInstance();
 
         for(int i = 0; i<5; i++) {
-            productionDepartment.getLevelingMechanism().levelUp();
+            try {
+                productionDepartment.getLevelingMechanism().levelUp();
+            } catch (LevelingRequirementNotFulFilledException e) {
+               LOGGER.error(e.getMessage(), e);
+            }
         }
         try {
             productionDepartment.buyMachinery(new Machinery(initDate), initDate);
@@ -80,7 +85,11 @@ public class SalesDepartmentTest {
     public void levelUpTest() {
         SalesDepartment salesDepartment = SalesDepartment.createInstance();
         for (int i = 1; i<=salesDepartment.getMaxLevel(); i++) {
-            salesDepartment.getLevelingMechanism().levelUp();
+            try {
+                salesDepartment.getLevelingMechanism().levelUp();
+            } catch (LevelingRequirementNotFulFilledException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
         Assert.assertEquals(8, salesDepartment.getAvailableSkills().size());
     }
