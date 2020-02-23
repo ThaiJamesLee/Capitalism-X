@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.domain.employee;
 
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
 import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
@@ -24,7 +25,11 @@ public class EmployeeTest {
     @BeforeTest
     public void setUp() {
         hrDepartment = HRDepartment.createInstance();
-        hrDepartment.getLevelingMechanism().levelUp();
+        try {
+            hrDepartment.getLevelingMechanism().levelUp();
+        } catch (LevelingRequirementNotFulFilledException e) {
+           LOGGER.error(e.getMessage(), e);
+        }
     }
 
     @Test

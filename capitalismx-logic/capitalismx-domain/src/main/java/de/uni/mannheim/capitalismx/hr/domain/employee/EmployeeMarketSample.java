@@ -80,7 +80,7 @@ public class EmployeeMarketSample implements Serializable {
     /**
      * Load the employee stack file.
      */
-    @Deprecated//(since = "v0.0.5")
+    @Deprecated(since = "v0.0.5")
     public void loadSample() {
         List<PersonMeta> personStack = null;
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File(filePath)))) {
@@ -100,7 +100,7 @@ public class EmployeeMarketSample implements Serializable {
      *
      * @param stack the pre-generated PersonMeta List to be saved.
      */
-    @Deprecated//(since = "v0.0.5")
+    @Deprecated(since = "v0.0.5")
     public void saveSample(List<PersonMeta> stack) {
         File f = new File(rootDir + File.separator + "data");
 
