@@ -99,7 +99,7 @@ public class ProductionDepartmentTest {
         Map<Product, Integer> products = ProductionDepartment.getInstance().getNumberProducedProducts();
         try {
             for (HashMap.Entry<Product, Integer> p : products.entrySet()) {
-                ProductionDepartment.getInstance().produceProduct(p.getKey(), 10, 10);
+                ProductionDepartment.getInstance().produceProduct(p.getKey(), 10, 10, true);
             }
             //Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 10);
         } catch (Exception e) {

@@ -958,10 +958,17 @@ public class GameController {
 		}
 	}
 
-	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {
+	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException, ComponenLockedException {
 		try {
+		    ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
+		    boolean allComponentsUnlocked = true;
+		    for(Component component : product.getComponents()) {
+		        if(!researchAndDevelopmentDepartment.isComponentUnlocked(component)) {
+		            allComponentsUnlocked = false;
+                }
+            }
 			return ProductionDepartment.getInstance().produceProduct(product, quantity,
-					WarehousingDepartment.getInstance().calculateFreeStorage());
+					WarehousingDepartment.getInstance().calculateFreeStorage(), allComponentsUnlocked);
 		} catch (Exception e) {
 			throw e;
 		}

@@ -293,7 +293,7 @@ public class ProductionDepartment extends DepartmentImpl {
     }
     */
 
-    public double produceProduct(Product product, int quantity, int freeStorage) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {
+    public double produceProduct(Product product, int quantity, int freeStorage, boolean allComponentsUnlocked) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException, ComponenLockedException {
         int totalMachineCapacity = 0;
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
@@ -324,11 +324,9 @@ public class ProductionDepartment extends DepartmentImpl {
                         throw new NotEnoughComponentsException("There are not enough components available to produce " + quantity + " unit(s).", maximumProducable);
                     }
 
-                    /*
-                    for (Component component : product.getComponents()) {
-                        int newStoredQuantity = this.storedComponents.get(component) - quantity;
-                        this.storedComponents.put(component, newStoredQuantity);
-                    }*/
+                    if (!allComponentsUnlocked) {
+                        throw new ComponenLockedException("At least on of the components is not unlocked yet. You might need to do some research first.");
+                    }
 
                     for (Component component : product.getComponents()) {
                         for (HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
