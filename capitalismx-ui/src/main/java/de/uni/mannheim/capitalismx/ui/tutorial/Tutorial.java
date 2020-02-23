@@ -26,18 +26,25 @@ public class Tutorial {
 	private Iterator<TutorialChapter> currentChapter;
 
 	public Tutorial() {
-//		chapters.add(new HudControlsChapter());
+		chapters.add(new HudControlsChapter());
 		chapters.add(new IntroduceProductChapter());
 
 		currentChapter = chapters.iterator();
 	}
 
+	/**
+	 * Continue with the next {@link TutorialChapter}, if one exists.
+	 */
 	public void nextChapter() {
 		if (currentChapter.hasNext()) {
 			currentChapter.next().beginChapter();
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static ResourceBundle getBundle() {
 		return bundle;
 	}
