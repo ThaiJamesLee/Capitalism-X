@@ -54,7 +54,7 @@ public class ProductionDepartment extends DepartmentImpl {
 
     private static final double LAUNCH_COSTS = 10000;
 
-    private PropertyChangeSupportList launchedProductsChange;
+    private PropertyChangeSupportList<Product> launchedProductsChange;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
 
@@ -94,7 +94,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.decreasedProcessAutomationLevel = 0;
         this.totalEngineerQualityOfWorkDecreasePercentage = 0;
 
-        this.launchedProductsChange = new PropertyChangeSupportList();
+        this.launchedProductsChange = new PropertyChangeSupportList<>();
         this.launchedProductsChange.setList(this.launchedProducts);
         this.launchedProductsChange.setAddPropertyName("launchedProductsChange");
 
@@ -753,7 +753,7 @@ public class ProductionDepartment extends DepartmentImpl {
         return new ProductionDepartment();
     }
 
-    public synchronized PropertyChangeSupportList getLaunchedProductsChange() {
+    public synchronized PropertyChangeSupportList<Product> getLaunchedProductsChange() {
         return launchedProductsChange;
     }
 

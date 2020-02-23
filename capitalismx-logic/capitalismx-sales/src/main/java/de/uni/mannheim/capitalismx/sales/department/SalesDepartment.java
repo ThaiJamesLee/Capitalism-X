@@ -68,6 +68,12 @@ public class SalesDepartment extends DepartmentImpl {
      * The event that is fired, when the list {@link SalesDepartment#doneContracts} changes.
      */
     public static final String DONE_CONTRACTS_EVENT = "doneContractsListChanged";
+
+    /**
+     *  The event that is fired, when the list {@link SalesDepartment#failedContracts} changes.
+     *  <br>
+     *  Therefore, this list should add new contracts, when the player was not able to fulfill a contract.
+     */
     public static final String FAILED_CONTRACTS_EVENT = "failedContractsListChanged";
 
     private static final String SALES_PROPERTY_FILE = "sales-module";
@@ -250,12 +256,16 @@ public class SalesDepartment extends DepartmentImpl {
     
 
     /**
+     * Generate contracts depending on the current level of the department.
+     * Depends on the state of the {@link ProductionDepartment}:
+     * <li>launched products</li>
+     * <li>production capacity</li>
      *
      * @param date The date when the contracts are generated.
      * @param productionDepartment The {@link ProductionDepartment} instance.
      */
     public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) {
-        SalesDepartmentSkill skill = (SalesDepartmentSkill)skillMap.get(getLevel());
+        SalesDepartmentSkill skill = (SalesDepartmentSkill) skillMap.get(getLevel());
         int numContracts = skill.getNumContracts();
         Range factor = skill.getPriceFactor();
         double penalty = skill.getPenaltyFactor();
@@ -264,7 +274,7 @@ public class SalesDepartment extends DepartmentImpl {
         List<Product> products = productionDepartment.getLaunchedProductsChange().getList();
         ContractFactory contractFactory = new ContractFactory(productionDepartment);
 
-        if(!products.isEmpty()) {
+        if(!(products.isEmpty()) && (productionDepartment.getMonthlyMachineCapacity(date) > 0)) {
             for(int i = 0; i<numContracts; i++) {
                 int max = Math.max(products.size()-1, 0);
                 Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
@@ -272,7 +282,6 @@ public class SalesDepartment extends DepartmentImpl {
                 double demand = demandPercentage.get(p) != null ? demandPercentage.get(p) : 0.0;
 
                 if(demand > 0.0) {
-                    LOGGER.info("demand bigger zero");
                     Contract c = contractFactory.getContract(p, date, factor);
                     c.setPenalty(c.getPenalty() * penalty);
                     c.setNumProducts((int)(c.getNumProducts() * demand));
