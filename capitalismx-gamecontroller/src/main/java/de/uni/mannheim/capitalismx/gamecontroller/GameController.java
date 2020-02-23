@@ -948,7 +948,8 @@ public class GameController {
 	public double launchProduct(Product product) throws ProductCategoryNotUnlockedException {
 		try {
 			LocalDate gameDate = GameState.getInstance().getGameDate();
-			boolean productCategoryUnlocked = ResearchAndDevelopmentDepartment.getInstance().isCategoryUnlocked(product.getProductCategory());
+			ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
+			boolean productCategoryUnlocked = researchAndDevelopmentDepartment.isCategoryUnlocked(product.getProductCategory());
 			double launchCosts = ProductionDepartment.getInstance().launchProduct(product, gameDate, productCategoryUnlocked);
 			FinanceDepartment.getInstance().decreaseCash(gameDate, launchCosts);
 			return launchCosts;

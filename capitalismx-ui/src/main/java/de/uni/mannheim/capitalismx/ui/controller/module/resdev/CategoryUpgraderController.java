@@ -1,8 +1,15 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.resdev;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
+import de.uni.mannheim.capitalismx.resdev.skills.ProductCategorySkill;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -29,25 +36,33 @@ public class CategoryUpgraderController implements Initializable {
 
     @FXML
     public void unlockTV(){
-        //todo: add something to do.
+        ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
+        FinanceDepartment financeDepartment = GameState.getInstance().getFinanceDepartment();
+        financeDepartment.decreaseCash(GameState.getInstance().getGameDate(), researchAndDevelopmentDepartment.unlockProductCategory(ProductCategory.TELEVISION));
         categoryGrid.getChildren().remove(btnTV);
         categoryGrid.add(new Label("Unlocked"), 0,1);
     }
     @FXML
     public void unlockConsole(){
-        //todo: add something to do.
+        ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
+        FinanceDepartment financeDepartment = GameState.getInstance().getFinanceDepartment();
+        financeDepartment.decreaseCash(GameState.getInstance().getGameDate(), researchAndDevelopmentDepartment.unlockProductCategory(ProductCategory.GAME_BOY));
         categoryGrid.getChildren().remove(btnConsole);
         categoryGrid.add(new Label("Unlocked"), 1,1);
     }
     @FXML
     public void unlockNotebook(){
-        //todo: add something to do.
+        ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
+        FinanceDepartment financeDepartment = GameState.getInstance().getFinanceDepartment();
+        financeDepartment.decreaseCash(GameState.getInstance().getGameDate(), researchAndDevelopmentDepartment.unlockProductCategory(ProductCategory.NOTEBOOK));
         categoryGrid.getChildren().remove(btnNotebook);
         categoryGrid.add(new Label("Unlocked"), 2,1);
     }
     @FXML
     public void unlockPhone(){
-        //todo: add something to do.
+        ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
+        FinanceDepartment financeDepartment = GameState.getInstance().getFinanceDepartment();
+        financeDepartment.decreaseCash(GameState.getInstance().getGameDate(), researchAndDevelopmentDepartment.unlockProductCategory(ProductCategory.PHONE));
         categoryGrid.getChildren().remove(btnPhone);
         categoryGrid.add(new Label("Unlocked"), 3,1);
     }
@@ -67,7 +82,30 @@ public class CategoryUpgraderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
+        List<ProductCategorySkill> unlockedProductCategorySkills = researchAndDevelopmentDepartment.getUnlockedProductCategorySkills();
+        for (ProductCategorySkill productCategorySkill : unlockedProductCategorySkills) {
+            switch (productCategorySkill.getUnlockedProductCategory()) {
+                case TELEVISION:
+                    categoryGrid.getChildren().remove(btnTV);
+                    categoryGrid.add(new Label("Unlocked"), 0,1);
+                    break;
+                case GAME_BOY:
+                    categoryGrid.getChildren().remove(btnConsole);
+                    categoryGrid.add(new Label("Unlocked"), 1,1);
+                    break;
+                case NOTEBOOK:
+                    categoryGrid.getChildren().remove(btnNotebook);
+                    categoryGrid.add(new Label("Unlocked"), 2,1);
+                    break;
+                case PHONE:
+                    categoryGrid.getChildren().remove(btnPhone);
+                    categoryGrid.add(new Label("Unlocked"), 3,1);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 }

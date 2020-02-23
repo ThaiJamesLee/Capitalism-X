@@ -191,7 +191,8 @@ public class Product extends Unit implements Serializable {
 
     // set warehouseSalesPrice to half of the totalComponentCosts, should be reconsidered for future balancing
     public double getWarehouseSalesPrice() {
-        return this.totalComponentCosts / 2;
+        this.warehouseSalesPrice = this.totalComponentCosts / 2;
+        return this.warehouseSalesPrice;
     }
 
 
