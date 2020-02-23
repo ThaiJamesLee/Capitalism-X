@@ -4,11 +4,14 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.SalesEventListener;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +29,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SalesContractController implements Initializable {
+
+    private static final String LangFILE = "properties.main";
 
     SalesEventListener contractListener;
     SalesContractInfoController infoPaneController;
@@ -48,7 +53,8 @@ public class SalesContractController implements Initializable {
     }
 
     /**
-     *
+     * This method is called when clicking on the "Accept Contract" button. A offered contract needs to be selected.
+     * It calls {@link de.uni.mannheim.capitalismx.sales.department.SalesDepartment#addContractToActive(Contract, LocalDate)} with the selected contract and current game date.
      */
     @FXML
     public void acceptContract(){
@@ -60,6 +66,9 @@ public class SalesContractController implements Initializable {
         }
     }
 
+    /**
+     * Calls {@link de.uni.mannheim.capitalismx.sales.department.SalesDepartment#contractDone(Contract, LocalDate)} to fulfill a selected accepted contract before the deadline.
+     */
     @FXML
     public void fulfillContract(){
         if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0){
@@ -71,7 +80,7 @@ public class SalesContractController implements Initializable {
     }
 
     /**
-     * Removes a contract from the list of accepted contracts
+     * Terminates a selected contract from the list of accepted contracts.
      */
     @FXML
     public void terminateContract(){
@@ -90,7 +99,7 @@ public class SalesContractController implements Initializable {
     /**
      * Receives a contract object and displays it in the UI under "Sales" -> "Contract Management" -> "Contract Offers"
      * @param c The finished contract that should be displayed in UI.
-     * @param i the index at which it is inserted
+     * @param i the index at which it is inserted in the list
      */
     public void addContractOffer(Contract c, int i, boolean isAccepted){
         FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader()
@@ -102,6 +111,7 @@ public class SalesContractController implements Initializable {
             contract = contractLoader.load();
             cellController = contractLoader.getController();
             cellController.setContractName(c.getProduct().toString());
+            cellController.setContractDeadline(String.valueOf(c.getTimeToFinish()));
             cellController.setID(c.getuId());
 
             if(isAccepted){
@@ -123,78 +133,111 @@ public class SalesContractController implements Initializable {
     /**
      * This methods displays the info panel for a "Offered Contracts" list entry that was cicked.
      * This method is called by
-     * @param ID
+     * @param ID ID of contract whose info should be displayed
      */
     public void showInfoPanel(String ID){
         System.out.println("showInfoPanel  Check");
         //GameState.getInstance().getSalesDepartment().getAvailableContracts().getList().contains();
+        SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+        for(Contract c : salesDep.getAvailableContracts().getList()){
+            if (c.getuId().equals(ID)) {
+                infoPanelHandler(c);
+            }
+        }
+        for(Contract c : salesDep.getActiveContracts().getList()){
+            if (c.getuId().equals(ID)) {
+                infoPanelHandler(c);
+            }
+        }
+        /*
         for(Contract c : ((ArrayList<Contract>)GameState.getInstance().getSalesDepartment().getAvailableContracts().getList())) {
             System.out.println("First Loop Check");
             if (c.getuId().equals(ID)) {
-                Parent infoPane;
-                if(firstClick){
-                    firstClick = false;
-                    System.out.println("Loop - If Check");
-                    //ResourceBundle bundle = ResourceBundle.getBundle("properties.main");
 
-                    FXMLLoader infoLoader = new FXMLLoader(getClass().getClassLoader()
-                            .getResource("fxml/components/sales_info_panel.fxml"));
-                    try {
-                        infoPane = infoLoader.load();
-                        infoPaneController = infoLoader.getController();
-                        contractInfoPane.getChildren().add(infoPane);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                infoPaneController.setInfoPanel(
-                        "" + c.getProduct(),
-                        "" + c.getContractor(),
-                        "" + c.getNumProducts(),
-                        "" + (c.getNumProducts() * c.getPricePerProd()),
-                        "" + c.getPricePerProd(),
-                        "" + c.getTimeToFinish(),
-                        "" + c.getContractStart(),
-                        "" + c.getContractDoneDate(),
-                        "" + c.getPenalty()
-                );
             }
         }
 
+         */
     }
 
+    public void infoPanelHandler(Contract c){
+        Parent infoPane;
+        if(firstClick){
+            firstClick = false;
+            System.out.println("Loop - If Check");
+            //ResourceBundle bundle = ResourceBundle.getBundle("properties.main");
+
+            FXMLLoader infoLoader = new FXMLLoader(getClass().getClassLoader()
+                    .getResource("fxml/components/sales_info_panel.fxml"), UIManager.getResourceBundle());
+            try {
+                infoPane = infoLoader.load();
+                infoPaneController = infoLoader.getController();
+                contractInfoPane.getChildren().add(infoPane);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        infoPaneController.setInfoPanel(
+                "" + c.getProduct(),
+                "" + c.getContractor(),
+                "" + c.getNumProducts(),
+                "" + CapCoinFormatter.getCapCoins(c.getNumProducts() * c.getPricePerProd()),
+                "" + CapCoinFormatter.getCapCoins(c.getPricePerProd()),
+                "" + c.getTimeToFinish() + "Months",
+                "" + c.getContractStart(),
+                "" + c.getContractDoneDate(),
+                "" + CapCoinFormatter.getCapCoins(c.getPenalty())
+        );
+    }
+
+    /**
+     * Refreshes the List of offered and accepted contracts.
+     */
     public void refreshAllContracts(){
         refreshAvailableContracts();
         refreshAcceptedContracts();
     }
 
+    /**
+     * Refreshes the list of offered contracts
+     */
     public void refreshAvailableContracts(){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 removeAllAvailableContracts();
-                ArrayList<Contract> contractList = ((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList());
-                for(int i = 0; i < contractList.size(); i++){
-                    addContractOffer(contractList.get(i), i, false);
+                if(((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList()).size() > 0){
+                    ArrayList<Contract> contractList = ((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList());
+                    for(int i = 0; i < contractList.size(); i++){
+                        addContractOffer(contractList.get(i), i, false);
+                    }
                 }
             }
         });
     }
 
+    /**
+     * refreshes the list of accepted contracts.
+     */
     public void refreshAcceptedContracts(){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 removeAllAcceptedContracts();
-                CopyOnWriteArrayList<Contract> contractList = ((CopyOnWriteArrayList<Contract>)GameState.getInstance().getSalesDepartment().getActiveContracts().getList());
-                for(int i = 0; i < contractList.size(); i++){
-                    addContractOffer(contractList.get(i), i, true);
+                if(((CopyOnWriteArrayList<Contract>)GameState.getInstance().getSalesDepartment().getActiveContracts().getList()).size() > 0){
+                    CopyOnWriteArrayList<Contract> contractList = ((CopyOnWriteArrayList<Contract>)GameState.getInstance().getSalesDepartment().getActiveContracts().getList());
+                    for(int i = 0; i < contractList.size(); i++){
+                        addContractOffer(contractList.get(i), i, true);
+                    }
                 }
             }
         });
     }
 
+    /**
+     * Removes all entries in the list of accepted contracts.
+     */
     public void removeAllAcceptedContracts(){
         if(acceptedContracts.size() > 0){
             acceptedContracts.clear();
@@ -203,6 +246,9 @@ public class SalesContractController implements Initializable {
         }
     }
 
+    /**
+     * Removes all entries in the list of offered contracts.
+     */
     public void removeAllAvailableContracts(){
         if(availableContracts.size() > 0){
             availableContracts.clear();

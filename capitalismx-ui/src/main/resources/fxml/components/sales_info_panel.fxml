@@ -26,47 +26,47 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Product">
+            <Label text="%sales.info.name">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Contractor" GridPane.rowIndex="1">
+            <Label text="%sales.info.contractor" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Number of Units" GridPane.rowIndex="2">
+            <Label text="%sales.info.quantity" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Total Volume" GridPane.rowIndex="3">
+            <Label text="%sales.info.totalrevenue" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Price per Product" GridPane.rowIndex="4">
+            <Label text="%sales.info.priceperproduct" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Time to Finish" GridPane.rowIndex="5">
+            <Label text="%sales.info.timetofinish" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Start Date" GridPane.rowIndex="6">
+            <Label text="%sales.info.startdate" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Deadline" GridPane.rowIndex="7">
+            <Label text="%sales.info.deadline" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Penalty" GridPane.rowIndex="8">
+            <Label text="%sales.info.penalty" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>

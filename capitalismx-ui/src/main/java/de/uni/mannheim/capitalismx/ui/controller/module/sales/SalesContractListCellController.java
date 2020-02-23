@@ -27,15 +27,18 @@ public class SalesContractListCellController implements Initializable {
 
     private String ID;
 
+    /**
+     * Calls the showInfoPanel() mtehod in SalesContractController
+     */
     @FXML
     public void showInfoPanel(){
-        System.out.println("List Cell clicked");
         ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
     }
 
     public void setContractName(String contractName) {
         this.contractName.setText(contractName);
     }
+
 
     public void setContractDeadline(String contractDeadline) {
         this.contractDeadline.setText(contractDeadline);

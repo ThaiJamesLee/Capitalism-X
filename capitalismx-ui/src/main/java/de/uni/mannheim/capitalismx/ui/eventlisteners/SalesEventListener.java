@@ -14,26 +14,24 @@ import java.util.List;
 
 public class SalesEventListener implements PropertyChangeListener {
 
-
+    /**
+     * Receives PropertyChangeEvents from the SalesDepartment each time the lists of available, accepted, or done contracts change.
+     * Depending on what has changed, it calls methods to reflect changes in UI.
+     * @param evt
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         //evt.getPropertyName()
         SalesContractController salesController = (SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController();
         if(evt.getPropertyName().equals(SalesDepartment.AVAILABLE_CONTRACTS_EVENT)){
-
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();
-            /*
-            List<Contract> availableContracts = ((List<Contract>)evt.getNewValue());
 
-            for(int i = 0; i < availableContracts.size(); i++){
-                salesController.addContractOffer(availableContracts.get(i), i);
-            }
-            */
         } else if(evt.getPropertyName().equals(SalesDepartment.ACTIVE_CONTRACTS_EVENT)){
             System.out.println(evt.getPropertyName());
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAcceptedContracts();
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();
             ((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFailedKPIs();
+
         } else if(evt.getPropertyName().equals(SalesDepartment.DONE_CONTRACTS_EVENT)){
             System.out.println(evt.getPropertyName());
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAcceptedContracts();
