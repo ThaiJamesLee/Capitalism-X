@@ -275,7 +275,12 @@ public class ProductionDepartment extends DepartmentImpl {
         }
     }
 
-    public double launchProduct(Product product, LocalDate gameDate, boolean productCategoryUnlocked) throws ProductCategoryNotUnlockedException {
+    public double launchProduct(Product product, LocalDate gameDate, boolean productCategoryUnlocked) throws ProductCategoryNotUnlockedException, ProductNameAlreadyInUseException {
+        for (Product launchedProduct : this.launchedProducts) {
+            if (launchedProduct.getProductName().equals(product.getProductName())) {
+                throw new ProductNameAlreadyInUseException("The product name \"" + product.getProductName() + "\" is already in use.", product.getProductName());
+            }
+        }
         if(productCategoryUnlocked) {
             product.setLaunchDate(gameDate);
             this.launchedProductsChange.add(product);

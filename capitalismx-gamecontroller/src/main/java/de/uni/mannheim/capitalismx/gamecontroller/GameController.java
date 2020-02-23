@@ -952,7 +952,7 @@ public class GameController {
 		return product.getProductCosts(GameState.getInstance().getGameDate());
 	}
 
-	public double launchProduct(Product product) throws ProductCategoryNotUnlockedException {
+	public double launchProduct(Product product) throws ProductCategoryNotUnlockedException, ProductNameAlreadyInUseException {
 		try {
 			LocalDate gameDate = GameState.getInstance().getGameDate();
 			ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
@@ -960,7 +960,7 @@ public class GameController {
 			double launchCosts = ProductionDepartment.getInstance().launchProduct(product, gameDate, productCategoryUnlocked);
 			FinanceDepartment.getInstance().decreaseCash(gameDate, launchCosts);
 			return launchCosts;
-		} catch (ProductCategoryNotUnlockedException e) {
+		} catch (Exception e) {
 			throw e;
 		}
 	}

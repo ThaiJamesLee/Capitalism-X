@@ -56,7 +56,7 @@ public class SalesDepartmentTest {
         try {
             Product p = new Product("test", ProductCategory.GAME_BOY, components);
             p.setLaunchDate(LocalDate.of(1990, 1, 1));
-            System.out.println(productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1), true));
+            //System.out.println(productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1), true));
             String launchInfo = "Cost of product P launch: " + productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1), true);
             LOGGER.info(launchInfo);
 
