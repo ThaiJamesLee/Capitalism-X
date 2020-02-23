@@ -283,7 +283,7 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public double calculateDailyStorageCost() {
         int variableStorageCost = 5;
-        this.dailyStorageCost = 5 * this.calculateStoredUnits();
+        this.dailyStorageCost = variableStorageCost * this.calculateStoredUnits();
         this.monthlyStorageCost += this.dailyStorageCost;
         return this.dailyStorageCost;
     }
@@ -296,6 +296,13 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.monthlyTotalCostWarehousing =  this.monthlyCostWarehousing + this.monthlyStorageCost;
         this.resetMonthlyStorageCost();
         return this.monthlyTotalCostWarehousing;
+    }
+
+    public double getMonthlyWarehouseCost(LocalDate gameDate) {
+        double monthlyCostWarehousing = this.calculateMonthlyCostWarehousing();
+        int variableStorageCost = 5;
+        double dailyStorageCost = variableStorageCost * this.calculateStoredUnits();
+        return monthlyCostWarehousing + dailyStorageCost * gameDate.lengthOfMonth();
     }
 
     public int getFreeStorage() {

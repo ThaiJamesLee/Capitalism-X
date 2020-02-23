@@ -758,6 +758,10 @@ public class GameController {
 		return machinery.getProductionTechnology();
 	}
 
+	public double getMachineryPurchasePrice() {
+		return ProductionDepartment.getInstance().getMachineryPurchasePrice(GameState.getInstance().getGameDate());
+	}
+
 	public int getMachineryCapacity(Machinery machinery) {
 		return machinery.getMachineryCapacity();
 	}
@@ -986,6 +990,10 @@ public class GameController {
 
 	public Map<Warehouse, Double> getAllWarehouseResaleValues() {
 		return WarehousingDepartment.getInstance().getAllWarehouseResaleValues();
+	}
+
+	public double getMonthlyWarehouseCost() {
+		return WarehousingDepartment.getInstance().getMonthlyWarehouseCost(GameState.getInstance().getGameDate());
 	}
 
 	public WarehouseType getWarehouseType(Warehouse warehouse) {
