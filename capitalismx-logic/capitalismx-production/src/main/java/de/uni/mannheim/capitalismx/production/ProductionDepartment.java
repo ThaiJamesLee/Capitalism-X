@@ -726,6 +726,11 @@ public class ProductionDepartment extends DepartmentImpl {
         return this.averageProductBaseQuality;
     }
 
+    public double getMachineryPurchasePrice(LocalDate gameDate) {
+        Machinery machinery = new Machinery(gameDate);
+        return machinery.calculatePurchasePrice();
+    }
+
     public int getProductionSlots() {
         return productionSlots;
     }

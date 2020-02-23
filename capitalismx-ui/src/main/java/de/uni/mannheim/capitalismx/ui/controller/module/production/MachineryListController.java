@@ -41,6 +41,10 @@ public class MachineryListController implements UpdateableController {
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
 
+        String buyButtonText = UIManager.getLocalisedString("machinery.list.buy");
+        buyButtonText = buyButtonText.replace("XXX", String.valueOf(controller.getMachineryPurchasePrice()));
+        buyButton.setText(buyButtonText);
+
         buyButton.setOnAction(e -> {
             LocalDate gameDate = GameState.getInstance().getGameDate();
             try {
