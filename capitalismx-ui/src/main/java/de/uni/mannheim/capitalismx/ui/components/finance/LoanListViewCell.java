@@ -78,6 +78,8 @@ public class LoanListViewCell extends ListCell<BankingSystem.Loan> {
 
             }
 
+            gridPane.getStyleClass().clear();
+
             nameLabel.setText(loan.getName());
             interestRateLabel.setText(UIManager.getLocalisedString("finance.loan.box.interest") + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(loan.getInterestRate()));
             durationLabel.setText(UIManager.getLocalisedString("finance.loan.box.duration").replace("XXX", loan.getDuration() + ""));

@@ -773,15 +773,19 @@ public class FinanceDepartment extends DepartmentImpl {
      * Generates a selection of three loans according to p.76. The actual generation is implemented in the banking
      * system. The desired loan amount can not exceed 70 percent of the current net worth.
      * @param desiredLoanAmount The requested loan amount.
+     * @param gameDate The current date in the game.
      * @return Returns a list of three loans with different characteristics.
      */
-    public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount){
+    public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount, LocalDate gameDate){
         if(this.cash.getValue() == 0.0){
             //TODO popup
             return null;
         }
-        if((desiredLoanAmount + BankingSystem.getInstance().getTotalAnnualPrincipalBalance()) > 0.7 * this.netWorth.getValue()){
-            desiredLoanAmount = (0.7 * this.netWorth.getValue()) - BankingSystem.getInstance().getTotalAnnualPrincipalBalance();
+        if((desiredLoanAmount + BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate)) > 0.7 * this.netWorth.getValue()){
+            desiredLoanAmount = (0.7 * this.netWorth.getValue()) - BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate);
+            if(desiredLoanAmount <= 0.0){
+                return null;
+            }
         }
         return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
     }

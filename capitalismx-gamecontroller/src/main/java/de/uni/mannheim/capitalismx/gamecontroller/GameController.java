@@ -408,10 +408,11 @@ public class GameController {
 	 * Generates a selection of three loans according to p.76. The actual generation is implemented in the banking
 	 * system. The desired loan amount can not exceed 70 percent of the current net worth.
 	 * @param loanAmount The requested loan amount.
+	 * @param gameDate The current date in the game.
 	 * @return Returns a list of three loans with different characteristics.
 	 */
-	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount) {
-		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount);
+	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount, LocalDate gameDate) {
+		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount, gameDate);
 	}
 
 	/**
