@@ -42,7 +42,7 @@ public class TradeComponentPopoverController implements Initializable {
 	private AnchorPane root;
 
 	@FXML
-	private Label componentName, priceLabel, qualityLabel;
+	private Label componentName, priceLabelBuy, priceLabelSell, qualityLabel;
 
 	@FXML
 	private TextField amountField;
@@ -126,7 +126,9 @@ public class TradeComponentPopoverController implements Initializable {
 
 	private void updatePrice() {
 		double cost = componentPrice * Integer.parseInt(amountField.getText());
-		priceLabel.setText(UIManager.getLocalisedString("component.price") + CapCoinFormatter.getCapCoins(cost));
+		priceLabelSell.setText(UIManager.getLocalisedString("component.price.sell")
+				+ CapCoinFormatter.getCapCoins(component.getSalesPrice()));
+		priceLabelBuy.setText(UIManager.getLocalisedString("component.price.buy") + CapCoinFormatter.getCapCoins(cost));
 	}
 
 }

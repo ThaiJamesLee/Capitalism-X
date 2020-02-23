@@ -1,7 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.utils;
 
 import javafx.scene.Node;
-import javafx.scene.control.Accordion;
 import javafx.scene.layout.AnchorPane;
 
 /**
