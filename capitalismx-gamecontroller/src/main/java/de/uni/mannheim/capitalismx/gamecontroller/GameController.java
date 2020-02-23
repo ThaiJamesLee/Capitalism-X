@@ -262,6 +262,7 @@ public class GameController {
 
 	private void updateProduction() {
 		ProductionDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
+		this.updateNumberOfProductionWorkers();
 	}
 
 	private void updateWarehouse() {
@@ -805,6 +806,12 @@ public class GameController {
 	 * PRODUCTION
 	 */
 
+	public void updateNumberOfProductionWorkers() {
+		Map<EmployeeType, Team> teams = HRDepartment.getInstance().getTeams();
+		int numberOfProductionWorkers = teams.get(EmployeeType.PRODUCTION_WORKER).getTeam().size();
+		ProductionDepartment.getInstance().setNumberOfProductionWorkers(numberOfProductionWorkers);
+	}
+
 	/* Production getter */
 	public Map<Product, Integer> getProducedProducts() {
 		return ProductionDepartment.getInstance().getNumberProducedProducts();
@@ -1340,6 +1347,7 @@ public class GameController {
 	 */
 	public void hireEmployee(Employee e) {
 		HRDepartment.getInstance().hire(e);
+		this.updateNumberOfProductionWorkers();
 	}
 
 	/**
@@ -1349,6 +1357,7 @@ public class GameController {
 	 */
 	public void fireEmployee(Employee e) {
 		HRDepartment.getInstance().fire(e);
+		this.updateNumberOfProductionWorkers();
 	}
 
 	/**

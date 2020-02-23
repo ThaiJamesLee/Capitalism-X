@@ -49,6 +49,7 @@ public class ProductionDepartment extends DepartmentImpl {
     private int totalWarehouseCapacity;
     private int decreasedProcessAutomationLevel;
     private double totalEngineerQualityOfWorkDecreasePercentage;
+    private int numberOfProductionWorkers;
 
     private static final double LAUNCH_COSTS = 10000;
 
@@ -65,6 +66,7 @@ public class ProductionDepartment extends DepartmentImpl {
 
     private static final String SKILL_COST_PROPERTY_PREFIX = "production.skill.cost.";
     private static final String SKILL_SLOTS_PREFIX = "production.skill.slots.";
+    private static final String SKILL_WORKERS_NEEDED_PREFIX = "production.skill.workers.";
 
 
     private ProductionDepartment() {
@@ -83,6 +85,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.machineSlotsAvailable = true;
         this.productionTechnology = ProductionTechnology.DEPRECIATED;
         this.storedComponents = new HashMap<>();
+        this.numberOfProductionWorkers = 0;
         /*this.componentTypeOfStoredComponents = new HashMap<>();
         this.supplierCategoryOfStoredComponents = new HashMap<>();*/
 
@@ -120,7 +123,8 @@ public class ProductionDepartment extends DepartmentImpl {
         ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
         for(int i = 1; i <= getMaxLevel(); i++) {
             int slots = Integer.parseInt(skillBundle.getString(SKILL_SLOTS_PREFIX + i));
-            skillMap.put(i, new ProductionSkill(i, slots));
+            int workersNeeded = Integer.parseInt(skillBundle.getString(SKILL_WORKERS_NEEDED_PREFIX + i));
+            skillMap.put(i, new ProductionSkill(i, slots, workersNeeded));
         }
     }
 
@@ -146,8 +150,13 @@ public class ProductionDepartment extends DepartmentImpl {
     }
 
     public void setLevel(int level) {
-        super.setLevel(level);
-        this.updateProductionSlots();
+        ProductionSkill productionSkill = (ProductionSkill) skillMap.get(level);
+        if(productionSkill.getProductionWorkersNeeded() <= this.numberOfProductionWorkers) {
+            super.setLevel(level);
+            this.updateProductionSlots();
+        } else {
+            //TODO THROW NOTENOUGHPRODUCTIONWORKERSEXCEPTION
+        }
     }
 
     public static synchronized ProductionDepartment getInstance() {
@@ -719,6 +728,10 @@ public class ProductionDepartment extends DepartmentImpl {
     public boolean getMachineSlotsAvailable() {
         this.machineSlotsAvailable = this.productionSlots > this.machines.size();
         return this.machineSlotsAvailable;
+    }
+
+    public void setNumberOfProductionWorkers(int numberOfProductionWorkers) {
+        this.numberOfProductionWorkers = numberOfProductionWorkers;
     }
 
     public static void setInstance(ProductionDepartment instance) {

@@ -8,12 +8,14 @@ public class ProductionSkill implements DepartmentSkill {
 
     private int level;
     private int newProductionSlots;
+    private int productionWorkersNeeded;
 
     private String description;
 
-    public ProductionSkill(int level, int newProductionSlots) {
+    public ProductionSkill(int level, int newProductionSlots, int productionWorkersNeeded) {
         this.level = level;
         this.newProductionSlots = newProductionSlots;
+        this.productionWorkersNeeded = productionWorkersNeeded;
     }
 
     public int getLevel() {
@@ -22,6 +24,10 @@ public class ProductionSkill implements DepartmentSkill {
 
     public int getNewProductionSlots() {
         return newProductionSlots;
+    }
+
+    public int getProductionWorkersNeeded() {
+        return this.productionWorkersNeeded;
     }
 
     @Override
