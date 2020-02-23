@@ -27,7 +27,7 @@ public class Machinery implements Serializable {
         this.levelPerPrice = 20000;
         // TODO fragen ob usefullife nach jedem jahr um 1 runtergezaehlt werden soll
         this.usefulLife = 20;
-        this.machineryCapacity = 500;
+        this.machineryCapacity = 50;
         this.lastInvestmentDate = gameDate;
         this.yearsSinceLastInvestment = 0;
         this.level = 1;
