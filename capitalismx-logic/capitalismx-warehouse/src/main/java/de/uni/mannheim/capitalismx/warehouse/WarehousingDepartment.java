@@ -442,9 +442,20 @@ public class WarehousingDepartment extends DepartmentImpl {
 	 * @return The amount stored.
 	 */
 	public int getAmountStored(Unit unit) {
-		if (!this.inventory.containsKey(unit)) {
-			return 0;
-		}
+		if (unit.getUnitType() == UnitType.COMPONENT_UNIT) {
+            Component component = (Component) unit;
+            for (Map.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
+                if (entry.getKey().getUnitType() == UnitType.COMPONENT_UNIT) {
+                    Component componentEntry = (Component) entry.getKey();
+                    if (component.getComponentCategory() == componentEntry.getComponentCategory() && component.getSupplierCategory() == componentEntry.getSupplierCategory()) {
+                        return entry.getValue();
+                    }
+                }
+            }
+        }
+        if (!this.inventory.containsKey(unit)) {
+            return 0;
+        }
 		return this.inventory.get(unit);
 	}
 
