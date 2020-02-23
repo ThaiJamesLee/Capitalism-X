@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.hr.department;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.Engineer;
@@ -211,15 +212,22 @@ public class HRDepartmentTest {
         int tmpCapacity = 0;
 
         for(int i = 0; i<testDepartment.getMaxLevel(); i++) {
-            Assert.assertTrue(mechanism.levelUp() > 0);
-            Assert.assertEquals(testDepartment.getAvailableSkills().size(), i+1);
-            Assert.assertTrue(testDepartment.getHrCapacity() > tmpCapacity );
-            tmpCapacity = testDepartment.getHrCapacity();
+            try {
+                Assert.assertTrue(mechanism.levelUp() > 0);
+                Assert.assertEquals(testDepartment.getAvailableSkills().size(), i+1);
+                Assert.assertTrue(testDepartment.getHrCapacity() > tmpCapacity );
+                tmpCapacity = testDepartment.getHrCapacity();
+            } catch (LevelingRequirementNotFulFilledException e) {
+               LOGGER.error(e.getMessage(), e);
+            }
         }
-
         Assert.assertEquals(testDepartment.getLevel(), 8);
 
-        Assert.assertNull(mechanism.levelUp());
+        try {
+            Assert.assertNull(mechanism.levelUp());
+        } catch (LevelingRequirementNotFulFilledException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 
     /**
