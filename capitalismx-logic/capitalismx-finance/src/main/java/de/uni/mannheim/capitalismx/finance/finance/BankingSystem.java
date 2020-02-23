@@ -27,7 +27,7 @@ public class BankingSystem implements Serializable {
     /**
      * The current loans of the company.
      */
-    private TreeMap<LocalDate, Loan> loans;
+    private ArrayList<Loan> loans;
 
     private double totalAnnualRepayment;
     private double totalAnnualPrincipalBalance;
@@ -169,7 +169,7 @@ public class BankingSystem implements Serializable {
      * Constructor
      */
     protected BankingSystem(){
-        this.loans = new TreeMap<>();
+        this.loans = new ArrayList<>();
     }
 
     /**
@@ -207,7 +207,7 @@ public class BankingSystem implements Serializable {
     void addLoan(Loan loan, LocalDate loanDate){
         //loanDate starts on first day of following month
         loan.setLoanDate(loanDate.plusMonths(1).withDayOfMonth(1));
-        this.loans.put(loanDate.plusMonths(1).withDayOfMonth(1), loan);
+        this.loans.add(loan);
     }
 
     /**
@@ -223,7 +223,7 @@ public class BankingSystem implements Serializable {
      */
     protected double calculateAnnualRepayment(){
         this.totalAnnualRepayment = 0;
-        for(Loan loan : loans.values()){
+        for(Loan loan : loans){
             this.totalAnnualRepayment += loan.calculateAnnualRepayment();
         }
         return this.totalAnnualRepayment;
@@ -236,7 +236,7 @@ public class BankingSystem implements Serializable {
      */
     protected double calculateAnnualPrincipalBalance(LocalDate gameDate){
         this.totalAnnualPrincipalBalance = 0;
-        for(Loan loan : loans.values()){
+        for(Loan loan : loans){
             this.totalAnnualPrincipalBalance += loan.calculateAnnualPrincipalBalance(gameDate);
         }
         return this.totalAnnualPrincipalBalance;
@@ -249,7 +249,7 @@ public class BankingSystem implements Serializable {
      */
     protected double calculateAnnualInterestRate(LocalDate gameDate){
         this.totalAnnualInterestRate = 0;
-        for(Loan loan : loans.values()){
+        for(Loan loan : loans){
             this.totalAnnualInterestRate += loan.calculateAnnualInterestRate(gameDate);
         }
         return this.totalAnnualInterestRate;
@@ -262,7 +262,7 @@ public class BankingSystem implements Serializable {
      */
     protected double calculateAnnualLoanRate(LocalDate gameDate){
         this.totalAnnualLoanRate = 0;
-        for(Loan loan : loans.values()){
+        for(Loan loan : loans){
             this.totalAnnualLoanRate += loan.calculateAnnualLoanRate(gameDate);
         }
         return this.totalAnnualLoanRate;
@@ -276,29 +276,28 @@ public class BankingSystem implements Serializable {
      */
     protected double calculateMonthlyLoanRate(LocalDate gameDate){
         double totalMonthlyLoanRate = 0.0;
-        for(Loan loan : loans.values()){
+        for(Loan loan : loans){
             totalMonthlyLoanRate += loan.calculateMonthlyLoanRate(gameDate);
         }
 
         //remove loans that were payed.
-        Iterator iterator = loans.values().iterator();
+        Iterator iterator = loans.iterator();
         while(iterator.hasNext()){
             Loan loan = (Loan) iterator.next();
             if(loan.loanAmount <= 0.0){
-                FinanceDepartment.getInstance().removeLoan();
                 iterator.remove();
+                FinanceDepartment.getInstance().removeLoan();
             }
         }
         return totalMonthlyLoanRate;
     }
 
     //TODO Determine year of loan
-    public double getAnnualPrincipalBalance() {
-        //this.calculateAnnualPrincipalBalance()
+    public double getTotalAnnualPrincipalBalance() {
         return this.totalAnnualPrincipalBalance;
     }
 
-    public TreeMap<LocalDate, Loan> getLoans() {
+    public ArrayList<Loan> getLoans() {
         return this.loans;
     }
 

@@ -3,8 +3,11 @@ package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.ui.components.finance.LoanListViewCell;
 import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
-import javafx.scene.control.Alert;
+import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
+import javafx.scene.control.*;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
@@ -21,9 +24,6 @@ import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 /**
  * This class represents the banking system in the finance UI. Users have the option to request loans with different
@@ -41,6 +41,9 @@ public class FinanceBankingSystemController implements Initializable {
 
     @FXML
     Label loanLabel;
+
+    @FXML
+    ListView<BankingSystem.Loan> loanListView;
 
     /**
      * The EventListener for finance events (changes relevant for the finance UI).
@@ -80,9 +83,8 @@ public class FinanceBankingSystemController implements Initializable {
         TextFieldHelper.makeTextFieldNumeric(loanAmountTextField);
 
 		//load loan data
-        //TODO
-        for(BankingSystem.Loan loan : controller.getLoans().values()){
-            this.addLoan(loan);
+        for(BankingSystem.Loan loan : controller.getLoans()){
+            this.loanListView.getItems().add(loan);
         }
 
         loanRequestButton.setOnAction(e -> {
@@ -98,6 +100,9 @@ public class FinanceBankingSystemController implements Initializable {
                 error.showAndWait();
             }
         });
+
+        loanListView.setCellFactory(listView -> new LoanListViewCell(loanListView));
+        loanListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.loan")));
     }
 
     public double getLoanAmount() {
@@ -109,17 +114,8 @@ public class FinanceBankingSystemController implements Initializable {
      * @param loan The new loan.
      */
     public void addLoan(BankingSystem.Loan loan) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-
-                loanLabel.setText("" + DecimalRound.round(loan.getLoanAmount(), 2)
-                        + UIManager.getLocalisedString("finance.loanLabel.currenyUnit") + ": " + loan.getDuration()
-                        + " " + UIManager.getLocalisedString("finance.loanLabel.durationUnit"));
-
-                loanAmountTextField.clear();
-                loanRequestPopover.hide();
-            }
-        });
+        this.loanListView.getItems().add(loan);
+        loanRequestPopover.hide();
     }
 
     /**
@@ -128,9 +124,10 @@ public class FinanceBankingSystemController implements Initializable {
     public void removeLoan(){
         Platform.runLater(new Runnable() {
             public void run() {
-
-                loanLabel.setText("0.00");
-                loanAmountTextField.clear();
+                loanListView.getItems().clear();
+                for(BankingSystem.Loan loan : GameController.getInstance().getLoans()){
+                    loanListView.getItems().add(loan);
+                }
             }
         });
     }

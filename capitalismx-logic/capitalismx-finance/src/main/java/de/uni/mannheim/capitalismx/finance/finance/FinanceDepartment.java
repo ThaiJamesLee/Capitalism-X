@@ -780,8 +780,8 @@ public class FinanceDepartment extends DepartmentImpl {
             //TODO popup
             return null;
         }
-        if(desiredLoanAmount > 0.7 * this.netWorth.getValue()){
-            desiredLoanAmount = 0.7 * this.netWorth.getValue();
+        if((desiredLoanAmount + BankingSystem.getInstance().getTotalAnnualPrincipalBalance()) > 0.7 * this.netWorth.getValue()){
+            desiredLoanAmount = (0.7 * this.netWorth.getValue()) - BankingSystem.getInstance().getTotalAnnualPrincipalBalance();
         }
         return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
     }
@@ -1054,7 +1054,7 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.netWorth.getValue();
     }
 
-    public TreeMap<LocalDate, BankingSystem.Loan> getLoans(){
+    public ArrayList<BankingSystem.Loan> getLoans(){
         return BankingSystem.getInstance().getLoans();
     }
 

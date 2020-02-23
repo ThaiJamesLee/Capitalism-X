@@ -424,7 +424,7 @@ public class GameController {
 		FinanceDepartment.getInstance().addLoan(loan, loanDate);
 	}
 
-	public TreeMap<LocalDate, BankingSystem.Loan> getLoans() {
+	public ArrayList<BankingSystem.Loan> getLoans() {
 		return FinanceDepartment.getInstance().getLoans();
 	}
 
