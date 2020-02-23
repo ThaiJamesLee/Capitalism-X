@@ -148,7 +148,7 @@ public class GamePageController implements UpdateableController {
 
 		try {
 			FXMLLoader loader3DMap = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/module/overview_map3d.fxml"));
+					getClass().getClassLoader().getResource("fxml/overview_map3d.fxml"));
 			mapLayer.getChildren().add(loader3DMap.load());
 			UIManager.getInstance().setGameMapController(loader3DMap.getController());
 			mapLayer.toBack();
