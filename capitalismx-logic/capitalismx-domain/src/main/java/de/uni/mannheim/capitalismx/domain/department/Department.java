@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.domain.department;
 
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
+
 import java.io.Serializable;
 
 /**
@@ -26,7 +28,7 @@ public interface Department extends Serializable {
      * Sets the level of the department.
      * @param level the new level.
      */
-    void setLevel(int level);
+    void setLevel(int level) throws LevelingRequirementNotFulFilledException;
 
     /**
      * Use this to access the leveling mechanism of the department.

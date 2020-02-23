@@ -42,12 +42,12 @@ public class MachineryTest {
         this.machinery.depreciateMachinery(true,LocalDate.of(1990,1,1));
         this.machinery.upgradeMachinery(LocalDate.of(1990,1,1));
         Assert.assertEquals(this.machinery.getProductionTechnology(), ProductionTechnology.BRANDNEW);
-        Assert.assertEquals(this.machinery.getMachineryCapacity(), 600);
+        Assert.assertEquals(this.machinery.getMachineryCapacity(), 60);
     }
 
     @Test
     public void calculateResellPrice() {
         this.machinery = new Machinery(LocalDate.of(1990,1,1));
-        Assert.assertEquals(this.machinery.calculateResellPrice(), 100500.0);
+        Assert.assertEquals(this.machinery.calculateResellPrice(), 100050.0);
     }
 }

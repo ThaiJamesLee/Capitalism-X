@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -16,6 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controller for the dropdown in the hud that controls the level up of
@@ -39,6 +42,8 @@ public class DepartmentUpgradeController implements Initializable {
 	private VBox upgradeVBox;
 
 	private DepartmentImpl department;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentUpgradeController.class);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -72,7 +77,12 @@ public class DepartmentUpgradeController implements Initializable {
 	 */
 	@FXML
 	private void levelUp() {
-		Double cost = department.getLevelingMechanism().levelUp();
+		Double cost = null;
+		try {
+			cost = department.getLevelingMechanism().levelUp();
+		} catch (LevelingRequirementNotFulFilledException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
 		GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), cost);
 		update();
 		if (department instanceof HRDepartment) {

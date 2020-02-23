@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import org.slf4j.Logger;
@@ -155,7 +156,7 @@ public class LogisticsDepartment extends DepartmentImpl {
     }
 
     @Override
-    public void setLevel(int level) {
+    public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
         super.setLevel(level);
         updateLogisticsCapacity();
     }

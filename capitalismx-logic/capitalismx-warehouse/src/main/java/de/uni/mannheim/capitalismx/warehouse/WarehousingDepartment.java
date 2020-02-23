@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
@@ -132,7 +133,8 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.warehouseSlotsAvailable = true;
     }
 
-    public void setLevel(int level) {
+    @Override
+    public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
         super.setLevel(level);
         this.updateWarehouseSlots();
     }

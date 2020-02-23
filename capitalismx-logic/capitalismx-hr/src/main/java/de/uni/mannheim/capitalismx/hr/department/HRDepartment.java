@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.ProductionWorker;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
@@ -216,7 +217,7 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	@Override
-	public void setLevel(int level) {
+	public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
 		super.setLevel(level);
 		updateHRCapacity();
 	}
