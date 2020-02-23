@@ -156,7 +156,7 @@ public class ProductionDepartment extends DepartmentImpl {
             super.setLevel(level);
             this.updateProductionSlots();
         } else {
-            throw new LevelingRequirementNotFulFilledException("");
+            throw new LevelingRequirementNotFulFilledException("Not enough production workers employed for level up.");
         }
     }
 
