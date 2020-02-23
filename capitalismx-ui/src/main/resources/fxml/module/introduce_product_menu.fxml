@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.popover.production.IntroduceProductController">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.popover.production.IntroduceProductController">
 	<children>
 		<TabPane layoutX="79.0" layoutY="70.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<tabs>
@@ -490,7 +490,7 @@
       												<Label text="%product.notebook.software" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       												<Label text="%product.notebook.power" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       												<ToggleButton fx:id="notebookPowersupplyToggleButton0" mnemonicParsing="false" onAction="#updateSuppliers" selected="true" text="ToggleButton" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-      												<AnchorPane GridPane.columnIndex="3" GridPane.rowIndex="01">
+      												<AnchorPane GridPane.columnIndex="3">
       													<children>
       														<ChoiceBox fx:id="notebookCPUsChoiceBox" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
       															<padding>
