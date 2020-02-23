@@ -4,26 +4,11 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSystemController">
     <children>
         <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label layoutX="10.0" layoutY="10.0" styleClass="label_very_large" text="%finance.bank.header">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets top="15.0" />
-                    </VBox.margin>
-                </Label>
-                <Label layoutX="10.0" layoutY="147.0" styleClass="label_large" text="%finance.bank.currentLoan">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-                <Label fx:id="loanLabel" layoutX="10.0" layoutY="164.0" text="Amount: 0.00" />
             <ListView fx:id="loanListView" />
                 <TextField fx:id="loanAmountTextField" promptText="%finance.bank.newLoan" />
                 <AnchorPane>

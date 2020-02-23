@@ -40,9 +40,6 @@ public class FinanceBankingSystemController implements Initializable {
     TextField loanAmountTextField;
 
     @FXML
-    Label loanLabel;
-
-    @FXML
     ListView<BankingSystem.Loan> loanListView;
 
     /**

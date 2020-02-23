@@ -30,7 +30,7 @@ public enum GameModuleDefinition {
 	WAREHOUSE_STATISTICS("warehouse_statistics.fxml",  GameModuleType.WAREHOUSE_STATISTICS, new GridPosition(6, 4, 0, 20), false),
 	WAREHOUSE_LIST("warehouse_list.fxml",  GameModuleType.WAREHOUSE_LIST, new GridPosition(0, 6, 0, 20), true),
 
-	// The modules for HR.
+	// The modules for Finance.
 	FINANCE_OPERATIONS_TABLE("operations_table.fxml",  GameModuleType.FINANCE_OPERATIONS_TABLE, new GridPosition(10, 10, 7, 13), true),
 	FINANCE_OVERVIEW("finance_overview.fxml",  GameModuleType.FINANCE_OVERVIEW, new GridPosition(0, 20, 0, 7), true),
 	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml",  GameModuleType.FINANCE_BANKING_SYSTEM, new GridPosition(5, 5, 7, 13), true),
