@@ -110,7 +110,7 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-primary-dark; 
 }
 
-.button_module {
+.btn_standard {
 	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary-neutral;
 	-fx-border-radius: 2.0;
@@ -119,17 +119,17 @@ FontAwesomeIcon {
 	-fx-font-size: 14.0;	
 }
 
-.button_module:hover {
+.btn_standard:hover {
 	-fx-background-color: -fx-complement-neutral;
 }
 
-.button_module:pressed {
+.btn_standard:pressed {
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-primary-neutral;
 	-fx-text-fill: -fx-primary-light;
 }
 
-.big_buttons {
+.btn_big {
 	-fx-pref-width: 200.0px;
 	-fx-pref-height: 67.0px;
 	-fx-background-color: -fx-primary-neutral;
@@ -141,12 +141,12 @@ FontAwesomeIcon {
 	-fx-border-size: medium;
 }
 
-.big_buttons:hover {
+.btn_big:hover {
 	-fx-background-color: -fx-complement-neutral;
 	-fx-underline: true; 
 }
 
-.big_buttons:pressed {
+.btn_big:pressed {
 	-fx-background-color: -fx-primary;
 }
 

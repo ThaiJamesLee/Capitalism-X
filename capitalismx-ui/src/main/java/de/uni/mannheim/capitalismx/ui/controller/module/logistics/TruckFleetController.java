@@ -10,14 +10,20 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
-public class TruckFleetController extends GameModuleController {
+/**
+ * This class represents the internal fleet in the logistics UI. It allows the user to add new trucks to the internal
+ * fleet.
+ *
+ * @author sdupper
+ */
+public class TruckFleetController implements Initializable {
 
 	@FXML
 	ListView<Truck> truckFleetListView;
@@ -25,22 +31,30 @@ public class TruckFleetController extends GameModuleController {
 	@FXML
 	private Button buyTruckButton;
 
+	/**
+	 * The popover for the truck selection.
+	 */
 	private PopOver popover;
 
 	public TruckFleetController() {
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-	}
-
+	/*
+	 * Displays information about the trucks currently in the internal fleet and generates the truck selection popover.
+	 * The popover is displayed after clicking the buyTruckButton.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameController controller = GameController.getInstance();
+
+		//load internal fleet
+		for(Truck truck : controller.getInternalFleet().getTrucks()){
+			truckFleetListView.getItems().add(truck);
+		}
+
 		// ObservableList<Truck> truckFleetListObservable =
 		// FXCollections.observableArrayList();
-		ArrayList<Truck> trucks = controller.generateTruckSelection();
+		//ArrayList<Truck> trucks = controller.generateTruckSelection();
 		/*
 		 * for(Truck truck : trucks){ truckFleetListObservable.add(truck); }
 		 */
@@ -70,13 +84,20 @@ public class TruckFleetController extends GameModuleController {
 		buyTruckButton.setOnAction(e -> {
 			showPopover();
 		});
-	} //TODO update and populate from list in LogisticsController
+	}
 
+	/**
+	 * Updates the list of trucks in the internal fleet when a new truck is added.
+	 * @param truck The new truck.
+	 */
 	public void addTruck(Truck truck) {
 		truckFleetListView.getItems().add(truck);
 		popover.hide();
 	}
 
+	/**
+	 * Displays the truck selection popover.
+	 */
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());
 	}

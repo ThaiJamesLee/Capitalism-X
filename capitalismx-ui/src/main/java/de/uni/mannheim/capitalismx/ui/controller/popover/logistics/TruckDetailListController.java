@@ -11,6 +11,12 @@ import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
+/**
+ * This class represents the truck selection for the internal fleet in the logistics UI. It displays different trucks
+ * that the user can buy and add to the internal fleet.
+ *
+ * @author sdupper
+ */
 public class TruckDetailListController implements UpdateableController {
 
     @FXML
@@ -20,6 +26,9 @@ public class TruckDetailListController implements UpdateableController {
     public void update() {
     }
 
+    /*
+     * Generates an entry in the truck selection for all available trucks.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
@@ -32,10 +41,6 @@ public class TruckDetailListController implements UpdateableController {
             truckDetailListView.getItems().add(truck);
         }
 
-    }
-
-    public void clearListSelection() {
-    	truckDetailListView.getSelectionModel().clearSelection();
     }
 
 }

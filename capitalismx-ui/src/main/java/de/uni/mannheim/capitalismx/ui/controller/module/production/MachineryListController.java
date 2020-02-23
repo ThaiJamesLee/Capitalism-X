@@ -1,26 +1,26 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.production;
 
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailableException;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameAlert;
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.production.MachineryListViewCell;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.ResourceBundle;
-
-public class MachineryListController extends GameModuleController {
+public class MachineryListController implements UpdateableController {
 
     @FXML
     ListView<Machinery> machineryListView;
@@ -31,7 +31,6 @@ public class MachineryListController extends GameModuleController {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
         ProductionDepartment productionDepartment = GameState.getInstance().getProductionDepartment();
 
         List<Machinery> machinery = productionDepartment.getMachines();

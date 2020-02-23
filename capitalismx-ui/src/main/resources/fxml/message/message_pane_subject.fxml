@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="container" maxHeight="-Infinity" maxWidth="355.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showContent" prefHeight="40.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.MessageSubjectController">
+<VBox fx:id="container" maxHeight="-Infinity" maxWidth="355.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showContent" prefHeight="40.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.message.MessageSubjectController">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="370.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="370.0">
          <children>

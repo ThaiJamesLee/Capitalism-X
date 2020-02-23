@@ -11,6 +11,11 @@
 
     <artifactId>capitalismx-sales</artifactId>
 
+    <description>
+        This module contains the logic for the sales department.
+        It is responsible for the contracts generation and handling.
+    </description>
+
     <dependencies>
         <dependency>
             <groupId>de.uni.mannheim</groupId>

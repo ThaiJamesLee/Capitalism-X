@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.components;
+package de.uni.mannheim.capitalismx.ui.components.general;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;

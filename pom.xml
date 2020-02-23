@@ -15,8 +15,8 @@
   </modules>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>12</maven.compiler.source>
+        <maven.compiler.target>12</maven.compiler.target>
         <slf4jVersion>1.6.1</slf4jVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -72,6 +72,22 @@
       <!-- plugins -->
       <pluginManagement>
   		<plugins>
+            <!-- build configuration -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.2</version>
+            </plugin>
+
+            <!--
+                replace maven jar plugin to package.
+                See: https://stackoverflow.com/questions/19602727/how-to-reference-javafx-fxml-files-in-resource-folder
+            -->
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+            </plugin>
+
             <!-- testing -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

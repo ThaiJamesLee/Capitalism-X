@@ -7,9 +7,13 @@ import java.time.LocalDate;
 import java.time.Period;
 
 /**
+ * This class represents the trucks that can be added to the internal fleet of the company.
+ * Based on the report p.48-49
+ *
  * @author sdupper
  */
 public class Truck implements Serializable {
+
     private String name;
     private int capacity;
     private double ecoIndex;
@@ -22,6 +26,15 @@ public class Truck implements Serializable {
     private int usefulLife;
     private LocalDate purchaseDate;
 
+    /**
+     * Constructor
+     * Generates and initializes a new truck according to the specified parameters and p.48-49.
+     * @param name The name of the truck.
+     * @param ecoIndexTruck The eco index of the truck.
+     * @param qualityIndexTruck The quality index of the truck.
+     * @param purchasePriceTruckFactor The factor that influences the purchase price of the truck.
+     * @param fixCostsDeliveryFactor The factor that influences the fix costs per delivery with the truck.
+     */
     public Truck(String name, double ecoIndexTruck, double qualityIndexTruck, double purchasePriceTruckFactor, double fixCostsDeliveryFactor){
         this.name = name;
         int basePrice = 100000;
@@ -38,6 +51,23 @@ public class Truck implements Serializable {
         this.depreciationRate = 1/9;
         this.usefulLife = 9;
         this.variableCostsDelivery = 2;
+    }
+
+    /**
+     * Calculates the number of years the truck has been used for.
+     * @param gameDate The current date in the game.
+     * @return Returns the number of years the truck has been used for.
+     */
+    public int calculateTimeUsed(LocalDate gameDate){
+        return Period.between(this.purchaseDate, gameDate).getYears();
+    }
+
+    /**
+     * Sets the purchase date of the truck.
+     * @param purchaseDate The purchase date of the truck.
+     */
+    public void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
     }
 
     public int getCapacity(){
@@ -74,14 +104,6 @@ public class Truck implements Serializable {
 
     public int getUsefulLife() {
         return this.usefulLife;
-    }
-
-    public int calculateTimeUsed(LocalDate gameDate){
-        return Period.between(this.purchaseDate, gameDate).getYears();
-    }
-
-    public void setPurchaseDate(LocalDate purchaseDate) {
-        this.purchaseDate = purchaseDate;
     }
 
     public LocalDate getPurchaseDate() {

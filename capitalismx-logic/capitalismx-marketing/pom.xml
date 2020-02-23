@@ -11,6 +11,10 @@
 
     <artifactId>capitalismx-marketing</artifactId>
 
+    <description>
+        This module contains the logic for the marketing department.
+    </description>
+
     <dependencies>
         <dependency>
             <groupId>de.uni.mannheim</groupId>

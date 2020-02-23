@@ -1,43 +1,48 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.logistics;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameController;
-import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
-import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.util.Duration;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
-import org.controlsfx.control.PopOver.ArrowLocation;
 
-public class LogisticsPartnerController extends GameModuleController {
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+
+/**
+ * This class represents the external logistics partner in the logistics UI. It allows the user to hire an external
+ * logistics partner.
+ *
+ * @author sdupper
+ */
+public class LogisticsPartnerController implements Initializable {
 
 	@FXML
 	private Button logisticsPartnerButton;
 
 	@FXML
+	private Button fireLogisticsPartnerButton;
+
+	@FXML
 	private Label currentlyEmployingTextArea;
 
+	/**
+	 * The popover for the external logistics partner selection.
+	 */
 	private PopOver popover;
 
 	public LogisticsPartnerController() {
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-	}
-
+	/*
+	 * Displays information about the current external logistics partner and generates the external logistics partner
+	 * selection popover. The popover is displayed after clicking the logisticsPartnerButton.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameController controller = GameController.getInstance();
@@ -45,8 +50,10 @@ public class LogisticsPartnerController extends GameModuleController {
 			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl")
 					+ controller.getExternalPartner().getName() + " "
 					+ controller.getExternalPartner().getContractualCost());
+			fireLogisticsPartnerButton.setVisible(true);
 		} else {
 			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyNo"));
+			fireLogisticsPartnerButton.setVisible(false);
 		}
 
 		PopOverFactory factory = new PopOverFactory();
@@ -56,14 +63,29 @@ public class LogisticsPartnerController extends GameModuleController {
 		logisticsPartnerButton.setOnAction(e -> {
 			showPopover();
 		});
+
+		fireLogisticsPartnerButton.setOnAction(e -> {
+			controller.removeExternalPartner();
+			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyNo"));
+			fireLogisticsPartnerButton.setVisible(false);
+		});
 	}
 
+	/**
+	 * Updates the logistics UI when an external partner is hired.
+	 * @param externalPartner The new external logistics partner.
+	 */
 	public void addExternalPartner(ExternalPartner externalPartner) {
-		currentlyEmployingTextArea
-				.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl") + externalPartner.getName());
+		currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl")
+				+ externalPartner.getName() + " "
+				+ externalPartner.getContractualCost());
 		popover.hide();
+		fireLogisticsPartnerButton.setVisible(true);
 	}
 
+	/**
+	 * Displays the external logistics partner selection popover.
+	 */
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());
 	}

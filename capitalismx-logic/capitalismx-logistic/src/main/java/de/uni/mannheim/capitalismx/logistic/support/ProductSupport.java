@@ -4,17 +4,41 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
+ * This class represents the product support.
+ * The company can choose the offer different types of product support, e.g., online support.
+ * Based on the report p.53-54
+ *
  * @author sdupper
  */
 public class ProductSupport implements Serializable {
+
+    /**
+     * The singleton pointer.
+     */
     private static ProductSupport instance;
 
+    /**
+     * The support types provided by the company.
+     */
     private ArrayList<SupportType> supportTypes;
+
+    /**
+     * The external support partner hired to provide support.
+     */
     private ExternalSupportPartner externalSupportPartner;
+
+    /**
+     * The sum of support type qualities of the provided support types.
+     */
     private int totalSupportTypeQuality;
+
     private double totalSupportQuality;
     private double totalSupportCosts;
 
+    /**
+     * The different support types that can be provided by the company. They differ in their support type quality and
+     * costs according to p.53.
+     */
     public enum SupportType implements Serializable{
         //TODO change 0 supportTypeQuality
         NO_PRODUCT_SUPPORT(-10, 0),
@@ -27,7 +51,7 @@ public class ProductSupport implements Serializable {
         private int supportTypeQuality;
         private int costsSupportType;
 
-        private SupportType(int supportTypeQuality, int costsSupportType){
+        SupportType(int supportTypeQuality, int costsSupportType){
             this.supportTypeQuality = supportTypeQuality;
             this.costsSupportType = costsSupportType;
         }
@@ -42,6 +66,11 @@ public class ProductSupport implements Serializable {
     }
 
     //TODO: generate suitable values
+
+    /**
+     * The different external support partners that can be hired by the company. The company has to hire an external
+     * partner to provide product support. The partners differ in their contractual costs and quality.
+     */
     public enum ExternalSupportPartner implements Serializable{
         NO_PARTNER(0, 0),
         PARTNER_1(1000, 80),
@@ -50,7 +79,7 @@ public class ProductSupport implements Serializable {
         private int contractualCosts;
         private int qualityIndex;
 
-        private ExternalSupportPartner(int contractualCosts, int qualityIndex){
+        ExternalSupportPartner(int contractualCosts, int qualityIndex){
             this.contractualCosts = contractualCosts;
             this.qualityIndex = qualityIndex;
         }
@@ -64,8 +93,12 @@ public class ProductSupport implements Serializable {
         }
     }
 
+    /**
+     * Constructor
+     * Initializes the variables relevant for product support.
+     */
     protected ProductSupport(){
-        this.supportTypes = new ArrayList<SupportType>();
+        this.supportTypes = new ArrayList<>();
         this.supportTypes.add(SupportType.NO_PRODUCT_SUPPORT);
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;
         this.totalSupportTypeQuality = 0;
@@ -73,10 +106,10 @@ public class ProductSupport implements Serializable {
         this.totalSupportCosts = 0;
     }
 
-    public static void setInstance(ProductSupport instance) {
-        ProductSupport.instance = instance;
-    }
-
+    /**
+     *
+     * @return Returns the singleton instance
+     */
     public static synchronized ProductSupport getInstance() {
         if(ProductSupport.instance == null) {
             ProductSupport.instance = new ProductSupport();
@@ -84,12 +117,19 @@ public class ProductSupport implements Serializable {
         return ProductSupport.instance;
     }
 
+    /**
+     * Calculates different values relevant for product support, e.g., the total support quality.
+     */
     public void calculateAll(){
         this.calculateTotalSupportTypeQuality();
         this.calculateTotalSupportQuality();
         this.calculateTotalSupportCosts();
     }
 
+    /**
+     * Generates a list of the available support types to choose from.
+     * @return Returns a list of the available support types.
+     */
     public ArrayList<SupportType> generateSupportTypeSelection(){
         ArrayList<SupportType> supportTypeSelection = new ArrayList<SupportType>();
 
@@ -101,16 +141,29 @@ public class ProductSupport implements Serializable {
         return  supportTypeSelection;
     }
 
+    /**
+     * Adds a new support type to the list of support types provided by the company. Only possible if an external
+     * support partner is hired.
+     * @param supportType The new support type to be added.
+     */
     public void addSupport(SupportType supportType){
         if((externalSupportPartner != ExternalSupportPartner.NO_PARTNER) && (!supportTypes.contains(supportType))){
             this.supportTypes.add(supportType);
         }
     }
 
+    /**
+     * Removes a support type from the list of support types provided by the company.
+     * @param supportType The support type to be removed.
+     */
     public void removeSupport(SupportType supportType){
         this.supportTypes.remove(supportType);
     }
 
+    /**
+     * Generates a list of the available external support partners to choose from.
+     * @return Returns a list of the available external support partners.
+     */
     public ArrayList<ExternalSupportPartner> generateExternalSupportPartnerSelection(){
         ArrayList<ExternalSupportPartner> externalSupportPartnerSelection = new ArrayList<ExternalSupportPartner>();
 
@@ -122,15 +175,27 @@ public class ProductSupport implements Serializable {
         return externalSupportPartnerSelection;
     }
 
+    /**
+     * Hires the specified external support partner.
+     * @param externalSupportPartner The external support partner to be hired.
+     */
     public void addExternalSupportPartner(ExternalSupportPartner externalSupportPartner){
         this.externalSupportPartner = externalSupportPartner;
     }
 
     //TODO remove support types
+
+    /**
+     * Fires the currently hired external support partner.
+     */
     public void removeExternalSupportPartner(){
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;
     }
 
+    /**
+     * Calculates the total support type quality by adding up the support type qualities of all provided support types.
+     * @return Returns the total support type quality.
+     */
     protected double calculateTotalSupportTypeQuality(){
         this.totalSupportTypeQuality = 0;
         for(SupportType supportType : supportTypes){
@@ -139,6 +204,11 @@ public class ProductSupport implements Serializable {
         return this.totalSupportTypeQuality;
     }
 
+    /**
+     * Calculates the total support quality based on the quality index of the external support partner and the total
+     * support type quality according to p.53.
+     * @return Returns the total support quality.
+     */
     protected double calculateTotalSupportQuality(){
         if(this.externalSupportPartner.getQualityIndex() <= 50){
             this.totalSupportQuality = 0.4 * this.externalSupportPartner.getQualityIndex() + 0.6 * this.calculateTotalSupportTypeQuality();
@@ -148,6 +218,11 @@ public class ProductSupport implements Serializable {
         return this.totalSupportQuality;
     }
 
+    /**
+     * Calculates the total support costs based on the costs of the provided support types and the contractual costs
+     * of the external support partner according to p.54.
+     * @return Returns the  total support costs.
+     */
     public double calculateTotalSupportCosts(){
         totalSupportCosts = 0;
         for(SupportType supportType : supportTypes){
@@ -178,5 +253,9 @@ public class ProductSupport implements Serializable {
     public double getTotalSupportCosts() {
         this.calculateTotalSupportCosts();
         return this.totalSupportCosts;
+    }
+
+    public static void setInstance(ProductSupport instance) {
+        ProductSupport.instance = instance;
     }
 }

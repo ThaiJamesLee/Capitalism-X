@@ -9,6 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <description>
+        This module contains the logic for the finance department.
+    </description>
+
     <artifactId>capitalismx-finance</artifactId>
     <dependencies>
         <dependency>
@@ -41,6 +45,12 @@
         <dependency>
             <groupId>de.uni.mannheim</groupId>
             <artifactId>capitalismx-marketing</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.uni.mannheim</groupId>
+            <artifactId>capitalismx-sales</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

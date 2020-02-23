@@ -8,17 +8,16 @@ import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.Benefit;
 import de.uni.mannheim.capitalismx.hr.domain.BenefitType;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.controller.module.GameModuleController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
-import javafx.util.Duration;
 
-public class WorkingConditionsController extends GameModuleController {
+public class WorkingConditionsController implements Initializable {
 
 	@FXML
 	public RadioButton workTime1, workTime2, workTime3, hours6, hours8, hours10, car1, car2, car3, it1, it2, food1,
@@ -123,12 +122,6 @@ public class WorkingConditionsController extends GameModuleController {
 		initToggleGroup(workTimeModelGroup, BenefitType.WORKING_TIME_MODEL);
 		initToggleGroup(itGroup, BenefitType.IT_EQUIPMENT);
 		initToggleGroup(gymGroup, BenefitType.GYM_AND_SPORTS);
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

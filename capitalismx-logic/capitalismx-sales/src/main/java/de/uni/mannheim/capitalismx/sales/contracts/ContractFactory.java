@@ -70,13 +70,6 @@ public class ContractFactory {
     }
 
     /**
-     * @return Returns the total capacity of machines.
-     */
-    private int getProductionCapacity() {
-        return  (int) productionDepartment.getMonthlyAvailableMachineCapacity();
-    }
-
-    /**
      * The period is currently between 1 and 12 months.
      * @return Returns the time in months for the contract to be fulfilled.
      */
@@ -120,7 +113,9 @@ public class ContractFactory {
 
         int timeToFinish = getRandomPeriod();
 
-        int numProd = (int) (getProductionCapacity() * generateRandomFactor());
+        int monthlyAvailableCapacity = productionDepartment.getMonthlyMachineCapacity(date);
+
+        int numProd = (int) (monthlyAvailableCapacity * timeToFinish * generateRandomFactor());
 
         double productProductionCost = product.getProductCosts(date);
 

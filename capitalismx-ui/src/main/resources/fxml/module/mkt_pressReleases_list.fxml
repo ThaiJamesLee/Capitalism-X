@@ -29,7 +29,7 @@
 				<AnchorPane>
 					<children>
 						<Button fx:id="newReleaseBtn" mnemonicParsing="false"
-							styleClass="button_module" text="%marketing.pressRel.btnNew"
+							styleClass="btn_standard" text="%marketing.pressRel.btnNew"
 							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 					</children>

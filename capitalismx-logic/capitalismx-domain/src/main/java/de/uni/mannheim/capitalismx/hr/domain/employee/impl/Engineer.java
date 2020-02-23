@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 /**
+ * This is the engineer employee class.
  * @author duly
  */
 public class Engineer extends Employee {

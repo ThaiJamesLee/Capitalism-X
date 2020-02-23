@@ -1,10 +1,12 @@
 package de.uni.mannheim.capitalismx.hr.domain.employee;
 
 import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.TrainingEntry;
 import de.uni.mannheim.capitalismx.utils.data.LocationData;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,14 @@ public abstract class Employee implements Person, Serializable {
      */
     private String id;
 
+    /**
+     * first name.
+     */
     private String firstName;
+
+    /**
+     * last name.
+     */
     private String lastName;
 
     /**
@@ -67,8 +76,12 @@ public abstract class Employee implements Person, Serializable {
     /**
      * The trainings this employee has received.
      */
-    private List<Training> trainingsList;
+    private List<TrainingEntry> trainingsList;
 
+    /**
+     * Constructor that takes a {@link PersonMeta} object as an argument.
+     * @param metaData Use {@link PersonMeta} data for creating an employee.
+     */
     public Employee(PersonMeta metaData) {
         this.firstName = metaData.getFirstName();
         this.lastName = metaData.getLastName();
@@ -80,6 +93,13 @@ public abstract class Employee implements Person, Serializable {
         this.trainingsList = new ArrayList<>();
     }
 
+    /**
+     * Only use the constructor if you do not need the other attributes.
+     * @param firstName
+     * @param lastName
+     * @param salary
+     * @param skillLevel
+     */
     public Employee(String firstName, String lastName, int salary, int skillLevel) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -90,6 +110,15 @@ public abstract class Employee implements Person, Serializable {
 
     }
 
+    /**
+     * The constructor where one can set every attribute.
+     * @param firstName The first name.
+     * @param lastName The last name.
+     * @param gender The gender.
+     * @param title The title, like mr, mrs, ...
+     * @param salary The salary.
+     * @param skillLevel The skill level.
+     */
     public Employee(String firstName, String lastName, String gender, String title, int salary, int skillLevel) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -103,8 +132,12 @@ public abstract class Employee implements Person, Serializable {
 
     }
 
-    public void addTraining(Training t) {
-        trainingsList.add(t);
+    /**
+     * Add the training to the list of trainings this employee did.
+     * @param t The training that this employee has done.
+     */
+    public void addTraining(Training t, LocalDate date) {
+        trainingsList.add(new TrainingEntry(t, date));
     }
 
     public void setPosition(String position) {
@@ -135,7 +168,7 @@ public abstract class Employee implements Person, Serializable {
         this.locationData = locationData;
     }
 
-    public void setTrainingsList(List<Training> trainingsList) {
+    public void setTrainingsList(List<TrainingEntry> trainingsList) {
         this.trainingsList = trainingsList;
     }
 
@@ -183,7 +216,7 @@ public abstract class Employee implements Person, Serializable {
 
     public String geteMail() { return eMail; }
 
-    public List<Training> getTrainingsList() {
+    public List<TrainingEntry> getTrainingsList() {
         return trainingsList;
     }
 
@@ -191,6 +224,10 @@ public abstract class Employee implements Person, Serializable {
         return employeeType;
     }
 
+    /**
+     *
+     * @return Returns the String "{@link Employee#getName()}; {@link EmployeeType}".
+     */
     @Override
     public String toString() { return getName() + "; " + getEmployeeType().toString(); }
 }

@@ -215,11 +215,11 @@ public class ProductionDepartment extends DepartmentImpl {
         }
     }
 
-    /* This method should always be followed up by updateMonthlyAvailableMachineCapacity and calculate performance metric methods*/
     public void resetMonthlyPerformanceMetrics() {
         this.numberUnitsProducedPerMonth = 0;
         this.monthlyAvailableMachineCapacity = 0;
         this.manufactureEfficiency = 0;
+        this.updateMonthlyAvailableMachineCapacity();
     }
 
     public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
@@ -638,6 +638,12 @@ public class ProductionDepartment extends DepartmentImpl {
             capacity += machinery.getMachineryCapacity();
         }
         return  capacity;
+    }
+
+    public int getMonthlyMachineCapacity(LocalDate gameDate) {
+        int dailyCapacity = this.getDailyMachineCapacity();
+        int numberOfDaysInMonth = gameDate.lengthOfMonth();
+        return numberOfDaysInMonth * dailyCapacity;
     }
 
     public synchronized List<Product> getLaunchedProducts() {

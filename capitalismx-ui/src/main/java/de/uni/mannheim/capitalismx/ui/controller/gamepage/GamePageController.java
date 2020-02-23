@@ -1,16 +1,22 @@
-package de.uni.mannheim.capitalismx.ui.controller;
+package de.uni.mannheim.capitalismx.ui.controller.gamepage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameView;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.controller.message.MessageController;
+import de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
@@ -54,7 +60,7 @@ public class GamePageController implements UpdateableController {
 	// The GridPane that contains all the modules.
 	private GridPane moduleGrid;
 	@FXML
-	private AnchorPane overlayLayer, menuLayer, mapLayer;
+	private AnchorPane menuLayer, mapLayer;
 
 	/**
 	 * General controller related attributes
@@ -71,17 +77,25 @@ public class GamePageController implements UpdateableController {
 	// flag to know whether message Pane is open or not: true=open false=closed.
 	private boolean openMessagePane = false;
 
-	/**
-	 * elements for the in-game menu
-	 */
-	private IngameMenuController ingameMenuController;
 	// flag to know whether menu Pane is open or not: true=open false=closed.
 	private boolean openMenuPane = false;
+
+	public StackPane getContentStack() {
+		return contentStack;
+	}
+
+	public MessageController getMessageController() {
+		return messageController;
+	}
+
+	public boolean isMapControlsEnabled() {
+		return mapControlsEnabled;
+	}
 
 	/**
 	 * Use this method to add a message to the message list and to open the message
 	 * window. It will display the just added message.
-	 * 
+	 *
 	 * @param messageToShow The MessageObject that should be added and shown.
 	 */
 	public void addAndShowMessage(MessageObject messageToShow) {
@@ -101,7 +115,6 @@ public class GamePageController implements UpdateableController {
 		GridPosition position = module.getGridPosition();
 		Parent root = module.getRootElement();
 
-		module.getController().update();
 		if (module.isActivated()) {
 			moduleGrid.add(root, position.getxStart(), position.getyStart(), position.getxSpan(), position.getySpan());
 		}
@@ -114,14 +127,6 @@ public class GamePageController implements UpdateableController {
 			fade.setCycleCount(1);
 			fade.play();
 		}
-	}
-
-	public StackPane getContentStack() {
-		return contentStack;
-	}
-
-	public MessageController getMessageController() {
-		return messageController;
 	}
 
 	/**
@@ -142,10 +147,10 @@ public class GamePageController implements UpdateableController {
 		CssHelper.replaceStylesheets(contentStack.getStylesheets());
 
 		try {
-			FXMLLoader loader2 = new FXMLLoader(
+			FXMLLoader loader3DMap = new FXMLLoader(
 					getClass().getClassLoader().getResource("fxml/module/overview_map3d.fxml"));
-			mapLayer.getChildren().add(loader2.load());
-			UIManager.getInstance().setGameMapController(loader2.getController());
+			mapLayer.getChildren().add(loader3DMap.load());
+			UIManager.getInstance().setGameMapController(loader3DMap.getController());
 			mapLayer.toBack();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -154,15 +159,16 @@ public class GamePageController implements UpdateableController {
 
 		try {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/messagePane3.fxml"), UIManager.getResourceBundle());
+					getClass().getClassLoader().getResource("fxml/message/message_pane.fxml"),
+					UIManager.getResourceBundle());
 			Parent rootC = loaderMessageWindow.load();
 			AnchorPaneHelper.snapNodeToAnchorPane(rootC, 500);
-			;
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootC);
 			messageLayer.toBack();
 
-			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 0);
+			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 0); // TODO
+																													// remove
 			MessageObject m2 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event2", true, 5);
 			messageController.addMessage(m1);
 			messageController.addMessage(m2);
@@ -174,11 +180,10 @@ public class GamePageController implements UpdateableController {
 
 		try {
 			FXMLLoader loaderIngameMenu = new FXMLLoader(
-					getClass().getClassLoader().getResource("fxml/ingameMenu.fxml"), UIManager.getResourceBundle());
+					getClass().getClassLoader().getResource("fxml/ingame_menu.fxml"), UIManager.getResourceBundle());
 			Parent root = loaderIngameMenu.load();
 			CssHelper.replaceStylesheets(root.getStylesheets());
 			AnchorPaneHelper.snapNodeToAnchorPane(root);
-			ingameMenuController = loaderIngameMenu.getController();
 			menuLayer.getChildren().add(root);
 			menuLayer.toBack();
 		} catch (IOException e1) {
@@ -186,16 +191,9 @@ public class GamePageController implements UpdateableController {
 		}
 
 		moduleGrid = UIManager.getInstance().getGameHudController().getModuleGrid();
-		overlayLayer.setOnMouseClicked(e -> {
-			resetOverlay();
-		});
 		messageLayer.setOnMouseClicked(e -> {
 			toggleMessageWindow();
 		});
-	}
-
-	public boolean isMapControlsEnabled() {
-		return mapControlsEnabled;
 	}
 
 	/**
@@ -222,16 +220,6 @@ public class GamePageController implements UpdateableController {
 	}
 
 	/**
-	 * Remove the displayed overlay from the view and hide it in the background.
-	 */
-	@Deprecated
-	@FXML
-	public void resetOverlay() {
-		overlayLayer.toBack();
-		overlayLayer.getChildren().clear();
-	}
-
-	/**
 	 * Use this method to open the message window and to display a specific message.
 	 * The displayed message must already exist in the message list.
 	 * 
@@ -243,35 +231,6 @@ public class GamePageController implements UpdateableController {
 	}
 
 	/**
-	 * Removes currently displayed overlay elements and displays the requested one
-	 * 
-	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
-	 *                    display.
-	 */
-	@Deprecated
-	public void showOverlay(UIElementType elementType) {
-		showOverlay(elementType, new Properties());
-	}
-
-	/**
-	 * Removes currently displayed overlay elements and displays the requested one
-	 * 
-	 * @param elementType The {@link UIElementType} of the {@link GameOverlay} to
-	 *                    display.
-	 * @param properties  Optional properties for the overlay.
-	 */
-	// TODO remove methods including overlay layer
-	@Deprecated
-	public void showOverlay(UIElementType elementType, Properties properties) {
-		resetOverlay();
-
-		// get requested overlay and display it, if module and overlay are not null
-		GameModule module = currentActiveView.getModule(elementType);
-		if (module == null)
-			return;
-	}
-
-	/**
 	 * Switches the displayed contentType by removing all {@link GameModule}s of
 	 * that type.
 	 * 
@@ -279,8 +238,6 @@ public class GamePageController implements UpdateableController {
 	 *                 to.
 	 */
 	public void switchView(GameViewType viewType) {
-		resetOverlay();
-
 		if (currentActiveView != null) {
 			if (currentActiveView.getViewType().equals(GameViewType.OVERVIEW)) {
 				mapControlsEnabled = false;
@@ -304,6 +261,10 @@ public class GamePageController implements UpdateableController {
 		}
 	}
 
+	/**
+	 * Shows/Hides the ingame menu, depending on whether it is currently being
+	 * displayed.
+	 */
 	public void toggleIngameMenu() {
 		if (!openMenuPane) {
 			menuLayer.toFront();
@@ -314,6 +275,10 @@ public class GamePageController implements UpdateableController {
 		}
 	}
 
+	/**
+	 * Shows/Hides the message window, depending on whether it is currently being
+	 * displayed.
+	 */
 	public void toggleMessageWindow() {
 		if (!openMessagePane) {
 			messageLayer.toFront();
@@ -328,7 +293,7 @@ public class GamePageController implements UpdateableController {
 	@Override
 	public void update() {
 	}
-	
+
 	/**
 	 * Checks whether all {@link GameModule} of the currently active
 	 * {@link GameView} are present on the grid, if it is the of the given

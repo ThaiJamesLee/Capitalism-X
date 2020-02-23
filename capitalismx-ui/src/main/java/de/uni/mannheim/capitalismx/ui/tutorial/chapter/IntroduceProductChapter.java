@@ -3,40 +3,42 @@ package de.uni.mannheim.capitalismx.ui.tutorial.chapter;
 import java.util.List;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.UIElementType;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.production.ProduceProductController;
-import de.uni.mannheim.capitalismx.ui.tutorial.TutorialPage;
+import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage.NextPageCondition;
+import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage.TutorialPageBuilder;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
 
 public class IntroduceProductChapter extends TutorialChapter {
 
 	public IntroduceProductChapter() {
 
-		// TODO fix and adjust to popover for launching products
-//		ProduceProductController -> IntroduceProductController
-//		 		nodes.add(introduceProductButton); Button introduce Product  -> Overlay appears
-//	   Popover: nodes.add(tutorialPane); --> choose components
-//				nodes.add(tvProductNameTextField); --> 
-//				nodes.add(tvSalesPriceTextField);
-//				nodes.add(launchTvButton);
-
 		ProduceProductController con = (ProduceProductController) UIManager.getInstance()
-				.getGameView(GameViewType.PRODUCTION).getModule(UIElementType.PRODUCTION_PRODUCE_PRODUCT)
-				.getController();
+				.getModule(GameModuleType.PRODUCTION_PRODUCE_PRODUCT).getController();
 
 		List<Node> nodes = con.getTutorialNodes();
-		pages.add(new TutorialPage(this, UIManager.getInstance().getGameHudController().getProductionDepButton(),
-				"Navigate to your ProductionDepartment!"));
-		pages.add(new TutorialPage(this, nodes.get(0),
-				"Press this Button to open the Overlay with the options for your newq Prodcut."));
+		pages.add(new TutorialPageBuilder(this)
+				.setTargetNode(UIManager.getInstance().getGameHudController().getProductionDepButton())
+				.setMessageKey("chapter.product.introduce.department").setCondition(NextPageCondition.CLICK).build());
+		//TODO explain other product-tabs on top
 
-		pages.add(new TutorialPage(this, nodes.get(1),
-				"Here you can choose the components for \nthe Product, that you want to launch, \nas well as the quality of their supplier."));
-		pages.add(new TutorialPage(this, nodes.get(2), "Try to think of a unique name for your product."));
-		pages.add(new TutorialPage(this, nodes.get(3),
-				"Set a sensible price for your product. \nYou should take the prices of the single components into account."));
-		pages.add(new TutorialPage(this, nodes.get(4), "Perfect! \nNow you can launch your very first own product."));
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(0))
+				.setMessageKey("chapter.product.introduce.new").setCondition(NextPageCondition.CLICK).build());
+
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(1))
+				.setMessageKey("chapter.product.introduce.components").build());
+
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(2))
+				.setMessageKey("chapter.product.introduce.name").setCondition(NextPageCondition.PROPERTY_EQUALS)
+				.setPropertyToCheck(((TextField) nodes.get(2)).textProperty()).setPropertyValue("CommunismX").build());
+
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(3))
+				.setMessageKey("chapter.product.introduce.price").setCondition(NextPageCondition.PROPERTY_EQUALS)
+				.setPropertyToCheck(((TextField) nodes.get(3)).textProperty()).setPropertyValue("500").build());
+
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(4))
+				.setMessageKey("chapter.product.introduce.launch").setCondition(NextPageCondition.CLICK).build());
 
 	}
 

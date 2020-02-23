@@ -7,7 +7,7 @@ import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughFreeStorageExc
 import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughMachineCapacityException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameAlert;
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
