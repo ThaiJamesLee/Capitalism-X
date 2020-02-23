@@ -26,7 +26,7 @@ public class TextFieldHelper {
 					textField.setText(newValue.replaceAll("[^\\d]", ""));
 				}
 				if (newValue.equals("")) {
-					textField.setText("0");
+					textField.setText("");
 				}
 			}
 		});
