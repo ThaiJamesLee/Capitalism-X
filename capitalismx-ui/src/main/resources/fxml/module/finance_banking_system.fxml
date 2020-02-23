@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSystemController">
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSystemController">
     <children>
         <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -29,6 +24,7 @@
                     </font>
                 </Label>
                 <Label fx:id="loanLabel" layoutX="10.0" layoutY="164.0" text="Amount: 0.00" />
+            <ListView fx:id="loanListView" />
                 <TextField fx:id="loanAmountTextField" promptText="%finance.bank.newLoan" />
                 <AnchorPane>
                     <children>
@@ -38,58 +34,6 @@
                         <Insets bottom="15.0" />
                     </VBox.margin>
                 </AnchorPane>
-                <Region styleClass="separator_horizontal" />
-                <Label layoutX="10.0" layoutY="167.0" styleClass="label_very_large" text="%finance.investments.header">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets top="15.0" />
-                    </VBox.margin>
-                </Label>
-                <Label layoutX="10.0" layoutY="184.0" styleClass="label_large" text="%finance.investments.realEstate">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-                <Label fx:id="realEstateLabel" layoutX="10.0" layoutY="201.0" text="Amount: 0.00" />
-                <HBox alignment="CENTER" spacing="5.0">
-                    <children>
-                        <TextField fx:id="realEstateTextField" promptText="%finance.investments.promptRealEstate" HBox.hgrow="ALWAYS">
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
-                        </TextField>
-                        <Button fx:id="buyRealEstateButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyRealEstates" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="sellRealEstateButton" layoutX="183.0" layoutY="10.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellRealEstates" />
-                    </children>
-                </HBox>
-                <Label layoutX="10.0" layoutY="305.0" styleClass="label_large" text="%finance.investments.stocks">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-                <Label fx:id="stocksLabel" layoutX="10.0" layoutY="322.0" text="Amount: 0.00" />
-                <HBox alignment="CENTER" spacing="5.0">
-                    <children>
-                        <TextField fx:id="stocksTextField" promptText="%finance.investments.promptStocks" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="buyStocksButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyStocks" />
-                        <Button fx:id="sellStocksButton" layoutX="408.0" layoutY="10.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellStocks" />
-                    </children>
-                </HBox>
-                <Label layoutX="10.0" layoutY="366.0" styleClass="label_large" text="%finance.investments.ventureCapital">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-                <Label fx:id="ventureCapitalLabel" layoutX="10.0" layoutY="383.0" text="Amount: 0.00" />
-                <HBox spacing="5.0" VBox.vgrow="ALWAYS">
-                    <children>
-                        <TextField fx:id="ventureCapitalTextField" promptText="%finance.investments.promptVentureCapital" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="buyVentureCapitalButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyVentureCapital" />
-                        <Button fx:id="sellVentureCapitalButton" layoutX="364.0" layoutY="10.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellVentureCapital" />
-                    </children>
-                </HBox>
             </children>
         </VBox>
     </children>

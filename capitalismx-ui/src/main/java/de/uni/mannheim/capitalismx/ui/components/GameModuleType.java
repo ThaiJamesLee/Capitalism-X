@@ -17,6 +17,7 @@ public enum GameModuleType {
 	HR_WORKING_CONDITIONS("module.hr.conditions", GameViewType.HR), 
 	HR_RECRUITING_OVERVIEW("module.hr.hire", GameViewType.HR),
 	FINANCE_BANKING_SYSTEM("module.finance.bank", GameViewType.FINANCES),
+	FINANCE_INVESTMENTS("module.finance.investments", GameViewType.FINANCES),
     FINANCE_OPERATIONS_TABLE("module.finance.table", GameViewType.FINANCES),
 	FINANCE_OVERVIEW("module.statistics", GameViewType.FINANCES),
 	LOGISTICS_PARTNER_OVERVIEW("module.logistics.external", GameViewType.LOGISTIC),

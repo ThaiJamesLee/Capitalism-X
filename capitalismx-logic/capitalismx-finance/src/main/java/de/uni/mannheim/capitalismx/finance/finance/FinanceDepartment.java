@@ -780,8 +780,8 @@ public class FinanceDepartment extends DepartmentImpl {
             //TODO popup
             return null;
         }
-        if(desiredLoanAmount > 0.7 * this.netWorth.getValue()){
-            desiredLoanAmount = 0.7 * this.netWorth.getValue();
+        if((desiredLoanAmount + BankingSystem.getInstance().getTotalAnnualPrincipalBalance()) > 0.7 * this.netWorth.getValue()){
+            desiredLoanAmount = (0.7 * this.netWorth.getValue()) - BankingSystem.getInstance().getTotalAnnualPrincipalBalance();
         }
         return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
     }
@@ -796,7 +796,7 @@ public class FinanceDepartment extends DepartmentImpl {
         BankingSystem.getInstance().addLoan(loan, gameDate);
         this.increaseCash(gameDate, loan.getLoanAmount());
         this.increaseLiabilities(gameDate, loan.getLoanAmount());
-        this.loanRemoved.setValue(false);
+        //this.loanRemoved.setValue(false);
     }
 
     /**
@@ -804,6 +804,8 @@ public class FinanceDepartment extends DepartmentImpl {
      */
     protected void removeLoan(){
         this.loanRemoved.setValue(true);
+        //return to initial state
+        this.loanRemoved.setValue(false);
     }
 
     /**
@@ -1052,8 +1054,8 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.netWorth.getValue();
     }
 
-    public BankingSystem.Loan getLoan(){
-        return BankingSystem.getInstance().getLoan();
+    public ArrayList<BankingSystem.Loan> getLoans(){
+        return BankingSystem.getInstance().getLoans();
     }
 
     public double getRealEstateInvestmentAmount() {

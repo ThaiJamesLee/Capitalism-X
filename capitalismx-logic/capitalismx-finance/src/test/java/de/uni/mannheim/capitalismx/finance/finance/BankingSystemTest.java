@@ -22,10 +22,10 @@ public class BankingSystemTest {
     public void addLoanTest () {
         BankingSystem bankingSystem = new BankingSystem();
 
-        Assert.assertNull(bankingSystem.getLoan());
+        Assert.assertEquals(bankingSystem.getLoans().size(), 0);
         bankingSystem.addLoan(bankingSystem.generateLoanSelection(100).get(0), LocalDate.now());
-        Assert.assertNotNull(bankingSystem.getLoan());
-        Assert.assertEquals(bankingSystem.getLoan().getLoanAmount(), 100.0);
+        Assert.assertEquals(bankingSystem.getLoans().size(), 0);
+        Assert.assertEquals(bankingSystem.getLoans().get(0).getLoanAmount(), 100.0);
     }
 
     @Test

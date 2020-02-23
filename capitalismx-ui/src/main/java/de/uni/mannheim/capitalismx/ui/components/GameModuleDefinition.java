@@ -31,11 +31,12 @@ public enum GameModuleDefinition {
 	WAREHOUSE_LIST("warehouse_list.fxml",  GameModuleType.WAREHOUSE_LIST, new GridPosition(0, 6, 0, 20), true),
 
 	// The modules for HR.
-	FINANCE_OPERATIONS_TABLE("operations_table.fxml",  GameModuleType.FINANCE_OPERATIONS_TABLE, new GridPosition(10, 9, 7, 13), true),
+	FINANCE_OPERATIONS_TABLE("operations_table.fxml",  GameModuleType.FINANCE_OPERATIONS_TABLE, new GridPosition(10, 10, 7, 13), true),
 	FINANCE_OVERVIEW("finance_overview.fxml",  GameModuleType.FINANCE_OVERVIEW, new GridPosition(0, 20, 0, 7), true),
-	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml",  GameModuleType.FINANCE_BANKING_SYSTEM, new GridPosition(1, 7, 7, 13), true),
+	FINANCE_BANKING_SYSTEM("finance_banking_system.fxml",  GameModuleType.FINANCE_BANKING_SYSTEM, new GridPosition(5, 5, 7, 13), true),
+	FINANCE_INVESTMENTS("finance_investments.fxml",  GameModuleType.FINANCE_INVESTMENTS, new GridPosition(0, 5, 7, 13), true),
 
-//	//The modules for Marketing
+	//	//The modules for Marketing
 	MARKETING_PRESSRELEASE_LIST("mkt_pressReleases_list.fxml",  GameModuleType.MARKETING_PRESSRELEASE, new GridPosition(0, 6, 7, 11), true),
 	MARKETING_CAMPAIGNS_LIST("mkt_campaigns_overview.fxml",  GameModuleType.MARKETING_CAMPAIGNS, new GridPosition(6, 7, 7, 11), true),
 	MARKETING_MARKETRESEARCH_LIST("mkt_marketResearch_list.fxml",  GameModuleType.MARKETING_MARKETRESEARCH, new GridPosition(13, 7, 7, 11), true),
@@ -63,7 +64,7 @@ public enum GameModuleDefinition {
 	 * modules.
 	 * 
 	 * @param fxmlFile    The name of the fxml-file defining this type.
-	 * @param elementType The {@link GameModuleType} of the module.
+	 * @param moduleType The {@link GameModuleType} of the module.
 	 * @param gridPosition The initial {@link GridPosition} of the module on the grid.
 	 * @param activated  If the module is initially activated. (Displayed from the beginning)
 	 */

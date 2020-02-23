@@ -3,8 +3,11 @@ package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.ui.components.finance.LoanListViewCell;
 import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
-import javafx.scene.control.Alert;
+import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
+import javafx.scene.control.*;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
@@ -21,13 +24,10 @@ import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 /**
- * This class represents the banking system in the finance UI. Users have the option to request loans and invest into
- * real estate, stocks, and venture capital.
+ * This class represents the banking system in the finance UI. Users have the option to request loans with different
+ * characteristics, e.g., duration.
  *
  * @author sdupper
  */
@@ -43,40 +43,7 @@ public class FinanceBankingSystemController implements Initializable {
     Label loanLabel;
 
     @FXML
-    Label realEstateLabel;
-
-    @FXML
-    TextField realEstateTextField;
-
-    @FXML
-    Button buyRealEstateButton;
-
-    @FXML
-    Button sellRealEstateButton;
-
-    @FXML
-    Label stocksLabel;
-
-    @FXML
-    TextField stocksTextField;
-
-    @FXML
-    Button buyStocksButton;
-
-    @FXML
-    Button sellStocksButton;
-
-    @FXML
-    Label ventureCapitalLabel;
-
-    @FXML
-    TextField ventureCapitalTextField;
-
-    @FXML
-    Button buyVentureCapitalButton;
-
-    @FXML
-    Button sellVentureCapitalButton;
+    ListView<BankingSystem.Loan> loanListView;
 
     /**
      * The EventListener for finance events (changes relevant for the finance UI).
@@ -96,8 +63,7 @@ public class FinanceBankingSystemController implements Initializable {
     private double loanAmount;
 
     /*
-     * Handles loan requests and investments/disinvestments in real estate, stocks, and venture capital within the
-     * respective action listeners.
+     * Handles loan requests within the respective action listener.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -113,15 +79,12 @@ public class FinanceBankingSystemController implements Initializable {
         factory.createStandardPopover("fxml/popover/loan_request_list.fxml");
         loanRequestPopover = factory.getPopover();
         loanRequestListController = (LoanRequestListController)factory.getPopoverController();
-        
-		TextFieldHelper.makeTextFieldNumeric(ventureCapitalTextField);
-		TextFieldHelper.makeTextFieldNumeric(loanAmountTextField);
-		TextFieldHelper.makeTextFieldNumeric(stocksTextField);
-		TextFieldHelper.makeTextFieldNumeric(realEstateTextField);
+
+        TextFieldHelper.makeTextFieldNumeric(loanAmountTextField);
 
 		//load loan data
-        if(controller.getLoan() != null){
-            this.addLoan(controller.getLoan());
+        for(BankingSystem.Loan loan : controller.getLoans()){
+            this.loanListView.getItems().add(loan);
         }
 
         loanRequestButton.setOnAction(e -> {
@@ -138,128 +101,8 @@ public class FinanceBankingSystemController implements Initializable {
             }
         });
 
-        buyRealEstateButton.setOnAction(e -> {
-            try {
-                double amount = Double.parseDouble(realEstateTextField.getText());
-                boolean successful = controller.increaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.REAL_ESTATE);
-                if (!successful) {
-                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash.title"),
-                            UIManager.getLocalisedString("finance.error.cash.description"));
-                    error.showAndWait();
-                }
-                realEstateTextField.clear();
-            } catch (NumberFormatException exception) {
-                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
-                        UIManager.getLocalisedString("finance.error.number.description"));
-                error.showAndWait();
-            }
-        });
-
-        buyStocksButton.setOnAction(e -> {
-            try {
-                double amount = Double.parseDouble(stocksTextField.getText());
-                boolean successful = controller.increaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.STOCKS);
-                if (!successful) {
-                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash.title"),
-                            UIManager.getLocalisedString("finance.error.cash.description"));
-                    error.showAndWait();                }
-                stocksTextField.clear();
-            } catch (NumberFormatException exception) {
-                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
-                        UIManager.getLocalisedString("finance.error.number.description"));
-                error.showAndWait();
-            }
-        });
-
-        buyVentureCapitalButton.setOnAction(e -> {
-            try {
-                double amount = Double.parseDouble(ventureCapitalTextField.getText());
-                boolean successful = controller.increaseInvestmentAmount(GameState.getInstance().getGameDate(), amount,
-                        Investment.InvestmentType.VENTURE_CAPITAL);
-                if (!successful) {
-                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash.title"),
-                            UIManager.getLocalisedString("finance.error.cash.description"));
-                    error.showAndWait();                }
-                ventureCapitalTextField.clear();
-            } catch (NumberFormatException exception) {
-                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
-                        UIManager.getLocalisedString("finance.error.number.description"));
-                error.showAndWait();
-            }
-        });
-
-        sellRealEstateButton.setOnAction(e -> {
-            try {
-                double amount = Double.parseDouble(realEstateTextField.getText());
-                boolean successful = controller.decreaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.REAL_ESTATE);
-                if (!successful) {
-                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash2.title"),
-                            UIManager.getLocalisedString("finance.error.cash2.description"));
-                    error.showAndWait();                }
-                realEstateTextField.clear();
-            } catch (NumberFormatException exception) {
-                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
-                        UIManager.getLocalisedString("finance.error.number.description"));
-                error.showAndWait();            }
-
-        });
-
-        sellStocksButton.setOnAction(e -> {
-            try {
-                double amount = Double.parseDouble(stocksTextField.getText());
-                boolean successful = controller.decreaseInvestmentAmount(GameState.getInstance().getGameDate(), amount, Investment.InvestmentType.STOCKS);
-                if (!successful) {
-                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash2.title"),
-                            UIManager.getLocalisedString("finance.error.cash2.description"));
-                    error.showAndWait();                }
-                stocksTextField.clear();
-            } catch (NumberFormatException exception) {
-                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
-                        UIManager.getLocalisedString("finance.error.number.description"));
-                error.showAndWait();            }
-
-        });
-
-        sellVentureCapitalButton.setOnAction(e -> {
-            try {
-                double amount = Double.parseDouble(ventureCapitalTextField.getText());
-                boolean successful = controller.decreaseInvestmentAmount(GameState.getInstance().getGameDate(), amount,
-                        Investment.InvestmentType.VENTURE_CAPITAL);
-                if (!successful) {
-                    GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash2.title"),
-                            UIManager.getLocalisedString("finance.error.cash2.description"));
-                    error.showAndWait();                }
-                ventureCapitalTextField.clear();
-            } catch (NumberFormatException exception) {
-                GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
-                        UIManager.getLocalisedString("finance.error.number.description"));
-                error.showAndWait();            }
-
-        });
-    }
-
-    public void setRealEstateLabel(String text) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                realEstateLabel.setText(text);
-            }
-        });
-    }
-
-    public void setStocksLabel(String text) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                stocksLabel.setText(text);
-            }
-        });
-    }
-
-    public void setVentureCapitalLabel(String text) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                ventureCapitalLabel.setText(text);
-            }
-        });
+        loanListView.setCellFactory(listView -> new LoanListViewCell(loanListView));
+        loanListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.loan")));
     }
 
     public double getLoanAmount() {
@@ -271,17 +114,8 @@ public class FinanceBankingSystemController implements Initializable {
      * @param loan The new loan.
      */
     public void addLoan(BankingSystem.Loan loan) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-
-                loanLabel.setText("" + DecimalRound.round(loan.getLoanAmount(), 2)
-                        + UIManager.getLocalisedString("finance.loanLabel.currenyUnit") + ": " + loan.getDuration()
-                        + " " + UIManager.getLocalisedString("finance.loanLabel.durationUnit"));
-
-                loanAmountTextField.clear();
-                loanRequestPopover.hide();
-            }
-        });
+        this.loanListView.getItems().add(loan);
+        loanRequestPopover.hide();
     }
 
     /**
@@ -290,9 +124,10 @@ public class FinanceBankingSystemController implements Initializable {
     public void removeLoan(){
         Platform.runLater(new Runnable() {
             public void run() {
-
-                loanLabel.setText("0.00");
-                loanAmountTextField.clear();
+                loanListView.getItems().clear();
+                for(BankingSystem.Loan loan : GameController.getInstance().getLoans()){
+                    loanListView.getItems().add(loan);
+                }
             }
         });
     }

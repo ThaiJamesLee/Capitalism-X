@@ -425,8 +425,8 @@ public class GameController {
 		FinanceDepartment.getInstance().addLoan(loan, loanDate);
 	}
 
-	public BankingSystem.Loan getLoan() {
-		return FinanceDepartment.getInstance().getLoan();
+	public ArrayList<BankingSystem.Loan> getLoans() {
+		return FinanceDepartment.getInstance().getLoans();
 	}
 
 	/**
