@@ -8,7 +8,7 @@ import org.controlsfx.control.PopOver.ArrowLocation;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.tutorial.Highlighter;
+import de.uni.mannheim.capitalismx.ui.tutorial.TutorialHighlighter;
 import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
 import de.uni.mannheim.capitalismx.ui.tutorial.chapter.TutorialChapter;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
@@ -179,7 +179,7 @@ public class TutorialPage {
 	}
 
 	private EventHandler<? super MouseEvent> overwrittenHandler;
-	private Highlighter highlighter;
+	private TutorialHighlighter highlighter;
 	private TutorialChapter parentChapter;
 	private NextPageCondition condition;
 	private PopOver infoPopover;
@@ -214,7 +214,7 @@ public class TutorialPage {
 
 		if (builder.highlightedNode != null) {
 			this.target = builder.highlightedNode;
-			highlighter = new Highlighter();
+			highlighter = new TutorialHighlighter();
 		}
 
 		this.condition = builder.condition;
