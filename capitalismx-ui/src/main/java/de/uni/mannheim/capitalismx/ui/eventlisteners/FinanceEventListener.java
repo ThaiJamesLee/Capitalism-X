@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSystemController;
+import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceInvestmentsController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableController;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
@@ -92,17 +93,17 @@ public class FinanceEventListener implements PropertyChangeListener {
             UIManager.getInstance().getGameHudController().updateCashChangeLabel(newVal.getValue());
         }
 
-        FinanceBankingSystemController bankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
+        FinanceInvestmentsController investmentsController = (FinanceInvestmentsController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_INVESTMENTS).getController();
 
         if (evt.getPropertyName().equals("realEstateInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            bankingSystemController.setRealEstateLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setRealEstateLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
         }else if (evt.getPropertyName().equals("stocksInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            bankingSystemController.setStocksLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setStocksLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
         }else if (evt.getPropertyName().equals("ventureCapitalInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            bankingSystemController.setVentureCapitalLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setVentureCapitalLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
         }
     }
 }

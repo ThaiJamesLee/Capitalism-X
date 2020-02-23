@@ -796,7 +796,7 @@ public class FinanceDepartment extends DepartmentImpl {
         BankingSystem.getInstance().addLoan(loan, gameDate);
         this.increaseCash(gameDate, loan.getLoanAmount());
         this.increaseLiabilities(gameDate, loan.getLoanAmount());
-        this.loanRemoved.setValue(false);
+        //this.loanRemoved.setValue(false);
     }
 
     /**
@@ -804,6 +804,8 @@ public class FinanceDepartment extends DepartmentImpl {
      */
     protected void removeLoan(){
         this.loanRemoved.setValue(true);
+        //return to initial state
+        this.loanRemoved.setValue(false);
     }
 
     /**
@@ -1052,8 +1054,8 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.netWorth.getValue();
     }
 
-    public BankingSystem.Loan getLoan(){
-        return BankingSystem.getInstance().getLoan();
+    public TreeMap<LocalDate, BankingSystem.Loan> getLoans(){
+        return BankingSystem.getInstance().getLoans();
     }
 
     public double getRealEstateInvestmentAmount() {
