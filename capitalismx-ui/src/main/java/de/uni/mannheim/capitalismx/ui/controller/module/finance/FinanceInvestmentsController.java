@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
@@ -69,6 +72,9 @@ public class FinanceInvestmentsController implements Initializable {
     @FXML
     Button sellVentureCapitalButton;
 
+    @FXML
+    HBox hBoxRealEstate, hBoxStocks, hBoxVentureCapital;
+
     /**
      * The EventListener for finance events (changes relevant for the finance UI).
      */
@@ -89,6 +95,10 @@ public class FinanceInvestmentsController implements Initializable {
         TextFieldHelper.makeTextFieldNumeric(ventureCapitalTextField);
         TextFieldHelper.makeTextFieldNumeric(stocksTextField);
         TextFieldHelper.makeTextFieldNumeric(realEstateTextField);
+
+        VBox.setVgrow(hBoxRealEstate, Priority.ALWAYS);
+        VBox.setVgrow(hBoxStocks, Priority.ALWAYS);
+        VBox.setVgrow(hBoxVentureCapital, Priority.ALWAYS);
 
         buyRealEstateButton.setOnAction(e -> {
             try {

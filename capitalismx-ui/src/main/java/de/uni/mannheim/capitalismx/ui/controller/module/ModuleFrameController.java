@@ -11,6 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 /**
  * The controller class for the frame of a {@link GameModule}. Controls the
@@ -51,6 +53,8 @@ public class ModuleFrameController implements Initializable {
 	public void initContent(Parent rootElement, GameModuleType elementType) {
 		this.contentPane.getChildren().add(rootElement);
 		AnchorPaneHelper.snapNodeToAnchorPane(rootElement);
+		//ensures that the content fits the specified cells in the parent gridPane
+		VBox.setVgrow(contentPane, Priority.ALWAYS);
 	}
 
 }
