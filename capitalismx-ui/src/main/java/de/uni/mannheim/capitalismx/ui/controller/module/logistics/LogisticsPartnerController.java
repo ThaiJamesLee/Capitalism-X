@@ -3,6 +3,9 @@ package de.uni.mannheim.capitalismx.ui.controller.module.logistics;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.components.logistics.LogisticsPartnerDetailListViewCell;
+import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
+import javafx.scene.control.ListView;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
@@ -29,7 +32,7 @@ public class LogisticsPartnerController implements Initializable {
 	private Button fireLogisticsPartnerButton;
 
 	@FXML
-	private Label currentlyEmployingTextArea;
+	private ListView<ExternalPartner> externalPartnerListView;
 
 	/**
 	 * The popover for the external logistics partner selection.
@@ -47,13 +50,12 @@ public class LogisticsPartnerController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		GameController controller = GameController.getInstance();
 		if (controller.getExternalPartner() != null) {
-			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl")
-					+ controller.getExternalPartner().getName() + " "
-					+ controller.getExternalPartner().getContractualCost());
 			fireLogisticsPartnerButton.setVisible(true);
+			externalPartnerListView.getItems().add(controller.getExternalPartner());
+			logisticsPartnerButton.setText(UIManager.getLocalisedString("logistics.pselection.hiredifferent"));
 		} else {
-			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyNo"));
 			fireLogisticsPartnerButton.setVisible(false);
+			logisticsPartnerButton.setText(UIManager.getLocalisedString("logistics.pselection.hire"));
 		}
 
 		PopOverFactory factory = new PopOverFactory();
@@ -66,9 +68,17 @@ public class LogisticsPartnerController implements Initializable {
 
 		fireLogisticsPartnerButton.setOnAction(e -> {
 			controller.removeExternalPartner();
-			currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyNo"));
+			externalPartnerListView.getItems().clear();
 			fireLogisticsPartnerButton.setVisible(false);
+			logisticsPartnerButton.setText(UIManager.getLocalisedString("logistics.pselection.hire"));
 		});
+
+		externalPartnerListView.setCellFactory(partnerListView -> {
+			LogisticsPartnerDetailListViewCell cell = new LogisticsPartnerDetailListViewCell(externalPartnerListView);
+			cell.setAddMouseListener(false);
+			return cell;
+		});
+		externalPartnerListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.externalpartner")));
 	}
 
 	/**
@@ -76,11 +86,11 @@ public class LogisticsPartnerController implements Initializable {
 	 * @param externalPartner The new external logistics partner.
 	 */
 	public void addExternalPartner(ExternalPartner externalPartner) {
-		currentlyEmployingTextArea.setText(UIManager.getLocalisedString("logistics.partner.currentlyEmpl")
-				+ externalPartner.getName() + " "
-				+ externalPartner.getContractualCost());
-		popover.hide();
+		externalPartnerListView.getItems().clear();
 		fireLogisticsPartnerButton.setVisible(true);
+		externalPartnerListView.getItems().add(externalPartner);
+		logisticsPartnerButton.setText(UIManager.getLocalisedString("logistics.pselection.hiredifferent"));
+		popover.hide();
 	}
 
 	/**

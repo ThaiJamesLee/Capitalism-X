@@ -52,6 +52,8 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 
 	private FXMLLoader loader;
 
+	private boolean addMouseListener;
+
     /**
      * The ListView of all available external logistics partners.
      */
@@ -63,12 +65,14 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
      */
     public LogisticsPartnerDetailListViewCell(ListView<ExternalPartner> logisticsPartnerDetailListView){
         this.logisticsPartnerDetailListView = logisticsPartnerDetailListView;
+        addMouseListener = true;
     }
 
     /*
      * Generates an entry in the external logistics partner selection for each new external partner added to the
      * logisticsPartnerDetailListView according to the partner's characteristics. If the user clicks on one, the partner
-     * is hired.
+     * is hired. These characteristics are also displayed for the currently hired partner. However, in that case, the
+     * OnMouseClicked EventHandler is not added (addMouseListener=false).
      */
 	@Override
 	protected void updateItem(ExternalPartner externalPartner, boolean empty) {
@@ -107,18 +111,25 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 					"Contractual Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCost()));
 			variableCostsLabel.setText(
 					"Delivery Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getVariableDeliveryCost()));
-			gridPane.setOnMouseClicked(e -> {
-				controller.addExternalPartner(externalPartner);
-				LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance()
-						.getModule(GameModuleType.LOGISTICS_PARTNER_OVERVIEW).getController();
-				uiController.addExternalPartner(externalPartner);
 
-				logisticsPartnerDetailListView.getSelectionModel().clearSelection();
-			});
+			if(addMouseListener){
+				gridPane.setOnMouseClicked(e -> {
+					controller.addExternalPartner(externalPartner);
+					LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance()
+							.getModule(GameModuleType.LOGISTICS_PARTNER_OVERVIEW).getController();
+					uiController.addExternalPartner(externalPartner);
+
+					logisticsPartnerDetailListView.getSelectionModel().clearSelection();
+				});
+			}
 
 			setText(null);
 			setGraphic(gridPane);
 		}
+	}
+
+	public void setAddMouseListener(boolean addMouseListener){
+		this.addMouseListener = addMouseListener;
 	}
 
 }

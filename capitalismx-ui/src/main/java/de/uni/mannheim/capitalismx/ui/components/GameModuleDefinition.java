@@ -18,8 +18,8 @@ public enum GameModuleDefinition {
 	HR_WORKING_CONDITIONS("working_conditions.fxml", GameModuleType.HR_WORKING_CONDITIONS, new GridPosition(13, 7, 0, 7), true),
 
 	// The modules for Logistics.
-	LOGISTICS_PARTNER_SELECTION("logistics_partner_selection.fxml", GameModuleType.LOGISTICS_PARTNER_OVERVIEW, new GridPosition(3, 5, 7, 7), true),
-	LOGISTICS_TRUCK_FLEET("truck_fleet_overview.fxml", GameModuleType.LOGISTICS_TRUCK_FLEET_OVERVIEW, new GridPosition(12, 5, 5, 9), true),
+	LOGISTICS_PARTNER_SELECTION("logistics_partner_selection.fxml", GameModuleType.LOGISTICS_PARTNER_OVERVIEW, new GridPosition(0, 8, 0, 9), true),
+	LOGISTICS_TRUCK_FLEET("truck_fleet_overview.fxml", GameModuleType.LOGISTICS_TRUCK_FLEET_OVERVIEW, new GridPosition(0, 8, 9, 11), true),
 
 	// The modules for Production.
 	PRODUCTION_MACHINERY_LIST("machinery_list.fxml",  GameModuleType.PRODUCTION_MACHINERY_OVERVIEW, new GridPosition(14, 6, 0, 10), true),
