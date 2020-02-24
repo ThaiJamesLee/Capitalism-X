@@ -5,7 +5,9 @@ import java.beans.PropertyChangeListener;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
@@ -23,6 +25,28 @@ import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
  * @author sdupper
  */
 public class FinanceEventListener implements PropertyChangeListener {
+
+    /**
+     * The specific loan this FinanceEventListener corresponds to. Optional.
+     */
+    BankingSystem.Loan loan;
+
+    /**
+     * Constructor
+     */
+    public FinanceEventListener(){
+        super();
+    }
+
+    /**
+     * Constructor
+     * Allows the specify a loan that this FinanceEventListener corresponds to.
+     * @param loan The corresponding loan.
+     */
+    public FinanceEventListener(BankingSystem.Loan loan){
+        super();
+        this.loan = loan;
+    }
 
     /*
      * Determines the name of the PropertyChangeEvent and updates the GUI accordingly, e.g., if the net worth changes,
@@ -104,6 +128,11 @@ public class FinanceEventListener implements PropertyChangeListener {
         }else if (evt.getPropertyName().equals("ventureCapitalInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
             investmentsController.setVentureCapitalLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+        }
+
+        if(evt.getPropertyName().equals("annualPrincipalBalance") || evt.getPropertyName().equals("remainingDuration")){
+            FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
+            financeBankingSystemController.updateLoan(this.loan);
         }
     }
 }

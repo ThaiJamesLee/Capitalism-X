@@ -128,4 +128,18 @@ public class FinanceBankingSystemController implements Initializable {
             }
         });
     }
+
+    /**
+     * Updates information like remaining duration and loan amount of the specified loan.
+     * @param loan The loan to be updated.
+     */
+    public void updateLoan(BankingSystem.Loan loan){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                int index = loanListView.getItems().indexOf(loan);
+                loanListView.getItems().remove(loan);
+                loanListView.getItems().add(index, loan);
+            }
+        });
+    }
 }
