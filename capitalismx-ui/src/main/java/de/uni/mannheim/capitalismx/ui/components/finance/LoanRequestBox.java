@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem.Loan;
+import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -11,6 +12,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSystemController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
+import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.fxml.FXML;
@@ -57,6 +59,7 @@ public class LoanRequestBox {
         loanAmountLabel.setText(UIManager.getLocalisedString("finance.loan.box.amount") + CapCoinFormatter.getCapCoins(loan.getLoanAmount()));
         gridPane.setOnMouseClicked(e -> {
         	//TODO can this fail?
+			loan.registerPropertyChangeListener(new FinanceEventListener(loan));
             gameContr.addLoan(loan, GameState.getInstance().getGameDate());
             FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
             financeBankingSystemController.addLoan(loan);

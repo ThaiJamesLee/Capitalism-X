@@ -56,7 +56,7 @@ public class LoanListViewCell extends ListCell<BankingSystem.Loan> {
     }
 
     /*
-     * Generates an entry in the list of loans in the finance deparment for each new loan added to the loanListView
+     * Generates an entry in the list of loans in the finance department for each new loan added to the loanListView
      * according to the loans's characteristics.
      */
     @Override
@@ -81,9 +81,12 @@ public class LoanListViewCell extends ListCell<BankingSystem.Loan> {
             gridPane.getStyleClass().clear();
 
             nameLabel.setText(loan.getName());
-            interestRateLabel.setText(UIManager.getLocalisedString("finance.loan.box.interest") + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(loan.getInterestRate()));
-            durationLabel.setText(UIManager.getLocalisedString("finance.loan.box.duration").replace("XXX", loan.getDuration() + ""));
-            loanAmountLabel.setText(UIManager.getLocalisedString("finance.loan.box.amount") + CapCoinFormatter.getCapCoins(loan.getLoanAmount()));
+            interestRateLabel.setText(UIManager.getLocalisedString("finance.loan.box.interest")
+                    + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(loan.getInterestRate()));
+            durationLabel.setText(UIManager.getLocalisedString("finance.loan.box.duration").replace("XXX",
+                    loan.getRemainingDuration() + ""));
+            loanAmountLabel.setText(UIManager.getLocalisedString("finance.loan.box.amount")
+                    + CapCoinFormatter.getCapCoins(loan.getAnnualPrincipalBalance()));
 
             setText(null);
             setGraphic(gridPane);

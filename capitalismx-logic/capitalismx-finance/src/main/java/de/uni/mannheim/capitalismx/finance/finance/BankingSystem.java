@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
@@ -47,9 +50,10 @@ public class BankingSystem implements Serializable {
          * The start date of the current loan, relevant e.g., to determine when the loan ends.
          */
         private LocalDate loanDate;
+        private PropertyChangeSupportDouble remainingDuration;
 
         private double annualRepayment;
-        private double annualPrincipalBalance;
+        private PropertyChangeSupportDouble annualPrincipalBalance;
         private double annualInterestRate;
         private double annualLoanRate;
 
@@ -58,6 +62,14 @@ public class BankingSystem implements Serializable {
             this.interestRate = DecimalRound.round(interestRate, 4);
             this.duration = duration;
             this.loanAmount = DecimalRound.round(loanAmount, 2);
+
+            this.annualPrincipalBalance = new PropertyChangeSupportDouble();
+            this.annualPrincipalBalance.setValue(this.loanAmount);
+            this.annualPrincipalBalance.setPropertyChangedName("annualPrincipalBalance");
+
+            this.remainingDuration = new PropertyChangeSupportDouble();
+            this.remainingDuration.setValue(this.duration);
+            this.remainingDuration.setPropertyChangedName("remainingDuration");
         }
 
         public void setLoanDate(LocalDate loanDate) {
@@ -76,8 +88,35 @@ public class BankingSystem implements Serializable {
             return this.loanAmount;
         }
 
+        public double getAnnualPrincipalBalance() {
+            return annualPrincipalBalance.getValue();
+        }
+
+        public double getRemainingDuration() {
+            return remainingDuration.getValue();
+        }
+
         public String getName() {
             return this.name;
+        }
+
+        /**
+         * Calculates the remaining duration of the loan in months.
+         * @param gameDate The current date in the game
+         * @return Returns the remaining duration of the loan in months.
+         */
+        public double calculateRemainingDuration(LocalDate gameDate){
+            double rDuration;
+            if(this.loanDate != null){
+                Period p = Period.between(gameDate, this.loanDate.plusMonths((long) this.duration));
+                rDuration =  (p.getYears() * 12) + p.getMonths() ;
+                //ensures that remaining duration is not larger than starting duration
+                rDuration = Math.min(rDuration, this.duration);
+            }else{
+                rDuration = -1.0;
+            }
+            this.remainingDuration.setValue(rDuration);
+            return this.remainingDuration.getValue();
         }
 
         /**
@@ -97,11 +136,12 @@ public class BankingSystem implements Serializable {
          * @return Returns the annual principal balance.
          */
         protected double calculateAnnualPrincipalBalance(LocalDate gameDate){
-            this.annualPrincipalBalance = 0;
+            double principalBalance = 0;
             int year = Period.between(this.loanDate.plusDays(1), gameDate).getYears();
-            this.annualPrincipalBalance = this.loanAmount - (this.calculateAnnualRepayment()  * year);
+            principalBalance = this.loanAmount - (this.calculateAnnualRepayment()  * year);
             //TODO remove loan if principal balance <= 0
-            return this.annualPrincipalBalance;
+            this.annualPrincipalBalance.setValue(principalBalance);
+            return this.annualPrincipalBalance.getValue();
         }
 
         /**
@@ -135,6 +175,9 @@ public class BankingSystem implements Serializable {
          * @return Returns the monthly loan rate.
          */
         protected double calculateMonthlyLoanRate(LocalDate gameDate){
+            //calculate remaining duration
+            this.calculateRemainingDuration(gameDate);
+
             // check if payment required on current day - first payment is one month after loanDate
             if((this.loanDate.getDayOfMonth() == gameDate.getDayOfMonth()) && (this.loanDate.isBefore(gameDate))){
                 double monthlyLoanRate = this.calculateAnnualLoanRate(gameDate);
@@ -162,6 +205,11 @@ public class BankingSystem implements Serializable {
                 return monthlyLoanRate;
             }
             return 0.0;
+        }
+
+        public void registerPropertyChangeListener(PropertyChangeListener listener) {
+            this.annualPrincipalBalance.addPropertyChangeListener(listener);
+            this.remainingDuration.addPropertyChangeListener(listener);
         }
     }
 
@@ -208,6 +256,10 @@ public class BankingSystem implements Serializable {
         //loanDate starts on first day of following month
         loan.setLoanDate(loanDate.plusMonths(1).withDayOfMonth(1));
         this.loans.add(loan);
+        //init annual principal balance
+        loan.calculateAnnualPrincipalBalance(loanDate);
+        //init remaining duration
+        loan.calculateRemainingDuration(loanDate);
     }
 
     /**
