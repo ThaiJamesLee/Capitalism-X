@@ -72,14 +72,16 @@ public class ProductSupport implements Serializable {
      * partner to provide product support. The partners differ in their contractual costs and quality.
      */
     public enum ExternalSupportPartner implements Serializable{
-        NO_PARTNER(0, 0),
-        PARTNER_1(1000, 80),
-        PARTNER_2(800, 40);
+        NO_PARTNER("-", 0, 0),
+        PARTNER_1("Partner 1", 1000, 80),
+        PARTNER_2("Partner 2", 800, 40);
 
         private int contractualCosts;
         private int qualityIndex;
+        private String name;
 
-        ExternalSupportPartner(int contractualCosts, int qualityIndex){
+        ExternalSupportPartner(String name, int contractualCosts, int qualityIndex){
+            this.name = name;
             this.contractualCosts = contractualCosts;
             this.qualityIndex = qualityIndex;
         }
@@ -90,6 +92,10 @@ public class ProductSupport implements Serializable {
 
         public int getQualityIndex() {
             return this.qualityIndex;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 

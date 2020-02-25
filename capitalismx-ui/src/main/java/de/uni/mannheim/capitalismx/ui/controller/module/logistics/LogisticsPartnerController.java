@@ -82,7 +82,7 @@ public class LogisticsPartnerController implements Initializable {
 	}
 
 	/**
-	 * Updates the logistics UI when an external partner is hired.
+	 * Updates the logistics UI when an external logistics partner is hired.
 	 * @param externalPartner The new external logistics partner.
 	 */
 	public void addExternalPartner(ExternalPartner externalPartner) {

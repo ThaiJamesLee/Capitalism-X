@@ -47,9 +47,6 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 	@FXML
 	private Label variableCostsLabel;
 
-	@FXML
-	private Button buyButton;
-
 	private FXMLLoader loader;
 
 	private boolean addMouseListener;
