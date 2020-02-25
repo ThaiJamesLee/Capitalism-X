@@ -1,5 +1,8 @@
 package de.uni.mannheim.capitalismx.logistic.support;
 
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
+import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportPartnerException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -41,17 +44,19 @@ public class ProductSupport implements Serializable {
      */
     public enum SupportType implements Serializable{
         //TODO change 0 supportTypeQuality
-        NO_PRODUCT_SUPPORT(-10, 0),
-        ONLINE_SELF_SERVICE(0, 50),
-        ONLINE_SUPPORT(20, 100),
-        TELEPHONE_SUPPORT(30, 250),
-        STORE_SUPPORT(40, 400),
-        ADDITIONAL_SERVICES(10, 50);
+        NO_PRODUCT_SUPPORT("-", -10, 0),
+        ONLINE_SELF_SERVICE("Online self-service", 0, 50),
+        ONLINE_SUPPORT("Online support", 20, 100),
+        TELEPHONE_SUPPORT("Telephone support", 30, 250),
+        STORE_SUPPORT("Store support", 40, 400),
+        ADDITIONAL_SERVICES("Additional services", 10, 50);
 
         private int supportTypeQuality;
         private int costsSupportType;
+        private String name;
 
-        SupportType(int supportTypeQuality, int costsSupportType){
+        SupportType(String name, int supportTypeQuality, int costsSupportType){
+            this.name = name;
             this.supportTypeQuality = supportTypeQuality;
             this.costsSupportType = costsSupportType;
         }
@@ -62,6 +67,10 @@ public class ProductSupport implements Serializable {
 
         public int getCostsSupportType(){
             return this.costsSupportType;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 
@@ -151,10 +160,16 @@ public class ProductSupport implements Serializable {
      * Adds a new support type to the list of support types provided by the company. Only possible if an external
      * support partner is hired.
      * @param supportType The new support type to be added.
+     * @throws NoExternalSupportPartnerException if no external support partner is hired.
      */
-    public void addSupport(SupportType supportType){
-        if((externalSupportPartner != ExternalSupportPartner.NO_PARTNER) && (!supportTypes.contains(supportType))){
-            this.supportTypes.add(supportType);
+    public void addSupport(SupportType supportType) throws NoExternalSupportPartnerException{
+        if((externalSupportPartner != ExternalSupportPartner.NO_PARTNER)){
+            if(!supportTypes.contains(supportType)){
+                this.supportTypes.add(supportType);
+                this.supportTypes.remove(SupportType.NO_PRODUCT_SUPPORT);
+            }
+        }else{
+            throw new NoExternalSupportPartnerException("No external support partner hired");
         }
     }
 
@@ -164,6 +179,9 @@ public class ProductSupport implements Serializable {
      */
     public void removeSupport(SupportType supportType){
         this.supportTypes.remove(supportType);
+        if(this.supportTypes.size() == 0){
+            this.supportTypes.add(SupportType.NO_PRODUCT_SUPPORT);
+        }
     }
 
     /**
@@ -189,13 +207,13 @@ public class ProductSupport implements Serializable {
         this.externalSupportPartner = externalSupportPartner;
     }
 
-    //TODO remove support types
-
     /**
      * Fires the currently hired external support partner.
      */
     public void removeExternalSupportPartner(){
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;
+        this.supportTypes.clear();
+        this.supportTypes.add(SupportType.NO_PRODUCT_SUPPORT);
     }
 
     /**

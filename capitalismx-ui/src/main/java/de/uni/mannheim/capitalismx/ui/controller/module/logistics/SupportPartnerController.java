@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.components.logistics.LogisticsPartnerDetailListViewCell;
 import de.uni.mannheim.capitalismx.ui.components.logistics.SupportPartnerListViewCell;
 import javafx.scene.control.ListView;
@@ -73,6 +74,9 @@ public class SupportPartnerController implements Initializable {
             externalPartnerListView.getItems().clear();
             fireSupportPartnerButton.setVisible(false);
             supportPartnerButton.setText(UIManager.getLocalisedString("logistics.support.pselection.hire"));
+            ProductSupportController uiController = (ProductSupportController) UIManager.getInstance()
+                    .getModule(GameModuleType.LOGISTICS_SUPPORT_TYPE_OVERVIEW).getController();
+            uiController.removeAllSupportTypes();
         });
 
         externalPartnerListView.setCellFactory(partnerListView -> {

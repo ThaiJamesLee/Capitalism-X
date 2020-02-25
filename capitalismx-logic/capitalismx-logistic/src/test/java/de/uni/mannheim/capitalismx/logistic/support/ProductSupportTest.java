@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.logistic.support;
 
+import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportPartnerException;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.testng.Assert;
@@ -21,17 +22,33 @@ public class ProductSupportTest {
     public void addSupportTest() {
         ProductSupport productSupport = new ProductSupport();
 
-        productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        try {
+            productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        } catch (NoExternalSupportPartnerException e) {
+            e.printStackTrace();
+        }
         Assert.assertEquals(productSupport.getSupportTypes().size(), 1);
 
         productSupport.addExternalSupportPartner(ProductSupport.ExternalSupportPartner.PARTNER_1);
-        productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        try {
+            productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        } catch (NoExternalSupportPartnerException e) {
+            e.printStackTrace();
+        }
         Assert.assertEquals(productSupport.getSupportTypes().size(), 2);
 
-        productSupport.addSupport(ProductSupport.SupportType.STORE_SUPPORT);
+        try {
+            productSupport.addSupport(ProductSupport.SupportType.STORE_SUPPORT);
+        } catch (NoExternalSupportPartnerException e) {
+            e.printStackTrace();
+        }
         Assert.assertEquals(productSupport.getSupportTypes().size(), 3);
 
-        productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        try {
+            productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        } catch (NoExternalSupportPartnerException e) {
+            e.printStackTrace();
+        }
         Assert.assertEquals(productSupport.getSupportTypes().size(), 3);
 
     }
@@ -51,10 +68,18 @@ public class ProductSupportTest {
 
         productSupport.addExternalSupportPartner(ProductSupport.ExternalSupportPartner.PARTNER_1);
 
-        productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        try {
+            productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        } catch (NoExternalSupportPartnerException e) {
+            e.printStackTrace();
+        }
         Assert.assertEquals(productSupport.calculateTotalSupportTypeQuality(), 10.0);
 
-        productSupport.addSupport(ProductSupport.SupportType.STORE_SUPPORT);
+        try {
+            productSupport.addSupport(ProductSupport.SupportType.STORE_SUPPORT);
+        } catch (NoExternalSupportPartnerException e) {
+            e.printStackTrace();
+        }
         Assert.assertEquals(productSupport.calculateTotalSupportTypeQuality(), 50.0);
     }
 
@@ -70,7 +95,11 @@ public class ProductSupportTest {
         productSupport.addExternalSupportPartner(ProductSupport.ExternalSupportPartner.PARTNER_1);
         Assert.assertEquals(productSupport.calculateTotalSupportQuality(), (0.3 * 80 + 0.7 * (-10)));
 
-        productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        try {
+            productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        } catch (NoExternalSupportPartnerException e) {
+            e.printStackTrace();
+        }
         Assert.assertEquals(productSupport.calculateTotalSupportQuality(), (0.3 * 80 + 0.7 * 10));
     }
 
@@ -83,10 +112,18 @@ public class ProductSupportTest {
         productSupport.addExternalSupportPartner(ProductSupport.ExternalSupportPartner.PARTNER_1);
         Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 1000.0);
 
-        productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        try {
+            productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
+        } catch (NoExternalSupportPartnerException e) {
+            e.printStackTrace();
+        }
         Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 1100.0);
 
-        productSupport.addSupport(ProductSupport.SupportType.STORE_SUPPORT);
+        try {
+            productSupport.addSupport(ProductSupport.SupportType.STORE_SUPPORT);
+        } catch (NoExternalSupportPartnerException e) {
+            e.printStackTrace();
+        }
         Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 1500.0);
     }
 

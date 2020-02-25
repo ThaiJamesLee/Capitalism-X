@@ -124,7 +124,8 @@ public class FinanceInvestmentsController implements Initializable {
                 if (!successful) {
                     GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash.title"),
                             UIManager.getLocalisedString("finance.error.cash.description"));
-                    error.showAndWait();                }
+                    error.showAndWait();
+                }
                 stocksTextField.clear();
             } catch (NumberFormatException exception) {
                 GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
@@ -141,7 +142,8 @@ public class FinanceInvestmentsController implements Initializable {
                 if (!successful) {
                     GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash.title"),
                             UIManager.getLocalisedString("finance.error.cash.description"));
-                    error.showAndWait();                }
+                    error.showAndWait();
+                }
                 ventureCapitalTextField.clear();
             } catch (NumberFormatException exception) {
                 GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
@@ -157,12 +159,14 @@ public class FinanceInvestmentsController implements Initializable {
                 if (!successful) {
                     GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash2.title"),
                             UIManager.getLocalisedString("finance.error.cash2.description"));
-                    error.showAndWait();                }
+                    error.showAndWait();
+                }
                 realEstateTextField.clear();
             } catch (NumberFormatException exception) {
                 GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
                         UIManager.getLocalisedString("finance.error.number.description"));
-                error.showAndWait();            }
+                error.showAndWait();
+            }
 
         });
 
@@ -173,12 +177,14 @@ public class FinanceInvestmentsController implements Initializable {
                 if (!successful) {
                     GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash2.title"),
                             UIManager.getLocalisedString("finance.error.cash2.description"));
-                    error.showAndWait();                }
+                    error.showAndWait();
+                }
                 stocksTextField.clear();
             } catch (NumberFormatException exception) {
                 GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
                         UIManager.getLocalisedString("finance.error.number.description"));
-                error.showAndWait();            }
+                error.showAndWait();
+            }
 
         });
 
@@ -190,12 +196,14 @@ public class FinanceInvestmentsController implements Initializable {
                 if (!successful) {
                     GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.cash2.title"),
                             UIManager.getLocalisedString("finance.error.cash2.description"));
-                    error.showAndWait();                }
+                    error.showAndWait();
+                }
                 ventureCapitalTextField.clear();
             } catch (NumberFormatException exception) {
                 GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("finance.error.number.title"),
                         UIManager.getLocalisedString("finance.error.number.description"));
-                error.showAndWait();            }
+                error.showAndWait();
+            }
 
         });
     }

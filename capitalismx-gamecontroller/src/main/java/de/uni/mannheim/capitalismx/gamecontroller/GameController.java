@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
+import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportPartnerException;
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.production.*;
 import de.uni.mannheim.capitalismx.production.exceptions.*;
@@ -663,8 +664,9 @@ public class GameController {
 	 * Adds a new support type to the list of support types provided by the company. Only possible if an external
 	 * support partner is hired.
 	 * @param supportType The new support type to be added.
+	 * @throws NoExternalSupportPartnerException if no external support partner is hired.
 	 */
-	public void addSupport(ProductSupport.SupportType supportType) {
+	public void addSupport(ProductSupport.SupportType supportType) throws NoExternalSupportPartnerException{
 		ProductSupport.getInstance().addSupport(supportType);
 	}
 
