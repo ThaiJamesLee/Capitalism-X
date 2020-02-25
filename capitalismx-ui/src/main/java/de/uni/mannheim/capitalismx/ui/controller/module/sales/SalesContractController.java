@@ -111,7 +111,7 @@ public class SalesContractController implements Initializable {
             contract = contractLoader.load();
             cellController = contractLoader.getController();
             cellController.setContractName(c.getProduct().toString());
-            cellController.setContractDeadline(String.valueOf(c.getTimeToFinish()));
+            cellController.setContractDeadline(String.valueOf(c.getTimeToFinish() + " Months"));
             cellController.setID(c.getuId());
 
             if(isAccepted){
@@ -184,7 +184,7 @@ public class SalesContractController implements Initializable {
                 "" + c.getNumProducts(),
                 "" + CapCoinFormatter.getCapCoins(c.getNumProducts() * c.getPricePerProd()),
                 "" + CapCoinFormatter.getCapCoins(c.getPricePerProd()),
-                "" + c.getTimeToFinish() + "Months",
+                "" + c.getTimeToFinish() + " Months",
                 "" + c.getContractStart(),
                 "" + c.getContractDoneDate(),
                 "" + CapCoinFormatter.getCapCoins(c.getPenalty())
