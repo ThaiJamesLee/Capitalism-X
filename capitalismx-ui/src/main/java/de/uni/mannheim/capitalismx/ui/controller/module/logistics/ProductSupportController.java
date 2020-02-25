@@ -11,7 +11,6 @@ import javafx.scene.control.Alert;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
-import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.fxml.FXML;

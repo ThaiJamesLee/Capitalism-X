@@ -35,21 +35,21 @@ public class ProductSupportTest {
         } catch (NoExternalSupportPartnerException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(productSupport.getSupportTypes().size(), 2);
+        Assert.assertEquals(productSupport.getSupportTypes().size(), 1);
 
         try {
             productSupport.addSupport(ProductSupport.SupportType.STORE_SUPPORT);
         } catch (NoExternalSupportPartnerException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(productSupport.getSupportTypes().size(), 3);
+        Assert.assertEquals(productSupport.getSupportTypes().size(), 2);
 
         try {
             productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
         } catch (NoExternalSupportPartnerException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(productSupport.getSupportTypes().size(), 3);
+        Assert.assertEquals(productSupport.getSupportTypes().size(), 2);
 
     }
 
@@ -73,14 +73,14 @@ public class ProductSupportTest {
         } catch (NoExternalSupportPartnerException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(productSupport.calculateTotalSupportTypeQuality(), 10.0);
+        Assert.assertEquals(productSupport.calculateTotalSupportTypeQuality(), 20.0);
 
         try {
             productSupport.addSupport(ProductSupport.SupportType.STORE_SUPPORT);
         } catch (NoExternalSupportPartnerException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(productSupport.calculateTotalSupportTypeQuality(), 50.0);
+        Assert.assertEquals(productSupport.calculateTotalSupportTypeQuality(), 60.0);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class ProductSupportTest {
         } catch (NoExternalSupportPartnerException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(productSupport.calculateTotalSupportQuality(), (0.3 * 80 + 0.7 * 10));
+        Assert.assertEquals(productSupport.calculateTotalSupportQuality(), (0.3 * 80 + 0.7 * 20));
     }
 
     @Test
