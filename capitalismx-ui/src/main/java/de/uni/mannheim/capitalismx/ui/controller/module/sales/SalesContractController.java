@@ -19,9 +19,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 
+import javax.tools.Tool;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,6 +50,15 @@ public class SalesContractController implements Initializable {
 
     @FXML
     private AnchorPane contractInfoPane;
+
+    @FXML
+    private Button acceptButton;
+
+    @FXML
+    private Button fulfillButton;
+
+    @FXML
+    private Button terminateButton;
 
     public SalesContractController(){
 
@@ -264,6 +276,19 @@ public class SalesContractController implements Initializable {
         contractListener = new SalesEventListener();
         //infoPaneController = new SalesContractInfoController();
         GameState.getInstance().getSalesDepartment().registerPropertyChangeListener(contractListener);
+
+        acceptButton.setTooltip(
+                new Tooltip("Accepts a selected contract from the list of offered contracts.")
+        );
+
+        fulfillButton.setTooltip(
+                new Tooltip("Fulfills the contract by delivering the finished products. This will remove the products from the warehouse.")
+        );
+
+        terminateButton.setTooltip(
+                new Tooltip("Terminates an already accepted contract.")
+        );
+
 /*
         FXMLLoader cellLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_list_cell.fxml"));
         try {
