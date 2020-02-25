@@ -282,4 +282,8 @@ public class ProductSupport implements Serializable {
     public static void setInstance(ProductSupport instance) {
         ProductSupport.instance = instance;
     }
+
+    public static ProductSupport createInstance() {
+        return new ProductSupport();
+    }
 }

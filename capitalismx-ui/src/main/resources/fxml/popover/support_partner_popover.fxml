@@ -12,7 +12,7 @@
             <children>
                 <Label styleClass="header" text="%logistics.support.partner.hireTitle">
                     <graphic>
-                        <FontAwesomeIcon iconName="SHIP" />
+                        <FontAwesomeIcon iconName="SHIP" visible="false" />
                     </graphic></Label>
                 <ListView fx:id="supportPartnerDetailListView" prefWidth="700.0" />
             </children>

@@ -145,6 +145,7 @@ public class GameState implements Serializable {
 		FinanceDepartment.setInstance(FinanceDepartment.createInstance());
 		MarketingDepartment.setInstance(MarketingDepartment.createInstance());
 		LogisticsDepartment.setInstance(LogisticsDepartment.createInstance());
+		ProductSupport.setInstance(ProductSupport.createInstance());
 		SalesDepartment.setInstance(SalesDepartment.createInstance());
 		ResearchAndDevelopmentDepartment.setInstance(ResearchAndDevelopmentDepartment.createInstance());
 		ProcurementDepartment.setInstance(ProcurementDepartment.createInstance());

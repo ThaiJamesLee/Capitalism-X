@@ -100,10 +100,10 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 							.format(externalPartner.getReliabilityIndexPartner()));
 			ecoIndexLabel
 					.setText("Eco Index: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
-							.format(externalPartner.getEcoIndexPartner()));
+							.format(externalPartner.getEcoIndexPartner() / 100.0));
 			qualityIndexLabel
 					.setText("Quality: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
-							.format(externalPartner.getQualityIndexPartner()));
+							.format(externalPartner.getQualityIndexPartner() / 100.0));
 			contractualCostsLabel.setText(
 					"Contractual Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCost()));
 			variableCostsLabel.setText(

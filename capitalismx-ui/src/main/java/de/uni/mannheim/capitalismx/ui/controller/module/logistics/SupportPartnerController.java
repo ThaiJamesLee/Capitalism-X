@@ -54,7 +54,7 @@ public class SupportPartnerController implements Initializable {
         ProductSupport.ExternalSupportPartner externalSupportPartner = controller.getExternalSupportPartner();
         if ((externalSupportPartner != null) && (externalSupportPartner != ProductSupport.ExternalSupportPartner.NO_PARTNER)) {
             fireSupportPartnerButton.setVisible(true);
-            externalPartnerListView.getItems().add(controller.getExternalSupportPartner());
+            externalPartnerListView.getItems().add(externalSupportPartner);
             supportPartnerButton.setText(UIManager.getLocalisedString("logistics.support.pselection.hiredifferent"));
         } else {
             fireSupportPartnerButton.setVisible(false);

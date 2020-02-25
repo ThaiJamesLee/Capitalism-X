@@ -12,7 +12,7 @@
             <children>
                 <Label styleClass="header" text="%logistics.support.popover">
                     <graphic>
-                        <FontAwesomeIcon iconName="TRUCK" />
+                        <FontAwesomeIcon iconName="TRUCK" visible="false" />
                     </graphic></Label>
                 <ListView fx:id="supportTypeListView" prefWidth="650.0" />
             </children>

@@ -91,9 +91,9 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
 			nameLabel.setText(truck.getName());
 			priceLabel.setText("Price: " + CapCoinFormatter.getCapCoins(truck.getPurchasePrice()));
 			ecoIndexLabel.setText("Eco Index: " + NumberFormat
-					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getEcoIndex()));
+					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getEcoIndex() / 100.0));
 			qualityIndexLabel.setText("Quality Index: " + NumberFormat
-					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getQualityIndex()));
+					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getQualityIndex() / 100.0));
 			fixCostsLabel.setText("Delivery Costs: " + CapCoinFormatter.getCapCoins(truck.getFixCostsDelivery()));
 			// add click listener to cell
 			gridPane.setOnMouseClicked(e -> {

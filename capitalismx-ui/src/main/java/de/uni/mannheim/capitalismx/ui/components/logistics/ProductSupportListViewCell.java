@@ -16,6 +16,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 
 /**
  * This class represents an entry in the list of support types provided by the company / the list of support types
@@ -26,10 +27,13 @@ import java.io.IOException;
 public class ProductSupportListViewCell extends ListCell<ProductSupport.SupportType> {
 
     @FXML
-    private Label valueLabel;
+    private Label costsLabel;
 
     @FXML
-    private Label dateLabel;
+    private Label nameLabel;
+
+    @FXML
+    private Label qualityLabel;
 
     @FXML
     private GridPane gridPane;
@@ -84,8 +88,11 @@ public class ProductSupportListViewCell extends ListCell<ProductSupport.SupportT
             }
 
             GameController controller = GameController.getInstance();
-            valueLabel.setText(CapCoinFormatter.getCapCoins(supportType.getCostsSupportType()));
-            dateLabel.setText(supportType.getName());
+            nameLabel.setText(supportType.getName());
+            costsLabel.setText(
+                    "Monthly Costs: " + CapCoinFormatter.getCapCoins(supportType.getCostsSupportType()));
+            qualityLabel.setText("Quality: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+                    .format(supportType.getSupportTypeQuality() / 100.0));
 
             if(addMouseListener){
                 gridPane.setOnMouseClicked(e -> {
