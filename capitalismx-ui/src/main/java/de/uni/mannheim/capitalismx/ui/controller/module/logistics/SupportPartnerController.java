@@ -7,6 +7,8 @@ import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.components.logistics.LogisticsPartnerDetailListViewCell;
 import de.uni.mannheim.capitalismx.ui.components.logistics.SupportPartnerListViewCell;
+import de.uni.mannheim.capitalismx.ui.controller.popover.logistics.ProductSupportDetailListController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.logistics.SupportPartnerDetailListController;
 import javafx.scene.control.ListView;
 import org.controlsfx.control.PopOver;
 
@@ -41,6 +43,11 @@ public class SupportPartnerController implements Initializable {
      */
     private PopOver popover;
 
+    /**
+     * The popover factory for the support partner selection.
+     */
+    private PopOverFactory factory;
+
     public SupportPartnerController() {
     }
 
@@ -61,11 +68,12 @@ public class SupportPartnerController implements Initializable {
             supportPartnerButton.setText(UIManager.getLocalisedString("logistics.support.pselection.hire"));
         }
 
-        PopOverFactory factory = new PopOverFactory();
+        factory = new PopOverFactory();
         factory.createStandardOverlay("fxml/popover/support_partner_popover.fxml");
         popover = factory.getPopover();
 
         supportPartnerButton.setOnAction(e -> {
+            this.updateAvailablePartners();
             showPopover();
         });
 
@@ -104,6 +112,14 @@ public class SupportPartnerController implements Initializable {
      */
     private void showPopover() {
         popover.show(UIManager.getInstance().getStage());
+    }
+
+    /**
+     * Updates the list of available support partners. In particular, the currently employed partner is removed from
+     * the list of available partners.
+     */
+    public void updateAvailablePartners(){
+        ((SupportPartnerDetailListController) this.factory.getPopoverController()).updateAvailablePartners();
     }
 
 }

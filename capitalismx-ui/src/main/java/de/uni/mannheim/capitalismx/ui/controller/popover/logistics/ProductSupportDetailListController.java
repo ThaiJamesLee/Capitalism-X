@@ -2,12 +2,15 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.logistics;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.ui.components.logistics.ProductSupportListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
@@ -44,6 +47,22 @@ public class ProductSupportDetailListController implements UpdateableController 
             supportTypeListView.getItems().add(supportType);
         }
 
+    }
+
+    /**
+     * Updates the list of available support types. In particular, the currently provided support types are removed from
+     * the list of available types.
+     */
+    public void updateAvailableSupportTypes(){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                supportTypeListView.getItems().clear();
+                for(ProductSupport.SupportType supportType : GameController.getInstance().generateSupportTypeSelection()){
+                    supportTypeListView.getItems().add(supportType);
+                }
+                supportTypeListView.getItems().removeAll(GameController.getInstance().getSupportTypes());
+            }
+        });
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.components.logistics.ProductSupportListViewCell;
+import de.uni.mannheim.capitalismx.ui.controller.popover.logistics.ProductSupportDetailListController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import org.controlsfx.control.PopOver;
@@ -38,6 +39,11 @@ public class ProductSupportController implements Initializable {
      */
     private PopOver popover;
 
+    /**
+     * The popover factory for the support type selection.
+     */
+    private PopOverFactory factory;
+
     public ProductSupportController() {
     }
 
@@ -63,12 +69,13 @@ public class ProductSupportController implements Initializable {
         });
         supportTypeListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.support")));
 
-        PopOverFactory helper = new PopOverFactory();
-        helper.createStandardOverlay("fxml/popover/product_support_popover.fxml");
-        popover = helper.getPopover();
+        factory = new PopOverFactory();
+        factory.createStandardOverlay("fxml/popover/product_support_popover.fxml");
+        popover = factory.getPopover();
 
         addSupportButton.setOnAction(e -> {
             if(controller.getExternalSupportPartner() != ProductSupport.ExternalSupportPartner.NO_PARTNER){
+                this.updateAvailableSupportTypes();
                 showPopover();
             }else{
                 GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("logistics.support.error.partner.title"),
@@ -103,6 +110,14 @@ public class ProductSupportController implements Initializable {
      */
     private void showPopover() {
         popover.show(UIManager.getInstance().getStage());
+    }
+
+    /**
+     * Updates the list of available support types. In particular, the currently provided support types are removed from
+     * the list of available types.
+     */
+    public void updateAvailableSupportTypes(){
+        ((ProductSupportDetailListController) this.factory.getPopoverController()).updateAvailableSupportTypes();
     }
 
 }

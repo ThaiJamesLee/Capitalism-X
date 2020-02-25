@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.components.logistics.LogisticsPartnerDetailListViewCell;
 import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
+import de.uni.mannheim.capitalismx.ui.controller.popover.logistics.LogisticsPartnerDetailListController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.logistics.SupportPartnerDetailListController;
+import javafx.application.Platform;
 import javafx.scene.control.ListView;
 import org.controlsfx.control.PopOver;
 
@@ -39,6 +42,11 @@ public class LogisticsPartnerController implements Initializable {
 	 */
 	private PopOver popover;
 
+	/**
+	 * The popover factory for the external logistics partner selection.
+	 */
+	private PopOverFactory factory;
+
 	public LogisticsPartnerController() {
 	}
 
@@ -58,11 +66,12 @@ public class LogisticsPartnerController implements Initializable {
 			logisticsPartnerButton.setText(UIManager.getLocalisedString("logistics.pselection.hire"));
 		}
 
-		PopOverFactory factory = new PopOverFactory();
+		factory = new PopOverFactory();
 		factory.createStandardOverlay("fxml/popover/logistics_partner_detail_list.fxml");
 		popover = factory.getPopover();
 		
 		logisticsPartnerButton.setOnAction(e -> {
+			this.updateAvailablePartners();
 			showPopover();
 		});
 
@@ -71,6 +80,7 @@ public class LogisticsPartnerController implements Initializable {
 			externalPartnerListView.getItems().clear();
 			fireLogisticsPartnerButton.setVisible(false);
 			logisticsPartnerButton.setText(UIManager.getLocalisedString("logistics.pselection.hire"));
+			//((LogisticsPartnerDetailListController) factory.getPopoverController()).updateAvailablePartners();
 		});
 
 		externalPartnerListView.setCellFactory(partnerListView -> {
@@ -98,6 +108,14 @@ public class LogisticsPartnerController implements Initializable {
 	 */
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());
+	}
+
+	/**
+	 * Updates the list of available logistics partners. In particular, the currently employed partner is removed from
+	 * the list of available partners. Comparison is based on the name, as the ExternalPartner object might change.
+	 */
+	public void updateAvailablePartners(){
+		((LogisticsPartnerDetailListController) this.factory.getPopoverController()).updateAvailablePartners();
 	}
 
 }

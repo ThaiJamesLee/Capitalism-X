@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.LogisticsPartnerController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -117,6 +118,7 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 					uiController.addExternalPartner(externalPartner);
 
 					logisticsPartnerDetailListView.getSelectionModel().clearSelection();
+					//this.updateAvailablePartners();
 				});
 			}
 
@@ -129,4 +131,20 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 		this.addMouseListener = addMouseListener;
 	}
 
+	/**
+	 * Updates the list of available logistics partners. In particular, the currently employed partner is removed from
+	 * the list of available partners. Comparison is based on the name, as the ExternalPartner object might change.
+	 */
+	/*private void updateAvailablePartners(){
+		Platform.runLater(new Runnable() {
+			public void run() {
+				logisticsPartnerDetailListView.getItems().clear();
+				for(ExternalPartner externalPartner : GameController.getInstance().getExternalPartnerSelection()){
+					if((GameController.getInstance().getExternalPartner() == null) || (!GameController.getInstance().getExternalPartner().getName().equals(externalPartner.getName()))){
+						logisticsPartnerDetailListView.getItems().add(externalPartner);
+					}
+				}
+			}
+		});
+	}*/
 }

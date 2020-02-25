@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.ProductSupportController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -116,6 +117,9 @@ public class ProductSupportListViewCell extends ListCell<ProductSupport.SupportT
                 removeButton.setOnAction(e -> {
                     controller.removeSupport(supportType);
                     this.supportTypeListView.getItems().remove(supportType);
+                    ProductSupportController uiController = (ProductSupportController) UIManager.getInstance()
+                            .getModule(GameModuleType.LOGISTICS_SUPPORT_TYPE_OVERVIEW).getController();
+                    uiController.updateAvailableSupportTypes();
                 });
             }
 

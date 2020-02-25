@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.ui.components.logistics.LogisticsPartnerDetailListViewCell;
 import de.uni.mannheim.capitalismx.ui.components.logistics.SupportPartnerListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
@@ -42,6 +43,25 @@ public class SupportPartnerDetailListController implements UpdateableController 
             supportPartnerDetailListView.getItems().add(externalPartner);
         }
 
+    }
+
+    /**
+     * Updates the list of available support partners. In particular, the currently employed partner is removed from
+     * the list of available partners.
+     */
+    public void updateAvailablePartners(){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                supportPartnerDetailListView.getItems().clear();
+                for(ProductSupport.ExternalSupportPartner externalSupportPartner : GameController.getInstance().generateExternalSupportPartnerSelection()){
+                    supportPartnerDetailListView.getItems().add(externalSupportPartner);
+                }
+                ProductSupport.ExternalSupportPartner externalSupportPartner = GameController.getInstance().getExternalSupportPartner();
+                if(externalSupportPartner != null){
+                    supportPartnerDetailListView.getItems().remove(externalSupportPartner);
+                }
+            }
+        });
     }
 
 }

@@ -8,6 +8,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.LogisticsPartnerController;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.SupportPartnerController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
