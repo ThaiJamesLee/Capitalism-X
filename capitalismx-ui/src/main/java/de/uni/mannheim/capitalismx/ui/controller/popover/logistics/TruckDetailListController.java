@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.logistics.TruckDetailListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXML;
@@ -34,7 +35,7 @@ public class TruckDetailListController implements UpdateableController {
         GameController controller = GameController.getInstance();
         truckDetailListView.setCellFactory(truckListView -> new TruckDetailListViewCell(truckListView));
 
-        ArrayList<Truck> trucks = controller.generateTruckSelection();
+        ArrayList<Truck> trucks = controller.generateTruckSelection(UIManager.getResourceBundle().getLocale());
 
         for(Truck truck : trucks) {
             //controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());

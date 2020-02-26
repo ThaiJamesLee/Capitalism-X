@@ -100,6 +100,10 @@ public class FinanceInvestmentsController implements Initializable {
         VBox.setVgrow(hBoxStocks, Priority.ALWAYS);
         VBox.setVgrow(hBoxVentureCapital, Priority.ALWAYS);
 
+        realEstateLabel.setText(UIManager.getLocalisedString("finance.investments.amount") + ": " + "0.0");
+        stocksLabel.setText(UIManager.getLocalisedString("finance.investments.amount") + ": " + "0.0");
+        ventureCapitalLabel.setText(UIManager.getLocalisedString("finance.investments.amount") + ": " + "0.0");
+
         buyRealEstateButton.setOnAction(e -> {
             try {
                 double amount = Double.parseDouble(realEstateTextField.getText());

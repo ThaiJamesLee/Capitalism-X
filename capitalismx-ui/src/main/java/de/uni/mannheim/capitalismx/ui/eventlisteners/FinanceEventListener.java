@@ -121,13 +121,13 @@ public class FinanceEventListener implements PropertyChangeListener {
 
         if (evt.getPropertyName().equals("realEstateInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            investmentsController.setRealEstateLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setRealEstateLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
         }else if (evt.getPropertyName().equals("stocksInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            investmentsController.setStocksLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setStocksLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
         }else if (evt.getPropertyName().equals("ventureCapitalInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            investmentsController.setVentureCapitalLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setVentureCapitalLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
         }
 
         if(evt.getPropertyName().equals("annualPrincipalBalance") || evt.getPropertyName().equals("remainingDuration")){

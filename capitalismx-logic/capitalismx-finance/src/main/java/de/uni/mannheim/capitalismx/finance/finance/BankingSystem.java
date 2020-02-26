@@ -4,9 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeMap;
+import java.util.*;
 
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
@@ -234,16 +232,17 @@ public class BankingSystem implements Serializable {
     /**
      * Generates a selection of three loan types according to the table on p.76.
      * @param loanAmount The amount of the loan.
+     * @param locale The Locale object of the desired language.
      * @return Returns an ArrayList of the three different loans that were generated.
      */
-    ArrayList<Loan> generateLoanSelection(double loanAmount){
+    ArrayList<Loan> generateLoanSelection(double loanAmount, Locale locale){
         ArrayList<Loan> loanSelection = new ArrayList<Loan>();
         //short-term
-        loanSelection.add(new Loan("Short-term Loan", RandomNumberGenerator.getRandomDouble(0.06, 0.18), RandomNumberGenerator.getRandomInt(1, 12), loanAmount));
+        loanSelection.add(new Loan(this.getLocalisedString("finance.loan.short", locale), RandomNumberGenerator.getRandomDouble(0.06, 0.18), RandomNumberGenerator.getRandomInt(1, 12), loanAmount));
         //medium-term
-        loanSelection.add(new Loan("Medium-term Loan", RandomNumberGenerator.getRandomDouble(0.03, 0.06), RandomNumberGenerator.getRandomInt(1, 5) * 12, loanAmount));
+        loanSelection.add(new Loan(this.getLocalisedString("finance.loan.medium", locale), RandomNumberGenerator.getRandomDouble(0.03, 0.06), RandomNumberGenerator.getRandomInt(1, 5) * 12, loanAmount));
         //long-term
-        loanSelection.add(new Loan("Long-term Loan", RandomNumberGenerator.getRandomDouble(0.01, 0.03), RandomNumberGenerator.getRandomInt(10, 15) * 12, loanAmount));
+        loanSelection.add(new Loan(this.getLocalisedString("finance.loan.long", locale), RandomNumberGenerator.getRandomDouble(0.01, 0.03), RandomNumberGenerator.getRandomInt(10, 15) * 12, loanAmount));
         return loanSelection;
     }
 
@@ -359,5 +358,10 @@ public class BankingSystem implements Serializable {
 
     public static void setInstance(BankingSystem instance) {
         BankingSystem.instance = instance;
+    }
+
+    public String getLocalisedString(String text, Locale locale) {
+        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", locale);
+        return langBundle.getString(text);
     }
 }

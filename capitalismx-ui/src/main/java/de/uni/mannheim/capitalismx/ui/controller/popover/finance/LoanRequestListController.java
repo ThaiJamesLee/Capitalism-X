@@ -40,7 +40,7 @@ public class LoanRequestListController implements UpdateableController {
     	loanVBox.getChildren().clear();
         GameController controller = GameController.getInstance();
 
-        ArrayList<BankingSystem.Loan> loans = controller.generateLoanSelection(loanAmount, GameState.getInstance().getGameDate());
+        ArrayList<BankingSystem.Loan> loans = controller.generateLoanSelection(loanAmount, GameState.getInstance().getGameDate(), UIManager.getResourceBundle().getLocale());
 
         if(loans != null){
             for(BankingSystem.Loan loan : loans) {

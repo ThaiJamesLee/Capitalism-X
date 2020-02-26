@@ -11,8 +11,8 @@
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="5.0" />
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
-        <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
-      <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+      <ColumnConstraints hgrow="SOMETIMES" percentWidth="15.0" />
     </columnConstraints>
     <rowConstraints>
         <RowConstraints vgrow="SOMETIMES" />

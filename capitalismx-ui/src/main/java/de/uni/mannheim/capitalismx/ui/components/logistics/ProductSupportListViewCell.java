@@ -89,10 +89,10 @@ public class ProductSupportListViewCell extends ListCell<ProductSupport.SupportT
             }
 
             GameController controller = GameController.getInstance();
-            nameLabel.setText(supportType.getName());
+            nameLabel.setText(supportType.getLocalizedName(UIManager.getResourceBundle().getLocale()));
             costsLabel.setText(
-                    "Monthly Costs: " + CapCoinFormatter.getCapCoins(supportType.getCostsSupportType()));
-            qualityLabel.setText("Quality: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+                    UIManager.getLocalisedString("logistics.support.pselection.costs") + ": " + CapCoinFormatter.getCapCoins(supportType.getCostsSupportType()));
+            qualityLabel.setText(UIManager.getLocalisedString("logistics.support.pselection.quality") + ": " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
                     .format(supportType.getSupportTypeQuality() / 100.0));
 
             if(addMouseListener){

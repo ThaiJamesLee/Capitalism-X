@@ -97,18 +97,18 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 			GameController controller = GameController.getInstance();
 			nameLabel.setText(externalPartner.getName()); // TODO localization
 			reliabilityIndexLabel.setText(
-					"Reliability: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
-							.format(externalPartner.getReliabilityIndexPartner()));
+					UIManager.getLocalisedString("logistics.pselection.reliability") + ": " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+							.format(externalPartner.getReliabilityIndexPartner() / 100.0));
 			ecoIndexLabel
-					.setText("Eco Index: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+					.setText(UIManager.getLocalisedString("logistics.pselection.ecoindex") + ": " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
 							.format(externalPartner.getEcoIndexPartner() / 100.0));
 			qualityIndexLabel
-					.setText("Quality: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+					.setText(UIManager.getLocalisedString("logistics.pselection.quality") + ": " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
 							.format(externalPartner.getQualityIndexPartner() / 100.0));
 			contractualCostsLabel.setText(
-					"Contractual Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCost()));
+					UIManager.getLocalisedString("logistics.pselection.contractual") + ": " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCost()));
 			variableCostsLabel.setText(
-					"Delivery Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getVariableDeliveryCost()));
+					UIManager.getLocalisedString("logistics.pselection.delivery") + ": " + CapCoinFormatter.getCapCoins(externalPartner.getVariableDeliveryCost()));
 
 			if(addMouseListener){
 				gridPane.setOnMouseClicked(e -> {

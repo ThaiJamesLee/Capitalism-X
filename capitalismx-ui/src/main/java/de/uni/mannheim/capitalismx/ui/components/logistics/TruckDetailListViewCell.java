@@ -44,7 +44,7 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
 	GridPane gridPane;
 
 	@FXML
-	private Label fixCostsLabel;
+	private Label deliveryCostsLabel;
 
 	private FXMLLoader loader;
 
@@ -89,12 +89,12 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
 
 			GameController controller = GameController.getInstance();
 			nameLabel.setText(truck.getName());
-			priceLabel.setText("Price: " + CapCoinFormatter.getCapCoins(truck.getPurchasePrice()));
-			ecoIndexLabel.setText("Eco Index: " + NumberFormat
+			priceLabel.setText(UIManager.getLocalisedString("trucks.price") + ": " + CapCoinFormatter.getCapCoins(truck.getPurchasePrice()));
+			ecoIndexLabel.setText(UIManager.getLocalisedString("trucks.ecoindex") + ": " + NumberFormat
 					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getEcoIndex() / 100.0));
-			qualityIndexLabel.setText("Quality Index: " + NumberFormat
+			qualityIndexLabel.setText(UIManager.getLocalisedString("trucks.qualityindex") + ": " + NumberFormat
 					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getQualityIndex() / 100.0));
-			fixCostsLabel.setText("Delivery Costs: " + CapCoinFormatter.getCapCoins(truck.getFixCostsDelivery()));
+			deliveryCostsLabel.setText(UIManager.getLocalisedString("trucks.delivery") + ": " + CapCoinFormatter.getCapCoins(truck.getFixCostsDelivery()));
 			// add click listener to cell
 			gridPane.setOnMouseClicked(e -> {
 				if (truck.getPurchasePrice() > GameController.getInstance().getCash()) {

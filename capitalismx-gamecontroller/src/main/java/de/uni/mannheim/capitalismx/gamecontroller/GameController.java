@@ -1,10 +1,7 @@
 package de.uni.mannheim.capitalismx.gamecontroller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
@@ -411,10 +408,11 @@ public class GameController {
 	 * system. The desired loan amount can not exceed 70 percent of the current net worth.
 	 * @param loanAmount The requested loan amount.
 	 * @param gameDate The current date in the game.
+	 * @param locale The Locale object of the desired language.
 	 * @return Returns a list of three loans with different characteristics.
 	 */
-	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount, LocalDate gameDate) {
-		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount, gameDate);
+	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount, LocalDate gameDate, Locale locale) {
+		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount, gameDate, locale);
 	}
 
 	/**
@@ -619,10 +617,11 @@ public class GameController {
 
 	/**
 	 * Generates a selection of trucks with different characteristics according to p.49.
+	 * @param locale The Locale object of the desired language.
 	 * @return Returns a list of 6 different trucks.
 	 */
-	public ArrayList<Truck> generateTruckSelection() {
-		return LogisticsDepartment.getInstance().generateTruckSelection();
+	public ArrayList<Truck> generateTruckSelection(Locale locale) {
+		return LogisticsDepartment.getInstance().generateTruckSelection(locale);
 	}
 
 	public ExternalPartner getExternalPartner() {

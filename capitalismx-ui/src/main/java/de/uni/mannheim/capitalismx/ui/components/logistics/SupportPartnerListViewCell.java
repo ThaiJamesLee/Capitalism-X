@@ -89,10 +89,10 @@ public class SupportPartnerListViewCell extends ListCell<ProductSupport.External
             GameController controller = GameController.getInstance();
             nameLabel.setText(externalPartner.getName()); // TODO localization
             qualityIndexLabel
-                    .setText("Quality: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+                    .setText(UIManager.getLocalisedString("logistics.pselection.quality") + ": " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
                             .format(externalPartner.getQualityIndex() / 100.0));
             contractualCostsLabel.setText(
-                    "Contractual Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCosts()));
+                    UIManager.getLocalisedString("logistics.pselection.contractual") + ": " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCosts()));
 
             if(addMouseListener){
                 gridPane.setOnMouseClicked(e -> {
