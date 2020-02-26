@@ -161,7 +161,7 @@ public class ProductStockPopoverController implements Initializable {
 			text = UIManager.getLocalisedString("warehouse.stock.product.discard.price");
 			text = text.replace("PRODUCT", product.getProductName());
 			text = text.replace("AMOUNT", amountInput.getText());
-			text = text.replace("PRICE", CapCoinFormatter.getCapCoins(amount * product.getSalesPrice()));
+			text = text.replace("PRICE", CapCoinFormatter.getCapCoins(amount * product.getWarehouseSalesPrice()));
 			tradeButton.setText(UIManager.getLocalisedString("component.sell"));
 			break;
 		default:
