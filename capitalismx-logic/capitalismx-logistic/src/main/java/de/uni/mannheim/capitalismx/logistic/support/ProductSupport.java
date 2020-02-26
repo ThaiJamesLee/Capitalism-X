@@ -5,6 +5,8 @@ import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportP
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * This class represents the product support.
@@ -44,12 +46,12 @@ public class ProductSupport implements Serializable {
      */
     public enum SupportType implements Serializable{
         //TODO change 0 supportTypeQuality
-        NO_PRODUCT_SUPPORT("-", -10, 0),
-        ONLINE_SELF_SERVICE("Online self-service", 0, 50),
-        ONLINE_SUPPORT("Online support", 20, 100),
-        TELEPHONE_SUPPORT("Telephone support", 30, 250),
-        STORE_SUPPORT("Store support", 40, 400),
-        ADDITIONAL_SERVICES("Additional services", 10, 50);
+        NO_PRODUCT_SUPPORT("no", -10, 0),
+        ONLINE_SELF_SERVICE("online.self", 0, 50),
+        ONLINE_SUPPORT("online.support", 20, 100),
+        TELEPHONE_SUPPORT("telephone.support", 30, 250),
+        STORE_SUPPORT("store.support", 40, 400),
+        ADDITIONAL_SERVICES("additional.services", 10, 50);
 
         private int supportTypeQuality;
         private int costsSupportType;
@@ -69,8 +71,17 @@ public class ProductSupport implements Serializable {
             return this.costsSupportType;
         }
 
-        public String getName() {
-            return name;
+        /**
+         * Determines the localized name and returns it.
+         * @return Returns the localized name.
+         */
+        public String getLocalizedName(Locale locale) {
+            return this.getLocalisedString("logistics.support." + this.name, locale);
+        }
+
+        public String getLocalisedString(String text, Locale locale) {
+            ResourceBundle langBundle = ResourceBundle.getBundle("logistics-module", locale);
+            return langBundle.getString(text);
         }
     }
 

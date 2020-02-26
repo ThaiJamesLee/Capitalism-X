@@ -774,9 +774,10 @@ public class FinanceDepartment extends DepartmentImpl {
      * system. The desired loan amount can not exceed 70 percent of the current net worth.
      * @param desiredLoanAmount The requested loan amount.
      * @param gameDate The current date in the game.
+     * @param locale The Locale object of the desired language.
      * @return Returns a list of three loans with different characteristics.
      */
-    public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount, LocalDate gameDate){
+    public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount, LocalDate gameDate, Locale locale){
         if(this.cash.getValue() == 0.0){
             //TODO popup
             return null;
@@ -787,7 +788,7 @@ public class FinanceDepartment extends DepartmentImpl {
                 return null;
             }
         }
-        return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
+        return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount, locale);
     }
 
     /**
@@ -1349,9 +1350,8 @@ public class FinanceDepartment extends DepartmentImpl {
         return new FinanceDepartment();
     }
 
-    public String getLocalisedString(String text) {
-        //TODO other languages
-        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", Locale.ENGLISH);
+    public String getLocalisedString(String text, Locale locale) {
+        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", locale);
         return langBundle.getString(text);
     }
 }

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -99,6 +100,10 @@ public class FinanceInvestmentsController implements Initializable {
         VBox.setVgrow(hBoxRealEstate, Priority.ALWAYS);
         VBox.setVgrow(hBoxStocks, Priority.ALWAYS);
         VBox.setVgrow(hBoxVentureCapital, Priority.ALWAYS);
+
+        realEstateLabel.setText(UIManager.getLocalisedString("finance.investments.amount") + ": " + CapCoinFormatter.getCapCoins(0.0));
+        stocksLabel.setText(UIManager.getLocalisedString("finance.investments.amount") + ": " + CapCoinFormatter.getCapCoins(0.0));
+        ventureCapitalLabel.setText(UIManager.getLocalisedString("finance.investments.amount") + ": " + CapCoinFormatter.getCapCoins(0.0));
 
         buyRealEstateButton.setOnAction(e -> {
             try {

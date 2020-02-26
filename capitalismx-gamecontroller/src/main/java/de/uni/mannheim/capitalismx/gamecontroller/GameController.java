@@ -1,10 +1,7 @@
 package de.uni.mannheim.capitalismx.gamecontroller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
@@ -171,7 +168,7 @@ public class GameController {
 	 * @param gameDate The current date in the game.
 	 */
 	private void updateExternalEvents(LocalDate gameDate) {
-		ExternalEvents.getInstance().checkEvents(gameDate);
+		GameState.getInstance().getExternalEvents().checkEvents(gameDate);
 	}
 
 	private void updateCustomer() {
@@ -185,7 +182,7 @@ public class GameController {
 		customerSatisfaction.setProducts(productionDepartment.getLaunchedProducts());
 
 		// get totalSupportQuality score from Logistics
-		ProductSupport productSupport = ProductSupport.getInstance();
+		ProductSupport productSupport = GameState.getInstance().getProductSupport();
 		customerSatisfaction.setTotalSupportQuality(productSupport.getTotalSupportQuality());
 
 		// get companyImage score from Marketing
@@ -204,7 +201,7 @@ public class GameController {
 		state.setEmployerBranding(employerBranding);
 
 		// get logisticsIndex from Logistics
-		LogisticsDepartment logisticsDepartment = LogisticsDepartment.getInstance();
+		LogisticsDepartment logisticsDepartment = GameState.getInstance().getLogisticsDepartment();
 		customerSatisfaction.setLogisticIndex(logisticsDepartment.getLogisticsIndex());
 
 		customerSatisfaction.calculateAll(gameDate);
@@ -222,11 +219,11 @@ public class GameController {
 	 * Updates the relevant values in the finance department.
 	 */
 	private void updateFinance() {
-		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
-		FinanceDepartment.getInstance().updateMonthlyData(GameState.getInstance().getGameDate());
-		FinanceDepartment.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
-		FinanceDepartment.getInstance().updateNetWorthDifference(GameState.getInstance().getGameDate());
-		FinanceDepartment.getInstance().updateCashDifference(GameState.getInstance().getGameDate());
+		GameState.getInstance().getFinanceDepartment().calculateNetWorth(GameState.getInstance().getGameDate());
+		GameState.getInstance().getFinanceDepartment().updateMonthlyData(GameState.getInstance().getGameDate());
+		GameState.getInstance().getFinanceDepartment().updateQuarterlyData(GameState.getInstance().getGameDate());
+		GameState.getInstance().getFinanceDepartment().updateNetWorthDifference(GameState.getInstance().getGameDate());
+		GameState.getInstance().getFinanceDepartment().updateCashDifference(GameState.getInstance().getGameDate());
 	}
 
 	private void updateHR() {
@@ -239,11 +236,11 @@ public class GameController {
 	 */
 	private void updateLogistics() {
 		InternalFleet.getInstance().calculateAll();
-		if (LogisticsDepartment.getInstance().getExternalPartner() != null) {
-			LogisticsDepartment.getInstance().getExternalPartner().calculateExternalLogisticsIndex();
+		if (GameState.getInstance().getLogisticsDepartment().getExternalPartner() != null) {
+			GameState.getInstance().getLogisticsDepartment().getExternalPartner().calculateExternalLogisticsIndex();
 		}
-		LogisticsDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
-		ProductSupport.getInstance().calculateAll();
+		GameState.getInstance().getLogisticsDepartment().calculateAll(GameState.getInstance().getGameDate());
+		GameState.getInstance().getProductSupport().calculateAll();
 	}
 
 	private void updateMarketing() {
@@ -336,7 +333,7 @@ public class GameController {
 	}
 
 	private void setInitialFinanceValues() {
-		FinanceDepartment.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+		GameState.getInstance().getFinanceDepartment().calculateNetWorth(GameState.getInstance().getGameDate());
 	}
 
 	private void setInitialHRValues() {
@@ -392,18 +389,18 @@ public class GameController {
 	 */
 
 	public double getCash() {
-		double cash = FinanceDepartment.getInstance().getCash();
+		double cash = GameState.getInstance().getFinanceDepartment().getCash();
 		return cash;
 	}
 
 	public double getNetWorth() {
 		// double netWorth = Finance.getInstance().calculateNetWorth(gameDate);
-		double netWorth = FinanceDepartment.getInstance().getNetWorth();
+		double netWorth = GameState.getInstance().getFinanceDepartment().getNetWorth();
 		return netWorth;
 	}
 
     public List<Investment> getInvestments() {
-        return FinanceDepartment.getInstance().getInvestments();
+        return GameState.getInstance().getFinanceDepartment().getInvestments();
     }
 
 	/**
@@ -411,10 +408,11 @@ public class GameController {
 	 * system. The desired loan amount can not exceed 70 percent of the current net worth.
 	 * @param loanAmount The requested loan amount.
 	 * @param gameDate The current date in the game.
+	 * @param locale The Locale object of the desired language.
 	 * @return Returns a list of three loans with different characteristics.
 	 */
-	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount, LocalDate gameDate) {
-		return FinanceDepartment.getInstance().generateLoanSelection(loanAmount, gameDate);
+	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount, LocalDate gameDate, Locale locale) {
+		return GameState.getInstance().getFinanceDepartment().generateLoanSelection(loanAmount, gameDate, locale);
 	}
 
 	/**
@@ -424,11 +422,11 @@ public class GameController {
 	 * @param loanDate The current date in the game.
 	 */
 	public void addLoan(BankingSystem.Loan loan, LocalDate loanDate) {
-		FinanceDepartment.getInstance().addLoan(loan, loanDate);
+		GameState.getInstance().getFinanceDepartment().addLoan(loan, loanDate);
 	}
 
 	public ArrayList<BankingSystem.Loan> getLoans() {
-		return FinanceDepartment.getInstance().getLoans();
+		return GameState.getInstance().getFinanceDepartment().getLoans();
 	}
 
 	/**
@@ -439,7 +437,7 @@ public class GameController {
 	 * @return Returns the resell price of the asset.
 	 */
 	public double calculateResellPrice(double purchasePrice, double usefulLife, double timeUsed) {
-		return FinanceDepartment.getInstance().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
+		return GameState.getInstance().getFinanceDepartment().calculateResellPrice(purchasePrice, usefulLife, timeUsed);
 	}
 
 	/**
@@ -450,7 +448,7 @@ public class GameController {
 	 * @throws NotEnoughTruckCapacityException if the internal fleet does not have enough capacity.
 	 */
 	public void buyTruck(Truck truck, LocalDate gameDate) throws NotEnoughTruckCapacityException {
-		FinanceDepartment.getInstance().buyTruck(truck, gameDate);
+		GameState.getInstance().getFinanceDepartment().buyTruck(truck, gameDate);
 	}
 
 	/**
@@ -460,15 +458,15 @@ public class GameController {
 	 * @param gameDate The current date in the game.
 	 */
 	public void sellTruck(Truck truck, LocalDate gameDate) {
-		FinanceDepartment.getInstance().sellTruck(truck, gameDate);
+		GameState.getInstance().getFinanceDepartment().sellTruck(truck, gameDate);
 	}
 
 	public double getAssets() {
-		return FinanceDepartment.getInstance().getAssets();
+		return GameState.getInstance().getFinanceDepartment().getAssets();
 	}
 
 	public double getLiabilities() {
-		return FinanceDepartment.getInstance().getLiabilities();
+		return GameState.getInstance().getFinanceDepartment().getLiabilities();
 	}
 
 	/**
@@ -478,7 +476,7 @@ public class GameController {
 	 * @return Returns the net worth.
 	 */
 	public double calculateNetWorth(LocalDate gameDate) {
-		return FinanceDepartment.getInstance().calculateNetWorth(gameDate);
+		return GameState.getInstance().getFinanceDepartment().calculateNetWorth(gameDate);
 	}
 
 	/**
@@ -488,7 +486,7 @@ public class GameController {
 	 * @param amount The amount by which the cash should be increased.
 	 */
 	public void increaseCash(LocalDate gameDate, double amount) {
-		FinanceDepartment.getInstance().increaseCash(gameDate, amount);
+		GameState.getInstance().getFinanceDepartment().increaseCash(gameDate, amount);
 	}
 
 	/**
@@ -499,7 +497,7 @@ public class GameController {
 	 * @param amount The amount by which the cash should be decreased.
 	 */
 	public void decreaseCash(LocalDate gameDate, double amount) {
-		FinanceDepartment.getInstance().decreaseCash(gameDate, amount);
+		GameState.getInstance().getFinanceDepartment().decreaseCash(gameDate, amount);
 	}
 
 	/**
@@ -509,7 +507,7 @@ public class GameController {
 	 * @param amount The amount by which the net worth should be increased.
 	 */
 	public void increaseNewWorth(LocalDate gameDate, double amount) {
-		FinanceDepartment.getInstance().increaseNetWorth(gameDate, amount);
+		GameState.getInstance().getFinanceDepartment().increaseNetWorth(gameDate, amount);
 	}
 
 	/**
@@ -519,7 +517,7 @@ public class GameController {
 	 * @param amount The amount by which the net worth should be decreased.
 	 */
 	public void decreaseNetWorth(LocalDate gameDate, double amount) {
-		FinanceDepartment.getInstance().decreaseNetWorth(gameDate, amount);
+		GameState.getInstance().getFinanceDepartment().decreaseNetWorth(gameDate, amount);
 	}
 
 	/**
@@ -529,7 +527,7 @@ public class GameController {
 	 * @param amount The amount by which the assets should be increased.
 	 */
 	public void increaseAssets(LocalDate gameDate, double amount) {
-		FinanceDepartment.getInstance().increaseAssets(gameDate, amount);
+		GameState.getInstance().getFinanceDepartment().increaseAssets(gameDate, amount);
 	}
 
 	/**
@@ -539,7 +537,7 @@ public class GameController {
 	 * @param amount The amount by which the assets should be decreased.
 	 */
 	public void decreaseAssets(LocalDate gameDate, double amount) {
-		FinanceDepartment.getInstance().decreaseAssets(gameDate, amount);
+		GameState.getInstance().getFinanceDepartment().decreaseAssets(gameDate, amount);
 	}
 
 	/**
@@ -549,19 +547,19 @@ public class GameController {
 	 * @param amount The amount by which the liabilities should be increased.
 	 */
 	public void increaseLiabilities(LocalDate gameDate, double amount) {
-		FinanceDepartment.getInstance().increaseLiabilities(gameDate, amount);
+		GameState.getInstance().getFinanceDepartment().increaseLiabilities(gameDate, amount);
 	}
 
 	public double getRealEstateInvestmentAmount() {
-		return FinanceDepartment.getInstance().getRealEstateInvestmentAmount();
+		return GameState.getInstance().getFinanceDepartment().getRealEstateInvestmentAmount();
 	}
 
 	public double getStocksInvestmentAmount() {
-		return FinanceDepartment.getInstance().getStocksInvestmentAmount();
+		return GameState.getInstance().getFinanceDepartment().getStocksInvestmentAmount();
 	}
 
 	public double getVentureCapitalInvestmentAmount() {
-		return FinanceDepartment.getInstance().getVentureCapitalInvestmentAmount();
+		return GameState.getInstance().getFinanceDepartment().getVentureCapitalInvestmentAmount();
 	}
 
 	/**
@@ -573,7 +571,7 @@ public class GameController {
 	 * @return Returns true if the investment was processed successfully. Returns false otherwise.
 	 */
 	public boolean increaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
-		return FinanceDepartment.getInstance().increaseInvestmentAmount(gameDate, amount, investmentType);
+		return GameState.getInstance().getFinanceDepartment().increaseInvestmentAmount(gameDate, amount, investmentType);
 	}
 
 	/**
@@ -586,23 +584,23 @@ public class GameController {
 	 * @return Returns true if the disinvestment was processed successfully. Returns false otherwise.
 	 */
     public boolean decreaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
-        return FinanceDepartment.getInstance().decreaseInvestmentAmount(gameDate, amount, investmentType);
+        return GameState.getInstance().getFinanceDepartment().decreaseInvestmentAmount(gameDate, amount, investmentType);
     }
 
 	public TreeMap<String, String[]> getMonthlyData() {
-		return FinanceDepartment.getInstance().getMonthlyData();
+		return GameState.getInstance().getFinanceDepartment().getMonthlyData();
 	}
 
 	public TreeMap<String, String[]> getQuarterlyData() {
-		return FinanceDepartment.getInstance().getQuarterlyData();
+		return GameState.getInstance().getFinanceDepartment().getQuarterlyData();
 	}
 
 	public Double getNetWorthDifference(){
-		return FinanceDepartment.getInstance().getNetWorthDifference();
+		return GameState.getInstance().getFinanceDepartment().getNetWorthDifference();
 	}
 
 	public Double getCashDifference(){
-		return FinanceDepartment.getInstance().getCashDifference();
+		return GameState.getInstance().getFinanceDepartment().getCashDifference();
 	}
 
 	/*
@@ -614,27 +612,28 @@ public class GameController {
 	 * @return Returns a list of 9 different external logistics partners.
 	 */
 	public ArrayList<ExternalPartner> generateExternalPartnerSelection() {
-		return LogisticsDepartment.getInstance().generateExternalPartnerSelection();
+		return GameState.getInstance().getLogisticsDepartment().generateExternalPartnerSelection();
 	}
 
 	/**
 	 * Generates a selection of trucks with different characteristics according to p.49.
+	 * @param locale The Locale object of the desired language.
 	 * @return Returns a list of 6 different trucks.
 	 */
-	public ArrayList<Truck> generateTruckSelection() {
-		return LogisticsDepartment.getInstance().generateTruckSelection();
+	public ArrayList<Truck> generateTruckSelection(Locale locale) {
+		return GameState.getInstance().getLogisticsDepartment().generateTruckSelection(locale);
 	}
 
 	public ExternalPartner getExternalPartner() {
-		return LogisticsDepartment.getInstance().getExternalPartner();
+		return GameState.getInstance().getLogisticsDepartment().getExternalPartner();
 	}
 
 	public ArrayList<ExternalPartner> getExternalPartnerSelection() {
-		return LogisticsDepartment.getInstance().getExternalPartnerSelection();
+		return GameState.getInstance().getLogisticsDepartment().getExternalPartnerSelection();
 	}
 
 	public InternalFleet getInternalFleet() {
-		return LogisticsDepartment.getInstance().getInternalFleet();
+		return GameState.getInstance().getLogisticsDepartment().getInternalFleet();
 	}
 
 	/**
@@ -642,14 +641,14 @@ public class GameController {
 	 * @param externalPartner The external logistics partner to be added.
 	 */
 	public void addExternalPartner(ExternalPartner externalPartner) {
-		LogisticsDepartment.getInstance().addExternalPartner(externalPartner);
+		GameState.getInstance().getLogisticsDepartment().addExternalPartner(externalPartner);
 	}
 
 	/**
 	 * Removes the currently hired external logistics partner.
 	 */
 	public void removeExternalPartner() {
-		LogisticsDepartment.getInstance().removeExternalPartner();
+		GameState.getInstance().getLogisticsDepartment().removeExternalPartner();
 	}
 
 	/**
@@ -657,7 +656,7 @@ public class GameController {
 	 * @return Returns a list of the available support types.
 	 */
 	public ArrayList<ProductSupport.SupportType> generateSupportTypeSelection() {
-		return ProductSupport.getInstance().generateSupportTypeSelection();
+		return GameState.getInstance().getProductSupport().generateSupportTypeSelection();
 	}
 
 	/**
@@ -667,7 +666,7 @@ public class GameController {
 	 * @throws NoExternalSupportPartnerException if no external support partner is hired.
 	 */
 	public void addSupport(ProductSupport.SupportType supportType) throws NoExternalSupportPartnerException{
-		ProductSupport.getInstance().addSupport(supportType);
+		GameState.getInstance().getProductSupport().addSupport(supportType);
 	}
 
 	/**
@@ -675,7 +674,7 @@ public class GameController {
 	 * @param supportType The support type to be removed.
 	 */
 	public void removeSupport(ProductSupport.SupportType supportType) {
-		ProductSupport.getInstance().removeSupport(supportType);
+		GameState.getInstance().getProductSupport().removeSupport(supportType);
 	}
 
 	/**
@@ -683,7 +682,7 @@ public class GameController {
 	 * @return Returns a list of the available external support partners.
 	 */
 	public ArrayList<ProductSupport.ExternalSupportPartner> generateExternalSupportPartnerSelection() {
-		return ProductSupport.getInstance().generateExternalSupportPartnerSelection();
+		return GameState.getInstance().getProductSupport().generateExternalSupportPartnerSelection();
 	}
 
 	/**
@@ -691,34 +690,34 @@ public class GameController {
 	 * @param externalSupportPartner The external support partner to be hired.
 	 */
 	public void addExternalSupportPartner(ProductSupport.ExternalSupportPartner externalSupportPartner) {
-		ProductSupport.getInstance().addExternalSupportPartner(externalSupportPartner);
+		GameState.getInstance().getProductSupport().addExternalSupportPartner(externalSupportPartner);
 	}
 
 	/**
 	 * Fires the currently hired external support partner.
 	 */
 	public void removeExternalSupportPartner() {
-		ProductSupport.getInstance().removeExternalSupportPartner();
+		GameState.getInstance().getProductSupport().removeExternalSupportPartner();
 	}
 
 	public ArrayList<ProductSupport.SupportType> getSupportTypes() {
-		return ProductSupport.getInstance().getSupportTypes();
+		return GameState.getInstance().getProductSupport().getSupportTypes();
 	}
 
 	public ProductSupport.ExternalSupportPartner getExternalSupportPartner() {
-		return ProductSupport.getInstance().getExternalSupportPartner();
+		return GameState.getInstance().getProductSupport().getExternalSupportPartner();
 	}
 
 	public int getTotalSupportTypeQuality() {
-		return ProductSupport.getInstance().getTotalSupportTypeQuality();
+		return GameState.getInstance().getProductSupport().getTotalSupportTypeQuality();
 	}
 
 	public double getTotalSupportQuality() {
-		return ProductSupport.getInstance().getTotalSupportQuality();
+		return GameState.getInstance().getProductSupport().getTotalSupportQuality();
 	}
 
 	public double getTotalSupportCosts() {
-		return ProductSupport.getInstance().getTotalSupportCosts();
+		return GameState.getInstance().getProductSupport().getTotalSupportCosts();
 	}
 
 	/*
@@ -888,7 +887,7 @@ public class GameController {
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
 		try {
 			double purchasePrice = ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
-			FinanceDepartment.getInstance().buyMachinery(machinery, gameDate);
+			GameState.getInstance().getFinanceDepartment().buyMachinery(machinery, gameDate);
 			return purchasePrice;
 		} catch (NoMachinerySlotsAvailableException e) {
 			throw new NoMachinerySlotsAvailableException("No more Capacity available to buy new Machine.");
@@ -897,7 +896,7 @@ public class GameController {
 
 	public double sellMachinery(Machinery machinery, LocalDate gameDate) {
 		double resellPrice = ProductionDepartment.getInstance().sellMachinery(machinery);
-		FinanceDepartment.getInstance().sellMachinery(machinery, gameDate);
+		GameState.getInstance().getFinanceDepartment().sellMachinery(machinery, gameDate);
 		return resellPrice;
 	}
 
@@ -965,7 +964,7 @@ public class GameController {
 			ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
 			boolean productCategoryUnlocked = researchAndDevelopmentDepartment.isCategoryUnlocked(product.getProductCategory());
 			double launchCosts = ProductionDepartment.getInstance().launchProduct(product, gameDate, productCategoryUnlocked);
-			FinanceDepartment.getInstance().decreaseCash(gameDate, launchCosts);
+			GameState.getInstance().getFinanceDepartment().decreaseCash(gameDate, launchCosts);
 			return launchCosts;
 		} catch (Exception e) {
 			throw e;
@@ -1340,7 +1339,7 @@ public class GameController {
 		//gather metrics
 		Double[] values = new Double[6];		
 		values[0] = getTotalSupportQuality();
-		values[1] = LogisticsDepartment.getInstance().getLogisticsIndex();
+		values[1] = GameState.getInstance().getLogisticsDepartment().getLogisticsIndex();
 		values[2] = computeCompanyImage();
 		values[3] =	new Double (getProductionTechnology().getRange());	//Quatsch - besser: ProductQualtity?	
 		values[4] =	getManufactureEfficiency();	
