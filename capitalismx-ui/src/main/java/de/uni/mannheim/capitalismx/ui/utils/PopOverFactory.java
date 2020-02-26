@@ -3,9 +3,9 @@ package de.uni.mannheim.capitalismx.ui.utils;
 import java.io.IOException;
 
 import org.controlsfx.control.PopOver;
+import org.controlsfx.control.PopOver.ArrowLocation;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -21,7 +21,7 @@ import javafx.util.Duration;
 public class PopOverFactory {
 
 	private PopOver popover = null;
-
+	
 	private Initializable popoverController;
 
 	/**
@@ -37,7 +37,7 @@ public class PopOverFactory {
 	public Initializable getPopoverController() {
 		return popoverController;
 	}
-
+	
 	/**
 	 * Loads the content of the {@link PopOver} from the given fxml-File and creates
 	 * a standard overlay with it.

@@ -2,19 +2,18 @@ package de.uni.mannheim.capitalismx.ui.components.warehouse;
 
 import java.io.IOException;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
-import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
+import de.uni.mannheim.capitalismx.ui.controller.component.ProductStockPopoverController.TradeMode;
+import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -31,9 +30,6 @@ public class ProductStockCell {
 	private Product product;
 
 	@FXML
-	private TextField amountField;
-
-	@FXML
 	private Label productName, productCount;
 
 	@FXML
@@ -41,7 +37,7 @@ public class ProductStockCell {
 
 	@FXML
 	private AnchorPane root;
-
+	
 	/**
 	 * Constructor for a {@link ProductStockCell}.
 	 * 
@@ -49,6 +45,7 @@ public class ProductStockCell {
 	 */
 	public ProductStockCell(Product product) {
 		warehouse = GameState.getInstance().getWarehousingDepartment();
+		StockManagementController stockController = (StockManagementController)UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController();
 		this.product = product;
 
 		// load fxml
@@ -62,8 +59,6 @@ public class ProductStockCell {
 			e.printStackTrace();
 		}
 
-		amountField.setPromptText("Enter amount..."); // TODO
-		TextFieldHelper.makeTextFieldNumeric(amountField);
 		productName.setText(product.getProductName());
 		productCount.setText(warehouse.getAmountStored(this.product) + "");
 		TooltipFactory factory = new TooltipFactory();
@@ -71,15 +66,10 @@ public class ProductStockCell {
 		discardProducts.setTooltip(
 				factory.createTooltip("Sell the entered amount of products for less than their production value.")); // TODO
 		buyAllComponents.setOnAction(e -> {
-			buyAllComponents();
-			// TODO give player info about price beforehand
-			amountField.setText(0 + "");
+			stockController.showProductPopover(product, TradeMode.BUY_ALL_COMPONENTS);
 		});
 		discardProducts.setOnAction(e -> {
-			warehouse.sellWarehouseProducts(product, Integer.parseInt(amountField.getText())); // TODO feedback? do I
-																								// have to check the
-																								// amount stored?
-			amountField.setText(0 + "");
+			stockController.showProductPopover(product, TradeMode.SELL_PRODUCT);
 		});
 
 	}
@@ -95,16 +85,5 @@ public class ProductStockCell {
 		productCount.setText(warehouse.getAmountStored(product) + "");
 	}
 
-	/**
-	 * Buy the given amount of each {@link Component} necessary for this
-	 * {@link Product}.
-	 */
-	private void buyAllComponents() {
-		GameController contr = GameController.getInstance();
-		int amount = Integer.valueOf(amountField.getText());
-		for (Component component : product.getComponents()) {
-			contr.buyComponents(component, amount);
-		}
-	}
 
 }
