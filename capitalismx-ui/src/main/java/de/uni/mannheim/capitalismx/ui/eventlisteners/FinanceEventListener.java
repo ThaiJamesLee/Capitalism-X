@@ -15,6 +15,7 @@ import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSy
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceInvestmentsController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableController;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
@@ -97,18 +98,18 @@ public class FinanceEventListener implements PropertyChangeListener {
 
         if (evt.getPropertyName().equals("netWorth")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setNetWorthLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            financeOverviewController.setNetWorthLabel(CapCoinFormatter.getCapCoins(newVal.getValue()));
             UIManager.getInstance().getGameHudController().updateNetworthLabel(newVal.getValue());
         }else if (evt.getPropertyName().equals("cash")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setCashLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            financeOverviewController.setCashLabel(CapCoinFormatter.getCapCoins(newVal.getValue()));
             UIManager.getInstance().getGameHudController().updateCashLabel(newVal.getValue());
         }else if (evt.getPropertyName().equals("assets")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setAssetsLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            financeOverviewController.setAssetsLabel(CapCoinFormatter.getCapCoins(newVal.getValue()));
         }else if (evt.getPropertyName().equals("liabilities")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setLiabilitiesLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            financeOverviewController.setLiabilitiesLabel(CapCoinFormatter.getCapCoins(newVal.getValue()));
         }else if (evt.getPropertyName().equals("netWorthDifference")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
             UIManager.getInstance().getGameHudController().updateNetworthChangeLabel(newVal.getValue());
@@ -121,13 +122,13 @@ public class FinanceEventListener implements PropertyChangeListener {
 
         if (evt.getPropertyName().equals("realEstateInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            investmentsController.setRealEstateLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setRealEstateLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + CapCoinFormatter.getCapCoins(newVal.getValue()));
         }else if (evt.getPropertyName().equals("stocksInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            investmentsController.setStocksLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setStocksLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + CapCoinFormatter.getCapCoins(newVal.getValue()));
         }else if (evt.getPropertyName().equals("ventureCapitalInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            investmentsController.setVentureCapitalLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setVentureCapitalLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + CapCoinFormatter.getCapCoins(newVal.getValue()));
         }
 
         if(evt.getPropertyName().equals("annualPrincipalBalance") || evt.getPropertyName().equals("remainingDuration")){
