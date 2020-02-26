@@ -38,7 +38,6 @@ public class TruckDetailListController implements UpdateableController {
         ArrayList<Truck> trucks = controller.generateTruckSelection(UIManager.getResourceBundle().getLocale());
 
         for(Truck truck : trucks) {
-            //controller.addTruckToFleet(truck, GameState.getInstance().getGameDate());
             truckDetailListView.getItems().add(truck);
         }
 

@@ -130,21 +130,4 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 	public void setAddMouseListener(boolean addMouseListener){
 		this.addMouseListener = addMouseListener;
 	}
-
-	/**
-	 * Updates the list of available logistics partners. In particular, the currently employed partner is removed from
-	 * the list of available partners. Comparison is based on the name, as the ExternalPartner object might change.
-	 */
-	/*private void updateAvailablePartners(){
-		Platform.runLater(new Runnable() {
-			public void run() {
-				logisticsPartnerDetailListView.getItems().clear();
-				for(ExternalPartner externalPartner : GameController.getInstance().getExternalPartnerSelection()){
-					if((GameController.getInstance().getExternalPartner() == null) || (!GameController.getInstance().getExternalPartner().getName().equals(externalPartner.getName()))){
-						logisticsPartnerDetailListView.getItems().add(externalPartner);
-					}
-				}
-			}
-		});
-	}*/
 }

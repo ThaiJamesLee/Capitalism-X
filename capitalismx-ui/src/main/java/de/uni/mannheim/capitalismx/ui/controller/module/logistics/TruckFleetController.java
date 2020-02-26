@@ -52,28 +52,6 @@ public class TruckFleetController implements Initializable {
 			truckFleetListView.getItems().add(truck);
 		}
 
-		// ObservableList<Truck> truckFleetListObservable =
-		// FXCollections.observableArrayList();
-		//ArrayList<Truck> trucks = controller.generateTruckSelection();
-		/*
-		 * for(Truck truck : trucks){ truckFleetListObservable.add(truck); }
-		 */
-
-		/*
-		 * MenuItem[] truckMenuItems = new MenuItem[trucks.size()];
-		 * 
-		 * int i = 0; for(Truck truck : trucks) { truckMenuItems[i] = new
-		 * MenuItem(truck.getName() + " Purchase Price: " + truck.getPurchasePrice());
-		 * truckMenuItems[i].setOnAction(e -> { controller.addTruckToFleet(truck,
-		 * GameState.getInstance().getGameDate());
-		 * truckFleetListView.getItems().add(truck); //selectMenuItem((MenuItem)
-		 * e.getSource()); }); //data.add("Partner " + i + " Contractual Costs: " +
-		 * externalPartner.getContractualCost()); i++; }
-		 * 
-		 * truckSelectionDropdown.getItems().addAll(truckMenuItems);
-		 */
-
-		// truckFleetListView.setItems(truckFleetListObservable);
 		truckFleetListView.setCellFactory(truckListView -> new TruckListViewCell(truckFleetListView));
 		truckFleetListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.truck")));
 
