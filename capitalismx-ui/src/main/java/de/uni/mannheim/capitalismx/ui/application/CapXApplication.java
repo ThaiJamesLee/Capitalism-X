@@ -75,8 +75,8 @@ public class CapXApplication extends Application {
 	 */
 	private void closeStage(WindowEvent e) {
 		// TODO localization
-		GameAlert closeConfirmation = new GameAlert(AlertType.CONFIRMATION, "Quit the game",
-				"Do you really want to quit?");
+		GameAlert closeConfirmation = new GameAlert(AlertType.CONFIRMATION, UIManager.getLocalisedString("dialog.quit.title"),
+				UIManager.getLocalisedString("dialog.quit.description"));
 		Optional<ButtonType> response = closeConfirmation.showAndWait();
 
 		// closes the application if the user confirms

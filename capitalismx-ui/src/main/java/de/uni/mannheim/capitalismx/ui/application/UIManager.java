@@ -93,6 +93,7 @@ public class UIManager {
 		instance = this;
 		this.window = stage;
 		this.language = Locale.ENGLISH;
+		Locale.setDefault(language);
 		this.gameResolution = calculatedResolution;
 
 		// static loading of the scenes
@@ -225,8 +226,8 @@ public class UIManager {
 	private void initDepartments() {
 		// check WAREHOUSE
 		if (GameState.getInstance().getWarehousingDepartment().getWarehouses().size() > 0) {
-			((WarehouseListController) getModule(GameModuleType.WAREHOUSE_LIST)
-					.getController()).activateWarehouseModules();
+			((WarehouseListController) getModule(GameModuleType.WAREHOUSE_LIST).getController())
+					.activateWarehouseModules();
 		}
 	}
 
@@ -481,6 +482,7 @@ public class UIManager {
 			this.language = Locale.ENGLISH;
 		}
 
+		Locale.setDefault(language);
 		resourceBundle = ResourceBundle.getBundle(newProperties, this.language);
 		loadGameScenes();
 		switchToScene(GameSceneType.MENU_MAIN);
@@ -505,14 +507,14 @@ public class UIManager {
 			gamePageController.switchView(GameViewType.OVERVIEW);
 			switchToScene(GameSceneType.GAME_PAGE);
 		});
-		Task<Void> task = new Task<Void>() {
+		Task<Void> startUpTask = new Task<Void>() {
 			@Override
 			public Void call() {
 				GameController.getInstance().start();
 				return null;
 			}
 		};
-		new Thread(task).start();
+		new Thread(startUpTask).start();
 	}
 
 	/**
