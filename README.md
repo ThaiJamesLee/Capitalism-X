@@ -26,9 +26,13 @@ Here you can download the latest releases.
 ## Pre-Releases
 These are milestones that are not in a fully functional state. 
 
-### Version 0.0.3
+### Release 0.0.5
+[Version 0.0.5](https://github.com/ThaiJamesLee/Capitalism-X/releases/tag/v0.0.5)
+### Release 0.0.4
+[Version 0.0.4](https://github.com/ThaiJamesLee/Capitalism-X/releases/tag/v0.0.4)
+### Release 0.0.3
 [Version 0.0.3](https://github.com/ThaiJamesLee/Capitalism-X/releases/tag/v0.0.3)
-### Version 0.0.2
+### Release 0.0.2
 [Version 0.0.2](https://github.com/ThaiJamesLee/Capitalism-X/releases/tag/v0.0.2)
-### Version 0.0.1
+### Release 0.0.1
 [Version 0.0.1](https://github.com/ThaiJamesLee/Capitalism-X/releases/tag/v0.0.1)
