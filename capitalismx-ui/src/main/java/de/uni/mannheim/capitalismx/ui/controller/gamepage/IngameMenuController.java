@@ -44,6 +44,7 @@ public class IngameMenuController implements Initializable {
 			UIManager.getInstance().loadGame();
 		});
 
+		ingameSettings.setDisable(true);
 		ingameSettings.setOnAction(e -> {
 			((GamePageController) (UIManager.getInstance().getSceneGame().getController())).toggleIngameMenu();
 		});
