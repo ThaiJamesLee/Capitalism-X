@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 import java.time.LocalDate;
 import java.util.*;
 
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportPartnerException;
@@ -174,24 +175,24 @@ public class GameController {
 	private void updateCustomer() {
 		GameState state =  GameState.getInstance();
 		LocalDate gameDate = state.getGameDate();
-		CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.getInstance();
-		CustomerDemand customerDemand = CustomerDemand.getInstance();
+		CustomerSatisfaction customerSatisfaction = state.getCustomerSatisfaction();
+		CustomerDemand customerDemand = state.getCustomerDemand();
 
 		// get launched products from production department
-		ProductionDepartment productionDepartment = ProductionDepartment.getInstance();
+		ProductionDepartment productionDepartment = state.getProductionDepartment();
 		customerSatisfaction.setProducts(productionDepartment.getLaunchedProducts());
 
 		// get totalSupportQuality score from Logistics
-		ProductSupport productSupport = GameState.getInstance().getProductSupport();
+		ProductSupport productSupport = state.getProductSupport();
 		customerSatisfaction.setTotalSupportQuality(productSupport.getTotalSupportQuality());
 
 		// get companyImage score from Marketing
-		MarketingDepartment marketingDepartment = MarketingDepartment.getInstance();
+		MarketingDepartment marketingDepartment = state.getMarketingDepartment();
 		double companyImage = marketingDepartment.getCompanyImageScore();
 		customerSatisfaction.setCompanyImage(companyImage);
 
 		// get jobSatisfaction score from HR
-		HRDepartment hrDepartment = HRDepartment.getInstance();
+		HRDepartment hrDepartment = state.getHrDepartment();
 		double jss = hrDepartment.getTotalJSS();
 
 		// get employerBranding score
@@ -201,7 +202,7 @@ public class GameController {
 		state.setEmployerBranding(employerBranding);
 
 		// get logisticsIndex from Logistics
-		LogisticsDepartment logisticsDepartment = GameState.getInstance().getLogisticsDepartment();
+		LogisticsDepartment logisticsDepartment = state.getLogisticsDepartment();
 		customerSatisfaction.setLogisticIndex(logisticsDepartment.getLogisticsIndex());
 
 		customerSatisfaction.calculateAll(gameDate);
@@ -227,8 +228,8 @@ public class GameController {
 	}
 
 	private void updateHR() {
-		HRDepartment.getInstance().updateEmployeeHistory(GameState.getInstance().getGameDate());
-		HRDepartment.getInstance().calculateAndUpdateEmployeesMeta();
+		GameState.getInstance().getHrDepartment().updateEmployeeHistory(GameState.getInstance().getGameDate());
+		GameState.getInstance().getHrDepartment().calculateAndUpdateEmployeesMeta();
 	}
 
 	/**
@@ -269,9 +270,27 @@ public class GameController {
 
 	private void updateSalesDepartment() {
 		GameState state = GameState.getInstance();
-		SalesDepartment salesDepartment = SalesDepartment.getInstance();
-		salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+		SalesDepartment salesDepartment = state.getSalesDepartment();
+		try {
+			salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+		} catch (LevelingRequirementNotFulFilledException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
 
+	/**
+	 * Refresh available contracts if possible. If not possible, cost are still subtracted.
+	 * Reason: The company tries to get contract offers, but is not attractive enough, since it does not
+	 * have any products, production capacity.
+	 *
+	 * @throws LevelingRequirementNotFulFilledException Exception thrown, if {@link SalesDepartment#getLevel()} is smaller than 1. Notify the player!
+	 */
+	public void refreshContracts() throws LevelingRequirementNotFulFilledException {
+		GameState state = GameState.getInstance();
+		SalesDepartment salesDepartment = state.getSalesDepartment();
+		double cost = salesDepartment.refreshAvailableContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+
+		decreaseCash(state.getGameDate(), cost);
 	}
 
 	public void start() {
