@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 import java.time.LocalDate;
 import java.util.*;
 
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportPartnerException;
@@ -270,7 +271,14 @@ public class GameController {
 	private void updateSalesDepartment() {
 		GameState state = GameState.getInstance();
 		SalesDepartment salesDepartment = SalesDepartment.getInstance();
-		salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+		try {
+			salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+		} catch (LevelingRequirementNotFulFilledException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	public void refreshContracts() {
 
 	}
 

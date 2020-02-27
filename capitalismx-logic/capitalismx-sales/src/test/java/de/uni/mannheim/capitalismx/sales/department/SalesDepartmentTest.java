@@ -37,6 +37,7 @@ public class SalesDepartmentTest {
         initDate = LocalDate.of(1990,11,1);
         demandPercentages = new HashMap<>();
         productionDepartment = ProductionDepartment.getInstance();
+        productionDepartment.setNumberOfProductionWorkers(10);
 
         for(int i = 0; i<5; i++) {
             try {
@@ -95,8 +96,9 @@ public class SalesDepartmentTest {
     }
 
     @Test
-    public void salesDepartmentSkillTest() {
+    public void salesDepartmentSkillTest() throws LevelingRequirementNotFulFilledException {
         SalesDepartment salesDepartment = SalesDepartment.createInstance();
+        salesDepartment.getLevelingMechanism().levelUp();
         System.out.println( productionDepartment.getLaunchedProducts().size());
         salesDepartment.generateContracts(initDate, productionDepartment, demandPercentages);
 
@@ -110,8 +112,9 @@ public class SalesDepartmentTest {
     }
 
     @Test
-    public void activeContractTest() {
+    public void activeContractTest() throws LevelingRequirementNotFulFilledException {
         SalesDepartment salesDepartment = SalesDepartment.createInstance();
+        salesDepartment.getLevelingMechanism().levelUp();
         System.out.println( productionDepartment.getLaunchedProducts().size());
         salesDepartment.generateContracts(initDate, productionDepartment, demandPercentages);
 
