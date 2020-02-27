@@ -27,13 +27,6 @@ public class CapCoinFormatter {
 				+ CURRENCY_SYMBOL;
 	}
 
-	@Deprecated
-	public static String getCapCoinsWithCents(double amount) { // TODO check if this works
-		return String.format("%.2f",
-				NumberFormat.getNumberInstance(UIManager.getResourceBundle().getLocale()).format(amount))
-				+ CURRENCY_SYMBOL;
-	}
-
 	/**
 	 * Get the given amount of CapCoins as a formatted Currency-String.
 	 * 
