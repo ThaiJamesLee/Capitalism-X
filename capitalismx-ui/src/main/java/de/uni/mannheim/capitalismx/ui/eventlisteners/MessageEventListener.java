@@ -10,6 +10,7 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This class listens to message events.
@@ -22,8 +23,13 @@ public class MessageEventListener implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(GameState.MESSAGE_LIST_CHANGED_EVENT)) {
             PropertyChangeSupportList<MessageObject> changedList = (PropertyChangeSupportList) evt.getSource();
-            MessageObject newMessage = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 2);
-            System.out.println(evt.getNewValue().getClass().toString().equals("MessageObject"));
+            CopyOnWriteArrayList<MessageObject> newMessage = ((CopyOnWriteArrayList<MessageObject>) evt.getNewValue());
+
+            for(MessageObject m : newMessage){
+                UIManager.getInstance().getGamePageController().getMessageController().addMessage(m);
+            }
+            //MessageObject newMessage = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 2);
+            /*
             System.out.println(evt.getNewValue().getClass().toString());
             if(evt.getNewValue().getClass().toString().equals("class de.uni.mannheim.capitalismx.utils.data.MessageObject")){
                 newMessage = ((MessageObject) evt.getNewValue());
@@ -36,6 +42,8 @@ public class MessageEventListener implements PropertyChangeListener {
                     UIManager.getInstance().getGamePageController().getMessageController().addMessage(message);
                 }
             }
+
+             */
 
 
         }
