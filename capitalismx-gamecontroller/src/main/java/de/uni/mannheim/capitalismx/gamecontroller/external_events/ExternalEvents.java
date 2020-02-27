@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.gamecontroller.external_events;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
@@ -8,6 +9,7 @@ import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -314,6 +316,13 @@ public class ExternalEvents implements Serializable {
             Finance.getInstance().decreaseNopatConstant(numberOfEmployees * 5000);
             externalEvents.add(ExternalEvent.EVENT_10);
         }**/
+        //Just testing code for Messages
+        /*
+        if(GameState.getInstance().getGameDate().getDayOfWeek() == DayOfWeek.SATURDAY){
+            externalEvents.add(ExternalEvent.EVENT_10);
+        }
+
+         */
     }
 
     private void checkEventStrikes(){

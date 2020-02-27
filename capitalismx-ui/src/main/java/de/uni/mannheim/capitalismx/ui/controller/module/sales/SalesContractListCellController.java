@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
@@ -23,19 +24,23 @@ public class SalesContractListCellController implements Initializable {
     private Label contractDeadline;
 
     @FXML
-    private HBox contractCellHBox;
+    private GridPane contractCell;
 
     private String ID;
 
+    /**
+     * Calls the showInfoPanel() mtehod in SalesContractController
+     */
     @FXML
     public void showInfoPanel(){
-        System.out.println("List Cell clicked");
+        System.out.println("ShowInfo");
         ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
     }
 
     public void setContractName(String contractName) {
         this.contractName.setText(contractName);
     }
+
 
     public void setContractDeadline(String contractDeadline) {
         this.contractDeadline.setText(contractDeadline);

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -83,7 +83,7 @@
                            <children>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="btn_standard" text="%sales.contract.accept">
+                                    <Button fx:id="acceptButton" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="btn_standard" text="%sales.contract.accept">
                                        <graphic>
                                           <FontAwesomeIcon iconName="CARET_RIGHT" size="1.3em" />
                                        </graphic>
@@ -92,12 +92,12 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#fulfillContract" styleClass="btn_standard" text="%sales.contract.fulfill" />
+                                    <Button fx:id="fulfillButton" mnemonicParsing="false" onMouseClicked="#fulfillContract" styleClass="btn_standard" text="%sales.contract.fulfill" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="btn_standard" text="%sales.contract.terminate" />
+                                    <Button fx:id="terminateButton" mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="btn_standard" text="%sales.contract.terminate" />
                                  </children>
                               </HBox>
                            </children>

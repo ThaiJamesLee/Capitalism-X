@@ -74,34 +74,33 @@ public class SalesKPIController implements Initializable {
     }
 
     public void updateFailedKPIs(){
-        if(this.failedContractCounter < salesDep.getFailedContracts().size()){
-            failedContractCounter = salesDep.getFailedContracts().size();
-            int yearFailedCounter = 0;
-            int quarterFailedCounter = 0;
-            double penaltyAll = 0, penaltyYear = 0, penaltyQuarter = 0;
+        failedContractCounter = salesDep.getFailedContracts().size();
+        int yearFailedCounter = 0;
+        int quarterFailedCounter = 0;
+        double penaltyAll = 0, penaltyYear = 0, penaltyQuarter = 0;
 
-            for(Contract c : salesDep.getFailedContracts().getList()){
-                penaltyAll += c.getRevenue();
+        for(Contract c : salesDep.getFailedContracts().getList()){
+            penaltyAll += c.getRevenue();
 
-                if(c.getTerminateDate().compareTo(GameState.getInstance().getGameDate().minusYears(1)) >= 0){
-                    yearFailedCounter++;
-                    penaltyYear += c.getRevenue();
+            if(c.getTerminateDate().compareTo(GameState.getInstance().getGameDate().minusYears(1)) >= 0){
+                yearFailedCounter++;
+                penaltyYear += c.getRevenue();
 
-                    if(c.getTerminateDate().compareTo(GameState.getInstance().getGameDate().minusMonths(3)) >= 0){
-                        quarterFailedCounter++;
-                        penaltyQuarter += c.getRevenue();
-                    }
+                if(c.getTerminateDate().compareTo(GameState.getInstance().getGameDate().minusMonths(3)) >= 0){
+                    quarterFailedCounter++;
+                    penaltyQuarter += c.getRevenue();
                 }
             }
-
-            failedAll.setText("" + failedContractCounter);
-            failedYear.setText("" + yearFailedCounter);
-            failedQuarter.setText("" + quarterFailedCounter);
-
-            this.penaltyAll.setText("" + penaltyAll);
-            this.penaltyYear.setText("" + penaltyYear);
-            this.penaltyQuarter.setText("" + penaltyQuarter);
         }
+
+        failedAll.setText("" + failedContractCounter);
+        failedYear.setText("" + yearFailedCounter);
+        failedQuarter.setText("" + quarterFailedCounter);
+
+        this.penaltyAll.setText("" + penaltyAll);
+        this.penaltyYear.setText("" + penaltyYear);
+        this.penaltyQuarter.setText("" + penaltyQuarter);
+
     }
 
 

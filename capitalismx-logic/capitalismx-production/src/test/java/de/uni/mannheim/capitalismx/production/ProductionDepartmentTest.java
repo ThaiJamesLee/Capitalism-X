@@ -69,7 +69,7 @@ public class ProductionDepartmentTest {
         try {
             ProductionDepartment.getInstance().buyMachinery(this.machinery, LocalDate.of(1990, 1, 1));
             Assert.assertEquals(ProductionDepartment.getInstance().getMachines().size(), 1);
-            Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 50.0);
+            Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 25.0);
         } catch (NoMachinerySlotsAvailableException e) {
             System.out.println(e.getMessage());
         }

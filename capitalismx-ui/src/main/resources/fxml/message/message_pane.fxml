@@ -4,20 +4,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefWidth="500.0" styleClass="rootPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.message.MessageController">
+<AnchorPane fx:id="root" styleClass="rootPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.message.MessageController">
    <children>
       <VBox layoutX="40.0" layoutY="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane styleClass="headerPane">
                <children>
-                  <Label id="title" maxWidth="500.0" text="Messsages" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Label id="title" text="Messsages" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font name="Arial Black" size="28.0" />
                      </font>
@@ -28,52 +26,14 @@
                <children>
                   <HBox styleClass="messageTabBackground">
                      <children>
-                        <TabPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="400.0" prefHeight="465.0" prefWidth="400.0" tabClosingPolicy="UNAVAILABLE">
-                           <tabs>
-                              <Tab text="All">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0">
-                                       <children>
-                                          <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <content>
-                                                <ListView fx:id="messageList" maxWidth="373.0" prefWidth="373.0" />
-                                             </content>
-                                          </ScrollPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                              <Tab text="Internal">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <ScrollPane vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <content>
-                                                <ListView fx:id="internalList" maxWidth="373.0" prefWidth="373.0" />
-                                             </content>
-                                          </ScrollPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                              <Tab text="External">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <ScrollPane vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <content>
-                                                <ListView fx:id="externalList" maxWidth="373.0" prefWidth="373.0" />
-                                             </content>
-                                          </ScrollPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                           </tabs>
-                        </TabPane>
+                        <AnchorPane>
+                           <children>
+                              <ListView fx:id="messageList" prefWidth="430.0" />
+                           </children>
+                        </AnchorPane>
                         <VBox>
                            <children>
-                              <ScrollPane fx:id="messageContentPane" hbarPolicy="NEVER" minWidth="400.0" prefHeight="465.0" prefWidth="400.0" />
+                              <ScrollPane fx:id="messageContentPane" hbarPolicy="NEVER" maxHeight="434.0" />
                            </children>
                         </VBox>
                      </children>

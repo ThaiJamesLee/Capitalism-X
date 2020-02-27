@@ -12,7 +12,7 @@ public class MessageObject implements Serializable {
     private String date;
     private String subject;
     private String content;
-    private boolean isInternal;
+    //private boolean isInternal;
     private boolean isRead;
     private int jumpTo;
 
@@ -32,7 +32,7 @@ public class MessageObject implements Serializable {
         this.sender = sender;
         this.subject = subject;
         this.date = date;
-        this.isInternal = isInternal;
+        //this.isInternal = isInternal;
         this.isRead = false;
         this.jumpTo =  0;
         //this.subjectPanel = null;
@@ -52,7 +52,7 @@ public class MessageObject implements Serializable {
         this.sender = sender;
         this.subject = subject;
         this.date = date;
-        this.isInternal = isInternal;
+        //this.isInternal = isInternal;
         this.isRead = false;
         this.jumpTo =  jumpTo;
         //this.subjectPanel = null;
@@ -86,9 +86,12 @@ public class MessageObject implements Serializable {
         return content;
     }
 
+    /*
     public boolean isInternal() {
         return isInternal;
     }
+
+     */
 
     public int getJumpTo() { return jumpTo; }
 
