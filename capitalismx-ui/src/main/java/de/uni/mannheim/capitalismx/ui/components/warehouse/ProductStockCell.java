@@ -62,9 +62,8 @@ public class ProductStockCell {
 		productName.setText(product.getProductName());
 		productCount.setText(warehouse.getAmountStored(this.product) + "");
 		TooltipFactory factory = new TooltipFactory();
-		buyAllComponents.setTooltip(factory.createTooltip("")); // TODO
 		discardProducts.setTooltip(
-				factory.createTooltip("Sell the entered amount of products for less than their production value.")); // TODO
+				factory.createTooltip(UIManager.getLocalisedString("warehouse.stock.product.discard")));
 		buyAllComponents.setOnAction(e -> {
 			stockController.showProductPopover(product, TradeMode.BUY_ALL_COMPONENTS);
 		});

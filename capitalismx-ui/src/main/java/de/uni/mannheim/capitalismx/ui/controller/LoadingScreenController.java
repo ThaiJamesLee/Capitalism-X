@@ -4,10 +4,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.components.GameScene;
-import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 
@@ -18,7 +18,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Jonathan
  *
  */
-public class LoadingScreenController implements UpdateableController {
+public class LoadingScreenController implements Initializable {
 
 	@FXML
 	private AnchorPane root;
@@ -40,12 +40,6 @@ public class LoadingScreenController implements UpdateableController {
 	 */
 	public void initProgressBar(ReadOnlyDoubleProperty readOnlyDoubleProperty) {
 		this.progressBar.progressProperty().bind(readOnlyDoubleProperty);
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

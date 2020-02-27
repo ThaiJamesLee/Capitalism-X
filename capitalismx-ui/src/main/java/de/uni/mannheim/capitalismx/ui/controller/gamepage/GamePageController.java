@@ -134,7 +134,6 @@ public class GamePageController implements UpdateableController {
 	 * ingame menu.
 	 */
 	public void handleEscapeInput() {
-		// TODO add auto close of hud elements -> connect to GameHudController
 		if (openMessagePane) {
 			toggleMessageWindow();
 		} else {
@@ -153,7 +152,6 @@ public class GamePageController implements UpdateableController {
 			UIManager.getInstance().setGameMapController(loader3DMap.getController());
 			mapLayer.toBack();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -174,7 +172,6 @@ public class GamePageController implements UpdateableController {
 			messageController.addMessage(m2);
 
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 

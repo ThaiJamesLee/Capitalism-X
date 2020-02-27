@@ -3,7 +3,6 @@ package de.uni.mannheim.capitalismx.ui.utils;
 import java.io.IOException;
 
 import org.controlsfx.control.PopOver;
-import org.controlsfx.control.PopOver.ArrowLocation;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import javafx.fxml.FXMLLoader;
@@ -55,7 +54,6 @@ public class PopOverFactory {
 
 			createStandardPopover(root);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

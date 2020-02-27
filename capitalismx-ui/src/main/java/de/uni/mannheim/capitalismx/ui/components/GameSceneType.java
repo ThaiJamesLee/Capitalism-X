@@ -33,7 +33,6 @@ public enum GameSceneType {
 	 */
 	CREDITS_PAGE,
 
-//	TODO
 //	/**
 //	 * The page containing the leaderboard with previously achieved highscores, accessible from the MainMenu
 //	 */

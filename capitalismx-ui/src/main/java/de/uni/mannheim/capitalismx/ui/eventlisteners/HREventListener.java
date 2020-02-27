@@ -15,13 +15,13 @@ import de.uni.mannheim.capitalismx.ui.controller.module.hr.TeamDetailController;
 
 public class HREventListener implements PropertyChangeListener {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		GameView hrView = UIManager.getInstance().getGameView(GameViewType.HR);
 
 		for (EmployeeType employeeType : EmployeeType.values()) {
 			if (evt.getPropertyName().equals(employeeType.getTeamEventPropertyChangedKey())) {
-
 				// update list of employees
 				TeamDetailController employeeController = (TeamDetailController) hrView
 						.getModule(GameModuleType.HR_TEAM_DETAIL).getController();

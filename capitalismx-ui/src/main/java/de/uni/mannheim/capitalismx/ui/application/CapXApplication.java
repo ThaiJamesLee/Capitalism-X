@@ -51,15 +51,14 @@ public class CapXApplication extends Application {
 	 * @param window The {@link Stage} to configure.
 	 */
 	private void prepareStage(Stage window) {
-		// set Stage boundaries to visible bounds of the main screen TODO
-		// adjust and move somewhere else
+		// set Stage boundaries to visible bounds of the main screen
 		window.setX(primaryScreenBounds.getMinX());
 		window.setY(primaryScreenBounds.getMinY());
 		window.setWidth(primaryScreenBounds.getWidth());
 		window.setHeight(primaryScreenBounds.getHeight());
 		// disable exiting the fullscreen with ESCAPE, set it to shift + escape for the
 		// Main menu
-		window.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.ESCAPE, ModifierValue.DOWN,
+		window.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.F12, ModifierValue.ANY,
 				ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY));
 //		window.setMaximized(true);
 		window.setResizable(false);
@@ -74,16 +73,13 @@ public class CapXApplication extends Application {
 	 * @param e The {@link WindowEvent} that was fired.
 	 */
 	private void closeStage(WindowEvent e) {
-		// TODO localization
 		GameAlert closeConfirmation = new GameAlert(AlertType.CONFIRMATION, UIManager.getLocalisedString("dialog.quit.title"),
 				UIManager.getLocalisedString("dialog.quit.description"));
 		Optional<ButtonType> response = closeConfirmation.showAndWait();
 
 		// closes the application if the user confirms
 		if (response.isPresent() && response.get().equals(ButtonType.OK)) {
-
 			UIManager.getInstance().stopGame();
-			// TODO save game if ingame?
 		} else {
 			e.consume();
 		}

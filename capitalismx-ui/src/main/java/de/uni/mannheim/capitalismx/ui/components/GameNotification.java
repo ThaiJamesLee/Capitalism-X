@@ -29,7 +29,7 @@ public class GameNotification {
 	 * Max length of a message that can be displayed on the notification. TODO check
 	 * length (also for different scales?)
 	 */
-	private final static int MAX_LENGTH_OF_MESSAGE = 140;
+	private final static int MAX_LENGTH_OF_MESSAGE = 160;
 	/**
 	 * The standard Duration to display a notification for.
 	 */
@@ -98,7 +98,7 @@ public class GameNotification {
 
 	/**
 	 * Loads the fxml-File specifying the structure of the notification and adds the
-	 * content. //TODO direct link to message necessary
+	 * content.
 	 * 
 	 * @return The root-{@link Parent} of the {@link GameNotification}.
 	 */
@@ -109,7 +109,6 @@ public class GameNotification {
 		try {
 			loader.load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -131,7 +130,6 @@ public class GameNotification {
 		if (message.length() > MAX_LENGTH_OF_MESSAGE) {
 			int indexToSplit = message.lastIndexOf(' ', MAX_LENGTH_OF_MESSAGE);
 			if (indexToSplit <= 0) {
-				// TODO throw Exception?
 				return "";
 			}
 			message = message.substring(0, indexToSplit) + "...";

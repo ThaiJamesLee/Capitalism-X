@@ -49,7 +49,6 @@ public class LoanRequestListController implements UpdateableController {
                     loanRequestBox = new LoanRequestBox(loan);
                     loanVBox.getChildren().add(loanRequestBox.getRoot());
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }

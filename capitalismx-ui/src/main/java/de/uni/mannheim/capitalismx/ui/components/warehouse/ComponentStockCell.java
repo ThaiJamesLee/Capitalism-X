@@ -73,7 +73,7 @@ public class ComponentStockCell {
 		cheapQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.CHEAP)) + "");
 		regularQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.REGULAR)) + "");
 		premiumQualityAmount.setText(warehouse.getAmountStored(components.get(SupplierCategory.PREMIUM)) + "");
-		// TODO add cost/locale to button text
+		
 		cheapQualityTrade.setOnAction(e -> {
 			showTradeComponentMenu(SupplierCategory.CHEAP, cheapQualityTrade);
 		});
@@ -111,9 +111,8 @@ public class ComponentStockCell {
 	private void showTradeComponentMenu(SupplierCategory category, Button button) {
 		StockManagementController stockController = (StockManagementController) UIManager.getInstance()
 				.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController();
-		stockController.showTradePopover(components.get(category), button, components.get(category).calculateRandomizedBaseCost(GameState.getInstance().getGameDate())); // TODO
-																														// salesPrice
-																														// correct?
+		// TODO replace with actual price, once implemented
+		stockController.showTradePopover(components.get(category), button, components.get(category).calculateRandomizedBaseCost(GameState.getInstance().getGameDate())); 
 	}
 
 	/**

@@ -228,7 +228,6 @@ public class GameHudController implements UpdateableController {
 		displayingNotification = true;
 		GameNotification notification = notificationQueue.poll();
 		Parent root = notification.getRoot();
-		// TODO set handler on root: do not remove while hover, show message on click
 		AnchorPaneHelper.snapNodeToAnchorPane(root);
 		root.setTranslateY(200);
 		notificationPane.getChildren().add(root);
@@ -278,7 +277,6 @@ public class GameHudController implements UpdateableController {
 		nodes.add(messageIconLabel);
 		nodes.add(settingsIconLabel);
 
-		// TODO add cash / networth / employees infos with short message...
 		return nodes;
 	}
 
@@ -348,8 +346,10 @@ public class GameHudController implements UpdateableController {
 		ecoButton.setTooltip(ecoTooltip);
 		updateEcoIndexIcon(gameState.getCompanyEcoIndex().getEcoIndex());
 
-		// TODO Tooltip on the changelabels, with period described by the label
-
+		cashChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
+		netWorthChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
+		employeeChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
+		
 		// Set the actions for the buttons that switch the views of the departments.
 		departmentButtonMap = new HashMap<GameViewType, ToggleButton>();
 		initDepartmentButton(btnOverview, GameViewType.OVERVIEW);
@@ -659,18 +659,6 @@ public class GameHudController implements UpdateableController {
 			employeeLabel.setText(numOfEmployees + "/" + capacity);
 		});
 	}
-
-	// TODO order of nodes
-	// Elements
-	// 1. GamePage Title
-	// Pause Button
-	// Networth
-	// Cash --> vBox
-	// Employees --> vBox
-	// Skip Btn
-	// Fast Forward Btn
-	// Messages Btn
-	// Settings Btn
 
 	/**
 	 * Updates all hud elements for the given {@link GameViewType}.

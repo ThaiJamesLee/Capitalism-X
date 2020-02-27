@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.gamecontroller.gamesave.SaveGameHandler;
 import de.uni.mannheim.capitalismx.ui.components.GameModule;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
@@ -18,6 +19,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListController;
 import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
@@ -277,9 +279,10 @@ public class UIManager {
 					GameController.getInstance().saveGame();
 					break;
 				case F9:
-					// TODO mechanism that stops loading when there is no saveGame!
-					stopGame();
-					loadGame();
+					if (new SaveGameHandler().saveGameExists()) {
+						stopGame();
+						loadGame();
+					}
 					break;
 				case ESCAPE:
 					// first try to close open hud elements. Let GamePage handle input otherwise.
@@ -339,7 +342,6 @@ public class UIManager {
 			sceneWonPage = new GameScene(root, GameSceneType.GAMELOST_PAGE, loader.getController());
 
 		} catch (IOException e) {
-			// TODO Handle error if scenes cannot be initialized
 			e.printStackTrace();
 			Platform.exit();
 		}
@@ -437,8 +439,8 @@ public class UIManager {
 						gameHudController.initTutorialCheck();
 					}
 				} catch (IOException e) {
-					// TODO handle error if module could not be loaded.
 					e.printStackTrace();
+					switchToScene(GameSceneType.MENU_MAIN);
 				}
 				return 1;
 			}
@@ -462,8 +464,7 @@ public class UIManager {
 
 	/**
 	 * Quits the game: Triggers a new {@link WindowEvent}, containing a
-	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application. TODO
-	 * maybe handle more stuff when ingame. (eg autosave)
+	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application.
 	 */
 	public void quitApplication() {
 		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
@@ -532,7 +533,7 @@ public class UIManager {
 	public void switchToScene(GameSceneType sceneType) {
 		switch (sceneType) {
 		case MENU_MAIN:
-			sceneMenuMain.getController().update();
+			((UpdateableController) sceneMenuMain.getController()).update();
 			window.getScene().setRoot(sceneMenuMain.getScene());
 			break;
 		case GAME_PAGE:

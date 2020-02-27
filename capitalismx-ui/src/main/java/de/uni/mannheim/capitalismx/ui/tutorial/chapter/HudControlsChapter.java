@@ -18,7 +18,7 @@ import javafx.scene.Node;
  */
 public class HudControlsChapter extends TutorialChapter {
 
-	// TODO do we want to keep all of this in a separate chapter of tie the
+	// TODO do we want to keep all of this in a separate chapter or tie the
 	// explanations of the hud-elements better into the gameplay by including them
 	// in other chapters, once they are needed/actually displays useful information
 	public HudControlsChapter() {

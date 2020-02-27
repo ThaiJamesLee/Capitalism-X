@@ -1,6 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.components;
 
-import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -21,7 +21,7 @@ public class GameScene {
 	// The type of scene
 	private GameSceneType sceneType;
 	// The controller of the scene
-	private UpdateableController controller;
+	private Initializable controller;
 
 	public Parent getScene() {
 		return scene;
@@ -39,7 +39,7 @@ public class GameScene {
 		this.sceneType = sceneType;
 	}
 
-	public UpdateableController getController() {
+	public Initializable getController() {
 		return controller;
 	}
 
@@ -48,9 +48,9 @@ public class GameScene {
 	 * 
 	 * @param scene      The actual {@link Parent}.
 	 * @param type       The type of scene.
-	 * @param controller The controller of the fxml-element.
+	 * @param controller The {@link Initializable} controller of the fxml-element.
 	 */
-	public GameScene(Parent scene, GameSceneType type, UpdateableController controller) {
+	public GameScene(Parent scene, GameSceneType type, Initializable controller) {
 		this.scene = scene;
 		this.sceneType = type;
 		this.controller = controller;

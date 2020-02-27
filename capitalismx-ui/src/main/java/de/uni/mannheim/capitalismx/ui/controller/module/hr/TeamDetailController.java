@@ -46,7 +46,7 @@ public class TeamDetailController implements Initializable {
 			Team team = hrDep.getTeamByEmployeeType(type);
 			TeamDetails teamDetails = new TeamDetails(team);
 			employeeTypeDetails.put(type, teamDetails);
-			prepareTeamTab(hrDep.getTeamByEmployeeType(type)); // TODO
+			prepareTeamTab(hrDep.getTeamByEmployeeType(type));
 
 			Tab teamTab = new Tab(team.getType().getName(UIManager.getResourceBundle().getLocale()));
 			employeeTabPane.getTabs().add(teamTab);

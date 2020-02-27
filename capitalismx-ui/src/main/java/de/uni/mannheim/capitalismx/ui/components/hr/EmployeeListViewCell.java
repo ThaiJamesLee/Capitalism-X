@@ -130,7 +130,6 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 			TrainingPopoverController popOverController = ((TrainingPopoverController) popoverLoader.getController());
 			popOverController.init(trainPopover, employee, this);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

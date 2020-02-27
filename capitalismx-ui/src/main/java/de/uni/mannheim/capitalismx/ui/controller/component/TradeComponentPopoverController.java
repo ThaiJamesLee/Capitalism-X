@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.controller.component;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
@@ -21,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -60,13 +62,23 @@ public class TradeComponentPopoverController implements Initializable {
 			int amount = Integer.parseInt(input);
 			int freeStorage = GameController.getInstance().getFreeStorage();
 			if (amount > freeStorage) {
-				// TODO localization
-				GameAlert alert = new GameAlert(AlertType.INFORMATION, "Not enough free space in the warehouse.",
-						"Will buy as much as possible (" + freeStorage + ") for now.");
-				alert.showAndWait();
+				//Handle if not enough free storage in the warehouse
 				if (freeStorage != 0) {
-					GameController.getInstance().buyComponents(component, freeStorage); // TODO what happens when there
-																						// is not enough cash
+					GameAlert alert = new GameAlert(AlertType.NONE,
+							UIManager.getLocalisedString("warehouse.alert.capacity.title"),
+							UIManager.getLocalisedString("warehouse.alert.capacity.description").replace("AMOUNT",
+									freeStorage + ""));
+					alert.getButtonTypes().add(ButtonType.YES);
+					alert.getButtonTypes().add(ButtonType.NO);
+					Optional<ButtonType> response = alert.showAndWait();
+					if (response.isPresent() && response.get().equals(ButtonType.YES)) {
+						GameController.getInstance().buyComponents(component, freeStorage);
+					}
+				} else {
+					GameAlert alert = new GameAlert(AlertType.INFORMATION,
+							UIManager.getLocalisedString("warehouse.alert.capacity.title"),
+							UIManager.getLocalisedString("warehouse.alert.capacity.description.full"));
+					alert.showAndWait();
 				}
 			} else { // TODO costs for component
 				GameController.getInstance().buyComponents(component, amount);
@@ -98,7 +110,7 @@ public class TradeComponentPopoverController implements Initializable {
 				updatePrice();
 			}
 		});
-			
+
 	}
 
 	@FXML

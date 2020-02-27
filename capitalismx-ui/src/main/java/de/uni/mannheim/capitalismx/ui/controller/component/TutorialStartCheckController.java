@@ -6,12 +6,12 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
-public class TutorialStartCheckController implements UpdateableController {
+public class TutorialStartCheckController implements Initializable {
 
 	private PopOver popover;
 
@@ -33,12 +33,6 @@ public class TutorialStartCheckController implements UpdateableController {
 
 	public void setPopover(PopOver p) {
 		popover = p;
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

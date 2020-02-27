@@ -218,7 +218,6 @@ public class StockManagementController implements Initializable {
 			tradePopover.setFadeInDuration(Duration.millis(50));
 			tradePopoverController = ((TradeComponentPopoverController) popoverLoader.getController());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

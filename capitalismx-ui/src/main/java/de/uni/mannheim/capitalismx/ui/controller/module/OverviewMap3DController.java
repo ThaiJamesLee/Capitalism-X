@@ -286,7 +286,6 @@ public class OverviewMap3DController implements Initializable {
 			case D:
 				cameraXform2.t.setX(cameraXform2.t.getX() - 10);
 				break;
-			// TODO add SHIFT -> Sprint and SPACE - Jump?
 			default:
 				break;
 
