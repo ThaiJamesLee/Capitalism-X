@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Locale;
+
 
 public class LogisticsDepartmentTest {
 
@@ -21,6 +23,6 @@ public class LogisticsDepartmentTest {
     public void generateTruckSelectionTest() {
         LogisticsDepartment logisticsDepartment = LogisticsDepartment.getInstance();
 
-        Assert.assertEquals(logisticsDepartment.generateTruckSelection().size(), 6);
+        Assert.assertEquals(logisticsDepartment.generateTruckSelection(Locale.ENGLISH).size(), 6);
     }
 }

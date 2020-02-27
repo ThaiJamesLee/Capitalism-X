@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.domain.department;
 
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +78,7 @@ public class LevelingMechanism implements Serializable {
      * Increments the level and returns the cost.
      * @return Returns the cost of a level up. Otherwise return null.
      */
-    public Double levelUp() {
+    public Double levelUp() throws LevelingRequirementNotFulFilledException {
         int currentLevel = department.getLevel();
         Double cost = getNextLevelUpCost();
 

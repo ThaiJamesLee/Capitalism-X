@@ -10,6 +10,8 @@ import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.production.Machinery;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.sales.contracts.Contract;
+import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
@@ -622,20 +624,32 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.incomeTax;
     }
 
-    //TODO
+    /**
+     * Calculates the daily revenue.
+     * <br>
+     * In case of contracts, when one is done, the whole contract revenue is counted for the day it was fulfilled.
+     * Thus, the total revenue, is the earnings of all fulfilled contracts in that day.
+     *
+     * @param gameDate The current date in the game.
+     * @return Returns the total revenue for the day.
+     *
+     * @author duly
+     */
     private double calculateTotalRevenue(LocalDate gameDate){
-        /**
-        ArrayList<Product> productsSold = null;
-        this.totalRevenue = 0;
-        for(Product product : productsSold){
-            this.totalRevenue += product.getSalesFigures() * product.getSalesPrice();
+        SalesDepartment salesDepartment = SalesDepartment.getInstance();
+        List<Contract> doneContracts  = salesDepartment.getDoneContracts().getList();
+
+        double dailyRevenue = 0.0;
+
+        for(Contract c : doneContracts) {
+            // -1 day, because the gameDate is already updated, when checking
+            if(c.getContractDoneDate().equals(gameDate.minusDays(1))) {
+                dailyRevenue += c.getRevenue();
+            }
         }
-         **/
-        //return this.totalRevenue;
-        //TODO
-        //this.salesHistory.put(gameDate, this.totalRevenue);
-        this.salesHistory.put(gameDate, 0.0);
-        return 0.0;
+        this.totalRevenue = dailyRevenue;
+        this.salesHistory.put(gameDate, this.totalRevenue);
+        return this.totalRevenue;
     }
 
     /**
@@ -659,11 +673,15 @@ public class FinanceDepartment extends DepartmentImpl {
      * @return Returns the total HR costs of the company.
      */
     protected double calculateTotalHRCosts(LocalDate gameDate){
-        //TODO only trainings of current day
-        double totalTrainingCosts = HRDepartment.getInstance().calculateTotalTrainingCosts();
-        double totalSalaries = HRDepartment.getInstance().calculateTotalSalaries();
+        HRDepartment hrDepartment = HRDepartment.getInstance();
+        double totalTrainingCosts = hrDepartment.calculateTotalTrainingCosts(gameDate);
+        // the salaries are per year.
+        double totalSalaries = hrDepartment.calculateTotalSalaries();
         totalSalaries /= gameDate.lengthOfYear();
-        this.totalHRCosts = totalSalaries + totalTrainingCosts;
+        // the benefit costs are per month.
+        double totalBenefitsCost = hrDepartment.getBenefitSettingsCost();
+        totalBenefitsCost /= gameDate.lengthOfMonth();
+        this.totalHRCosts = totalSalaries + totalTrainingCosts + totalBenefitsCost;
         this.hrCostsHistory.put(gameDate, this.totalHRCosts);
         return this.totalHRCosts;
     }
@@ -755,17 +773,22 @@ public class FinanceDepartment extends DepartmentImpl {
      * Generates a selection of three loans according to p.76. The actual generation is implemented in the banking
      * system. The desired loan amount can not exceed 70 percent of the current net worth.
      * @param desiredLoanAmount The requested loan amount.
+     * @param gameDate The current date in the game.
+     * @param locale The Locale object of the desired language.
      * @return Returns a list of three loans with different characteristics.
      */
-    public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount){
+    public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount, LocalDate gameDate, Locale locale){
         if(this.cash.getValue() == 0.0){
             //TODO popup
             return null;
         }
-        if(desiredLoanAmount > 0.7 * this.netWorth.getValue()){
-            desiredLoanAmount = 0.7 * this.netWorth.getValue();
+        if((desiredLoanAmount + BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate)) > 0.7 * this.netWorth.getValue()){
+            desiredLoanAmount = (0.7 * this.netWorth.getValue()) - BankingSystem.getInstance().calculateAnnualPrincipalBalance(gameDate);
+            if(desiredLoanAmount <= 0.0){
+                return null;
+            }
         }
-        return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount);
+        return BankingSystem.getInstance().generateLoanSelection(desiredLoanAmount, locale);
     }
 
     /**
@@ -778,7 +801,7 @@ public class FinanceDepartment extends DepartmentImpl {
         BankingSystem.getInstance().addLoan(loan, gameDate);
         this.increaseCash(gameDate, loan.getLoanAmount());
         this.increaseLiabilities(gameDate, loan.getLoanAmount());
-        this.loanRemoved.setValue(false);
+        //this.loanRemoved.setValue(false);
     }
 
     /**
@@ -786,6 +809,8 @@ public class FinanceDepartment extends DepartmentImpl {
      */
     protected void removeLoan(){
         this.loanRemoved.setValue(true);
+        //return to initial state
+        this.loanRemoved.setValue(false);
     }
 
     /**
@@ -1034,8 +1059,8 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.netWorth.getValue();
     }
 
-    public BankingSystem.Loan getLoan(){
-        return BankingSystem.getInstance().getLoan();
+    public ArrayList<BankingSystem.Loan> getLoans(){
+        return BankingSystem.getInstance().getLoans();
     }
 
     public double getRealEstateInvestmentAmount() {
@@ -1060,8 +1085,6 @@ public class FinanceDepartment extends DepartmentImpl {
      */
     public boolean increaseInvestmentAmount(LocalDate gameDate, double amount, Investment.InvestmentType investmentType){
         if(amount > this.cash.getValue()){
-            //TODO popup
-            System.out.println("Not enough cash!");
             return false;
         }
 
@@ -1327,9 +1350,8 @@ public class FinanceDepartment extends DepartmentImpl {
         return new FinanceDepartment();
     }
 
-    public String getLocalisedString(String text) {
-        //TODO other languages
-        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", Locale.ENGLISH);
+    public String getLocalisedString(String text, Locale locale) {
+        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", locale);
         return langBundle.getString(text);
     }
 }

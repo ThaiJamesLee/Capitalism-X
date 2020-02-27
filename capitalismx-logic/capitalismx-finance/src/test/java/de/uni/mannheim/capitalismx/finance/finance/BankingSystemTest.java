@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class BankingSystemTest {
 
@@ -15,17 +16,17 @@ public class BankingSystemTest {
     public void generateLoanSelectionTest () {
         BankingSystem bankingSystem = new BankingSystem();
 
-        Assert.assertEquals(bankingSystem.generateLoanSelection(100).size(), 3);
+        Assert.assertEquals(bankingSystem.generateLoanSelection(100, Locale.ENGLISH).size(), 3);
     }
 
     @Test
     public void addLoanTest () {
         BankingSystem bankingSystem = new BankingSystem();
 
-        Assert.assertNull(bankingSystem.getLoan());
-        bankingSystem.addLoan(bankingSystem.generateLoanSelection(100).get(0), LocalDate.now());
-        Assert.assertNotNull(bankingSystem.getLoan());
-        Assert.assertEquals(bankingSystem.getLoan().getLoanAmount(), 100.0);
+        Assert.assertEquals(bankingSystem.getLoans().size(), 0);
+        bankingSystem.addLoan(bankingSystem.generateLoanSelection(100, Locale.ENGLISH).get(0), LocalDate.now());
+        Assert.assertEquals(bankingSystem.getLoans().size(), 1);
+        Assert.assertEquals(bankingSystem.getLoans().get(0).getLoanAmount(), 100.0);
     }
 
     @Test
@@ -38,10 +39,10 @@ public class BankingSystemTest {
         Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 50.0);
 
         bankingSystem.addLoan(bankingSystem.new Loan("Loan 2",0.05, 13, 100), LocalDate.now());
-        Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 50.0);
+        Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 100.0);
 
         bankingSystem.addLoan(bankingSystem.new Loan("Loan 3",0.05, 12, 100), LocalDate.now());
-        Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 100.0);
+        Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 200.0);
     }
 
     @Test
@@ -54,7 +55,7 @@ public class BankingSystemTest {
         Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2020, 11, 30)), 100.0);
 
         bankingSystem.addLoan(bankingSystem.new Loan("Loan 2",0.05, 24, 100), LocalDate.of(2019, 11, 30));
-        Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2021, 12, 1)), 50.0);
+        Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2021, 12, 1)), 100.0);
         Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2021, 12, 2)), 0.0);
     }
 

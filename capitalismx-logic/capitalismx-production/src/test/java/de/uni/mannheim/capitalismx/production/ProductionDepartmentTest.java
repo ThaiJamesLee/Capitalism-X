@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -68,7 +69,7 @@ public class ProductionDepartmentTest {
         try {
             ProductionDepartment.getInstance().buyMachinery(this.machinery, LocalDate.of(1990, 1, 1));
             Assert.assertEquals(ProductionDepartment.getInstance().getMachines().size(), 1);
-            Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 500.0);
+            Assert.assertEquals(ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity(), 25.0);
         } catch (NoMachinerySlotsAvailableException e) {
             System.out.println(e.getMessage());
         }
@@ -85,9 +86,9 @@ public class ProductionDepartmentTest {
     public void launchProductTest() {
         try {
             Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
-            Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1)), 10000.0);
-            ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1));
-        } catch(InvalidSetOfComponentsException e) {
+            Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true), 10000.0);
+            ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true);
+        } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
@@ -98,7 +99,7 @@ public class ProductionDepartmentTest {
         Map<Product, Integer> products = ProductionDepartment.getInstance().getNumberProducedProducts();
         try {
             for (HashMap.Entry<Product, Integer> p : products.entrySet()) {
-                ProductionDepartment.getInstance().produceProduct(p.getKey(), 10, 10);
+                ProductionDepartment.getInstance().produceProduct(p.getKey(), 10, 10, true);
             }
             //Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 10);
         } catch (Exception e) {

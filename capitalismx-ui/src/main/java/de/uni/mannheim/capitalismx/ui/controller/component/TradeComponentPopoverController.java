@@ -15,6 +15,8 @@ import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagemen
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
@@ -42,7 +44,7 @@ public class TradeComponentPopoverController implements Initializable {
 	private AnchorPane root;
 
 	@FXML
-	private Label componentName, priceLabel, qualityLabel;
+	private Label componentName, priceLabelBuy, priceLabelSell, qualityLabel;
 
 	@FXML
 	private TextField amountField;
@@ -90,6 +92,13 @@ public class TradeComponentPopoverController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CssHelper.replaceStylesheets(root.getStylesheets());
+		amountField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				updatePrice();
+			}
+		});
+			
 	}
 
 	@FXML
@@ -125,8 +134,10 @@ public class TradeComponentPopoverController implements Initializable {
 	}
 
 	private void updatePrice() {
-		double cost = componentPrice * Integer.parseInt(amountField.getText());
-		priceLabel.setText(UIManager.getLocalisedString("component.price") + CapCoinFormatter.getCapCoins(cost));
+		int amount = Integer.parseInt(amountField.getText());
+		double cost = componentPrice * amount;
+		priceLabelSell.setText(UIManager.getLocalisedString("component.price.sell")
+				+ CapCoinFormatter.getCapCoins(component.getSalesPrice() * amount));
+		priceLabelBuy.setText(UIManager.getLocalisedString("component.price.buy") + CapCoinFormatter.getCapCoins(cost));
 	}
-
 }

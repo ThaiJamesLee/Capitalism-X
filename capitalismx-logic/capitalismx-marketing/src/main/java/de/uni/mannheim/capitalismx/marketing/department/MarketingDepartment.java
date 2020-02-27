@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,7 +137,7 @@ public class MarketingDepartment extends DepartmentImpl {
     }
 
     @Override //TODO wirklich nötig?
-    public void setLevel(int level) {
+    public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
         super.setLevel(level);
         this.currentLevel.setValue(new Double(level));
 //       this.updateWarehouseSlots();TODO

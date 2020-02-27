@@ -13,6 +13,7 @@ import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.MessageEventListener;
 import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -62,6 +63,11 @@ public class MessageController implements Initializable {
 		messageSubjectSave = new ArrayList<MessageSubjectController>();
 	}
 
+    /**
+     * Receives a @MessageObject and adds it's content as components to the message window.
+     *
+     * @param m
+     */
 	public void addMessage(MessageObject m) {
 		Parent messageSubject;
 		Parent messageContent;
@@ -77,23 +83,52 @@ public class MessageController implements Initializable {
 		try {
 			messageSubject = subjectLoader.load();
 			msc = subjectLoader.getController();
-			msc.setSubjectSender(bundle.getString(m.getSender()));
+			try {
+                msc.setSubjectSender(bundle.getString(m.getSender()));
+                msc.setSubjectSubject(bundle.getString(m.getSubject()));
+            } catch (Exception e){
+                //System.out.println("Message Object loading exception" + e.getClass());
+                //class java.util.MissingResourceException
+			    msc.setSubjectSender(m.getSender());
+			    msc.setSubjectSubject(m.getSender());
+            }
+
+
 			msc.setSubjectDate(m.getDate());
-			msc.setSubjectSubject(bundle.getString(m.getSubject()));
-			messages.add(0, messageSubject);
-			messageList.setItems(messages);
-			messageSubjectSave.add(0, msc);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    messages.add(0, messageSubject);
+                    messageList.setItems(messages);
+                    messageSubjectSave.add(0, msc);
+                }
+            });
+
 
 			messageContent = contentLoader.load();
 			mcc = contentLoader.getController();
-			mcc.setContentSender(bundle.getString(m.getSender()));
-			mcc.setContentDate(m.getDate());
-			mcc.setContentSubject(bundle.getString(m.getSubject()));
-			mcc.setContentContent(bundle.getString(m.getContent()));
+			try {
+                mcc.setContentSender(bundle.getString(m.getSender()));
+                mcc.setContentSubject(bundle.getString(m.getSubject()));
+                mcc.setContentContent(bundle.getString(m.getContent()));
+            } catch (Exception e) {
+                //System.out.println("Message Object loading exception" + e.getClass());
+                //class java.util.MissingResourceException
+                mcc.setContentSender(m.getSender());
+                mcc.setContentSubject(m.getSubject());
+                mcc.setContentContent(m.getContent());
+            }
+            mcc.setContentDate(m.getDate());
 			if(m.getJumpTo()!=0){
 				mcc.addJumpButton(m.getJumpTo());
 			}
-			messageContentPane.setContent(messageContent);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    messageContentPane.setContent(messageContent);
+                }
+            });
+
 
 			//m.setSubjectPanel(messageSubject);
 			//m.setMessageContent(messageContent);

@@ -1,7 +1,12 @@
 package de.uni.mannheim.capitalismx.logistic.support;
 
+import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
+import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportPartnerException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * This class represents the product support.
@@ -41,17 +46,19 @@ public class ProductSupport implements Serializable {
      */
     public enum SupportType implements Serializable{
         //TODO change 0 supportTypeQuality
-        NO_PRODUCT_SUPPORT(-10, 0),
-        ONLINE_SELF_SERVICE(0, 50),
-        ONLINE_SUPPORT(20, 100),
-        TELEPHONE_SUPPORT(30, 250),
-        STORE_SUPPORT(40, 400),
-        ADDITIONAL_SERVICES(10, 50);
+        NO_PRODUCT_SUPPORT("no", -10, 0),
+        ONLINE_SELF_SERVICE("online.self", 0, 50),
+        ONLINE_SUPPORT("online.support", 20, 100),
+        TELEPHONE_SUPPORT("telephone.support", 30, 250),
+        STORE_SUPPORT("store.support", 40, 400),
+        ADDITIONAL_SERVICES("additional.services", 10, 50);
 
         private int supportTypeQuality;
         private int costsSupportType;
+        private String name;
 
-        SupportType(int supportTypeQuality, int costsSupportType){
+        SupportType(String name, int supportTypeQuality, int costsSupportType){
+            this.name = name;
             this.supportTypeQuality = supportTypeQuality;
             this.costsSupportType = costsSupportType;
         }
@@ -63,6 +70,19 @@ public class ProductSupport implements Serializable {
         public int getCostsSupportType(){
             return this.costsSupportType;
         }
+
+        /**
+         * Determines the localized name and returns it.
+         * @return Returns the localized name.
+         */
+        public String getLocalizedName(Locale locale) {
+            return this.getLocalisedString("logistics.support." + this.name, locale);
+        }
+
+        public String getLocalisedString(String text, Locale locale) {
+            ResourceBundle langBundle = ResourceBundle.getBundle("logistics-module", locale);
+            return langBundle.getString(text);
+        }
     }
 
     //TODO: generate suitable values
@@ -72,14 +92,16 @@ public class ProductSupport implements Serializable {
      * partner to provide product support. The partners differ in their contractual costs and quality.
      */
     public enum ExternalSupportPartner implements Serializable{
-        NO_PARTNER(0, 0),
-        PARTNER_1(1000, 80),
-        PARTNER_2(800, 40);
+        NO_PARTNER("-", 0, 0),
+        PARTNER_1("Partner 1", 1000, 80),
+        PARTNER_2("Partner 2", 800, 40);
 
         private int contractualCosts;
         private int qualityIndex;
+        private String name;
 
-        ExternalSupportPartner(int contractualCosts, int qualityIndex){
+        ExternalSupportPartner(String name, int contractualCosts, int qualityIndex){
+            this.name = name;
             this.contractualCosts = contractualCosts;
             this.qualityIndex = qualityIndex;
         }
@@ -90,6 +112,10 @@ public class ProductSupport implements Serializable {
 
         public int getQualityIndex() {
             return this.qualityIndex;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 
@@ -145,10 +171,16 @@ public class ProductSupport implements Serializable {
      * Adds a new support type to the list of support types provided by the company. Only possible if an external
      * support partner is hired.
      * @param supportType The new support type to be added.
+     * @throws NoExternalSupportPartnerException if no external support partner is hired.
      */
-    public void addSupport(SupportType supportType){
-        if((externalSupportPartner != ExternalSupportPartner.NO_PARTNER) && (!supportTypes.contains(supportType))){
-            this.supportTypes.add(supportType);
+    public void addSupport(SupportType supportType) throws NoExternalSupportPartnerException{
+        if((externalSupportPartner != ExternalSupportPartner.NO_PARTNER)){
+            if(!supportTypes.contains(supportType)){
+                this.supportTypes.add(supportType);
+                this.supportTypes.remove(SupportType.NO_PRODUCT_SUPPORT);
+            }
+        }else{
+            throw new NoExternalSupportPartnerException("No external support partner hired");
         }
     }
 
@@ -158,6 +190,9 @@ public class ProductSupport implements Serializable {
      */
     public void removeSupport(SupportType supportType){
         this.supportTypes.remove(supportType);
+        if(this.supportTypes.size() == 0){
+            this.supportTypes.add(SupportType.NO_PRODUCT_SUPPORT);
+        }
     }
 
     /**
@@ -183,13 +218,13 @@ public class ProductSupport implements Serializable {
         this.externalSupportPartner = externalSupportPartner;
     }
 
-    //TODO remove support types
-
     /**
      * Fires the currently hired external support partner.
      */
     public void removeExternalSupportPartner(){
         this.externalSupportPartner = ExternalSupportPartner.NO_PARTNER;
+        this.supportTypes.clear();
+        this.supportTypes.add(SupportType.NO_PRODUCT_SUPPORT);
     }
 
     /**
@@ -257,5 +292,9 @@ public class ProductSupport implements Serializable {
 
     public static void setInstance(ProductSupport instance) {
         ProductSupport.instance = instance;
+    }
+
+    public static ProductSupport createInstance() {
+        return new ProductSupport();
     }
 }

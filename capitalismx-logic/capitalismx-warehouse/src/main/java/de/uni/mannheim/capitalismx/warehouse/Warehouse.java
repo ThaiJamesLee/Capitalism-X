@@ -19,7 +19,7 @@ public class Warehouse implements Serializable {
     private int usefulLife;
 
     public Warehouse(WarehouseType warehouseType) {
-        this.capacity = 5000;
+        this.capacity = 2500;
         this.warehouseType = warehouseType;
         this.variableStorageCost = 5;
         this.monthlyFixCostWarehouse = 1000;

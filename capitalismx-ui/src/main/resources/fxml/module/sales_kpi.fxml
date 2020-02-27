@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+
+<AnchorPane stylesheets="@../../css/general.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesKPIController">
+   <children>
+      <HBox layoutX="307.0" layoutY="217.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <VBox spacing="5.0">
+               <children>
+                  <Label styleClass="label_very_large" text="%sales.kpi.fulfilled">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.all">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.year">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.quarter">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox spacing="5.0">
+               <children>
+                  <Label styleClass="label_very_large" />
+                  <Label fx:id="fulfilledAll" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+                  <Label fx:id="fulfilledYear" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+                  <Label fx:id="fulfilledQuarter" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+               </children>
+            </VBox>
+            <Line endX="-99.99993896484375" endY="93.29289245605469" startX="-100.0" />
+            <VBox spacing="5.0">
+               <children>
+                  <Label styleClass="label_very_large" text="%sales.kpi.failed">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.all">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.year">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.quarter">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <VBox spacing="5.0">
+               <children>
+                  <Label styleClass="label_very_large" />
+                  <Label fx:id="failedAll" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+                  <Label fx:id="failedYear" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+                  <Label fx:id="failedQuarter" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <Line endX="-99.99993896484375" endY="93.29289245605469" startX="-100.0" />
+            <VBox spacing="5.0">
+               <children>
+                  <Label styleClass="label_very_large" text="%sales.kpi.profits">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.all">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.year">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.quarter">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox spacing="5.0">
+               <children>
+                  <Label styleClass="label_very_large" />
+                  <Label fx:id="revenueAll" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+                  <Label fx:id="revenueYear" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+                  <Label fx:id="revenueQuarter" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+               </children>
+            </VBox>
+            <Line endX="-99.99993896484375" endY="93.29289245605469" startX="-100.0" />
+            <VBox spacing="5.0">
+               <children>
+                  <Label styleClass="label_very_large" text="%sales.kpi.loss">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.all">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.year">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="large" text="%sales.kpi.quarter">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox spacing="5.0">
+               <children>
+                  <Label styleClass="label_very_large" />
+                  <Label fx:id="penaltyAll" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+                  <Label fx:id="penaltyYear" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+                  <Label fx:id="penaltyQuarter" alignment="CENTER_RIGHT" prefWidth="50.0" text="-" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

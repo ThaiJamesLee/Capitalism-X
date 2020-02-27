@@ -5,24 +5,36 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="contentVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="385.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.message.MessageContentController">
+<VBox fx:id="contentVBox" maxHeight="0.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="385.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.message.MessageContentController">
    <children>
       <HBox alignment="CENTER_LEFT" prefWidth="385.0">
          <children>
             <Label id="sender" fx:id="contentSender" maxHeight="25.0" prefWidth="240.0" text="Label">
                <HBox.margin>
-                  <Insets left="3.0" />
-               </HBox.margin></Label>
-            <Label id="date" fx:id="contentDate" alignment="CENTER_RIGHT" maxHeight="25.0" prefWidth="145.0" text="Label" />
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding></Label>
+            <Label id="date" fx:id="contentDate" alignment="CENTER_RIGHT" maxHeight="25.0" prefWidth="145.0" text="Label">
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding></Label>
          </children>
       </HBox>
       <Label id="subject" fx:id="contentSubject" maxHeight="25.0" prefWidth="385.0" text="Label">
          <VBox.margin>
-            <Insets left="3.0" />
-         </VBox.margin></Label>
-      <Label id="content" fx:id="contentContent" alignment="TOP_LEFT" minHeight="400.0" prefWidth="385.0" text="Label">
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding></Label>
+      <Label id="content" fx:id="contentContent" alignment="TOP_LEFT" maxHeight="400.0" minHeight="400.0" prefWidth="385.0" text="Label">
          <VBox.margin>
-            <Insets left="3.0" />
-         </VBox.margin></Label>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding></Label>
    </children>
 </VBox>

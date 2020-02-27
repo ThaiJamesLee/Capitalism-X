@@ -69,7 +69,7 @@ public class WarehouseStatisticsController implements UpdateableController {
 
 		// init stats
 		this.capacityLabel.setText(overallCapacity + "");
-		this.costLabel.setText((int) warehouse.getMonthlyTotalCostWarehousing() + "");
+		this.costLabel.setText((int) warehouse.getMonthlyWarehouseCost(GameState.getInstance().getGameDate()) + "");
 	}
 
 	@Override

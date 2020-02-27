@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 import org.slf4j.Logger;
@@ -51,6 +52,11 @@ public class LogisticsDepartment extends DepartmentImpl {
      * The costs for shipping by post.
      */
     private double shippingFee;
+
+    /**
+     * A list of external partners to choose from.
+     */
+    private ArrayList<ExternalPartner> externalPartnerSelection;
 
     private static final Logger logger = LoggerFactory.getLogger(LogisticsDepartment.class);
     private double costLogistics;
@@ -150,7 +156,7 @@ public class LogisticsDepartment extends DepartmentImpl {
     }
 
     @Override
-    public void setLevel(int level) {
+    public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
         super.setLevel(level);
         updateLogisticsCapacity();
     }
@@ -278,28 +284,30 @@ public class LogisticsDepartment extends DepartmentImpl {
         externalPartnerSelection.add(new ExternalPartner("Partner 9", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40),
                 RandomNumberGenerator.getRandomDouble(0.7, 0.9), RandomNumberGenerator.getRandomDouble(1.1, 1.3)));
 
-        return externalPartnerSelection;
+        this.externalPartnerSelection = externalPartnerSelection;
+        return this.externalPartnerSelection;
     }
 
     /**
      * Generates a selection of trucks with different characteristics according to p.49.
+     * @param locale The Locale object of the desired language.
      * @return Returns a list of 6 different trucks.
      */
-    public ArrayList<Truck> generateTruckSelection(){
+    public ArrayList<Truck> generateTruckSelection(Locale locale){
         ArrayList<Truck> truckSelection = new ArrayList<Truck>();
 
         // generate six trucks according to table on page 49
-        truckSelection.add(new Truck("Truck 1", RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.1, 1.3),
+        truckSelection.add(new Truck(this.getLocalisedString("truck", locale) + " 1", RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.1, 1.3),
                 RandomNumberGenerator.getRandomDouble(0.6, 0.8)));
-        truckSelection.add(new Truck("Truck 2", RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.9, 1.1),
+        truckSelection.add(new Truck(this.getLocalisedString("truck", locale) + " 2", RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.9, 1.1),
                 RandomNumberGenerator.getRandomDouble(0.8, 1.1)));
-        truckSelection.add(new Truck("Truck 3", RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.0, 1.2),
+        truckSelection.add(new Truck(this.getLocalisedString("truck", locale) + " 3", RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(60, 100), RandomNumberGenerator.getRandomDouble(1.0, 1.2),
                 RandomNumberGenerator.getRandomDouble(0.7, 0.9)));
-        truckSelection.add(new Truck("Truck 4", RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.8, 1.1),
+        truckSelection.add(new Truck(this.getLocalisedString("truck", locale) + " 4", RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.8, 1.1),
                 RandomNumberGenerator.getRandomDouble(0.9, 1.1)));
-        truckSelection.add(new Truck("Truck 5", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.7, 0.9),
+        truckSelection.add(new Truck(this.getLocalisedString("truck", locale) + " 5", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(30, 70), RandomNumberGenerator.getRandomDouble(0.7, 0.9),
                 RandomNumberGenerator.getRandomDouble(1.0, 1.2)));
-        truckSelection.add(new Truck("Truck 6", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.6, 0.8),
+        truckSelection.add(new Truck(this.getLocalisedString("truck", locale) + " 6", RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0, 40), RandomNumberGenerator.getRandomDouble(0.6, 0.8),
                 RandomNumberGenerator.getRandomDouble(1.1, 1.3)));
         return truckSelection;
     }
@@ -431,5 +439,14 @@ public class LogisticsDepartment extends DepartmentImpl {
     @Override
     public void registerPropertyChangeListener(PropertyChangeListener listener) {
         throw new UnsupportedOperationException();
+    }
+
+    public ArrayList<ExternalPartner> getExternalPartnerSelection() {
+        return externalPartnerSelection;
+    }
+
+    public String getLocalisedString(String text, Locale locale) {
+        ResourceBundle langBundle = ResourceBundle.getBundle("logistics-module", locale);
+        return langBundle.getString(text);
     }
 }

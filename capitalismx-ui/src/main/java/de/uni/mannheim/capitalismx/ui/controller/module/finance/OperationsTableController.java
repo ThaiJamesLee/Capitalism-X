@@ -8,11 +8,13 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.finance.OperationsTableViewCell;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -51,6 +53,8 @@ public class OperationsTableController  implements Initializable {
             headerController.setHeaderRow();
             operationsVBox.getChildren().add(headerRow);
             controllers.put("header", headerController);
+            //ensures that row's height increases with parent
+            VBox.setVgrow(headerRow, Priority.ALWAYS);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,8 +64,10 @@ public class OperationsTableController  implements Initializable {
         for(String rowName : rowNames){
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/operations_table_cell.fxml"));
             try {
-                loader.setController(new OperationsTableViewCell(new String[]{rowName, UIManager.getLocalisedString("operations.table." + rowName), "0", "0", "0", "0"}, operationsVBox, controllers));
-                Parent headerRow = loader.load();
+                loader.setController(new OperationsTableViewCell(new String[]{rowName,
+                        UIManager.getLocalisedString("operations.table." + rowName), CapCoinFormatter.getCapCoins(0),
+                        CapCoinFormatter.getCapCoins(0), CapCoinFormatter.getCapCoins(0), CapCoinFormatter.getCapCoins(0)}, operationsVBox, controllers));
+                Parent row = loader.load();
                 OperationsTableViewCell controller = loader.getController();
 
                 if(rowName.contains("Costs") || rowName.equals("tax")){
@@ -70,8 +76,10 @@ public class OperationsTableController  implements Initializable {
                     controller.setColor("-fx-green");
                 }
 
-                operationsVBox.getChildren().add(headerRow);
+                operationsVBox.getChildren().add(row);
                 controllers.put(rowName, controller);
+                //ensures that row's height increases with parent
+                VBox.setVgrow(row, Priority.ALWAYS);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -109,10 +117,10 @@ public class OperationsTableController  implements Initializable {
 
                 OperationsTableViewCell controller = controllers.get(rowName);
                 if(controller != null){
-                    controller.setLabel2(cols[0]);
-                    controller.setLabel3(cols[1]);
-                    controller.setLabel4(cols[2]);
-                    controller.setLabel5(cols[3]);
+                    controller.setLabel2(CapCoinFormatter.getCapCoins(Double.valueOf(cols[0])));
+                    controller.setLabel3(CapCoinFormatter.getCapCoins(Double.valueOf(cols[1])));
+                    controller.setLabel4(CapCoinFormatter.getCapCoins(Double.valueOf(cols[2])));
+                    controller.setLabel5(CapCoinFormatter.getCapCoins(Double.valueOf(cols[3])));
                 }
             }
         });

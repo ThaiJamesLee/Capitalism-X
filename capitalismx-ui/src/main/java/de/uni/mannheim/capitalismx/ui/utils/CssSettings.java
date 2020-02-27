@@ -1,8 +1,5 @@
 package de.uni.mannheim.capitalismx.ui.utils;
 
-import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
-
 /**
  * All the resolutions the game supports. Each {@link CssSettings} contains
  * information about the width and height of the resolution, as well as a String

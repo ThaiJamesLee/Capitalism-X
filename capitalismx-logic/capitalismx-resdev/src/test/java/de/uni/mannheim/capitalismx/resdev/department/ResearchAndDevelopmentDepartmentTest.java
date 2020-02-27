@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.resdev.department;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
@@ -39,7 +40,11 @@ public class ResearchAndDevelopmentDepartmentTest {
         int level = 5;
 
         for(int i = 0; i < level; i++) {
-            researchAndDevelopmentDepartment.getLevelingMechanism().levelUp();
+            try {
+                researchAndDevelopmentDepartment.getLevelingMechanism().levelUp();
+            } catch (LevelingRequirementNotFulFilledException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
 
         Assert.assertEquals(5, researchAndDevelopmentDepartment.getLevel());
@@ -54,10 +59,14 @@ public class ResearchAndDevelopmentDepartmentTest {
         int level = 5;
 
         for(int i = 0; i < level; i++) {
-            researchAndDevelopmentDepartment.getLevelingMechanism().levelUp();
+            try {
+                researchAndDevelopmentDepartment.getLevelingMechanism().levelUp();
+            } catch (LevelingRequirementNotFulFilledException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
-        String message = "Level Up ResearchAndDevelopment Department to lv." + level;
-        LOGGER.info(message);
+        String info = "Resdev skills: " + researchAndDevelopmentDepartment.getSkillMap().size();
+        LOGGER.info(info);
         Assert.assertTrue(researchAndDevelopmentDepartment.isComponentUnlocked(new Component(ComponentType.G_CAMERA_LEVEL_1)));
         Assert.assertFalse(researchAndDevelopmentDepartment.isComponentUnlocked(new Component(ComponentType.G_CPU_LEVEL_7)));
     }

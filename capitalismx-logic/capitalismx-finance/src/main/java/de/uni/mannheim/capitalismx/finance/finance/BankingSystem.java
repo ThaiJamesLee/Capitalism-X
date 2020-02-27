@@ -1,10 +1,13 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
+import java.util.*;
 
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
@@ -23,19 +26,14 @@ public class BankingSystem implements Serializable {
     private static BankingSystem instance;
 
     /**
-     * The current loan of the company.
+     * The current loans of the company.
      */
-    private Loan loan;
+    private ArrayList<Loan> loans;
 
-    /**
-     * The start date of the current loan, relevant e.g., to determine when the loan ends.
-     */
-    private LocalDate loanDate;
-
-    private double annualRepayment;
-    private double annualPrincipalBalance;
-    private double annualInterestRate;
-    private double annualLoanRate;
+    private double totalAnnualRepayment;
+    private double totalAnnualPrincipalBalance;
+    private double totalAnnualInterestRate;
+    private double totalAnnualLoanRate;
 
     /**
      * This class defines a loan based on a name, an interest rate, a duration, and an amount.
@@ -46,11 +44,34 @@ public class BankingSystem implements Serializable {
         private double duration;
         private double loanAmount;
 
+        /**
+         * The start date of the current loan, relevant e.g., to determine when the loan ends.
+         */
+        private LocalDate loanDate;
+        private PropertyChangeSupportDouble remainingDuration;
+
+        private double annualRepayment;
+        private PropertyChangeSupportDouble annualPrincipalBalance;
+        private double annualInterestRate;
+        private double annualLoanRate;
+
         protected Loan(String name, double interestRate, double duration, double loanAmount){
             this.name = name;
             this.interestRate = DecimalRound.round(interestRate, 4);
             this.duration = duration;
             this.loanAmount = DecimalRound.round(loanAmount, 2);
+
+            this.annualPrincipalBalance = new PropertyChangeSupportDouble();
+            this.annualPrincipalBalance.setValue(this.loanAmount);
+            this.annualPrincipalBalance.setPropertyChangedName("annualPrincipalBalance");
+
+            this.remainingDuration = new PropertyChangeSupportDouble();
+            this.remainingDuration.setValue(this.duration);
+            this.remainingDuration.setPropertyChangedName("remainingDuration");
+        }
+
+        public void setLoanDate(LocalDate loanDate) {
+            this.loanDate = loanDate;
         }
 
         public double getInterestRate() {
@@ -65,8 +86,128 @@ public class BankingSystem implements Serializable {
             return this.loanAmount;
         }
 
+        public double getAnnualPrincipalBalance() {
+            return annualPrincipalBalance.getValue();
+        }
+
+        public double getRemainingDuration() {
+            return remainingDuration.getValue();
+        }
+
         public String getName() {
             return this.name;
+        }
+
+        /**
+         * Calculates the remaining duration of the loan in months.
+         * @param gameDate The current date in the game
+         * @return Returns the remaining duration of the loan in months.
+         */
+        public double calculateRemainingDuration(LocalDate gameDate){
+            double rDuration;
+            if(this.loanDate != null){
+                Period p = Period.between(gameDate, this.loanDate.plusMonths((long) this.duration));
+                rDuration =  (p.getYears() * 12) + p.getMonths() ;
+                //ensures that remaining duration is not larger than starting duration
+                rDuration = Math.min(rDuration, this.duration);
+            }else{
+                rDuration = -1.0;
+            }
+            this.remainingDuration.setValue(rDuration);
+            return this.remainingDuration.getValue();
+        }
+
+        /**
+         * Calculates the annual repayment based on the loan amount and duration according to p.77.
+         * @return Returns the annual repayment
+         */
+        protected double calculateAnnualRepayment(){
+            this.annualRepayment = 0;
+            double durationYears = Math.ceil(this.duration / 12.0);
+            this.annualRepayment = this.loanAmount / durationYears;
+            return this.annualRepayment;
+        }
+
+        /**
+         * Calculates the annual principal balance based on the loan amount, annual repayment, and duration according to p.77.
+         * @param gameDate The current date in the game.
+         * @return Returns the annual principal balance.
+         */
+        protected double calculateAnnualPrincipalBalance(LocalDate gameDate){
+            double principalBalance = 0;
+            int year = Period.between(this.loanDate.plusDays(1), gameDate).getYears();
+            principalBalance = this.loanAmount - (this.calculateAnnualRepayment()  * year);
+            //TODO remove loan if principal balance <= 0
+            this.annualPrincipalBalance.setValue(principalBalance);
+            return this.annualPrincipalBalance.getValue();
+        }
+
+        /**
+         * Calculates the annual interest rate based on the principal balance and interest rate according to p.77.
+         * @param gameDate The current date in the game.
+         * @return Returns the annual interest rate.
+         */
+        protected double calculateAnnualInterestRate(LocalDate gameDate){
+            this.annualInterestRate = 0;
+            //int year = Period.between(this.loanDate.plusDays(1), gameDate).getYears();
+            this.annualInterestRate = this.calculateAnnualPrincipalBalance(gameDate) * this.interestRate;
+            return this.annualInterestRate;
+        }
+
+        /**
+         * Calculates the annual loan rate based on the annual repayment and the annual interest rate according to p.77.
+         * @param gameDate The current date in the game.
+         * @return Returns the annual loan rate.
+         */
+        protected double calculateAnnualLoanRate(LocalDate gameDate){
+            this.annualLoanRate = 0;
+            //int year = Period.between(this.loanDate.plusDays(1), gameDate).getYears();
+            this.annualLoanRate = this.calculateAnnualRepayment() + this.calculateAnnualInterestRate(gameDate);
+            return this.annualLoanRate;
+        }
+
+        /**
+         * Calculates the monthly loan rate based on the number of months the current annual loan rate has to be distributed
+         * across. Moreover, removes the loan after the last payment.
+         * @param gameDate The current date in the game.
+         * @return Returns the monthly loan rate.
+         */
+        protected double calculateMonthlyLoanRate(LocalDate gameDate){
+            //calculate remaining duration
+            this.calculateRemainingDuration(gameDate);
+
+            // check if payment required on current day - first payment is one month after loanDate
+            if((this.loanDate.getDayOfMonth() == gameDate.getDayOfMonth()) && (this.loanDate.isBefore(gameDate))){
+                double monthlyLoanRate = this.calculateAnnualLoanRate(gameDate);
+
+                //if the loan duration is not a multiple of 12 months, the monthly payment in the last year is not 1/12
+                // of the annual loan rate
+                //instead, the annual loan rate is divided according to the number of months in the last year
+
+                //number of complete years (12months) in loanDuration
+                int years = ((int) this.duration) / 12;
+                if(gameDate.isAfter(this.loanDate.plusYears(years * 12))){
+                    monthlyLoanRate = monthlyLoanRate / (((int) this.duration) % 12);
+                }else{
+                    monthlyLoanRate /= 12;
+                }
+
+                //TODO update GUI
+                //check if this is the last payment
+                if(this.loanDate.plusMonths((long) this.duration).equals(gameDate)){
+                    //Set loan amount to 0.0 -> will be removed later in the banking system
+                    //this.removeLoan();
+                    this.loanAmount = 0.0;
+                    //FinanceDepartment.getInstance().removeLoan();
+                }
+                return monthlyLoanRate;
+            }
+            return 0.0;
+        }
+
+        public void registerPropertyChangeListener(PropertyChangeListener listener) {
+            this.annualPrincipalBalance.addPropertyChangeListener(listener);
+            this.remainingDuration.addPropertyChangeListener(listener);
         }
     }
 
@@ -74,7 +215,7 @@ public class BankingSystem implements Serializable {
      * Constructor
      */
     protected BankingSystem(){
-
+        this.loans = new ArrayList<>();
     }
 
     /**
@@ -91,16 +232,17 @@ public class BankingSystem implements Serializable {
     /**
      * Generates a selection of three loan types according to the table on p.76.
      * @param loanAmount The amount of the loan.
+     * @param locale The Locale object of the desired language.
      * @return Returns an ArrayList of the three different loans that were generated.
      */
-    ArrayList<Loan> generateLoanSelection(double loanAmount){
+    ArrayList<Loan> generateLoanSelection(double loanAmount, Locale locale){
         ArrayList<Loan> loanSelection = new ArrayList<Loan>();
         //short-term
-        loanSelection.add(new Loan("Short-term Loan", RandomNumberGenerator.getRandomDouble(0.06, 0.18), RandomNumberGenerator.getRandomInt(1, 12), loanAmount));
+        loanSelection.add(new Loan(this.getLocalisedString("finance.loan.short", locale), RandomNumberGenerator.getRandomDouble(0.06, 0.18), RandomNumberGenerator.getRandomInt(1, 12), loanAmount));
         //medium-term
-        loanSelection.add(new Loan("Medium-term Loan", RandomNumberGenerator.getRandomDouble(0.03, 0.06), RandomNumberGenerator.getRandomInt(1, 5) * 12, loanAmount));
+        loanSelection.add(new Loan(this.getLocalisedString("finance.loan.medium", locale), RandomNumberGenerator.getRandomDouble(0.03, 0.06), RandomNumberGenerator.getRandomInt(1, 5) * 12, loanAmount));
         //long-term
-        loanSelection.add(new Loan("Long-term Loan", RandomNumberGenerator.getRandomDouble(0.01, 0.03), RandomNumberGenerator.getRandomInt(10, 15) * 12, loanAmount));
+        loanSelection.add(new Loan(this.getLocalisedString("finance.loan.long", locale), RandomNumberGenerator.getRandomDouble(0.01, 0.03), RandomNumberGenerator.getRandomInt(10, 15) * 12, loanAmount));
         return loanSelection;
     }
 
@@ -110,120 +252,104 @@ public class BankingSystem implements Serializable {
      * @param loanDate The date on which the loan was added.
      */
     void addLoan(Loan loan, LocalDate loanDate){
-        this.loan = loan;
         //loanDate starts on first day of following month
-        this.loanDate = loanDate.plusMonths(1).withDayOfMonth(1);
-        //this.loanDate = loanDate;
+        loan.setLoanDate(loanDate.plusMonths(1).withDayOfMonth(1));
+        this.loans.add(loan);
+        //init annual principal balance
+        loan.calculateAnnualPrincipalBalance(loanDate);
+        //init remaining duration
+        loan.calculateRemainingDuration(loanDate);
     }
 
     /**
      * Removes a loan from the company.
      */
-    void removeLoan(){
-        this.loan = null;
-        this.loanDate = null;
+    void removeLoan(Loan loan){
+        //this.loans.remove(loan);
     }
 
     /**
-     * Calculates the annual repayment based on the loan amount and duration according to p.77.
-     * @return Returns the annual repayment
+     * Calculates the total annual repayment based on the annual repayment of all loans.
+     * @return Returns the total annual repayment
      */
     protected double calculateAnnualRepayment(){
-        this.annualRepayment = 0;
-        if(this.loan != null){
-            double durationYears = Math.ceil(this.loan.getDuration() / 12.0);
-            this.annualRepayment = this.loan.getLoanAmount() / durationYears;
+        this.totalAnnualRepayment = 0;
+        for(Loan loan : loans){
+            this.totalAnnualRepayment += loan.calculateAnnualRepayment();
         }
-        return this.annualRepayment;
+        return this.totalAnnualRepayment;
     }
 
     /**
-     * Calculates the annual principal balance based on the loan amount, annual repayment, and duration according to p.77.
+     * Calculates the total annual principal balance based on the annual principal balance of all loans.
      * @param gameDate The current date in the game.
-     * @return Returns the annual principal balance.
+     * @return Returns the total annual principal balance.
      */
     protected double calculateAnnualPrincipalBalance(LocalDate gameDate){
-        this.annualPrincipalBalance = 0;
-        if(this.loan != null){
-            int year = Period.between(this.loanDate.plusDays(1), gameDate).getYears();
-            this.annualPrincipalBalance = this.loan.getLoanAmount() - (this.calculateAnnualRepayment()  * year);
-            //TODO remove loan if principal balance <= 0
+        this.totalAnnualPrincipalBalance = 0;
+        for(Loan loan : loans){
+            this.totalAnnualPrincipalBalance += loan.calculateAnnualPrincipalBalance(gameDate);
         }
-        return this.annualPrincipalBalance;
+        return this.totalAnnualPrincipalBalance;
     }
 
     /**
-     * Calculates the annual interest rate based on the principal balance and interest rate according to p.77.
+     * Calculates the total annual interest rate based on the annual interest rate of all loans.
      * @param gameDate The current date in the game.
-     * @return Returns the annual interest rate.
+     * @return Returns the total annual interest rate.
      */
     protected double calculateAnnualInterestRate(LocalDate gameDate){
-        this.annualInterestRate = 0;
-        if(this.loan != null){
-            //int year = Period.between(this.loanDate.plusDays(1), gameDate).getYears();
-            this.annualInterestRate = this.calculateAnnualPrincipalBalance(gameDate) * this.loan.getInterestRate();
+        this.totalAnnualInterestRate = 0;
+        for(Loan loan : loans){
+            this.totalAnnualInterestRate += loan.calculateAnnualInterestRate(gameDate);
         }
-        return this.annualInterestRate;
+        return this.totalAnnualInterestRate;
     }
 
     /**
-     * Calculates the annual loan rate based on the annual repayment and the annual interest rate according to p.77.
+     * Calculates the total annual loan rate based on the annual loan rate of all loans.
      * @param gameDate The current date in the game.
-     * @return Returns the annual loan rate.
+     * @return Returns the total annual loan rate.
      */
     protected double calculateAnnualLoanRate(LocalDate gameDate){
-        this.annualLoanRate = 0;
-        if(loan != null){
-            //int year = Period.between(this.loanDate.plusDays(1), gameDate).getYears();
-            this.annualLoanRate = this.calculateAnnualRepayment() + this.calculateAnnualInterestRate(gameDate);
+        this.totalAnnualLoanRate = 0;
+        for(Loan loan : loans){
+            this.totalAnnualLoanRate += loan.calculateAnnualLoanRate(gameDate);
         }
-        return this.annualLoanRate;
+        return this.totalAnnualLoanRate;
     }
 
     /**
-     * Calculates the monthly loan rate based on the number of months the current annual loan rate has to be distributed
-     * across. Moreover, removes the loan after the last payment.
+     * Calculates the total monthly loan rate based on the monthly loan rate of all loans. Moreover, removes loans
+     * after the last payment.
      * @param gameDate The current date in the game.
-     * @return Returns the monthly loan rate.
+     * @return Returns the total monthly loan rate.
      */
     protected double calculateMonthlyLoanRate(LocalDate gameDate){
-        if(this.loan != null){
-            // check if payment required on current day - first payment is one month after loanDate
-            if((this.loanDate.getDayOfMonth() == gameDate.getDayOfMonth()) && (this.loanDate.isBefore(gameDate))){
-                double monthlyLoanRate = this.calculateAnnualLoanRate(gameDate);
+        double totalMonthlyLoanRate = 0.0;
+        for(Loan loan : loans){
+            totalMonthlyLoanRate += loan.calculateMonthlyLoanRate(gameDate);
+        }
 
-                //if the loan duration is not a multiple of 12 months, the monthly payment in the last year is not 1/12
-                // of the annual loan rate
-                //instead, the annual loan rate is divided according to the number of months in the last year
-
-                //number of complete years (12months) in loanDuration
-                int years = ((int) this.loan.getDuration()) / 12;
-                if(gameDate.isAfter(this.loanDate.plusYears(years * 12))){
-                    monthlyLoanRate = monthlyLoanRate / (((int) this.loan.getDuration()) % 12);
-                }else{
-                    monthlyLoanRate /= 12;
-                }
-
-                //TODO update GUI
-                //check if this is the last payment
-                if(this.loanDate.plusMonths((long) this.loan.getDuration()).equals(gameDate)){
-                    this.removeLoan();
-                    FinanceDepartment.getInstance().removeLoan();
-                }
-                return monthlyLoanRate;
+        //remove loans that were payed.
+        Iterator iterator = loans.iterator();
+        while(iterator.hasNext()){
+            Loan loan = (Loan) iterator.next();
+            if(loan.loanAmount <= 0.0){
+                iterator.remove();
+                FinanceDepartment.getInstance().removeLoan();
             }
         }
-        return 0.0;
+        return totalMonthlyLoanRate;
     }
 
     //TODO Determine year of loan
-    public double getAnnualPrincipalBalance() {
-        //this.calculateAnnualPrincipalBalance()
-        return this.annualPrincipalBalance;
+    public double getTotalAnnualPrincipalBalance() {
+        return this.totalAnnualPrincipalBalance;
     }
 
-    public Loan getLoan() {
-        return this.loan;
+    public ArrayList<Loan> getLoans() {
+        return this.loans;
     }
 
     public static BankingSystem createInstance() {
@@ -232,5 +358,10 @@ public class BankingSystem implements Serializable {
 
     public static void setInstance(BankingSystem instance) {
         BankingSystem.instance = instance;
+    }
+
+    public String getLocalisedString(String text, Locale locale) {
+        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", locale);
+        return langBundle.getString(text);
     }
 }

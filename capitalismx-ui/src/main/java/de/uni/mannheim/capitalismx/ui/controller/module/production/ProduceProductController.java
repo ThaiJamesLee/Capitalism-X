@@ -87,6 +87,7 @@ public class ProduceProductController implements UpdateableController {
 	 */
 	@FXML
 	public void introduceProduct() {
+		popoverController.updateButtons();
 		introduceProductPopover.show(UIManager.getInstance().getStage());
 	}
 

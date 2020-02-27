@@ -1,9 +1,11 @@
 package de.uni.mannheim.capitalismx.sales.department;
 
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.production.*;
+import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailableException;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import org.junit.Assert;
 import org.slf4j.Logger;
@@ -35,9 +37,14 @@ public class SalesDepartmentTest {
         initDate = LocalDate.of(1990,11,1);
         demandPercentages = new HashMap<>();
         productionDepartment = ProductionDepartment.getInstance();
+        productionDepartment.setNumberOfProductionWorkers(10);
 
         for(int i = 0; i<5; i++) {
-            productionDepartment.getLevelingMechanism().levelUp();
+            try {
+                productionDepartment.getLevelingMechanism().levelUp();
+            } catch (LevelingRequirementNotFulFilledException e) {
+               LOGGER.error(e.getMessage(), e);
+            }
         }
         try {
             productionDepartment.buyMachinery(new Machinery(initDate), initDate);
@@ -55,19 +62,19 @@ public class SalesDepartmentTest {
         try {
             Product p = new Product("test", ProductCategory.GAME_BOY, components);
             p.setLaunchDate(LocalDate.of(1990, 1, 1));
-            System.out.println(productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1)));
-            String launchInfo = "Cost of product P launch: " + productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1));
+            //System.out.println(productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1), true));
+            String launchInfo = "Cost of product P launch: " + productionDepartment.launchProduct(p, LocalDate.of(1990, 1, 1), true);
             LOGGER.info(launchInfo);
 
             Product p2 = new Product("test2", ProductCategory.GAME_BOY, components);
             p2.setLaunchDate(LocalDate.of(1990, 1, 1));
-            String launchInfo2 = "Cost of product P2 launch: " + productionDepartment.launchProduct(p2, LocalDate.of(1990, 1, 1));
+            String launchInfo2 = "Cost of product P2 launch: " + productionDepartment.launchProduct(p2, LocalDate.of(1990, 1, 1), true);
             LOGGER.info(launchInfo2);
 
             demandPercentages.put(p, 0.9);
             demandPercentages.put(p2, 1.2);
 
-        } catch (InvalidSetOfComponentsException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -79,14 +86,19 @@ public class SalesDepartmentTest {
     public void levelUpTest() {
         SalesDepartment salesDepartment = SalesDepartment.createInstance();
         for (int i = 1; i<=salesDepartment.getMaxLevel(); i++) {
-            salesDepartment.getLevelingMechanism().levelUp();
+            try {
+                salesDepartment.getLevelingMechanism().levelUp();
+            } catch (LevelingRequirementNotFulFilledException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
         Assert.assertEquals(8, salesDepartment.getAvailableSkills().size());
     }
 
     @Test
-    public void salesDepartmentSkillTest() {
+    public void salesDepartmentSkillTest() throws LevelingRequirementNotFulFilledException {
         SalesDepartment salesDepartment = SalesDepartment.createInstance();
+        salesDepartment.getLevelingMechanism().levelUp();
         System.out.println( productionDepartment.getLaunchedProducts().size());
         salesDepartment.generateContracts(initDate, productionDepartment, demandPercentages);
 
@@ -100,8 +112,9 @@ public class SalesDepartmentTest {
     }
 
     @Test
-    public void activeContractTest() {
+    public void activeContractTest() throws LevelingRequirementNotFulFilledException {
         SalesDepartment salesDepartment = SalesDepartment.createInstance();
+        salesDepartment.getLevelingMechanism().levelUp();
         System.out.println( productionDepartment.getLaunchedProducts().size());
         salesDepartment.generateContracts(initDate, productionDepartment, demandPercentages);
 

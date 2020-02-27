@@ -16,17 +16,30 @@ public class CapCoinFormatter {
 
 	public static final String CURRENCY_SYMBOL = " CC";
 
+	/**
+	 * Get the given amount of CapCoins as a formatted Currency-String.
+	 * 
+	 * @param amount The amount of CapCoins to format.
+	 * @return Formatted Currency-{@link String}.
+	 */
 	public static String getCapCoins(int amount) {
 		return NumberFormat.getIntegerInstance(UIManager.getResourceBundle().getLocale()).format(amount)
 				+ CURRENCY_SYMBOL;
 	}
 
+	@Deprecated
 	public static String getCapCoinsWithCents(double amount) { // TODO check if this works
 		return String.format("%.2f",
 				NumberFormat.getNumberInstance(UIManager.getResourceBundle().getLocale()).format(amount))
 				+ CURRENCY_SYMBOL;
 	}
 
+	/**
+	 * Get the given amount of CapCoins as a formatted Currency-String.
+	 * 
+	 * @param amount The amount of CapCoins to format.
+	 * @return Formatted Currency-{@link String}.
+	 */
 	public static String getCapCoins(double amount) {
 		return NumberFormat.getIntegerInstance(UIManager.getResourceBundle().getLocale()).format(amount)
 				+ CURRENCY_SYMBOL;

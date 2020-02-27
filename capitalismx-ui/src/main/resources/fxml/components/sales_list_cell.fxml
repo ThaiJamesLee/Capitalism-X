@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="contractCell" alignment="CENTER_RIGHT" onMouseClicked="#showInfoPanel" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractListCellController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" />
+      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <HBox fx:id="contractCellHBox">
-         <children>
-            <Label fx:id="contractName" styleClass="label_medium" />
-            <Label fx:id="contractDeadline" styleClass="label_medium" />
-         </children>
-      </HBox>
+      <Label fx:id="contractName" styleClass="label_medium" text="Left" />
+      <Label fx:id="contractDeadline" alignment="CENTER_RIGHT" contentDisplay="RIGHT" styleClass="label_medium" text="Right" textAlignment="RIGHT" GridPane.columnIndex="1" />
    </children>
-</AnchorPane>
+</GridPane>

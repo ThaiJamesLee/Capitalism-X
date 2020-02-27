@@ -39,16 +39,22 @@ public class SalesDepartmentSkill implements DepartmentSkill {
     private double penaltyFactor;
 
     /**
+     * Cost to refresh available contracts.
+     */
+    private double refreshCost;
+
+    /**
      *
      * @param level he level required to unlock this skill.
      * @param numContracts The number of contracts the Sales Department can get.
      * @param priceFactor The prices for the wholesale price gets better, if the sales department has higher level.
      */
-    public SalesDepartmentSkill(int level, int numContracts, double penaltyFactor, Range priceFactor) {
+    public SalesDepartmentSkill(int level, int numContracts, double penaltyFactor, double refreshCost, Range priceFactor) {
         this.level = level;
         this.numContracts = numContracts;
         this.priceFactor = priceFactor;
         this.penaltyFactor = penaltyFactor;
+        this.refreshCost = refreshCost;
     }
 
     @Override
@@ -84,5 +90,17 @@ public class SalesDepartmentSkill implements DepartmentSkill {
 
     public void setPenaltyFactor(double penaltyFactor) {
         this.penaltyFactor = penaltyFactor;
+    }
+
+    /**
+     *
+     * @return Returns cost to refresh available contracts.
+     */
+    public double getRefreshCost() {
+        return refreshCost;
+    }
+
+    public void setRefreshCost(double refreshCost) {
+        this.refreshCost = refreshCost;
     }
 }

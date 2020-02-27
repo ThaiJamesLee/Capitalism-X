@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.ProductionWorker;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.hr.department.skill.HRSkill;
@@ -216,7 +217,7 @@ public class HRDepartment extends DepartmentImpl {
 	}
 
 	@Override
-	public void setLevel(int level) {
+	public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
 		super.setLevel(level);
 		updateHRCapacity();
 	}
@@ -560,10 +561,11 @@ public class HRDepartment extends DepartmentImpl {
 	 *
 	 * @param employee The employee to train.
 	 * @param training The type of training for the employee.
+	 * @param gameDate The current game date.
 	 * @return Returns the cost of the training.
 	 */
-	public double trainEmployee(Employee employee, Training training) {
-		return EmployeeTraining.getInstance().trainEmployee(employee, training);
+	public double trainEmployee(Employee employee, Training training, LocalDate gameDate) {
+		return EmployeeTraining.getInstance().trainEmployee(employee, training, gameDate);
 	}
 
 	/**
@@ -585,6 +587,19 @@ public class HRDepartment extends DepartmentImpl {
 		double totalTrainingCosts = 0.0;
 		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
 			totalTrainingCosts += entry.getValue().calculateTotalTrainingCosts();
+		}
+		return totalTrainingCosts;
+	}
+
+	/**
+	 * Calculates the total training costs of the company on a specified date.
+	 * @param date The date for which the costs should be calculated.
+	 * @return Returns the total training costs of the company on the specified date.
+	 */
+	public double calculateTotalTrainingCosts(LocalDate date) {
+		double totalTrainingCosts = 0.0;
+		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
+			totalTrainingCosts += entry.getValue().calculateTotalTrainingCosts(date);
 		}
 		return totalTrainingCosts;
 	}

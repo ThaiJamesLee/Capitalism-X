@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
@@ -132,7 +133,8 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.warehouseSlotsAvailable = true;
     }
 
-    public void setLevel(int level) {
+    @Override
+    public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
         super.setLevel(level);
         this.updateWarehouseSlots();
     }
@@ -283,7 +285,7 @@ public class WarehousingDepartment extends DepartmentImpl {
 
     public double calculateDailyStorageCost() {
         int variableStorageCost = 5;
-        this.dailyStorageCost = 5 * this.calculateStoredUnits();
+        this.dailyStorageCost = variableStorageCost * this.calculateStoredUnits();
         this.monthlyStorageCost += this.dailyStorageCost;
         return this.dailyStorageCost;
     }
@@ -296,6 +298,13 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.monthlyTotalCostWarehousing =  this.monthlyCostWarehousing + this.monthlyStorageCost;
         this.resetMonthlyStorageCost();
         return this.monthlyTotalCostWarehousing;
+    }
+
+    public double getMonthlyWarehouseCost(LocalDate gameDate) {
+        double monthlyCostWarehousing = this.calculateMonthlyCostWarehousing();
+        int variableStorageCost = 5;
+        double dailyStorageCost = variableStorageCost * this.calculateStoredUnits();
+        return monthlyCostWarehousing + dailyStorageCost * gameDate.lengthOfMonth();
     }
 
     public int getFreeStorage() {
@@ -442,9 +451,20 @@ public class WarehousingDepartment extends DepartmentImpl {
 	 * @return The amount stored.
 	 */
 	public int getAmountStored(Unit unit) {
-		if (!this.inventory.containsKey(unit)) {
-			return 0;
-		}
+		if (unit.getUnitType() == UnitType.COMPONENT_UNIT) {
+            Component component = (Component) unit;
+            for (Map.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
+                if (entry.getKey().getUnitType() == UnitType.COMPONENT_UNIT) {
+                    Component componentEntry = (Component) entry.getKey();
+                    if (component.getComponentCategory() == componentEntry.getComponentCategory() && component.getSupplierCategory() == componentEntry.getSupplierCategory()) {
+                        return entry.getValue();
+                    }
+                }
+            }
+        }
+        if (!this.inventory.containsKey(unit)) {
+            return 0;
+        }
 		return this.inventory.get(unit);
 	}
 

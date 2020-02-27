@@ -46,28 +46,12 @@ public class TruckFleetController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameController controller = GameController.getInstance();
-		// ObservableList<Truck> truckFleetListObservable =
-		// FXCollections.observableArrayList();
-		ArrayList<Truck> trucks = controller.generateTruckSelection();
-		/*
-		 * for(Truck truck : trucks){ truckFleetListObservable.add(truck); }
-		 */
 
-		/*
-		 * MenuItem[] truckMenuItems = new MenuItem[trucks.size()];
-		 * 
-		 * int i = 0; for(Truck truck : trucks) { truckMenuItems[i] = new
-		 * MenuItem(truck.getName() + " Purchase Price: " + truck.getPurchasePrice());
-		 * truckMenuItems[i].setOnAction(e -> { controller.addTruckToFleet(truck,
-		 * GameState.getInstance().getGameDate());
-		 * truckFleetListView.getItems().add(truck); //selectMenuItem((MenuItem)
-		 * e.getSource()); }); //data.add("Partner " + i + " Contractual Costs: " +
-		 * externalPartner.getContractualCost()); i++; }
-		 * 
-		 * truckSelectionDropdown.getItems().addAll(truckMenuItems);
-		 */
+		//load internal fleet
+		for(Truck truck : controller.getInternalFleet().getTrucks()){
+			truckFleetListView.getItems().add(truck);
+		}
 
-		// truckFleetListView.setItems(truckFleetListObservable);
 		truckFleetListView.setCellFactory(truckListView -> new TruckListViewCell(truckFleetListView));
 		truckFleetListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.truck")));
 
@@ -78,7 +62,7 @@ public class TruckFleetController implements Initializable {
 		buyTruckButton.setOnAction(e -> {
 			showPopover();
 		});
-	} //TODO update and populate from list in LogisticsController
+	}
 
 	/**
 	 * Updates the list of trucks in the internal fleet when a new truck is added.

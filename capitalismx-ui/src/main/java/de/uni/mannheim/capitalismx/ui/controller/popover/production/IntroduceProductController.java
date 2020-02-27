@@ -13,12 +13,12 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
-import de.uni.mannheim.capitalismx.production.InvalidSetOfComponentsException;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.module.production.ProduceProductController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
@@ -28,11 +28,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
@@ -395,6 +391,8 @@ public class IntroduceProductController implements Initializable {
     private ToggleGroup phonePowersuppliesToggleGroup;
     private ToggleGroup phoneKeypadsToggleGroup;
 
+    private List<Map<ToggleButton, Component>> allComponents;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 		TextFieldHelper.makeTextFieldNumeric(tvSalesPriceTextField);
@@ -684,38 +682,110 @@ public class IntroduceProductController implements Initializable {
         this.phoneKeypadToggleButton0.setToggleGroup(phoneKeypadsToggleGroup);
         this.phoneKeypadToggleButton1.setToggleGroup(phoneKeypadsToggleGroup);
 
-        List<Map<ToggleButton, Component>> allComponents = new ArrayList<>();
-        allComponents.add(tvScreens);
-        allComponents.add(tvAudios);
-        allComponents.add(tvOSs);
-        allComponents.add(tvCases);
-        allComponents.add(consoleCPUs);
-        allComponents.add(consoleScreens);
-        allComponents.add(consolePowersupplies);
-        allComponents.add(consoleConnectivities);
-        allComponents.add(consoleCameras);
-        allComponents.add(notebookCPUs);
-        allComponents.add(notebookStorages);
-        allComponents.add(notebookScreens);
-        allComponents.add(notebookSoftwares);
-        allComponents.add(notebookPowersupplies);
-        allComponents.add(phoneCPUs);
-        allComponents.add(phoneScreens);
-        allComponents.add(phoneCameras);
-        allComponents.add(phoneConnectivities);
-        allComponents.add(phonePowersupplies);
-        allComponents.add(phoneKeypads);
+        tvScreensToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        tvAudiosToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        tvOSsToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        tvCasesToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        consoleCPUsToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        consoleScreensToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        consolePowersuppliesToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        consoleConnectivitiesToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        consoleCamerasToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        notebookCPUsToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        notebookStoragesToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        notebookScreensToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        notebookSoftwaresToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        notebookPowersuppliesToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        phoneCPUsToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        phoneScreensToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        phoneCamerasToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        phoneConnectivitiesToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        phonePowersuppliesToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+        phoneKeypadsToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
 
-        LocalDate gameDate = GameState.getInstance().getGameDate();
+        this.allComponents = new ArrayList<>();
+        this.allComponents.add(tvScreens);
+        this.allComponents.add(tvAudios);
+        this.allComponents.add(tvOSs);
+        this.allComponents.add(tvCases);
+        this.allComponents.add(consoleCPUs);
+        this.allComponents.add(consoleScreens);
+        this.allComponents.add(consolePowersupplies);
+        this.allComponents.add(consoleConnectivities);
+        this.allComponents.add(consoleCameras);
+        this.allComponents.add(notebookCPUs);
+        this.allComponents.add(notebookStorages);
+        this.allComponents.add(notebookScreens);
+        this.allComponents.add(notebookSoftwares);
+        this.allComponents.add(notebookPowersupplies);
+        this.allComponents.add(phoneCPUs);
+        this.allComponents.add(phoneScreens);
+        this.allComponents.add(phoneCameras);
+        this.allComponents.add(phoneConnectivities);
+        this.allComponents.add(phonePowersupplies);
+        this.allComponents.add(phoneKeypads);
 
-        for(Map<ToggleButton, Component> componentMap : allComponents) {
-            for(Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
-                componentEntry.getKey().setText(componentEntry.getValue().getComponentName(UIManager.getInstance().getLanguage()));
-                if(!componentEntry.getValue().isAvailable(gameDate)) { // || ResearchAndDevelopmentDepartment.getInstance().isComponentUnlocked(componentEntry.getValue())) {
-                    componentEntry.getKey().setDisable(true);
-                }
-            }
-        }
+        this.updateButtons();
 
         this.updateSuppliers();
         
@@ -738,6 +808,28 @@ public class IntroduceProductController implements Initializable {
         */
     }
 
+    public void updateButtons() {
+        LocalDate gameDate = GameState.getInstance().getGameDate();
+
+        for(Map<ToggleButton, Component> componentMap : this.allComponents) {
+            for(Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
+                componentEntry.getKey().setText(componentEntry.getValue().getComponentName(UIManager.getInstance().getLanguage()));
+                if(!componentEntry.getValue().isAvailable(gameDate)) { // || ResearchAndDevelopmentDepartment.getInstance().isComponentUnlocked(componentEntry.getValue())) {
+                    componentEntry.getKey().setDisable(true);
+                } else {
+                    componentEntry.getKey().setDisable(false);
+                }
+            }
+        }
+
+        if(gameDate.getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            phoneCamerasToggleGroup.selectToggle(phoneCameraToggleButton0);
+        }
+
+        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+            consoleCamerasToggleGroup.selectToggle(consoleCameraToggleButton0);
+        }
+    }
 
     public void updateSuppliers() {
         LocalDate gameDate = GameState.getInstance().getGameDate();
@@ -1186,8 +1278,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.tv.setSalesPrice(salesPrice);
             GameController.getInstance().launchProduct(this.tv);
-        } catch (InvalidSetOfComponentsException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
+            error.showAndWait();
             return;
         }
         
@@ -1218,8 +1311,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.console.setSalesPrice(salesPrice);
             GameController.getInstance().launchProduct(this.console);
-        } catch (InvalidSetOfComponentsException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
+            error.showAndWait();
             return;
         }
         
@@ -1248,8 +1342,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.notebook.setSalesPrice(salesPrice);
             GameController.getInstance().launchProduct(this.notebook);
-        } catch (InvalidSetOfComponentsException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
+            error.showAndWait();
             return;
         }
         
@@ -1281,8 +1376,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.phone.setSalesPrice(Double.valueOf(salesPrice));
             GameController.getInstance().launchProduct(this.phone);
-        } catch (InvalidSetOfComponentsException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
+            error.showAndWait();
             return;
         }
         
@@ -1306,6 +1402,7 @@ public class IntroduceProductController implements Initializable {
             return null;
         }
     }
+
 
     /*
     class SupplierListViewCell extends ChoiceBoxListCell<Component> {

@@ -2,9 +2,8 @@ package de.uni.mannheim.capitalismx.production;
 
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
-import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
+import de.uni.mannheim.capitalismx.production.exceptions.InvalidSetOfComponentsException;
 
-import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
@@ -192,7 +191,8 @@ public class Product extends Unit implements Serializable {
 
     // set warehouseSalesPrice to half of the totalComponentCosts, should be reconsidered for future balancing
     public double getWarehouseSalesPrice() {
-        return this.totalComponentCosts / 2;
+        this.warehouseSalesPrice = this.totalComponentCosts / 2;
+        return this.warehouseSalesPrice;
     }
 
 

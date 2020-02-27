@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.hr.domain.employee;
 
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
 import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
@@ -9,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import java.time.LocalDate;
 
 /**
  * @author duly
@@ -22,7 +25,11 @@ public class EmployeeTest {
     @BeforeTest
     public void setUp() {
         hrDepartment = HRDepartment.createInstance();
-        hrDepartment.getLevelingMechanism().levelUp();
+        try {
+            hrDepartment.getLevelingMechanism().levelUp();
+        } catch (LevelingRequirementNotFulFilledException e) {
+           LOGGER.error(e.getMessage(), e);
+        }
     }
 
     @Test
@@ -45,9 +52,9 @@ public class EmployeeTest {
 
         Assert.assertEquals(worker.getCapacity(),  (int)(worker.getSkillLevel()/2.0));
 
-        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP);
-        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP);
-        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP);
+        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP, LocalDate.now());
+        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP, LocalDate.now());
+        EmployeeTraining.getInstance().trainEmployee(worker, Training.WORKSHOP, LocalDate.now());
 
         Assert.assertEquals(worker.getCapacity(),  (int)(worker.getSkillLevel()/2.0));
         String message = "Employee skillLevel=" + worker.getSkillLevel() + "; capacity=" + worker.getCapacity();

@@ -9,10 +9,12 @@ import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.TruckFleetController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -42,7 +44,7 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
 	GridPane gridPane;
 
 	@FXML
-	private Label fixCostsLabel;
+	private Label deliveryCostsLabel;
 
 	private FXMLLoader loader;
 
@@ -87,17 +89,18 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
 
 			GameController controller = GameController.getInstance();
 			nameLabel.setText(truck.getName());
-			priceLabel.setText("Price: " + CapCoinFormatter.getCapCoins(truck.getPurchasePrice()));
-			ecoIndexLabel.setText("Eco Index: " + NumberFormat
-					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getEcoIndex()));
-			qualityIndexLabel.setText("Quality Index: " + NumberFormat
-					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getQualityIndex()));
-			fixCostsLabel.setText("Delivery Costs: " + CapCoinFormatter.getCapCoins(truck.getFixCostsDelivery()));
+			priceLabel.setText(UIManager.getLocalisedString("trucks.price") + ": " + CapCoinFormatter.getCapCoins(truck.getPurchasePrice()));
+			ecoIndexLabel.setText(UIManager.getLocalisedString("trucks.ecoindex") + ": " + NumberFormat
+					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getEcoIndex() / 100.0));
+			qualityIndexLabel.setText(UIManager.getLocalisedString("trucks.qualityindex") + ": " + NumberFormat
+					.getPercentInstance(UIManager.getResourceBundle().getLocale()).format(truck.getQualityIndex() / 100.0));
+			deliveryCostsLabel.setText(UIManager.getLocalisedString("trucks.delivery") + ": " + CapCoinFormatter.getCapCoins(truck.getFixCostsDelivery()));
 			// add click listener to cell
 			gridPane.setOnMouseClicked(e -> {
 				if (truck.getPurchasePrice() > GameController.getInstance().getCash()) {
-					// TODO popup
-					System.out.println("Not enough cash!");
+					GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("trucks.error.cash.title"),
+							UIManager.getLocalisedString("trucks.error.cash.description"));
+					error.showAndWait();
 				} else {
 					try {
 						controller.buyTruck(truck, GameState.getInstance().getGameDate());
@@ -106,8 +109,9 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
 						uiController.addTruck(truck);
 						truckDetailListView.getSelectionModel().clearSelection();
 					} catch (NotEnoughTruckCapacityException ex) {
-						ex.printStackTrace();
-						// TODO popup
+						GameAlert error = new GameAlert(Alert.AlertType.WARNING, UIManager.getLocalisedString("trucks.error.capacity.title"),
+								UIManager.getLocalisedString("trucks.error.capacity.description"));
+						error.showAndWait();
 					}
 				}
 			});

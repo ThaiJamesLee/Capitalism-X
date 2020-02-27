@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceInvestmentsController">
+    <children>
+        <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="10.0" layoutY="184.0" styleClass="label_very_large" text="%finance.investments.realEstate">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="realEstateLabel" layoutX="10.0" layoutY="201.0" styleClass="label_large" text="Amount: 0.00" />
+                <HBox fx:id="hBoxRealEstate" alignment="CENTER" spacing="5.0">
+                    <children>
+                        <TextField fx:id="realEstateTextField" promptText="%finance.investments.promptRealEstate" HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </TextField>
+                        <Button fx:id="buyRealEstateButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyRealEstates" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="sellRealEstateButton" layoutX="183.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellRealEstates" />
+                    </children>
+                </HBox>
+                <Region styleClass="separator_horizontal">
+                    <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                    </VBox.margin>
+                </Region>
+                <Label layoutX="10.0" layoutY="305.0" styleClass="label_very_large" text="%finance.investments.stocks">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="stocksLabel" layoutX="10.0" layoutY="322.0" styleClass="label_large" text="Amount: 0.00" />
+                <HBox fx:id="hBoxStocks" alignment="CENTER" spacing="5.0">
+                    <children>
+                        <TextField fx:id="stocksTextField" promptText="%finance.investments.promptStocks" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="buyStocksButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyStocks" />
+                        <Button fx:id="sellStocksButton" layoutX="408.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellStocks" />
+                    </children>
+                </HBox>
+                <Region layoutX="10.0" layoutY="127.0" styleClass="separator_horizontal">
+                    <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                    </VBox.margin>
+                </Region>
+                <Label layoutX="10.0" layoutY="366.0" styleClass="label_very_large" text="%finance.investments.ventureCapital">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="ventureCapitalLabel" layoutX="10.0" layoutY="383.0" styleClass="label_large" text="Amount: 0.00" />
+                <HBox fx:id="hBoxVentureCapital" alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <TextField fx:id="ventureCapitalTextField" promptText="%finance.investments.promptVentureCapital" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="buyVentureCapitalButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyVentureCapital" />
+                        <Button fx:id="sellVentureCapitalButton" layoutX="364.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellVentureCapital" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+    <stylesheets>
+        <URL value="@../../css/general.css" />
+        <URL value="@../../css/modul.css" />
+    </stylesheets>
+</AnchorPane>

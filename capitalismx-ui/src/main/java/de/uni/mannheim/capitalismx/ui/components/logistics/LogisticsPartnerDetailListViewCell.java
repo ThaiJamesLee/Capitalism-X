@@ -7,6 +7,7 @@ import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.LogisticsPartnerController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -47,10 +48,9 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 	@FXML
 	private Label variableCostsLabel;
 
-	@FXML
-	private Button buyButton;
-
 	private FXMLLoader loader;
+
+	private boolean addMouseListener;
 
     /**
      * The ListView of all available external logistics partners.
@@ -63,12 +63,14 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
      */
     public LogisticsPartnerDetailListViewCell(ListView<ExternalPartner> logisticsPartnerDetailListView){
         this.logisticsPartnerDetailListView = logisticsPartnerDetailListView;
+        addMouseListener = true;
     }
 
     /*
      * Generates an entry in the external logistics partner selection for each new external partner added to the
      * logisticsPartnerDetailListView according to the partner's characteristics. If the user clicks on one, the partner
-     * is hired.
+     * is hired. These characteristics are also displayed for the currently hired partner. However, in that case, the
+     * OnMouseClicked EventHandler is not added (addMouseListener=false).
      */
 	@Override
 	protected void updateItem(ExternalPartner externalPartner, boolean empty) {
@@ -95,30 +97,37 @@ public class LogisticsPartnerDetailListViewCell extends ListCell<ExternalPartner
 			GameController controller = GameController.getInstance();
 			nameLabel.setText(externalPartner.getName()); // TODO localization
 			reliabilityIndexLabel.setText(
-					"Reliability: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
-							.format(externalPartner.getReliabilityIndexPartner()));
+					UIManager.getLocalisedString("logistics.pselection.reliability") + ": " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+							.format(externalPartner.getReliabilityIndexPartner() / 100.0));
 			ecoIndexLabel
-					.setText("Eco Index: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
-							.format(externalPartner.getEcoIndexPartner()));
+					.setText(UIManager.getLocalisedString("logistics.pselection.ecoindex") + ": " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+							.format(externalPartner.getEcoIndexPartner() / 100.0));
 			qualityIndexLabel
-					.setText("Quality: " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
-							.format(externalPartner.getQualityIndexPartner()));
+					.setText(UIManager.getLocalisedString("logistics.pselection.quality") + ": " + NumberFormat.getPercentInstance(UIManager.getResourceBundle().getLocale())
+							.format(externalPartner.getQualityIndexPartner() / 100.0));
 			contractualCostsLabel.setText(
-					"Contractual Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCost()));
+					UIManager.getLocalisedString("logistics.pselection.contractual") + ": " + CapCoinFormatter.getCapCoins(externalPartner.getContractualCost()));
 			variableCostsLabel.setText(
-					"Delivery Costs: " + CapCoinFormatter.getCapCoins(externalPartner.getVariableDeliveryCost()));
-			gridPane.setOnMouseClicked(e -> {
-				controller.addExternalPartner(externalPartner);
-				LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance()
-						.getModule(GameModuleType.LOGISTICS_PARTNER_OVERVIEW).getController();
-				uiController.addExternalPartner(externalPartner);
+					UIManager.getLocalisedString("logistics.pselection.delivery") + ": " + CapCoinFormatter.getCapCoins(externalPartner.getVariableDeliveryCost()));
 
-				logisticsPartnerDetailListView.getSelectionModel().clearSelection();
-			});
+			if(addMouseListener){
+				gridPane.setOnMouseClicked(e -> {
+					controller.addExternalPartner(externalPartner);
+					LogisticsPartnerController uiController = (LogisticsPartnerController) UIManager.getInstance()
+							.getModule(GameModuleType.LOGISTICS_PARTNER_OVERVIEW).getController();
+					uiController.addExternalPartner(externalPartner);
+
+					logisticsPartnerDetailListView.getSelectionModel().clearSelection();
+					//this.updateAvailablePartners();
+				});
+			}
 
 			setText(null);
 			setGraphic(gridPane);
 		}
 	}
 
+	public void setAddMouseListener(boolean addMouseListener){
+		this.addMouseListener = addMouseListener;
+	}
 }

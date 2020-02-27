@@ -5,6 +5,7 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
@@ -103,10 +104,10 @@ public class FinanceOverviewController implements Initializable {
 		FinanceDepartment f = GameState.getInstance().getFinanceDepartment();
 		f.registerPropertyChangeListener(financeEventListener);
 
-		cashLabel.setText(DecimalRound.round(controller.getCash(), 2) + "");
-		assetsLabel.setText(DecimalRound.round(controller.getAssets(), 2) + "");
-		liabilitiesLabel.setText(DecimalRound.round(controller.getLiabilities(), 2) + "");
-		netWorthLabel.setText(DecimalRound.round(controller.getNetWorth(), 2) + "");
+		cashLabel.setText(CapCoinFormatter.getCapCoins(controller.getCash()));
+		assetsLabel.setText(CapCoinFormatter.getCapCoins(controller.getAssets()));
+		liabilitiesLabel.setText(CapCoinFormatter.getCapCoins(controller.getLiabilities()));
+		netWorthLabel.setText(CapCoinFormatter.getCapCoins(controller.getNetWorth()));
 
 		cashSeries = new XYChart.Series<>();
 		for(int i = 1; i < 13; i++){

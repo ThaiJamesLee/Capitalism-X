@@ -4,18 +4,23 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
 import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controller for the dropdown in the hud that controls the level up of
@@ -39,6 +44,8 @@ public class DepartmentUpgradeController implements Initializable {
 	private VBox upgradeVBox;
 
 	private DepartmentImpl department;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentUpgradeController.class);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -72,12 +79,19 @@ public class DepartmentUpgradeController implements Initializable {
 	 */
 	@FXML
 	private void levelUp() {
-		Double cost = department.getLevelingMechanism().levelUp();
-		GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), cost);
-		update();
-		if (department instanceof HRDepartment) {
-			((RecruitingListController) UIManager.getInstance().getModule(GameModuleType.HR_RECRUITING_OVERVIEW)
-					.getController()).regenerateRecruitingProspects();
+		Double cost = null;
+		try {
+			cost = department.getLevelingMechanism().levelUp();
+			GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), cost);
+			update();
+			if (department instanceof HRDepartment) {
+				((RecruitingListController) UIManager.getInstance().getModule(GameModuleType.HR_RECRUITING_OVERVIEW)
+						.getController()).regenerateRecruitingProspects();
+			}
+		} catch (LevelingRequirementNotFulFilledException e) {
+			GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Level up was not possible.", e.getMessage());
+			error.showAndWait();
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 

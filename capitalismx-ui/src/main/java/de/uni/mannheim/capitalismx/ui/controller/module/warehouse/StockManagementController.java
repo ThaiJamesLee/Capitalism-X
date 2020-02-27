@@ -24,8 +24,11 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.ComponentStockCell;
 import de.uni.mannheim.capitalismx.ui.components.warehouse.ProductStockCell;
 import de.uni.mannheim.capitalismx.ui.controller.component.TradeComponentPopoverController;
+import de.uni.mannheim.capitalismx.ui.controller.component.ProductStockPopoverController;
+import de.uni.mannheim.capitalismx.ui.controller.component.ProductStockPopoverController.TradeMode;
 import de.uni.mannheim.capitalismx.ui.eventlisteners.WarehouseEventlistener;
 import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,6 +57,9 @@ public class StockManagementController implements Initializable {
 
 	private PopOver tradePopover;
 	private TradeComponentPopoverController tradePopoverController;
+
+	private PopOver productStockPopover;
+	private ProductStockPopoverController tradeProductUnitPopoverController;
 
 	private VBox productBox;
 
@@ -97,25 +103,29 @@ public class StockManagementController implements Initializable {
 
 		productBox = new VBox();
 		productBox.setSpacing(8.0);
-		
+
+		PopOverFactory factory = new PopOverFactory();
+		factory.createStandardPopover("fxml/popover/product_stock_popover.fxml");
+		productStockPopover = factory.getPopover();
+		productStockPopover.setArrowLocation(ArrowLocation.TOP_LEFT);
+		tradeProductUnitPopoverController = (ProductStockPopoverController) factory.getPopoverController();
+
 		/**
-		// Prepare a gird with labels that functions as a title row for the 'list of products'
-		GridPane titleGrid = new GridPane();
-		ColumnConstraints cTitle = new ColumnConstraints();
-		cTitle.setPercentWidth(35);
-		ColumnConstraints cStock = new ColumnConstraints();
-		cStock.setPercentWidth(15);
-		titleGrid.getColumnConstraints().add(cTitle);
-		titleGrid.getColumnConstraints().add(cStock);
-		Label titleLabel = new Label(UIManager.getLocalisedString("warehouse.stock.product.name"));
-		titleLabel.getStyleClass().add("label_large");
-		Label stockLabel = new Label(UIManager.getLocalisedString("warehouse.stock.product.amount"));
-		stockLabel.getStyleClass().add("label_large");
-		titleGrid.add(titleLabel, 0, 0);
-		titleGrid.add(stockLabel, 1, 0);
-		titleGrid.setStyle("-fx-padding-bottom: 12;"); 
-		
-		productBox.getChildren().add(titleGrid);*/
+		 * // Prepare a gird with labels that functions as a title row for the 'list of
+		 * products' GridPane titleGrid = new GridPane(); ColumnConstraints cTitle = new
+		 * ColumnConstraints(); cTitle.setPercentWidth(35); ColumnConstraints cStock =
+		 * new ColumnConstraints(); cStock.setPercentWidth(15);
+		 * titleGrid.getColumnConstraints().add(cTitle);
+		 * titleGrid.getColumnConstraints().add(cStock); Label titleLabel = new
+		 * Label(UIManager.getLocalisedString("warehouse.stock.product.name"));
+		 * titleLabel.getStyleClass().add("label_large"); Label stockLabel = new
+		 * Label(UIManager.getLocalisedString("warehouse.stock.product.amount"));
+		 * stockLabel.getStyleClass().add("label_large"); titleGrid.add(titleLabel, 0,
+		 * 0); titleGrid.add(stockLabel, 1, 0); titleGrid.setStyle("-fx-padding-bottom:
+		 * 12;");
+		 * 
+		 * productBox.getChildren().add(titleGrid);
+		 */
 		AnchorPane anchor = new AnchorPane(productBox);
 		AnchorPaneHelper.snapNodeToAnchorPane(productBox, 4);
 		productTab.setContent(anchor);
@@ -172,6 +182,13 @@ public class StockManagementController implements Initializable {
 	}
 
 	/**
+	 * Hide the {@link PopOver} managing the stock of Products.
+	 */
+	public void hideProductPopover() {
+		productStockPopover.hide();
+	}
+
+	/**
 	 * Hides the {@link PopOver} for trading {@link Component}s, if it is currently
 	 * displayed.
 	 */
@@ -205,6 +222,18 @@ public class StockManagementController implements Initializable {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * Displays the {@link PopOver} for managing {@link Product} stock.
+	 * 
+	 * @param product   The {@link Product} to show the {@link PopOver} for.
+	 * @param tradeMode The {@link TradeMode} of the {@link PopOver}.
+	 */
+	public void showProductPopover(Product product, TradeMode tradeMode) {
+		tradeProductUnitPopoverController.update(product, tradeMode);
+		productStockPopover.show(productCells.get(product).getRoot());
+		tradeProductUnitPopoverController.focus();
 	}
 
 	/**

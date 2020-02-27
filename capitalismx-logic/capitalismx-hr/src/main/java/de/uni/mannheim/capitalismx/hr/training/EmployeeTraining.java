@@ -5,6 +5,9 @@ import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
 import de.uni.mannheim.capitalismx.hr.domain.employee.impl.HRWorker;
 import de.uni.mannheim.capitalismx.hr.domain.SalaryTier;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.TrainingEntry;
+
+import java.time.LocalDate;
 
 /**
  * Handles training an employee.
@@ -27,9 +30,12 @@ public class EmployeeTraining {
     /**
      * If the employee is already max level, then you pay his salary as punishment.
      * @param e employee to train to the next level.
+     * @param t the training.
+     * @param gameDate The current game date.
+     *
      * @return price for the chosen training.
      */
-    public Double trainEmployee(Employee e, Training t) {
+    public Double trainEmployee(Employee e, Training t, LocalDate gameDate) {
         if(e.getSkillLevel() < SalaryTier.getMaxTier().getUpperLevel()) {
             int skillLevel = e.getSkillLevel() + t.getSkillLevelImprove();
             e.setSkillLevel(skillLevel);
@@ -37,7 +43,7 @@ public class EmployeeTraining {
             double salary = e.getSalary() * t.getSalaryIncreaseFactor();
             e.setSalary(salary);
 
-            e.addTraining(t);
+            e.addTraining(t, gameDate);
 
             // increases the capacity of the HRWorker, if the object is an instance of HRWorker
             increaseHRCapacity(e);

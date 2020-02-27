@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.NoMachinerySlotsAvailableException;
+import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailableException;
 import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
@@ -40,6 +40,10 @@ public class MachineryListController implements UpdateableController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
+
+        String buyButtonText = UIManager.getLocalisedString("machinery.list.buy");
+        buyButtonText = buyButtonText.replace("XXX", String.valueOf(controller.getMachineryPurchasePrice()));
+        buyButton.setText(buyButtonText);
 
         buyButton.setOnAction(e -> {
             LocalDate gameDate = GameState.getInstance().getGameDate();

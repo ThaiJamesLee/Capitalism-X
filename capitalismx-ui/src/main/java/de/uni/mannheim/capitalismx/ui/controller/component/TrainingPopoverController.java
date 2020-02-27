@@ -84,7 +84,7 @@ public class TrainingPopoverController implements Initializable {
 	 * Initiates a workshop for the Employee of the Popover.
 	 */
 	public void trainEmployeeWorkshop() {
-		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP);
+		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP, GameState.getInstance().getGameDate());
 		parentController.update();
 		popover.hide();
 	}
@@ -94,7 +94,7 @@ public class TrainingPopoverController implements Initializable {
 	 * Initiates a course for the Employee of the Popover.
 	 */
 	public void trainEmployeeCourse() {
-		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP);
+		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP, GameState.getInstance().getGameDate());
 		parentController.update();
 		popover.hide();
 	}

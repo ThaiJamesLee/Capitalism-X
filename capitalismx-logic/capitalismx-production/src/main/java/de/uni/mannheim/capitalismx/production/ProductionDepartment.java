@@ -4,10 +4,11 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
-import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.exceptions.*;
 import de.uni.mannheim.capitalismx.production.skill.ProductionSkill;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 import org.slf4j.LoggerFactory;
@@ -49,10 +50,11 @@ public class ProductionDepartment extends DepartmentImpl {
     private int totalWarehouseCapacity;
     private int decreasedProcessAutomationLevel;
     private double totalEngineerQualityOfWorkDecreasePercentage;
+    private int numberOfProductionWorkers;
 
     private static final double LAUNCH_COSTS = 10000;
 
-    private PropertyChangeSupportList launchedProductsChange;
+    private PropertyChangeSupportList<Product> launchedProductsChange;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductionDepartment.class);
 
@@ -65,6 +67,7 @@ public class ProductionDepartment extends DepartmentImpl {
 
     private static final String SKILL_COST_PROPERTY_PREFIX = "production.skill.cost.";
     private static final String SKILL_SLOTS_PREFIX = "production.skill.slots.";
+    private static final String SKILL_WORKERS_NEEDED_PREFIX = "production.skill.workers.";
 
 
     private ProductionDepartment() {
@@ -83,6 +86,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.machineSlotsAvailable = true;
         this.productionTechnology = ProductionTechnology.DEPRECIATED;
         this.storedComponents = new HashMap<>();
+        this.numberOfProductionWorkers = 0;
         /*this.componentTypeOfStoredComponents = new HashMap<>();
         this.supplierCategoryOfStoredComponents = new HashMap<>();*/
 
@@ -90,7 +94,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.decreasedProcessAutomationLevel = 0;
         this.totalEngineerQualityOfWorkDecreasePercentage = 0;
 
-        this.launchedProductsChange = new PropertyChangeSupportList();
+        this.launchedProductsChange = new PropertyChangeSupportList<>();
         this.launchedProductsChange.setList(this.launchedProducts);
         this.launchedProductsChange.setAddPropertyName("launchedProductsChange");
 
@@ -120,7 +124,8 @@ public class ProductionDepartment extends DepartmentImpl {
         ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
         for(int i = 1; i <= getMaxLevel(); i++) {
             int slots = Integer.parseInt(skillBundle.getString(SKILL_SLOTS_PREFIX + i));
-            skillMap.put(i, new ProductionSkill(i, slots));
+            int workersNeeded = Integer.parseInt(skillBundle.getString(SKILL_WORKERS_NEEDED_PREFIX + i));
+            skillMap.put(i, new ProductionSkill(i, slots, workersNeeded));
         }
     }
 
@@ -145,9 +150,14 @@ public class ProductionDepartment extends DepartmentImpl {
         this.machineSlotsAvailable = true;
     }
 
-    public void setLevel(int level) {
-        super.setLevel(level);
-        this.updateProductionSlots();
+    public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
+        ProductionSkill productionSkill = (ProductionSkill) skillMap.get(level);
+        if(productionSkill.getProductionWorkersNeeded() <= this.numberOfProductionWorkers) {
+            super.setLevel(level);
+            this.updateProductionSlots();
+        } else {
+            throw new LevelingRequirementNotFulFilledException("Not enough production workers employed for level up.");
+        }
     }
 
     public static synchronized ProductionDepartment getInstance() {
@@ -215,11 +225,11 @@ public class ProductionDepartment extends DepartmentImpl {
         }
     }
 
-    /* This method should always be followed up by updateMonthlyAvailableMachineCapacity and calculate performance metric methods*/
     public void resetMonthlyPerformanceMetrics() {
         this.numberUnitsProducedPerMonth = 0;
         this.monthlyAvailableMachineCapacity = 0;
         this.manufactureEfficiency = 0;
+        this.updateMonthlyAvailableMachineCapacity();
     }
 
     public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
@@ -266,9 +276,18 @@ public class ProductionDepartment extends DepartmentImpl {
         }
     }
 
-    public double launchProduct(Product product, LocalDate gameDate) {
-        product.setLaunchDate(gameDate);
-        this.launchedProductsChange.add(product);
+    public double launchProduct(Product product, LocalDate gameDate, boolean productCategoryUnlocked) throws ProductCategoryNotUnlockedException, ProductNameAlreadyInUseException {
+        for (Product launchedProduct : this.launchedProducts) {
+            if (launchedProduct.getProductName().equals(product.getProductName())) {
+                throw new ProductNameAlreadyInUseException("The product name \"" + product.getProductName() + "\" is already in use.", product.getProductName());
+            }
+        }
+        if(productCategoryUnlocked) {
+            product.setLaunchDate(gameDate);
+            this.launchedProductsChange.add(product);
+        } else {
+            throw new ProductCategoryNotUnlockedException("The product category " +  product.getProductCategory() + " is not unlocked yet.", product.getProductCategory());
+        }
         return LAUNCH_COSTS;
     }
 
@@ -289,7 +308,7 @@ public class ProductionDepartment extends DepartmentImpl {
     }
     */
 
-    public double produceProduct(Product product, int quantity, int freeStorage) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException {
+    public double produceProduct(Product product, int quantity, int freeStorage, boolean allComponentsUnlocked) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException, ComponenLockedException {
         int totalMachineCapacity = 0;
         for(Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
@@ -320,11 +339,9 @@ public class ProductionDepartment extends DepartmentImpl {
                         throw new NotEnoughComponentsException("There are not enough components available to produce " + quantity + " unit(s).", maximumProducable);
                     }
 
-                    /*
-                    for (Component component : product.getComponents()) {
-                        int newStoredQuantity = this.storedComponents.get(component) - quantity;
-                        this.storedComponents.put(component, newStoredQuantity);
-                    }*/
+                    if (!allComponentsUnlocked) {
+                        throw new ComponenLockedException("At least on of the components is not unlocked yet. You might need to do some research first.");
+                    }
 
                     for (Component component : product.getComponents()) {
                         for (HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
@@ -636,6 +653,12 @@ public class ProductionDepartment extends DepartmentImpl {
         return  capacity;
     }
 
+    public int getMonthlyMachineCapacity(LocalDate gameDate) {
+        int dailyCapacity = this.getDailyMachineCapacity();
+        int numberOfDaysInMonth = gameDate.lengthOfMonth();
+        return numberOfDaysInMonth * dailyCapacity;
+    }
+
     public synchronized List<Product> getLaunchedProducts() {
         return this.launchedProducts;
     }
@@ -704,6 +727,11 @@ public class ProductionDepartment extends DepartmentImpl {
         return this.averageProductBaseQuality;
     }
 
+    public double getMachineryPurchasePrice(LocalDate gameDate) {
+        Machinery machinery = new Machinery(gameDate);
+        return machinery.calculatePurchasePrice();
+    }
+
     public int getProductionSlots() {
         return productionSlots;
     }
@@ -711,6 +739,10 @@ public class ProductionDepartment extends DepartmentImpl {
     public boolean getMachineSlotsAvailable() {
         this.machineSlotsAvailable = this.productionSlots > this.machines.size();
         return this.machineSlotsAvailable;
+    }
+
+    public void setNumberOfProductionWorkers(int numberOfProductionWorkers) {
+        this.numberOfProductionWorkers = numberOfProductionWorkers;
     }
 
     public static void setInstance(ProductionDepartment instance) {
@@ -721,7 +753,7 @@ public class ProductionDepartment extends DepartmentImpl {
         return new ProductionDepartment();
     }
 
-    public synchronized PropertyChangeSupportList getLaunchedProductsChange() {
+    public synchronized PropertyChangeSupportList<Product> getLaunchedProductsChange() {
         return launchedProductsChange;
     }
 

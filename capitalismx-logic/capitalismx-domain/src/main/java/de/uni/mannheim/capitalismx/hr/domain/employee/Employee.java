@@ -1,10 +1,12 @@
 package de.uni.mannheim.capitalismx.hr.domain.employee;
 
 import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
+import de.uni.mannheim.capitalismx.hr.domain.employee.training.TrainingEntry;
 import de.uni.mannheim.capitalismx.utils.data.LocationData;
 import de.uni.mannheim.capitalismx.utils.data.PersonMeta;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +76,7 @@ public abstract class Employee implements Person, Serializable {
     /**
      * The trainings this employee has received.
      */
-    private List<Training> trainingsList;
+    private List<TrainingEntry> trainingsList;
 
     /**
      * Constructor that takes a {@link PersonMeta} object as an argument.
@@ -134,8 +136,8 @@ public abstract class Employee implements Person, Serializable {
      * Add the training to the list of trainings this employee did.
      * @param t The training that this employee has done.
      */
-    public void addTraining(Training t) {
-        trainingsList.add(t);
+    public void addTraining(Training t, LocalDate date) {
+        trainingsList.add(new TrainingEntry(t, date));
     }
 
     public void setPosition(String position) {
@@ -166,7 +168,7 @@ public abstract class Employee implements Person, Serializable {
         this.locationData = locationData;
     }
 
-    public void setTrainingsList(List<Training> trainingsList) {
+    public void setTrainingsList(List<TrainingEntry> trainingsList) {
         this.trainingsList = trainingsList;
     }
 
@@ -214,7 +216,7 @@ public abstract class Employee implements Person, Serializable {
 
     public String geteMail() { return eMail; }
 
-    public List<Training> getTrainingsList() {
+    public List<TrainingEntry> getTrainingsList() {
         return trainingsList;
     }
 

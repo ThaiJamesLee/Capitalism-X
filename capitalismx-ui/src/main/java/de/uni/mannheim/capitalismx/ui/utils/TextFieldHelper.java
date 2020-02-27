@@ -19,6 +19,7 @@ public class TextFieldHelper {
 	 * @param textField {@link TextField} to make numeric.
 	 */
 	public static void makeTextFieldNumeric(TextField textField) {
+		textField.setText("0");
 		textField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -27,6 +28,9 @@ public class TextFieldHelper {
 				}
 				if (newValue.equals("")) {
 					textField.setText("0");
+				}
+				if(oldValue.equals("0") && newValue.startsWith("0")) {
+					textField.setText(newValue.replace("0", ""));
 				}
 			}
 		});

@@ -5,13 +5,17 @@ import java.beans.PropertyChangeListener;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
+import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.components.GameViewType;
 import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceBankingSystemController;
+import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceInvestmentsController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceOverviewController;
 import de.uni.mannheim.capitalismx.ui.controller.module.finance.OperationsTableController;
+import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
@@ -22,6 +26,28 @@ import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
  * @author sdupper
  */
 public class FinanceEventListener implements PropertyChangeListener {
+
+    /**
+     * The specific loan this FinanceEventListener corresponds to. Optional.
+     */
+    BankingSystem.Loan loan;
+
+    /**
+     * Constructor
+     */
+    public FinanceEventListener(){
+        super();
+    }
+
+    /**
+     * Constructor
+     * Allows the specify a loan that this FinanceEventListener corresponds to.
+     * @param loan The corresponding loan.
+     */
+    public FinanceEventListener(BankingSystem.Loan loan){
+        super();
+        this.loan = loan;
+    }
 
     /*
      * Determines the name of the PropertyChangeEvent and updates the GUI accordingly, e.g., if the net worth changes,
@@ -72,18 +98,18 @@ public class FinanceEventListener implements PropertyChangeListener {
 
         if (evt.getPropertyName().equals("netWorth")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setNetWorthLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            financeOverviewController.setNetWorthLabel(CapCoinFormatter.getCapCoins(newVal.getValue()));
             UIManager.getInstance().getGameHudController().updateNetworthLabel(newVal.getValue());
         }else if (evt.getPropertyName().equals("cash")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setCashLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            financeOverviewController.setCashLabel(CapCoinFormatter.getCapCoins(newVal.getValue()));
             UIManager.getInstance().getGameHudController().updateCashLabel(newVal.getValue());
         }else if (evt.getPropertyName().equals("assets")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setAssetsLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            financeOverviewController.setAssetsLabel(CapCoinFormatter.getCapCoins(newVal.getValue()));
         }else if (evt.getPropertyName().equals("liabilities")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            financeOverviewController.setLiabilitiesLabel(String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            financeOverviewController.setLiabilitiesLabel(CapCoinFormatter.getCapCoins(newVal.getValue()));
         }else if (evt.getPropertyName().equals("netWorthDifference")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
             UIManager.getInstance().getGameHudController().updateNetworthChangeLabel(newVal.getValue());
@@ -92,17 +118,22 @@ public class FinanceEventListener implements PropertyChangeListener {
             UIManager.getInstance().getGameHudController().updateCashChangeLabel(newVal.getValue());
         }
 
-        FinanceBankingSystemController bankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
+        FinanceInvestmentsController investmentsController = (FinanceInvestmentsController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_INVESTMENTS).getController();
 
         if (evt.getPropertyName().equals("realEstateInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            bankingSystemController.setRealEstateLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setRealEstateLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + CapCoinFormatter.getCapCoins(newVal.getValue()));
         }else if (evt.getPropertyName().equals("stocksInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            bankingSystemController.setStocksLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setStocksLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + CapCoinFormatter.getCapCoins(newVal.getValue()));
         }else if (evt.getPropertyName().equals("ventureCapitalInvestmentAmount")) {
             PropertyChangeSupportDouble newVal = (PropertyChangeSupportDouble) evt.getSource();
-            bankingSystemController.setVentureCapitalLabel("Amount: " + String.valueOf(DecimalRound.round(newVal.getValue(), 2)));
+            investmentsController.setVentureCapitalLabel(UIManager.getLocalisedString("finance.investments.amount") + ": " + CapCoinFormatter.getCapCoins(newVal.getValue()));
+        }
+
+        if(evt.getPropertyName().equals("annualPrincipalBalance") || evt.getPropertyName().equals("remainingDuration")){
+            FinanceBankingSystemController financeBankingSystemController = (FinanceBankingSystemController) UIManager.getInstance().getModule(GameModuleType.FINANCE_BANKING_SYSTEM).getController();
+            financeBankingSystemController.updateLoan(this.loan);
         }
     }
 }
