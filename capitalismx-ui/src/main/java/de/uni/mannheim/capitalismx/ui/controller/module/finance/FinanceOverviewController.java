@@ -5,15 +5,15 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.controller.popover.finance.LoanRequestListController;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.eventlistener.FinanceEventListener;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

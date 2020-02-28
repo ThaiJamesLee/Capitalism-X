@@ -7,9 +7,9 @@ import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.util.CssHelper;
+import de.uni.mannheim.capitalismx.ui.util.TextFieldHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

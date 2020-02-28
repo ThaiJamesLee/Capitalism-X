@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
-import de.uni.mannheim.capitalismx.ui.components.logistics.ProductSupportListViewCell;
+import de.uni.mannheim.capitalismx.ui.component.logistics.ProductSupportListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

@@ -8,10 +8,10 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameNotification;
+import de.uni.mannheim.capitalismx.ui.component.GameNotification;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.MessageEventListener;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.eventlistener.MessageEventListener;
+import de.uni.mannheim.capitalismx.ui.util.CssHelper;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

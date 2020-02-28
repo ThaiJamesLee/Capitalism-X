@@ -5,13 +5,14 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.SalesEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.SalesEventListener;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -115,7 +116,7 @@ public class SalesContractController implements Initializable {
      */
     public void addContractOffer(Contract c, int i, boolean isAccepted){
         FXMLLoader contractLoader = new FXMLLoader(getClass().getClassLoader()
-                .getResource("fxml/components/sales_list_cell.fxml"));
+                .getResource("fxml/component/sales_list_cell.fxml"));
 
         Parent contract;
         SalesContractListCellController cellController;
@@ -180,7 +181,7 @@ public class SalesContractController implements Initializable {
             //ResourceBundle bundle = ResourceBundle.getBundle("properties.main");
 
             FXMLLoader infoLoader = new FXMLLoader(getClass().getClassLoader()
-                    .getResource("fxml/components/sales_info_panel.fxml"), UIManager.getResourceBundle());
+                    .getResource("fxml/component/sales_info_panel.fxml"), UIManager.getResourceBundle());
             try {
                 infoPane = infoLoader.load();
                 infoPaneController = infoLoader.getController();
@@ -290,7 +291,7 @@ public class SalesContractController implements Initializable {
         );
 
 /*
-        FXMLLoader cellLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/sales_list_cell.fxml"));
+        FXMLLoader cellLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/component/sales_list_cell.fxml"));
         try {
             infoPane = cellLoader.load();
             infoPaneController = cellLoader.getController();

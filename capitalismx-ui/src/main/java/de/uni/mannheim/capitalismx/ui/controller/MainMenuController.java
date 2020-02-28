@@ -5,9 +5,9 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.gamesave.SaveGameHandler;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
+import de.uni.mannheim.capitalismx.ui.component.GameSceneType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.util.CssHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;

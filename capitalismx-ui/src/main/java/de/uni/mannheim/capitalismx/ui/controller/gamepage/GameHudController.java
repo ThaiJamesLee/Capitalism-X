@@ -23,17 +23,17 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameThread.Speed;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex.EcoIndex;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameNotification;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
+import de.uni.mannheim.capitalismx.ui.component.GameNotification;
+import de.uni.mannheim.capitalismx.ui.component.GameViewType;
+import de.uni.mannheim.capitalismx.ui.component.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.general.DepartmentUpgradeController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.popover.TutorialStartCheckController;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
-import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
-import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.eventlistener.GameStateEventListener;
+import de.uni.mannheim.capitalismx.ui.util.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.util.CssHelper;
+import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -322,7 +322,7 @@ public class GameHudController implements UpdateableController {
 		CssHelper.replaceStylesheets(root.getStylesheets());
 
 		FXMLLoader departmentUpgradeLoader = new FXMLLoader(
-				getClass().getClassLoader().getResource("fxml/components/hud_department_dropdown.fxml"),
+				getClass().getClassLoader().getResource("fxml/component/hud_department_dropdown.fxml"),
 				UIManager.getResourceBundle());
 		try {
 			departmentUpgradePane = departmentUpgradeLoader.load();
@@ -406,7 +406,7 @@ public class GameHudController implements UpdateableController {
 	 */
 	public void initTutorialCheck() {
 		PopOverFactory factory = new PopOverFactory();
-		factory.createStandardPopover("fxml/components/tutorial_start.fxml");
+		factory.createStandardPopover("fxml/popover/tutorial_start.fxml");
 		PopOver p = factory.getPopover();
 		p.setArrowSize(0.0);
 		Platform.runLater(() -> {

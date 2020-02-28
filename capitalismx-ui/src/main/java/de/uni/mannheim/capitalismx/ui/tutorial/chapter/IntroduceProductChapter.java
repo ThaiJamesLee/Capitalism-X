@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.production.ProduceProductController;
 import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage.NextPageCondition;
 import de.uni.mannheim.capitalismx.ui.tutorial.page.TutorialPage.TutorialPageBuilder;

@@ -10,7 +10,7 @@ import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.resdev.skills.ProductCategorySkill;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;

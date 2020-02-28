@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
+import de.uni.mannheim.capitalismx.ui.component.GameSceneType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

@@ -3,8 +3,8 @@ package de.uni.mannheim.capitalismx.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.components.GameScene;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.component.GameScene;
+import de.uni.mannheim.capitalismx.ui.util.CssHelper;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

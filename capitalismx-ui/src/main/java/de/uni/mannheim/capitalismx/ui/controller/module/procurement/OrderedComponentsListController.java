@@ -10,9 +10,9 @@ import de.uni.mannheim.capitalismx.procurement.component.ComponentOrder;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
-import de.uni.mannheim.capitalismx.ui.components.procurement.OrderedComponentsListViewCell;
+import de.uni.mannheim.capitalismx.ui.component.procurement.OrderedComponentsListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.ProcurementEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.ProcurementEventListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 

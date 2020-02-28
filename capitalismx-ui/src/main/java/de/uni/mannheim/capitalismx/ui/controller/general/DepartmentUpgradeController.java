@@ -8,10 +8,10 @@ import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFil
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
+import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
-import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;

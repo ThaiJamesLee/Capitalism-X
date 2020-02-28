@@ -2,9 +2,9 @@ package de.uni.mannheim.capitalismx.ui.application;
 
 import java.util.Optional;
 
-import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
+import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
+import de.uni.mannheim.capitalismx.ui.util.CssHelper;
+import de.uni.mannheim.capitalismx.ui.util.GameResolution;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert.AlertType;

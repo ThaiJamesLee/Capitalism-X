@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.eventhandlers.Map3DInputHandler;
-import de.uni.mannheim.capitalismx.ui.utils.Xform;
+import de.uni.mannheim.capitalismx.ui.eventhandler.Map3DInputHandler;
+import de.uni.mannheim.capitalismx.ui.util.Xform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
