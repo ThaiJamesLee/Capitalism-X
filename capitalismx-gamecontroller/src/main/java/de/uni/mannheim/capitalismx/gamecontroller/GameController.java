@@ -21,6 +21,7 @@ import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
+import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents.ExternalEvent;
 import de.uni.mannheim.capitalismx.gamecontroller.gamesave.SaveGameHandler;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
@@ -1293,6 +1294,9 @@ public class GameController {
 	public void makePressRelease(PressRelease pr) {
 		int cost = MarketingDepartment.getInstance().makePressRelease(pr);
 		decreaseCash(GameState.getInstance().getGameDate(), cost);
+		
+		//add ExternalEvent of issued PressRelease
+		ExternalEvents.getInstance().addPressReleaseEvent(pr);
 	}
 
 	/**

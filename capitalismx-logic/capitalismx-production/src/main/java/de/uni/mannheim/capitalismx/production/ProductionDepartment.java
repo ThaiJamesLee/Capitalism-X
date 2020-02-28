@@ -606,6 +606,17 @@ public class ProductionDepartment extends DepartmentImpl {
         this.processAutomation.decreaseLevel(levelDecrease);
         this.decreasedProcessAutomationLevel = levelDecrease;
     }
+    
+    
+    /* TODO used processAutomationFactor as processAutomation is on a Likert scale from 1 to 5*/
+    /**
+     * Needed for {@link}ExternalEvent "ComputerVirusAttack" and its  reversing press release
+      * @param decrease
+     */
+    public void increaseProcessAutomationRel(double increase) {
+        int levelIncrease = (int) Math.round(this.processAutomation.getLevel() * increase);
+        this.processAutomation.increaseLevel(levelIncrease);
+    }
 
     public void increaseProcessAutomationRel() {
         this.processAutomation.increaseLevel(this.decreasedProcessAutomationLevel);
