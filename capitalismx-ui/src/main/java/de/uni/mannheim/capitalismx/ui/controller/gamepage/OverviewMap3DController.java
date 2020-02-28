@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.module;
+package de.uni.mannheim.capitalismx.ui.controller.gamepage;
 
 import java.io.IOException;
 import java.net.URL;
