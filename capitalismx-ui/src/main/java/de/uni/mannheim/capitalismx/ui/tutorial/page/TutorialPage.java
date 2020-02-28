@@ -39,16 +39,16 @@ import javafx.util.Duration;
 public class TutorialPage {
 
 	/**
-	 * Defines the condition for the TutorialPage to finish and continue with the
-	 * next page.
+	 * Defines the trigger that allows for the TutorialPage to finish and continue
+	 * with the next page.
 	 * 
 	 * <li>{@link #CONFIRM}</li>
 	 * <li>{@link #CLICK}</li>
-	 * <li>{@link #PROPERTY_EQUALS}</li>
+	 * <li>{@link #PROPERTY_CONDITION}</li>
 	 * 
 	 * @author Jonathan
 	 */
-	public enum NextPageCondition {
+	public enum NextPageTrigger {
 
 		/**
 		 * Confirm via a button next to the message.
@@ -62,7 +62,7 @@ public class TutorialPage {
 		 * Set a {@link Property}, that needs to equal a certain Value. Once the
 		 * {@link Property} is changed and has that value, the tutorial continues.
 		 */
-		PROPERTY_EQUALS;
+		PROPERTY_CONDITION;
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class TutorialPage {
 
 		// required attributes
 		private TutorialChapter parentChapter;
-		private NextPageCondition condition;
+		private NextPageTrigger endTrigger;
 
 		// optional attributes
 		private ArrowLocation arrowLocation;
@@ -92,7 +92,7 @@ public class TutorialPage {
 		 */
 		public TutorialPageBuilder(TutorialChapter parentChapter) {
 			this.parentChapter = parentChapter;
-			this.condition = NextPageCondition.CONFIRM;
+			this.endTrigger = NextPageTrigger.CONFIRM;
 			this.arrowLocation = ArrowLocation.TOP_LEFT;
 		}
 
@@ -106,12 +106,12 @@ public class TutorialPage {
 		}
 
 		/**
-		 * Set the {@link NextPageCondition} of the page. Default is CONFIRM.
+		 * Set the {@link NextPageTrigger} of the page. Default is CONFIRM.
 		 * 
-		 * @param condition The {@link NextPageCondition} of the page.
+		 * @param endTrigger The {@link NextPageTrigger} of the page.
 		 */
-		public TutorialPageBuilder setCondition(NextPageCondition condition) {
-			this.condition = condition;
+		public TutorialPageBuilder setEndTrigger(NextPageTrigger trigger) {
+			this.endTrigger = trigger;
 			return this;
 		}
 
@@ -147,7 +147,7 @@ public class TutorialPage {
 
 		/**
 		 * Set the {@link Property} that should be checked. (See
-		 * {@link NextPageCondition})
+		 * {@link NextPageTrigger})
 		 * 
 		 * @param propertyToCheck The {@link Property} that should be checked.
 		 */
@@ -158,7 +158,7 @@ public class TutorialPage {
 
 		/**
 		 * Set the value the {@link Property} should adopt. (See
-		 * {@link NextPageCondition})
+		 * {@link NextPageTrigger})
 		 * 
 		 * @param propertyValue The value to check for.
 		 */
@@ -181,7 +181,7 @@ public class TutorialPage {
 	private EventHandler<? super MouseEvent> overwrittenHandler;
 	private TutorialHighlighter highlighter;
 	private TutorialChapter parentChapter;
-	private NextPageCondition condition;
+	private NextPageTrigger endTrigger;
 	private PopOver infoPopover;
 	private Node target;
 	private ArrowLocation arrowLocation;
@@ -217,22 +217,22 @@ public class TutorialPage {
 			highlighter = new TutorialHighlighter();
 		}
 
-		this.condition = builder.condition;
-		if (this.condition == NextPageCondition.PROPERTY_EQUALS) {
+		this.endTrigger = builder.endTrigger;
+		if (this.endTrigger == NextPageTrigger.PROPERTY_CONDITION) {
 			if (builder.propertyToCheck != null && builder.expectedPropertyValue != null) {
 				this.expectedPropertyValue = builder.expectedPropertyValue;
 				this.propertyToCheck = builder.propertyToCheck;
 			} else {
 				System.err.println(
-						"Could not set NextPageCondition.PROPERTY_EQUALS, as propertyToCheck or propertyValue were not set.");
-				this.condition = NextPageCondition.CONFIRM;
+						"Could not set NextPageTrigger.PROPERTY_CONDITION, as propertyToCheck or propertyValue were not set.");
+				this.endTrigger = NextPageTrigger.CONFIRM;
 			}
 		}
 	}
 
 	/**
 	 * Add a {@link Button} for confirming this message.
-	 * ({@link NextPageCondition}.CONFIRM)
+	 * ({@link NextPageTrigger}.CONFIRM)
 	 */
 	private void addConfirmButton() {
 		FontAwesomeIcon icon = new FontAwesomeIcon();
@@ -315,12 +315,12 @@ public class TutorialPage {
 
 	/**
 	 * Start this {@link TutorialPage}, by displaying the {@link PopOver} and
-	 * preparing the next page depending on the {@link NextPageCondition}.
+	 * preparing the next page depending on the {@link NextPageTrigger}.
 	 */
 	public void start() {
 		Platform.runLater(() -> {
 			showPage();
-			switch (condition) {
+			switch (endTrigger) {
 			case CONFIRM:
 				addConfirmButton();
 				infoPopover.setOnHidden(e -> {
@@ -333,7 +333,7 @@ public class TutorialPage {
 					turnPage(e);
 				});
 				break;
-			case PROPERTY_EQUALS:
+			case PROPERTY_CONDITION:
 				setPropertyCondition(propertyToCheck, expectedPropertyValue);
 				break;
 			default:
