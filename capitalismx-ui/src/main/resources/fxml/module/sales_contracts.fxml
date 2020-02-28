@@ -100,6 +100,11 @@
                                     <Button fx:id="terminateButton" mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="btn_standard" text="%sales.contract.terminate" />
                                  </children>
                               </HBox>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="refreshButton" mnemonicParsing="false" onMouseClicked="#regenerateAvailableContracts" styleClass="btn_standard" text="%sales.contract.refresh" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>

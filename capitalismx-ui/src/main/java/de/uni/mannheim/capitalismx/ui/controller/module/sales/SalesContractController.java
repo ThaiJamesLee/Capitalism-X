@@ -86,6 +86,9 @@ public class SalesContractController implements Initializable {
         if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0){
             int index = availableContractsList.getSelectionModel().getSelectedIndex();
             SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+            GameState.getInstance().getWarehousingDepartment().getInventory();
+
+            GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), salesDep.getAvailableContracts().get(index).getRevenue());
             salesDep.contractDone(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
             refreshAcceptedContracts();
         }
@@ -212,7 +215,7 @@ public class SalesContractController implements Initializable {
     }
 
     /**
-     * Refreshes the list of offered contracts
+     * Refreshes the list of offered contracts by deleting the list and re-adding all entries again
      */
     public void refreshAvailableContracts(){
         Platform.runLater(new Runnable() {
@@ -242,6 +245,25 @@ public class SalesContractController implements Initializable {
                     for(int i = 0; i < contractList.size(); i++){
                         addContractOffer(contractList.get(i), i, true);
                     }
+                }
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    public void regenerateAvailableContracts(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                removeAllAvailableContracts();
+                SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+                try{
+                    double cost = salesDep.refreshAvailableContracts(GameState.getInstance().getGameDate(), GameState.getInstance().getProductionDepartment(), GameState.getInstance().getCustomerDemand().getDemandPercentage());
+                    GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), cost);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

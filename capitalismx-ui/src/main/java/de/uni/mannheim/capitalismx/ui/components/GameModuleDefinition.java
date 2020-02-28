@@ -46,6 +46,7 @@ public enum GameModuleDefinition {
 
     //The modules for Research and Development.
     RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameModuleType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(5, 8, 5, 8),true),
+	//RESDEV_COMPONENT_INFO("resdev_info.fxml", GameModuleType.RESDEV_COMPONENT_INFO, new GridPosition(), true);
 
     // The modules for Sales
     SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(1, 15, 7, 15) , true),

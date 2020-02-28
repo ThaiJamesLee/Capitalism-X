@@ -32,6 +32,7 @@ public enum GameModuleType {
 	WAREHOUSE_STATISTICS("module.statistics", GameViewType.WAREHOUSE),
 	WAREHOUSE_STOCK_MANAGEMENT("module.warehouse.stock", GameViewType.WAREHOUSE),
 	RESDEV_CATEGORY_UNLOCKER("module.randd.product.category", GameViewType.R_AND_D),
+	RESDEV_COMPONENT_INFO("module.randd.info", GameViewType.R_AND_D),
 	MARKETING_PRESSRELEASE("module.marketing.press", GameViewType.MARKETING),
 	MARKETING_CAMPAIGNS("module.marketing.campaign",GameViewType.MARKETING),
 	MARKETING_MARKETRESEARCH("module.marketing.research", GameViewType.MARKETING),
