@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.component.general;
 
+import de.uni.mannheim.capitalismx.ui.util.TooltipFactory;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Tooltip;

@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.component.general;
+package de.uni.mannheim.capitalismx.ui.util;
 
 import org.controlsfx.control.PopOver;
 

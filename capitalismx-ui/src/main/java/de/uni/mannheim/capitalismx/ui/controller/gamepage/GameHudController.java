@@ -25,7 +25,6 @@ import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex.EcoIn
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.component.general.GameNotification;
-import de.uni.mannheim.capitalismx.ui.component.general.TooltipFactory;
 import de.uni.mannheim.capitalismx.ui.controller.general.DepartmentUpgradeController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.popover.TutorialStartCheckController;
@@ -34,6 +33,7 @@ import de.uni.mannheim.capitalismx.ui.util.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.util.CssHelper;
 import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.util.TooltipFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
