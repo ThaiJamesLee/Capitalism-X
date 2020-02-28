@@ -59,6 +59,7 @@ public class NewPressReleaseController implements UpdateableController {
 
     		PressRelease pr = newPressReleaseOptionsList.getSelectionModel().getSelectedItem();
     		controller.makePressRelease(pr);
+    	
     		
     		//update PressReleases Module
     		PressReleaseListController uiController = (PressReleaseListController) UIManager.getInstance().getModule(GameModuleType.MARKETING_PRESSRELEASE).getController();
