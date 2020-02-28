@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.controller.component;
+package de.uni.mannheim.capitalismx.ui.controller.popover.warehouse;
 
 import java.net.URL;
 import java.util.Optional;
