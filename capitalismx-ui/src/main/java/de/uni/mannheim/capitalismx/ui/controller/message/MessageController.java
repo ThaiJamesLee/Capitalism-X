@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.component.GameNotification;
+import de.uni.mannheim.capitalismx.ui.component.general.GameNotification;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
 import de.uni.mannheim.capitalismx.ui.eventlistener.MessageEventListener;
 import de.uni.mannheim.capitalismx.ui.util.CssHelper;

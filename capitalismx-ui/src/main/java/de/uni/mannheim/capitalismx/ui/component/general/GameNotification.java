@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.ui.component;
+package de.uni.mannheim.capitalismx.ui.component.general;
 
 import java.io.IOException;
 
