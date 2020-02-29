@@ -103,7 +103,11 @@ public class ProductSupport implements Serializable {
     public enum ExternalSupportPartner implements Serializable{
         NO_PARTNER("no"),
         PARTNER_1("1"),
-        PARTNER_2("2");
+        PARTNER_2("2"),
+        PARTNER_3("3"),
+        PARTNER_4("4"),
+        PARTNER_5("5"),
+        PARTNER_6("6");
 
         private int contractualCosts;
         private int qualityIndex;
@@ -125,7 +129,7 @@ public class ProductSupport implements Serializable {
         private void initProperties(){
             ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
             this.contractualCosts = Integer.valueOf(resourceBundle.getString("logistics.support.partner.costs." + this.name));
-            this.qualityIndex = Integer.valueOf(resourceBundle.getString("logistics.support.partner.costs." + this.name));
+            this.qualityIndex = Integer.valueOf(resourceBundle.getString("logistics.support.partner.quality." + this.name));
         }
 
         public int getContractualCosts() {
