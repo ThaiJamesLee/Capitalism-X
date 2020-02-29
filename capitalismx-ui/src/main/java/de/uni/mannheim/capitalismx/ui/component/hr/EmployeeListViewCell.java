@@ -122,7 +122,7 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 
 		// Prepare the Popover for the trainButton
 		FXMLLoader popoverLoader = new FXMLLoader(
-				getClass().getClassLoader().getResource("fxml/component/training_popover.fxml"), bundle);
+				getClass().getClassLoader().getResource("fxml/popover/training_popover.fxml"), bundle);
 		PopOver trainPopover = new PopOver();
 		try {
 			trainPopover.setContentNode(popoverLoader.load());
