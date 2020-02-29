@@ -493,9 +493,12 @@ public class FinanceDepartment extends DepartmentImpl {
     protected double calculateTotalTruckValues(LocalDate gameDate){
         this.totalTruckValues = 0;
         ArrayList<Truck> trucks = InternalFleet.getInstance().getTrucks();
+        double truckValue;
         for(Truck truck : trucks){
-            this.totalTruckValues += this.calculateResellPrice(truck.getPurchasePrice(),
+            truckValue = this.calculateResellPrice(truck.getPurchasePrice(),
                     truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
+            truck.setResellPrice(truckValue);
+            this.totalTruckValues += truckValue;
         }
         return this.totalTruckValues;
     }
