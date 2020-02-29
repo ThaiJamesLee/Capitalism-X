@@ -76,8 +76,7 @@ public class TruckListViewCell extends ListCell<Truck> {
 
             GameController controller = GameController.getInstance();
             valueLabel.setText(UIManager.getLocalisedString("trucks.value") + ": " +
-                    CapCoinFormatter.getCapCoins(controller.calculateResellPrice(truck.getPurchasePrice(),
-                            truck.getUsefulLife(), truck.calculateTimeUsed(GameState.getInstance().getGameDate()))));
+                    CapCoinFormatter.getCapCoins(truck.getResellPrice()));
             dateLabel.setText(UIManager.getLocalisedString("trucks.date") + ": " + truck.getPurchaseDate() + "");
             sellButton.setOnAction(e -> {
                 controller.sellTruck(truck, GameState.getInstance().getGameDate());

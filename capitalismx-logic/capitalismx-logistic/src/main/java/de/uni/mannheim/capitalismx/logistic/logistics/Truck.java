@@ -1,7 +1,10 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -29,6 +32,7 @@ public class Truck implements Serializable {
     private double basePrice;
     private double basePriceDelivery;
     private double maintenanceCostsFactor;
+    private PropertyChangeSupportDouble resellPrice;
 
     private static final String DEFAULTS_PROPERTIES_FILE = "logistics-defaults";
 
@@ -55,6 +59,10 @@ public class Truck implements Serializable {
         this.fixTruckCost = DecimalRound.round((this.purchasePrice * this.maintenanceCostsFactor) / 12, 2);
         //TODO for 9 years
         this.depreciationRate = 1 / this.usefulLife;
+
+        this.resellPrice = new PropertyChangeSupportDouble();
+        this.resellPrice.setValue(this.purchasePrice);
+        this.resellPrice.setPropertyChangedName("resellPrice");
     }
 
     /**
@@ -129,5 +137,22 @@ public class Truck implements Serializable {
 
     public String getName() {
         return this.name;
+    }
+
+    public void setResellPrice(double resellPrice) {
+        this.resellPrice.setValue(resellPrice);
+    }
+
+    public double getResellPrice(){
+        return this.resellPrice.getValue();
+    }
+
+    /**
+     * Register a change listener that notifies, if a property has changed.
+     *
+     * @param listener A property change listener.
+     */
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+        this.resellPrice.addPropertyChangeListener(listener);
     }
 }

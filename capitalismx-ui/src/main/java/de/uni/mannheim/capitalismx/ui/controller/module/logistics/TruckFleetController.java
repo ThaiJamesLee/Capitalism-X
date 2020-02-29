@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.finance.finance.Loan;
+import javafx.application.Platform;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
@@ -78,6 +80,20 @@ public class TruckFleetController implements Initializable {
 	 */
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());
+	}
+
+	/**
+	 * Updates information like resell price of the specified truck.
+	 * @param truck The truck to be updated.
+	 */
+	public void updateTruck(Truck truck){
+		Platform.runLater(new Runnable() {
+			public void run() {
+				int index = truckFleetListView.getItems().indexOf(truck);
+				truckFleetListView.getItems().remove(truck);
+				truckFleetListView.getItems().add(index, truck);
+			}
+		});
 	}
 
 }
