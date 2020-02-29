@@ -265,32 +265,35 @@ public class SalesDepartment extends DepartmentImpl {
      *
      */
     public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) {
-        SalesDepartmentSkill skill = (SalesDepartmentSkill) skillMap.get(getLevel());
-        int numContracts = skill.getNumContracts();
-        Range factor = skill.getPriceFactor();
-        double penalty = skill.getPenaltyFactor();
+        if(getLevel() > 0) {
+            SalesDepartmentSkill skill = (SalesDepartmentSkill) skillMap.get(getLevel());
+            int numContracts = skill.getNumContracts();
+            Range factor = skill.getPriceFactor();
+            double penalty = skill.getPenaltyFactor();
 
-        List<Contract> newContracts = new ArrayList<>();
-        List<Product> products = productionDepartment.getLaunchedProductsChange().getList();
-        ContractFactory contractFactory = new ContractFactory(productionDepartment);
+            List<Contract> newContracts = new ArrayList<>();
+            List<Product> products = productionDepartment.getLaunchedProductsChange().getList();
+            ContractFactory contractFactory = new ContractFactory(productionDepartment);
 
-        if(!(products.isEmpty()) && (productionDepartment.getMonthlyMachineCapacity(date) > 0)) {
-            for(int i = 0; i<numContracts; i++) {
-                int max = Math.max(products.size()-1, 0);
-                Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
+            if(!(products.isEmpty()) && (productionDepartment.getMonthlyMachineCapacity(date) > 0)) {
+                for(int i = 0; i<numContracts; i++) {
+                    int max = Math.max(products.size()-1, 0);
+                    Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
 
-                double demand = demandPercentage.get(p) != null ? demandPercentage.get(p) : 0.0;
+                    double demand = demandPercentage.get(p) != null ? demandPercentage.get(p) : 0.0;
 
-                if(demand > 0.0) {
-                    Contract c = contractFactory.getContract(p, date, factor);
-                    c.setPenalty(c.getPenalty() * penalty);
-                    c.setNumProducts((int)(c.getNumProducts() * demand));
-                    c.setuId(UUID.randomUUID().toString());
-                    newContracts.add(c);
+                    if(demand > 0.0) {
+                        Contract c = contractFactory.getContract(p, date, factor);
+                        c.setPenalty(c.getPenalty() * penalty);
+                        c.setNumProducts((int)(c.getNumProducts() * demand));
+                        c.setuId(UUID.randomUUID().toString());
+                        newContracts.add(c);
+                    }
                 }
             }
+            availableContracts.setList(newContracts);
         }
-        availableContracts.setList(newContracts);
+
     }
 
 
