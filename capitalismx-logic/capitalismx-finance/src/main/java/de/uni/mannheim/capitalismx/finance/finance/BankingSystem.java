@@ -35,6 +35,7 @@ public class BankingSystem implements Serializable {
     private double totalAnnualInterestRate;
     private double totalAnnualLoanRate;
 
+    private static final String LANGUAGE_PROPERTIES_FILE = "finance-module";
 
     /**
      * Constructor
@@ -186,7 +187,7 @@ public class BankingSystem implements Serializable {
     }
 
     public String getLocalisedString(String text, Locale locale) {
-        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", locale);
+        ResourceBundle langBundle = ResourceBundle.getBundle(LANGUAGE_PROPERTIES_FILE, locale);
         return langBundle.getString(text);
     }
 }

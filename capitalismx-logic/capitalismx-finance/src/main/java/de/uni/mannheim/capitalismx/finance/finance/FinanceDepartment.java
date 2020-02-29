@@ -227,12 +227,12 @@ public class FinanceDepartment extends DepartmentImpl {
     /**
      * Specifies the cash amount at the start of a new game.
      */
-    private double initialCash = 1000000.0;
+    private double initialCash;
 
     /**
      * Specifies the tax rate at the start of a new game.
      */
-    private double taxRate = 0.2;
+    private double taxRate;
 
     /**
      * A list that contains all investments of the company.
@@ -256,12 +256,18 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalSupportCosts;
     private double totalExpenses;
 
+    private static final String DEFAULTS_PROPERTIES_FILE = "finance-defaults";
+    private static final String LANGUAGE_PROPERTIES_FILE = "finance-module";
+
     /**
      * Constructor
      * Initializes all variables, including the PropertyChangeSupport variables and the different histories.
      */
     protected FinanceDepartment(){
         super("Finance");
+
+        this.initProperties();
+
         this.gameOver = new PropertyChangeSupportBoolean();
         this.gameOver.setValue(false);
         this.gameOver.setPropertyChangedName("gameOver");
@@ -363,12 +369,21 @@ public class FinanceDepartment extends DepartmentImpl {
         this.investments.add(new Investment(0, Investment.InvestmentType.REAL_ESTATE));
         this.investments.add(new Investment(0, Investment.InvestmentType.STOCKS));
         this.investments.add(new Investment(0, Investment.InvestmentType.VENTURE_CAPITAL));
-        this.decreaseNopatFactor = 0.0;
-        this.decreaseNopatConstant = 0.0;
         this.warehousesSold = new ArrayList<>();
         this.trucksSold = new ArrayList<>();
         this.machinesSold = new ArrayList<>();
         this.nopatLast5Years = new ArrayList<>();
+    }
+
+    /**
+     * Initializes the finance department values using the corresponding properties file.
+     */
+    private void initProperties(){
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.initialCash = Double.valueOf(resourceBundle.getString("finance.initial.cash"));
+        this.taxRate = Double.valueOf(resourceBundle.getString("finance.initial.tax.rate"));
+        this.decreaseNopatFactor = this.taxRate = Double.valueOf(resourceBundle.getString("finance.initial.decrease.nopat.factor"));
+        this.decreaseNopatConstant = this.taxRate = Double.valueOf(resourceBundle.getString("finance.initial.decrease.nopat.constant"));
     }
 
     /**
@@ -1351,7 +1366,7 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     public String getLocalisedString(String text, Locale locale) {
-        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", locale);
+        ResourceBundle langBundle = ResourceBundle.getBundle(LANGUAGE_PROPERTIES_FILE, locale);
         return langBundle.getString(text);
     }
 }
