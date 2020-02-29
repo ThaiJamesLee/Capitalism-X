@@ -176,7 +176,7 @@ public class LogisticsDepartment extends DepartmentImpl {
      * partner according to p.52.
      * @return Returns the costs for logistics.
      */
-    private double calculateCostsLogistics(){
+    protected double calculateCostsLogistics(){
         if(externalPartner == null){
             this.costLogistics = InternalFleet.getInstance().getTotalTruckCost();
         }else{
@@ -216,7 +216,7 @@ public class LogisticsDepartment extends DepartmentImpl {
      * are sent by post.
      * @return Returns the total delivery costs.
      */
-    private double calculateTotalDeliveryCosts(){
+    protected double calculateTotalDeliveryCosts(){
         if(this.deliveredProducts <= InternalFleet.getInstance().getCapacityFleet()){
             this.totalDeliveryCosts = (Math.ceil(this.deliveredProducts / 1000.0) * InternalFleet.getInstance().getFixCostsDelivery())
                     + (this.deliveredProducts * InternalFleet.getInstance().getVariableCostsDelivery());
