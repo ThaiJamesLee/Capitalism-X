@@ -777,7 +777,7 @@ public class FinanceDepartment extends DepartmentImpl {
      * @param locale The Locale object of the desired language.
      * @return Returns a list of three loans with different characteristics.
      */
-    public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount, LocalDate gameDate, Locale locale){
+    public ArrayList<Loan> generateLoanSelection(double desiredLoanAmount, LocalDate gameDate, Locale locale){
         if(this.cash.getValue() == 0.0){
             //TODO popup
             return null;
@@ -797,7 +797,7 @@ public class FinanceDepartment extends DepartmentImpl {
      * @param loan The loan to be added.
      * @param gameDate The current date in the game.
      */
-    public void addLoan(BankingSystem.Loan loan, LocalDate gameDate){
+    public void addLoan(Loan loan, LocalDate gameDate){
         BankingSystem.getInstance().addLoan(loan, gameDate);
         this.increaseCash(gameDate, loan.getLoanAmount());
         this.increaseLiabilities(gameDate, loan.getLoanAmount());
@@ -1059,7 +1059,7 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.netWorth.getValue();
     }
 
-    public ArrayList<BankingSystem.Loan> getLoans(){
+    public ArrayList<Loan> getLoans(){
         return BankingSystem.getInstance().getLoans();
     }
 

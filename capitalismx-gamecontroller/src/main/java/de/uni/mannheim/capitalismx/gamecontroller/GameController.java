@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
+import de.uni.mannheim.capitalismx.finance.finance.Loan;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportPartnerException;
@@ -427,7 +428,7 @@ public class GameController {
 	 * @param locale The Locale object of the desired language.
 	 * @return Returns a list of three loans with different characteristics.
 	 */
-	public List<BankingSystem.Loan> generateLoanSelection(double loanAmount, LocalDate gameDate, Locale locale) {
+	public List<Loan> generateLoanSelection(double loanAmount, LocalDate gameDate, Locale locale) {
 		return GameState.getInstance().getFinanceDepartment().generateLoanSelection(loanAmount, gameDate, locale);
 	}
 
@@ -437,11 +438,11 @@ public class GameController {
 	 * @param loan The loan to be added.
 	 * @param loanDate The current date in the game.
 	 */
-	public void addLoan(BankingSystem.Loan loan, LocalDate loanDate) {
+	public void addLoan(Loan loan, LocalDate loanDate) {
 		GameState.getInstance().getFinanceDepartment().addLoan(loan, loanDate);
 	}
 
-	public List<BankingSystem.Loan> getLoans() {
+	public List<Loan> getLoans() {
 		return GameState.getInstance().getFinanceDepartment().getLoans();
 	}
 

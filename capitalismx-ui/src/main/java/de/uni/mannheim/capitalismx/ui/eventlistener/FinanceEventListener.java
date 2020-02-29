@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
+import de.uni.mannheim.capitalismx.finance.finance.Loan;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -30,7 +31,7 @@ public class FinanceEventListener implements PropertyChangeListener {
     /**
      * The specific loan this FinanceEventListener corresponds to. Optional.
      */
-    BankingSystem.Loan loan;
+    Loan loan;
 
     /**
      * Constructor
@@ -44,7 +45,7 @@ public class FinanceEventListener implements PropertyChangeListener {
      * Allows the specify a loan that this FinanceEventListener corresponds to.
      * @param loan The corresponding loan.
      */
-    public FinanceEventListener(BankingSystem.Loan loan){
+    public FinanceEventListener(Loan loan){
         super();
         this.loan = loan;
     }
