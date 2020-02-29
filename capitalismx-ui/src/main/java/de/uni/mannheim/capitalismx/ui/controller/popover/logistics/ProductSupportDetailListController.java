@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.logistics;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
@@ -41,7 +42,7 @@ public class ProductSupportDetailListController implements UpdateableController 
             return cell;
         });
 
-        ArrayList<ProductSupport.SupportType> supportTypes = controller.generateSupportTypeSelection();
+        List<ProductSupport.SupportType> supportTypes = controller.generateSupportTypeSelection();
 
         for(ProductSupport.SupportType supportType : supportTypes) {
             supportTypeListView.getItems().add(supportType);

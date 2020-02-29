@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.finance;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
@@ -40,7 +41,7 @@ public class LoanRequestListController implements UpdateableController {
     	loanVBox.getChildren().clear();
         GameController controller = GameController.getInstance();
 
-        ArrayList<BankingSystem.Loan> loans = controller.generateLoanSelection(loanAmount, GameState.getInstance().getGameDate(), UIManager.getResourceBundle().getLocale());
+        List<BankingSystem.Loan> loans = controller.generateLoanSelection(loanAmount, GameState.getInstance().getGameDate(), UIManager.getResourceBundle().getLocale());
 
         if(loans != null){
             for(BankingSystem.Loan loan : loans) {
