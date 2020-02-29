@@ -20,7 +20,6 @@ import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This is the sales department. Leveling up this department will allow the user to get better
@@ -82,17 +81,14 @@ public class SalesDepartment extends DepartmentImpl {
     private static final String PRICE_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.price.factor.";
     private static final String PENALTY_FACTOR_PROPERTY_PREFIX = "sales.skill.contracts.penalty.";
     private static final String LEVELING_COST_PROPERTY_PREFIX = "sales.skill.cost.";
+    private static final String REFRESH_AVAILABLE_CONTRACTS_PROPERTY_PREFIX = "sales.skill.refresh.cost.";
     private static final String NEW_CONTRACTS_AVAILABLE_MESSAGE_PROPERTY = "sales.message.new.contracts";
 
     private static SalesDepartment instance;
 
     private SalesDepartment() {
         super("Sales Department");
-        try {
-            setLevel(1);
-        } catch (LevelingRequirementNotFulFilledException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
+
         activeContracts = new PropertyChangeSupportList<>();
         availableContracts = new PropertyChangeSupportList<>();
         doneContracts = new PropertyChangeSupportList<>();
@@ -151,13 +147,14 @@ public class SalesDepartment extends DepartmentImpl {
     private void initSkills(ResourceBundle bundle) {
         for(int i = 1; i <= getMaxLevel(); i++) {
             int numContract = Integer.parseInt(bundle.getString(NUM_CONTRACTS_PROPERTY_PREFIX + i));
+            int refreshCost = Integer.parseInt(bundle.getString(REFRESH_AVAILABLE_CONTRACTS_PROPERTY_PREFIX + i));
             String[] stringRange = bundle.getString(PRICE_FACTOR_PROPERTY_PREFIX + i).split(",");
             Double[] doubleRange = DataFormatter.stringArrayToDoubleArray(stringRange);
             Range priceFactor = new Range(doubleRange[0], doubleRange[1]);
 
             double penaltyFactor = Double.parseDouble(bundle.getString(PENALTY_FACTOR_PROPERTY_PREFIX + i));
 
-            this.skillMap.put(i, new SalesDepartmentSkill(i, numContract, penaltyFactor,priceFactor));
+            this.skillMap.put(i, new SalesDepartmentSkill(i, numContract, penaltyFactor, refreshCost, priceFactor));
         }
     }
 
@@ -264,8 +261,14 @@ public class SalesDepartment extends DepartmentImpl {
      *
      * @param date The date when the contracts are generated.
      * @param productionDepartment The {@link ProductionDepartment} instance.
+     * @param demandPercentage The products and the corresponding demand percentage.
+     *
+     * @throws LevelingRequirementNotFulFilledException Throws this exception, if the department level is smaller than 1. The department must be leveled first.
      */
-    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) {
+    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) throws LevelingRequirementNotFulFilledException{
+        if(getLevel() < 1) {
+            throw new LevelingRequirementNotFulFilledException("The level of the department must be greater than 0!");
+        }
         SalesDepartmentSkill skill = (SalesDepartmentSkill) skillMap.get(getLevel());
         int numContracts = skill.getNumContracts();
         Range factor = skill.getPriceFactor();
@@ -292,6 +295,27 @@ public class SalesDepartment extends DepartmentImpl {
             }
         }
         availableContracts.setList(newContracts);
+    }
+
+
+    /**
+     * Refresh the available contracts.
+     * Calls {@link SalesDepartment#generateContracts(LocalDate, ProductionDepartment, Map)} to generate contracts.
+     * If the requirements are not fulfilled (available launched products, productionCapacity and a demandPercentage),
+     * then no contracts will be generated.
+     * The cost should still be subtracted.
+     *
+     * @param date The date when the contracts are generated.
+     * @param productionDepartment The {@link ProductionDepartment} instance.
+     * @param demandPercentage The products and the corresponding demand percentage.
+     *
+     * @return Returns the cost to refresh available contracts.
+     *
+     * @throws LevelingRequirementNotFulFilledException Throws this exception, if the department level is smaller than 1. The department must be leveled first
+     */
+    public double refreshAvailableContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) throws LevelingRequirementNotFulFilledException{
+        generateContracts(date, productionDepartment, demandPercentage);
+        return ((SalesDepartmentSkill) skillMap.get(getLevel())).getRefreshCost();
     }
 
     /**

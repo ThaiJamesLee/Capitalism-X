@@ -7,9 +7,9 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.components.marketing.NewPressReleaseViewCell;
+import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.component.GameViewType;
+import de.uni.mannheim.capitalismx.ui.component.marketing.NewPressReleaseViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.PressReleaseListController;
 import javafx.beans.binding.Bindings;
@@ -59,6 +59,7 @@ public class NewPressReleaseController implements UpdateableController {
 
     		PressRelease pr = newPressReleaseOptionsList.getSelectionModel().getSelectedItem();
     		controller.makePressRelease(pr);
+    	
     		
     		//update PressReleases Module
     		PressReleaseListController uiController = (PressReleaseListController) UIManager.getInstance().getModule(GameModuleType.MARKETING_PRESSRELEASE).getController();

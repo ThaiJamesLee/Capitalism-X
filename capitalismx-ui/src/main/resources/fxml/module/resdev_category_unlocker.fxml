@@ -23,22 +23,22 @@
           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" styleClass="label_very_large" text="TV">
+            <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.category.tv">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label styleClass="label_very_large" text="Console" GridPane.columnIndex="1">
+            <Label styleClass="label_very_large" text="%resdev.category.console" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label styleClass="label_very_large" text="Notebook" GridPane.columnIndex="2">
+            <Label styleClass="label_very_large" text="%resdev.category.notebook" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label styleClass="label_very_large" text="Phone" GridPane.columnIndex="3">
+            <Label styleClass="label_very_large" text="%resdev.category.phone" GridPane.columnIndex="3">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>

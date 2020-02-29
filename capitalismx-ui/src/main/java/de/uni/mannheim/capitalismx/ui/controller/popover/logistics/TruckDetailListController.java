@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.logistics.TruckDetailListViewCell;
+import de.uni.mannheim.capitalismx.ui.component.logistics.TruckDetailListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;

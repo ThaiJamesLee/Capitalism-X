@@ -4,16 +4,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
-import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
-import de.uni.mannheim.capitalismx.ui.components.logistics.ProductSupportListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.popover.logistics.ProductSupportDetailListController;
+import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
+import de.uni.mannheim.capitalismx.ui.component.logistics.ProductSupportListViewCell;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

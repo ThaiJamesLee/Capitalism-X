@@ -21,14 +21,14 @@ import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.production.Product;
 import de.uni.mannheim.capitalismx.production.ProductCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.warehouse.ComponentStockCell;
-import de.uni.mannheim.capitalismx.ui.components.warehouse.ProductStockCell;
-import de.uni.mannheim.capitalismx.ui.controller.component.TradeComponentPopoverController;
-import de.uni.mannheim.capitalismx.ui.controller.component.ProductStockPopoverController;
-import de.uni.mannheim.capitalismx.ui.controller.component.ProductStockPopoverController.TradeMode;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.WarehouseEventlistener;
-import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.component.warehouse.ComponentStockCell;
+import de.uni.mannheim.capitalismx.ui.component.warehouse.ProductStockCell;
+import de.uni.mannheim.capitalismx.ui.controller.popover.warehouse.ProductStockPopoverController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.warehouse.TradeComponentPopoverController;
+import de.uni.mannheim.capitalismx.ui.controller.popover.warehouse.ProductStockPopoverController.TradeMode;
+import de.uni.mannheim.capitalismx.ui.eventlistener.WarehouseEventlistener;
+import de.uni.mannheim.capitalismx.ui.util.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -209,7 +209,7 @@ public class StockManagementController implements Initializable {
 
 		// Prepare the Popover for the trade buttons
 		FXMLLoader popoverLoader = new FXMLLoader(
-				getClass().getClassLoader().getResource("fxml/components/trade_component_popover.fxml"),
+				getClass().getClassLoader().getResource("fxml/popover/trade_component_popover.fxml"),
 				UIManager.getResourceBundle());
 		tradePopover = new PopOver();
 		try {
@@ -218,7 +218,6 @@ public class StockManagementController implements Initializable {
 			tradePopover.setFadeInDuration(Duration.millis(50));
 			tradePopoverController = ((TradeComponentPopoverController) popoverLoader.getController());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

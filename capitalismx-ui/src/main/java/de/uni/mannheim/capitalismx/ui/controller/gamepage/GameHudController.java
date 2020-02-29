@@ -23,17 +23,17 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameThread.Speed;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex.EcoIndex;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameNotification;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
-import de.uni.mannheim.capitalismx.ui.components.general.TooltipFactory;
-import de.uni.mannheim.capitalismx.ui.controller.component.DepartmentUpgradeController;
-import de.uni.mannheim.capitalismx.ui.controller.component.TutorialStartCheckController;
+import de.uni.mannheim.capitalismx.ui.component.GameViewType;
+import de.uni.mannheim.capitalismx.ui.component.general.GameNotification;
+import de.uni.mannheim.capitalismx.ui.controller.general.DepartmentUpgradeController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.GameStateEventListener;
-import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
-import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.controller.popover.TutorialStartCheckController;
+import de.uni.mannheim.capitalismx.ui.eventlistener.GameStateEventListener;
+import de.uni.mannheim.capitalismx.ui.util.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.util.CssHelper;
+import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.util.TooltipFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -228,7 +228,6 @@ public class GameHudController implements UpdateableController {
 		displayingNotification = true;
 		GameNotification notification = notificationQueue.poll();
 		Parent root = notification.getRoot();
-		// TODO set handler on root: do not remove while hover, show message on click
 		AnchorPaneHelper.snapNodeToAnchorPane(root);
 		root.setTranslateY(200);
 		notificationPane.getChildren().add(root);
@@ -278,7 +277,6 @@ public class GameHudController implements UpdateableController {
 		nodes.add(messageIconLabel);
 		nodes.add(settingsIconLabel);
 
-		// TODO add cash / networth / employees infos with short message...
 		return nodes;
 	}
 
@@ -324,7 +322,7 @@ public class GameHudController implements UpdateableController {
 		CssHelper.replaceStylesheets(root.getStylesheets());
 
 		FXMLLoader departmentUpgradeLoader = new FXMLLoader(
-				getClass().getClassLoader().getResource("fxml/components/hud_department_dropdown.fxml"),
+				getClass().getClassLoader().getResource("fxml/component/hud_department_dropdown.fxml"),
 				UIManager.getResourceBundle());
 		try {
 			departmentUpgradePane = departmentUpgradeLoader.load();
@@ -348,8 +346,10 @@ public class GameHudController implements UpdateableController {
 		ecoButton.setTooltip(ecoTooltip);
 		updateEcoIndexIcon(gameState.getCompanyEcoIndex().getEcoIndex());
 
-		// TODO Tooltip on the changelabels, with period described by the label
-
+		cashChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
+		netWorthChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
+		employeeChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
+		
 		// Set the actions for the buttons that switch the views of the departments.
 		departmentButtonMap = new HashMap<GameViewType, ToggleButton>();
 		initDepartmentButton(btnOverview, GameViewType.OVERVIEW);
@@ -406,7 +406,7 @@ public class GameHudController implements UpdateableController {
 	 */
 	public void initTutorialCheck() {
 		PopOverFactory factory = new PopOverFactory();
-		factory.createStandardPopover("fxml/components/tutorial_start.fxml");
+		factory.createStandardPopover("fxml/popover/tutorial_start.fxml");
 		PopOver p = factory.getPopover();
 		p.setArrowSize(0.0);
 		Platform.runLater(() -> {
@@ -659,18 +659,6 @@ public class GameHudController implements UpdateableController {
 			employeeLabel.setText(numOfEmployees + "/" + capacity);
 		});
 	}
-
-	// TODO order of nodes
-	// Elements
-	// 1. GamePage Title
-	// Pause Button
-	// Networth
-	// Cash --> vBox
-	// Employees --> vBox
-	// Skip Btn
-	// Fast Forward Btn
-	// Messages Btn
-	// Settings Btn
 
 	/**
 	 * Updates all hud elements for the given {@link GameViewType}.

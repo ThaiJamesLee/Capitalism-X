@@ -3,9 +3,9 @@ package de.uni.mannheim.capitalismx.ui.controller.module;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.components.GameModule;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.component.GameModule;
+import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.util.AnchorPaneHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;

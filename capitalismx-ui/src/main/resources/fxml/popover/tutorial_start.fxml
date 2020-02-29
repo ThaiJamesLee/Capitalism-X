@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane styleClass="popover_pane" stylesheets="@../../css/1080p/general1080p.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.popover.TutorialStartCheckController">
+   <children>
+      <GridPane hgap="8.0" layoutX="131.0" layoutY="110.0" vgap="12.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="50.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="50.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label_very_large" text="Welcome to CapitalismX" GridPane.columnSpan="2147483647">
+               <graphic>
+                  <FontAwesomeIcon iconName="LIGHTBULB_ALT" size="2.3em" styleClass="icon_primary" />
+               </graphic>
+            </Label>
+            <VBox alignment="CENTER" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+               <children>
+                  <Label styleClass="label_large" text="Hello you! " />
+                  <Label styleClass="label_medium" text="I am your personal assistant and will guide you through the basics of leading a company. " textAlignment="CENTER" wrapText="true" />
+                  <Label text="Do you want me to show you around?" />
+                  <Label text="Let's start by introducing a new Product!" />
+               </children>
+            </VBox>
+            <Button fx:id="accept" mnemonicParsing="false" styleClass="btn_standard" text="Explain everything!" GridPane.rowIndex="3" />
+            <Button fx:id="refuse" mnemonicParsing="false" styleClass="btn_standard" text="Don't bother me!" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label styleClass="label_small" text="(Start Tutorial)" GridPane.rowIndex="4" />
+            <Label styleClass="label_small" text="(Skip Tutorial)" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+   </children>
+   <padding>
+      <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+   </padding>
+</AnchorPane>

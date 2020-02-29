@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.finance.OperationsTableViewCell;
-import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.component.finance.OperationsTableViewCell;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +45,7 @@ public class OperationsTableController  implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         controllers = new HashMap<>();
 
-        FXMLLoader headerLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/operations_table_cell.fxml"));
+        FXMLLoader headerLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/component/operations_table_cell.fxml"));
         try {
             headerLoader.setController(new OperationsTableViewCell(new String[]{"header", "", "0", "0", "0", "0"}, operationsVBox, controllers));
             Parent headerRow = headerLoader.load();
@@ -62,7 +62,7 @@ public class OperationsTableController  implements Initializable {
         String[] rowNames = {"sales", "hrCosts", "warehouseCosts", "logisticsCosts", "productionCosts", "marketingCosts", "supportCosts",
                 "ebit", "tax", "nopat"};
         for(String rowName : rowNames){
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/components/operations_table_cell.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/component/operations_table_cell.fxml"));
             try {
                 loader.setController(new OperationsTableViewCell(new String[]{rowName,
                         UIManager.getLocalisedString("operations.table." + rowName), CapCoinFormatter.getCapCoins(0),

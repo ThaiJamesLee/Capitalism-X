@@ -12,9 +12,9 @@ import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeType;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameModule;
-import de.uni.mannheim.capitalismx.ui.components.hr.TeamDetails;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.HREventListener;
+import de.uni.mannheim.capitalismx.ui.component.GameModule;
+import de.uni.mannheim.capitalismx.ui.component.hr.TeamDetails;
+import de.uni.mannheim.capitalismx.ui.eventlistener.HREventListener;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -46,7 +46,7 @@ public class TeamDetailController implements Initializable {
 			Team team = hrDep.getTeamByEmployeeType(type);
 			TeamDetails teamDetails = new TeamDetails(team);
 			employeeTypeDetails.put(type, teamDetails);
-			prepareTeamTab(hrDep.getTeamByEmployeeType(type)); // TODO
+			prepareTeamTab(hrDep.getTeamByEmployeeType(type));
 
 			Tab teamTab = new Tab(team.getType().getName(UIManager.getResourceBundle().getLocale()));
 			employeeTabPane.getTabs().add(teamTab);

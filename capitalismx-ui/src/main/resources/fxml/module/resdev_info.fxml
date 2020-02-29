@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -11,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Polygon?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.resdev.ResearchInfoController">
    <children>
       <TabPane tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -20,16 +20,16 @@
             <content>
               <AnchorPane>
                      <children>
-                        <GridPane>
+                        <GridPane fx:id="tvGrid">
                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints vgrow="SOMETIMES" />
@@ -37,21 +37,20 @@
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Polygon fill="#020307" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" stroke="#020307" strokeType="INSIDE" />
-                                    <Label fx:id="yearTV" text="1990" />
-                                    <Polygon fill="#020307" points="-7.5, 40.0, 7.5, 40.0, 0.0, 45.0" stroke="#020307" strokeType="INSIDE" />
+                                    <Polygon fill="#020307" onMouseClicked="#tvUp" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Polygon>
+                                    <Label fx:id="yearTV" styleClass="label_very_large" text="1990" />
+                                    <Polygon fill="#020307" onMouseClicked="#tvDown" points="-7.5, 40.0, 7.5, 40.0, 0.0, 45.0" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Polygon>
                                  </children>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <Label fx:id="tv1" alignment="CENTER" contentDisplay="CENTER" GridPane.columnIndex="1" />
-                              <Label fx:id="tv2" GridPane.columnIndex="2" />
-                              <Label fx:id="tv3" GridPane.columnIndex="3" />
-                              <Label fx:id="tv4" GridPane.columnIndex="4" />
-                              <Label fx:id="tv5" GridPane.columnIndex="5" />
-                              <Label fx:id="tv6" GridPane.columnIndex="6" />
-                              <Label fx:id="tv7" GridPane.columnIndex="7" />
                            </children>
                         </GridPane>
                      </children>
@@ -62,16 +61,16 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GridPane>
+                        <GridPane fx:id="consoleGrid">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints vgrow="SOMETIMES" />
@@ -79,21 +78,20 @@
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Polygon fill="#020307" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" stroke="#020307" strokeType="INSIDE" />
-                                    <Label fx:id="yearConsole" text="1990" />
-                                    <Polygon fill="#020307" points="-7.5, 40.0, 7.5, 40.0, 0.0, 45.0" stroke="#020307" strokeType="INSIDE" />
+                                    <Polygon fill="#020307" onMouseClicked="#consoleUp" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Polygon>
+                                    <Label fx:id="yearConsole" styleClass="label_very_large" text="1990" />
+                                    <Polygon fill="#020307" onMouseClicked="#consoleDown" points="-7.5, 40.0, 7.5, 40.0, 0.0, 45.0" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Polygon>
                                  </children>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <Label fx:id="console1" alignment="CENTER" contentDisplay="CENTER" GridPane.columnIndex="1" />
-                              <Label fx:id="console2" GridPane.columnIndex="2" />
-                              <Label fx:id="console3" GridPane.columnIndex="3" />
-                              <Label fx:id="console4" GridPane.columnIndex="4" />
-                              <Label fx:id="console5" GridPane.columnIndex="5" />
-                              <Label fx:id="console6" GridPane.columnIndex="6" />
-                              <Label fx:id="console7" GridPane.columnIndex="7" />
                            </children>
                         </GridPane>
                      </children>
@@ -104,16 +102,16 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GridPane>
+                        <GridPane fx:id="notebookGrid">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints vgrow="SOMETIMES" />
@@ -121,21 +119,20 @@
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Polygon fill="#020307" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" stroke="#020307" strokeType="INSIDE" />
-                                    <Label fx:id="yearNotebook" text="1990" />
-                                    <Polygon fill="#020307" points="-7.5, 40.0, 7.5, 40.0, 0.0, 45.0" stroke="#020307" strokeType="INSIDE" />
+                                    <Polygon fill="#020307" onMouseClicked="#notebookUp" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Polygon>
+                                    <Label fx:id="yearNotebook" styleClass="label_very_large" text="1990" />
+                                    <Polygon fill="#020307" onMouseClicked="#notebookDown" points="-7.5, 40.0, 7.5, 40.0, 0.0, 45.0" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Polygon>
                                  </children>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <Label fx:id="notebook1" alignment="CENTER" contentDisplay="CENTER" GridPane.columnIndex="1" />
-                              <Label fx:id="notebook2" GridPane.columnIndex="2" />
-                              <Label fx:id="notebook3" GridPane.columnIndex="3" />
-                              <Label fx:id="notebook4" GridPane.columnIndex="4" />
-                              <Label fx:id="notebook5" GridPane.columnIndex="5" />
-                              <Label fx:id="notebook6" GridPane.columnIndex="6" />
-                              <Label fx:id="notebook7" GridPane.columnIndex="7" />
                            </children>
                         </GridPane>
                      </children>
@@ -146,16 +143,16 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GridPane>
+                        <GridPane fx:id="phoneGrid">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints vgrow="SOMETIMES" />
@@ -163,21 +160,20 @@
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Polygon fill="#020307" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" stroke="#020307" strokeType="INSIDE" />
-                                    <Label fx:id="yearPhone" text="1990" />
-                                    <Polygon fill="#020307" points="-7.5, 40.0, 7.5, 40.0, 0.0, 45.0" stroke="#020307" strokeType="INSIDE" />
+                                    <Polygon fill="#020307" onMouseClicked="#phoneUp" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Polygon>
+                                    <Label fx:id="yearPhone" styleClass="label_very_large" text="1990" />
+                                    <Polygon fill="#020307" onMouseClicked="#phoneDown" points="-7.5, 40.0, 7.5, 40.0, 0.0, 45.0" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Polygon>
                                  </children>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <Label fx:id="phone1" alignment="CENTER" contentDisplay="CENTER" GridPane.columnIndex="1" />
-                              <Label fx:id="phone2" GridPane.columnIndex="2" />
-                              <Label fx:id="phone3" GridPane.columnIndex="3" />
-                              <Label fx:id="phone4" GridPane.columnIndex="4" />
-                              <Label fx:id="phone5" GridPane.columnIndex="5" />
-                              <Label fx:id="phone6" GridPane.columnIndex="6" />
-                              <Label fx:id="phone7" GridPane.columnIndex="7" />
                            </children>
                         </GridPane>
                      </children>
@@ -187,4 +183,8 @@
         </tabs>
       </TabPane>
    </children>
+   <stylesheets>
+      <URL value="@../../../Documents/Capitalism-X/capitalismx-ui/src/main/resources/css/1080p/general1080p.css" />
+      <URL value="@../../../Documents/Capitalism-X/capitalismx-ui/src/main/resources/css/1080p/modul1080p.css" />
+   </stylesheets>
 </AnchorPane>
