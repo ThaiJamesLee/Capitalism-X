@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.logistic.logistics;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * This class represents the internal logistics fleet.
@@ -41,8 +42,11 @@ public class InternalFleet implements Serializable {
     private int capacityFleet;
     private double internalLogisticIndex;
     private double fixCostsDelivery;
-    private int variableCostsDelivery;
+    private double variableCostsDelivery;
     private double totalTruckCost;
+    private double truckCapacity;
+
+    private static final String DEFAULTS_PROPERTIES_FILE = "logistics-defaults";
 
     /**
      * Constructor
@@ -50,9 +54,20 @@ public class InternalFleet implements Serializable {
      */
     protected InternalFleet(){
         this.trucks = new ArrayList<>();
-        this.variableCostsDelivery = 2;
+
+        this.initProperties();
+
         this.calculateAll();
-        this.decreaseCapacityFactor = 0.0;
+    }
+
+    /**
+     * Initializes the internal fleet values using the corresponding properties file.
+     */
+    private void initProperties(){
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.variableCostsDelivery = Double.valueOf(resourceBundle.getString("logistics.internal.fleet.variable.costs.delivery"));
+        this.decreaseCapacityFactor = Double.valueOf(resourceBundle.getString("logistics.internal.fleet.decrease.capacity.factor"));
+        this.truckCapacity = Double.valueOf(resourceBundle.getString("logistics.truck.capacity"));
     }
 
     /**
@@ -84,7 +99,7 @@ public class InternalFleet implements Serializable {
      * @return Returns the capacity of the internal fleet.
      */
     protected int calculateCapacityFleet(){
-        this.capacityFleet = (int)((1000 * trucks.size()) * (1 - this.decreaseCapacityFactor));
+        this.capacityFleet = (int)((this.truckCapacity * trucks.size()) * (1 - this.decreaseCapacityFactor));
         return this.capacityFleet;
     }
 
@@ -206,7 +221,7 @@ public class InternalFleet implements Serializable {
         return this.fixCostsDelivery;
     }
 
-    public int getVariableCostsDelivery() {
+    public double getVariableCostsDelivery() {
         return this.variableCostsDelivery;
     }
 

@@ -46,21 +46,32 @@ public class ProductSupport implements Serializable {
      */
     public enum SupportType implements Serializable{
         //TODO change 0 supportTypeQuality
-        NO_PRODUCT_SUPPORT("no", -10, 0),
-        ONLINE_SELF_SERVICE("online.self", 0, 50),
-        ONLINE_SUPPORT("online.support", 20, 100),
-        TELEPHONE_SUPPORT("telephone.support", 30, 250),
-        STORE_SUPPORT("store.support", 40, 400),
-        ADDITIONAL_SERVICES("additional.services", 10, 50);
+        NO_PRODUCT_SUPPORT("no"),
+        ONLINE_SELF_SERVICE("online.self"),
+        ONLINE_SUPPORT("online.support"),
+        TELEPHONE_SUPPORT("telephone.support"),
+        STORE_SUPPORT("store.support"),
+        ADDITIONAL_SERVICES("additional.services");
 
         private int supportTypeQuality;
         private int costsSupportType;
         private String name;
 
-        SupportType(String name, int supportTypeQuality, int costsSupportType){
+        private static final String DEFAULTS_PROPERTIES_FILE = "logistics-defaults";
+
+        SupportType(String name){
             this.name = name;
-            this.supportTypeQuality = supportTypeQuality;
-            this.costsSupportType = costsSupportType;
+
+            this.initProperties();
+        }
+
+        /**
+         * Initializes the support type values using the corresponding properties file.
+         */
+        private void initProperties(){
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+            this.supportTypeQuality = Integer.valueOf(resourceBundle.getString("logistics.support.type.quality." + this.name));
+            this.costsSupportType = Integer.valueOf(resourceBundle.getString("logistics.support.type.costs." + this.name));
         }
 
         public int getSupportTypeQuality(){
@@ -85,25 +96,40 @@ public class ProductSupport implements Serializable {
         }
     }
 
-    //TODO: generate suitable values
-
     /**
      * The different external support partners that can be hired by the company. The company has to hire an external
      * partner to provide product support. The partners differ in their contractual costs and quality.
      */
     public enum ExternalSupportPartner implements Serializable{
-        NO_PARTNER("-", 0, 0),
-        PARTNER_1("Partner 1", 1000, 80),
-        PARTNER_2("Partner 2", 800, 40);
+        NO_PARTNER("no"),
+        PARTNER_1("1"),
+        PARTNER_2("2"),
+        PARTNER_3("3"),
+        PARTNER_4("4"),
+        PARTNER_5("5"),
+        PARTNER_6("6");
 
         private int contractualCosts;
         private int qualityIndex;
         private String name;
 
-        ExternalSupportPartner(String name, int contractualCosts, int qualityIndex){
+        private static final String DEFAULTS_PROPERTIES_FILE = "logistics-defaults";
+
+        ExternalSupportPartner(String name){
             this.name = name;
-            this.contractualCosts = contractualCosts;
-            this.qualityIndex = qualityIndex;
+
+            this.initProperties();
+
+            this.name = "Partner " + name;
+        }
+
+        /**
+         * Initializes the external support partner values using the corresponding properties file.
+         */
+        private void initProperties(){
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+            this.contractualCosts = Integer.valueOf(resourceBundle.getString("logistics.support.partner.costs." + this.name));
+            this.qualityIndex = Integer.valueOf(resourceBundle.getString("logistics.support.partner.quality." + this.name));
         }
 
         public int getContractualCosts() {

@@ -35,13 +35,13 @@ public class BankingSystemTest {
 
         Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 0.0);
 
-        bankingSystem.addLoan(bankingSystem.new Loan("Loan 1", 0.05, 24, 100), LocalDate.now());
+        bankingSystem.addLoan(new Loan("Loan 1", 0.05, 24, 100), LocalDate.now());
         Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 50.0);
 
-        bankingSystem.addLoan(bankingSystem.new Loan("Loan 2",0.05, 13, 100), LocalDate.now());
+        bankingSystem.addLoan(new Loan("Loan 2",0.05, 13, 100), LocalDate.now());
         Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 100.0);
 
-        bankingSystem.addLoan(bankingSystem.new Loan("Loan 3",0.05, 12, 100), LocalDate.now());
+        bankingSystem.addLoan(new Loan("Loan 3",0.05, 12, 100), LocalDate.now());
         Assert.assertEquals(bankingSystem.calculateAnnualRepayment(), 200.0);
     }
 
@@ -51,10 +51,10 @@ public class BankingSystemTest {
 
         Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.now()), 0.0);
 
-        bankingSystem.addLoan(bankingSystem.new Loan("Loan 1",0.05, 24, 100), LocalDate.of(2019, 11, 30));
+        bankingSystem.addLoan(new Loan("Loan 1",0.05, 24, 100), LocalDate.of(2019, 11, 30));
         Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2020, 11, 30)), 100.0);
 
-        bankingSystem.addLoan(bankingSystem.new Loan("Loan 2",0.05, 24, 100), LocalDate.of(2019, 11, 30));
+        bankingSystem.addLoan(new Loan("Loan 2",0.05, 24, 100), LocalDate.of(2019, 11, 30));
         Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2021, 12, 1)), 100.0);
         Assert.assertEquals(bankingSystem.calculateAnnualPrincipalBalance(LocalDate.of(2021, 12, 2)), 0.0);
     }
@@ -65,7 +65,7 @@ public class BankingSystemTest {
 
         Assert.assertEquals(bankingSystem.calculateAnnualInterestRate(LocalDate.now()), 0.0);
 
-        bankingSystem.addLoan(bankingSystem.new Loan("Loan 1",0.05, 24, 100), LocalDate.of(2019, 11, 30));
+        bankingSystem.addLoan(new Loan("Loan 1",0.05, 24, 100), LocalDate.of(2019, 11, 30));
         Assert.assertEquals(bankingSystem.calculateAnnualInterestRate(LocalDate.of(2020, 11, 30)), 5.0);
         //because loans added on first day of following month
         Assert.assertEquals(bankingSystem.calculateAnnualInterestRate(LocalDate.of(2021, 12, 1)), 2.5);

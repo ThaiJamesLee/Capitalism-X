@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.logistics;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
@@ -35,7 +36,7 @@ public class TruckDetailListController implements UpdateableController {
         GameController controller = GameController.getInstance();
         truckDetailListView.setCellFactory(truckListView -> new TruckDetailListViewCell(truckListView));
 
-        ArrayList<Truck> trucks = controller.generateTruckSelection(UIManager.getResourceBundle().getLocale());
+        List<Truck> trucks = controller.generateTruckSelection(UIManager.getResourceBundle().getLocale());
 
         for(Truck truck : trucks) {
             truckDetailListView.getItems().add(truck);

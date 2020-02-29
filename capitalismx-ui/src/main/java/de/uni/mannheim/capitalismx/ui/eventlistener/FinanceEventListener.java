@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
+import de.uni.mannheim.capitalismx.finance.finance.Loan;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -30,7 +31,7 @@ public class FinanceEventListener implements PropertyChangeListener {
     /**
      * The specific loan this FinanceEventListener corresponds to. Optional.
      */
-    BankingSystem.Loan loan;
+    Loan loan;
 
     /**
      * Constructor
@@ -44,7 +45,7 @@ public class FinanceEventListener implements PropertyChangeListener {
      * Allows the specify a loan that this FinanceEventListener corresponds to.
      * @param loan The corresponding loan.
      */
-    public FinanceEventListener(BankingSystem.Loan loan){
+    public FinanceEventListener(Loan loan){
         super();
         this.loan = loan;
     }
@@ -73,7 +74,7 @@ public class FinanceEventListener implements PropertyChangeListener {
         if (evt.getPropertyName().equals("updatedMonthlyData")) {
             FinanceOverviewController financeOverviewController = (FinanceOverviewController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_OVERVIEW).getController();
 
-            TreeMap<String, String[]> monthlyData = GameController.getInstance().getMonthlyData();
+            Map<String, String[]> monthlyData = GameController.getInstance().getMonthlyData();
             String[] xNames = monthlyData.get("xNames");
             for (Map.Entry<String,String[]> entry : monthlyData.entrySet()) {
                 if(!entry.getKey().equals("xNames")){
@@ -85,7 +86,7 @@ public class FinanceEventListener implements PropertyChangeListener {
         if (evt.getPropertyName().equals("updatedQuarterlyData")) {
             OperationsTableController operationsTableController = (OperationsTableController) UIManager.getInstance().getGameView(GameViewType.FINANCES).getModule(GameModuleType.FINANCE_OPERATIONS_TABLE).getController();
 
-            TreeMap<String, String[]> quarterlyData = GameController.getInstance().getQuarterlyData();
+            Map<String, String[]> quarterlyData = GameController.getInstance().getQuarterlyData();
             String[] colNames = quarterlyData.get("colNames");
             for (Map.Entry<String,String[]> entry : quarterlyData.entrySet()) {
                 if(!entry.getKey().equals("colNames")){

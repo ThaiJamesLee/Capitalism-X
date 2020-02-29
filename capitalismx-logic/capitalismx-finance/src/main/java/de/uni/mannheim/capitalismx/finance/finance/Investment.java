@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.finance.finance;
 
 import java.io.Serializable;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 /**
  * This class represents the investments the company can invest in.
@@ -25,10 +26,30 @@ public class Investment implements Serializable {
      * yearly returns and yearly standard deviations according to p.78-79.
      */
     public enum InvestmentType{
-        REAL_ESTATE(0.07, 0.2), STOCKS(0.1, 0.3), VENTURE_CAPITAL(0.142, 0.5);
+        REAL_ESTATE("real.estate"),
+        STOCKS("stocks"),
+        VENTURE_CAPITAL("venture.capital");
 
         private double averageYearlyReturn;
         private double yearlyStandardDeviation;
+        private String name;
+
+        private static final String DEFAULTS_PROPERTIES_FILE = "finance-defaults";
+
+        InvestmentType(String name){
+            this.name = name;
+
+            this.initProperties();
+        }
+
+        /**
+         * Initializes the investment values using the corresponding properties file.
+         */
+        private void initProperties(){
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+            this.averageYearlyReturn = Double.valueOf(resourceBundle.getString("finance.investment.return." + this.name));
+            this.yearlyStandardDeviation = Double.valueOf(resourceBundle.getString("finance.investment.deviation." + this.name));
+        }
 
         public double getAverageYearlyReturn() {
             return this.averageYearlyReturn;
@@ -36,11 +57,6 @@ public class Investment implements Serializable {
 
         public double getYearlyStandardDeviation() {
             return this.yearlyStandardDeviation;
-        }
-
-        InvestmentType(double averageYearlyReturn, double yearlyStandardDeviation){
-            this.averageYearlyReturn = averageYearlyReturn;
-            this.yearlyStandardDeviation = yearlyStandardDeviation;
         }
     }
 

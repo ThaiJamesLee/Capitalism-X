@@ -1,14 +1,10 @@
 package de.uni.mannheim.capitalismx.ui.component.finance;
 
-import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
-import de.uni.mannheim.capitalismx.gamecontroller.GameController;
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
+import de.uni.mannheim.capitalismx.finance.finance.Loan;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -23,7 +19,7 @@ import java.text.NumberFormat;
  *
  * @author sdupper
  */
-public class LoanListViewCell extends ListCell<BankingSystem.Loan> {
+public class LoanListViewCell extends ListCell<Loan> {
 
     @FXML
     private Label nameLabel;
@@ -45,13 +41,13 @@ public class LoanListViewCell extends ListCell<BankingSystem.Loan> {
     /**
      * The ListView of all loans in the finance department.
      */
-    private ListView<BankingSystem.Loan> loanListView;
+    private ListView<Loan> loanListView;
 
     /**
      * Constructor
      * @param loanListView The ListView of all trucks in the internal logistics fleet.
      */
-    public LoanListViewCell(ListView<BankingSystem.Loan> loanListView){
+    public LoanListViewCell(ListView<Loan> loanListView){
         this.loanListView = loanListView;
     }
 
@@ -60,7 +56,7 @@ public class LoanListViewCell extends ListCell<BankingSystem.Loan> {
      * according to the loans's characteristics.
      */
     @Override
-    protected void updateItem(BankingSystem.Loan loan, boolean empty) {
+    protected void updateItem(Loan loan, boolean empty) {
         super.updateItem(loan, empty);
         if(empty || loan == null) {
             setText(null);

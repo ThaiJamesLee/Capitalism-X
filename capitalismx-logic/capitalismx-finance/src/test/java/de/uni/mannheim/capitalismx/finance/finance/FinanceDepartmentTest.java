@@ -14,6 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class FinanceDepartmentTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FinanceDepartmentTest.class);
@@ -22,8 +23,7 @@ public class FinanceDepartmentTest {
     public void generateLoanSelectionTest () {
         FinanceDepartment financeDepartment = new FinanceDepartment();
 
-        //TODO
-        //Assert.assertEquals(finance.generateLoanSelection(100).get(0).getLoanAmount(), 100);
+        Assert.assertEquals(financeDepartment.generateLoanSelection(100, LocalDate.now(), Locale.ENGLISH).get(0).getLoanAmount(), 100.0);
     }
 
     @Test
@@ -59,12 +59,11 @@ public class FinanceDepartmentTest {
     public void calculateTotalMachineValuesTest() {
         FinanceDepartment financeDepartment = new FinanceDepartment();
         try {
-            ProductionDepartment.getInstance().buyMachinery(new Machinery(LocalDate.of(2019, 11, 30)),
+            Machinery machine1 = new Machinery(LocalDate.of(2019, 11, 30));
+            ProductionDepartment.getInstance().buyMachinery(machine1,
                     LocalDate.of(2019, 11, 30));
-            //Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2019, 11, 30)), (100000.0 + 500) * 1.2);
-            //Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2020, 11, 30)),
-            //        financeDepartment.calculateResellPrice((100000.0 + 500) * 1.2, 20, 1));
-            //Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2020, 11, 29)), (100000.0 + 500) * 1.2);
+            Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2019, 11, 30)), machine1.calculateResellPrice());
+            Assert.assertEquals(financeDepartment.calculateTotalMachineValues(LocalDate.of(2020, 11, 30)), machine1.calculateResellPrice());
         } catch (NoMachinerySlotsAvailableException e) {
             System.out.println(e.getMessage());
         }
@@ -106,40 +105,40 @@ public class FinanceDepartmentTest {
         Assert.assertEquals(financeDepartment.calculateTotalLogisticsCosts(LocalDate.now()), 0.0);
     }
 
-    /*@Test
+    @Test
     public  void calculateTotalProductionCostsTest(){
-        Finance finance = new Finance();
-        Assert.assertEquals(finance.calculateTotalProductionCosts(), 0.0);
+        FinanceDepartment finance = new FinanceDepartment();
+        Assert.assertEquals(finance.calculateTotalProductionCosts(LocalDate.now()), 0.0);
     }
 
     @Test
     public  void calculateEbitTest(){
-        Finance finance = new Finance();
-        Assert.assertEquals(finance.calculateEbit(), 0.0);
+        FinanceDepartment finance = new FinanceDepartment();
+        Assert.assertEquals(finance.calculateEbit(LocalDate.now()), 0.0);
     }
 
     @Test
     public  void calculateIncomeTaxTest(){
-        Finance finance = new Finance();
-        Assert.assertEquals(finance.calculateIncomeTax(), 0.0);
+        FinanceDepartment finance = new FinanceDepartment();
+        Assert.assertEquals(finance.calculateIncomeTax(LocalDate.now()), 0.0);
     }
 
     @Test
     public  void calculateNopatTest(){
-        Finance finance = new Finance();
-        Assert.assertEquals(finance.calculateNopat(), 0.0);
+        FinanceDepartment finance = new FinanceDepartment();
+        Assert.assertEquals(finance.calculateNopat(LocalDate.now()), 0.0);
     }
 
     @Test
     public  void calculateCashTest(){
-        Finance finance = new Finance();
+        FinanceDepartment finance = new FinanceDepartment();
         Assert.assertEquals(finance.calculateCash(LocalDate.now()), 1000000.0);
     }
 
     @Test
     public  void calculateNetWorthTest(){
-        Finance finance = new Finance();
-        Assert.assertEquals(finance.calculateNetWorth(LocalDate.now()), 1000000);
-    }*/
+        FinanceDepartment finance = new FinanceDepartment();
+        Assert.assertEquals(finance.calculateNetWorth(LocalDate.now()), 1000000.0);
+    }
 
 }

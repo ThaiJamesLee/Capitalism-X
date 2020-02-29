@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.logistics;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
@@ -37,7 +38,7 @@ public class SupportPartnerDetailListController implements UpdateableController 
         GameController controller = GameController.getInstance();
         supportPartnerDetailListView.setCellFactory(truckListView -> new SupportPartnerListViewCell(supportPartnerDetailListView));
 
-        ArrayList<ProductSupport.ExternalSupportPartner> externalPartners = controller.generateExternalSupportPartnerSelection();
+        List<ProductSupport.ExternalSupportPartner> externalPartners = controller.generateExternalSupportPartnerSelection();
 
         for(ProductSupport.ExternalSupportPartner externalPartner : externalPartners) {
             supportPartnerDetailListView.getItems().add(externalPartner);
