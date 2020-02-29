@@ -227,12 +227,12 @@ public class LogisticsDepartment extends DepartmentImpl {
      */
     protected double calculateTotalDeliveryCosts(){
         if(this.deliveredProducts <= InternalFleet.getInstance().getCapacityFleet()){
-            this.totalDeliveryCosts = (Math.ceil(this.deliveredProducts / this.truckCapacity) * InternalFleet.getInstance().getFixCostsDelivery())
+            this.totalDeliveryCosts = (Math.ceil(this.deliveredProducts / Double.valueOf(this.truckCapacity)) * InternalFleet.getInstance().getFixCostsDelivery())
                     + (this.deliveredProducts * InternalFleet.getInstance().getVariableCostsDelivery());
         } else{
             //TODO
             this.totalDeliveryCosts = (InternalFleet.getInstance().getTrucks().size() * InternalFleet.getInstance().getFixCostsDelivery())
-                    + (InternalFleet.getInstance().getTrucks().size() * this.truckCapacity * InternalFleet.getInstance().getVariableCostsDelivery()) + this.calculateCostsExternalDelivery();
+                    + (InternalFleet.getInstance().getTrucks().size() * Double.valueOf(this.truckCapacity) * InternalFleet.getInstance().getVariableCostsDelivery()) + this.calculateCostsExternalDelivery();
         }
         return this.totalDeliveryCosts;
     }

@@ -57,7 +57,7 @@ public class ProductSupportTest {
     public void generateExternalSupportPartnerSelectionTest() {
         ProductSupport productSupport = new ProductSupport();
 
-        Assert.assertEquals(productSupport.generateExternalSupportPartnerSelection().size(), 2);
+        Assert.assertEquals(productSupport.generateExternalSupportPartnerSelection().size(), 6);
     }
 
     @Test
@@ -87,20 +87,20 @@ public class ProductSupportTest {
     public void calculateTotalSupportQualityTest() {
         ProductSupport productSupport = new ProductSupport();
 
-        Assert.assertEquals(productSupport.calculateTotalSupportQuality(), -6.0);
+        Assert.assertEquals(productSupport.calculateTotalSupportQuality(), 0.6 * (-10.0));
 
-        productSupport.addExternalSupportPartner(ProductSupport.ExternalSupportPartner.PARTNER_2);
+        productSupport.addExternalSupportPartner(ProductSupport.ExternalSupportPartner.PARTNER_6);
         Assert.assertEquals(productSupport.calculateTotalSupportQuality(), (0.4 * 40 + 0.6 * (-10)));
 
         productSupport.addExternalSupportPartner(ProductSupport.ExternalSupportPartner.PARTNER_1);
-        Assert.assertEquals(productSupport.calculateTotalSupportQuality(), (0.3 * 80 + 0.7 * (-10)));
+        Assert.assertEquals(productSupport.calculateTotalSupportQuality(), (0.3 * 100 + 0.7 * (-10)));
 
         try {
             productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
         } catch (NoExternalSupportPartnerException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(productSupport.calculateTotalSupportQuality(), (0.3 * 80 + 0.7 * 20));
+        Assert.assertEquals(productSupport.calculateTotalSupportQuality(), (0.3 * 100 + 0.7 * 20));
     }
 
     @Test
@@ -110,21 +110,21 @@ public class ProductSupportTest {
         Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 0.0);
 
         productSupport.addExternalSupportPartner(ProductSupport.ExternalSupportPartner.PARTNER_1);
-        Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 1000.0);
+        Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 1200.0);
 
         try {
             productSupport.addSupport(ProductSupport.SupportType.ONLINE_SUPPORT);
         } catch (NoExternalSupportPartnerException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 1100.0);
+        Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 1200.0 + 100);
 
         try {
             productSupport.addSupport(ProductSupport.SupportType.STORE_SUPPORT);
         } catch (NoExternalSupportPartnerException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 1500.0);
+        Assert.assertEquals(productSupport.calculateTotalSupportCosts(), 1200.0 + 100 + 400);
     }
 
 }
