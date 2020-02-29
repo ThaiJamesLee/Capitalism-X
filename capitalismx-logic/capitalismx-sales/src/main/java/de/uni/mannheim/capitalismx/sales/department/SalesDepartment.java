@@ -263,12 +263,8 @@ public class SalesDepartment extends DepartmentImpl {
      * @param productionDepartment The {@link ProductionDepartment} instance.
      * @param demandPercentage The products and the corresponding demand percentage.
      *
-     * @throws LevelingRequirementNotFulFilledException Throws this exception, if the department level is smaller than 1. The department must be leveled first.
      */
-    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) throws LevelingRequirementNotFulFilledException{
-        if(getLevel() < 1) {
-            throw new LevelingRequirementNotFulFilledException("The level of the department must be greater than 0!");
-        }
+    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) {
         SalesDepartmentSkill skill = (SalesDepartmentSkill) skillMap.get(getLevel());
         int numContracts = skill.getNumContracts();
         Range factor = skill.getPriceFactor();
@@ -314,6 +310,9 @@ public class SalesDepartment extends DepartmentImpl {
      * @throws LevelingRequirementNotFulFilledException Throws this exception, if the department level is smaller than 1. The department must be leveled first
      */
     public double refreshAvailableContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) throws LevelingRequirementNotFulFilledException{
+        if(getLevel() < 1) {
+            throw new LevelingRequirementNotFulFilledException("The level of the department must be greater than 0!");
+        }
         generateContracts(date, productionDepartment, demandPercentage);
         return ((SalesDepartmentSkill) skillMap.get(getLevel())).getRefreshCost();
     }

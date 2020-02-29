@@ -272,11 +272,8 @@ public class GameController {
 	private void updateSalesDepartment() {
 		GameState state = GameState.getInstance();
 		SalesDepartment salesDepartment = state.getSalesDepartment();
-		try {
-			salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
-		} catch (LevelingRequirementNotFulFilledException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
+		salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+
 	}
 
 	/**
