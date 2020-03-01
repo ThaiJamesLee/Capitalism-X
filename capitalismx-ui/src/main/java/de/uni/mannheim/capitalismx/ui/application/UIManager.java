@@ -27,7 +27,6 @@ import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListC
 import de.uni.mannheim.capitalismx.ui.eventlistener.FinanceEventListener;
 import de.uni.mannheim.capitalismx.ui.eventlistener.GameStateEventListener;
 import de.uni.mannheim.capitalismx.ui.eventlistener.HREventListener;
-import de.uni.mannheim.capitalismx.ui.eventlistener.LogisticsEventListener;
 import de.uni.mannheim.capitalismx.ui.eventlistener.MarketingEventListener;
 import de.uni.mannheim.capitalismx.ui.eventlistener.ProcurementEventListener;
 import de.uni.mannheim.capitalismx.ui.eventlistener.SalesEventListener;

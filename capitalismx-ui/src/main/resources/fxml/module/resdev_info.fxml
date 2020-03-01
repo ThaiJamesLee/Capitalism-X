@@ -208,7 +208,7 @@
       </TabPane>
    </children>
    <stylesheets>
-      <URL value="@../../../Documents/Capitalism-X/capitalismx-ui/src/main/resources/css/1080p/general1080p.css" />
-      <URL value="@../../../Documents/Capitalism-X/capitalismx-ui/src/main/resources/css/1080p/modul1080p.css" />
+      <URL value="@../../css/general.css" />
+      <URL value="@../../css/modul.css" />
    </stylesheets>
 </AnchorPane>
