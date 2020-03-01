@@ -13,7 +13,7 @@ import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;

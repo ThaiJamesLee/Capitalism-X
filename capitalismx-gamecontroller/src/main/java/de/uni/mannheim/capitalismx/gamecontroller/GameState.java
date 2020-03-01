@@ -23,7 +23,7 @@ import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

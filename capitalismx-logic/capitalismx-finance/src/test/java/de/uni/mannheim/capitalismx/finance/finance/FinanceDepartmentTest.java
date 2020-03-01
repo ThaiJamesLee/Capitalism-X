@@ -6,8 +6,8 @@ import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCa
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailableException;
 import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
-import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.NoWarehouseSlotsAvailableException;
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;

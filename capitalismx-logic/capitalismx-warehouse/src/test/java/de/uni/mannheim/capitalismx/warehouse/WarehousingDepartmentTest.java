@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.warehouse;
 
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
@@ -9,6 +10,7 @@ import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailab
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.production.product.ProductCategory;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.NoWarehouseSlotsAvailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;

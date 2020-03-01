@@ -17,7 +17,7 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;

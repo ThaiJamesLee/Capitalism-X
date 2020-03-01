@@ -13,7 +13,7 @@ import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.component.warehouse.WarehouseListViewCell;
 import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
-import de.uni.mannheim.capitalismx.warehouse.NoWarehouseSlotsAvailableException;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.NoWarehouseSlotsAvailableException;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import javafx.fxml.FXML;

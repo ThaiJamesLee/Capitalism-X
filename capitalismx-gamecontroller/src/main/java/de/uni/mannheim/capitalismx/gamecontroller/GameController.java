@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 import java.time.LocalDate;
 import java.util.*;
 
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.finance.finance.Loan;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
@@ -17,6 +18,8 @@ import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.production.product.ProductCategory;
 import de.uni.mannheim.capitalismx.warehouse.*;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.NoWarehouseSlotsAvailableException;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.StorageCapacityUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
