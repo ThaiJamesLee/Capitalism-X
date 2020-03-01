@@ -261,13 +261,13 @@ public class GameController {
 		//TODO set values used for consultancies here!!!
 		
 	}
-
-	// TODO once procurement implementation is ready
+	
 	private void updateProcurement() {
 		GameState.getInstance().getProcurementDepartment().updateAll(GameState.getInstance().getGameDate());
 	}
 
 	private void updateProduction() {
+		this.setInitialTotalEngineerQualityOfWork();
 		GameState.getInstance().getProductionDepartment().calculateAll(GameState.getInstance().getGameDate());
 		this.updateNumberOfProductionWorkers();
 	}
@@ -830,6 +830,10 @@ public class GameController {
 	/*
 	 * PRODUCTION
 	 */
+
+	public void setInitialTotalEngineerQualityOfWork() {
+		GameState.getInstance().getProductionDepartment().setInitialTotalEngineerQualityOfWork(GameState.getInstance().getHrDepartment().getTotalQualityOfWorkByEmployeeType(EmployeeType.ENGINEER));
+	}
 
 	public void updateNumberOfProductionWorkers() {
 		Map<EmployeeType, Team> teams = HRDepartment.getInstance().getTeams();
