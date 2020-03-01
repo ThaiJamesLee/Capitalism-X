@@ -14,6 +14,7 @@ import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 import de.uni.mannheim.capitalismx.production.department.ProductionTechnology;
 import de.uni.mannheim.capitalismx.production.exceptions.*;
 import de.uni.mannheim.capitalismx.production.investment.ProductionInvestment;
+import de.uni.mannheim.capitalismx.production.investment.ProductionInvestmentLevel;
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.production.product.ProductCategory;
@@ -1062,16 +1063,20 @@ public class GameController {
 	}
 
 	/* production investment game mechanics */
-	public double investInSystemSecurity(int level, LocalDate gameDate) {
-		return GameState.getInstance().getProductionDepartment().investInSystemSecurity(level, gameDate);
+	public double getProductionInvestmentPrice(ProductionInvestmentLevel productionInvestmentLevel) {
+		return GameState.getInstance().getProductionDepartment().getProductionInvestmentPrice(productionInvestmentLevel);
 	}
 
-	public double investInQualityAssurance(int level, LocalDate gameDate) {
-		return GameState.getInstance().getProductionDepartment().investInQualityAssurance(level, gameDate);
+	public double investInSystemSecurity(int level) {
+		return GameState.getInstance().getProductionDepartment().investInSystemSecurity(level, GameState.getInstance().getGameDate());
 	}
 
-	public double investInProcessAutomation(int level, LocalDate gameDate) {
-		return GameState.getInstance().getProductionDepartment().investInProcessAutomation(level, gameDate);
+	public double investInQualityAssurance(int level) {
+		return GameState.getInstance().getProductionDepartment().investInQualityAssurance(level, GameState.getInstance().getGameDate());
+	}
+
+	public double investInProcessAutomation(int level) {
+		return GameState.getInstance().getProductionDepartment().investInProcessAutomation(level, GameState.getInstance().getGameDate());
 	}
 
 	public LocalDate getLastInvestmentDateSystemSecurity() {

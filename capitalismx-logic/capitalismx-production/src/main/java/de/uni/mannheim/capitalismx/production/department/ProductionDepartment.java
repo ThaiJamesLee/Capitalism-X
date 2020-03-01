@@ -8,6 +8,7 @@ import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFil
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
+import de.uni.mannheim.capitalismx.production.investment.ProductionInvestmentLevel;
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.production.exceptions.*;
@@ -88,7 +89,12 @@ public class ProductionDepartment extends DepartmentImpl {
     /**
      * The costs of launching a product.
      */
-    private static final double PRODUCT_LAUNCH_COSTS = 10000;
+    private static final double PRODUCT_LAUNCH_COSTS = 10000.0;
+
+    /**
+     * The cost per ProductionInvestment level
+     */
+    private static final double PRODUCTION_INVESTMENT_LEVEL_COST = 5000.0;
 
     /**
      * PropertyChangeSupportList used for notifying the GUI of changes to launchedProducts.
@@ -861,6 +867,13 @@ public class ProductionDepartment extends DepartmentImpl {
     }
 
     /**
+     *
+     */
+    public double getProductionInvestmentPrice(ProductionInvestmentLevel productionInvestmentLevel) {
+        return PRODUCTION_INVESTMENT_LEVEL_COST * productionInvestmentLevel.getLevel();
+    }
+
+    /**
      * Invest in system security.
      *
      * @param level    the level
@@ -869,7 +882,7 @@ public class ProductionDepartment extends DepartmentImpl {
      */
     public double investInSystemSecurity(int level, LocalDate gameDate) {
         this.systemSecurity = systemSecurity.invest(level, gameDate);
-        return 5000 * level;
+        return PRODUCTION_INVESTMENT_LEVEL_COST * level;
     }
 
     /**
@@ -881,7 +894,7 @@ public class ProductionDepartment extends DepartmentImpl {
      */
     public double investInQualityAssurance(int level, LocalDate gameDate) {
         this.qualityAssurance = qualityAssurance.invest(level, gameDate);
-        return 5000 * level;
+        return PRODUCTION_INVESTMENT_LEVEL_COST * level;
     }
 
     /**
@@ -893,7 +906,7 @@ public class ProductionDepartment extends DepartmentImpl {
      */
     public double investInProcessAutomation(int level, LocalDate gameDate) {
         this.processAutomation = processAutomation.invest(level, gameDate);
-        return 5000 * level;
+        return PRODUCTION_INVESTMENT_LEVEL_COST * level;
     }
 
     /**
