@@ -123,7 +123,8 @@ public class ProductStockPopoverController implements Initializable {
 	 * @param amount The amount of {@link Product}s to sell.
 	 */
 	private void sellProducts(int amount) {
-		GameState.getInstance().getWarehousingDepartment().sellWarehouseProducts(product, amount); // TODO check amount?
+		double payout = GameState.getInstance().getWarehousingDepartment().sellWarehouseProducts(product, amount); // TODO check amount?
+		GameState.getInstance().getFinanceDepartment().increaseCash(GameState.getInstance().getGameDate(), payout);
 		reset();
 	}
 
