@@ -62,7 +62,7 @@ public class TradeComponentPopoverController implements Initializable {
 			int amount = Integer.parseInt(input);
 			int freeStorage = GameController.getInstance().getFreeStorage();
 			if (amount > freeStorage) {
-				//Handle if not enough free storage in the warehouse
+				// Handle if not enough free storage in the warehouse
 				if (freeStorage != 0) {
 					GameAlert alert = new GameAlert(AlertType.NONE,
 							UIManager.getLocalisedString("warehouse.alert.capacity.title"),
@@ -114,6 +114,9 @@ public class TradeComponentPopoverController implements Initializable {
 	}
 
 	@FXML
+	/**
+	 * Sell the components in
+	 */
 	private void sellComponent() {
 		String input = amountField.getText();
 		try {
@@ -145,8 +148,14 @@ public class TradeComponentPopoverController implements Initializable {
 		updatePrice();
 	}
 
+	/**
+	 * Update the price given the value in the {@link TextField}.
+	 */
 	private void updatePrice() {
+		if (amountField.getText() == "")
+			return;
 		int amount = Integer.parseInt(amountField.getText());
+
 		double cost = componentPrice * amount;
 		priceLabelSell.setText(UIManager.getLocalisedString("component.price.sell")
 				+ CapCoinFormatter.getCapCoins(component.getSalesPrice() * amount));
