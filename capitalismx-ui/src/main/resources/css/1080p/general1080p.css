@@ -129,6 +129,16 @@ FontAwesomeIcon {
 	-fx-text-fill: -fx-primary-light;
 }
 
+.btn_standard FontAwesomeIcon {
+	-fx-fill: -fx-primary;
+	-fx-text-fill: -fx-primary;
+}
+
+.btn_standard:hover FontAwesomeIcon {
+	-fx-fill: -fx-primary-light;
+	-fx-text-fill: -fx-primary-light;
+}
+
 .btn_big {
 	-fx-pref-width: 200.0px;
 	-fx-pref-height: 67.0px;

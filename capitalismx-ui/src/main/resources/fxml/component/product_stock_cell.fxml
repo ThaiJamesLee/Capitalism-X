@@ -29,12 +29,12 @@
                </graphic></Label>
             <HBox alignment="CENTER_RIGHT" spacing="8.0" styleClass="background_dark" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                <children>
-                  <Button fx:id="buyAllComponents" graphicTextGap="8.0" mnemonicParsing="false" styleClass="stock_edit_button" text="%warehouse.buy.components.all">
+                  <Button fx:id="buyAllComponents" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" text="%warehouse.buy.components.all">
                   		<graphic>
       	                        <FontAwesomeIcon iconName="SHOPPING_CART" size="1.3em" />
       	                    </graphic>
                   </Button>
-                  <Button fx:id="discardProducts" mnemonicParsing="false" styleClass="stock_edit_button">
+                  <Button fx:id="discardProducts" mnemonicParsing="false" styleClass="btn_standard">
       	                     <graphic>
       	                        <FontAwesomeIcon iconName="TRASH" size="1.3em" />
       	                     </graphic>

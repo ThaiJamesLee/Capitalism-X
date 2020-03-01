@@ -28,17 +28,17 @@
         </rowConstraints>
          <children>
             <Label fx:id="componentType" text="Label" />
-            <Button fx:id="cheapQualityTrade" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="stock_edit_button" GridPane.columnIndex="3">
+            <Button fx:id="cheapQualityTrade" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="btn_standard" GridPane.columnIndex="3">
                <graphic>
                   <FontAwesomeIcon iconName="EXCHANGE" size="1.1em" />
                </graphic>
             </Button>
-            <Button fx:id="regularQualityTrade" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="stock_edit_button" GridPane.columnIndex="6">
+            <Button fx:id="regularQualityTrade" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="btn_standard" GridPane.columnIndex="6">
                <graphic>
                   <FontAwesomeIcon iconName="EXCHANGE" size="1.1em" />
                </graphic>
             </Button>
-            <Button fx:id="premiumQualityTrade" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="stock_edit_button" GridPane.columnIndex="9">
+            <Button fx:id="premiumQualityTrade" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="btn_standard" GridPane.columnIndex="9">
                <graphic>
                   <FontAwesomeIcon iconName="EXCHANGE" size="1.1em" />
                </graphic>
