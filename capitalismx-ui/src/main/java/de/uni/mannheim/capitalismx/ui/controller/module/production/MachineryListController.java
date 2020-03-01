@@ -37,9 +37,7 @@ public class MachineryListController implements UpdateableController {
 
     @Override
     public void update() {
-        ProductionDepartment productionDepartment = GameState.getInstance().getProductionDepartment();
-
-        List<Machinery> machinery = productionDepartment.getMachines();
+        List<Machinery> machinery = GameController.getInstance().getMachines();
         machineryListView.setItems(FXCollections.observableList(machinery));
     }
 
