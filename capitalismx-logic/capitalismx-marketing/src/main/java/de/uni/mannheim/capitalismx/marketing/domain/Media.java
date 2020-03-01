@@ -1,4 +1,8 @@
 package de.uni.mannheim.capitalismx.marketing.domain;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 /**
  * Defines media for Campaigns.
  * @see Campaign
@@ -6,13 +10,15 @@ package de.uni.mannheim.capitalismx.marketing.domain;
  */
 public enum Media {
 
-    NEWSPAPER("Newspaper", 5000), TELEVISION("Television", 10000), ONLINE("Online", 100000), NONE("", 1000), NONE2("", 10000);
+    NEWSPAPER("Newspaper", "media.newspaper", 5000), TELEVISION("Television", "media.television", 10000), ONLINE("Online", "media.online", 100000), NONE("",  "media.none", 1000), NONE2("", "media.none", 10000);
 
     private String name;
+    private String propertyKey;
     private int cost;
 
-    Media(String name, int cost) {
+    Media(String name, String propertyKey, int cost) {
         this.name = name;
+        this.propertyKey=propertyKey;
         this.cost = cost;
     }
 
@@ -25,6 +31,11 @@ public enum Media {
 
     public String getName() {
         return name;
+    }
+    
+    public String getLocalizedName(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle("marketing-module", locale);
+        return bundle.getString(propertyKey);
     }
 
     public String toString() {

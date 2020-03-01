@@ -69,11 +69,11 @@ public class CampaignsCell extends ListCell<Campaign> {
 
             }
             
-            titleLabel.setText(camp.getName());
+            titleLabel.setText(camp.getLocalizedName(UIManager.getInstance().getLanguage()));
             titleLabel.setTextAlignment(TextAlignment.LEFT);
             titleLabel.setStyle("-fx-font-weight: bold");
             
-            mediaLabel.setText(camp.getMedia().getName());
+            mediaLabel.setText(camp.getMedia().getLocalizedName(UIManager.getInstance().getLanguage()));
             costLabel.setText(camp.getMedia().getCost() + " CC");
 //            costLabel.setText(camp.getCost() + " CC");
 

@@ -66,7 +66,7 @@ public class NewPressReleaseViewCell extends ListCell<PressRelease> {
 
             }
             
-            titleLabel.setText(pr.getName());
+            titleLabel.setText(pr.getLocalizedName(UIManager.getInstance().getLanguage()));
             titleLabel.setTextAlignment(TextAlignment.LEFT);
             costLabel.setText(pr.getCost() + " CC");
 
