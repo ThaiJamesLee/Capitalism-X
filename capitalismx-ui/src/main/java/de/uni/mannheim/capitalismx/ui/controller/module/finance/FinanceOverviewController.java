@@ -5,16 +5,10 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.controlsfx.control.PopOver;
-
-import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.ui.controller.popover.finance.LoanRequestListController;
 import de.uni.mannheim.capitalismx.ui.eventlistener.FinanceEventListener;
 import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
-import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
-import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -99,10 +93,6 @@ public class FinanceOverviewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		GameController controller = GameController.getInstance();
-		financeEventListener = new FinanceEventListener();
-
-		FinanceDepartment f = GameState.getInstance().getFinanceDepartment();
-		f.registerPropertyChangeListener(financeEventListener);
 
 		cashLabel.setText(CapCoinFormatter.getCapCoins(controller.getCash()));
 		assetsLabel.setText(CapCoinFormatter.getCapCoins(controller.getAssets()));

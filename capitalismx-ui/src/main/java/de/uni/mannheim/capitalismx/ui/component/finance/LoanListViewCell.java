@@ -1,5 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.component.finance;
 
+import java.io.IOException;
+import java.text.NumberFormat;
+
 import de.uni.mannheim.capitalismx.finance.finance.Loan;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
@@ -7,11 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
-
-import java.io.IOException;
-import java.text.NumberFormat;
 
 /**
  * This class represents an entry in the list of loans in the finance UI. It displays information like the duration
@@ -38,17 +37,7 @@ public class LoanListViewCell extends ListCell<Loan> {
 
     private FXMLLoader loader;
 
-    /**
-     * The ListView of all loans in the finance department.
-     */
-    private ListView<Loan> loanListView;
-
-    /**
-     * Constructor
-     * @param loanListView The ListView of all trucks in the internal logistics fleet.
-     */
-    public LoanListViewCell(ListView<Loan> loanListView){
-        this.loanListView = loanListView;
+    public LoanListViewCell(){
     }
 
     /*

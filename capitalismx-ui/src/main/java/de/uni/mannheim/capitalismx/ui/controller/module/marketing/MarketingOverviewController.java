@@ -63,9 +63,6 @@ public class MarketingOverviewController implements Initializable {
 		helper.createStandardOverlay("fxml/popover/mkt_newPR_options.fxml");
 		popover = helper.getPopover();
 		
-		MarketingDepartment dep = MarketingDepartment.getInstance();
-		dep.registerPropertyChangeListener(new MarketingEventListener());
-				
 		//TODO ändern und korrekt formatieren...
 		GameController controller = GameController.getInstance();
 		updateCompanyImageLabel();

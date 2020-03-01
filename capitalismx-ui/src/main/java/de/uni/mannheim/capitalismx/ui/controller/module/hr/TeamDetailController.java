@@ -52,9 +52,6 @@ public class TeamDetailController implements Initializable {
 			employeeTabPane.getTabs().add(teamTab);
 			teamTab.setContent(teamDetails.getRoot());
 		}
-
-		HREventListener hrEventListener = new HREventListener();
-		hrDep.registerPropertyChangeListener(hrEventListener);
 	}
 
 	/**

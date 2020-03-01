@@ -34,6 +34,7 @@ import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.util.CssHelper;
 import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import de.uni.mannheim.capitalismx.ui.util.TooltipFactory;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -341,7 +342,6 @@ public class GameHudController implements UpdateableController {
 		employeeLabel.setText(gameState.getHrDepartment().getTotalNumberOfEmployees() + "");
 		netWorthChangeLabel.setText("+" + CapCoinFormatter.getCapCoins(0));
 		netWorthLabel.setText(CapCoinFormatter.getCapCoins(gameState.getFinanceDepartment().getNetWorth()));
-		gameState.addPropertyChangeListener(new GameStateEventListener());
 		ecoTooltip = tooltipFactory.createTooltip("");
 		ecoButton.setTooltip(ecoTooltip);
 		updateEcoIndexIcon(gameState.getCompanyEcoIndex().getEcoIndex());
@@ -570,7 +570,16 @@ public class GameHudController implements UpdateableController {
 				break;
 			case HAZARDOUS:
 				ecoIcon.getStyleClass().clear();
-				ecoIcon.setStyle("-fx-background-color: -fx-red;");
+				ecoIcon.getStyleClass().add("icon_red");
+
+				FadeTransition hazard = new FadeTransition();
+				hazard.setCycleCount(FadeTransition.INDEFINITE);
+				hazard.setAutoReverse(true);
+				hazard.setFromValue(1.0);
+				hazard.setToValue(0.6);
+				hazard.setDuration(Duration.millis(800));
+				hazard.setNode(ecoIcon);
+				hazard.play();
 				break;
 			default:
 				break;

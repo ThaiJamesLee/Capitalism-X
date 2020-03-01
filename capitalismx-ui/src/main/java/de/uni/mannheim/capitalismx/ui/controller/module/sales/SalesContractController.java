@@ -38,7 +38,6 @@ public class SalesContractController implements Initializable {
 
     private static final String LangFILE = "properties.main";
 
-    SalesEventListener contractListener;
     SalesContractInfoController infoPaneController;
     private ArrayList<String> availableIDlist = new ArrayList<String>();
     private ArrayList<String> acceptedIDlist = new ArrayList<String>();
@@ -306,9 +305,7 @@ public class SalesContractController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         firstClick = true;
-        contractListener = new SalesEventListener();
         //infoPaneController = new SalesContractInfoController();
-        GameState.getInstance().getSalesDepartment().registerPropertyChangeListener(contractListener);
 
         acceptButton.setTooltip(
                 new Tooltip("Accepts a selected contract from the list of offered contracts.")

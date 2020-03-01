@@ -43,9 +43,5 @@ public class OrderedComponentsListController implements UpdateableController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         orderedComponentsListView.setCellFactory(orderedComponentsListView -> new OrderedComponentsListViewCell(orderedComponentsListView));
-        ProcurementEventListener eventlistener = new ProcurementEventListener();
-        ProcurementDepartment procurementDepartment = GameState.getInstance().getProcurementDepartment();
-        procurementDepartment.getComponentOrdersChange().addPropertyChangeListener(eventlistener);
-        procurementDepartment.registerPropertyChangeListener(eventlistener);
     }
 }

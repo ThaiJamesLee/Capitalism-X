@@ -61,10 +61,6 @@ public class FinanceBankingSystemController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
-        financeEventListener = new FinanceEventListener();
-
-        FinanceDepartment f = GameState.getInstance().getFinanceDepartment();
-        f.registerPropertyChangeListener(financeEventListener);
 
         // Prepare the Popover for the loan request
         PopOverFactory factory = new PopOverFactory();
@@ -100,7 +96,7 @@ public class FinanceBankingSystemController implements Initializable {
             }
         });
 
-        loanListView.setCellFactory(listView -> new LoanListViewCell(loanListView));
+        loanListView.setCellFactory(listView -> new LoanListViewCell());
         loanListView.setPlaceholder(new Label(UIManager.getLocalisedString("list.placeholder.loan")));
     }
 
