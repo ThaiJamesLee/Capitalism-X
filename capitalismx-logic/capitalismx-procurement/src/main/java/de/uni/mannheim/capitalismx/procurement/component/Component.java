@@ -3,7 +3,9 @@ package de.uni.mannheim.capitalismx.procurement.component;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Random;
 
@@ -28,6 +30,8 @@ public class Component extends Unit implements Serializable {
     private double baseCost;
     private ComponentType componentType;
     private double warehouseSalesPrice;
+    private LocalDate lastPriceCalculationDate;
+    private boolean baseCostInitialized;
 
     public Component(ComponentType componentType) {
         this.unitType = UnitType.COMPONENT_UNIT;
@@ -38,6 +42,7 @@ public class Component extends Unit implements Serializable {
         this.baseUtility = componentType.getBaseUtility();
         this.availabilityDate = componentType.getAvailabilityDate();
         this.componentType = componentType;
+        this.baseCostInitialized = false;
     }
 
     public Component(ComponentType componentType, SupplierCategory supplierCategory, LocalDate gameDate) {
@@ -49,7 +54,9 @@ public class Component extends Unit implements Serializable {
         this.baseUtility = componentType.getBaseUtility();
         this.availabilityDate = componentType.getAvailabilityDate();
         this.componentType = componentType;
+        this.baseCostInitialized = false;
         this.supplierCategory = supplierCategory;
+        this.lastPriceCalculationDate = gameDate;
         switch(supplierCategory) {
             case CHEAP:
                 this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(0.7, 1.0);
@@ -74,6 +81,7 @@ public class Component extends Unit implements Serializable {
 
     public void setSupplierCategory(SupplierCategory supplierCategory, LocalDate gameDate) {
         this.supplierCategory = supplierCategory;
+        this.lastPriceCalculationDate = gameDate;
         switch(supplierCategory) {
             case PREMIUM:
                 this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(1.1, 1.5);
@@ -153,20 +161,25 @@ public class Component extends Unit implements Serializable {
     }
 
     public double calculateRandomizedBaseCost(LocalDate gameDate) {
-        int gameYear = gameDate.getYear();
-        double tBPM = -0.00011199 * Math.pow((gameYear - this.availabilityDate + 1), 5)
-                + 0.01117974 * Math.pow((gameYear - this.availabilityDate + 1), 4)
-                - 0.42393538 * Math.pow((gameYear - this.availabilityDate + 1), 3)
-                + 7.32188889 * Math.pow((gameYear - this.availabilityDate + 1), 2)
-                - 49.69789098 * (gameYear - this.availabilityDate + 1)
-                + 143.3244916;
-        double tBCP = this.initialComponentPrice * (tBPM / 100);
-        this.baseCost = tBCP * this.supplierCostMultiplicator;
-        //TODO NORMAL FUNCTION
-        Random random = new Random();
-        double normalDistributedValue = random.nextGaussian() * 0.1 + 1;
-        this.baseCost = this.baseCost * normalDistributedValue;
-        return this.baseCost;
+        if (ChronoUnit.DAYS.between(this.lastPriceCalculationDate.with(DayOfWeek.MONDAY), gameDate.with(DayOfWeek.MONDAY)) > 0 || !baseCostInitialized) {
+            this.lastPriceCalculationDate = gameDate;
+            this.baseCostInitialized = true;
+            int gameYear = gameDate.getYear();
+            double tBPM = -0.00011199 * Math.pow((gameYear - this.availabilityDate + 1), 5)
+                    + 0.01117974 * Math.pow((gameYear - this.availabilityDate + 1), 4)
+                    - 0.42393538 * Math.pow((gameYear - this.availabilityDate + 1), 3)
+                    + 7.32188889 * Math.pow((gameYear - this.availabilityDate + 1), 2)
+                    - 49.69789098 * (gameYear - this.availabilityDate + 1)
+                    + 143.3244916;
+            double tBCP = this.initialComponentPrice * (tBPM / 100);
+            this.baseCost = tBCP * this.supplierCostMultiplicator;
+            Random random = new Random();
+            double normalDistributedValue = random.nextGaussian() * 0.1 + 1;
+            this.baseCost = this.baseCost * normalDistributedValue;
+            return this.baseCost;
+        } else {
+            return this.baseCost;
+        }
     }
 
     public double getTimeBasedComponentCost(LocalDate gameDate) {
