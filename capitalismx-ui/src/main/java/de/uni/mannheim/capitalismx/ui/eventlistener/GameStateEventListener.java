@@ -12,6 +12,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.component.GameViewType;
+import de.uni.mannheim.capitalismx.ui.controller.gamepage.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
@@ -30,7 +31,9 @@ public class GameStateEventListener implements PropertyChangeListener {
 		}
 
 		if (evt.getPropertyName().equals("gameDate")) {
-			UIManager.getInstance().getGameHudController().update();
+			GameHudController hudController = UIManager.getInstance().getGameHudController();
+			hudController.update();
+			
 			LocalDate date = (LocalDate) evt.getNewValue();
 			StockManagementController stockController = ((StockManagementController) UIManager.getInstance()
 					.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController());
@@ -45,6 +48,15 @@ public class GameStateEventListener implements PropertyChangeListener {
 					GameState.getInstance().getMessages()
 							.add(new MessageObject("Your assistant", ((LocalDate) evt.getNewValue()).toString(),
 									event.getTitle(), "This is a more detailed description of the event ...", false));
+				
+					// handle special events
+					switch (event) {
+					case EVENT_19: // GAME LOST
+						UIManager.getInstance().gameOver(false);
+						break;
+					default:
+						break;
+					}
 				}
 			}
 
