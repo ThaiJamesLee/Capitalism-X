@@ -782,41 +782,41 @@ public class GameController {
 	}
 
 	public List<ComponentType> getAllAvailableComponents() {
-		return ProductionDepartment.getInstance().getAllAvailableComponents(GameState.getInstance().getGameDate());
+		return GameState.getInstance().getProductionDepartment().getAllAvailableComponents(GameState.getInstance().getGameDate());
 	}
 
 	public List<ComponentType> getAvailableComponentsOfComponentCategory(ComponentCategory componentCategory) {
-		return ProductionDepartment.getInstance()
+		return GameState.getInstance().getProductionDepartment()
 				.getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
 	}
 
 
     public double buyComponents(Component component, int quantity) {
-		return ProcurementDepartment.getInstance().buyComponents(GameState.getInstance().getGameDate(), component, quantity, getFreeStorage());
+		return GameState.getInstance().getProcurementDepartment().buyComponents(GameState.getInstance().getGameDate(), component, quantity, getFreeStorage());
     }
 	
 	public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
-		return ProcurementDepartment.getInstance().buyComponents(gameDate, component, quantity, freeStorage);
+		return GameState.getInstance().getProcurementDepartment().buyComponents(gameDate, component, quantity, freeStorage);
 	}
 
 	public void receiveComponents() {
-		ProcurementDepartment.getInstance().receiveComponents(GameState.getInstance().getGameDate());
+		GameState.getInstance().getProcurementDepartment().receiveComponents(GameState.getInstance().getGameDate());
 	}
 
 	public Map<Component, Integer> getReceivedComponents() {
-		return ProcurementDepartment.getInstance().getReceivedComponents();
+		return GameState.getInstance().getProcurementDepartment().getReceivedComponents();
 	}
 
 	public List<ComponentOrder> getComponentOrders() {
-		return ProcurementDepartment.getInstance().getComponentOrders();
+		return GameState.getInstance().getProcurementDepartment().getComponentOrders();
 	}
 
 	public int getQuantityOfOrderedComponents() {
-		return ProcurementDepartment.getInstance().getQuantityOfOrderedComponents();
+		return GameState.getInstance().getProcurementDepartment().getQuantityOfOrderedComponents();
 	}
 
 	public void clearReceivedComponents() {
-		ProcurementDepartment.getInstance().clearReceivedComponents();
+		GameState.getInstance().getProcurementDepartment().clearReceivedComponents();
 	}
 
 
@@ -903,7 +903,7 @@ public class GameController {
 
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
 		try {
-			double purchasePrice = ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+			double purchasePrice = GameState.getInstance().getProductionDepartment().buyMachinery(machinery, gameDate);
 			GameState.getInstance().getFinanceDepartment().buyMachinery(machinery, gameDate);
 			return purchasePrice;
 		} catch (NoMachinerySlotsAvailableException e) {
@@ -912,7 +912,7 @@ public class GameController {
 	}
 
 	public double sellMachinery(Machinery machinery, LocalDate gameDate) {
-		double resellPrice = ProductionDepartment.getInstance().sellMachinery(machinery);
+		double resellPrice = GameState.getInstance().getProductionDepartment().sellMachinery(machinery);
 		GameState.getInstance().getFinanceDepartment().sellMachinery(machinery, gameDate);
 		return resellPrice;
 	}
@@ -927,7 +927,7 @@ public class GameController {
 	}
 
 	public double updateMachinery(Machinery machinery) {
-		return ProductionDepartment.getInstance().upgradeMachinery(machinery, GameState.getInstance().getGameDate());
+		return GameState.getInstance().getProductionDepartment().upgradeMachinery(machinery, GameState.getInstance().getGameDate());
 	}
 
 	public ProductionTechnology getMachineryProductionTechnology(Machinery machinery) {
@@ -997,8 +997,8 @@ public class GameController {
 		            allComponentsUnlocked = false;
                 }
             }
-			return ProductionDepartment.getInstance().produceProduct(product, quantity,
-					WarehousingDepartment.getInstance().calculateFreeStorage(), allComponentsUnlocked);
+			return GameState.getInstance().getProductionDepartment().produceProduct(product, quantity,
+					GameState.getInstance().getWarehousingDepartment().calculateFreeStorage(), allComponentsUnlocked);
 		} catch (Exception e) {
 			throw e;
 		}
