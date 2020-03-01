@@ -20,8 +20,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
+/**
+ * The controller for the machinery list
+ */
 public class MachineryListController implements UpdateableController {
 
+    /**
+     * The Machinery list view.
+     */
     @FXML
     ListView<Machinery> machineryListView;
 
