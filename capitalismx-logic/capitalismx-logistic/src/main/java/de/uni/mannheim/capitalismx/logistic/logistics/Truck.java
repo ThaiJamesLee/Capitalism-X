@@ -33,6 +33,7 @@ public class Truck implements Serializable {
     private double basePriceDelivery;
     private double maintenanceCostsFactor;
     private PropertyChangeSupportDouble resellPrice;
+    private boolean decreasedEcoIndex;
 
     private static final String DEFAULTS_PROPERTIES_FILE = "logistics-defaults";
 
@@ -63,6 +64,8 @@ public class Truck implements Serializable {
         this.resellPrice = new PropertyChangeSupportDouble();
         this.resellPrice.setValue(this.purchasePrice);
         this.resellPrice.setPropertyChangedName("resellPrice");
+
+        this.decreasedEcoIndex = false;
     }
 
     /**
@@ -145,6 +148,14 @@ public class Truck implements Serializable {
 
     public double getResellPrice(){
         return this.resellPrice.getValue();
+    }
+
+    public boolean isDecreasedEcoIndex() {
+        return decreasedEcoIndex;
+    }
+
+    public void setDecreasedEcoIndex(boolean decreasedEcoIndex) {
+        this.decreasedEcoIndex = decreasedEcoIndex;
     }
 
     /**

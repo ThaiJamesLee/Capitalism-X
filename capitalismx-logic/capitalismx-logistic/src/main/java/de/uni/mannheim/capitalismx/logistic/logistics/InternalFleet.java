@@ -108,7 +108,7 @@ public class InternalFleet implements Serializable {
      * according to p.50. If there are no trucks in the internal fleet, the eco index is perfect.
      * @return Returns the eco index of the internal fleet.
      */
-    protected double calculateEcoIndexFleet(){
+    public double calculateEcoIndexFleet(){
         double ecoIndexSum = 0;
         for(Truck t:trucks){
             ecoIndexSum += t.getEcoIndex();

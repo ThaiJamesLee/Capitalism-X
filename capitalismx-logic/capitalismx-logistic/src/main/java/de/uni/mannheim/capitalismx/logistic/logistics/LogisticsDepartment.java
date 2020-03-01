@@ -203,7 +203,7 @@ public class LogisticsDepartment extends DepartmentImpl {
      * the internal fleet does not have enough capacity.
      * @return Returns the logistics index of the company.
      */
-    private double calculateLogisticsIndex(){
+    public double calculateLogisticsIndex(){
         if(externalPartner == null){
             return this.logisticsIndex = -1.0;
         }

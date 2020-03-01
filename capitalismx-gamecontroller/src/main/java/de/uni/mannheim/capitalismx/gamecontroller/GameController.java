@@ -169,7 +169,9 @@ public class GameController {
 	 * Updates the relevant values regarding the company eco index.
 	 */
 	private void updateCompanyEcoIndex() {
-		CompanyEcoIndex.getInstance().calculateAll();
+		GameState.getInstance().getCompanyEcoIndex().checkMachinery(GameState.getInstance().getGameDate());
+		GameState.getInstance().getCompanyEcoIndex().checkVehicles();
+		GameState.getInstance().getCompanyEcoIndex().calculateAll();
 	}
 
 	/**

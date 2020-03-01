@@ -1,7 +1,9 @@
 package de.uni.mannheim.capitalismx.gamecontroller.ecoindex;
 
+import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.product.Product;
 
 import java.io.Serializable;
 import java.util.List;
@@ -103,23 +105,27 @@ public class CompanyEcoIndex implements Serializable {
         this.calculateEcoCosts();
     }
 
-    private void checkMachinery(LocalDate gameDate){
-        //TODO
-
+    /**
+     * Checks if old machinery is in use and decreases the eco index according to p.29.
+     * @param gameDate The current date in the game.
+     */
+    public void checkMachinery(LocalDate gameDate){
         List<Machinery> machines = ProductionDepartment.getInstance().getMachines();
         for(Machinery machinery : machines){
-            machinery.depreciateMachinery(false, gameDate);
-            if(machinery.getYearsSinceLastInvestment() > 5){
+            if((machinery.getYearsSinceLastInvestment() > 5) && (!machinery.hasDecreasedEcoIndex())){
                 this.decreaseEcoIndex(1);
+                machinery.setDecreasedEcoIndex(true);
             }
         }
     }
 
-    private void checkVehicles(){
-        //TODO
-        /**if(Logistics.getInstance().getInternalFleet().calculateExoIndexFleet() < 3){
+    /**
+     * Checks the eco index of the fleet and decreases the eco index similar to p.29.
+     */
+    public void checkVehicles(){
+        if(LogisticsDepartment.getInstance().getInternalFleet().calculateEcoIndexFleet() < 60){
             this.decreaseEcoIndex(1);
-        }**/
+        }
     }
 
     //TODO
@@ -151,10 +157,12 @@ public class CompanyEcoIndex implements Serializable {
         return this.ECO_FLAT_TAX + additionalEcoTax;
     }
 
-    //TODO
+    /**
+     * Calculates the yearly eco costs according to p.30.
+     * @return Returns the yearly eco costs.
+     */
     private double calculateEcoCosts(){
-        //return this.calculateEcoTax() - (Production.getInstance().getProductionTechnology().getRange() + component eL) * 1000;
-        return 0.0;
+        return this.calculateEcoTax() - (ProductionDepartment.getInstance().getProductionTechnology().getRange() + ProductionDepartment.getInstance().calculateAverageEcoIndexOfLaunchedProducts()) * 1000;
     }
 
     /**

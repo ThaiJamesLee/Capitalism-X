@@ -665,6 +665,9 @@ public class FinanceDepartment extends DepartmentImpl {
                 dailyRevenue += c.getRevenue();
             }
         }
+
+        LogisticsDepartment.getInstance().setDeliveredProducts((int) dailyRevenue);
+
         this.totalRevenue = dailyRevenue;
         this.salesHistory.put(gameDate, this.totalRevenue);
         return this.totalRevenue;
