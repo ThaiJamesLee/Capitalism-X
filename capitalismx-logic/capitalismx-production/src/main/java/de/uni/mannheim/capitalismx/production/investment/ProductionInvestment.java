@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.production.investment;
 
+import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughTrainedEngineersException;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -39,9 +41,9 @@ public class ProductionInvestment implements Serializable {
      * @param gameDate the game date
      * @return the production investment
      */
-    public ProductionInvestment invest(int level, LocalDate gameDate, int numberOfEngineersTrained) {
+    public ProductionInvestment invest(int level, LocalDate gameDate, int numberOfEngineersTrained) throws NotEnoughTrainedEngineersException {
         /* level of investment; 5k, 10k, 15k, 20k respectively for the levels*/
-        if (this.name.equals("Process Automation") && numberOfEngineersTrained >= level || !this.name.equals("ProcessAutomation")) {
+        if (this.name.equals("Process Automation") && numberOfEngineersTrained >= level || !this.name.equals("Process Automation")) {
             switch (level) {
                 case 2:
                     this.productionInvestmentLevel = ProductionInvestmentLevel.BAD;
@@ -59,8 +61,9 @@ public class ProductionInvestment implements Serializable {
                     break;
             }
             this.lastInvestmentDate = gameDate;
-        } else {
-            // TODO throw not enough production engineers exception
+        } else if (this.name.equals("Process Automation") && numberOfEngineersTrained < level) {
+            throw new NotEnoughTrainedEngineersException("You don't have enough trained engineers to invest in Process Automation. " + level
+                    + " trained engineers are needed, but only " + numberOfEngineersTrained + " trained engineers are hired.", level, numberOfEngineersTrained);
         }
         return this;
     }

@@ -1075,37 +1075,49 @@ public class GameController {
 		return GameState.getInstance().getProductionDepartment().getProductionInvestmentPrice(productionInvestmentLevel);
 	}
 
-	public double investInSystemSecurity(int level) {
-		int numberOfTrainedEngineers = 0;
-		Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
-		for (Employee employee : team.getTeam()) {
-			if (employee.getTrainingsList().size() > 0) {
-				numberOfTrainedEngineers++;
+	public double investInSystemSecurity(int level) throws NotEnoughTrainedEngineersException{
+		try {
+			int numberOfTrainedEngineers = 0;
+			Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
+			for (Employee employee : team.getTeam()) {
+				if (employee.getTrainingsList().size() > 0) {
+					numberOfTrainedEngineers++;
+				}
 			}
+			return GameState.getInstance().getProductionDepartment().investInSystemSecurity(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
+		} catch (NotEnoughTrainedEngineersException e) {
+			throw e;
 		}
-		return GameState.getInstance().getProductionDepartment().investInSystemSecurity(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
 	}
 
-	public double investInQualityAssurance(int level) {
-		int numberOfTrainedEngineers = 0;
-		Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
-		for (Employee employee : team.getTeam()) {
-			if (employee.getTrainingsList().size() > 0) {
-				numberOfTrainedEngineers++;
+	public double investInQualityAssurance(int level) throws NotEnoughTrainedEngineersException{
+		try {
+			int numberOfTrainedEngineers = 0;
+			Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
+			for (Employee employee : team.getTeam()) {
+				if (employee.getTrainingsList().size() > 0) {
+					numberOfTrainedEngineers++;
+				}
 			}
+			return GameState.getInstance().getProductionDepartment().investInQualityAssurance(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
+		} catch (NotEnoughTrainedEngineersException e) {
+			throw e;
 		}
-		return GameState.getInstance().getProductionDepartment().investInQualityAssurance(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
 	}
 
-	public double investInProcessAutomation(int level) {
-		int numberOfTrainedEngineers = 0;
-		Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
-		for (Employee employee : team.getTeam()) {
-			if (employee.getTrainingsList().size() > 0) {
-				numberOfTrainedEngineers++;
+	public double investInProcessAutomation(int level) throws NotEnoughTrainedEngineersException {
+		try {
+			int numberOfTrainedEngineers = 0;
+			Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
+			for (Employee employee : team.getTeam()) {
+				if (employee.getTrainingsList().size() > 0) {
+					numberOfTrainedEngineers++;
+				}
 			}
+			return GameState.getInstance().getProductionDepartment().investInProcessAutomation(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
+		} catch (NotEnoughTrainedEngineersException e) {
+			throw e;
 		}
-		return GameState.getInstance().getProductionDepartment().investInProcessAutomation(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
 	}
 
 	public LocalDate getLastInvestmentDateSystemSecurity() {

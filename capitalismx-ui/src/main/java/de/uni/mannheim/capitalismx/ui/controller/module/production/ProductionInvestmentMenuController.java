@@ -2,12 +2,15 @@ package de.uni.mannheim.capitalismx.ui.controller.module.production;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughTrainedEngineersException;
 import de.uni.mannheim.capitalismx.production.investment.ProductionInvestment;
 import de.uni.mannheim.capitalismx.production.investment.ProductionInvestmentLevel;
+import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -73,27 +76,42 @@ public class ProductionInvestmentMenuController implements UpdateableController 
      * Invest in quality assurance.
      */
     public void investInQualityAssurance() {
-        GameController.getInstance().investInQualityAssurance(qualityAssuranceChoiceBox.getValue().getLevel());
-        GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), GameController.getInstance().getProductionInvestmentPrice(qualityAssuranceChoiceBox.getValue()));
-        this.update();
+        try {
+            GameController.getInstance().investInQualityAssurance(qualityAssuranceChoiceBox.getValue().getLevel());
+            GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), GameController.getInstance().getProductionInvestmentPrice(qualityAssuranceChoiceBox.getValue()));
+            this.update();
+        } catch (NotEnoughTrainedEngineersException e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Could not invest in Quality Assurance.", e.getMessage());
+            error.showAndWait();
+        }
     }
 
     /**
      * Invest in system security.
      */
     public void investInSystemSecurity() {
-        GameController.getInstance().investInSystemSecurity(systemSecurityChoiceBox.getValue().getLevel());
-        GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), GameController.getInstance().getProductionInvestmentPrice(systemSecurityChoiceBox.getValue()));
-        this.update();
+        try {
+            GameController.getInstance().investInSystemSecurity(systemSecurityChoiceBox.getValue().getLevel());
+            GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), GameController.getInstance().getProductionInvestmentPrice(systemSecurityChoiceBox.getValue()));
+            this.update();
+        } catch (NotEnoughTrainedEngineersException e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Could not invest in System Security.", e.getMessage());
+            error.showAndWait();
+        }
     }
 
     /**
      * Invest in process automation.
      */
     public void investInProcessAutomation() {
-        GameController.getInstance().investInProcessAutomation(processAutomationChoiceBox.getValue().getLevel());
-        GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), GameController.getInstance().getProductionInvestmentPrice(processAutomationChoiceBox.getValue()));
-        this.update();
+        try {
+            GameController.getInstance().investInProcessAutomation(processAutomationChoiceBox.getValue().getLevel());
+            GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), GameController.getInstance().getProductionInvestmentPrice(processAutomationChoiceBox.getValue()));
+            this.update();
+        } catch (NotEnoughTrainedEngineersException e) {
+            GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Could not invest in Process Automation.", e.getMessage());
+            error.showAndWait();
+        }
     }
 
     @Override

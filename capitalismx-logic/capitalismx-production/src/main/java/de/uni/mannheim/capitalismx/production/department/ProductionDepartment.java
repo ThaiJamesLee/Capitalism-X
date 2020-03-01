@@ -882,9 +882,13 @@ public class ProductionDepartment extends DepartmentImpl {
      * @param gameDate the game date
      * @return the costs of the investment
      */
-    public double investInSystemSecurity(int level, LocalDate gameDate, int numberOfTrainedEngineers) {
-        this.systemSecurity = systemSecurity.invest(level, gameDate, numberOfTrainedEngineers);
-        return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+    public double investInSystemSecurity(int level, LocalDate gameDate, int numberOfTrainedEngineers) throws NotEnoughTrainedEngineersException {
+        try {
+            this.systemSecurity = systemSecurity.invest(level, gameDate, numberOfTrainedEngineers);
+            return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+        } catch (NotEnoughTrainedEngineersException e) {
+            throw e;
+        }
     }
 
     /**
@@ -894,9 +898,14 @@ public class ProductionDepartment extends DepartmentImpl {
      * @param gameDate the game date
      * @return the cost of the investment
      */
-    public double investInQualityAssurance(int level, LocalDate gameDate, int numberOfTrainedEngineers) {
-        this.qualityAssurance = qualityAssurance.invest(level, gameDate, numberOfTrainedEngineers);
-        return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+    public double investInQualityAssurance(int level, LocalDate gameDate, int numberOfTrainedEngineers) throws NotEnoughTrainedEngineersException {
+        try {
+            this.qualityAssurance = qualityAssurance.invest(level, gameDate, numberOfTrainedEngineers);
+            return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+        } catch (NotEnoughTrainedEngineersException e) {
+            throw e;
+        }
+
     }
 
     /**
@@ -906,9 +915,13 @@ public class ProductionDepartment extends DepartmentImpl {
      * @param gameDate the game date
      * @return the costs of the investment
      */
-    public double investInProcessAutomation(int level, LocalDate gameDate, int numberOfTrainedEngineers) {
-        this.processAutomation = processAutomation.invest(level, gameDate, numberOfTrainedEngineers);
-        return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+    public double investInProcessAutomation(int level, LocalDate gameDate, int numberOfTrainedEngineers) throws NotEnoughTrainedEngineersException {
+        try {
+            this.processAutomation = processAutomation.invest(level, gameDate, numberOfTrainedEngineers);
+            return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+        } catch (NotEnoughTrainedEngineersException e) {
+            throw e;
+        }
     }
 
     /**
