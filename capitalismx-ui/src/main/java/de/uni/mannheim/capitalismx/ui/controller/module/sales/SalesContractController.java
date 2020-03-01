@@ -1,5 +1,6 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
@@ -13,8 +14,7 @@ import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -31,7 +31,6 @@ import javafx.scene.layout.AnchorPane;
 import javax.tools.Tool;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -90,14 +89,22 @@ public class SalesContractController implements Initializable {
         if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0){
             int index = availableContractsList.getSelectionModel().getSelectedIndex();
             SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
-            Map<Unit, Integer> map = GameState.getInstance().getWarehousingDepartment().getInventory();
+            WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
             Contract c = salesDep.getAvailableContracts().get(index);
             Product p = c.getProduct();
             int productCount = c.getNumProducts();
-
-            //GameState.getInstance().getWarehousingDepartment().
-            GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), salesDep.getAvailableContracts().get(index).getRevenue());
-            salesDep.contractDone(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
+            if(warehouse.getInventory().containsKey(p)){
+                if(warehouse.getInventory().get(p)>=productCount){
+                    HashMap<Unit, Integer> productMap = new HashMap<Unit, Integer>();
+                    productMap.put(p, productCount);
+                    double revenue = 0;
+                    for(Map.Entry<Unit, Integer> entry : productMap.entrySet()){
+                        revenue = warehouse.sellProduct(entry);
+                    }
+                    GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), revenue);
+                    salesDep.contractDone(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
+                }
+            }
             refreshAcceptedContracts();
         }
     }
