@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.component.production;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

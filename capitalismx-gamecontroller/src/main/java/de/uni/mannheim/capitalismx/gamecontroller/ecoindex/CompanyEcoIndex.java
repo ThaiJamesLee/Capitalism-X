@@ -1,7 +1,7 @@
 package de.uni.mannheim.capitalismx.gamecontroller.ecoindex;
 
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 
 import java.io.Serializable;
 import java.util.List;

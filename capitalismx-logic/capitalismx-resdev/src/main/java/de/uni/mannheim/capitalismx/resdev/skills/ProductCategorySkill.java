@@ -1,6 +1,6 @@
 package de.uni.mannheim.capitalismx.resdev.skills;
 
-import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.production.product.ProductCategory;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

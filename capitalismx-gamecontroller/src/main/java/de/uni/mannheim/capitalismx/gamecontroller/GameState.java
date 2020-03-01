@@ -13,8 +13,8 @@ import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
-import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.procurement.department.ProcurementDepartment;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;

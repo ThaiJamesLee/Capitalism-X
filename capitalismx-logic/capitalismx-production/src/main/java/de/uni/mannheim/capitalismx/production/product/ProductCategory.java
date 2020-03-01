@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.production;
+package de.uni.mannheim.capitalismx.production.product;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,16 +6,30 @@ import java.util.List;
 
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 
+/**
+ * The enum Product category.
+ *
+ * @author dzhao
+ */
 public enum ProductCategory implements Serializable {
 
-	NOTEBOOK("Notebook"), PHONE("Phone"), GAME_BOY("Game Boy"), TELEVISION("Television");
+	NOTEBOOK("Notebook"),
+	PHONE("Phone"),
+	GAME_BOY("Game Boy"),
+	TELEVISION("Television");
 
+	/**
+	 * Instantiates the product category.
+	 *
+	 * @param productName
+	 */
 	ProductCategory(String productName) {
 		this.productName = productName;
 	}
 
 	private String productName;
 
+	@Override
 	public String toString() {
 		return this.productName;
 	}
@@ -23,7 +37,7 @@ public enum ProductCategory implements Serializable {
 	/**
 	 * Returns the {@link ProductCategory} a given {@link ComponentCategory} belongs
 	 * to.
-	 * 
+	 *
 	 * @param componentCategory The {@link ComponentCategory} to check.
 	 * @return The owning {@link ProductCategory}.
 	 */
@@ -40,7 +54,13 @@ public enum ProductCategory implements Serializable {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Gets component categories.
+	 *
+	 * @param productCategory the product category
+	 * @return the component categories
+	 */
 	public static List<ComponentCategory> getComponentCategories(ProductCategory productCategory) {
 		List<ComponentCategory> categories = new ArrayList<ComponentCategory>();
 		for (ComponentCategory componentCategory : ComponentCategory.values()) {
@@ -60,10 +80,11 @@ public enum ProductCategory implements Serializable {
 	}
 
 	/**
-	 * @author duly
+	 * Gets product category by name.
 	 *
 	 * @param name The name of the {@link ProductCategory}.
 	 * @return Returns the {@link ProductCategory} with the matching name.
+	 * @author duly
 	 */
 	public static ProductCategory getProductCategoryByName(String name) {
 		ProductCategory[] productCategories = ProductCategory.values();

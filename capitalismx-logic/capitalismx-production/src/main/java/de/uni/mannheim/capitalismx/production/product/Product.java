@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.production;
+package de.uni.mannheim.capitalismx.production.product;
 
 import de.uni.mannheim.capitalismx.procurement.component.*;
 import de.uni.mannheim.capitalismx.procurement.component.UnitType;
@@ -8,6 +8,15 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Represents product.
+ * It is an extension of a unit.
+ * It has a list of components and associated costs.
+ * It also has a unique product name and a set sales price. The warehouse sales price defines for how much the product can
+ * be sold directly through the warehouse.
+ *
+ * @author dzhao
+ */
 public class Product extends Unit implements Serializable {
 
     private UnitType unitType;
@@ -26,6 +35,17 @@ public class Product extends Unit implements Serializable {
     private double averageProductQuality;
     private double warehouseSalesPrice;
 
+    /**
+     * Instantiates a new Product.
+     * Checks whether the product has a valid set of components before initializing its variables. Otherwise it throws an
+     * InvalidSetOfComponentsException.
+     * The component costs are calculated by accumulating the base costs of all components.
+     *
+     * @param productName     the product name
+     * @param productCategory the product category
+     * @param components      the components
+     * @throws InvalidSetOfComponentsException the invalid set of components exception
+     */
     public Product(String productName, ProductCategory productCategory, List<Component> components) throws InvalidSetOfComponentsException {
         if(this.hasValidSetOfComponents(productCategory, components)) {
             this.unitType = UnitType.PRODUCT_UNIT;
@@ -46,24 +66,38 @@ public class Product extends Unit implements Serializable {
         }
     }
 
+    @Override
     public String toString() {
         return this.productName;
     }
 
+    /**
+     * Gets product category.
+     *
+     * @return the product category
+     */
     public ProductCategory getProductCategory() {
         return this.productCategory;
     }
 
+    /**
+     * Checks whether the product has a valid set of components based on the product category.
+     * The list of components should include exactly 1 component of each available component category of the corresponding product category.
+     *
+     * @param productCategory the product category
+     * @param components      the components
+     * @return whether the set of components is valid for this product or not.
+     */
     public boolean hasValidSetOfComponents(ProductCategory productCategory, List<Component> components) {
         boolean validSet = true;
         List<ComponentCategory> neededComponentCategories = ProductCategory.getComponentCategories(productCategory);
-        if(productCategory == ProductCategory.PHONE) {
+        if (productCategory == ProductCategory.PHONE) {
             neededComponentCategories.remove(ComponentCategory.P_CAMERA);
         }
-        if(productCategory == ProductCategory.GAME_BOY) {
+        if (productCategory == ProductCategory.GAME_BOY) {
             neededComponentCategories.remove(ComponentCategory.G_CAMERA);
         }
-        for(ComponentCategory componentCategory : neededComponentCategories) {
+        for (ComponentCategory componentCategory : neededComponentCategories) {
             for(Component component : components) {
                 if(component.getComponentCategory() != componentCategory) {
                     validSet = false;
@@ -74,8 +108,8 @@ public class Product extends Unit implements Serializable {
             }
         }
         List<ComponentCategory> allComponentCategories = ProductCategory.getComponentCategories(productCategory);
-        for(Component component : components) {
-            if(!allComponentCategories.contains(component.getComponentCategory())) {
+        for (Component component : components) {
+            if (!allComponentCategories.contains(component.getComponentCategory())) {
                 validSet = false;
             } else {
                 allComponentCategories.remove(component.getComponentCategory());
@@ -84,6 +118,12 @@ public class Product extends Unit implements Serializable {
         return validSet;
     }
 
+    /**
+     * Calculates the total variable costs.
+     * Based on report of predecessor group.
+     *
+     * @return the total variable cost
+     */
     public double calculateTotalVariableCosts() {
         /* TODO placeholder for ecoCost */
         int ecoCostPerProduct = 30;
@@ -91,43 +131,81 @@ public class Product extends Unit implements Serializable {
         return this.totalProductVariableCosts;
     }
 
+    /**
+     * Calculates the total procurement quality.
+     *
+     * @return the total procurement quality
+     */
     public double calculateTotalProcurementQuality() {
-        for(Component c : this.components) {
+        for (Component c : this.components) {
             this.initProcurementQuality += (0.4 * c.getSupplierEcoIndex() + 0.6 * c.getSupplierQuality()) * c.getBaseUtility();
         }
         this.totalProcurementQuality = this.initProcurementQuality / this.components.size();
         this.initProcurementQuality = 0;
         return this.totalProcurementQuality;
-        // return this.totalProcurementQuality / this.components.size();
     }
 
-    public double calculateTotalProductQuality(double productionTechnologyFactor, double totalEngineerProductivity, double researchAndDevelopmentFactor) {
+    /**
+     * Calculates the total product quality.
+     * It is affected by the productionTechnologyFactor, totalEngineerProductivity, and qualityAssuranceFactor
+     *
+     * @param productionTechnologyFactor   the production technology factor of the production department
+     * @param totalEngineerProductivity    the total engineer productivity
+     * @param qualityAssuranceFactor the quality assurance factor of the production department
+     * @return the total product quality
+     */
+    public double calculateTotalProductQuality(double productionTechnologyFactor, double totalEngineerProductivity, double qualityAssuranceFactor) {
         /* the math.pow operation calculates the 10th root of totalEngineerProductivity*/
-        this.totalProductQuality = this.calculateTotalProcurementQuality() * productionTechnologyFactor * researchAndDevelopmentFactor * Math.pow(Math.E, Math.log(totalEngineerProductivity)/10);
+        this.totalProductQuality = this.calculateTotalProcurementQuality() * productionTechnologyFactor * qualityAssuranceFactor * Math.pow(Math.E, Math.log(totalEngineerProductivity)/10);
         return this.totalProductQuality;
     }
 
+    /**
+     * Gets total product quality.
+     *
+     * @return the total product quality
+     */
     public double getTotalProductQuality() {
         return totalProductQuality;
     }
 
+    /**
+     * Calculates average base quality of product by using the average component supplier quality.
+     *
+     * @return the the average product quality
+     */
     public double calculateAverageBaseQuality() {
         double aggregatedComponentSupplierQuality = 0;
-        for(Component c : this.components) {
+        for (Component c : this.components) {
             aggregatedComponentSupplierQuality += c.getSupplierQuality();
         }
         this.averageProductQuality = aggregatedComponentSupplierQuality / this.components.size();
         return this.averageProductQuality;
     }
 
+    /**
+     * Gets total product costs.
+     *
+     * @return the total product
+     */
     public double getTotalProductCosts() {
         return totalProductCosts;
     }
 
+    /**
+     * Sets launch date.
+     *
+     * @param launchDate the launch date
+     */
     public void setLaunchDate(LocalDate launchDate) {
         this.launchDate = launchDate;
     }
 
+    /**
+     * Sets total product costs.
+     *
+     * @param totalProductCosts the total product costs
+     */
     public void setTotalProductCosts(double totalProductCosts) {
         this.totalProductCosts = totalProductCosts;
     }
@@ -136,126 +214,131 @@ public class Product extends Unit implements Serializable {
         return this.salesPrice;
     }
 
+    /**
+     * Sets sales price.
+     *
+     * @param salesPrice the sales price
+     */
     public void setSalesPrice(double salesPrice) {
         this.salesPrice = salesPrice;
     }
 
+    /**
+     * Calculates the profit margin .
+     * Based on report of predecessor group.
+     *
+     * @return the profit margin
+     */
     public double calculateProfitMargin() {
         this.profitMargin = ((this.salesPrice - this.totalProductCosts) / this.salesPrice) * 100;
         return this.profitMargin;
     }
 
+    /**
+     * Gets components.
+     *
+     * @return the components
+     */
     public List<Component> getComponents() {
         return components;
     }
 
+    /**
+     * Gets launch date.
+     *
+     * @return the launch date
+     */
     public LocalDate getLaunchDate() {
         return this.launchDate;
     }
 
+    /**
+     * Gets product name.
+     *
+     * @return the product name
+     */
     public String getProductName() {
         return this.productName;
     }
 
+    /**
+     * Gets total procurement quality.
+     *
+     * @return the total procurement quality
+     */
     public double getTotalProcurementQuality() {
         return this.totalProcurementQuality;
     }
 
+    /**
+     * Gets total component costs.
+     *
+     * @return the total component costs
+     */
     public double getTotalComponentCosts() {
         return this.totalComponentCosts;
     }
 
+    /**
+     * Gets total product variable costs.
+     *
+     * @return the total product variable costs
+     */
     public double getTotalProductVariableCosts() {
         return this.totalProductVariableCosts;
     }
 
+    /**
+     * Gets profit margin.
+     *
+     * @return the profit margin
+     */
     public double getProfitMargin() {
         return this.profitMargin;
     }
 
+    /**
+     * Gets average product quality.
+     *
+     * @return the average product quality
+     */
     public double getAverageProductQuality() {
         return this.averageProductQuality;
     }
 
+    /**
+     * Gets unit type.
+     *
+     * @return the unit type
+     */
     public UnitType getUnitType() {
         return this.unitType;
     }
 
+    /**
+     * Gets product costs.
+     * It accumulates the component base costs.
+     *
+     * @param gameDate the game date
+     * @return the product costs
+     */
     public double getProductCosts(LocalDate gameDate) {
         double productCosts = 0;
-        for(Component component : this.components) {
+        for (Component component : this.components) {
             productCosts += component.getBaseCost();
         }
         return productCosts;
     }
 
-    // set warehouseSalesPrice to half of the totalComponentCosts, should be reconsidered for future balancing
+    /**
+     * Gets the warehouse sales price.
+     * It determines for how much a product can be sold in the warehouse.
+     * Currently set to half of total component costs, might need some refactoring for balancing.
+     *
+     * @return warehouse sales price
+     */
     public double getWarehouseSalesPrice() {
         this.warehouseSalesPrice = this.totalComponentCosts / 2;
         return this.warehouseSalesPrice;
     }
-
-
-    /*
-    public List<Component> getNewestPossibleComponents(int currentYear) {
-        Component[] components = Component.values();
-        List<Component> availableComponents = new ArrayList<>();
-        for(Component c : components) {
-            if(c.getAvailabilityDate() <= currentYear) {
-                availableComponents.add(c);
-            }
-        }
-        List<Component> resultList = new ArrayList<>();
-        switch(this.productCategory) {
-            case PHONE:
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.P_CAMERA, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.P_CONNECTIVITY, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.P_CPU, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.P_DISPLAYCASE, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.P_KEYPAD, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.P_POWERSUPPLY, availableComponents));
-                break;
-            case GAME_BOY:
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.G_CAMERA, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.G_CONNECTIVITY, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.G_CPU, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.G_DISPLAYCASE, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.G_POWERSUPPLY, availableComponents));
-                break;
-            case NOTEBOOK:
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.N_CPU, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.N_DISPLAYCASE, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.N_POWERSUPPLY, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.N_SOFTWARE, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.N_STORAGE, availableComponents));
-                break;
-            case TELEVISION:
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.T_CASE, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.T_DISPLAY, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.T_OS, availableComponents));
-                resultList.add(this.getNewestOfComponentCategory(ComponentCategory.T_SOUND, availableComponents));
-                break;
-            default: // Do nothing
-        }
-        return resultList;
-    }
-
-    private Component getNewestOfComponentCategory(ComponentCategory componentCategory, List<Component> availableComponents) {
-        List<Component> filteredList = new ArrayList<>();
-        for(Component c : availableComponents) {
-            if(c.getComponentCategory().equals(componentCategory)) {
-                filteredList.add(c);
-            }
-        }
-        Component newestComponent = null;
-        int maxYear = 0;
-        for(Component c : filteredList) {
-            if(c.getAvailabilityDate() > maxYear) {
-                maxYear = c.getAvailabilityDate();
-                newestComponent = c;
-            }
-        }
-        return newestComponent;
-    }
-     */
 }

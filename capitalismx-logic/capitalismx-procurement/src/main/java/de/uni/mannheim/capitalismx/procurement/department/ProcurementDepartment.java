@@ -1,13 +1,15 @@
-package de.uni.mannheim.capitalismx.procurement.component;
+package de.uni.mannheim.capitalismx.procurement.department;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.procurement.component.Component;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentOrder;
+import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
 
-import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,6 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * The class represents the procurement department.
  * It implements the ordering and reception of components.
+ * Based on the report of predecessor group on p.31 - 35
  *
  * @author dzhao
  */

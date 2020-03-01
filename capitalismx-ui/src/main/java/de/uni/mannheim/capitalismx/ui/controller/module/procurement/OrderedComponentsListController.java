@@ -8,7 +8,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentOrder;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-import de.uni.mannheim.capitalismx.procurement.component.ProcurementDepartment;
+import de.uni.mannheim.capitalismx.procurement.department.ProcurementDepartment;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
 import de.uni.mannheim.capitalismx.ui.component.procurement.OrderedComponentsListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;

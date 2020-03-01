@@ -1,7 +1,8 @@
 package de.uni.mannheim.capitalismx.customer;
 
 import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.product.Product;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ import java.util.Map;
  * Before the customer satisfaction can be calculated, the GameState must have a certain progress.
  *
  * It requires the following values:
- * - the {@link de.uni.mannheim.capitalismx.production.ProductionDepartment} must have introduced some products already.
+ * - the {@link ProductionDepartment} must have introduced some products already.
  * - the total support quality of the {@link de.uni.mannheim.capitalismx.logistic.support.ProductSupport}
  * - the company image score from the {@link de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment}
  * - the job satisfaction score from {@link de.uni.mannheim.capitalismx.hr.department.HRDepartment}

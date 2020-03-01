@@ -1,10 +1,9 @@
 package de.uni.mannheim.capitalismx.sales.contracts;
 
-import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.product.Product;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Locale;
 
 /**
  *

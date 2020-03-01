@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.tutorial.chapter;
 
 import java.util.List;
 
-import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.production.ProduceProductController;
