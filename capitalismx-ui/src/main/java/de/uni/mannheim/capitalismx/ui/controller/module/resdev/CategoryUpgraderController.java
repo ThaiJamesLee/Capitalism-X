@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.production.product.ProductCategory;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.resdev.skills.ProductCategorySkill;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;

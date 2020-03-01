@@ -7,13 +7,13 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
-import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameModule;
 import de.uni.mannheim.capitalismx.ui.component.general.CapXPieChart;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.util.AnchorPaneHelper;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;

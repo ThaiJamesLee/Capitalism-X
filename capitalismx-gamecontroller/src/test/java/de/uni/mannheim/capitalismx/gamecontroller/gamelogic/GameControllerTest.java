@@ -18,6 +18,7 @@ public class GameControllerTest {
 
     @Test(timeOut = 5000, expectedExceptions = {ThreadTimeoutException.class})
     public void nextDayTest() {
+        GameState.getInstance().initiate();
         GameController.getInstance().start();
     }
 
@@ -30,6 +31,6 @@ public class GameControllerTest {
     @AfterTest
     public void cleanUp() {
         LOGGER.info("Clean Up: Destroy GameState Singleton.");
-        GameState.setInstance(null);
+        GameState.setInstance(GameState.createInstance());
     }
 }

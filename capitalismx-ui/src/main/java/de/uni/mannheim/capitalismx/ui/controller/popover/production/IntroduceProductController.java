@@ -13,8 +13,8 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.production.product.Product;
+import de.uni.mannheim.capitalismx.production.product.ProductCategory;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.component.GameViewType;
@@ -33,10 +33,21 @@ import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
 
+/**
+ * The controller for the introduce product fxml.
+ *
+ * @author dzhao
+ * @author jsobbe
+ */
 //TODO internationalize Components
 public class IntroduceProductController implements Initializable {
 
-	public List<Node> getTutorialNodes(){
+    /**
+     * Get tutorial nodes list.
+     *
+     * @return the list
+     */
+    public List<Node> getTutorialNodes(){
 		List<Node> nodes = new ArrayList<Node>();
 		nodes.add(tutorialPane);
 		nodes.add(tvProductNameTextField);
@@ -399,7 +410,8 @@ public class IntroduceProductController implements Initializable {
 		TextFieldHelper.makeTextFieldNumeric(notebookSalesPriceTextField);
 		TextFieldHelper.makeTextFieldNumeric(consoleSalesPriceTextField);
 		TextFieldHelper.makeTextFieldNumeric(phoneSalesPriceTextField);
-    	
+
+		/* Put all buttons and their respective components into a HashMap for each component category*/
         this.tvScreens = new HashMap<>();
         this.tvScreens.put(tvScreenToggleButton0, new Component(ComponentType.T_DISPLAY_LEVEL_1));
         this.tvScreens.put(tvScreenToggleButton1, new Component(ComponentType.T_DISPLAY_LEVEL_2));
@@ -562,6 +574,7 @@ public class IntroduceProductController implements Initializable {
         phoneKeypadsToggleGroup = new ToggleGroup();
 
 
+        /* Set toggle groups for all buttons of the components of a single component category */
         this.tvScreenToggleButton0.setToggleGroup(tvScreensToggleGroup);
         this.tvScreenToggleButton1.setToggleGroup(tvScreensToggleGroup);
         this.tvScreenToggleButton2.setToggleGroup(tvScreensToggleGroup);
@@ -682,6 +695,7 @@ public class IntroduceProductController implements Initializable {
         this.phoneKeypadToggleButton0.setToggleGroup(phoneKeypadsToggleGroup);
         this.phoneKeypadToggleButton1.setToggleGroup(phoneKeypadsToggleGroup);
 
+        /* Select the button for the corresponding oldest component of a component category */
         tvScreensToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
             if (newVal == null)
                 oldVal.setSelected(true);
@@ -763,6 +777,7 @@ public class IntroduceProductController implements Initializable {
                 oldVal.setSelected(true);
         });
 
+        /* add all maps of buttons and respective component to a single list*/
         this.allComponents = new ArrayList<>();
         this.allComponents.add(tvScreens);
         this.allComponents.add(tvAudios);
@@ -808,13 +823,17 @@ public class IntroduceProductController implements Initializable {
         */
     }
 
+    /**
+     * Update component buttons.
+     * Set them to enabled if they are available according to the game date.
+     */
     public void updateButtons() {
         LocalDate gameDate = GameState.getInstance().getGameDate();
 
-        for(Map<ToggleButton, Component> componentMap : this.allComponents) {
-            for(Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
+        for (Map<ToggleButton, Component> componentMap : this.allComponents) {
+            for (Map.Entry<ToggleButton, Component> componentEntry : componentMap.entrySet()) {
                 componentEntry.getKey().setText(componentEntry.getValue().getComponentName(UIManager.getInstance().getLanguage()));
-                if(!componentEntry.getValue().isAvailable(gameDate)) { // || ResearchAndDevelopmentDepartment.getInstance().isComponentUnlocked(componentEntry.getValue())) {
+                if (!componentEntry.getValue().isAvailable(gameDate)) { // || ResearchAndDevelopmentDepartment.getInstance().isComponentUnlocked(componentEntry.getValue())) {
                     componentEntry.getKey().setDisable(true);
                 } else {
                     componentEntry.getKey().setDisable(false);
@@ -822,15 +841,19 @@ public class IntroduceProductController implements Initializable {
             }
         }
 
-        if(gameDate.getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        if (gameDate.getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
             phoneCamerasToggleGroup.selectToggle(phoneCameraToggleButton0);
         }
 
-        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        if (GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
             consoleCamerasToggleGroup.selectToggle(consoleCameraToggleButton0);
         }
     }
 
+    /**
+     * Update suppliers for the components.
+     * Add an option for a cheap, a regular, and a premium supplier when selecting a component. Set the standard supplier to cheap.
+     */
     public void updateSuppliers() {
         LocalDate gameDate = GameState.getInstance().getGameDate();
 
@@ -876,9 +899,9 @@ public class IntroduceProductController implements Initializable {
         this.phonePowersupplyList = FXCollections.observableArrayList();
         this.phoneKeypadList = FXCollections.observableArrayList();
 
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedTvScreen.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -891,9 +914,9 @@ public class IntroduceProductController implements Initializable {
             
             this.tvScreenList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedTvAudio.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -905,9 +928,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.tvAudioList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedTvOS.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -919,9 +942,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.tvOSList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedTvCase.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -933,9 +956,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.tvCaseList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedConsoleCPU.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -947,9 +970,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.consoleCPUList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedConsoleScreen.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -961,9 +984,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.consoleScreenList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedConsolePowersupply.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -975,9 +998,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.consolePowersupplyList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedConsoleConnectivity.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -989,10 +1012,10 @@ public class IntroduceProductController implements Initializable {
             }
             this.consoleConnectivityList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
-            if(gameDate.getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        for (int i=0; i <3; i++) {
+            if (gameDate.getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
                 Component tmpComp = new Component(selectedConsoleCamera.getComponentType());
-                switch(i) {
+                switch (i) {
                     case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                         break;
                     case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1005,9 +1028,9 @@ public class IntroduceProductController implements Initializable {
                 this.consoleCameraList.add(tmpComp);
             }
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookCPU.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1019,9 +1042,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.notebookCPUList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookStorage.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1033,9 +1056,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.notebookStorageList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookScreen.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1047,9 +1070,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.notebookScreenList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookSoftware.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1061,9 +1084,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.notebookSoftwareList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedNotebookPowersupply.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1075,9 +1098,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.notebookPowersupplyList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneCPU.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1089,9 +1112,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.phoneCPUList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneScreen.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1103,8 +1126,8 @@ public class IntroduceProductController implements Initializable {
             }
             this.phoneScreenList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
-            if(gameDate.getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        for (int i=0; i <3; i++) {
+            if (gameDate.getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
                 Component tmpComp = new Component(selectedPhoneCamera.getComponentType());
                 switch (i) {
                     case 0:
@@ -1122,9 +1145,9 @@ public class IntroduceProductController implements Initializable {
                 this.phoneCameraList.add(tmpComp);
             }
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneConnectivity.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1136,9 +1159,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.phoneConnectivityList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhonePowersupply.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1150,9 +1173,9 @@ public class IntroduceProductController implements Initializable {
             }
             this.phonePowersupplyList.add(tmpComp);
         }
-        for(int i=0; i <3; i++) {
+        for (int i=0; i <3; i++) {
             Component tmpComp = new Component(selectedPhoneKeypad.getComponentType());
-            switch(i) {
+            switch (i) {
                 case 0: tmpComp.setSupplierCategory(SupplierCategory.CHEAP, gameDate);
                     break;
                 case 1: tmpComp.setSupplierCategory(SupplierCategory.REGULAR, gameDate);
@@ -1240,7 +1263,7 @@ public class IntroduceProductController implements Initializable {
         this.consoleScreensChoiceBox.setValue(this.consoleScreenList.get(0));
         this.consolePowersuppliesChoiceBox.setValue(this.consolePowersupplyList.get(0));
         this.consoleConnectivitiesChoiceBox.setValue(this.consoleConnectivityList.get(0));
-        if(gameDate.getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        if (gameDate.getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
             this.consoleCamerasChoiceBox.setValue(this.consoleCameraList.get(0));
         }
         this.notebookCPUsChoiceBox.setValue(this.notebookCPUList.get(0));
@@ -1250,7 +1273,7 @@ public class IntroduceProductController implements Initializable {
         this.notebookPowersuppliesChoiceBox.setValue(this.notebookPowersupplyList.get(0));
         this.phoneCPUsChoiceBox.setValue(this.phoneCPUList.get(0));
         this.phoneScreensChoiceBox.setValue(this.phoneScreenList.get(0));
-        if(gameDate.getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        if (gameDate.getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
             this.phoneCamerasChoiceBox.setValue(this.phoneCameraList.get(0));
         }
         this.phoneConnectivitiesChoiceBox.setValue(this.phoneConnectivityList.get(0));
@@ -1258,6 +1281,9 @@ public class IntroduceProductController implements Initializable {
         this.phoneKeypadsChoiceBox.setValue(this.phoneKeypadList.get(0));
     }
 
+    /**
+     * Launch tv.
+     */
     public void launchTv() {
         List<Component> components = new ArrayList<>();
         components.add(this.tvScreensChoiceBox.getValue());
@@ -1265,13 +1291,13 @@ public class IntroduceProductController implements Initializable {
         components.add(this.tvCasesChoiceBox.getValue());
         components.add(this.tvOSsChoiceBox.getValue());
         String productName = this.tvProductNameTextField.getText();
-        if(productName.equals("")) {
+        if (productName.equals("")) {
             productName = "capTV";
         }
         try {
             this.tv = new Product(productName, ProductCategory.TELEVISION, components);
             double salesPrice = 0;
-            if(this.tvSalesPriceTextField.getText().equals("")) {
+            if (this.tvSalesPriceTextField.getText().equals("")) {
                 salesPrice = 400;
             } else {
                 salesPrice = Double.valueOf(this.tvSalesPriceTextField.getText());
@@ -1288,17 +1314,20 @@ public class IntroduceProductController implements Initializable {
         ((StockManagementController)UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.tv);
     }
 
+    /**
+     * Launch console.
+     */
     public void launchConsole() {
         List<Component> components = new ArrayList<>();
         components.add(this.consoleCPUsChoiceBox.getValue());
         components.add(this.consoleScreensChoiceBox.getValue());
         components.add(this.consoleConnectivitiesChoiceBox.getValue());
         components.add(this.consolePowersuppliesChoiceBox.getValue());
-        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        if (GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
             components.add(this.consoleCamerasChoiceBox.getValue());
         }
         String productName = this.consoleSalesPriceTextField.getText();
-        if(productName.equals("")) {
+        if (productName.equals("")) {
             productName = "capConsole";
         }
         try {
@@ -1321,6 +1350,9 @@ public class IntroduceProductController implements Initializable {
         ((StockManagementController)UIManager.getInstance().getGameView(GameViewType.WAREHOUSE).getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.console);
     }
 
+    /**
+     * Launch notebook.
+     */
     public void launchNotebook() {
         List<Component> components = new ArrayList<>();
         components.add(this.notebookCPUsChoiceBox.getValue());
@@ -1329,7 +1361,7 @@ public class IntroduceProductController implements Initializable {
         components.add(this.notebookSoftwaresChoiceBox.getValue());
         components.add(this.notebookPowersuppliesChoiceBox.getValue());
         String productName = this.notebookSalesPriceTextField.getText();
-        if(productName.equals("")) {
+        if (productName.equals("")) {
             productName = "capBook";
         }
         try {
@@ -1352,24 +1384,27 @@ public class IntroduceProductController implements Initializable {
         ((StockManagementController)UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.notebook);
     }
 
+    /**
+     * Launch phone.
+     */
     public void launchPhone() {
         List<Component> components = new ArrayList<>();
         components.add(this.phoneCPUsChoiceBox.getValue());
         components.add(this.phoneScreensChoiceBox.getValue());
         components.add(this.phoneConnectivitiesChoiceBox.getValue());
         components.add(this.phonePowersuppliesChoiceBox.getValue());
-        if(GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
+        if (GameState.getInstance().getGameDate().getYear() >= ComponentType.P_CAMERA_LEVEL_1.getAvailabilityDate()) {
             components.add(this.phoneCamerasChoiceBox.getValue());
         }
         components.add(this.phoneKeypadsChoiceBox.getValue());
         String productName = this.phoneSalesPriceTextField.getText();
-        if(productName.equals("")) {
+        if (productName.equals("")) {
             productName = "capPhone";
         }
         try {
             this.phone = new Product(productName, ProductCategory.PHONE, components);
             double salesPrice = 0;
-            if(this.phoneSalesPriceTextField.getText().equals("")) {
+            if (this.phoneSalesPriceTextField.getText().equals("")) {
                 salesPrice = 700;
             } else {
                 salesPrice = Double.valueOf(this.phoneSalesPriceTextField.getText());
@@ -1386,8 +1421,11 @@ public class IntroduceProductController implements Initializable {
         ((StockManagementController)UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController()).updateUnitStock(this.phone);
     }
 
-    
-    //TODO Refactoring für Lokalisierung
+
+    /**
+     * The type Component string converter.
+     */
+//TODO Refactoring für Lokalisierung
     class ComponentStringConverter extends StringConverter<Component> {
 
         @Override
@@ -1402,16 +1440,4 @@ public class IntroduceProductController implements Initializable {
             return null;
         }
     }
-
-
-    /*
-    class SupplierListViewCell extends ChoiceBoxListCell<Component> {
-
-        public void updateItem(Component component, boolean empty) {
-            super.updateItem(component, empty);
-            DecimalFormat decimalFormat = new DecimalFormat("$###,###.##");
-            setText(component.getSupplierCategory() + decimalFormat.format(component.calculateBaseCost(GameState.getInstance().getGameDate())));
-        }
-    }
-    */
 }

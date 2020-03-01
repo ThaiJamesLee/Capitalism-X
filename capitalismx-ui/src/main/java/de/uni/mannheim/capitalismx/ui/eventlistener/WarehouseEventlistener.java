@@ -10,7 +10,7 @@ import de.uni.mannheim.capitalismx.ui.component.GameView;
 import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseStatisticsController;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import javafx.application.Platform;
 
 /**

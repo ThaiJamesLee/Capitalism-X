@@ -11,6 +11,8 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.module.logistics.TruckFleetController;
+import de.uni.mannheim.capitalismx.ui.eventlistener.FinanceEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.LogisticsEventListener;
 import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -106,6 +108,7 @@ public class TruckDetailListViewCell extends ListCell<Truck> {
 						controller.buyTruck(truck, GameState.getInstance().getGameDate());
 						TruckFleetController uiController = (TruckFleetController) UIManager.getInstance()
 								.getModule(GameModuleType.LOGISTICS_TRUCK_FLEET_OVERVIEW).getController();
+						truck.registerPropertyChangeListener(new LogisticsEventListener(truck));
 						uiController.addTruck(truck);
 						truckDetailListView.getSelectionModel().clearSelection();
 					} catch (NotEnoughTruckCapacityException ex) {

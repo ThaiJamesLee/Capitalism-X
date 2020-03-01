@@ -1,7 +1,6 @@
 package de.uni.mannheim.capitalismx.customer;
 
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import de.uni.mannheim.capitalismx.production.product.Product;
 
 import java.io.Serializable;
 import java.time.LocalDate;

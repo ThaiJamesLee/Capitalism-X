@@ -2,11 +2,11 @@ package de.uni.mannheim.capitalismx.ui.component.production;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.production.exceptions.ComponenLockedException;
+import de.uni.mannheim.capitalismx.production.exceptions.ComponentLockedException;
 import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughComponentsException;
 import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughFreeStorageException;
 import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughMachineCapacityException;
-import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.util.TextFieldHelper;
@@ -104,7 +104,7 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
 					error.setContentText(exceptionMessage + "\nDo you want to produce "
 							+ exception.getMaxmimumProducable() + " unit(s) instead?");
 					newQuantity = exception.getMaxmimumProducable();
-				} else if (e instanceof ComponenLockedException){
+				} else if (e instanceof ComponentLockedException){
 					error.setContentText(e.getMessage());
 				}
 				else {

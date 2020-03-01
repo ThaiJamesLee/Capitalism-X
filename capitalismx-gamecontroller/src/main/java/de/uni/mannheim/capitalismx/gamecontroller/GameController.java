@@ -3,15 +3,24 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 import java.time.LocalDate;
 import java.util.*;
 
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.finance.finance.Loan;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportPartnerException;
 import de.uni.mannheim.capitalismx.procurement.component.*;
-import de.uni.mannheim.capitalismx.production.*;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.department.ProductionTechnology;
 import de.uni.mannheim.capitalismx.production.exceptions.*;
+import de.uni.mannheim.capitalismx.production.investment.ProductionInvestment;
+import de.uni.mannheim.capitalismx.production.investment.ProductionInvestmentLevel;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
+import de.uni.mannheim.capitalismx.production.product.Product;
+import de.uni.mannheim.capitalismx.production.product.ProductCategory;
 import de.uni.mannheim.capitalismx.warehouse.*;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.NoWarehouseSlotsAvailableException;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.StorageCapacityUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +31,6 @@ import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
 import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents;
-import de.uni.mannheim.capitalismx.gamecontroller.external_events.ExternalEvents.ExternalEvent;
 import de.uni.mannheim.capitalismx.gamecontroller.gamesave.SaveGameHandler;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
@@ -44,8 +52,6 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
-
-import javax.swing.*;
 
 /**
  * This class is the entry point for the UI.
@@ -782,41 +788,41 @@ public class GameController {
 	}
 
 	public List<ComponentType> getAllAvailableComponents() {
-		return ProductionDepartment.getInstance().getAllAvailableComponents(GameState.getInstance().getGameDate());
+		return GameState.getInstance().getProductionDepartment().getAllAvailableComponents(GameState.getInstance().getGameDate());
 	}
 
 	public List<ComponentType> getAvailableComponentsOfComponentCategory(ComponentCategory componentCategory) {
-		return ProductionDepartment.getInstance()
+		return GameState.getInstance().getProductionDepartment()
 				.getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
 	}
 
 
     public double buyComponents(Component component, int quantity) {
-		return ProcurementDepartment.getInstance().buyComponents(GameState.getInstance().getGameDate(), component, quantity, getFreeStorage());
+		return GameState.getInstance().getProcurementDepartment().buyComponents(GameState.getInstance().getGameDate(), component, quantity, getFreeStorage());
     }
 	
 	public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
-		return ProcurementDepartment.getInstance().buyComponents(gameDate, component, quantity, freeStorage);
+		return GameState.getInstance().getProcurementDepartment().buyComponents(gameDate, component, quantity, freeStorage);
 	}
 
 	public void receiveComponents() {
-		ProcurementDepartment.getInstance().receiveComponents(GameState.getInstance().getGameDate());
+		GameState.getInstance().getProcurementDepartment().receiveComponents(GameState.getInstance().getGameDate());
 	}
 
 	public Map<Component, Integer> getReceivedComponents() {
-		return ProcurementDepartment.getInstance().getReceivedComponents();
+		return GameState.getInstance().getProcurementDepartment().getReceivedComponents();
 	}
 
 	public List<ComponentOrder> getComponentOrders() {
-		return ProcurementDepartment.getInstance().getComponentOrders();
+		return GameState.getInstance().getProcurementDepartment().getComponentOrders();
 	}
 
 	public int getQuantityOfOrderedComponents() {
-		return ProcurementDepartment.getInstance().getQuantityOfOrderedComponents();
+		return GameState.getInstance().getProcurementDepartment().getQuantityOfOrderedComponents();
 	}
 
 	public void clearReceivedComponents() {
-		ProcurementDepartment.getInstance().clearReceivedComponents();
+		GameState.getInstance().getProcurementDepartment().clearReceivedComponents();
 	}
 
 
@@ -844,8 +850,8 @@ public class GameController {
 		return GameState.getInstance().getProductionDepartment().getProductionTechnology();
 	}
 
-	public ProductionInvestment getResearchAndDevelopment() {
-		return GameState.getInstance().getProductionDepartment().getResearchAndDevelopment();
+	public ProductionInvestment getQualityAssurance() {
+		return GameState.getInstance().getProductionDepartment().getQualityAssurance();
 	}
 
 	public ProductionInvestment getProcessAutomation() {
@@ -903,7 +909,7 @@ public class GameController {
 
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
 		try {
-			double purchasePrice = ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+			double purchasePrice = GameState.getInstance().getProductionDepartment().buyMachinery(machinery, gameDate);
 			GameState.getInstance().getFinanceDepartment().buyMachinery(machinery, gameDate);
 			return purchasePrice;
 		} catch (NoMachinerySlotsAvailableException e) {
@@ -912,7 +918,7 @@ public class GameController {
 	}
 
 	public double sellMachinery(Machinery machinery, LocalDate gameDate) {
-		double resellPrice = ProductionDepartment.getInstance().sellMachinery(machinery);
+		double resellPrice = GameState.getInstance().getProductionDepartment().sellMachinery(machinery);
 		GameState.getInstance().getFinanceDepartment().sellMachinery(machinery, gameDate);
 		return resellPrice;
 	}
@@ -926,8 +932,8 @@ public class GameController {
 				GameState.getInstance().getGameDate());
 	}
 
-	public double updateMachinery(Machinery machinery) {
-		return ProductionDepartment.getInstance().upgradeMachinery(machinery, GameState.getInstance().getGameDate());
+	public double upgradeMachinery(Machinery machinery) {
+		return GameState.getInstance().getProductionDepartment().upgradeMachinery(machinery, GameState.getInstance().getGameDate());
 	}
 
 	public ProductionTechnology getMachineryProductionTechnology(Machinery machinery) {
@@ -988,7 +994,7 @@ public class GameController {
 		}
 	}
 
-	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException, ComponenLockedException {
+	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException, ComponentLockedException {
 		try {
 		    ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
 		    boolean allComponentsUnlocked = true;
@@ -997,8 +1003,8 @@ public class GameController {
 		            allComponentsUnlocked = false;
                 }
             }
-			return ProductionDepartment.getInstance().produceProduct(product, quantity,
-					WarehousingDepartment.getInstance().calculateFreeStorage(), allComponentsUnlocked);
+			return GameState.getInstance().getProductionDepartment().produceProduct(product, quantity,
+					GameState.getInstance().getWarehousingDepartment().calculateFreeStorage(), allComponentsUnlocked);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -1057,24 +1063,28 @@ public class GameController {
 	}
 
 	/* production investment game mechanics */
-	public double investInSystemSecurity(int level, LocalDate gameDate) {
-		return GameState.getInstance().getProductionDepartment().investInSystemSecurity(level, gameDate);
+	public double getProductionInvestmentPrice(ProductionInvestmentLevel productionInvestmentLevel) {
+		return GameState.getInstance().getProductionDepartment().getProductionInvestmentPrice(productionInvestmentLevel);
 	}
 
-	public double investInResearchAndDevelopment(int level, LocalDate gameDate) {
-		return GameState.getInstance().getProductionDepartment().investInResearchAndDevelopment(level, gameDate);
+	public double investInSystemSecurity(int level) {
+		return GameState.getInstance().getProductionDepartment().investInSystemSecurity(level, GameState.getInstance().getGameDate());
 	}
 
-	public double investInProcessAutomation(int level, LocalDate gameDate) {
-		return GameState.getInstance().getProductionDepartment().investInProcessAutomation(level, gameDate);
+	public double investInQualityAssurance(int level) {
+		return GameState.getInstance().getProductionDepartment().investInQualityAssurance(level, GameState.getInstance().getGameDate());
+	}
+
+	public double investInProcessAutomation(int level) {
+		return GameState.getInstance().getProductionDepartment().investInProcessAutomation(level, GameState.getInstance().getGameDate());
 	}
 
 	public LocalDate getLastInvestmentDateSystemSecurity() {
 		return GameState.getInstance().getProductionDepartment().getSystemSecurity().getLastInvestmentDate();
 	}
 
-	public LocalDate getLastInvestmentDateResearchAndDevelopment() {
-		return GameState.getInstance().getProductionDepartment().getResearchAndDevelopment().getLastInvestmentDate();
+	public LocalDate getLastInvestmentDateQualityAssurance() {
+		return GameState.getInstance().getProductionDepartment().getQualityAssurance().getLastInvestmentDate();
 	}
 
 	public LocalDate getLastInvestmentDateProcessAutomation() {
@@ -1085,8 +1095,8 @@ public class GameController {
 		return GameState.getInstance().getProductionDepartment().getSystemSecurity().getLevel();
 	}
 
-	public int getResearchAndDevelopmentLevel() {
-		return GameState.getInstance().getProductionDepartment().getResearchAndDevelopment().getLevel();
+	public int getQualityAssuranceLevel() {
+		return GameState.getInstance().getProductionDepartment().getQualityAssurance().getLevel();
 	}
 
 	public int getProcessAutomationLevel() {
@@ -1099,10 +1109,6 @@ public class GameController {
 
 	/* warehousing getter and game mechanic */
 	// TODO SALE OF PRODUCTS
-	/*
-	 * public double sellProducts() { return
-	 * Warehousing.getInstance().sellProducts() }
-	 */
 
 	public int getWarehouseSlots() {
 		return GameState.getInstance().getWarehousingDepartment().getWarehouseSlots();
@@ -1146,6 +1152,14 @@ public class GameController {
 
 	public double getMonthlyTotalWarehousingCost() {
 		return GameState.getInstance().getWarehousingDepartment().getMonthlyTotalCostWarehousing();
+	}
+
+	public double sellWarehouseProducts(Unit unit, int quantity) {
+		return GameState.getInstance().getWarehousingDepartment().sellWarehouseProducts(unit, quantity);
+	}
+
+	public double sellWarehouseComponents(Unit unit, int quantity) {
+		return GameState.getInstance().getWarehousingDepartment().sellWarehouseComponents(unit, quantity);
 	}
 
 	/* warehouse game mechanics */

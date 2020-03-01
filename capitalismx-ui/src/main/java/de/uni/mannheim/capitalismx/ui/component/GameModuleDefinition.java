@@ -24,8 +24,9 @@ public enum GameModuleDefinition {
 	LOGISTICS_SUPPORT_TYPES("product_support_overview.fxml", GameModuleType.LOGISTICS_SUPPORT_TYPE_OVERVIEW, new GridPosition(10, 8, 9, 11), true),
 
 	// The modules for Production.
-	PRODUCTION_MACHINERY_LIST("machinery_list.fxml",  GameModuleType.PRODUCTION_MACHINERY_OVERVIEW, new GridPosition(14, 6, 0, 10), true),
-	PRODUCTION_PRODUCE_PRODUCT_MENU("produce_product_menu.fxml",  GameModuleType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(0, 14, 0, 15), true),
+	PRODUCTION_MACHINERY_LIST("machinery_list.fxml",  GameModuleType.PRODUCTION_MACHINERY_OVERVIEW, new GridPosition(10, 10, 0, 10), true),
+	PRODUCTION_PRODUCE_PRODUCT_MENU("produce_product_menu.fxml",  GameModuleType.PRODUCTION_PRODUCE_PRODUCT, new GridPosition(0, 10, 0, 15), true),
+	PRODUCTION_INVESTMENTS_MENU("production_investments_menu.fxml", GameModuleType.PODUCTION_INVESTMENT_MENU, new GridPosition(10, 10, 10, 5), true),
 
 	// The modules for the warehouse.
 	WAREHOUSE_STOCK_MANAGEMENT("stock_management.fxml",  GameModuleType.WAREHOUSE_STOCK_MANAGEMENT, new GridPosition(10, 10, 0, 20), false),

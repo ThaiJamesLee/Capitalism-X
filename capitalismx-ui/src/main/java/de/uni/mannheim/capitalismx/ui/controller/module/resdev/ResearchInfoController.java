@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ResearchInfoController implements Initializable {
-    final int insertRow = 0;
+    final int insertRow = 1;
     @FXML
     Label yearTV;
 
@@ -147,7 +147,7 @@ public class ResearchInfoController implements Initializable {
         if(list.length > 0){
             for(int i = 0; i < list.length; i++){
                 for(ComponentType ct : list[i]){
-                    if(ct.getAvailabilityDate() <= Integer.parseInt(yearSave.getText())){
+                    if(ct.getAvailabilityDate() == Integer.parseInt(yearSave.getText())){
                         gridSave.add(new Label(ct.getComponentName()), i+1, insertRow);
                     }
                 }
@@ -161,16 +161,35 @@ public class ResearchInfoController implements Initializable {
     }
 
     public void removeInfoLabels(GridPane gridPane) {
-        System.out.println("Removed");
         ObservableList<Node> childrens = gridPane.getChildren();
         Iterator<Node> i = childrens.iterator();
         while(i.hasNext()){
             Node node = i.next();
+            if(node instanceof Label){
+                //try {
+                    if (gridPane.getColumnIndex(node) > 0) {
+                        if (gridPane.getRowIndex(node) == null) {
+
+                        } else if(gridPane.getRowIndex(node) == insertRow){
+                            i.remove();
+                        }
+                    }
+                /*
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+
+                 */
+            }
+            /*
             if(node instanceof Label && gridPane.getColumnIndex(node) > 0 && gridPane.getRowIndex(node) == insertRow) {
+
                 i.remove();
                 //Label imageView = (Label) node; // use what you want to remove
                 //gridPane.getChildren().remove(imageView);
             }
+
+             */
         }
         /*
         for(Node node : childrens) {
@@ -186,6 +205,9 @@ public class ResearchInfoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        updateInfo('t');
+        updateInfo('c');
+        updateInfo('n');
+        updateInfo('p');
     }
 }

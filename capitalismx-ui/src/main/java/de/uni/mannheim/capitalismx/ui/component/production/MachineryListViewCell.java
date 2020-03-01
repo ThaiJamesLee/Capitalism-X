@@ -2,7 +2,7 @@ package de.uni.mannheim.capitalismx.ui.component.production;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +26,19 @@ public class MachineryListViewCell extends ListCell<Machinery> {
     private Label dateLabel;
 
     @FXML
+    private Label capacityLabel;
+
+    @FXML
+    private Label productionTechnologyLabel;
+
+    @FXML
     private GridPane gridPane;
+
+    @FXML
+    private Button maintainAndRepairButton;
+
+    @FXML
+    private Button upgradeButton;
 
     @FXML
     private Button sellButton;
@@ -61,11 +73,21 @@ public class MachineryListViewCell extends ListCell<Machinery> {
             GameController controller = GameController.getInstance();
             //TODO
             //indexLabel.setText(controller.getMachines().indexOf(machinery) + "");
-            valueLabel.setText(machinery.calculateResellPrice() + " CC");
-            dateLabel.setText(machinery.getPurchaseDate() + "");
+            this.updateLabels(machinery);
             sellButton.setOnAction(e -> {
                 controller.sellMachinery(machinery, GameState.getInstance().getGameDate());
                 this.machineryListView.getItems().remove(machinery);
+            });
+            maintainAndRepairButton.setOnAction(e -> {
+                controller.maintainAndRepairMachinery(machinery);
+                this.updateLabels(machinery);
+            });
+            upgradeButton.setOnAction(e -> {
+                controller.upgradeMachinery(machinery);
+                this.updateLabels(machinery);
+                if (!machinery.isUpgradeable()) {
+                    this.upgradeButton.setDisable(true);
+                }
             });
 
             setText(null);
@@ -73,4 +95,10 @@ public class MachineryListViewCell extends ListCell<Machinery> {
         }
     }
 
+    public void updateLabels(Machinery machinery) {
+        valueLabel.setText(machinery.calculateResellPrice() + " CC");
+        dateLabel.setText(machinery.getPurchaseDate() + "");
+        capacityLabel.setText(machinery.getMachineryCapacity() + " Capacity");
+        productionTechnologyLabel.setText(machinery.getProductionTechnology().toString());
+    }
 }

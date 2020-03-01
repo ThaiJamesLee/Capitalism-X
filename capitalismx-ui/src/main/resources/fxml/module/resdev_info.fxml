@@ -14,13 +14,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.resdev.ResearchInfoController">
    <children>
-      <TabPane tabClosingPolicy="UNAVAILABLE">
+      <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <tabs>
           <Tab text="%resdev.category.tv">
             <content>
               <AnchorPane>
                      <children>
-                        <GridPane fx:id="tvGrid">
+                        <GridPane fx:id="tvGrid" hgap="10.0">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
@@ -32,10 +32,11 @@
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                           </columnConstraints>
                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <VBox alignment="CENTER">
+                              <VBox alignment="CENTER" GridPane.rowIndex="1">
                                  <children>
                                     <Polygon fill="#020307" onMouseClicked="#tvUp" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
                                        <VBox.margin>
@@ -51,6 +52,10 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
+                              <Label alignment="CENTER" text="%resdev.component.screen" GridPane.columnIndex="1" />
+                              <Label alignment="CENTER" text="%resdev.component.audio" GridPane.columnIndex="2" />
+                              <Label alignment="CENTER" text="%resdev.component.os" GridPane.columnIndex="3" />
+                              <Label alignment="CENTER" text="%resdev.component.case" GridPane.columnIndex="4" />
                            </children>
                         </GridPane>
                      </children>
@@ -61,7 +66,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GridPane fx:id="consoleGrid">
+                        <GridPane fx:id="consoleGrid" hgap="10.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
@@ -73,10 +78,11 @@
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <VBox alignment="CENTER">
+                              <VBox alignment="CENTER" GridPane.rowIndex="1">
                                  <children>
                                     <Polygon fill="#020307" onMouseClicked="#consoleUp" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
                                        <VBox.margin>
@@ -92,6 +98,11 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
+                              <Label alignment="CENTER" text="%resdev.component.cpu" GridPane.columnIndex="1" />
+                              <Label alignment="CENTER" text="%resdev.component.screen" GridPane.columnIndex="2" />
+                              <Label alignment="CENTER" text="%resdev.component.power" GridPane.columnIndex="3" />
+                              <Label alignment="CENTER" text="%resdev.component.connect" GridPane.columnIndex="4" />
+                              <Label alignment="CENTER" text="%resdev.component.camera" GridPane.columnIndex="5" />
                            </children>
                         </GridPane>
                      </children>
@@ -102,7 +113,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GridPane fx:id="notebookGrid">
+                        <GridPane fx:id="notebookGrid" hgap="10.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
@@ -114,10 +125,11 @@
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <VBox alignment="CENTER">
+                              <VBox alignment="CENTER" GridPane.rowIndex="1">
                                  <children>
                                     <Polygon fill="#020307" onMouseClicked="#notebookUp" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
                                        <VBox.margin>
@@ -133,6 +145,11 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
+                              <Label alignment="CENTER" text="%resdev.component.cpu" GridPane.columnIndex="1" />
+                              <Label alignment="CENTER" text="%resdev.component.storage" GridPane.columnIndex="2" />
+                              <Label alignment="CENTER" text="%resdev.component.screen" GridPane.columnIndex="3" />
+                              <Label alignment="CENTER" text="%resdev.component.software" GridPane.columnIndex="4" />
+                              <Label alignment="CENTER" text="%resdev.component.power" GridPane.columnIndex="5" />
                            </children>
                         </GridPane>
                      </children>
@@ -143,7 +160,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GridPane fx:id="phoneGrid">
+                        <GridPane fx:id="phoneGrid" hgap="10.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
@@ -155,10 +172,11 @@
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <VBox alignment="CENTER">
+                              <VBox alignment="CENTER" GridPane.rowIndex="1">
                                  <children>
                                     <Polygon fill="#020307" onMouseClicked="#phoneUp" points="-7.5, 40.0, 7.5, 40.0, 0.0, 34.5" scaleX="2.0" scaleY="2.0" stroke="#020307" strokeType="INSIDE">
                                        <VBox.margin>
@@ -174,6 +192,12 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
+                              <Label alignment="CENTER" text="%resdev.component.cpu" GridPane.columnIndex="1" />
+                              <Label alignment="CENTER" text="%resdev.component.screen" GridPane.columnIndex="2" />
+                              <Label alignment="CENTER" text="%resdev.component.camera" GridPane.columnIndex="3" />
+                              <Label alignment="CENTER" text="%resdev.component.connect" GridPane.columnIndex="4" />
+                              <Label alignment="CENTER" text="%resdev.component.power" GridPane.columnIndex="5" />
+                              <Label alignment="CENTER" text="%resdev.component.keypad" GridPane.columnIndex="6" />
                            </children>
                         </GridPane>
                      </children>

@@ -2,21 +2,14 @@ package de.uni.mannheim.capitalismx.ui.controller.gamepage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameModule;
 import de.uni.mannheim.capitalismx.ui.component.GameView;
 import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.message.MessageController;
-import de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController;
 import de.uni.mannheim.capitalismx.ui.util.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.util.CssHelper;
 import de.uni.mannheim.capitalismx.ui.util.GridPosition;

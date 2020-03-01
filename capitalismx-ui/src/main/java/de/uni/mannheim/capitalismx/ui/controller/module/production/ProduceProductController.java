@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.product.Product;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.production.LaunchedProductsListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;

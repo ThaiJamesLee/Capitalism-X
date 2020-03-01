@@ -1,7 +1,7 @@
 package de.uni.mannheim.capitalismx.sales.contracts;
 
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.product.Product;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 import de.uni.mannheim.capitalismx.utils.data.Range;
 import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
 

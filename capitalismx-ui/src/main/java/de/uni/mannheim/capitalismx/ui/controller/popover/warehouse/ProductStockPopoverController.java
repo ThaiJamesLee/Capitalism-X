@@ -8,7 +8,7 @@ import org.controlsfx.control.PopOver;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
-import de.uni.mannheim.capitalismx.production.Product;
+import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
@@ -123,7 +123,8 @@ public class ProductStockPopoverController implements Initializable {
 	 * @param amount The amount of {@link Product}s to sell.
 	 */
 	private void sellProducts(int amount) {
-		GameState.getInstance().getWarehousingDepartment().sellWarehouseProducts(product, amount); // TODO check amount?
+		double payout = GameState.getInstance().getWarehousingDepartment().sellWarehouseProducts(product, amount); // TODO check amount?
+		GameState.getInstance().getFinanceDepartment().increaseCash(GameState.getInstance().getGameDate(), payout);
 		reset();
 	}
 

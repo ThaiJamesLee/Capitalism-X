@@ -9,7 +9,7 @@ import de.uni.mannheim.capitalismx.ui.component.GameModule;
 import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
-import de.uni.mannheim.capitalismx.warehouse.StorageCapacityUsedException;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.StorageCapacityUsedException;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
 import javafx.fxml.FXML;

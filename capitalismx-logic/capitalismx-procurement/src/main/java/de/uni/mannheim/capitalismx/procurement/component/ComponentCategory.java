@@ -2,6 +2,12 @@ package de.uni.mannheim.capitalismx.procurement.component;
 
 import java.io.Serializable;
 
+/**
+ * The enum component category.
+ * It includes information about the product and the component itself.
+ *
+ * @author dzhao
+ */
 public enum ComponentCategory implements Serializable {
 
     DUMMY("Dummy Category"),
@@ -32,10 +38,16 @@ public enum ComponentCategory implements Serializable {
 
     private String category;
 
+    /**
+     * Instantiates a component category with a string that represents the category.
+     *
+     * @param category
+     */
     ComponentCategory(String category) {
         this.category = category;
     }
 
+    @Override
     public String toString() {
         return this.category;
     }

@@ -7,9 +7,9 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.production.Machinery;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailableException;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.component.production.MachineryListViewCell;
@@ -20,8 +20,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
+/**
+ * The controller for the machinery list
+ */
 public class MachineryListController implements UpdateableController {
 
+    /**
+     * The Machinery list view.
+     */
     @FXML
     ListView<Machinery> machineryListView;
 
@@ -31,9 +37,7 @@ public class MachineryListController implements UpdateableController {
 
     @Override
     public void update() {
-        ProductionDepartment productionDepartment = GameState.getInstance().getProductionDepartment();
-
-        List<Machinery> machinery = productionDepartment.getMachines();
+        List<Machinery> machinery = GameController.getInstance().getMachines();
         machineryListView.setItems(FXCollections.observableList(machinery));
     }
 

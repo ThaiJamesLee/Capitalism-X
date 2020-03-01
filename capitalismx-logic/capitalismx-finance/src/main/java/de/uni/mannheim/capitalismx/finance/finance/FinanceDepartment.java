@@ -8,8 +8,8 @@ import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
@@ -17,7 +17,7 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
@@ -493,9 +493,12 @@ public class FinanceDepartment extends DepartmentImpl {
     protected double calculateTotalTruckValues(LocalDate gameDate){
         this.totalTruckValues = 0;
         ArrayList<Truck> trucks = InternalFleet.getInstance().getTrucks();
+        double truckValue;
         for(Truck truck : trucks){
-            this.totalTruckValues += this.calculateResellPrice(truck.getPurchasePrice(),
+            truckValue = this.calculateResellPrice(truck.getPurchasePrice(),
                     truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
+            truck.setResellPrice(truckValue);
+            this.totalTruckValues += truckValue;
         }
         return this.totalTruckValues;
     }
