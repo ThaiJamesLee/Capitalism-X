@@ -2,6 +2,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
+import de.uni.mannheim.capitalismx.procurement.component.Unit;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -11,6 +12,7 @@ import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -87,7 +89,7 @@ public class SalesContractController implements Initializable {
         if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0){
             int index = availableContractsList.getSelectionModel().getSelectedIndex();
             SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
-            GameState.getInstance().getWarehousingDepartment().getInventory();
+            Map<Unit, Integer> map = GameState.getInstance().getWarehousingDepartment().getInventory();
 
             GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), salesDep.getAvailableContracts().get(index).getRevenue());
             salesDep.contractDone(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());

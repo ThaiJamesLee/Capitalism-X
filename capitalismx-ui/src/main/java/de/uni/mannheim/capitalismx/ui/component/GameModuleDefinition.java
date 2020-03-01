@@ -50,8 +50,8 @@ public enum GameModuleDefinition {
 	RESDEV_COMPONENT_INFO("resdev_info.fxml", GameModuleType.RESDEV_COMPONENT_INFO, new GridPosition(1,14,3,3), true),
 
     // The modules for Sales
-    SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(1, 15, 7, 15) , true),
-	SALES_KPI_OVERVIEW("sales_kpi.fxml", GameModuleType.SALES_KPI_OVERVIEW, new GridPosition(1, 14, 1, 5), true);
+    SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(1, 15, 10, 15) , true),
+	SALES_KPI_OVERVIEW("sales_kpi.fxml", GameModuleType.SALES_KPI_OVERVIEW, new GridPosition(1, 14, 1, 8), true);
 	;
 
 	// The name of the fxml-file defining this type.
