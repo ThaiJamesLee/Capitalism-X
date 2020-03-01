@@ -48,6 +48,7 @@ public class ProductionDepartment extends DepartmentImpl {
     private ProductionInvestment processAutomation;
     private double totalEngineerQualityOfWork;
     private double totalEngineerProductivity;
+    private double initialTotalEngineerQualityOfWork;
     private ProductionInvestment systemSecurity;
     private double productionVariableCosts;
     private double productionFixCosts;
@@ -146,6 +147,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.totalWarehouseCapacity = 0;
         this.decreasedProcessAutomationLevel = 0;
         this.totalEngineerQualityOfWorkDecreasePercentage = 0;
+        this.initialTotalEngineerQualityOfWork = 0;
 
         this.launchedProductsChange = new PropertyChangeSupportList<>();
         this.launchedProductsChange.setList(this.launchedProducts);
@@ -778,8 +780,7 @@ public class ProductionDepartment extends DepartmentImpl {
      * @return the double
      */
     public double calculateTotalEngineerQualityOfWork() {
-        /* TODO placeholder for the quality of work of the engineering team*/
-        this.totalEngineerQualityOfWork = 0.7 * (1 - this.totalEngineerQualityOfWorkDecreasePercentage);
+        this.totalEngineerQualityOfWork = this.initialTotalEngineerQualityOfWork * (1 - this.totalEngineerQualityOfWorkDecreasePercentage);
         return this.totalEngineerQualityOfWork;
     }
 
@@ -1234,6 +1235,15 @@ public class ProductionDepartment extends DepartmentImpl {
      */
     public double getAverageProductBaseQuality() {
         return this.averageProductBaseQuality;
+    }
+
+    /**
+     * Sets the initial total engineer quality of work.
+     *
+     * @param initialTotalEngineerQualityOfWork the initial total engineer quality of work
+     */
+    public void setInitialTotalEngineerQualityOfWork(double initialTotalEngineerQualityOfWork) {
+        this.initialTotalEngineerQualityOfWork = initialTotalEngineerQualityOfWork;
     }
 
     /**

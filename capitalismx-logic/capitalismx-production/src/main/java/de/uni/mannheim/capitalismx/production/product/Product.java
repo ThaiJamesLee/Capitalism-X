@@ -147,7 +147,8 @@ public class Product extends Unit implements Serializable {
 
     /**
      * Calculates the total product quality.
-     * It is affected by the productionTechnologyFactor, totalEngineerProductivity, and qualityAssuranceFactor
+     * It is affected by the productionTechnologyFactor, totalEngineerProductivity, and qualityAssuranceFactor.
+     * Based on the report of the predecessor group.
      *
      * @param productionTechnologyFactor   the production technology factor of the production department
      * @param totalEngineerProductivity    the total engineer productivity
