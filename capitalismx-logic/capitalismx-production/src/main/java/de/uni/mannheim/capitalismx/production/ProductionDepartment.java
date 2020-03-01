@@ -377,6 +377,14 @@ public class ProductionDepartment extends DepartmentImpl {
         return 0;
     }
 
+    public void removeSoldComponents(Component component, int quantity) {
+        for (HashMap.Entry<Component, Integer> c : this.storedComponents.entrySet()) {
+            if (c.getKey().getComponentCategory() == component.getComponentCategory() && c.getKey().getSupplierCategory() == component.getSupplierCategory()) {
+                this.storedComponents.put(c.getKey(), c.getValue() - quantity);
+            }
+        }
+    }
+
     public double getAmountInProduction(Product product) {
         return this.numberProducedProducts.get(product);
     }
@@ -611,7 +619,7 @@ public class ProductionDepartment extends DepartmentImpl {
     /* TODO used processAutomationFactor as processAutomation is on a Likert scale from 1 to 5*/
     /**
      * Needed for {@link}ExternalEvent "ComputerVirusAttack" and its  reversing press release
-      * @param decrease
+      * @param increase
      */
     public void increaseProcessAutomationRel(double increase) {
         int levelIncrease = (int) Math.round(this.processAutomation.getLevel() * increase);

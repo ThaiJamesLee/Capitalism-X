@@ -385,6 +385,7 @@ public class WarehousingDepartment extends DepartmentImpl {
                 if(componentEntry.getComponentType() == componentUnit.getComponentType() && componentEntry.getSupplierCategory() == componentUnit.getSupplierCategory()
                 && entry.getValue() >= quantity) {
                     this.inventoryChange.putOne(entry.getKey(), entry.getValue() - quantity);
+                    ProductionDepartment.getInstance().removeSoldComponents(componentEntry, quantity);
                     return quantity * componentEntry.getWarehouseSalesPrice();
                 }
             }
