@@ -1066,6 +1066,10 @@ public class GameController {
 		return GameState.getInstance().getProductionDepartment().getLaunchedProducts();
 	}
 
+	public double calculateAverageEcoIndexOfLaunchedProducts() {
+	    return GameState.getInstance().getProductionDepartment().calculateAverageEcoIndexOfLaunchedProducts();
+    }
+
 	/* production investment game mechanics */
 	public double getProductionInvestmentPrice(ProductionInvestmentLevel productionInvestmentLevel) {
 		return GameState.getInstance().getProductionDepartment().getProductionInvestmentPrice(productionInvestmentLevel);

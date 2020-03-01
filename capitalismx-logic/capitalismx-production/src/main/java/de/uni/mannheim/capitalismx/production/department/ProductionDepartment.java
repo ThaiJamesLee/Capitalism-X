@@ -869,7 +869,7 @@ public class ProductionDepartment extends DepartmentImpl {
     }
 
     /**
-     *
+     * Returns the costs for the investment level.
      */
     public double getProductionInvestmentPrice(ProductionInvestmentLevel productionInvestmentLevel) {
         return PRODUCTION_INVESTMENT_LEVEL_COST * productionInvestmentLevel.getLevel();
@@ -1003,6 +1003,27 @@ public class ProductionDepartment extends DepartmentImpl {
      */
     public void increaseProcessAutomationRel() {
         this.processAutomation.increaseLevel(this.decreasedProcessAutomationLevel);
+    }
+
+    /**
+     * Calculates the average eco index in decimal form for all launched products.
+     *
+     * @return the average eco index of launched products
+     */
+    public double calculateAverageEcoIndexOfLaunchedProducts() {
+        double accumulatedExoIndex = 0;
+        int numberOfComponents = 0;
+        for (Product product : this.launchedProducts) {
+            for (Component component : product.getComponents()) {
+                accumulatedExoIndex += component.getSupplierEcoIndex();
+                numberOfComponents++;
+            }
+        }
+        if (numberOfComponents > 0) {
+            return (accumulatedExoIndex / numberOfComponents) / 100;
+        } else {
+            return 0;
+        }
     }
 
     /**
