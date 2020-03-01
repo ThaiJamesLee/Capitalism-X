@@ -6,9 +6,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * An enum component type.
+ * It basically defines the most important elements of a component.
+ * The types were defined by the predecessor group. Some of the initial component prices were not defined by them, so they were
+ * chosen based on the other component types of the same component category.
+ * The initial sales price was set to half of the initial component price.
+ *
+ * @author dzhao
+ */
 public enum ComponentType implements Serializable {
 
-    // set initialSalesPrice to half of the initialComponentPrice
     DUMMY(ComponentCategory.DUMMY, "Dummy Component", 1, 0, 0, 1990, 0),
 
     N_CPU_LEVEL_1 (ComponentCategory.N_CPU,"Pentium Processor",1,550, 30, 1990, 275),
@@ -141,12 +149,18 @@ public enum ComponentType implements Serializable {
     private int baseUtility;
     private int availabilityDate;
     private double initialSalesPrice;
-    /*private SupplierCategory supplierCategory;
-    private double supplierCostMultiplicator;
-    private int supplierQuality;
-    private int supplierEcoIndex;
-    private double baseCost;*/
 
+    /**
+     * Instantiates a component type.
+     *
+     * @param componentCategory
+     * @param componentName
+     * @param componentLevel
+     * @param initialComponentPrice
+     * @param baseUtility
+     * @param availabilityDate
+     * @param initialSalesPrice
+     */
     ComponentType(ComponentCategory componentCategory, String componentName, int componentLevel, double initialComponentPrice, int baseUtility, int availabilityDate, double initialSalesPrice) {
         this.componentCategory = componentCategory;
         this.componentName = componentName;
@@ -157,78 +171,60 @@ public enum ComponentType implements Serializable {
         this.initialSalesPrice = initialSalesPrice;
     }
 
-/*    Component(ComponentCategory componentCategory, String componentName, int componentLevel, double initialPrice, int baseUtility, int availabilityDate, SupplierCategory supplierCategory) {
-        this.componentCategory = componentCategory;
-        this.componentName = componentName;
-        this.componentLevel = componentLevel;
-        this.initialComponentPrice = initialPrice;
-        this.baseUtility = baseUtility;
-        this.availabilityDate = availabilityDate;
-        this.supplierCategory = supplierCategory;
-        switch(supplierCategory) {
-            case CHEAP:
-                *//* Component placeholder for RandomNumberGenerator of utils @sdupper*//*
-                this.supplierCostMultiplicator = Component.getRandomDouble(1.1, 1.5);
-                this.supplierQuality = Component.getRandomInt(80, 100);
-                this.supplierEcoIndex = Component.getRandomInt(80, 100);
-                break;
-            case REGULAR:
-                this.supplierCostMultiplicator = Component.getRandomDouble(0.85, 1.2);
-                this.supplierQuality = Component.getRandomInt(55, 85);
-                this.supplierEcoIndex = Component.getRandomInt(55, 85);
-                break;
-            case PREMIUM:
-                this.supplierCostMultiplicator = Component.getRandomDouble(0.7, 1.0);
-                this.supplierQuality = Component.getRandomInt(10, 60);
-                this.supplierEcoIndex = Component.getRandomInt(10, 60);
-        }
-    }*/
-
-    /*
-    public void setSupplierCategory(SupplierCategory supplierCategory) {
-        this.supplierCategory = supplierCategory;
-        switch(supplierCategory) {
-            case PREMIUM:
-                this.supplierCostMultiplicator = ComponentType.getRandomDouble(1.1, 1.5);
-                this.supplierQuality = ComponentType.getRandomInt(80, 100);
-                this.supplierEcoIndex = ComponentType.getRandomInt(80, 100);
-                break;
-            case REGULAR:
-                this.supplierCostMultiplicator = ComponentType.getRandomDouble(0.85, 1.2);
-                this.supplierQuality = ComponentType.getRandomInt(55, 85);
-                this.supplierEcoIndex = ComponentType.getRandomInt(55, 85);
-                break;
-            case CHEAP:
-                this.supplierCostMultiplicator = ComponentType.getRandomDouble(0.7, 1.0);
-                this.supplierQuality = ComponentType.getRandomInt(10, 60);
-                this.supplierEcoIndex = ComponentType.getRandomInt(10, 60);
-        }
-    } */
-
+    /**
+     * Gets component category.
+     *
+     * @return the component category
+     */
     public ComponentCategory getComponentCategory() {
         return this.componentCategory;
     }
 
+    /**
+     * Gets component name.
+     *
+     * @return the component name
+     */
     public String getComponentName() {
         return this.componentName;
     }
 
+    /**
+     * Gets component level.
+     *
+     * @return the component level.
+     */
     public int getComponentLevel() {
         return this.componentLevel;
     }
 
+    /**
+     * Gets initial component price
+     *
+     * @return the initial component price
+     */
     public double getInitialComponentPrice() {
         return this.initialComponentPrice;
     }
 
+    /**
+     * Gets base utility.
+     *
+     * @return the base utility
+     */
     public int getBaseUtility() {
         return this.baseUtility;
     }
 
+    /**
+     * Gets availability date.
+     *
+     * @return the availability date
+     */
     public int getAvailabilityDate() {
         return this.availabilityDate;
     }
-    
+
     /**
      * Reads the properties file.
      * @param locale the locale of the properties file (English or German).
@@ -238,11 +234,11 @@ public enum ComponentType implements Serializable {
         ResourceBundle bundle = ResourceBundle.getBundle("procurement", locale);
         return bundle.getString(this.name());
     }
-    
+
     /**
 	 * Get a {@link List} of {@link ComponentType}s for the given
 	 * {@link ComponentCategory}.
-	 * 
+	 *
 	 * @param category The {@link ComponentCategory} to find types for.
 	 * @return List of {@link ComponentType}s, with the given category.
 	 */
@@ -256,41 +252,12 @@ public enum ComponentType implements Serializable {
 		return types;
 	}
 
+    /**
+     * Gets initial sales price.
+     *
+     * @return the initial sales price
+     */
 	public double getInitialSalesPrice() {
 	    return this.initialSalesPrice;
     }
-
-    /*public SupplierCategory getSupplierCategory() {
-        return this.supplierCategory;
-    }
-
-    public double getSupplierCostMultiplicator() {
-        return this.supplierCostMultiplicator;
-    }
-
-    public int getSupplierQuality() {
-        return this.supplierQuality;
-    }
-
-    public int getSupplierEcoIndex() {
-        return this.supplierEcoIndex;
-    }
-
-    public double getBaseCost() {
-        return this.baseCost;
-    }*/
-
-    /*
-    public double calculateBaseCost(LocalDate gameDate) {
-        int gameYear = gameDate.getYear();
-        double tBPM = 0.0001 * Math.pow((gameYear - this.availabilityDate + 1), 5)
-                - 0.0112 * Math.pow((gameYear - this.availabilityDate + 1), 4)
-                - 0.4239 * Math.pow((gameYear - this.availabilityDate + 1), 3)
-                + 7.3219 * Math.pow((gameYear - this.availabilityDate + 1), 2)
-                - 49.698 * (gameYear - this.availabilityDate + 1)
-                + 142.7889;
-        double tBCP = this.initialComponentPrice * (tBPM / 100);
-        this.baseCost = tBCP * this.supplierCostMultiplicator;
-        return this.baseCost;
-    } */
 }
