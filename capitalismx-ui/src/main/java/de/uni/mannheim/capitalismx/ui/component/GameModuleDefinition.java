@@ -46,7 +46,8 @@ public enum GameModuleDefinition {
 	MARKETING_OVERVIEW("mkt_general_overview.fxml",  GameModuleType.MARKETING_OVERVIEW, new GridPosition(5, 10, 2, 3), true),
 
     //The modules for Research and Development.
-    RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameModuleType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(3, 14, 5, 8),true),
+    RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameModuleType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(1, 14, 9, 8),true),
+	RESDEV_COMPONENT_INFO("resdev_info.fxml", GameModuleType.RESDEV_COMPONENT_INFO, new GridPosition(1,14,3,3), true),
 
     // The modules for Sales
     SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(1, 15, 7, 15) , true),
