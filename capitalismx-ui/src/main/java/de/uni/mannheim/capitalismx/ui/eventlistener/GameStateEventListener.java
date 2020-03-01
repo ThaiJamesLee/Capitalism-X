@@ -14,6 +14,8 @@ import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.RecruitingListController;
+import de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController;
+import de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesKPIController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.StockManagementController;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 
@@ -70,6 +72,8 @@ public class GameStateEventListener implements PropertyChangeListener {
 				((RecruitingListController) UIManager.getInstance().getGameView(GameViewType.HR)
 						.getModule(GameModuleType.HR_RECRUITING_OVERVIEW).getController())
 								.regenerateRecruitingProspects();
+				((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFailedKPIs();
+				((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFulfilledKPIs();
 			}
 		}
 
