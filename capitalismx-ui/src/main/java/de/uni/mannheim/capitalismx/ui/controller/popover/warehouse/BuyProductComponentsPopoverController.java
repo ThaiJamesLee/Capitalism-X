@@ -61,11 +61,13 @@ public class BuyProductComponentsPopoverController implements Initializable {
 	}
 
 	/**
-	 * 
+	 * Update the displayed price if amount in the {@link TextField} changed.
 	 */
 	private void updatePrice() {
+		if (amountInput.getText().equals(""))
+			return;
 		double cost = componentPrice * Integer.parseInt(amountInput.getText());
-		
+
 		priceLabel.setText(UIManager.getLocalisedString("component.price") + CapCoinFormatter.getCapCoins(cost));
 	}
 
