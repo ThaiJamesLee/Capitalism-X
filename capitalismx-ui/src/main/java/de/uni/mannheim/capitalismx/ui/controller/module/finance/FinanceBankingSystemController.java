@@ -70,6 +70,7 @@ public class FinanceBankingSystemController implements Initializable {
         loanRequestListController = (LoanRequestListController)factory.getPopoverController();
 
         TextFieldHelper.makeTextFieldNumeric(loanAmountTextField);
+        this.loanListView.setMouseTransparent(true);
 
 		//load loan data
         for(Loan loan : controller.getLoans()){
