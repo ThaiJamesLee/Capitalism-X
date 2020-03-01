@@ -23,9 +23,9 @@
 				<ToggleSwitch fx:id="externToggle" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
 				<Label styleClass="label_bright" text="%marketing.mkrRes.extern" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
 				<Label styleClass="header" text="%marketing.mkrRes.dataCollectTitle" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-				<ComboBox fx:id="dataCollectCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+				<ChoiceBox fx:id="dataCollectCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
 				<Label styleClass="header" text="%marketing.mkrRes.reportTypeTitle" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
-				<ComboBox fx:id="reportTypeCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+				<ChoiceBox fx:id="reportTypeCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
 				<Label fx:id="costLbl" styleClass="header" text="Cost Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
 				<Button fx:id="runBtn" styleClass="btn_standard" text="%marketing.camp.runBtn" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 			</children>
