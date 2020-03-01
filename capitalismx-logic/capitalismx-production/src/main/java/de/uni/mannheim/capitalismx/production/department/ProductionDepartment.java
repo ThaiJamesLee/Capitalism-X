@@ -87,6 +87,7 @@ public class ProductionDepartment extends DepartmentImpl {
      */
     private int numberOfProductionWorkers;
 
+
     /**
      * The costs of launching a product.
      */
@@ -881,8 +882,8 @@ public class ProductionDepartment extends DepartmentImpl {
      * @param gameDate the game date
      * @return the costs of the investment
      */
-    public double investInSystemSecurity(int level, LocalDate gameDate) {
-        this.systemSecurity = systemSecurity.invest(level, gameDate);
+    public double investInSystemSecurity(int level, LocalDate gameDate, int numberOfTrainedEngineers) {
+        this.systemSecurity = systemSecurity.invest(level, gameDate, numberOfTrainedEngineers);
         return PRODUCTION_INVESTMENT_LEVEL_COST * level;
     }
 
@@ -893,8 +894,8 @@ public class ProductionDepartment extends DepartmentImpl {
      * @param gameDate the game date
      * @return the cost of the investment
      */
-    public double investInQualityAssurance(int level, LocalDate gameDate) {
-        this.qualityAssurance = qualityAssurance.invest(level, gameDate);
+    public double investInQualityAssurance(int level, LocalDate gameDate, int numberOfTrainedEngineers) {
+        this.qualityAssurance = qualityAssurance.invest(level, gameDate, numberOfTrainedEngineers);
         return PRODUCTION_INVESTMENT_LEVEL_COST * level;
     }
 
@@ -905,8 +906,8 @@ public class ProductionDepartment extends DepartmentImpl {
      * @param gameDate the game date
      * @return the costs of the investment
      */
-    public double investInProcessAutomation(int level, LocalDate gameDate) {
-        this.processAutomation = processAutomation.invest(level, gameDate);
+    public double investInProcessAutomation(int level, LocalDate gameDate, int numberOfTrainedEngineers) {
+        this.processAutomation = processAutomation.invest(level, gameDate, numberOfTrainedEngineers);
         return PRODUCTION_INVESTMENT_LEVEL_COST * level;
     }
 
