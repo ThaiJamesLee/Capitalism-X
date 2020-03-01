@@ -515,6 +515,9 @@ public class GameHudController implements UpdateableController {
 			colorHudLabel(diff, employeeChangeLabel);
 			String diffText = ((diff >= 0) ? "+" : "") + diff;
 			employeeChangeLabel.setText(diffText);
+			
+			//update eco index
+			updateEcoIndexIcon(GameState.getInstance().getCompanyEcoIndex().getEcoIndex());
 		});
 	}
 
