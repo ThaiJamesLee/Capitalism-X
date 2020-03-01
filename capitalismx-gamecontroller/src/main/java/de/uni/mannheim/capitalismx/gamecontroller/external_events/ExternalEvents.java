@@ -390,7 +390,7 @@ public class ExternalEvents implements Serializable {
             if(probability > 1.0){
                 probability = 1.0;
             }
-            if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
+            if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) * 1000) == 0){
                 WarehousingDepartment.getInstance().decreaseStoredUnitsRel(0.30);
                 externalEvents.add(ExternalEvent.EVENT_14);
             }
