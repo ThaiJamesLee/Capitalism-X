@@ -75,6 +75,8 @@ public class SalesDepartment extends DepartmentImpl {
      */
     public static final String FAILED_CONTRACTS_EVENT = "failedContractsListChanged";
 
+    private static final double PENALTY_FACTOR = 0.1;
+
     private static final String SALES_PROPERTY_FILE = "sales-module";
     private static final String MAX_LEVEL_PROPERTY = "sales.department.level.max";
     private static final String NUM_CONTRACTS_PROPERTY_PREFIX = "sales.skill.contracts.number.";
@@ -152,7 +154,7 @@ public class SalesDepartment extends DepartmentImpl {
             Double[] doubleRange = DataFormatter.stringArrayToDoubleArray(stringRange);
             Range priceFactor = new Range(doubleRange[0], doubleRange[1]);
 
-            double penaltyFactor = Double.parseDouble(bundle.getString(PENALTY_FACTOR_PROPERTY_PREFIX + i));
+            double penaltyFactor = Double.parseDouble(bundle.getString(PENALTY_FACTOR_PROPERTY_PREFIX + i)) * PENALTY_FACTOR ;
 
             this.skillMap.put(i, new SalesDepartmentSkill(i, numContract, penaltyFactor, refreshCost, priceFactor));
         }
