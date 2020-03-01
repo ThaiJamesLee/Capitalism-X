@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
+import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -90,7 +91,11 @@ public class SalesContractController implements Initializable {
             int index = availableContractsList.getSelectionModel().getSelectedIndex();
             SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
             Map<Unit, Integer> map = GameState.getInstance().getWarehousingDepartment().getInventory();
+            Contract c = salesDep.getAvailableContracts().get(index);
+            Product p = c.getProduct();
+            int productCount = c.getNumProducts();
 
+            //GameState.getInstance().getWarehousingDepartment().
             GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), salesDep.getAvailableContracts().get(index).getRevenue());
             salesDep.contractDone(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
             refreshAcceptedContracts();
