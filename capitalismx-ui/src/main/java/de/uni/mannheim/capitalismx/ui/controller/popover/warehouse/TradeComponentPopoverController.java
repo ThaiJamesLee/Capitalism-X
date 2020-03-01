@@ -139,7 +139,7 @@ public class TradeComponentPopoverController implements Initializable {
 		componentName.setText(UIManager.getLocalisedString("component.trade")
 				+ component.getComponentType().getName(UIManager.getResourceBundle().getLocale()));
 		amountField.setText("0");
-		this.qualityLabel.setText(component.getSupplierCategoryShortForm()); // TODO localize
+		this.qualityLabel.setText(component.getSupplierCategoryShortForm());
 		// force the field to be numeric only
 		TextFieldHelper.makeTextFieldNumeric(amountField);
 		updatePrice();

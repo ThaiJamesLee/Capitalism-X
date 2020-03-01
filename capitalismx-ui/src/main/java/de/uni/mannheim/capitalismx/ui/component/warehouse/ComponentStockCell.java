@@ -111,7 +111,6 @@ public class ComponentStockCell {
 	private void showTradeComponentMenu(SupplierCategory category, Button button) {
 		StockManagementController stockController = (StockManagementController) UIManager.getInstance()
 				.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController();
-		// TODO replace with actual price, once implemented
 		stockController.showTradePopover(components.get(category), button, components.get(category).calculateRandomizedBaseCost(GameState.getInstance().getGameDate())); 
 	}
 

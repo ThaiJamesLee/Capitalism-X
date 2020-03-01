@@ -22,9 +22,13 @@ public class Tutorial {
 
 	private static ResourceBundle bundle = ResourceBundle.getBundle("properties.tutorial",
 			UIManager.getResourceBundle().getLocale());
+	public static ResourceBundle getBundle() {
+		return bundle;
+	}
 	private List<TutorialChapter> chapters = new ArrayList<TutorialChapter>();
-	private Iterator<TutorialChapter> currentChapter;
 
+	private Iterator<TutorialChapter> currentChapter;
+ 
 	public Tutorial() {
 		chapters.add(new HudControlsChapter());
 		chapters.add(new IntroduceProductChapter());
@@ -39,14 +43,6 @@ public class Tutorial {
 		if (currentChapter.hasNext()) {
 			currentChapter.next().beginChapter();
 		}
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public static ResourceBundle getBundle() {
-		return bundle;
 	}
 
 }

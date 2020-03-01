@@ -74,8 +74,7 @@ public class ProductStockPopoverController implements Initializable {
 	private int calcComponentPrice(int amount) {
 		int price = 0;
 		for (Component c : product.getComponents()) {
-			price += amount * c.getInitialComponentPrice(); // TODO replace with actual component price, once
-															// implemented
+			price += amount * c.calculateRandomizedBaseCost(GameState.getInstance().getGameDate());
 		}
 		return price;
 	}
