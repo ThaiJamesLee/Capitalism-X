@@ -223,10 +223,14 @@ public class SalesContractController implements Initializable {
             @Override
             public void run() {
                 removeAllAvailableContracts();
-                if(((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList()).size() > 0){
-                    ArrayList<Contract> contractList = ((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList());
-                    for(int i = 0; i < contractList.size(); i++){
-                        addContractOffer(contractList.get(i), i, false);
+                if(GameState.getInstance() == null || GameState.getInstance().getSalesDepartment() == null){
+
+                } else {
+                    if (((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList()).size() > 0) {
+                        ArrayList<Contract> contractList = ((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts().getList());
+                        for (int i = 0; i < contractList.size(); i++) {
+                            addContractOffer(contractList.get(i), i, false);
+                        }
                     }
                 }
             }
@@ -241,10 +245,14 @@ public class SalesContractController implements Initializable {
             @Override
             public void run() {
                 removeAllAcceptedContracts();
-                if(((CopyOnWriteArrayList<Contract>)GameState.getInstance().getSalesDepartment().getActiveContracts().getList()).size() > 0){
-                    CopyOnWriteArrayList<Contract> contractList = ((CopyOnWriteArrayList<Contract>)GameState.getInstance().getSalesDepartment().getActiveContracts().getList());
-                    for(int i = 0; i < contractList.size(); i++){
-                        addContractOffer(contractList.get(i), i, true);
+                if(GameState.getInstance() == null || GameState.getInstance().getSalesDepartment() == null){
+
+                } else {
+                    if (((CopyOnWriteArrayList<Contract>) GameState.getInstance().getSalesDepartment().getActiveContracts().getList()).size() > 0) {
+                        CopyOnWriteArrayList<Contract> contractList = ((CopyOnWriteArrayList<Contract>) GameState.getInstance().getSalesDepartment().getActiveContracts().getList());
+                        for (int i = 0; i < contractList.size(); i++) {
+                            addContractOffer(contractList.get(i), i, true);
+                        }
                     }
                 }
             }

@@ -23,12 +23,12 @@
                         <GridPane fx:id="tvGrid" hgap="10.0">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                           </columnConstraints>
                           <rowConstraints>
@@ -52,10 +52,10 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <Label alignment="CENTER" text="%resdev.component.screen" GridPane.columnIndex="1" />
-                              <Label alignment="CENTER" text="%resdev.component.audio" GridPane.columnIndex="2" />
-                              <Label alignment="CENTER" text="%resdev.component.os" GridPane.columnIndex="3" />
-                              <Label alignment="CENTER" text="%resdev.component.case" GridPane.columnIndex="4" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.screen" GridPane.columnIndex="1" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.audio" GridPane.columnIndex="2" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.os" GridPane.columnIndex="3" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.case" GridPane.columnIndex="4" />
                            </children>
                         </GridPane>
                      </children>
@@ -69,12 +69,12 @@
                         <GridPane fx:id="consoleGrid" hgap="10.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
@@ -98,11 +98,11 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <Label alignment="CENTER" text="%resdev.component.cpu" GridPane.columnIndex="1" />
-                              <Label alignment="CENTER" text="%resdev.component.screen" GridPane.columnIndex="2" />
-                              <Label alignment="CENTER" text="%resdev.component.power" GridPane.columnIndex="3" />
-                              <Label alignment="CENTER" text="%resdev.component.connect" GridPane.columnIndex="4" />
-                              <Label alignment="CENTER" text="%resdev.component.camera" GridPane.columnIndex="5" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.cpu" GridPane.columnIndex="1" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.screen" GridPane.columnIndex="2" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.power" GridPane.columnIndex="3" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.connect" GridPane.columnIndex="4" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.camera" GridPane.columnIndex="5" />
                            </children>
                         </GridPane>
                      </children>
@@ -116,12 +116,12 @@
                         <GridPane fx:id="notebookGrid" hgap="10.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
@@ -145,11 +145,11 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <Label alignment="CENTER" text="%resdev.component.cpu" GridPane.columnIndex="1" />
-                              <Label alignment="CENTER" text="%resdev.component.storage" GridPane.columnIndex="2" />
-                              <Label alignment="CENTER" text="%resdev.component.screen" GridPane.columnIndex="3" />
-                              <Label alignment="CENTER" text="%resdev.component.software" GridPane.columnIndex="4" />
-                              <Label alignment="CENTER" text="%resdev.component.power" GridPane.columnIndex="5" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.cpu" GridPane.columnIndex="1" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.storage" GridPane.columnIndex="2" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.screen" GridPane.columnIndex="3" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.software" GridPane.columnIndex="4" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.power" GridPane.columnIndex="5" />
                            </children>
                         </GridPane>
                      </children>
@@ -163,12 +163,12 @@
                         <GridPane fx:id="phoneGrid" hgap="10.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
@@ -192,12 +192,12 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </VBox>
-                              <Label alignment="CENTER" text="%resdev.component.cpu" GridPane.columnIndex="1" />
-                              <Label alignment="CENTER" text="%resdev.component.screen" GridPane.columnIndex="2" />
-                              <Label alignment="CENTER" text="%resdev.component.camera" GridPane.columnIndex="3" />
-                              <Label alignment="CENTER" text="%resdev.component.connect" GridPane.columnIndex="4" />
-                              <Label alignment="CENTER" text="%resdev.component.power" GridPane.columnIndex="5" />
-                              <Label alignment="CENTER" text="%resdev.component.keypad" GridPane.columnIndex="6" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.cpu" GridPane.columnIndex="1" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.screen" GridPane.columnIndex="2" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.camera" GridPane.columnIndex="3" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.connect" GridPane.columnIndex="4" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.power" GridPane.columnIndex="5" />
+                              <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.component.keypad" GridPane.columnIndex="6" />
                            </children>
                         </GridPane>
                      </children>
