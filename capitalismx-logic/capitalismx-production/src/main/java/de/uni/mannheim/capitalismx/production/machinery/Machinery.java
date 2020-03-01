@@ -27,6 +27,7 @@ public class Machinery implements Serializable {
     private int yearsSinceLastInvestment;
     private int usefulLife;
     private LocalDate purchaseDate;
+    private boolean decreasedEcoIndex;
 
     /**
      * Level of the machine which gets higher each time it gets upgraded.
@@ -62,6 +63,7 @@ public class Machinery implements Serializable {
         this.yearsSinceLastInvestment = 0;
         this.level = 1;
         this.upgradeable = true;
+        this.decreasedEcoIndex = false;
     }
 
     /**
@@ -369,5 +371,23 @@ public class Machinery implements Serializable {
      */
     public boolean isUpgradeable() {
         return this.upgradeable;
+    }
+
+    /**
+     * Gets the boolean flag whether the machine has already decreased the eco index.
+     *
+     * @return the decreased eco index boolean flag
+     */
+    public boolean hasDecreasedEcoIndex() {
+        return this.decreasedEcoIndex;
+    }
+
+    /**
+     * Sets the decreased eco index flag.
+     *
+     * @param decreasedEcoIndex flag
+     */
+    public void setDecreasedEcoIndex(boolean decreasedEcoIndex) {
+        this.decreasedEcoIndex = decreasedEcoIndex;
     }
 }

@@ -39,11 +39,9 @@ public class ProductionInvestment implements Serializable {
      * @param gameDate the game date
      * @return the production investment
      */
-    public ProductionInvestment invest(int level, LocalDate gameDate) {
+    public ProductionInvestment invest(int level, LocalDate gameDate, int numberOfEngineersTrained) {
         /* level of investment; 5k, 10k, 15k, 20k respectively for the levels*/
-        // TODO placeholder
-        int numberProductionEngineersTrained = 5;
-        if (this.name.equals("Process Automation") && numberProductionEngineersTrained >= level || !this.name.equals("ProcessAutomation")) {
+        if (this.name.equals("Process Automation") && numberOfEngineersTrained >= level || !this.name.equals("ProcessAutomation")) {
             switch (level) {
                 case 2:
                     this.productionInvestmentLevel = ProductionInvestmentLevel.BAD;

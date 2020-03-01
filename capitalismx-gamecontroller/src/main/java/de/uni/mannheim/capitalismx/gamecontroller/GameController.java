@@ -1066,21 +1066,46 @@ public class GameController {
 		return GameState.getInstance().getProductionDepartment().getLaunchedProducts();
 	}
 
+	public double calculateAverageEcoIndexOfLaunchedProducts() {
+	    return GameState.getInstance().getProductionDepartment().calculateAverageEcoIndexOfLaunchedProducts();
+    }
+
 	/* production investment game mechanics */
 	public double getProductionInvestmentPrice(ProductionInvestmentLevel productionInvestmentLevel) {
 		return GameState.getInstance().getProductionDepartment().getProductionInvestmentPrice(productionInvestmentLevel);
 	}
 
 	public double investInSystemSecurity(int level) {
-		return GameState.getInstance().getProductionDepartment().investInSystemSecurity(level, GameState.getInstance().getGameDate());
+		int numberOfTrainedEngineers = 0;
+		Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
+		for (Employee employee : team.getTeam()) {
+			if (employee.getTrainingsList().size() > 0) {
+				numberOfTrainedEngineers++;
+			}
+		}
+		return GameState.getInstance().getProductionDepartment().investInSystemSecurity(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
 	}
 
 	public double investInQualityAssurance(int level) {
-		return GameState.getInstance().getProductionDepartment().investInQualityAssurance(level, GameState.getInstance().getGameDate());
+		int numberOfTrainedEngineers = 0;
+		Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
+		for (Employee employee : team.getTeam()) {
+			if (employee.getTrainingsList().size() > 0) {
+				numberOfTrainedEngineers++;
+			}
+		}
+		return GameState.getInstance().getProductionDepartment().investInQualityAssurance(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
 	}
 
 	public double investInProcessAutomation(int level) {
-		return GameState.getInstance().getProductionDepartment().investInProcessAutomation(level, GameState.getInstance().getGameDate());
+		int numberOfTrainedEngineers = 0;
+		Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
+		for (Employee employee : team.getTeam()) {
+			if (employee.getTrainingsList().size() > 0) {
+				numberOfTrainedEngineers++;
+			}
+		}
+		return GameState.getInstance().getProductionDepartment().investInProcessAutomation(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
 	}
 
 	public LocalDate getLastInvestmentDateSystemSecurity() {

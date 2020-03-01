@@ -23,19 +23,19 @@ public class ProductionDepartmentInvestmentTest {
 
     @Test
     public void investTest() {
-        this.productionInvestment.invest(2, this.investmentDate);
+        this.productionInvestment.invest(2, this.investmentDate, 5);
         Assert.assertEquals(this.productionInvestment.getLevel(), 2);
     }
 
     @Test
     public void updateInvestmentTest() {
-        this.productionInvestment.invest(4, this.investmentDate);
+        this.productionInvestment.invest(4, this.investmentDate, 5);
         this.productionInvestment.updateInvestment(LocalDate.of(1991,1,1));
         Assert.assertEquals(this.productionInvestment.getLevel(), 2);
-        this.productionInvestment.invest(3, this.investmentDate);
+        this.productionInvestment.invest(3, this.investmentDate, 5);
         this.productionInvestment.updateInvestment(LocalDate.of(1992,1,1));
         Assert.assertEquals(this.productionInvestment.getLevel(), 2);
-        this.productionInvestment.invest(2, this.investmentDate);
+        this.productionInvestment.invest(2, this.investmentDate, 5);
         this.productionInvestment.updateInvestment(LocalDate.of(1992,1,1));
         Assert.assertEquals(this.productionInvestment.getLevel(), 1);
     }
