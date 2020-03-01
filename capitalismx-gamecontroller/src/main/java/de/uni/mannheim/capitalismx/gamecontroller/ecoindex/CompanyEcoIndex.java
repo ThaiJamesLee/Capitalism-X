@@ -171,15 +171,17 @@ public class CompanyEcoIndex implements Serializable {
      */
     protected void decreaseEcoIndex(int points){
         int newPoints = this.ecoIndex.getPoints() - points;
-        if(newPoints < this.ecoIndex.getMin()){
-            if(this.ecoIndex.getIndex() > 2){
-                this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
-            }else{
-                //TODO Game Over event if below 10 points
-                this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+        if(newPoints > 0){
+            if(newPoints < this.ecoIndex.getMin()){
+                if(this.ecoIndex.getIndex() > 2){
+                    this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+                }else{
+                    //TODO Game Over event if below 10 points
+                    this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+                }
             }
+            this.ecoIndex.setPoints(newPoints);
         }
-        this.ecoIndex.setPoints(newPoints);
     }
 
     /**
