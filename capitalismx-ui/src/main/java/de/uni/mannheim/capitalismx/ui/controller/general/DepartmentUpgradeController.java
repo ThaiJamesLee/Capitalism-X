@@ -15,6 +15,7 @@ import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -31,6 +32,8 @@ import org.slf4j.LoggerFactory;
  */
 public class DepartmentUpgradeController implements Initializable {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentUpgradeController.class);
+
 	@FXML
 	private Label currentLevelLabel, nextLevelDescriptionLabel, nextLevelLabel;
 
@@ -45,12 +48,48 @@ public class DepartmentUpgradeController implements Initializable {
 
 	private DepartmentImpl department;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentUpgradeController.class);
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	}
 
+	/**
+	 * Level the department up.
+	 */
+	@FXML
+	private void levelUp() {
+		Double cost = null;
+		try {
+			cost = department.getLevelingMechanism().getNextLevelUpCost();
+			if (GameState.getInstance().getFinanceDepartment().getCash() < cost) {
+				GameAlert alert = new GameAlert(AlertType.WARNING,
+						UIManager.getLocalisedString("alert.general.cash.title"),
+						UIManager.getLocalisedString("alert.general.cash.description"));
+				alert.showAndWait();
+				return;
+			}
+
+			department.getLevelingMechanism().levelUp();
+			GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), cost);
+			update();
+			if (department instanceof HRDepartment) {
+				((RecruitingListController) UIManager.getInstance().getModule(GameModuleType.HR_RECRUITING_OVERVIEW)
+						.getController()).regenerateRecruitingProspects();
+			}
+		} catch (LevelingRequirementNotFulFilledException e) {
+			GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Level up was not possible.", e.getMessage());
+			error.showAndWait();
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	public void setDepartment(DepartmentImpl department) {
+		this.department = department;
+		update();
+	}
+
+	/**
+	 * 
+	 */
 	private void update() {
 		int level = department.getLevel();
 		currentLevelLabel.setText("Level: " + level);
@@ -66,32 +105,6 @@ public class DepartmentUpgradeController implements Initializable {
 					+ CapCoinFormatter.getCapCoins(department.getLevelingMechanism().getNextLevelUpCost()));
 		} else {
 			upgradeVBox.getChildren().remove(upgradeGrid);
-		}
-	}
-
-	public void setDepartment(DepartmentImpl department) {
-		this.department = department;
-		update();
-	}
-
-	/**
-	 * Level the department up.
-	 */
-	@FXML
-	private void levelUp() {
-		Double cost = null;
-		try {
-			cost = department.getLevelingMechanism().levelUp();
-			GameState.getInstance().getFinanceDepartment().decreaseCash(GameState.getInstance().getGameDate(), cost);
-			update();
-			if (department instanceof HRDepartment) {
-				((RecruitingListController) UIManager.getInstance().getModule(GameModuleType.HR_RECRUITING_OVERVIEW)
-						.getController()).regenerateRecruitingProspects();
-			}
-		} catch (LevelingRequirementNotFulFilledException e) {
-			GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Level up was not possible.", e.getMessage());
-			error.showAndWait();
-			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
