@@ -46,12 +46,12 @@ public enum GameModuleDefinition {
 	MARKETING_OVERVIEW("mkt_general_overview.fxml",  GameModuleType.MARKETING_OVERVIEW, new GridPosition(5, 10, 2, 3), true),
 
     //The modules for Research and Development.
-    RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameModuleType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(1, 14, 9, 8),true),
-	RESDEV_COMPONENT_INFO("resdev_info.fxml", GameModuleType.RESDEV_COMPONENT_INFO, new GridPosition(1,14,3,3), true),
+    RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameModuleType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(0, 20, 0, 10),true),
+	RESDEV_COMPONENT_INFO("resdev_info.fxml", GameModuleType.RESDEV_COMPONENT_INFO, new GridPosition(0, 20, 10, 10), true),
 
     // The modules for Sales
-    SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(1, 15, 6, 14) , true),
-	SALES_KPI_OVERVIEW("sales_kpi.fxml", GameModuleType.SALES_KPI_OVERVIEW, new GridPosition(1, 14, 1, 4), true);
+    SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(1, 15, 5, 14) , true),
+	SALES_KPI_OVERVIEW("sales_kpi.fxml", GameModuleType.SALES_KPI_OVERVIEW, new GridPosition(1, 14, 0, 4), true);
 	;
 
 	// The name of the fxml-file defining this type.
