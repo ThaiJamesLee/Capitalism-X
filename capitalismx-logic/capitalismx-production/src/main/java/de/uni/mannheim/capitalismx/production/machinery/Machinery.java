@@ -27,10 +27,22 @@ public class Machinery implements Serializable {
     private int yearsSinceLastInvestment;
     private int usefulLife;
     private LocalDate purchaseDate;
+
+    /**
+     * Level of the machine which gets higher each time it gets upgraded.
+     */
     private int level;
+
+    /**
+     * Flag whether machine is still upgradeable.
+     */
     private boolean upgradeable;
 
+    /**
+     * Maximum level, defines how often a machine can get upgraded.
+     */
     private static final int MAX_LEVEL = 5;
+
     private static final double MAINTAIN_AND_REPAIR_COSTS = 2000;
     private static final double UPGRADE_COSTS = 5000;
 
@@ -348,5 +360,14 @@ public class Machinery implements Serializable {
      */
     public LocalDate getPurchaseDate() {
         return this.purchaseDate;
+    }
+
+    /**
+     * Gets upgradeable
+     *
+     * @return upgradeable boolean
+     */
+    public boolean isUpgradeable() {
+        return this.upgradeable;
     }
 }

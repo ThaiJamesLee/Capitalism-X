@@ -931,7 +931,7 @@ public class GameController {
 				GameState.getInstance().getGameDate());
 	}
 
-	public double updateMachinery(Machinery machinery) {
+	public double upgradeMachinery(Machinery machinery) {
 		return GameState.getInstance().getProductionDepartment().upgradeMachinery(machinery, GameState.getInstance().getGameDate());
 	}
 
