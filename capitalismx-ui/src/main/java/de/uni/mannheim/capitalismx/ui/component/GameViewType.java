@@ -15,7 +15,7 @@ public enum GameViewType {
 
 
 	OVERVIEW(1, "view.overview", FontAwesomeIconName.COMPASS, false), 
-	FINANCES(2, "view.finance", FontAwesomeIconName.MONEY, false),
+	FINANCES(2, "view.finance", FontAwesomeIconName.MONEY, true),
 	HR(3, "view.hr", FontAwesomeIconName.USER, true), 
 	SALES(4, "view.sales", FontAwesomeIconName.SHOPPING_CART, true),
 	PRODUCTION(5, "view.production", FontAwesomeIconName.GEARS, true),

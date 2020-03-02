@@ -284,6 +284,7 @@ public class FinanceDepartment extends DepartmentImpl {
         super("Finance");
 
         this.initProperties();
+        this.initSkills();
 
         this.gameOver = new PropertyChangeSupportBoolean();
         this.gameOver.setValue(false);
@@ -410,12 +411,12 @@ public class FinanceDepartment extends DepartmentImpl {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
         this.initialCash = Double.valueOf(resourceBundle.getString("finance.initial.cash"));
         this.taxRate = Double.valueOf(resourceBundle.getString("finance.initial.tax.rate"));
-        this.decreaseNopatFactor = this.taxRate = Double.valueOf(resourceBundle.getString("finance.initial.decrease.nopat.factor"));
-        this.decreaseNopatConstant = this.taxRate = Double.valueOf(resourceBundle.getString("finance.initial.decrease.nopat.constant"));
+        this.decreaseNopatFactor = Double.valueOf(resourceBundle.getString("finance.initial.decrease.nopat.factor"));
+        this.decreaseNopatConstant = Double.valueOf(resourceBundle.getString("finance.initial.decrease.nopat.constant"));
 
         setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
         this.initialTaxReduction = Double.parseDouble(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_TAX_REDUCTION_PROPERTY));
-        this.taxRate -= initialTaxReduction;
+        this.taxRate -= this.initialTaxReduction;
     }
 
     /**
@@ -458,13 +459,8 @@ public class FinanceDepartment extends DepartmentImpl {
      * Calculates the current tax reduction and updates the variable.
      */
     private void updateTaxReduction() {
-        double newTaxReduction = this.initialTaxReduction;
-        List<DepartmentSkill> availableSkills = getAvailableSkills();
-
-        for(DepartmentSkill skill : availableSkills) {
-            newTaxReduction += ((FinanceSkill) skill).getNewTaxReduction();
-        }
-
+        FinanceSkill skill = (FinanceSkill) skillMap.get(getLevel());
+        double newTaxReduction = skill.getNewTaxReduction();
         this.taxRate -= newTaxReduction;
     }
 
@@ -481,7 +477,6 @@ public class FinanceDepartment extends DepartmentImpl {
      * @return Returns the net worth.
      */
     public double calculateNetWorth(LocalDate gameDate){
-        //TODO maybe getCash() instead of calculateCash(), because calculateCash() only once per day?
         this.netWorth.setValue(this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities(gameDate));
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
         return this.netWorth.getValue();
