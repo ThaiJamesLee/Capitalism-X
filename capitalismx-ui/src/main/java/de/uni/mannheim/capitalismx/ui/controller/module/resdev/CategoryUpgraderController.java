@@ -35,6 +35,7 @@ public class CategoryUpgraderController implements Initializable {
 	@FXML
 	private Button btnPhone;
 
+
 	@FXML
 	public void unlockTV() {
 		ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance()
@@ -46,6 +47,9 @@ public class CategoryUpgraderController implements Initializable {
 		categoryGrid.add(new Label("Unlocked"), 0, 1);
 	}
 
+	/**
+	 * This Method unlocks the console product category.
+	 */
 	@FXML
 	public void unlockConsole() {
 		ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance()
@@ -57,6 +61,9 @@ public class CategoryUpgraderController implements Initializable {
 		categoryGrid.add(new Label("Unlocked"), 1, 1);
 	}
 
+	/**
+	 * This Method unlocks the notebook product category.
+	 */
 	@FXML
 	public void unlockNotebook() {
 		ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance()
@@ -68,6 +75,9 @@ public class CategoryUpgraderController implements Initializable {
 		categoryGrid.add(new Label("Unlocked"), 2, 1);
 	}
 
+	/**
+	 * This Method unlocks the phone product category.
+	 */
 	@FXML
 	public void unlockPhone() {
 		ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance()
