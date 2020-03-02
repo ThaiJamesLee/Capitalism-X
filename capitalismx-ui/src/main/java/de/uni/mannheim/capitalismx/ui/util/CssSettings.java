@@ -11,7 +11,7 @@ package de.uni.mannheim.capitalismx.ui.util;
 public enum CssSettings {
 
 	RES_1080(1920, 1080, "1080p"),
-	RES_720(1280, 720, "1080p");
+	RES_720(1280, 720, "1080p"); //TODO create css files
 
 	// width of the resolution in pixel
 	private int width;

@@ -293,7 +293,7 @@ public class ExternalEvents implements Serializable {
             }else{
                 //TODO use more suitable formula for probability
                 double probability = Math.pow(CompanyEcoIndex.getInstance().getEcoIndex().getIndex(), 0.31) - 1;
-                if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
+                if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) * 1000) == 0){
                     FinanceDepartment.getInstance().nopatFine(gameDate, 0.10);
                     externalEvents.add(ExternalEvent.EVENT_8);
                 }
@@ -356,7 +356,7 @@ public class ExternalEvents implements Serializable {
      */
     private void checkEventFlu(LocalDate gameDate){
         //if((RandomNumberGenerator.getRandomInt(0, 9) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
-        if((RandomNumberGenerator.getRandomInt(0, 90) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
+        if((RandomNumberGenerator.getRandomInt(0, 180) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
             ProductionDepartment.getInstance().decreaseTotalEngineerQualityOfWorkRel(0.10);
             externalEvents.add(ExternalEvent.EVENT_12);
             this.eventFluDate = gameDate;

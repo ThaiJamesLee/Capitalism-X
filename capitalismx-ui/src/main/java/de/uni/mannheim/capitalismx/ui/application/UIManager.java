@@ -1,11 +1,13 @@
 package de.uni.mannheim.capitalismx.ui.application;
 
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.domain.department.Department;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.gamecontroller.gamesave.SaveGameHandler;
@@ -22,6 +24,13 @@ import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.OverviewMap3DController;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListController;
+import de.uni.mannheim.capitalismx.ui.eventlistener.FinanceEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.GameStateEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.HREventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.MarketingEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.ProcurementEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.SalesEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.WarehouseEventlistener;
 import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
 import de.uni.mannheim.capitalismx.ui.util.GameResolution;
 import javafx.application.Platform;
@@ -53,32 +62,51 @@ public class UIManager {
 	// Provide access to correct Resource Bundle
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.main", Locale.ENGLISH);
 
+	public static UIManager getInstance() {
+		return instance;
+	}
+
+	/**
+	 * Returns the corresponding message for the given key from the stored
+	 * {@link ResourceBundle} - default englisch: properties.main_en
+	 * 
+	 * @param key The key to look up in the resources.
+	 * @return The localised message as a String.
+	 */
+	public static String getLocalisedString(String key) {
+		return resourceBundle.getString(key);
+	}
+
+	public static ResourceBundle getResourceBundle() {
+		return resourceBundle;
+	}
 	// The game's Tutorial
 	private Tutorial tutorial;
-
 	// The custom cursor used in the game
 	private Cursor cursor;
-
 	/**
 	 * The {@link GameScene}s of the game.
 	 */
 	private GameScene sceneMenuMain;
 	private GameScene sceneGamePage;
 	private GameScene sceneLoadingScreen;
+
 	private GameScene sceneCreditsPage;
+
 	private GameScene sceneLostPage;
 	private GameScene sceneWonPage;
 
 	// List containing all GameViews
 	private List<GameView> gameViews;
-
 	// The Stage object representing the window.
 	private Stage window;
 	private Locale language;
 
 	// Various Controller classes.
 	private GamePageController gamePageController;
+
 	private GameHudController gameHudController;
+
 	private OverviewMap3DController gameMapController;
 
 	// Get information about the resolution of the game.
@@ -120,25 +148,6 @@ public class UIManager {
 		switchToScene(next);
 	}
 
-	public static UIManager getInstance() {
-		return instance;
-	}
-
-	/**
-	 * Returns the corresponding message for the given key from the stored
-	 * {@link ResourceBundle} - default englisch: properties.main_en
-	 * 
-	 * @param key The key to look up in the resources.
-	 * @return The localised message as a String.
-	 */
-	public static String getLocalisedString(String key) {
-		return resourceBundle.getString(key);
-	}
-
-	public static ResourceBundle getResourceBundle() {
-		return resourceBundle;
-	}
-
 	public Cursor getCursor() {
 		return this.cursor;
 	}
@@ -147,16 +156,8 @@ public class UIManager {
 		return gameHudController;
 	}
 
-	public void setGameHudController(GameHudController gameHudController) {
-		this.gameHudController = gameHudController;
-	}
-
 	public OverviewMap3DController getGameMapController() {
 		return gameMapController;
-	}
-
-	public void setGameMapController(OverviewMap3DController gameMapController) {
-		this.gameMapController = gameMapController;
 	}
 
 	public GamePageController getGamePageController() {
@@ -183,6 +184,15 @@ public class UIManager {
 	}
 
 	/**
+	 * Returns the language file as java.util.locale.
+	 * 
+	 * @return The requested language file as Locale.
+	 */
+	public Locale getLanguage() {
+		return language;
+	}
+
+	/**
 	 * Get the requested {@link GameModule}.
 	 * 
 	 * @param type The {@link GameModuleType} to get the {@link GameModule} for.
@@ -190,15 +200,6 @@ public class UIManager {
 	 */
 	public GameModule getModule(GameModuleType type) {
 		return getGameView(type.viewType).getModule(type);
-	}
-
-	/**
-	 * Returns the language file as java.util.locale.
-	 * 
-	 * @return The requested language file as Locale.
-	 */
-	public Locale getLanguage() {
-		return language;
 	}
 
 	public GameScene getSceneGame() {
@@ -211,10 +212,6 @@ public class UIManager {
 
 	public Stage getStage() {
 		return window;
-	}
-
-	public void setTutorial(Tutorial tutorial) {
-		this.tutorial = tutorial;
 	}
 
 	public Tutorial getTutorial() {
@@ -374,6 +371,7 @@ public class UIManager {
 		switchToScene(GameSceneType.LOADING_SCREEN);
 		// load all the modules and save them in the gameModules-list
 		prepareGamePage(newGame);
+		registerChangeListeners();
 	}
 
 	/**
@@ -471,6 +469,20 @@ public class UIManager {
 	}
 
 	/**
+	 * Register all standard {@link PropertyChangeListener}s in the respective {@link Department}s.
+	 */
+	private void registerChangeListeners() {
+		GameState gs = GameState.getInstance();
+		gs.addPropertyChangeListener(new GameStateEventListener());
+		gs.getFinanceDepartment().registerPropertyChangeListener(new FinanceEventListener());
+		gs.getHrDepartment().registerPropertyChangeListener(new HREventListener());
+		gs.getMarketingDepartment().registerPropertyChangeListener(new MarketingEventListener());
+		gs.getProcurementDepartment().registerPropertyChangeListener(new ProcurementEventListener());
+		gs.getWarehousingDepartment().registerPropertyChangeListener(new WarehouseEventlistener());
+		gs.getSalesDepartment().registerPropertyChangeListener(new SalesEventListener());
+	}
+
+	/**
 	 * Switch to other language scene by reloading message properties.
 	 */
 	public void reloadProperties() {
@@ -498,6 +510,18 @@ public class UIManager {
 		gamePageController = null;
 		gameMapController = null;
 		gameViews.clear();
+	}
+
+	public void setGameHudController(GameHudController gameHudController) {
+		this.gameHudController = gameHudController;
+	}
+
+	public void setGameMapController(OverviewMap3DController gameMapController) {
+		this.gameMapController = gameMapController;
+	}
+
+	public void setTutorial(Tutorial tutorial) {
+		this.tutorial = tutorial;
 	}
 
 	/**

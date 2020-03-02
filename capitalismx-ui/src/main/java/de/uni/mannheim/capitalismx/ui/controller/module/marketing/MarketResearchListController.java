@@ -46,9 +46,6 @@ public class MarketResearchListController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
 		
-		MarketingDepartment dep = (MarketingDepartment) GameState.getInstance().getMarketingDepartment();
-		dep.registerPropertyChangeListener(new MarketingEventListener());
-		
 		reportsList.setCellFactory(reportsList -> new MarketResearchViewCell(reportsList));
 
 		updateList();

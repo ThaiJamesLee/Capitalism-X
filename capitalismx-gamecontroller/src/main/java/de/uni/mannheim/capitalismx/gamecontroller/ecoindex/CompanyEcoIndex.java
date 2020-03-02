@@ -33,6 +33,12 @@ public class CompanyEcoIndex implements Serializable {
      */
     private final int ECO_FLAT_TAX = 10000;
 
+    
+    /**
+     * see report first team page 30, mechanism nerfed to 10 extra points instead of an extra level (equals 20 points)
+     */
+    private int extraLevelsFromCampaigns = 0;
+    
     /**
      * All possible values of the company ecoIndex, see p.28
      */
@@ -47,6 +53,7 @@ public class CompanyEcoIndex implements Serializable {
         private int min;
         private int max;
         private int points;
+
 
         EcoIndex(int index, int min, int max){
             this.index = index;
@@ -138,8 +145,7 @@ public class CompanyEcoIndex implements Serializable {
         this.decreaseEcoIndex(2);
     }
 
-    //TODO Marketing to increase ecoIndex
-
+    
     /**
      * Calculates the ecoTax based on the ecoFlattax and additionalEcoTax, see p.30
      * @return the ecoTax
@@ -171,15 +177,17 @@ public class CompanyEcoIndex implements Serializable {
      */
     protected void decreaseEcoIndex(int points){
         int newPoints = this.ecoIndex.getPoints() - points;
-        if(newPoints < this.ecoIndex.getMin()){
-            if(this.ecoIndex.getIndex() > 2){
-                this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
-            }else{
-                //TODO Game Over event if below 10 points
-                this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+        if(newPoints > 0){
+            if(newPoints < this.ecoIndex.getMin()){
+                if(this.ecoIndex.getIndex() > 2){
+                    this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+                }else{
+                    //TODO Game Over event if below 10 points
+                    this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+                }
             }
+            this.ecoIndex.setPoints(newPoints);
         }
-        this.ecoIndex.setPoints(newPoints);
     }
 
     /**
@@ -231,6 +239,18 @@ public class CompanyEcoIndex implements Serializable {
 
     public static void setInstance(CompanyEcoIndex instance) {
         CompanyEcoIndex.instance = instance;
+    }
+    
+    public void addCampaignPoints() {
+    	this.increaseEcoIndex(20);
+    }
+    
+    public void setExtraLevelsFromCampaigns(int i) {
+    	extraLevelsFromCampaigns = i;
+    }
+    
+    public int getExtraLevelsFromCampaigns() {
+    	return extraLevelsFromCampaigns;
     }
 
     public static CompanyEcoIndex createInstance() {

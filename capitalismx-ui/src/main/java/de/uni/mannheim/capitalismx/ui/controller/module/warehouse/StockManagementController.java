@@ -198,7 +198,6 @@ public class StockManagementController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		GameState.getInstance().getWarehousingDepartment().registerPropertyChangeListener(new WarehouseEventlistener());
 		componentCells = new HashMap<ComponentType, ComponentStockCell>();
 		productCells = new HashMap<Product, ProductStockCell>();
 

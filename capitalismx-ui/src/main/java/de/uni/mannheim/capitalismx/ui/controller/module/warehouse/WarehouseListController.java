@@ -100,6 +100,7 @@ public class WarehouseListController implements Initializable {
 		});
 
 		warehouseListView.setCellFactory(warehouseListView -> new WarehouseListViewCell(warehouseListView));
+		warehouseListView.setMouseTransparent(true);
 		warehouseListView.getItems().addAll(GameState.getInstance().getWarehousingDepartment().getWarehouses());
 	}
 
