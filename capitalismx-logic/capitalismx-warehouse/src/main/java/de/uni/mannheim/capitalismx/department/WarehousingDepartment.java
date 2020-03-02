@@ -308,7 +308,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     /**
      * Builds warehouse.
      * Adds warehouse to the list of warehouses and add its relevant properties to the warehousing department.
-     * Checks whether there are still warehouse slots available before building one
+     * Checks whether there are still warehouse slots available before building one.
      *
      * @param gameDate the game date
      * @return the costs of building a warehouse
@@ -334,7 +334,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     /**
      * Rents warehouse.
      * Adds warehouse to the list of warehouses and add its relevant properties to the warehousing department.
-     * Checks whether there are still warehouse slots available before building one
+     * Checks whether there are still warehouse slots available before building one.
      *
      * @param gameDate the game date
      * @return the cost of renting a warehouse
