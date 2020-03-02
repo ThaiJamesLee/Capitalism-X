@@ -169,6 +169,18 @@ public class GameController {
 	 * Updates the relevant values regarding the company eco index.
 	 */
 	private void updateCompanyEcoIndex() {
+		
+		double  campaignPoints = MarketingDepartment.getInstance().getPointsFromEcoCampaigns(getIssuedMarketingCampaigns()); 
+		double currentExtraLevels = GameState.getInstance().getCompanyEcoIndex().getExtraLevelsFromCampaigns();
+		if(campaignPoints > 9 && currentExtraLevels == 0) {
+			GameState.getInstance().getCompanyEcoIndex().setExtraLevelsFromCampaigns(1);
+			GameState.getInstance().getCompanyEcoIndex().addCampaignPoints();
+		}
+		if(campaignPoints > 10 && currentExtraLevels == 1) {
+			GameState.getInstance().getCompanyEcoIndex().setExtraLevelsFromCampaigns(2);
+			GameState.getInstance().getCompanyEcoIndex().addCampaignPoints();
+		}
+			
 		GameState.getInstance().getCompanyEcoIndex().checkMachinery(GameState.getInstance().getGameDate());
 		GameState.getInstance().getCompanyEcoIndex().checkVehicles();
 		GameState.getInstance().getCompanyEcoIndex().calculateAll();
