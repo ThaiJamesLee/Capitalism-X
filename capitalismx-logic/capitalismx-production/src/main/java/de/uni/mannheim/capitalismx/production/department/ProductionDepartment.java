@@ -519,67 +519,71 @@ public class ProductionDepartment extends DepartmentImpl {
      * @throws ComponentLockedException           the componen locked exception
      */
     public double produceProduct(Product product, int quantity, int freeStorage, boolean allComponentsUnlocked) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException, ComponentLockedException {
+
+        if (!allComponentsUnlocked) {
+            throw new ComponentLockedException("At least on of the components is not unlocked yet. You might need to do some research first.");
+        }
+
         int totalMachineCapacity = 0;
         for (Machinery machinery : this.machines) {
             totalMachineCapacity += machinery.getMachineryCapacity();
         }
 
         if (quantity > 0) {
-            if (freeStorage >= quantity) {
-                if (totalMachineCapacity >= quantity) {
-                    int maximumProducable = this.totalWarehouseCapacity;
-                    for (Component component : product.getComponents()) {
-                        boolean matched = false;
-                        for (HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
-                            if (component.sameComponent(entry.getKey())) {
-                                matched = true;
-                                if (maximumProducable >= this.storedComponents.get(entry.getKey())) {
-                                    maximumProducable = this.storedComponents.get(entry.getKey());
-                                }
-                                break;
-                            }
+            int maximumProducable = this.totalWarehouseCapacity;
+            for (Component component : product.getComponents()) {
+                boolean matched = false;
+                for (HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
+                    if (component.sameComponent(entry.getKey())) {
+                        matched = true;
+                        if (maximumProducable >= this.storedComponents.get(entry.getKey())) {
+                            maximumProducable = this.storedComponents.get(entry.getKey());
                         }
-                        if(!matched) {
-                            maximumProducable = 0;
-                        }
+                        break;
                     }
-
-                    if (maximumProducable < quantity) {
-                        throw new NotEnoughComponentsException("There are not enough components available to produce " + quantity + " unit(s).", maximumProducable);
-                    }
-
-                    if (!allComponentsUnlocked) {
-                        throw new ComponentLockedException("At least on of the components is not unlocked yet. You might need to do some research first.");
-                    }
-
-                    for (Component component : product.getComponents()) {
-                        for (HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
-                            if (component.sameComponent(entry.getKey())) {
-                                int newStoredQuantity = this.storedComponents.get(entry.getKey()) - quantity;
-                                this.storedComponents.put(entry.getKey(), newStoredQuantity);
-                                break;
-                            }
-                        }
-                    }
-
-                    double variableProductCosts = 0;
-                    int newQuantity = quantity;
-                    for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
-                        if (product == entry.getKey()) {
-                            newQuantity += this.numberProducedProducts.get(product);
-                        }
-                    }
-                    this.numberProducedProducts.put(product, newQuantity);
-                    this.numberUnitsProducedPerMonth += quantity;
-                    variableProductCosts = product.calculateTotalVariableCosts() * quantity;
-                    return variableProductCosts;
-                } else {
-                    throw new NotEnoughMachineCapacityException("There is not enough machine capacity available to produce " + quantity + " unit(s).", totalMachineCapacity);
                 }
-            } else {
-                throw new NotEnoughFreeStorageException("There is not enough warehouse capacity available to produce " + quantity + " unit(s).", freeStorage);
+                if (!matched) {
+                    maximumProducable = 0;
+                }
             }
-        }
+
+            int minQuantity = 0;
+            if (maximumProducable < quantity || totalMachineCapacity < quantity || freeStorage < quantity) {
+                minQuantity = Math.min(maximumProducable, Math.min(totalMachineCapacity, freeStorage));
+                if (minQuantity == freeStorage) {
+                    throw new NotEnoughFreeStorageException("There is not enough warehouse capacity available to produce " + quantity + " unit(s).", minQuantity);
+                }
+                if (minQuantity == maximumProducable) {
+                    throw new NotEnoughComponentsException("There are not enough components available to produce " + quantity + " unit(s).", minQuantity);
+                }
+
+                if (minQuantity == totalMachineCapacity) {
+                    throw new NotEnoughMachineCapacityException("There is not enough machine capacity available to produce " + quantity + " unit(s).", minQuantity);
+                }
+            }
+
+            for (Component component : product.getComponents()) {
+                for (HashMap.Entry<Component, Integer> entry : this.storedComponents.entrySet()) {
+                    if (component.sameComponent(entry.getKey())) {
+                        int newStoredQuantity = this.storedComponents.get(entry.getKey()) - quantity;
+                        this.storedComponents.put(entry.getKey(), newStoredQuantity);
+                        break;
+                    }
+                }
+            }
+
+            double variableProductCosts = 0;
+            int newQuantity = quantity;
+            for (HashMap.Entry<Product, Integer> entry : this.numberProducedProducts.entrySet()) {
+                if (product == entry.getKey()) {
+                    newQuantity += this.numberProducedProducts.get(product);
+                }
+            }
+            this.numberProducedProducts.put(product, newQuantity);
+            this.numberUnitsProducedPerMonth += quantity;
+            variableProductCosts = product.calculateTotalVariableCosts() * quantity;
+            return variableProductCosts;
+            }
         return 0;
     }
 

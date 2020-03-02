@@ -296,11 +296,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
         if (this.inventory.get(soldProduct.getKey()) != null && this.inventory.get(soldProduct.getKey()) >= soldProduct.getValue()) {
             int newInventoryUnits = this.inventory.get(soldProduct.getKey()) - soldProduct.getValue();
-            if (newInventoryUnits == 0) {
-                this.inventoryChange.removeOne(soldProduct.getKey());
-            } else {
-                this.inventoryChange.putOne(soldProduct.getKey(), newInventoryUnits);
-            }
+            this.inventoryChange.putOne(soldProduct.getKey(), newInventoryUnits);
         }
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
     }
