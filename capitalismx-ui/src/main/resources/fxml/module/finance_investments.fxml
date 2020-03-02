@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceInvestmentsController">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.finance.FinanceInvestmentsController">
     <children>
         <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -16,15 +22,21 @@
                     </font>
                 </Label>
                 <Label fx:id="realEstateLabel" layoutX="10.0" layoutY="201.0" styleClass="label_large" text="Amount: 0.00" />
-                <HBox fx:id="hBoxRealEstate" alignment="CENTER" spacing="5.0">
+                <HBox fx:id="hBoxRealEstate" alignment="CENTER" spacing="8.0">
                     <children>
                         <TextField fx:id="realEstateTextField" promptText="%finance.investments.promptRealEstate" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </TextField>
-                        <Button fx:id="buyRealEstateButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyRealEstates" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="sellRealEstateButton" layoutX="183.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellRealEstates" />
+                        <Button fx:id="buyRealEstateButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyRealEstates" HBox.hgrow="ALWAYS">
+                     <graphic>
+                        <FontAwesomeIcon iconName="SHOPPING_CART" size="1.2em" />
+                     </graphic></Button>
+                        <Button fx:id="sellRealEstateButton" graphicTextGap="8.0" layoutX="183.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellRealEstates">
+                     <graphic>
+                        <FontAwesomeIcon iconName="CLOSE" size="1.2em" />
+                     </graphic></Button>
                     </children>
                 </HBox>
                 <Region styleClass="separator_horizontal">
@@ -38,11 +50,17 @@
                     </font>
                 </Label>
                 <Label fx:id="stocksLabel" layoutX="10.0" layoutY="322.0" styleClass="label_large" text="Amount: 0.00" />
-                <HBox fx:id="hBoxStocks" alignment="CENTER" spacing="5.0">
+                <HBox fx:id="hBoxStocks" alignment="CENTER" spacing="8.0">
                     <children>
                         <TextField fx:id="stocksTextField" promptText="%finance.investments.promptStocks" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="buyStocksButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyStocks" />
-                        <Button fx:id="sellStocksButton" layoutX="408.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellStocks" />
+                        <Button fx:id="buyStocksButton" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyStocks">
+                     <graphic>
+                        <FontAwesomeIcon iconName="SHOPPING_CART" size="1.2em" />
+                     </graphic></Button>
+                        <Button fx:id="sellStocksButton" graphicTextGap="8.0" layoutX="408.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellStocks">
+                     <graphic>
+                        <FontAwesomeIcon iconName="CLOSE" size="1.2em" />
+                     </graphic></Button>
                     </children>
                 </HBox>
                 <Region layoutX="10.0" layoutY="127.0" styleClass="separator_horizontal">
@@ -56,11 +74,17 @@
                     </font>
                 </Label>
                 <Label fx:id="ventureCapitalLabel" layoutX="10.0" layoutY="383.0" styleClass="label_large" text="Amount: 0.00" />
-                <HBox fx:id="hBoxVentureCapital" alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
+                <HBox fx:id="hBoxVentureCapital" alignment="CENTER" spacing="8.0" VBox.vgrow="ALWAYS">
                     <children>
                         <TextField fx:id="ventureCapitalTextField" promptText="%finance.investments.promptVentureCapital" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="buyVentureCapitalButton" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyVentureCapital" />
-                        <Button fx:id="sellVentureCapitalButton" layoutX="364.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellVentureCapital" />
+                        <Button fx:id="buyVentureCapitalButton" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnBuyVentureCapital">
+                     <graphic>
+                        <FontAwesomeIcon iconName="SHOPPING_CART" size="1.2em" />
+                     </graphic></Button>
+                        <Button fx:id="sellVentureCapitalButton" graphicTextGap="8.0" layoutX="364.0" mnemonicParsing="false" styleClass="btn_standard" text="%finance.investments.btnSellVentureCapital">
+                     <graphic>
+                        <FontAwesomeIcon iconName="CLOSE" size="1.2em" />
+                     </graphic></Button>
                     </children>
                 </HBox>
             </children>

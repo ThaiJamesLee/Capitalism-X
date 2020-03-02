@@ -79,14 +79,19 @@ FontAwesomeIcon {
 .btn_standard {
 	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary-neutral;
-	-fx-border-radius: 2.0;
+	-fx-padding: 2 16 2 16;
+	-fx-border-radius: 1.0;
+	-fx-background-radius: 0.0;
 	-fx-text-fill: -fx-primary;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-insets: 3 0 2 0;
 	-fx-font-family: "Prime";
 	-fx-font-size: 14.0;	
 }
 
 .btn_standard:hover {
 	-fx-background-color: -fx-complement-neutral;
+	-fx-border-color: -fx-primary;
 }
 
 .btn_standard:pressed {
@@ -317,15 +322,15 @@ FontAwesomeIcon {
 }
 
 .list-view .list-cell:hover {
-	-fx-background-color: -fx-complement-light-neutral;
+	-fx-border-insets: 2.0 3.0 2.0 4.0;
+	-fx-border-width: 0 2 0 2;
 	-fx-text-fill: -fx-primary;
 	-fx-border-color: -fx-primary-dark;
 }
 
 .list-view .list-cell:selected {
-	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-primary-dark;
-	-fx-border-color: -fx-primary-dark;
+	-fx-border-color: -fx-complement;
 }
 
 .list-cell:empty {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -56,9 +57,19 @@
             <ChoiceBox fx:id="qualityAssuranceChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
             <ChoiceBox fx:id="systemSecurityChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ChoiceBox fx:id="processAutomationChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="qualityAssuranceInvestButton" mnemonicParsing="false" onAction="#investInQualityAssurance" styleClass="btn_standard" text="%production.investments.investBtn" GridPane.columnIndex="3" />
-            <Button fx:id="systemSecurityInvestButton" mnemonicParsing="false" onAction="#investInSystemSecurity" styleClass="btn_standard" text="%production.investments.investBtn" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Button fx:id="processAutomationInvestButton" mnemonicParsing="false" onAction="#investInProcessAutomation" styleClass="btn_standard" text="%production.investments.investBtn" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Button fx:id="qualityAssuranceInvestButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#investInQualityAssurance" styleClass="btn_standard" text="%production.investments.investBtn" GridPane.columnIndex="3">
+               <graphic>
+                  <FontAwesomeIcon iconName="LINE_CHART" size="1.2em" />
+               </graphic></Button>
+            <Button fx:id="systemSecurityInvestButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#investInSystemSecurity" styleClass="btn_standard" text="%production.investments.investBtn" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <graphic>
+                  <FontAwesomeIcon iconName="LINE_CHART" size="1.2em" />
+               </graphic></Button>
+            <Button fx:id="processAutomationInvestButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#investInProcessAutomation" styleClass="btn_standard" text="%production.investments.investBtn" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <graphic>
+                  <FontAwesomeIcon iconName="LINE_CHART" size="1.2em" />
+               </graphic>
+            </Button>
          </children>
       </GridPane>
    </children>

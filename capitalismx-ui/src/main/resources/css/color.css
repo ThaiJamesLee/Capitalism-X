@@ -1,22 +1,26 @@
 /** Definition of colors */
 * {
+	/* Primary Color */
    -fx-primary: rgb(227.0,188.0, 82.0,1.0);
-   -fx-primary-dark-transparent: rgb( 10.0,  8.0,  2.0,0.7);
+   -fx-primary-dark-transparent: rgb( 10.0,  8.0,  2.0,0.65);
    -fx-primary-dark: rgb( 10.0,  8.0,  2.0,1.0);
    -fx-primary-light: rgb(255.0,252.0,244.0,1.0);
    -fx-primary-light-neutral: rgb(133.0,129.0,117.0,1.0);
    -fx-primary-neutral: rgb( 29.0, 27.0, 21.0,1.0);
-   -fx-secondary-1: rgb1(227,211, 82,1);
-   -fx-secondary-2: rgb1(227,162, 82,1);
-   -fx-complement-light: rgb(227.0,228.0,236.0,1.0);	/* Main Complement color */
+   -fx-primary-light-transparent: rgb(255.0,252.0,244.0,0.5);
+  	/* Main Complement color */
+   -fx-complement-light: rgb(227.0,228.0,236.0,1.0);	
    -fx-complement-light-neutral:  rgb( 83.0, 83.0, 92.0,1.0);
    -fx-complement-neutral: rgb( 15.0, 16.0, 20.0,1.0) ;
    -fx-complement: rgb( 71.0, 77.0,157.0,1.0);
    -fx-complement-dark: rgb(  2.0,  3.0,  7.0,1.0);
-   -fx-complement-dark-transparent: rgb(  2.0,  3.0,  7.0,0.7);
-   -fx-primary-light-transparent: rgb(255.0,252.0,244.0,0.5);
+   -fx-complement-dark-transparent: rgb(  2.0,  3.0,  7.0,0.65);
    -fx-transparent-background: rgb(132.0, 132.0, 132.0, 0.6);
+   /* Various other colors */
    -fx-green: rgb(99,192, 70, 1);
    -fx-red: rgb(216, 78, 97,1);
    -fx-orange: rgb(227, 162, 82, 1);
+   /* Secondary colors close to the primary one. */
+   -fx-secondary-1: rgb1(227,211, 82,1);
+   -fx-secondary-2: rgb1(227,162, 82,1);
 }

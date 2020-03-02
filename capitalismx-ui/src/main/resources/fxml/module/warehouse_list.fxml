@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -29,43 +31,55 @@
                 <RowConstraints percentHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <GridPane fx:id="buyGridButton" styleClass="grid_button" vgap="8.0" GridPane.rowIndex="5">
+                  <GridPane fx:id="buyGridButton" hgap="4.0" GridPane.rowIndex="5">
                      <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="80.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label styleClass="label_medium" text="%warehouse.list.buy" />
-                        <Label fx:id="buyCostLabel" styleClass="label_light" text="%warehouse.buy.cost" GridPane.rowIndex="1" />
+                        <FontAwesomeIcon iconName="SHOPPING_CART" size="2.2em" GridPane.rowSpan="2" />
+                        <Label graphicTextGap="8.0" styleClass="label_medium" text="%warehouse.list.buy" GridPane.columnIndex="1" />
+                        <Label fx:id="buyCostLabel" styleClass="label_light" text="%warehouse.buy.cost" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                      <GridPane.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                      <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
+                     <styleClass>
+                        <String fx:value="grid_button" />
+                        <String fx:value="btn_standard" />
+                     </styleClass>
                   </GridPane>
-                  <GridPane fx:id="rentGridButton" styleClass="grid_button" vgap="8.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <GridPane fx:id="rentGridButton" hgap="4.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="20.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="80.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label styleClass="label_medium" text="%warehouse.list.rent" />
-                        <Label fx:id="rentCostLabel" styleClass="label_light" text="%warehouse.rent.cost" GridPane.rowIndex="1" />
+                        <FontAwesomeIcon iconName="CALENDAR" size="2.2em" GridPane.rowSpan="2" />
+                        <Label graphicTextGap="8.0" styleClass="label_medium" text="%warehouse.list.rent" GridPane.columnIndex="1" />
+                        <Label fx:id="rentCostLabel" styleClass="label_light" text="%warehouse.rent.cost" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                      <GridPane.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                      <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
+                     <styleClass>
+                        <String fx:value="grid_button" />
+                        <String fx:value="btn_standard" />
+                     </styleClass>
                   </GridPane>
                   <VBox alignment="CENTER" spacing="10.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>

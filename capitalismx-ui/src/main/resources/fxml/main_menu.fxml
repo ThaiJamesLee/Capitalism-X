@@ -75,7 +75,7 @@
             </AnchorPane>
             <AnchorPane GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <GridPane alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <GridPane alignment="CENTER" vgap="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                      </columnConstraints>
@@ -93,13 +93,13 @@
                               <String fx:value="main_button" />
                            </styleClass>
                         </Button>
-                        <Button disable="true" fx:id="continueGameButton" mnemonicParsing="false" text="%btn.continueGame" GridPane.rowIndex="1">
+                        <Button fx:id="continueGameButton" disable="true" mnemonicParsing="false" text="%btn.continueGame" GridPane.rowIndex="1">
                            <styleClass>
                               <String fx:value="menu_button" />
                               <String fx:value="main_button" />
                            </styleClass>
                         </Button>
-                        <Button disable="true" fx:id="leaderboardButton" mnemonicParsing="false" text="%btn.leaderbord" GridPane.rowIndex="2">
+                        <Button fx:id="leaderboardButton" disable="true" mnemonicParsing="false" text="%btn.leaderbord" GridPane.rowIndex="2">
                            <styleClass>
                               <String fx:value="menu_button" />
                               <String fx:value="main_button" />

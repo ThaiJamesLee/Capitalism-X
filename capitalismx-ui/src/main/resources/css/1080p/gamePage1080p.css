@@ -42,10 +42,12 @@
 	-fx-border-width: 0.0;
 	-fx-border-radius: 5.0;
 	-fx-background-radius: 5.0;
-	/**-fx-border-insets: -1;
-	-fx-border-width:1;**/
-	-fx-border-color: -fx-primary;
 	-fx-effect: dropshadow(gaussian, -fx-primary-dark-transparent, 10.0, 0.5, 0.0, 0.0);
+}
+
+.hud_background:hover {
+	-fx-border-width: 1.0;
+	-fx-border-color: -fx-primary;
 }
 
 .hud_background .title_label {

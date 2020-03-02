@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconName;
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -116,6 +117,15 @@ public class EmployeeListViewCell extends ListCell<Employee> implements Updateab
 		satisfactionIcon.setIconName("SMILE_ALT");
 		satisfactionIcon.setSize("1.5em");
 
+		FontAwesomeIcon trainIcon = new FontAwesomeIcon();
+		trainButton.setGraphicTextGap(8);
+		trainIcon.setIcon(FontAwesomeIconName.MORTAR_BOARD);
+		trainButton.setGraphic(trainIcon);
+		
+		FontAwesomeIcon fireIcon = new FontAwesomeIcon();
+		fireIcon.setIcon(FontAwesomeIconName.USER_TIMES);
+		fireButton.setGraphicTextGap(8);
+		fireButton.setGraphic(fireIcon);
 		fireButton.setOnAction(eFire -> {
 			GameState.getInstance().getHrDepartment().fire(employee);
 		});
