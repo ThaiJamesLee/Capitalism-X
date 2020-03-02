@@ -73,3 +73,8 @@
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-primary-neutral;
 }
+
+.grid_button:pressed .label {
+	-fx-text-fill: -fx-primary-dark;
+	-fx-fill: -fx-primary-dark;
+}

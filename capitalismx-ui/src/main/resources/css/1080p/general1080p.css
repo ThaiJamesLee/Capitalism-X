@@ -97,12 +97,17 @@ FontAwesomeIcon {
 .btn_standard:pressed {
 	-fx-background-color: -fx-primary;
 	-fx-border-color: -fx-primary-neutral;
-	-fx-text-fill: -fx-primary-light;
+	-fx-text-fill: -fx-primary-dark;
 }
 
 .btn_standard FontAwesomeIcon {
 	-fx-fill: -fx-primary;
 	-fx-text-fill: -fx-primary;
+}
+
+.btn_standard:pressed FontAwesomeIcon {
+	-fx-fill: -fx-primary-dark;
+	-fx-text-fill: -fx-primary-dark;
 }
 
 .btn_big {
