@@ -22,6 +22,10 @@ import javafx.scene.control.ListView;
 
 /**
  * The controller for the machinery list
+ * It allows to buy a new machinery and it displays a game alert if there are not enough machinery slots available in
+ * the production department.
+ *
+ * @author dzhao
  */
 public class MachineryListController implements UpdateableController {
 

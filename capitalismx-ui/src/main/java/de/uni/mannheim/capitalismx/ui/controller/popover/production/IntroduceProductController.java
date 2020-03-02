@@ -60,6 +60,15 @@ public class IntroduceProductController implements Initializable {
 	private GridPane tutorialPane;
 	@FXML
 	private Button launchTvButton;
+
+    @FXML
+    private Button launchPhoneButton;
+    @FXML
+
+    private Button launchConsoleButton;
+
+    @FXML
+    private Button launchNotebookButton;
 	/****** Product Name Text Fields ******/
     @FXML
     private TextField tvProductNameTextField, consoleProductNameTextField, notebookProductNameTextField, phoneProductNameTextField;
@@ -406,6 +415,11 @@ public class IntroduceProductController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.launchTvButton.setText("Launch (" + CapCoinFormatter.getCapCoins(GameController.getInstance().getProductLaunchCosts()) + ")");
+        this.launchConsoleButton.setText("Launch (" + CapCoinFormatter.getCapCoins(GameController.getInstance().getProductLaunchCosts()) + ")");
+        this.launchNotebookButton.setText("Launch (" + CapCoinFormatter.getCapCoins(GameController.getInstance().getProductLaunchCosts()) + ")");
+        this.launchPhoneButton.setText("Launch (" + CapCoinFormatter.getCapCoins(GameController.getInstance().getProductLaunchCosts()) + ")");
+
 		TextFieldHelper.makeTextFieldNumeric(tvSalesPriceTextField);
 		TextFieldHelper.makeTextFieldNumeric(notebookSalesPriceTextField);
 		TextFieldHelper.makeTextFieldNumeric(consoleSalesPriceTextField);

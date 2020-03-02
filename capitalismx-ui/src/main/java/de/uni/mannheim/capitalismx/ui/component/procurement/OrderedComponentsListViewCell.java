@@ -12,18 +12,37 @@ import javafx.scene.control.ListView;
 
 import java.io.IOException;
 
+/**
+ * A component order view cell.
+ * It displays the component, quantity, order date and arrival date.
+ *
+ * @author dzhao
+ */
+@Deprecated
 public class OrderedComponentsListViewCell extends ListCell<ComponentOrder
         > {
 
+    /**
+     * The Component label.
+     */
     @FXML
     Label componentLabel;
 
+    /**
+     * The Quantity label.
+     */
     @FXML
     Label quantityLabel;
 
+    /**
+     * The Order date label.
+     */
     @FXML
     Label orderDateLabel;
 
+    /**
+     * The Arrival date label.
+     */
     @FXML
     Label arrivalDateLabel;
 
@@ -32,10 +51,16 @@ public class OrderedComponentsListViewCell extends ListCell<ComponentOrder
 
     private ListView<ComponentOrder> orderedComponentsListView;
 
+    /**
+     * Instantiates a new Ordered components list view cell.
+     *
+     * @param orderedComponentsListView the ordered components list view
+     */
     public OrderedComponentsListViewCell(ListView<ComponentOrder> orderedComponentsListView) {
         this.orderedComponentsListView = orderedComponentsListView;
     }
 
+    @Override
     protected void updateItem(ComponentOrder componentOrder, boolean empty) {
         super.updateItem(componentOrder, empty);
         if(empty || componentOrder == null) {

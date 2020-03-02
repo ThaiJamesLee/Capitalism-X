@@ -91,7 +91,7 @@ public class ProductionDepartment extends DepartmentImpl {
     /**
      * The costs of launching a product.
      */
-    private static final double PRODUCT_LAUNCH_COSTS = 10000.0;
+    private static final double PRODUCT_LAUNCH_COSTS = 5000.0;
 
     /**
      * The cost per ProductionInvestment level
@@ -1303,6 +1303,15 @@ public class ProductionDepartment extends DepartmentImpl {
      */
     public int getProductionSlots() {
         return productionSlots;
+    }
+
+    /**
+     * Gets the product launch costs.
+     *
+     * @return the product launch costs
+     */
+    public double getProductLaunchCosts() {
+        return PRODUCT_LAUNCH_COSTS;
     }
 
     /**

@@ -1344,6 +1344,15 @@ public class GameController {
 	}
 
 	/**
+	 * Gets product launch costs
+	 *
+	 * @return products launch costs
+	 */
+	public double getProductLaunchCosts() {
+		return GameState.getInstance().getProductionDepartment().getProductLaunchCosts();
+	}
+
+	/**
 	 * Produces product double.
 	 * It checks whether the product can be produced in the specified quantity (enough components, components unlocked, enough free storage, enough machine capacity),
 	 * otherwise it throws an exception.

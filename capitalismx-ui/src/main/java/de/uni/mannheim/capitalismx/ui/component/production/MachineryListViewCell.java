@@ -4,6 +4,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -14,6 +15,13 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
+/**
+ * A machinery view cell.
+ * It displays the buy date, resale price, capacity and production technology.
+ * It also allows the user to maintain, ugprade, and sell the machinery.
+ *
+ * @author dzhao
+ */
 public class MachineryListViewCell extends ListCell<Machinery> {
 
     @FXML
@@ -47,6 +55,11 @@ public class MachineryListViewCell extends ListCell<Machinery> {
 
     private ListView<Machinery> machineryListView;
 
+    /**
+     * Instantiates a new Machinery list view cell.
+     *
+     * @param machineryListView the machinery list view
+     */
     public MachineryListViewCell(ListView<Machinery> machineryListView){
         this.machineryListView = machineryListView;
     }
@@ -95,8 +108,13 @@ public class MachineryListViewCell extends ListCell<Machinery> {
         }
     }
 
+    /**
+     * Update labels.
+     *
+     * @param machinery the machinery
+     */
     public void updateLabels(Machinery machinery) {
-        valueLabel.setText(machinery.calculateResellPrice() + " CC");
+        valueLabel.setText(CapCoinFormatter.getCapCoins(machinery.calculateResellPrice()));
         dateLabel.setText(machinery.getPurchaseDate() + "");
         capacityLabel.setText(machinery.getMachineryCapacity() + " Capacity");
         productionTechnologyLabel.setText(machinery.getProductionTechnology().toString());
