@@ -86,10 +86,10 @@ public class SalesContractController implements Initializable {
     @FXML
     public void fulfillContract(){
         if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0){
-            int index = availableContractsList.getSelectionModel().getSelectedIndex();
+            int index = acceptedContractsList.getSelectionModel().getSelectedIndex();
             SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
             WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
-            Contract c = salesDep.getAvailableContracts().get(index);
+            Contract c = salesDep.getActiveContracts().get(index);
             Product p = c.getProduct();
             int productCount = c.getNumProducts();
             if(warehouse.getInventory().containsKey(p)){
@@ -165,7 +165,7 @@ public class SalesContractController implements Initializable {
      * @param ID ID of contract whose info should be displayed
      */
     public void showInfoPanel(String ID){
-        System.out.println("showInfoPanel  Check");
+        System.out.println("showInfoPanel Check");
         //GameState.getInstance().getSalesDepartment().getAvailableContracts().getList().contains();
         SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
         for(Contract c : salesDep.getAvailableContracts().getList()){
@@ -202,6 +202,7 @@ public class SalesContractController implements Initializable {
                 infoPane = infoLoader.load();
                 infoPaneController = infoLoader.getController();
                 contractInfoPane.getChildren().add(infoPane);
+                System.out.println("Info Panel should show now");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -218,6 +219,7 @@ public class SalesContractController implements Initializable {
                 "" + c.getContractDoneDate(),
                 "" + CapCoinFormatter.getCapCoins(c.getPenalty())
         );
+        System.out.println("Info for: " + c.getContractor());
     }
 
     /**
@@ -275,15 +277,20 @@ public class SalesContractController implements Initializable {
     /**
      *
      */
+    @FXML
     public void regenerateAvailableContracts(){
+        System.out.println("Create new Contracts");
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 removeAllAvailableContracts();
                 SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+                System.out.println("Create new Contraaaaaaaacts");
                 try{
                     double cost = salesDep.refreshAvailableContracts(GameState.getInstance().getGameDate(), GameState.getInstance().getProductionDepartment(), GameState.getInstance().getCustomerDemand().getDemandPercentage());
                     GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), cost);
+                    refreshAvailableContracts();
+                    System.out.println("Create new Contraaaaaaaaaaaaaaaaaaaaacts");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
