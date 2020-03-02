@@ -194,6 +194,8 @@ public class GameController {
 		GameState.getInstance().getCompanyEcoIndex().checkMachinery(GameState.getInstance().getGameDate());
 		GameState.getInstance().getCompanyEcoIndex().checkVehicles();
 		GameState.getInstance().getCompanyEcoIndex().calculateAll();
+		//set the eco costs in the finance department
+		GameState.getInstance().getFinanceDepartment().setEcoCosts(GameState.getInstance().getCompanyEcoIndex().getEcoCosts());
 	}
 
 	/**

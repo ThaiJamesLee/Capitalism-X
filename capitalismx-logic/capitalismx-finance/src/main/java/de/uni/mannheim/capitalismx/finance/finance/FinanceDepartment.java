@@ -261,6 +261,7 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalMarketingCosts;
     private double totalSupportCosts;
     private double totalExpenses;
+    private double ecoCosts;
 
     private double initialTaxReduction;
 
@@ -285,6 +286,8 @@ public class FinanceDepartment extends DepartmentImpl {
 
         this.initProperties();
         this.initSkills();
+
+        this.ecoCosts = 0.0;
 
         this.gameOver = new PropertyChangeSupportBoolean();
         this.gameOver.setValue(false);
@@ -500,14 +503,16 @@ public class FinanceDepartment extends DepartmentImpl {
 
     /**
      * Calculates the company's cash based on the previous cash amount, the current nopat, and the assets sold similarly
-     * to p.71 (here, monthly loan rate is deducted from the cash amount) and adds it to the respective history.
-     * Moreover, ends the game if cash < 0.
+     * to p.71 (here, monthly loan rate and eco costs are additionally deducted from the cash amount) and adds it to the
+     * respective history. Moreover, ends the game if cash < 0.
      * @param gameDate The current date in the game.
      * @return Returns the cash amount.
      */
     protected double calculateCash(LocalDate gameDate){
         double cash = this.cash.getValue() +  this.calculateNopat(gameDate) + this.calculateAssetsSold(gameDate);
         cash -= BankingSystem.getInstance().calculateMonthlyLoanRate(gameDate);
+        //subtract eco costs from cash
+        cash -= (this.ecoCosts / gameDate.lengthOfYear());
         if(cash < 0){
             this.gameOver.setValue(true);
         }else{
@@ -1415,6 +1420,10 @@ public class FinanceDepartment extends DepartmentImpl {
 
     public Double getCashDifference(){
         return this.cashDifference.getValue();
+    }
+
+    public void setEcoCosts(double ecoCosts) {
+        this.ecoCosts = ecoCosts;
     }
 
     /**

@@ -38,6 +38,8 @@ public class CompanyEcoIndex implements Serializable {
      * see report first team page 30, mechanism nerfed to 10 extra points instead of an extra level (equals 20 points)
      */
     private int extraLevelsFromCampaigns = 0;
+
+    private double ecoCosts;
     
     /**
      * All possible values of the company ecoIndex, see p.28
@@ -168,7 +170,8 @@ public class CompanyEcoIndex implements Serializable {
      * @return Returns the yearly eco costs.
      */
     private double calculateEcoCosts(){
-        return this.calculateEcoTax() - (ProductionDepartment.getInstance().getProductionTechnology().getRange() + ProductionDepartment.getInstance().calculateAverageEcoIndexOfLaunchedProducts()) * 1000;
+        this.ecoCosts = this.calculateEcoTax() - (ProductionDepartment.getInstance().getProductionTechnology().getRange() + ProductionDepartment.getInstance().calculateAverageEcoIndexOfLaunchedProducts()) * 1000;
+        return this.ecoCosts;
     }
 
     /**
@@ -235,6 +238,10 @@ public class CompanyEcoIndex implements Serializable {
 
     public EcoIndex getEcoIndex() {
         return this.ecoIndex;
+    }
+
+    public double getEcoCosts() {
+        return this.ecoCosts;
     }
 
     public static void setInstance(CompanyEcoIndex instance) {
