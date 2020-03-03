@@ -337,7 +337,15 @@ public class SalesDepartment extends DepartmentImpl {
             throw new LevelingRequirementNotFulFilledException("The level of the department must be greater than 0!");
         }
         generateContracts(date, productionDepartment, demandPercentage);
-        return ((SalesDepartmentSkill) skillMap.get(getLevel())).getRefreshCost();
+        return getRefreshCost();
+    }
+
+    /**
+     * The current refresh cost of the department to get new available contracts.
+     * @return Returns the current refresh cost.
+     */
+    public double getRefreshCost() {
+        return  ((SalesDepartmentSkill) skillMap.get(getLevel())).getRefreshCost();
     }
 
     /**

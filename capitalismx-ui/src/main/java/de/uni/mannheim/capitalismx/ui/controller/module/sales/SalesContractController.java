@@ -275,11 +275,9 @@ public class SalesContractController implements Initializable {
     public void regenerateAvailableContracts(){
         System.out.println("Create new Contracts");
                 removeAllAvailableContracts();
-                SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
                 System.out.println("Create new Contraaaaaaaacts");
                 try{
-                    double cost = salesDep.refreshAvailableContracts(GameState.getInstance().getGameDate(), GameState.getInstance().getProductionDepartment(), GameState.getInstance().getCustomerDemand().getDemandPercentage());
-                    GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), cost);
+                    GameController.getInstance().getSales().refreshContracts();
                     refreshAvailableContracts();
                     System.out.println("Create new Contraaaaaaaaaaaaaaaaaaaaacts");
                 } catch (Exception e) {

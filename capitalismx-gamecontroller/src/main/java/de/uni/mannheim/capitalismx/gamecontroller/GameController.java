@@ -127,7 +127,6 @@ public class GameController {
 	private void updateAll() {
 		// TODO update all values of the departments
 		this.updateCompanyEcoIndex();
-		this.updateCustomer();
 		this.updateExternalEvents(GameState.getInstance().getGameDate());
 		this.updateFinance();
 		this.updateHR();
@@ -136,7 +135,9 @@ public class GameController {
 		this.updateWarehouse();
 		this.updateProcurement();
 		this.updateProduction();
+		this.updateCustomer();
 		this.updateContracts();
+
 	}
 
 	/**
@@ -343,20 +344,7 @@ public class GameController {
 		}
 	}
 
-	/**
-	 * Refresh available contracts if possible. If not possible, cost are still subtracted.
-	 * Reason: The company tries to get contract offers, but is not attractive enough, since it does not
-	 * have any products, production capacity.
-	 *
-	 * @throws LevelingRequirementNotFulFilledException Exception thrown, if {@link SalesDepartment#getLevel()} is smaller than 1. Notify the player!
-	 */
-	public void refreshContracts() throws LevelingRequirementNotFulFilledException {
-		GameState state = GameState.getInstance();
-		SalesDepartment salesDepartment = state.getSalesDepartment();
-		double cost = salesDepartment.refreshAvailableContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
 
-		decreaseCash(state.getGameDate(), cost);
-	}
 
 	public void start() {
 		GameThread.getInstance().run();
@@ -476,6 +464,37 @@ public class GameController {
 	 */
 	public static class Sales {
 
+		/**
+		 * Refresh available contracts if possible. If not possible, cost are still subtracted.
+		 * Reason: The company tries to get contract offers, but is not attractive enough, since it does not
+		 * have any products, production capacity.
+		 *
+		 * @throws LevelingRequirementNotFulFilledException Exception thrown, if {@link SalesDepartment#getLevel()} is smaller than 1. Notify the player!
+		 */
+		public void refreshContracts() throws LevelingRequirementNotFulFilledException {
+			GameState state = GameState.getInstance();
+			SalesDepartment salesDepartment = state.getSalesDepartment();
+			double cost = salesDepartment.refreshAvailableContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+
+			state.getFinanceDepartment().decreaseCash(state.getGameDate(), cost);
+		}
+
+		/**
+		 * 
+		 * @return Returns the cost to refresh available contracts.
+		 */
+		public double getRefreshCost() {
+			GameState state = GameState.getInstance();
+			return state.getSalesDepartment().getRefreshCost();
+
+		}
+
+		/**
+		 * Fulfills the contract in the given index.
+		 * @param index The index of the wanted contract.
+		 *
+		 * @author lixiang
+		 */
 		public void fulfillContract(int index) {
 			SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
 			WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
