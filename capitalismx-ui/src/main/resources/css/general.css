@@ -1,40 +1,9 @@
-/** Definition of colors */
-* {
-   -fx-primary: rgb(227.0,188.0, 82.0,1.0);
-   -fx-primary-dark-transparent: rgb( 10.0,  8.0,  2.0,0.7);
-   -fx-primary-dark: rgb( 10.0,  8.0,  2.0,1.0);
-   -fx-primary-light: rgb(255.0,252.0,244.0,1.0);
-   -fx-primary-light-neutral: rgb(133.0,129.0,117.0,1.0);
-   -fx-primary-neutral: rgb( 29.0, 27.0, 21.0,1.0);
-   -fx-complement-light: rgb(227.0,228.0,236.0,1.0);	/* Main Complement color */
-   -fx-complement-light-neutral:  rgb( 83.0, 83.0, 92.0,1.0);
-   -fx-complement-neutral: rgb( 15.0, 16.0, 20.0,1.0) ;
-   -fx-complement: rgb( 71.0, 77.0,157.0,1.0);
-   -fx-complement-dark: rgb(  2.0,  3.0,  7.0,1.0);
-   -fx-complement-dark-transparent: rgb(  2.0,  3.0,  7.0,0.7);
-   -fx-transparent-background: rgb(132.0, 132.0, 132.0, 0.6);
-   -fx-green: rgb(99,192, 70, 1);
-   -fx-red: rgb(216, 78, 97,1);
-   -fx-orange: rgb(227, 162, 82, 1);
-}
+@import "color.css";
+@import "font.css";
 
 * {
 	-fx-focus-color: -fx-primary;
 } 
-
-/** Define fonts */
-@font-face {
-    src: url('../fonts/Prime-Regular.ttf');
-}
-@font-face {
-    src: url('../fonts/Prime-Light.ttf');
-}
-@font-face {
-    src: url('../fonts/Reckone-Regular.ttf');
-}
-@font-face {
-    src: url('../fonts/Reckoner-Bold.ttf');
-}
 
 .cursor-clickable {
 	-fx-cursor: hand;
@@ -101,7 +70,7 @@ FontAwesomeIcon {
 .btn_standard {
 	-fx-background-color: -fx-primary-neutral;
 	-fx-border-color: -fx-primary-neutral;
-	-fx-border-radius: 2.0;
+	-fx-border-radius: 3.0;
 	-fx-text-fill: -fx-primary;
 	-fx-font-family: "Prime";
 	-fx-font-size: 14.0;

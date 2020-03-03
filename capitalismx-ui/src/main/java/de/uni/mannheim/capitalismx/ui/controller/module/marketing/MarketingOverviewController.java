@@ -8,8 +8,8 @@ import org.controlsfx.control.PopOver;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.MarketingEventListener;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.eventlistener.MarketingEventListener;
+import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -63,9 +63,6 @@ public class MarketingOverviewController implements Initializable {
 		helper.createStandardOverlay("fxml/popover/mkt_newPR_options.fxml");
 		popover = helper.getPopover();
 		
-		MarketingDepartment dep = MarketingDepartment.getInstance();
-		dep.registerPropertyChangeListener(new MarketingEventListener());
-				
 		//TODO ändern und korrekt formatieren...
 		GameController controller = GameController.getInstance();
 		updateCompanyImageLabel();

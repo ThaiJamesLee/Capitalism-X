@@ -4,7 +4,12 @@ import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.department.ProductionTechnology;
 import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailableException;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
+import de.uni.mannheim.capitalismx.production.product.Product;
+import de.uni.mannheim.capitalismx.production.product.ProductCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -86,7 +91,7 @@ public class ProductionDepartmentTest {
     public void launchProductTest() {
         try {
             Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
-            Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true), 10000.0);
+            Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true), 5000.0);
             ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true);
         } catch(Exception e) {
             System.out.println(e.getMessage());

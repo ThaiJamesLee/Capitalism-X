@@ -1,7 +1,9 @@
 package de.uni.mannheim.capitalismx.gamecontroller.ecoindex;
 
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.product.Product;
 
 import java.io.Serializable;
 import java.util.List;
@@ -31,6 +33,14 @@ public class CompanyEcoIndex implements Serializable {
      */
     private final int ECO_FLAT_TAX = 10000;
 
+    
+    /**
+     * see report first team page 30, mechanism nerfed to 10 extra points instead of an extra level (equals 20 points)
+     */
+    private int extraLevelsFromCampaigns = 0;
+
+    private double ecoCosts;
+    
     /**
      * All possible values of the company ecoIndex, see p.28
      */
@@ -45,6 +55,7 @@ public class CompanyEcoIndex implements Serializable {
         private int min;
         private int max;
         private int points;
+
 
         EcoIndex(int index, int min, int max){
             this.index = index;
@@ -103,23 +114,27 @@ public class CompanyEcoIndex implements Serializable {
         this.calculateEcoCosts();
     }
 
-    private void checkMachinery(LocalDate gameDate){
-        //TODO
-
+    /**
+     * Checks if old machinery is in use and decreases the eco index according to p.29.
+     * @param gameDate The current date in the game.
+     */
+    public void checkMachinery(LocalDate gameDate){
         List<Machinery> machines = ProductionDepartment.getInstance().getMachines();
         for(Machinery machinery : machines){
-            machinery.depreciateMachinery(false, gameDate);
-            if(machinery.getYearsSinceLastInvestment() > 5){
+            if((machinery.getYearsSinceLastInvestment() > 5) && (!machinery.hasDecreasedEcoIndex())){
                 this.decreaseEcoIndex(1);
+                machinery.setDecreasedEcoIndex(true);
             }
         }
     }
 
-    private void checkVehicles(){
-        //TODO
-        /**if(Logistics.getInstance().getInternalFleet().calculateExoIndexFleet() < 3){
+    /**
+     * Checks the eco index of the fleet and decreases the eco index similar to p.29.
+     */
+    public void checkVehicles(){
+        if(LogisticsDepartment.getInstance().getInternalFleet().calculateEcoIndexFleet() < 60){
             this.decreaseEcoIndex(1);
-        }**/
+        }
     }
 
     //TODO
@@ -132,8 +147,7 @@ public class CompanyEcoIndex implements Serializable {
         this.decreaseEcoIndex(2);
     }
 
-    //TODO Marketing to increase ecoIndex
-
+    
     /**
      * Calculates the ecoTax based on the ecoFlattax and additionalEcoTax, see p.30
      * @return the ecoTax
@@ -151,10 +165,13 @@ public class CompanyEcoIndex implements Serializable {
         return this.ECO_FLAT_TAX + additionalEcoTax;
     }
 
-    //TODO
+    /**
+     * Calculates the yearly eco costs according to p.30.
+     * @return Returns the yearly eco costs.
+     */
     private double calculateEcoCosts(){
-        //return this.calculateEcoTax() - (Production.getInstance().getProductionTechnology().getRange() + component eL) * 1000;
-        return 0.0;
+        this.ecoCosts = this.calculateEcoTax() - (ProductionDepartment.getInstance().getProductionTechnology().getRange() + ProductionDepartment.getInstance().calculateAverageEcoIndexOfLaunchedProducts()) * 1000;
+        return this.ecoCosts;
     }
 
     /**
@@ -163,15 +180,17 @@ public class CompanyEcoIndex implements Serializable {
      */
     protected void decreaseEcoIndex(int points){
         int newPoints = this.ecoIndex.getPoints() - points;
-        if(newPoints < this.ecoIndex.getMin()){
-            if(this.ecoIndex.getIndex() > 2){
-                this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
-            }else{
-                //TODO Game Over event if below 10 points
-                this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+        if(newPoints > 0){
+            if(newPoints < this.ecoIndex.getMin()){
+                if(this.ecoIndex.getIndex() > 2){
+                    this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+                }else{
+                    //TODO Game Over event if below 10 points
+                    this.ecoIndex = EcoIndex.values()[this.ecoIndex.ordinal() + 1];
+                }
             }
+            this.ecoIndex.setPoints(newPoints);
         }
-        this.ecoIndex.setPoints(newPoints);
     }
 
     /**
@@ -221,8 +240,24 @@ public class CompanyEcoIndex implements Serializable {
         return this.ecoIndex;
     }
 
+    public double getEcoCosts() {
+        return this.ecoCosts;
+    }
+
     public static void setInstance(CompanyEcoIndex instance) {
         CompanyEcoIndex.instance = instance;
+    }
+    
+    public void addCampaignPoints() {
+    	this.increaseEcoIndex(20);
+    }
+    
+    public void setExtraLevelsFromCampaigns(int i) {
+    	extraLevelsFromCampaigns = i;
+    }
+    
+    public int getExtraLevelsFromCampaigns() {
+    	return extraLevelsFromCampaigns;
     }
 
     public static CompanyEcoIndex createInstance() {

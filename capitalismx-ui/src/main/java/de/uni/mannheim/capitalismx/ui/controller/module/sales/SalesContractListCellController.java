@@ -2,8 +2,8 @@ package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

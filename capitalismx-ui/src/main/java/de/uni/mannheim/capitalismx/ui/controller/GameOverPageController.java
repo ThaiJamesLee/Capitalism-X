@@ -4,10 +4,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
-import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
+import de.uni.mannheim.capitalismx.ui.component.GameSceneType;
+import de.uni.mannheim.capitalismx.ui.util.CssHelper;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
@@ -17,7 +17,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Alex
  *
  */
-public class GameOverPageController implements UpdateableController {
+public class GameOverPageController implements Initializable {
 
 	@FXML 
 	public AnchorPane root;
@@ -41,12 +41,6 @@ public class GameOverPageController implements UpdateableController {
 		quitBtn.setOnAction(e -> {
 			UIManager.getInstance().quitApplication();
 		});
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -2,15 +2,15 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.finance;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
+import de.uni.mannheim.capitalismx.finance.finance.Loan;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.finance.LoanRequestBox;
-import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
+import de.uni.mannheim.capitalismx.ui.component.finance.LoanRequestBox;
+import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -25,7 +25,7 @@ import javafx.scene.layout.VBox;
 public class LoanRequestListController implements UpdateableController {
 
     @FXML
-    ListView<BankingSystem.Loan> loanRequestListView;
+    ListView<Loan> loanRequestListView;
     
     @FXML
     private VBox loanVBox;
@@ -40,16 +40,15 @@ public class LoanRequestListController implements UpdateableController {
     	loanVBox.getChildren().clear();
         GameController controller = GameController.getInstance();
 
-        ArrayList<BankingSystem.Loan> loans = controller.generateLoanSelection(loanAmount, GameState.getInstance().getGameDate(), UIManager.getResourceBundle().getLocale());
+        List<Loan> loans = controller.generateLoanSelection(loanAmount, GameState.getInstance().getGameDate(), UIManager.getResourceBundle().getLocale());
 
         if(loans != null){
-            for(BankingSystem.Loan loan : loans) {
+            for(Loan loan : loans) {
                 LoanRequestBox loanRequestBox;
                 try {
                     loanRequestBox = new LoanRequestBox(loan);
                     loanVBox.getChildren().add(loanRequestBox.getRoot());
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }

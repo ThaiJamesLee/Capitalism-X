@@ -11,10 +11,10 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.marketing.MarketResearchViewCell;
+import de.uni.mannheim.capitalismx.ui.component.marketing.MarketResearchViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.popover.marketing.NewMarketResearchController;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.MarketingEventListener;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.eventlistener.MarketingEventListener;
+import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -45,9 +45,6 @@ public class MarketResearchListController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
-		
-		MarketingDepartment dep = (MarketingDepartment) GameState.getInstance().getMarketingDepartment();
-		dep.registerPropertyChangeListener(new MarketingEventListener());
 		
 		reportsList.setCellFactory(reportsList -> new MarketResearchViewCell(reportsList));
 

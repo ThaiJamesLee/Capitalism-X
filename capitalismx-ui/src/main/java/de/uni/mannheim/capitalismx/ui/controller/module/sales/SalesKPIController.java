@@ -43,7 +43,9 @@ public class SalesKPIController implements Initializable {
     @FXML
     Label penaltyQuarter;
 
-
+    /**
+     * Updates the KPIs for the of fulfilled contracts and the contract revenue.
+     */
     public void updateFulfilledKPIs(){
         doneContractCounter = salesDep.getDoneContracts().size();
         int yearContractCounter = 0;
@@ -73,6 +75,9 @@ public class SalesKPIController implements Initializable {
         this.revenueQuarter.setText("" + revenueQuarter);
     }
 
+    /**
+     * Updates the KPIs for the of failed contracts and the contract losses.
+     */
     public void updateFailedKPIs(){
         failedContractCounter = salesDep.getFailedContracts().size();
         int yearFailedCounter = 0;

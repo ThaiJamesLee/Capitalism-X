@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.marketing.consultancy.ConsultancyType;
 import de.uni.mannheim.capitalismx.marketing.department.skill.MarketingSkill;
 import de.uni.mannheim.capitalismx.marketing.domain.Action;
@@ -287,6 +287,27 @@ public class MarketingDepartment extends DepartmentImpl {
 
         return points;
     }
+    
+    
+    /**
+     * see report First Team page 30, computes increase of Eco-Campaigns on EcoIndex
+     * 
+     * @param campaigns
+     * @return ecoCampaignPoints
+     */
+    public double getPointsFromEcoCampaigns(List<Campaign> campaigns) {
+    	double ecoPoints = 0;
+    	
+    	String[] namesEcoCampaigns = {"Promote environmental friendly supplier", "Promote environmental friendly production", "Green marketing campaign"};
+    	Media[] mediaEcoCampaigns = {Media.TELEVISION, Media.ONLINE, Media.NEWSPAPER};
+    	for (String name : namesEcoCampaigns) {
+    		for (Media media : mediaEcoCampaigns) {
+    			ecoPoints += getPointsByCampaignAndMedia(campaigns, name, media);
+    		}
+    	}
+    	return ecoPoints;
+    }
+    
 
     /**
      *
@@ -403,7 +424,8 @@ public class MarketingDepartment extends DepartmentImpl {
     }
 
     /**
-     * TODO
+     * Computes the relatively weakest KPI (supposed) as described in the report of the first team on pages 62 and 63.
+     * 
      */
     public  String orderConsultantReport(ConsultancyType conType, Double[] metrics) {
     	//TODO Sven fragen wegen totalSupportQuality...

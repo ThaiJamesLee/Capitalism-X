@@ -1,10 +1,14 @@
 package de.uni.mannheim.capitalismx.logistic.logistics;
 
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
+import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ResourceBundle;
 
 /**
  * This class represents the trucks that can be added to the internal fleet of the company.
@@ -25,6 +29,13 @@ public class Truck implements Serializable {
     private double variableCostsDelivery;
     private int usefulLife;
     private LocalDate purchaseDate;
+    private double basePrice;
+    private double basePriceDelivery;
+    private double maintenanceCostsFactor;
+    private PropertyChangeSupportDouble resellPrice;
+    private boolean decreasedEcoIndex;
+
+    private static final String DEFAULTS_PROPERTIES_FILE = "logistics-defaults";
 
     /**
      * Constructor
@@ -37,20 +48,37 @@ public class Truck implements Serializable {
      */
     public Truck(String name, double ecoIndexTruck, double qualityIndexTruck, double purchasePriceTruckFactor, double fixCostsDeliveryFactor){
         this.name = name;
-        int basePrice = 100000;
-        int basePriceDelivery = 200;
+
+        this.initProperties();
+
         this.ecoIndex = DecimalRound.round(ecoIndexTruck, 2);
         this.qualityIndex = DecimalRound.round(qualityIndexTruck, 2);
-        this.purchasePrice = DecimalRound.round(basePrice * purchasePriceTruckFactor, 2);
-        this.fixCostsDelivery = DecimalRound.round(basePriceDelivery * fixCostsDeliveryFactor, 2);
+        this.purchasePrice = DecimalRound.round(this.basePrice * purchasePriceTruckFactor, 2);
+        this.fixCostsDelivery = DecimalRound.round(this.basePriceDelivery * fixCostsDeliveryFactor, 2);
 
-        this.capacity = 1000;
         //monthly maintenance costs
-        this.fixTruckCost = DecimalRound.round((this.purchasePrice * 0.01) / 12, 2);
+        this.fixTruckCost = DecimalRound.round((this.purchasePrice * this.maintenanceCostsFactor) / 12, 2);
         //TODO for 9 years
-        this.depreciationRate = 1/9;
-        this.usefulLife = 9;
-        this.variableCostsDelivery = 2;
+        this.depreciationRate = 1 / this.usefulLife;
+
+        this.resellPrice = new PropertyChangeSupportDouble();
+        this.resellPrice.setValue(this.purchasePrice);
+        this.resellPrice.setPropertyChangedName("resellPrice");
+
+        this.decreasedEcoIndex = false;
+    }
+
+    /**
+     * Initializes the truck values using the corresponding properties file.
+     */
+    private void initProperties(){
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.basePrice = Double.valueOf(resourceBundle.getString("logistics.truck.base.price"));
+        this.basePriceDelivery = Double.valueOf(resourceBundle.getString("logistics.truck.base.price.delivery"));
+        this.capacity = Integer.valueOf(resourceBundle.getString("logistics.truck.capacity"));
+        this.maintenanceCostsFactor = Double.valueOf(resourceBundle.getString("logistics.truck.maintenance.costs.factor"));
+        this.usefulLife = Integer.valueOf(resourceBundle.getString("logistics.truck.useful.life"));
+        this.variableCostsDelivery = Double.valueOf(resourceBundle.getString("logistics.truck.variable.costs.delivery"));
     }
 
     /**
@@ -112,5 +140,30 @@ public class Truck implements Serializable {
 
     public String getName() {
         return this.name;
+    }
+
+    public void setResellPrice(double resellPrice) {
+        this.resellPrice.setValue(resellPrice);
+    }
+
+    public double getResellPrice(){
+        return this.resellPrice.getValue();
+    }
+
+    public boolean isDecreasedEcoIndex() {
+        return decreasedEcoIndex;
+    }
+
+    public void setDecreasedEcoIndex(boolean decreasedEcoIndex) {
+        this.decreasedEcoIndex = decreasedEcoIndex;
+    }
+
+    /**
+     * Register a change listener that notifies, if a property has changed.
+     *
+     * @param listener A property change listener.
+     */
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
+        this.resellPrice.addPropertyChangeListener(listener);
     }
 }

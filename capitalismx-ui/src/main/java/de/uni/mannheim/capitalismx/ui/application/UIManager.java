@@ -1,27 +1,38 @@
 package de.uni.mannheim.capitalismx.ui.application;
 
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.domain.department.Department;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.ui.components.GameModule;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleDefinition;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.components.GameScene;
-import de.uni.mannheim.capitalismx.ui.components.GameSceneType;
-import de.uni.mannheim.capitalismx.ui.components.GameView;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.gamecontroller.gamesave.SaveGameHandler;
+import de.uni.mannheim.capitalismx.ui.component.GameModule;
+import de.uni.mannheim.capitalismx.ui.component.GameModuleDefinition;
+import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.component.GameScene;
+import de.uni.mannheim.capitalismx.ui.component.GameSceneType;
+import de.uni.mannheim.capitalismx.ui.component.GameView;
+import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.LoadingScreenController;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GameHudController;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
-import de.uni.mannheim.capitalismx.ui.controller.module.OverviewMap3DController;
+import de.uni.mannheim.capitalismx.ui.controller.gamepage.OverviewMap3DController;
+import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.warehouse.WarehouseListController;
+import de.uni.mannheim.capitalismx.ui.eventlistener.FinanceEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.GameStateEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.HREventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.MarketingEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.ProcurementEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.SalesEventListener;
+import de.uni.mannheim.capitalismx.ui.eventlistener.WarehouseEventlistener;
 import de.uni.mannheim.capitalismx.ui.tutorial.Tutorial;
-import de.uni.mannheim.capitalismx.ui.utils.GameResolution;
+import de.uni.mannheim.capitalismx.ui.util.GameResolution;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -51,32 +62,51 @@ public class UIManager {
 	// Provide access to correct Resource Bundle
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.main", Locale.ENGLISH);
 
+	public static UIManager getInstance() {
+		return instance;
+	}
+
+	/**
+	 * Returns the corresponding message for the given key from the stored
+	 * {@link ResourceBundle} - default englisch: properties.main_en
+	 * 
+	 * @param key The key to look up in the resources.
+	 * @return The localised message as a String.
+	 */
+	public static String getLocalisedString(String key) {
+		return resourceBundle.getString(key);
+	}
+
+	public static ResourceBundle getResourceBundle() {
+		return resourceBundle;
+	}
 	// The game's Tutorial
 	private Tutorial tutorial;
-
 	// The custom cursor used in the game
 	private Cursor cursor;
-
 	/**
 	 * The {@link GameScene}s of the game.
 	 */
 	private GameScene sceneMenuMain;
 	private GameScene sceneGamePage;
 	private GameScene sceneLoadingScreen;
+
 	private GameScene sceneCreditsPage;
+
 	private GameScene sceneLostPage;
 	private GameScene sceneWonPage;
 
 	// List containing all GameViews
 	private List<GameView> gameViews;
-
 	// The Stage object representing the window.
 	private Stage window;
 	private Locale language;
 
 	// Various Controller classes.
 	private GamePageController gamePageController;
+
 	private GameHudController gameHudController;
+
 	private OverviewMap3DController gameMapController;
 
 	// Get information about the resolution of the game.
@@ -93,6 +123,7 @@ public class UIManager {
 		instance = this;
 		this.window = stage;
 		this.language = Locale.ENGLISH;
+		Locale.setDefault(language);
 		this.gameResolution = calculatedResolution;
 
 		// static loading of the scenes
@@ -117,25 +148,6 @@ public class UIManager {
 		switchToScene(next);
 	}
 
-	public static UIManager getInstance() {
-		return instance;
-	}
-
-	/**
-	 * Returns the corresponding message for the given key from the stored
-	 * {@link ResourceBundle} - default englisch: properties.main_en
-	 * 
-	 * @param key The key to look up in the resources.
-	 * @return The localised message as a String.
-	 */
-	public static String getLocalisedString(String key) {
-		return resourceBundle.getString(key);
-	}
-
-	public static ResourceBundle getResourceBundle() {
-		return resourceBundle;
-	}
-
 	public Cursor getCursor() {
 		return this.cursor;
 	}
@@ -144,16 +156,8 @@ public class UIManager {
 		return gameHudController;
 	}
 
-	public void setGameHudController(GameHudController gameHudController) {
-		this.gameHudController = gameHudController;
-	}
-
 	public OverviewMap3DController getGameMapController() {
 		return gameMapController;
-	}
-
-	public void setGameMapController(OverviewMap3DController gameMapController) {
-		this.gameMapController = gameMapController;
 	}
 
 	public GamePageController getGamePageController() {
@@ -180,6 +184,15 @@ public class UIManager {
 	}
 
 	/**
+	 * Returns the language file as java.util.locale.
+	 * 
+	 * @return The requested language file as Locale.
+	 */
+	public Locale getLanguage() {
+		return language;
+	}
+
+	/**
 	 * Get the requested {@link GameModule}.
 	 * 
 	 * @param type The {@link GameModuleType} to get the {@link GameModule} for.
@@ -187,15 +200,6 @@ public class UIManager {
 	 */
 	public GameModule getModule(GameModuleType type) {
 		return getGameView(type.viewType).getModule(type);
-	}
-
-	/**
-	 * Returns the language file as java.util.locale.
-	 * 
-	 * @return The requested language file as Locale.
-	 */
-	public Locale getLanguage() {
-		return language;
 	}
 
 	public GameScene getSceneGame() {
@@ -210,10 +214,6 @@ public class UIManager {
 		return window;
 	}
 
-	public void setTutorial(Tutorial tutorial) {
-		this.tutorial = tutorial;
-	}
-
 	public Tutorial getTutorial() {
 		return tutorial;
 	}
@@ -225,8 +225,8 @@ public class UIManager {
 	private void initDepartments() {
 		// check WAREHOUSE
 		if (GameState.getInstance().getWarehousingDepartment().getWarehouses().size() > 0) {
-			((WarehouseListController) getModule(GameModuleType.WAREHOUSE_LIST)
-					.getController()).activateWarehouseModules();
+			((WarehouseListController) getModule(GameModuleType.WAREHOUSE_LIST).getController())
+					.activateWarehouseModules();
 		}
 	}
 
@@ -276,9 +276,10 @@ public class UIManager {
 					GameController.getInstance().saveGame();
 					break;
 				case F9:
-					// TODO mechanism that stops loading when there is no saveGame!
-					stopGame();
-					loadGame();
+					if (new SaveGameHandler().saveGameExists()) {
+						stopGame();
+						loadGame();
+					}
 					break;
 				case ESCAPE:
 					// first try to close open hud elements. Let GamePage handle input otherwise.
@@ -338,7 +339,6 @@ public class UIManager {
 			sceneWonPage = new GameScene(root, GameSceneType.GAMELOST_PAGE, loader.getController());
 
 		} catch (IOException e) {
-			// TODO Handle error if scenes cannot be initialized
 			e.printStackTrace();
 			Platform.exit();
 		}
@@ -371,6 +371,7 @@ public class UIManager {
 		switchToScene(GameSceneType.LOADING_SCREEN);
 		// load all the modules and save them in the gameModules-list
 		prepareGamePage(newGame);
+		registerChangeListeners();
 	}
 
 	/**
@@ -430,14 +431,22 @@ public class UIManager {
 					// start the game once everything is loaded
 					startGame();
 					initDepartments();
-					GameController.getInstance().nextDay();
+					//GameController.getInstance().nextDay();
+
+					//if a new game is started, calculate the initial net worth and thus the other data in the finance department
+					if(GameController.getInstance().getMonthlyData().size() == 0){
+						GameController.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+					}
+					//Initiate finance data that requires gameDate
+					GameController.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
+					GameController.getInstance().updateMonthlyData(GameState.getInstance().getGameDate());
 
 					if (newGame) {
 						gameHudController.initTutorialCheck();
 					}
 				} catch (IOException e) {
-					// TODO handle error if module could not be loaded.
 					e.printStackTrace();
+					switchToScene(GameSceneType.MENU_MAIN);
 				}
 				return 1;
 			}
@@ -461,11 +470,24 @@ public class UIManager {
 
 	/**
 	 * Quits the game: Triggers a new {@link WindowEvent}, containing a
-	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application. TODO
-	 * maybe handle more stuff when ingame. (eg autosave)
+	 * WINDOW_CLOSE_REQUEST, which can then be handled by the Application.
 	 */
 	public void quitApplication() {
 		window.fireEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+	}
+
+	/**
+	 * Register all standard {@link PropertyChangeListener}s in the respective {@link Department}s.
+	 */
+	private void registerChangeListeners() {
+		GameState gs = GameState.getInstance();
+		gs.addPropertyChangeListener(new GameStateEventListener());
+		gs.getFinanceDepartment().registerPropertyChangeListener(new FinanceEventListener());
+		gs.getHrDepartment().registerPropertyChangeListener(new HREventListener());
+		gs.getMarketingDepartment().registerPropertyChangeListener(new MarketingEventListener());
+		gs.getProcurementDepartment().registerPropertyChangeListener(new ProcurementEventListener());
+		gs.getWarehousingDepartment().registerPropertyChangeListener(new WarehouseEventlistener());
+		gs.getSalesDepartment().registerPropertyChangeListener(new SalesEventListener());
 	}
 
 	/**
@@ -481,6 +503,7 @@ public class UIManager {
 			this.language = Locale.ENGLISH;
 		}
 
+		Locale.setDefault(language);
 		resourceBundle = ResourceBundle.getBundle(newProperties, this.language);
 		loadGameScenes();
 		switchToScene(GameSceneType.MENU_MAIN);
@@ -497,6 +520,18 @@ public class UIManager {
 		gameViews.clear();
 	}
 
+	public void setGameHudController(GameHudController gameHudController) {
+		this.gameHudController = gameHudController;
+	}
+
+	public void setGameMapController(OverviewMap3DController gameMapController) {
+		this.gameMapController = gameMapController;
+	}
+
+	public void setTutorial(Tutorial tutorial) {
+		this.tutorial = tutorial;
+	}
+
 	/**
 	 * Start the Game by switching to the GamePage and starting the GameController
 	 */
@@ -505,14 +540,14 @@ public class UIManager {
 			gamePageController.switchView(GameViewType.OVERVIEW);
 			switchToScene(GameSceneType.GAME_PAGE);
 		});
-		Task<Void> task = new Task<Void>() {
+		Task<Void> startUpTask = new Task<Void>() {
 			@Override
 			public Void call() {
 				GameController.getInstance().start();
 				return null;
 			}
 		};
-		new Thread(task).start();
+		new Thread(startUpTask).start();
 	}
 
 	/**
@@ -530,7 +565,7 @@ public class UIManager {
 	public void switchToScene(GameSceneType sceneType) {
 		switch (sceneType) {
 		case MENU_MAIN:
-			sceneMenuMain.getController().update();
+			((UpdateableController) sceneMenuMain.getController()).update();
 			window.getScene().setRoot(sceneMenuMain.getScene());
 			break;
 		case GAME_PAGE:

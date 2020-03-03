@@ -3,6 +3,8 @@ package de.uni.mannheim.capitalismx.marketing.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Defines Campaigns.
@@ -11,30 +13,31 @@ import java.util.List;
  */
 public enum Campaign {
 
-    SOCIAL_CAMPAIGN_1("CSR", Action.SOCIAL_ENGAGEMENT, Media.NONE2, new double[]{0, 1, 2, 5, 100}, new double[]{0, 1, 2, 3, 4}),
-    SOCIAL_CAMPAIGN_2("Support refugee projects", Action.SOCIAL_ENGAGEMENT, Media.NONE, new double[]{0, 1, 2}, new double[]{0, 1, 2}),
+    SOCIAL_CAMPAIGN_1("CSR", "campaign.social.csr", Action.SOCIAL_ENGAGEMENT, Media.NONE2, new double[]{0, 1, 2, 5, 100}, new double[]{0, 1, 2, 3, 4}),
+    SOCIAL_CAMPAIGN_2("Support refugee projects", "campaign.social.refugees", Action.SOCIAL_ENGAGEMENT, Media.NONE, new double[]{0, 1, 2}, new double[]{0, 1, 2}),
 
-    MKT_CAMPAIGN_1("Promote environmental friendly supplier", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2}, new double[]{0, 1, 1.5}),
-    MKT_CAMPAIGN_2("Promote environmental friendly supplier", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2}, new double[]{0, 1.5, 2}),
-    MKT_CAMPAIGN_3("Promote environmental friendly supplier", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2}, new double[]{0, 2, 2.5}),
+    MKT_CAMPAIGN_1("Promote environmental friendly supplier", "campaign.marketing.ecosupplier", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2}, new double[]{0, 1, 1.5}),
+    MKT_CAMPAIGN_2("Promote environmental friendly supplier", "campaign.marketing.ecosupplier", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2}, new double[]{0, 1.5, 2}),
+    MKT_CAMPAIGN_3("Promote environmental friendly supplier", "campaign.marketing.ecosupplier", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2}, new double[]{0, 2, 2.5}),
 
-    MKT_CAMPAIGN_4("Promote environmental friendly production", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2}, new double[]{0, 1, 1.5}),
-    MKT_CAMPAIGN_5("Promote environmental friendly production", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2}, new double[]{0, 1.5, 2}),
-    MKT_CAMPAIGN_6("Promote environmental friendly production", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2}, new double[]{0, 2, 2.5}),
+    MKT_CAMPAIGN_4("Promote environmental friendly production", "campaign.marketing.ecoproduction", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2}, new double[]{0, 1, 1.5}),
+    MKT_CAMPAIGN_5("Promote environmental friendly production", "campaign.marketing.ecoproduction", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2}, new double[]{0, 1.5, 2}),
+    MKT_CAMPAIGN_6("Promote environmental friendly production", "campaign.marketing.ecoproduction", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2}, new double[]{0, 2, 2.5}),
 
-    MKT_CAMPAIGN_7("Green marketing campaign", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2, 3, 4}, new double[]{0, 1, 2, 3, 3.5}),
-    MKT_CAMPAIGN_8("Green marketing campaign", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2, 3, 4}, new double[]{0, 1.5, 3, 4.5, 5}),
-    MKT_CAMPAIGN_9("Green marketing campaign", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2, 3, 4}, new double[]{0, 2, 4, 6, 6.5}),
+    MKT_CAMPAIGN_7("Green marketing campaign", "campaign.marketing.green", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2, 3, 4}, new double[]{0, 1, 2, 3, 3.5}),
+    MKT_CAMPAIGN_8("Green marketing campaign", "campaign.marketing.green", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2, 3, 4}, new double[]{0, 1.5, 3, 4.5, 5}),
+    MKT_CAMPAIGN_9("Green marketing campaign", "campaign.marketing.green", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2, 3, 4}, new double[]{0, 2, 4, 6, 6.5}),
 
-    MKT_CAMPAIGN_10("Diversity campaign", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2}, new double[]{0, 0.5, 1}),
-    MKT_CAMPAIGN_11("Diversity campaign", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2}, new double[]{0, 1, 1.5}),
-    MKT_CAMPAIGN_12("Diversity campaign", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2}, new double[]{0, 1.5, 2}),
+    MKT_CAMPAIGN_10("Diversity campaign", "campaign.marketing.diversity", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2}, new double[]{0, 0.5, 1}),
+    MKT_CAMPAIGN_11("Diversity campaign", "campaign.marketing.diversity", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2}, new double[]{0, 1, 1.5}),
+    MKT_CAMPAIGN_12("Diversity campaign", "campaign.marketing.diversity", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2}, new double[]{0, 1.5, 2}),
 
-    MKT_CAMPAIGN_13("Promote products", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2, 3, 4}, new double[]{0, 1.5, 3, 4.5, 5}),
-    MKT_CAMPAIGN_14("Promote products", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2, 3, 4}, new double[]{0, 2, 4, 6, 6.5}),
-    MKT_CAMPAIGN_15("Promote products", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2, 3, 4}, new double[]{0, 2.5, 5.5, 8, 8.5});
+    MKT_CAMPAIGN_13("Promote products", "campaign.marketing.products", Action.MARKETING_CAMPAIGNS, Media.NEWSPAPER, new double[]{0, 1, 2, 3, 4}, new double[]{0, 1.5, 3, 4.5, 5}),
+    MKT_CAMPAIGN_14("Promote products", "campaign.marketing.products", Action.MARKETING_CAMPAIGNS, Media.TELEVISION, new double[]{0, 1, 2, 3, 4}, new double[]{0, 2, 4, 6, 6.5}),
+    MKT_CAMPAIGN_15("Promote products", "campaign.marketing.products", Action.MARKETING_CAMPAIGNS, Media.ONLINE, new double[]{0, 1, 2, 3, 4}, new double[]{0, 2.5, 5.5, 8, 8.5});
 
     private String name;
+    private String propertyKey;
 
     // pair of requirement and points
     private double[] requirement;
@@ -43,8 +46,9 @@ public enum Campaign {
     private Action action;
     private Media media;
 
-    Campaign(String name, Action action, Media media, double[] requirement, double[] points) {
+    Campaign(String name, String propertyKey, Action action, Media media, double[] requirement, double[] points) {
         this.action = action;
+        this.propertyKey = propertyKey;
         this.name = name;
         this.points = points;
         this.requirement = requirement;
@@ -55,6 +59,11 @@ public enum Campaign {
         return name;
     }
 
+    public String getLocalizedName(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle("marketing-module", locale);
+        return bundle.getString(propertyKey);
+    }
+    
     public Action getAction() {
         return action;
     }

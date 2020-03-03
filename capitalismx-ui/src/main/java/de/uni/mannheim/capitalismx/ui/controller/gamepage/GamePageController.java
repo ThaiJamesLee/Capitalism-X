@@ -2,28 +2,22 @@ package de.uni.mannheim.capitalismx.ui.controller.gamepage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameModule;
-import de.uni.mannheim.capitalismx.ui.components.GameView;
-import de.uni.mannheim.capitalismx.ui.components.GameViewType;
+import de.uni.mannheim.capitalismx.ui.component.GameModule;
+import de.uni.mannheim.capitalismx.ui.component.GameView;
+import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.message.MessageController;
-import de.uni.mannheim.capitalismx.ui.controller.module.sales.SalesContractController;
-import de.uni.mannheim.capitalismx.ui.utils.AnchorPaneHelper;
-import de.uni.mannheim.capitalismx.ui.utils.CssHelper;
-import de.uni.mannheim.capitalismx.ui.utils.GridPosition;
+import de.uni.mannheim.capitalismx.ui.util.AnchorPaneHelper;
+import de.uni.mannheim.capitalismx.ui.util.CssHelper;
+import de.uni.mannheim.capitalismx.ui.util.GridPosition;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,7 +32,7 @@ import javafx.util.Duration;
  * @author Jonathan
  *
  */
-public class GamePageController implements UpdateableController {
+public class GamePageController implements Initializable {
 
 	/**
 	 * Menu elements
@@ -134,7 +128,6 @@ public class GamePageController implements UpdateableController {
 	 * ingame menu.
 	 */
 	public void handleEscapeInput() {
-		// TODO add auto close of hud elements -> connect to GameHudController
 		if (openMessagePane) {
 			toggleMessageWindow();
 		} else {
@@ -153,7 +146,6 @@ public class GamePageController implements UpdateableController {
 			UIManager.getInstance().setGameMapController(loader3DMap.getController());
 			mapLayer.toBack();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -161,20 +153,16 @@ public class GamePageController implements UpdateableController {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
 					getClass().getClassLoader().getResource("fxml/message/message_pane.fxml"),
 					UIManager.getResourceBundle());
-			Parent rootC = loaderMessageWindow.load();
-			AnchorPaneHelper.snapNodeToAnchorPane(rootC, 500);
+			Parent rootMessage = loaderMessageWindow.load();
+			AnchorPane.setLeftAnchor(rootMessage, 500.0);
+			AnchorPane.setTopAnchor(rootMessage, 250.0);
+			AnchorPane.setBottomAnchor(rootMessage, 250.0);
+			AnchorPane.setRightAnchor(rootMessage, 500.0);
 			messageController = loaderMessageWindow.getController();
-			messageLayer.getChildren().add(rootC);
+			messageLayer.getChildren().add(rootMessage);
 			messageLayer.toBack();
 
-			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 0); // TODO
-																													// remove
-			MessageObject m2 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event2", true, 5);
-			messageController.addMessage(m1);
-			messageController.addMessage(m2);
-
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -288,10 +276,6 @@ public class GamePageController implements UpdateableController {
 			openMessagePane = false;
 		}
 
-	}
-
-	@Override
-	public void update() {
 	}
 
 	/**

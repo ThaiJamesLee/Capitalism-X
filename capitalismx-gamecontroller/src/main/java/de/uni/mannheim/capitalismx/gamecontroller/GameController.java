@@ -3,14 +3,25 @@ package de.uni.mannheim.capitalismx.gamecontroller;
 import java.time.LocalDate;
 import java.util.*;
 
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
+import de.uni.mannheim.capitalismx.finance.finance.Loan;
 import de.uni.mannheim.capitalismx.hr.domain.employee.EmployeeGenerator;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.exception.NoExternalSupportPartnerException;
 import de.uni.mannheim.capitalismx.procurement.component.*;
-import de.uni.mannheim.capitalismx.production.*;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.department.ProductionTechnology;
 import de.uni.mannheim.capitalismx.production.exceptions.*;
+import de.uni.mannheim.capitalismx.production.investment.ProductionInvestment;
+import de.uni.mannheim.capitalismx.production.investment.ProductionInvestmentLevel;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
+import de.uni.mannheim.capitalismx.production.product.Product;
+import de.uni.mannheim.capitalismx.production.product.ProductCategory;
+import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.warehouse.*;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.NoWarehouseSlotsAvailableException;
+import de.uni.mannheim.capitalismx.warehouse.exceptions.StorageCapacityUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,8 +54,6 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import de.uni.mannheim.capitalismx.resdev.department.ResearchAndDevelopmentDepartment;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 
-import javax.swing.*;
-
 /**
  * This class is the entry point for the UI.
  * It aggregates the game-logic and allows all objects to be updated.
@@ -70,6 +79,12 @@ public class GameController {
 		return instance;
 	}
 
+	/**
+	 * Sets the day of GameState to the next day.
+	 * It checks whether the end date is met.
+	 * It calls monthlyUpdate if a new month begins.
+	 * It also calls the updateAll method to update all departments.
+	 */
 	public synchronized void nextDay() {
 		GameState state = GameState.getInstance();
 
@@ -92,8 +107,8 @@ public class GameController {
 	 * All events or objects that are updated in a monthly fashion.
 	 */
 	private void monthlyUpdate() {
-		ProductionDepartment.getInstance().resetMonthlyPerformanceMetrics();
-		WarehousingDepartment.getInstance().resetMonthlyStorageCost();
+		GameState.getInstance().getProductionDepartment().resetMonthlyPerformanceMetrics();
+		GameState.getInstance().getWarehousingDepartment().resetMonthlyStorageCost();
 		updateSalesDepartment();
 	}
 	
@@ -105,10 +120,13 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * Calls the update method of every department.
+	 * The sequence is important as some of the departments are dependent on others.
+	 */
 	private void updateAll() {
 		// TODO update all values of the departments
 		this.updateCompanyEcoIndex();
-		this.updateCustomer();
 		this.updateExternalEvents(GameState.getInstance().getGameDate());
 		this.updateFinance();
 		this.updateHR();
@@ -117,6 +135,9 @@ public class GameController {
 		this.updateWarehouse();
 		this.updateProcurement();
 		this.updateProduction();
+		this.updateCustomer();
+		this.updateContracts();
+
 	}
 
 	/**
@@ -161,7 +182,23 @@ public class GameController {
 	 * Updates the relevant values regarding the company eco index.
 	 */
 	private void updateCompanyEcoIndex() {
-		CompanyEcoIndex.getInstance().calculateAll();
+		
+		double  campaignPoints = MarketingDepartment.getInstance().getPointsFromEcoCampaigns(getIssuedMarketingCampaigns()); 
+		double currentExtraLevels = GameState.getInstance().getCompanyEcoIndex().getExtraLevelsFromCampaigns();
+		if(campaignPoints > 9 && currentExtraLevels == 0) {
+			GameState.getInstance().getCompanyEcoIndex().setExtraLevelsFromCampaigns(1);
+			GameState.getInstance().getCompanyEcoIndex().addCampaignPoints();
+		}
+		if(campaignPoints > 10 && currentExtraLevels == 1) {
+			GameState.getInstance().getCompanyEcoIndex().setExtraLevelsFromCampaigns(2);
+			GameState.getInstance().getCompanyEcoIndex().addCampaignPoints();
+		}
+			
+		GameState.getInstance().getCompanyEcoIndex().checkMachinery(GameState.getInstance().getGameDate());
+		GameState.getInstance().getCompanyEcoIndex().checkVehicles();
+		GameState.getInstance().getCompanyEcoIndex().calculateAll();
+		//set the eco costs in the finance department
+		GameState.getInstance().getFinanceDepartment().setEcoCosts(GameState.getInstance().getCompanyEcoIndex().getEcoCosts());
 	}
 
 	/**
@@ -236,7 +273,7 @@ public class GameController {
 	 * Updates the relevant values in the logistics department.
 	 */
 	private void updateLogistics() {
-		InternalFleet.getInstance().calculateAll();
+		GameState.getInstance().getInternalFleet().calculateAll();
 		if (GameState.getInstance().getLogisticsDepartment().getExternalPartner() != null) {
 			GameState.getInstance().getLogisticsDepartment().getExternalPartner().calculateExternalLogisticsIndex();
 		}
@@ -247,51 +284,67 @@ public class GameController {
 	private void updateMarketing() {
 		//TODO update CompanyImage und EmployerBranding
 		
-		CustomerSatisfaction customerSatisfaction = CustomerSatisfaction.getInstance();
-		MarketingDepartment.getInstance().setEmployerBranding(customerSatisfaction.getEmployerBranding());
+		CustomerSatisfaction customerSatisfaction = GameState.getInstance().getCustomerSatisfaction();
+		GameState.getInstance().getMarketingDepartment().setEmployerBranding(customerSatisfaction.getEmployerBranding());
 		
 		//TODO set values used for consultancies here!!!
 		
 	}
 
-	// TODO once procurement implementation is ready
+	/**
+	 * Updates relevant values in the procurement department.
+	 */
 	private void updateProcurement() {
-		ProcurementDepartment.getInstance().updateAll(GameState.getInstance().getGameDate());
+		GameState.getInstance().getProcurementDepartment().updateAll(GameState.getInstance().getGameDate());
 	}
 
+	/**
+	 * Updates relevant values in the production department.
+	 */
 	private void updateProduction() {
-		ProductionDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
+		this.setInitialTotalEngineerQualityOfWork();
+		GameState.getInstance().getProductionDepartment().calculateAll(GameState.getInstance().getGameDate());
 		this.updateNumberOfProductionWorkers();
 	}
 
+	/**
+	 * Updates relevant values in the warehouse department.
+	 */
 	private void updateWarehouse() {
-		WarehousingDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
+		GameState.getInstance().getWarehousingDepartment().calculateAll(GameState.getInstance().getGameDate());
 	}
 
 	private void updateSalesDepartment() {
 		GameState state = GameState.getInstance();
 		SalesDepartment salesDepartment = state.getSalesDepartment();
-		try {
-			salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
-		} catch (LevelingRequirementNotFulFilledException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
+		salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+
 	}
 
 	/**
-	 * Refresh available contracts if possible. If not possible, cost are still subtracted.
-	 * Reason: The company tries to get contract offers, but is not attractive enough, since it does not
-	 * have any products, production capacity.
-	 *
-	 * @throws LevelingRequirementNotFulFilledException Exception thrown, if {@link SalesDepartment#getLevel()} is smaller than 1. Notify the player!
+	 * Check for overdue contracts.
+	 * Fulfill if possible, otherwise terminate the contract.
+	 * This is done in a first come, first serve.
 	 */
-	public void refreshContracts() throws LevelingRequirementNotFulFilledException {
+	private void updateContracts() {
 		GameState state = GameState.getInstance();
 		SalesDepartment salesDepartment = state.getSalesDepartment();
-		double cost = salesDepartment.refreshAvailableContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+		List<Contract>  overdueContracts = salesDepartment.checkContractsOverdue(state.getGameDate());
 
-		decreaseCash(state.getGameDate(), cost);
+		// fulfill all contracts if possible
+		for(Contract c : overdueContracts) {
+			getSales().fulfillContract(c);
+		}
+
+		// terminate the contracts that were not possible to fulfill.
+		overdueContracts = salesDepartment.checkContractsOverdue(state.getGameDate());
+		for(Contract c : overdueContracts) {
+			decreaseCash(state.getGameDate(), c.getPenalty());
+			salesDepartment.terminateContract(c, state.getGameDate());
+		}
 	}
+
+
 
 	public void start() {
 		GameThread.getInstance().run();
@@ -373,25 +426,25 @@ public class GameController {
 	}
 
 	private void setInitialProductionValues() {
-		ProductionDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
+		GameState.getInstance().getProductionDepartment().calculateAll(GameState.getInstance().getGameDate());
 	}
 
 	private void setInitialWarehouseValues() {
 		// TODO really needed?
-		WarehousingDepartment.getInstance().calculateAll(GameState.getInstance().getGameDate());
+		GameState.getInstance().getWarehousingDepartment().calculateAll(GameState.getInstance().getGameDate());
 	}
 
 
 	public CompanyEcoIndex.EcoIndex getEcoIndex() {
-		return CompanyEcoIndex.getInstance().getEcoIndex();
+		return GameState.getInstance().getCompanyEcoIndex().getEcoIndex();
 	}
 
 	public List<ExternalEvents.ExternalEvent> getExternalEvents() {
-		return ExternalEvents.getInstance().getExternalEvents();
+		return GameState.getInstance().getExternalEvents().getExternalEvents();
 	}
 
 	public List<ExternalEvents.ExternalEvent> getExternalEvents(LocalDate date) {
-		if(ExternalEvents.getInstance().getExternalEventsHistory().containsKey(date)) {
+		if(GameState.getInstance().getExternalEvents().getExternalEventsHistory().containsKey(date)) {
 			return ExternalEvents.getInstance().getExternalEventsHistory().get(date);
 		} else {
 			return null;
@@ -399,7 +452,98 @@ public class GameController {
 	}
 
 	public Map<LocalDate, List<ExternalEvents.ExternalEvent>> getExternalEventsHistory() {
-		return ExternalEvents.getInstance().getExternalEventsHistory();
+		return  GameState.getInstance().getExternalEvents().getExternalEventsHistory();
+	}
+
+	public Sales getSales() {
+		return new Sales();
+	}
+
+	/*
+	 * SALES
+	 */
+	public static class Sales {
+
+		/**
+		 * Refresh available contracts if possible. If not possible, cost are still subtracted.
+		 * Reason: The company tries to get contract offers, but is not attractive enough, since it does not
+		 * have any products, production capacity.
+		 *
+		 * @throws LevelingRequirementNotFulFilledException Exception thrown, if {@link SalesDepartment#getLevel()} is smaller than 1. Notify the player!
+		 */
+		public void refreshContracts() throws LevelingRequirementNotFulFilledException {
+			GameState state = GameState.getInstance();
+			SalesDepartment salesDepartment = state.getSalesDepartment();
+			double cost = salesDepartment.refreshAvailableContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
+
+			state.getFinanceDepartment().decreaseCash(state.getGameDate(), cost);
+		}
+
+		/**
+		 * 
+		 * @return Returns the cost to refresh available contracts.
+		 */
+		public double getRefreshCost() {
+			GameState state = GameState.getInstance();
+			return state.getSalesDepartment().getRefreshCost();
+
+		}
+
+		/**
+		 * Fulfills the contract in the given index.
+		 * @param index The index of the wanted contract.
+		 *
+		 * @author lixiang
+		 */
+		public void fulfillContract(int index) {
+			SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+			WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
+			Contract c = salesDep.getActiveContracts().get(index);
+			Product p = c.getProduct();
+			int productCount = c.getNumProducts();
+			Map<Unit, Integer> inventory = warehouse.getInventory();
+			if(inventory.containsKey(p) && inventory.get(p)>=productCount) {
+				Map<Unit, Integer> productMap = new HashMap<>();
+				productMap.put(p, productCount);
+				double revenue = 0;
+				for(Map.Entry<Unit, Integer> entry : productMap.entrySet()){
+					warehouse.sellProduct(entry);
+				}
+				revenue = c.getRevenue();
+				GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), revenue);
+				salesDep.contractDone(salesDep.getActiveContracts().get(index), GameState.getInstance().getGameDate());
+			}
+		}
+
+		public void fulfillContract(Contract c) {
+			SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+			WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
+			Product p = c.getProduct();
+			int productCount = c.getNumProducts();
+			Map<Unit, Integer> inventory = warehouse.getInventory();
+			if(inventory.containsKey(p) && inventory.get(p)>=productCount) {
+				Map<Unit, Integer> productMap = new HashMap<>();
+				productMap.put(p, productCount);
+				double revenue = 0;
+				for(Map.Entry<Unit, Integer> entry : productMap.entrySet()){
+					warehouse.sellProduct(entry);
+				}
+				revenue = c.getRevenue();
+				GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), revenue);
+				salesDep.contractDone(c, GameState.getInstance().getGameDate());
+			}
+		}
+
+		public void terminateContract(int index) {
+			SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+			GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), salesDep.getActiveContracts().get(index).getPenalty());
+			salesDep.terminateContract(salesDep.getActiveContracts().get(index), GameState.getInstance().getGameDate());
+		}
+
+		public void acceptContract(int index) {
+			SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+			salesDep.addContractToActive(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
+		}
 	}
 
 
@@ -408,8 +552,7 @@ public class GameController {
 	 */
 
 	public double getCash() {
-		double cash = GameState.getInstance().getFinanceDepartment().getCash();
-		return cash;
+		return GameState.getInstance().getFinanceDepartment().getCash();
 	}
 
 	public double getNetWorth() {
@@ -430,7 +573,7 @@ public class GameController {
 	 * @param locale The Locale object of the desired language.
 	 * @return Returns a list of three loans with different characteristics.
 	 */
-	public ArrayList<BankingSystem.Loan> generateLoanSelection(double loanAmount, LocalDate gameDate, Locale locale) {
+	public List<Loan> generateLoanSelection(double loanAmount, LocalDate gameDate, Locale locale) {
 		return GameState.getInstance().getFinanceDepartment().generateLoanSelection(loanAmount, gameDate, locale);
 	}
 
@@ -440,11 +583,11 @@ public class GameController {
 	 * @param loan The loan to be added.
 	 * @param loanDate The current date in the game.
 	 */
-	public void addLoan(BankingSystem.Loan loan, LocalDate loanDate) {
+	public void addLoan(Loan loan, LocalDate loanDate) {
 		GameState.getInstance().getFinanceDepartment().addLoan(loan, loanDate);
 	}
 
-	public ArrayList<BankingSystem.Loan> getLoans() {
+	public List<Loan> getLoans() {
 		return GameState.getInstance().getFinanceDepartment().getLoans();
 	}
 
@@ -606,11 +749,11 @@ public class GameController {
         return GameState.getInstance().getFinanceDepartment().decreaseInvestmentAmount(gameDate, amount, investmentType);
     }
 
-	public TreeMap<String, String[]> getMonthlyData() {
+	public Map<String, String[]> getMonthlyData() {
 		return GameState.getInstance().getFinanceDepartment().getMonthlyData();
 	}
 
-	public TreeMap<String, String[]> getQuarterlyData() {
+	public Map<String, String[]> getQuarterlyData() {
 		return GameState.getInstance().getFinanceDepartment().getQuarterlyData();
 	}
 
@@ -622,6 +765,27 @@ public class GameController {
 		return GameState.getInstance().getFinanceDepartment().getCashDifference();
 	}
 
+	/**
+	 * Updates the quarterly data (of the 4 most recent quarters) for the operations table in the finance ui, e.g., HR
+	 * costs. For each of the histories represented in the operations table, the daily data in the relevant time frame
+	 * (4 quarters) is extracted and added up for each quarter. Lastly, the GUI is notified about the changes.
+	 * @param gameDate The current date in the game.
+	 */
+	public void updateQuarterlyData(LocalDate gameDate){
+		GameState.getInstance().getFinanceDepartment().updateQuarterlyData(gameDate);
+	}
+
+	/**
+	 * Updates the monthly data (of the 12 most recent months) for the charts in the finance ui, e.g., cash. For each
+	 * of the histories in the finance charts, the data of the last day of each month in the relevant time frame
+	 * (12 months) is extracted. For the current month, the most recent value is used. Lastly, the GUI is notified
+	 * about the changes.
+	 * @param gameDate The current date in the game.
+	 */
+	public void updateMonthlyData(LocalDate gameDate){
+		GameState.getInstance().getFinanceDepartment().updateMonthlyData(gameDate);
+	}
+
 	/*
 	 * LOGISTICS
 	 */
@@ -630,7 +794,7 @@ public class GameController {
 	 * Generates a selection of external logistics partners with different characteristics according to p.52.
 	 * @return Returns a list of 9 different external logistics partners.
 	 */
-	public ArrayList<ExternalPartner> generateExternalPartnerSelection() {
+	public List<ExternalPartner> generateExternalPartnerSelection() {
 		return GameState.getInstance().getLogisticsDepartment().generateExternalPartnerSelection();
 	}
 
@@ -639,7 +803,7 @@ public class GameController {
 	 * @param locale The Locale object of the desired language.
 	 * @return Returns a list of 6 different trucks.
 	 */
-	public ArrayList<Truck> generateTruckSelection(Locale locale) {
+	public List<Truck> generateTruckSelection(Locale locale) {
 		return GameState.getInstance().getLogisticsDepartment().generateTruckSelection(locale);
 	}
 
@@ -647,7 +811,7 @@ public class GameController {
 		return GameState.getInstance().getLogisticsDepartment().getExternalPartner();
 	}
 
-	public ArrayList<ExternalPartner> getExternalPartnerSelection() {
+	public List<ExternalPartner> getExternalPartnerSelection() {
 		return GameState.getInstance().getLogisticsDepartment().getExternalPartnerSelection();
 	}
 
@@ -674,7 +838,7 @@ public class GameController {
 	 * Generates a list of the available support types to choose from.
 	 * @return Returns a list of the available support types.
 	 */
-	public ArrayList<ProductSupport.SupportType> generateSupportTypeSelection() {
+	public List<ProductSupport.SupportType> generateSupportTypeSelection() {
 		return GameState.getInstance().getProductSupport().generateSupportTypeSelection();
 	}
 
@@ -700,7 +864,7 @@ public class GameController {
 	 * Generates a list of the available external support partners to choose from.
 	 * @return Returns a list of the available external support partners.
 	 */
-	public ArrayList<ProductSupport.ExternalSupportPartner> generateExternalSupportPartnerSelection() {
+	public List<ProductSupport.ExternalSupportPartner> generateExternalSupportPartnerSelection() {
 		return GameState.getInstance().getProductSupport().generateExternalSupportPartnerSelection();
 	}
 
@@ -719,7 +883,7 @@ public class GameController {
 		GameState.getInstance().getProductSupport().removeExternalSupportPartner();
 	}
 
-	public ArrayList<ProductSupport.SupportType> getSupportTypes() {
+	public List<ProductSupport.SupportType> getSupportTypes() {
 		return GameState.getInstance().getProductSupport().getSupportTypes();
 	}
 
@@ -743,82 +907,191 @@ public class GameController {
 	 * PROCUREMENT
 	 */
 
+	/**
+	 * Gets component name.
+	 *
+	 * @param component the component
+	 * @return the component name
+	 */
 	public String getComponentName(ComponentType component) {
 		return component.getComponentName();
 	}
 
+	/**
+	 * Gets component level.
+	 *
+	 * @param component the component
+	 * @return the component level
+	 */
 	public int getComponentLevel(ComponentType component) {
 		return component.getComponentLevel();
 	}
 
+	/**
+	 * Gets initial component price.
+	 *
+	 * @param component the component
+	 * @return the initial component price
+	 */
 	public double getInitialComponentPrice(ComponentType component) {
 		return component.getInitialComponentPrice();
 	}
 
+	/**
+	 * Gets component base utility.
+	 *
+	 * @param component the component
+	 * @return the component base utility
+	 */
 	public int getComponentBaseUtility(ComponentType component) {
 		return component.getBaseUtility();
 	}
 
+	/**
+	 * Gets component availability date.
+	 *
+	 * @param component the component
+	 * @return the component availability date
+	 */
 	public int getComponentAvailabilityDate(ComponentType component) {
 		return component.getAvailabilityDate();
 	}
 
+	/**
+	 * Gets component supplier category.
+	 *
+	 * @param component the component
+	 * @return the component supplier category
+	 */
 	public SupplierCategory getComponentSupplierCategory(Component component) {
 		return component.getSupplierCategory();
 	}
 
+	/**
+	 * Gets component supplier cost multiplicator.
+	 *
+	 * @param component the component
+	 * @return the component supplier cost multiplicator
+	 */
 	public double getComponentSupplierCostMultiplicator(Component component) {
 		return component.getSupplierCostMultiplicator();
 	}
 
+	/**
+	 * Gets component supplier quality.
+	 *
+	 * @param component the component
+	 * @return the component supplier quality
+	 */
 	public int getComponentSupplierQuality(Component component) {
 		return component.getSupplierQuality();
 	}
 
+	/**
+	 * Gets component supplier eco index.
+	 *
+	 * @param component the component
+	 * @return the component supplier eco index
+	 */
 	public int getComponentSupplierEcoIndex(Component component) {
 		return component.getSupplierEcoIndex();
 	}
 
+	/**
+	 * Gets component base cost.
+	 *
+	 * @param component the component
+	 * @return the component base cost
+	 */
 	public double getComponentBaseCost(Component component) {
 		return component.getBaseCost();
 	}
 
+	/**
+	 * Gets all available components.
+	 *
+	 * @return the all available components
+	 */
 	public List<ComponentType> getAllAvailableComponents() {
-		return ProductionDepartment.getInstance().getAllAvailableComponents(GameState.getInstance().getGameDate());
+		return GameState.getInstance().getProductionDepartment().getAllAvailableComponents(GameState.getInstance().getGameDate());
 	}
 
+	/**
+	 * Gets available components of component category.
+	 *
+	 * @param componentCategory the component category
+	 * @return the available components of component category
+	 */
 	public List<ComponentType> getAvailableComponentsOfComponentCategory(ComponentCategory componentCategory) {
-		return ProductionDepartment.getInstance()
+		return GameState.getInstance().getProductionDepartment()
 				.getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
 	}
 
 
-    public double buyComponents(Component component, int quantity) {
-		return ProcurementDepartment.getInstance().buyComponents(GameState.getInstance().getGameDate(), component, quantity, getFreeStorage());
+	/**
+	 * Buy (order) components.
+	 *
+	 * @param component the component
+	 * @param quantity  the quantity of the component
+	 * @return the costs of the order
+	 */
+	public double buyComponents(Component component, int quantity) {
+		return GameState.getInstance().getProcurementDepartment().buyComponents(GameState.getInstance().getGameDate(), component, quantity, getFreeStorage());
     }
-	
+
+	/**
+	 * Buy (order) components.
+	 *
+	 * @param gameDate    the game date
+	 * @param component   the component
+	 * @param quantity    the quantity of the component
+	 * @param freeStorage the free storage of the warehouse
+	 * @return the costs of the order
+	 */
 	public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
-		return ProcurementDepartment.getInstance().buyComponents(gameDate, component, quantity, freeStorage);
+		return GameState.getInstance().getProcurementDepartment().buyComponents(gameDate, component, quantity, freeStorage);
 	}
 
+	/**
+	 * Receives the components of the component orders in the procurement department.
+	 * It checks whether the the arrival date of the component is met and adds them to receivedComponents of the procurement department.
+	 */
 	public void receiveComponents() {
-		ProcurementDepartment.getInstance().receiveComponents(GameState.getInstance().getGameDate());
+		GameState.getInstance().getProcurementDepartment().receiveComponents(GameState.getInstance().getGameDate());
 	}
 
+	/**
+	 * Gets received components of the procurement department.
+	 *
+	 * @return the received components
+	 */
 	public Map<Component, Integer> getReceivedComponents() {
-		return ProcurementDepartment.getInstance().getReceivedComponents();
+		return GameState.getInstance().getProcurementDepartment().getReceivedComponents();
 	}
 
+	/**
+	 * Gets component orders of the procurement department.
+	 *
+	 * @return the component orders
+	 */
 	public List<ComponentOrder> getComponentOrders() {
-		return ProcurementDepartment.getInstance().getComponentOrders();
+		return GameState.getInstance().getProcurementDepartment().getComponentOrders();
 	}
 
+	/**
+	 * Gets quantity of ordered components of the procurement department.
+	 *
+	 * @return the quantity of ordered components
+	 */
 	public int getQuantityOfOrderedComponents() {
-		return ProcurementDepartment.getInstance().getQuantityOfOrderedComponents();
+		return GameState.getInstance().getProcurementDepartment().getQuantityOfOrderedComponents();
 	}
 
+	/**
+	 * Clear received components of the procurement department.
+	 */
 	public void clearReceivedComponents() {
-		ProcurementDepartment.getInstance().clearReceivedComponents();
+		GameState.getInstance().getProcurementDepartment().clearReceivedComponents();
 	}
 
 
@@ -827,85 +1100,190 @@ public class GameController {
 	 * PRODUCTION
 	 */
 
+	/**
+	 * Sets initial total engineer quality of work of the production.
+	 * It is set every day.
+	 */
+	public void setInitialTotalEngineerQualityOfWork() {
+		GameState.getInstance().getProductionDepartment().setInitialTotalEngineerQualityOfWork(GameState.getInstance().getHrDepartment().getTotalQualityOfWorkByEmployeeType(EmployeeType.ENGINEER));
+	}
+
+	/**
+	 * Update number of production workers.
+	 * It is set every day.
+	 */
 	public void updateNumberOfProductionWorkers() {
 		Map<EmployeeType, Team> teams = HRDepartment.getInstance().getTeams();
 		int numberOfProductionWorkers = teams.get(EmployeeType.PRODUCTION_WORKER).getTeam().size();
-		ProductionDepartment.getInstance().setNumberOfProductionWorkers(numberOfProductionWorkers);
+		GameState.getInstance().getProductionDepartment().setNumberOfProductionWorkers(numberOfProductionWorkers);
 	}
 
+	/**
+	 * Gets produced products of the production.
+	 *
+	 * @return the map of produced products and their respective quantity
+	 */
 	/* Production getter */
 	public Map<Product, Integer> getProducedProducts() {
-		return ProductionDepartment.getInstance().getNumberProducedProducts();
+		return GameState.getInstance().getProductionDepartment().getNumberProducedProducts();
 	}
 
+	/**
+	 * Gets machines of the production.
+	 *
+	 * @return the list of machines
+	 */
 	public List<Machinery> getMachines() {
-		return ProductionDepartment.getInstance().getMachines();
+		return GameState.getInstance().getProductionDepartment().getMachines();
 	}
 
+	/**
+	 * Gets production technology of the production.
+	 *
+	 * @return the production technology
+	 */
 	public ProductionTechnology getProductionTechnology() {
-		return ProductionDepartment.getInstance().getProductionTechnology();
+		return GameState.getInstance().getProductionDepartment().getProductionTechnology();
 	}
 
-	public ProductionInvestment getResearchAndDevelopment() {
-		return ProductionDepartment.getInstance().getResearchAndDevelopment();
+	/**
+	 * Gets quality assurance of the production.
+	 *
+	 * @return the quality assurance
+	 */
+	public ProductionInvestment getQualityAssurance() {
+		return GameState.getInstance().getProductionDepartment().getQualityAssurance();
 	}
 
+	/**
+	 * Gets process automation of the production.
+	 *
+	 * @return the process automation
+	 */
 	public ProductionInvestment getProcessAutomation() {
-		return ProductionDepartment.getInstance().getProcessAutomation();
+		return GameState.getInstance().getProductionDepartment().getProcessAutomation();
 	}
 
+	/**
+	 * Gets total engineer productivity of the production.
+	 *
+	 * @return the total engineer productivity
+	 */
 	public double getTotalEngineerProductivity() {
-		return ProductionDepartment.getInstance().getTotalEngineerProductivity();
+		return GameState.getInstance().getProductionDepartment().getTotalEngineerProductivity();
 	}
 
+	/**
+	 * Gets system security of the production.
+	 *
+	 * @return the system security
+	 */
 	public ProductionInvestment getSystemSecurity() {
-		return ProductionDepartment.getInstance().getSystemSecurity();
+		return GameState.getInstance().getProductionDepartment().getSystemSecurity();
 	}
 
+	/**
+	 * Gets production variable costs.
+	 *
+	 * @return the production variable costs
+	 */
 	public double getProductionVariableCosts() {
-		return ProductionDepartment.getInstance().getProductionVariableCosts();
+		return GameState.getInstance().getProductionDepartment().getProductionVariableCosts();
 	}
 
+	/**
+	 * Gets production fix costs.
+	 *
+	 * @return the production fix costs
+	 */
 	public double getProductionFixCosts() {
-		return ProductionDepartment.getInstance().getProductionFixCosts();
+		return GameState.getInstance().getProductionDepartment().getProductionFixCosts();
 	}
 
+	/**
+	 * Gets number units produced per month of the production.
+	 *
+	 * @return the number units produced per month
+	 */
 	public double getNumberUnitsProducedPerMonth() {
-		return ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth();
+		return GameState.getInstance().getProductionDepartment().getNumberUnitsProducedPerMonth();
 	}
 
+	/**
+	 * Gets monthly available machine capacity of the production.
+	 *
+	 * @return the monthly available machine capacity
+	 */
 	public double getMonthlyAvailableMachineCapacity() {
-		return ProductionDepartment.getInstance().getMonthlyAvailableMachineCapacity();
+		return GameState.getInstance().getProductionDepartment().getMonthlyAvailableMachineCapacity();
 	}
 
+	/**
+	 * Gets manufacture efficiency of the production.
+	 *
+	 * @return the manufacture efficiency
+	 */
 	public double getManufactureEfficiency() {
-		return ProductionDepartment.getInstance().getManufactureEfficiency();
+		return GameState.getInstance().getProductionDepartment().getManufactureEfficiency();
 	}
 
+	/**
+	 * Gets production process productivity.
+	 *
+	 * @return the production process productivity
+	 */
 	public double getProductionProcessProductivity() {
-		return ProductionDepartment.getInstance().getProductionProcessProductivity();
+		return GameState.getInstance().getProductionDepartment().getProductionProcessProductivity();
 	}
 
+	/**
+	 * Gets normalized production process productivity.
+	 *
+	 * @return the normalized production process productivity
+	 */
 	public double getNormalizedProductionProcessProductivity() {
-		return ProductionDepartment.getInstance().getNormalizedProductionProcessProductivity();
+		return GameState.getInstance().getProductionDepartment().getNormalizedProductionProcessProductivity();
 	}
 
+	/**
+	 * Gets daily machine capacity of the production.
+	 *
+	 * @return the daily machine capacity
+	 */
 	public int getDailyMachineCapacity() {
-		return ProductionDepartment.getInstance().getDailyMachineCapacity();
+		return GameState.getInstance().getProductionDepartment().getDailyMachineCapacity();
 	}
 
+	/**
+	 * Gets boolean flag whether machine slots available of the production.
+	 *
+	 * @return the boolean whether machine slots available
+	 */
 	/* machinery game mechanics */
 	public boolean getMachineSlotsAvailable() {
-		return ProductionDepartment.getInstance().getMachineSlotsAvailable();
+		return GameState.getInstance().getProductionDepartment().getMachineSlotsAvailable();
 	}
 
+	/**
+	 * Gets the number production slots for machines.
+	 *
+	 * @return the number production slots
+	 */
 	public int getProductionSlots() {
-		return ProductionDepartment.getInstance().getProductionSlots();
+		return GameState.getInstance().getProductionDepartment().getProductionSlots();
 	}
 
+	/**
+	 * Buys machinery.
+	 *
+	 * @param machinery the machinery
+	 * @param gameDate  the game date
+	 * @return the cost of buying
+	 * @throws NoMachinerySlotsAvailableException the no machinery slots available exception
+	 */
 	public double buyMachinery(Machinery machinery, LocalDate gameDate) throws NoMachinerySlotsAvailableException {
 		try {
-			double purchasePrice = ProductionDepartment.getInstance().buyMachinery(machinery, gameDate);
+			double purchasePrice = GameState.getInstance().getProductionDepartment().buyMachinery(machinery, gameDate);
 			GameState.getInstance().getFinanceDepartment().buyMachinery(machinery, gameDate);
 			return purchasePrice;
 		} catch (NoMachinerySlotsAvailableException e) {
@@ -913,76 +1291,176 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * Sells machinery double.
+	 *
+	 * @param machinery the machinery
+	 * @param gameDate  the game date
+	 * @return the revenues of selling
+	 */
 	public double sellMachinery(Machinery machinery, LocalDate gameDate) {
-		double resellPrice = ProductionDepartment.getInstance().sellMachinery(machinery);
+		double resellPrice = GameState.getInstance().getProductionDepartment().sellMachinery(machinery);
 		GameState.getInstance().getFinanceDepartment().sellMachinery(machinery, gameDate);
 		return resellPrice;
 	}
 
+	/**
+	 * Gets machinery resell prices.
+	 * Gets the resell prices of machines without selling them.
+	 *
+	 * @return the machinery resell prices
+	 */
 	public Map<Machinery, Double> getMachineryResellPrices() {
-		return ProductionDepartment.getInstance().calculateMachineryResellPrices();
+		return GameState.getInstance().getProductionDepartment().calculateMachineryResellPrices();
 	}
 
+	/**
+	 * Maintains and repairs machinery.
+	 *
+	 * @param machinery the machinery
+	 * @return the costs
+	 */
 	public double maintainAndRepairMachinery(Machinery machinery) {
-		return ProductionDepartment.getInstance().maintainAndRepairMachinery(machinery,
+		return GameState.getInstance().getProductionDepartment().maintainAndRepairMachinery(machinery,
 				GameState.getInstance().getGameDate());
 	}
 
-	public double updateMachinery(Machinery machinery) {
-		return ProductionDepartment.getInstance().upgradeMachinery(machinery, GameState.getInstance().getGameDate());
+	/**
+	 * Upgrades machinery double.
+	 *
+	 * @param machinery the machinery
+	 * @return the costs
+	 */
+	public double upgradeMachinery(Machinery machinery) {
+		return GameState.getInstance().getProductionDepartment().upgradeMachinery(machinery, GameState.getInstance().getGameDate());
 	}
 
+	/**
+	 * Gets machinery production technology.
+	 *
+	 * @param machinery the machinery
+	 * @return the machinery production technology
+	 */
 	public ProductionTechnology getMachineryProductionTechnology(Machinery machinery) {
 		return machinery.getProductionTechnology();
 	}
 
+	/**
+	 * Gets machinery purchase price.
+	 *
+	 * @return the machinery purchase price
+	 */
 	public double getMachineryPurchasePrice() {
-		return ProductionDepartment.getInstance().getMachineryPurchasePrice(GameState.getInstance().getGameDate());
+		return GameState.getInstance().getProductionDepartment().getMachineryPurchasePrice(GameState.getInstance().getGameDate());
 	}
 
+	/**
+	 * Gets machinery capacity.
+	 *
+	 * @param machinery the machinery
+	 * @return the machinery capacity
+	 */
 	public int getMachineryCapacity(Machinery machinery) {
 		return machinery.getMachineryCapacity();
 	}
 
+	/**
+	 * Gets machinery purchase price.
+	 *
+	 * @param machinery the machinery
+	 * @return the machinery purchase price
+	 */
 	public double getMachineryPurchasePrice(Machinery machinery) {
 		return machinery.getPurchasePrice();
 	}
 
+	/**
+	 * Gets machinery resell price.
+	 *
+	 * @param machinery the machinery
+	 * @return the machinery resell price
+	 */
 	public double getMachineryResellPrice(Machinery machinery) {
 		return machinery.getResellPrice();
 	}
 
+	/**
+	 * Gets machinery depreciation.
+	 *
+	 * @param machinery the machinery
+	 * @return the machinery depreciation
+	 */
 	public double getMachineryDepreciation(Machinery machinery) {
 		return machinery.getMachineryDepreciation();
 	}
 
+	/**
+	 * Gets machinery last investment.
+	 *
+	 * @param machinery the machinery
+	 * @return the machinery last investment
+	 */
 	public LocalDate getMachineryLastInvestment(Machinery machinery) {
 		return machinery.getLastInvestmentDate();
 	}
 
+	/**
+	 * Gets machinery years since last investment.
+	 *
+	 * @param machinery the machinery
+	 * @return the machinery years since last investment
+	 */
 	public int getMachineryYearsSinceLastInvestment(Machinery machinery) {
 		return machinery.getYearsSinceLastInvestment();
 	}
 
+	/**
+	 * Gets machinery useful life.
+	 *
+	 * @param machinery the machinery
+	 * @return the machinery useful life
+	 */
 	public int getMachineryUsefulLife(Machinery machinery) {
 		return machinery.getUsefulLife();
 	}
 
+	/**
+	 * Gets machinery purchase date.
+	 *
+	 * @param machinery the machinery
+	 * @return the machinery purchase date
+	 */
 	public LocalDate getMachineryPurchaseDate(Machinery machinery) {
 		return machinery.getPurchaseDate();
 	}
 
+	/**
+	 * Gets product costs.
+	 *
+	 * @param product the product
+	 * @return the product costs
+	 */
 	/* product game mechanics */
 	public double getProductCosts(Product product) {
 		return product.getProductCosts(GameState.getInstance().getGameDate());
 	}
 
+	/**
+	 * Launches a product.
+	 * It checks whether the product category was unlocked and whether the product name is unique.
+	 * Adds the product to the list of launched products.
+	 *
+	 * @param product the product
+	 * @return the costs
+	 * @throws ProductCategoryNotUnlockedException the product category not unlocked exception
+	 * @throws ProductNameAlreadyInUseException    the product name already in use exception
+	 */
 	public double launchProduct(Product product) throws ProductCategoryNotUnlockedException, ProductNameAlreadyInUseException {
 		try {
 			LocalDate gameDate = GameState.getInstance().getGameDate();
 			ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
 			boolean productCategoryUnlocked = researchAndDevelopmentDepartment.isCategoryUnlocked(product.getProductCategory());
-			double launchCosts = ProductionDepartment.getInstance().launchProduct(product, gameDate, productCategoryUnlocked);
+			double launchCosts = GameState.getInstance().getProductionDepartment().launchProduct(product, gameDate, productCategoryUnlocked);
 			GameState.getInstance().getFinanceDepartment().decreaseCash(gameDate, launchCosts);
 			return launchCosts;
 		} catch (Exception e) {
@@ -990,7 +1468,29 @@ public class GameController {
 		}
 	}
 
-	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException, ComponenLockedException {
+	/**
+	 * Gets product launch costs
+	 *
+	 * @return products launch costs
+	 */
+	public double getProductLaunchCosts() {
+		return GameState.getInstance().getProductionDepartment().getProductLaunchCosts();
+	}
+
+	/**
+	 * Produces product double.
+	 * It checks whether the product can be produced in the specified quantity (enough components, components unlocked, enough free storage, enough machine capacity),
+	 * otherwise it throws an exception.
+	 *
+	 * @param product  the product
+	 * @param quantity the quantity
+	 * @return the costs
+	 * @throws NotEnoughComponentsException      the not enough components exception
+	 * @throws NotEnoughMachineCapacityException the not enough machine capacity exception
+	 * @throws NotEnoughFreeStorageException     the not enough free storage exception
+	 * @throws ComponentLockedException          the component locked exception
+	 */
+	public double produceProduct(Product product, int quantity) throws NotEnoughComponentsException, NotEnoughMachineCapacityException, NotEnoughFreeStorageException, ComponentLockedException {
 		try {
 		    ResearchAndDevelopmentDepartment researchAndDevelopmentDepartment = GameState.getInstance().getResearchAndDevelopmentDepartment();
 		    boolean allComponentsUnlocked = true;
@@ -999,100 +1499,285 @@ public class GameController {
 		            allComponentsUnlocked = false;
                 }
             }
-			return ProductionDepartment.getInstance().produceProduct(product, quantity,
-					WarehousingDepartment.getInstance().calculateFreeStorage(), allComponentsUnlocked);
+			return GameState.getInstance().getProductionDepartment().produceProduct(product, quantity,
+					GameState.getInstance().getWarehousingDepartment().calculateFreeStorage(), allComponentsUnlocked);
 		} catch (Exception e) {
 			throw e;
 		}
 	}
 
+	/**
+	 * Gets amount of products in production.
+	 *
+	 * @param product the product
+	 * @return the amount product in production
+	 */
 	public double getAmountProductInProduction(Product product) {
-		return ProductionDepartment.getInstance().getAmountInProduction(product);
+		return GameState.getInstance().getProductionDepartment().getAmountInProduction(product);
 	}
 
+	/**
+	 * Sets product sales price.
+	 *
+	 * @param product    the product
+	 * @param salesPrice the sales price
+	 */
 	public void setProductSalesPrice(Product product, double salesPrice) {
-		ProductionDepartment.getInstance().setProductSalesPrice(product, salesPrice);
+		GameState.getInstance().getProductionDepartment().setProductSalesPrice(product, salesPrice);
 	}
 
+	/**
+	 * Gets product name.
+	 *
+	 * @param product the product
+	 * @return the product name
+	 */
 	public String getProductName(Product product) {
 		return product.getProductName();
 	}
 
+	/**
+	 * Gets product category.
+	 *
+	 * @param product the product
+	 * @return the product category
+	 */
 	public ProductCategory getProductCategory(Product product) {
 		return product.getProductCategory();
 	}
 
+	/**
+	 * Gets product components.
+	 *
+	 * @param product the product
+	 * @return the product components
+	 */
 	public List<Component> getProductComponents(Product product) {
 		return product.getComponents();
 	}
 
+	/**
+	 * Gets product procurement quality.
+	 *
+	 * @param product the product
+	 * @return the product procurement quality
+	 */
 	public double getProductProcurementQuality(Product product) {
 		return product.getTotalProcurementQuality();
 	}
 
+	/**
+	 * Gets product total product quality.
+	 *
+	 * @param product the product
+	 * @return the product total product quality
+	 */
 	public double getProductTotalProductQuality(Product product) {
 		return product.getTotalProductQuality();
 	}
 
+	/**
+	 * Gets product launch date.
+	 *
+	 * @param product the product
+	 * @return the product launch date
+	 */
 	public LocalDate getProductLaunchDate(Product product) {
 		return product.getLaunchDate();
 	}
 
+	/**
+	 * Gets product component costs.
+	 *
+	 * @param product the product
+	 * @return the product component costs
+	 */
 	public double getProductComponentCosts(Product product) {
 		return product.getTotalComponentCosts();
 	}
 
+	/**
+	 * Gets total product costs.
+	 *
+	 * @param product the product
+	 * @return the total product costs
+	 */
 	public double getTotalProductCosts(Product product) {
 		return product.getTotalProductCosts();
 	}
 
+	/**
+	 * Gets products sales price.
+	 *
+	 * @param product the product
+	 * @return the products sales price
+	 */
 	public double getProductsSalesPrice(Product product) {
 		return product.getSalesPrice();
 	}
 
+	/**
+	 * Gets product profit margin.
+	 *
+	 * @param product the product
+	 * @return the product profit margin
+	 */
 	public double getProductProfitMargin(Product product) {
 		return product.getProfitMargin();
 	}
 
+	/**
+	 * Gets launched products.
+	 *
+	 * @return the launched products
+	 */
 	public List<Product> getLaunchedProducts() {
-		return ProductionDepartment.getInstance().getLaunchedProducts();
+		return GameState.getInstance().getProductionDepartment().getLaunchedProducts();
 	}
+
+	/**
+	 * Calculate average eco index of launched products.
+	 *
+	 * @return the average eco index of launched products
+	 */
+	public double calculateAverageEcoIndexOfLaunchedProducts() {
+	    return GameState.getInstance().getProductionDepartment().calculateAverageEcoIndexOfLaunchedProducts();
+    }
 
 	/* production investment game mechanics */
-	public double investInSystemSecurity(int level, LocalDate gameDate) {
-		return ProductionDepartment.getInstance().investInSystemSecurity(level, gameDate);
+
+	/**
+	 * Gets production investment price.
+	 * Gets the price without actually investing in the production investment.
+	 *
+	 * @param productionInvestmentLevel the production investment level
+	 * @return the production investment price for that investment level
+	 */
+	public double getProductionInvestmentPrice(ProductionInvestmentLevel productionInvestmentLevel) {
+		return GameState.getInstance().getProductionDepartment().getProductionInvestmentPrice(productionInvestmentLevel);
 	}
 
-	public double investInResearchAndDevelopment(int level, LocalDate gameDate) {
-		return ProductionDepartment.getInstance().investInResearchAndDevelopment(level, gameDate);
+	/**
+	 * Invest in system security.
+	 * It checks the number of trained engineers before calling the method of the production department.
+	 *
+	 * @param level the level
+	 * @return the costs
+	 * @throws NotEnoughTrainedEngineersException the not enough trained engineers exception
+	 */
+	public double investInSystemSecurity(int level) throws NotEnoughTrainedEngineersException{
+		try {
+			int numberOfTrainedEngineers = 0;
+			Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
+			for (Employee employee : team.getTeam()) {
+				if (employee.getTrainingsList().size() > 0) {
+					numberOfTrainedEngineers++;
+				}
+			}
+			return GameState.getInstance().getProductionDepartment().investInSystemSecurity(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
+		} catch (NotEnoughTrainedEngineersException e) {
+			throw e;
+		}
 	}
 
-	public double investInProcessAutomation(int level, LocalDate gameDate) {
-		return ProductionDepartment.getInstance().investInProcessAutomation(level, gameDate);
+	/**
+	 * Invest in quality assurance.
+	 * It checks the number of trained engineers before calling the method of the production department.
+	 *
+	 * @param level the level
+	 * @return the costs
+	 * @throws NotEnoughTrainedEngineersException the not enough trained engineers exception
+	 */
+	public double investInQualityAssurance(int level) throws NotEnoughTrainedEngineersException{
+		try {
+			int numberOfTrainedEngineers = 0;
+			Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
+			for (Employee employee : team.getTeam()) {
+				if (employee.getTrainingsList().size() > 0) {
+					numberOfTrainedEngineers++;
+				}
+			}
+			return GameState.getInstance().getProductionDepartment().investInQualityAssurance(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
+		} catch (NotEnoughTrainedEngineersException e) {
+			throw e;
+		}
 	}
 
+	/**
+	 * Invest in process automation.
+	 * It checks the number of trained engineers before calling the method of the production department.
+	 *
+	 * @param level the level
+	 * @return the costs
+	 * @throws NotEnoughTrainedEngineersException the not enough trained engineers exception
+	 */
+	public double investInProcessAutomation(int level) throws NotEnoughTrainedEngineersException {
+		try {
+			int numberOfTrainedEngineers = 0;
+			Team team = GameState.getInstance().getHrDepartment().getEngineerTeam();
+			for (Employee employee : team.getTeam()) {
+				if (employee.getTrainingsList().size() > 0) {
+					numberOfTrainedEngineers++;
+				}
+			}
+			return GameState.getInstance().getProductionDepartment().investInProcessAutomation(level, GameState.getInstance().getGameDate(), numberOfTrainedEngineers);
+		} catch (NotEnoughTrainedEngineersException e) {
+			throw e;
+		}
+	}
+
+	/**
+	 * Gets last investment date system security.
+	 *
+	 * @return the last investment date system security
+	 */
 	public LocalDate getLastInvestmentDateSystemSecurity() {
-		return ProductionDepartment.getInstance().getSystemSecurity().getLastInvestmentDate();
+		return GameState.getInstance().getProductionDepartment().getSystemSecurity().getLastInvestmentDate();
 	}
 
-	public LocalDate getLastInvestmentDateResearchAndDevelopment() {
-		return ProductionDepartment.getInstance().getResearchAndDevelopment().getLastInvestmentDate();
+	/**
+	 * Gets last investment date quality assurance.
+	 *
+	 * @return the last investment date quality assurance
+	 */
+	public LocalDate getLastInvestmentDateQualityAssurance() {
+		return GameState.getInstance().getProductionDepartment().getQualityAssurance().getLastInvestmentDate();
 	}
 
+	/**
+	 * Gets last investment date process automation.
+	 *
+	 * @return the last investment date process automation
+	 */
 	public LocalDate getLastInvestmentDateProcessAutomation() {
-		return ProductionDepartment.getInstance().getProcessAutomation().getLastInvestmentDate();
+		return GameState.getInstance().getProductionDepartment().getProcessAutomation().getLastInvestmentDate();
 	}
 
+	/**
+	 * Gets system security level.
+	 *
+	 * @return the system security level
+	 */
 	public int getSystemSecurityLevel() {
-		return ProductionDepartment.getInstance().getSystemSecurity().getLevel();
+		return GameState.getInstance().getProductionDepartment().getSystemSecurity().getLevel();
 	}
 
-	public int getResearchAndDevelopmentLevel() {
-		return ProductionDepartment.getInstance().getResearchAndDevelopment().getLevel();
+	/**
+	 * Gets quality assurance level.
+	 *
+	 * @return the quality assurance level
+	 */
+	public int getQualityAssuranceLevel() {
+		return GameState.getInstance().getProductionDepartment().getQualityAssurance().getLevel();
 	}
 
+	/**
+	 * Gets process automation level.
+	 *
+	 * @return the process automation level
+	 */
 	public int getProcessAutomationLevel() {
-		return ProductionDepartment.getInstance().getProcessAutomation().getLevel();
+		return GameState.getInstance().getProductionDepartment().getProcessAutomation().getLevel();
 	}
 
 	/*
@@ -1100,125 +1785,291 @@ public class GameController {
 	 */
 
 	/* warehousing getter and game mechanic */
-	// TODO SALE OF PRODUCTS
-	/*
-	 * public double sellProducts() { return
-	 * Warehousing.getInstance().sellProducts() }
+
+	/**
+	 * Gets warehouse slots of the warehousing department.
+	 *
+	 * @return the warehouse slots
 	 */
-
 	public int getWarehouseSlots() {
-		return WarehousingDepartment.getInstance().getWarehouseSlots();
+		return GameState.getInstance().getWarehousingDepartment().getWarehouseSlots();
 	}
 
+	/**
+	 * Gets warehouse slots available.
+	 *
+	 * @return the warehouse slots available
+	 */
 	public boolean getWarehouseSlotsAvailable() {
-		return WarehousingDepartment.getInstance().getWarehouseSlotsAvailable();
+		return GameState.getInstance().getWarehousingDepartment().getWarehouseSlotsAvailable();
 	}
 
+	/**
+	 * Gets warehouses of the warehousing department.
+	 *
+	 * @return the warehouses
+	 */
 	public List<Warehouse> getWarehouses() {
-		return WarehousingDepartment.getInstance().getWarehouses();
+		return GameState.getInstance().getWarehousingDepartment().getWarehouses();
 	}
 
+	/**
+	 * Gets warehousing inventory of the warehousing department.
+	 * The inventory includes all units (products, components) that are stored in the warehouse.
+	 *
+	 * @return the warehousing inventory
+	 */
 	public Map<Unit, Integer> getWarehousingInventory() {
-		return WarehousingDepartment.getInstance().getInventory();
+		return GameState.getInstance().getWarehousingDepartment().getInventory();
 	}
 
+	/**
+	 * Gets total warehousing capacity for units.
+	 *
+	 * @return the total warehousing capacity
+	 */
 	public int getTotalWarehousingCapacity() {
-		return WarehousingDepartment.getInstance().getTotalCapacity();
+		return GameState.getInstance().getWarehousingDepartment().getTotalCapacity();
 	}
 
+	/**
+	 * Gets free storage of the warehousing department.
+	 *
+	 * @return the free storage
+	 */
 	public int getFreeStorage() {
-		return WarehousingDepartment.getInstance().getFreeStorage();
+		return GameState.getInstance().getWarehousingDepartment().getFreeStorage();
 	}
 
+	/**
+	 * Gets stored units of the warehousing department.
+	 *
+	 * @return the stored units
+	 */
 	public int getStoredUnits() {
-		return WarehousingDepartment.getInstance().getStoredUnits();
+		return GameState.getInstance().getWarehousingDepartment().getStoredUnits();
 	}
 
+	/**
+	 * Gets monthly warehousing cost.
+	 *
+	 * @return the monthly warehousing cost
+	 */
 	public double getMonthlyWarehousingCost() {
-		return WarehousingDepartment.getInstance().getMonthlyCostWarehousing();
+		return GameState.getInstance().getWarehousingDepartment().getMonthlyCostWarehousing();
 	}
 
+	/**
+	 * Gets daily warehousing storage cost.
+	 *
+	 * @return the daily warehousing storage cost
+	 */
 	public double getDailyWarehousingStorageCost() {
-		return WarehousingDepartment.getInstance().getDailyStorageCost();
+		return GameState.getInstance().getWarehousingDepartment().getDailyStorageCost();
 	}
 
+	/**
+	 * Gets monthly warehousing storage cost.
+	 *
+	 * @return the monthly warehousing storage cost
+	 */
 	public double getMonthlyWarehousingStorageCost() {
-		return WarehousingDepartment.getInstance().getMonthlyStorageCost();
+		return GameState.getInstance().getWarehousingDepartment().getMonthlyStorageCost();
 	}
 
+	/**
+	 * Gets monthly total warehousing cost.
+	 *
+	 * @return the monthly total warehousing cost
+	 */
 	public double getMonthlyTotalWarehousingCost() {
-		return WarehousingDepartment.getInstance().getMonthlyTotalCostWarehousing();
+		return GameState.getInstance().getWarehousingDepartment().getMonthlyTotalCostWarehousing();
+	}
+
+	/**
+	 * Sell warehouse products.
+	 * Removes sold products from stored units of production department.
+	 *
+	 * @param unit     the product
+	 * @param quantity the quantity
+	 * @return the revenue
+	 */
+	public double sellWarehouseProducts(Unit unit, int quantity) {
+		return GameState.getInstance().getWarehousingDepartment().sellWarehouseProducts(unit, quantity);
+	}
+
+	/**
+	 * Sell warehouse components double.
+	 * Removes sold components from stored units of production department.
+	 *
+	 * @param unit     the component
+	 * @param quantity the quantity
+	 * @return the revenue
+	 */
+	public double sellWarehouseComponents(Unit unit, int quantity) {
+		return GameState.getInstance().getWarehousingDepartment().sellWarehouseComponents(unit, quantity);
 	}
 
 	/* warehouse game mechanics */
+
+	/**
+	 * Builds a warehouse.
+	 * Adds warehouse to the list of warehouses and add its relevant properties to the warehousing department.
+	 * Checks whether there are still warehouse slots available before building one.
+	 *
+	 * @return the costs
+	 * @throws NoWarehouseSlotsAvailableException the no warehouse slots available exception
+	 */
 	public double buildWarehouse() throws NoWarehouseSlotsAvailableException {
 		try {
-			return WarehousingDepartment.getInstance().buildWarehouse(GameState.getInstance().getGameDate());
+			return GameState.getInstance().getWarehousingDepartment().buildWarehouse(GameState.getInstance().getGameDate());
 		} catch (NoWarehouseSlotsAvailableException e) {
 			throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
 		}
 	}
 
+	/**
+	 * Rents a warehouse.
+	 * Adds warehouse to the list of warehouses and add its relevant properties to the warehousing department.
+	 * Checks whether there are still warehouse slots available before building one.
+	 *
+	 * @return the costs
+	 * @throws NoWarehouseSlotsAvailableException the no warehouse slots available exception
+	 */
 	public double rentWarehouse() throws NoWarehouseSlotsAvailableException{
 		try {
-			return WarehousingDepartment.getInstance().rentWarehouse(GameState.getInstance().getGameDate());
+			return GameState.getInstance().getWarehousingDepartment().rentWarehouse(GameState.getInstance().getGameDate());
 		} catch	(NoWarehouseSlotsAvailableException e) {
 			throw new NoWarehouseSlotsAvailableException("No more Capacity available to build or rent a new Warehouse.");
 		}
 	}
 
+	/**
+	 * Sells a warehouse.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the resale price
+	 * @throws StorageCapacityUsedException the storage capacity used exception
+	 */
 	public double sellWarehouse(Warehouse warehouse) throws StorageCapacityUsedException {
 		try {
-			return WarehousingDepartment.getInstance().sellWarehouse(warehouse);
+			return GameState.getInstance().getWarehousingDepartment().sellWarehouse(warehouse);
 		} catch(StorageCapacityUsedException e) {
 			throw e;
 		}
 	}
 
+	/**
+	 * Depreciate all warehouse resale values.
+	 */
 	public void depreciateAllWarehouseResaleValues() {
-		WarehousingDepartment.getInstance().depreciateAllWarehouseResaleValues(GameState.getInstance().getGameDate());
+		GameState.getInstance().getWarehousingDepartment().depreciateAllWarehouseResaleValues(GameState.getInstance().getGameDate());
 	}
 
+	/**
+	 * Gets all warehouse resale values.
+	 *
+	 * @return the all warehouse resale values
+	 */
 	public Map<Warehouse, Double> getAllWarehouseResaleValues() {
-		return WarehousingDepartment.getInstance().getAllWarehouseResaleValues();
+		return GameState.getInstance().getWarehousingDepartment().getAllWarehouseResaleValues();
 	}
 
+	/**
+	 * Gets monthly warehouse cost.
+	 *
+	 * @return the monthly warehouse cost
+	 */
 	public double getMonthlyWarehouseCost() {
-		return WarehousingDepartment.getInstance().getMonthlyWarehouseCost(GameState.getInstance().getGameDate());
+		return GameState.getInstance().getWarehousingDepartment().getMonthlyWarehouseCost(GameState.getInstance().getGameDate());
 	}
 
+	/**
+	 * Gets warehouse type.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the warehouse type
+	 */
 	public WarehouseType getWarehouseType(Warehouse warehouse) {
 		return warehouse.getWarehouseType();
 	}
 
+	/**
+	 * Gets warehouse building cost.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the warehouse building cost
+	 */
 	public double getWarehouseBuildingCost(Warehouse warehouse) {
 		return warehouse.getBuildingCost();
 	}
 
+	/**
+	 * Gets warehouse monthly rental cost.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the warehouse monthly rental cost
+	 */
 	public double getWarehouseMonthlyRentalCost(Warehouse warehouse) {
 		return warehouse.getMonthlyRentalCost();
 	}
 
+	/**
+	 * Gets warehouse variable storage cost.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the warehouse variable storage cost
+	 */
 	public double getWarehouseVariableStorageCost(Warehouse warehouse) {
 		return warehouse.getVariableStorageCost();
 	}
 
+	/**
+	 * Gets warehouse monthly fix cost.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the warehouse monthly fix cost
+	 */
 	public double getWarehouseMonthlyFixCost(Warehouse warehouse) {
 		return warehouse.getMonthlyFixCostWarehouse();
 	}
 
+	/**
+	 * Gets warehouse resale value.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the warehouse resale value
+	 */
 	public double getWarehouseResaleValue(Warehouse warehouse) {
 		return warehouse.getResaleValue();
 	}
 
+	/**
+	 * Gets warehouse build date.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the warehouse build date
+	 */
 	public LocalDate getWarehouseBuildDate(Warehouse warehouse) {
 		return warehouse.getBuildDate();
 	}
 
+	/**
+	 * Gets warehouse depreciation rate.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the warehouse depreciation rate
+	 */
 	public double getWarehouseDepreciationRate(Warehouse warehouse) {
 		return warehouse.getDepreciationRateWarehouse();
 	}
 
+	/**
+	 * Gets warehouse useful life.
+	 *
+	 * @param warehouse the warehouse
+	 * @return the warehouse useful life
+	 */
 	public int getWarehouseUsefulLife(Warehouse warehouse) {
 		return warehouse.getUsefulLife();
 	}
@@ -1238,7 +2089,7 @@ public class GameController {
 	 * @return Returns all marketing campaigns that the player did issue.
 	 */
 	public List<Campaign> getIssuedMarketingCampaigns() {
-		return MarketingDepartment.getInstance().getCampaignsWithDates();
+		return GameState.getInstance().getMarketingDepartment().getCampaignsWithDates();
 	}
 	
 	/**
@@ -1265,7 +2116,7 @@ public class GameController {
 	 * @param media        the media type.
 	 */
 	public void makeCampaign(String campaignName, Media media) {
-		int cost = MarketingDepartment.getInstance().startCampaign(campaignName, media);
+		int cost = GameState.getInstance().getMarketingDepartment().startCampaign(campaignName, media);
 		decreaseCash(GameState.getInstance().getGameDate(), cost);
 	}
 	
@@ -1273,7 +2124,7 @@ public class GameController {
 	 * Computes the current CompanyImage from issued Campaigns
 	 */
 	public double computeCompanyImage() {
-		return MarketingDepartment.getInstance().getCompanyImageScore();
+		return GameState.getInstance().getMarketingDepartment().getCompanyImageScore();
 	}
 	
 	
@@ -1282,7 +2133,7 @@ public class GameController {
 	 * @return Returns all issued press releases.
 	 */
 	public List<PressRelease> getPressReleases() {
-		return MarketingDepartment.getInstance().getPressReleases();
+		return GameState.getInstance().getMarketingDepartment().getPressReleases();
 	}
 
 	/**
@@ -1291,8 +2142,11 @@ public class GameController {
 	 * @param pr a press release.
 	 */
 	public void makePressRelease(PressRelease pr) {
-		int cost = MarketingDepartment.getInstance().makePressRelease(pr);
+		int cost = GameState.getInstance().getMarketingDepartment().makePressRelease(pr);
 		decreaseCash(GameState.getInstance().getGameDate(), cost);
+		
+		//add ExternalEvent of issued PressRelease
+		GameState.getInstance().getExternalEvents().addPressReleaseEvent(pr);
 	}
 
 	/**
@@ -1330,7 +2184,7 @@ public class GameController {
 	 */
 	public void conductMarketResearch(boolean internal, Reports report, SurveyTypes surveyType,
 			Map<String, Double> data) {
-		double cost = MarketingDepartment.getInstance().issueMarketResearch(internal, report, surveyType, data, GameState.getInstance().getGameDate());
+		double cost = GameState.getInstance().getMarketingDepartment().issueMarketResearch(internal, report, surveyType, data, GameState.getInstance().getGameDate());
 		decreaseCash(GameState.getInstance().getGameDate(), cost);
 	}
 
@@ -1339,7 +2193,7 @@ public class GameController {
 	 */
 
 	public List<MarketResearch> getConductedMarketResearch() {
-		return MarketingDepartment.getInstance().getMarketResearches();
+		return GameState.getInstance().getMarketingDepartment().getMarketResearches();
 	}
 	
 	
@@ -1364,71 +2218,81 @@ public class GameController {
 		values[4] =	getManufactureEfficiency();	
 		values[5] = getTotalJSS();
 		
-		return MarketingDepartment.getInstance().orderConsultantReport(conType, values);	
+		return GameState.getInstance().getMarketingDepartment().orderConsultantReport(conType, values);
 	}
 	
 	/* Human Resources */
 
 	/**
 	 * Hire the employee. He will be added to your team.
-	 * 
+	 *
 	 * @param e the employee you want to hire.
 	 */
 	public void hireEmployee(Employee e) {
-		HRDepartment.getInstance().hire(e);
+		GameState.getInstance().getHrDepartment().hire(e);
 		this.updateNumberOfProductionWorkers();
 	}
 
 	/**
 	 * Fire the employee. He will be removed from the team.
-	 * 
+	 *
 	 * @param e the employee you want to fire.
 	 */
 	public void fireEmployee(Employee e) {
-		HRDepartment.getInstance().fire(e);
+		GameState.getInstance().getHrDepartment().fire(e);
 		this.updateNumberOfProductionWorkers();
 	}
 
-	/**
-	 *
-	 * @return Returns the engineer team.
-	 */
-	public Team getEngineerTeam() {
-		return HRDepartment.getInstance().getEngineerTeam();
+	public static class HumanResources {
+
+		/**
+		 *
+		 * @return Returns the engineer team.
+		 */
+		public Team getEngineerTeam() {
+			return GameState.getInstance().getHrDepartment().getEngineerTeam();
+		}
+
+		/**
+		 *
+		 * @return Returns the sales people team.
+		 */
+		public Team getSalesPeopleTeam() {
+			return GameState.getInstance().getHrDepartment().getSalesTeam();
+		}
+
+		/**
+		 *
+		 * @return Returns all pre defined trainings for your employee.
+		 */
+		public Training[] getAllEmployeeTraining() {
+			return GameState.getInstance().getHrDepartment().getAllTrainings();
+		}
+
 	}
 
-	/**
-	 *
-	 * @return Returns the sales people team.
-	 */
-	public Team getSalesPeopleTeam() {
-		return HRDepartment.getInstance().getSalesTeam();
+	public HumanResources getHumanResources() {
+		return new HumanResources();
 	}
 
-	/**
-	 *
-	 * @return Returns all pre defined trainings for your employee.
-	 */
-	public Training[] getAllEmployeeTraining() {
-		return HRDepartment.getInstance().getAllTrainings();
-	}
+
 
 
 	public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {
-		return HRDepartment.getInstance().getTotalQualityOfWorkByEmployeeType(employeeType);
+		return GameState.getInstance().getHrDepartment().getTotalQualityOfWorkByEmployeeType(employeeType);
 	}
 	
 	public double getTotalJSS() {
-		return HRDepartment.getInstance().getTotalJSS();
+		return GameState.getInstance().getHrDepartment().getTotalJSS();
 	}
 	
 	
 	/*  Customer */	
 	public void updateCompanyImageInCustomerSatisfaction() {
-		CustomerSatisfaction.getInstance().setCompanyImage(MarketingDepartment.getInstance().getCompanyImageScore());
+		GameState.getInstance().getCustomerSatisfaction().setCompanyImage(MarketingDepartment.getInstance().getCompanyImageScore());
 	}
 	
 	public double getEmployerBranding() {
-		return CustomerSatisfaction.getInstance().getEmployerBranding();
+		return GameState.getInstance().getCustomerSatisfaction().getEmployerBranding();
 	}
 }

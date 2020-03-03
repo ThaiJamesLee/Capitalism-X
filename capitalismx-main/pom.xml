@@ -57,6 +57,49 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>l4j-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/capitalismx.exe</outfile>
+                            <jar>target/${project.artifactId}-${project.version}.jar</jar>
+                            <!-- if <dontWrapJar>true</dontWrapJar> change to this conf <jar>${project.artifactId}-${project.version}.jar</jar> -->
+                            <dontWrapJar>false</dontWrapJar>
+                            <errTitle>Error in launch4j plugin</errTitle>
+                            <classPath>
+                                <mainClass>de.uni.mannheim.capitalismx.main.application.Main</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>12</minVersion>
+                                <maxVersion>13</maxVersion>
+                                <initialHeapSize>512</initialHeapSize>
+                                <maxHeapSize>1024</maxHeapSize>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>1.0.0.0</txtFileVersion>
+                                <fileDescription>des</fileDescription>
+                                <copyright>Copyright (c) 2019 </copyright>
+                                <companyName>University of Mannheim</companyName>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productName>Capitalism-X</productName>
+                                <internalName>capitalismx</internalName>
+                                <originalFilename>capitalismx.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
 
     </build>

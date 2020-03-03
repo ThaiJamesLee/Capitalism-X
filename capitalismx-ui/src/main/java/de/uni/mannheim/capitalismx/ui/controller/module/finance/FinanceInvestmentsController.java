@@ -3,31 +3,24 @@ package de.uni.mannheim.capitalismx.ui.controller.module.finance;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.uni.mannheim.capitalismx.ui.components.general.GameAlert;
-import de.uni.mannheim.capitalismx.ui.utils.CapCoinFormatter;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import org.controlsfx.control.PopOver;
-
-import de.uni.mannheim.capitalismx.finance.finance.BankingSystem;
-import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
 import de.uni.mannheim.capitalismx.finance.finance.Investment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.controller.popover.finance.LoanRequestListController;
-import de.uni.mannheim.capitalismx.ui.eventlisteners.FinanceEventListener;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
-import de.uni.mannheim.capitalismx.ui.utils.TextFieldHelper;
-import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
+import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
+import de.uni.mannheim.capitalismx.ui.eventlistener.FinanceEventListener;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.util.TextFieldHelper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 /**
  * This class represents the investments section in the finance UI. Users have the option to invest and disinvest into
@@ -88,10 +81,6 @@ public class FinanceInvestmentsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
-        financeEventListener = new FinanceEventListener();
-
-        FinanceDepartment f = GameState.getInstance().getFinanceDepartment();
-        f.registerPropertyChangeListener(financeEventListener);
 
         TextFieldHelper.makeTextFieldNumeric(ventureCapitalTextField);
         TextFieldHelper.makeTextFieldNumeric(stocksTextField);

@@ -12,12 +12,12 @@ import de.uni.mannheim.capitalismx.marketing.marketresearch.MarketResearch;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.Reports;
 import de.uni.mannheim.capitalismx.marketing.marketresearch.SurveyTypes;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import de.uni.mannheim.capitalismx.ui.controller.module.marketing.MarketResearchListController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 /**
@@ -33,10 +33,10 @@ public class NewMarketResearchController implements UpdateableController {
 	ToggleSwitch externToggle;
 
 	@FXML
-	ComboBox<SurveyTypes> dataCollectCombo;
+	ChoiceBox<SurveyTypes> dataCollectCombo;
 
 	@FXML
-	ComboBox<Reports> reportTypeCombo;
+	ChoiceBox<Reports> reportTypeCombo;
 
 	@FXML
 	Label costLbl;

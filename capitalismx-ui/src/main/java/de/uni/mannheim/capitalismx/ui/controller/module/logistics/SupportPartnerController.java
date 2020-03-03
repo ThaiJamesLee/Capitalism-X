@@ -4,18 +4,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
-import de.uni.mannheim.capitalismx.ui.components.GameModuleType;
-import de.uni.mannheim.capitalismx.ui.components.logistics.LogisticsPartnerDetailListViewCell;
-import de.uni.mannheim.capitalismx.ui.components.logistics.SupportPartnerListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.popover.logistics.ProductSupportDetailListController;
 import de.uni.mannheim.capitalismx.ui.controller.popover.logistics.SupportPartnerDetailListController;
+import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import javafx.scene.control.ListView;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.component.GameModuleType;
+import de.uni.mannheim.capitalismx.ui.component.logistics.LogisticsPartnerDetailListViewCell;
+import de.uni.mannheim.capitalismx.ui.component.logistics.SupportPartnerListViewCell;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -23,45 +24,57 @@
           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" styleClass="label_very_large" text="TV">
+            <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.category.tv">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label styleClass="label_very_large" text="Console" GridPane.columnIndex="1">
+            <Label styleClass="label_very_large" text="%resdev.category.console" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label styleClass="label_very_large" text="Notebook" GridPane.columnIndex="2">
+            <Label styleClass="label_very_large" text="%resdev.category.notebook" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label styleClass="label_very_large" text="Phone" GridPane.columnIndex="3">
+            <Label styleClass="label_very_large" text="%resdev.category.phone" GridPane.columnIndex="3">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <Button fx:id="btnTV" mnemonicParsing="false" onMouseClicked="#unlockTV" styleClass="btn_standard" text="%resdev.unlock" GridPane.rowIndex="1">
+            <Button fx:id="btnTV" graphicTextGap="8.0" mnemonicParsing="false" onMouseClicked="#unlockTV" styleClass="btn_standard" text="%resdev.unlock" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
+               <graphic>
+                  <FontAwesomeIcon iconName="UNLOCK_ALT" size="1.2em" />
+               </graphic>
             </Button>
-            <Button fx:id="btnConsole" mnemonicParsing="false" onMouseClicked="#unlockConsole" styleClass="btn_standard" text="%resdev.unlock" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="btnConsole" graphicTextGap="8.0" mnemonicParsing="false" onMouseClicked="#unlockConsole" styleClass="btn_standard" text="%resdev.unlock" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
+               <graphic>
+                  <FontAwesomeIcon iconName="UNLOCK_ALT" size="1.2em" />
+               </graphic>
             </Button>
-            <Button fx:id="btnNotebook" mnemonicParsing="false" onMouseClicked="#unlockNotebook" styleClass="btn_standard" text="%resdev.unlock" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="btnNotebook" graphicTextGap="8.0" mnemonicParsing="false" onMouseClicked="#unlockNotebook" styleClass="btn_standard" text="%resdev.unlock" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
+               <graphic>
+                  <FontAwesomeIcon iconName="UNLOCK_ALT" size="1.2em" />
+               </graphic>
             </Button>
-            <Button fx:id="btnPhone" mnemonicParsing="false" onMouseClicked="#unlockPhone" styleClass="btn_standard" text="%resdev.unlock" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Button fx:id="btnPhone" graphicTextGap="8.0" mnemonicParsing="false" onMouseClicked="#unlockPhone" styleClass="btn_standard" text="%resdev.unlock" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </GridPane.margin>
+               <graphic>
+                  <FontAwesomeIcon iconName="UNLOCK_ALT" size="1.2em" />
+               </graphic>
             </Button>
          </children>
       </GridPane>

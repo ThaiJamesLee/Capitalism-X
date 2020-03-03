@@ -1,0 +1,13 @@
+/** Define fonts */
+@font-face {
+    src: url('../fonts/Prime-Regular.ttf');
+}
+@font-face {
+    src: url('../fonts/Prime-Light.ttf');
+}
+@font-face {
+    src: url('../fonts/Reckoner.ttf');
+}
+@font-face {
+    src: url('../fonts/Reckoner_Bold.ttf');
+}

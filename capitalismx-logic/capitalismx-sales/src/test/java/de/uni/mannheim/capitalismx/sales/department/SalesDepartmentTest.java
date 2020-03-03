@@ -4,8 +4,11 @@ import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFil
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
 import de.uni.mannheim.capitalismx.procurement.component.SupplierCategory;
-import de.uni.mannheim.capitalismx.production.*;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 import de.uni.mannheim.capitalismx.production.exceptions.NoMachinerySlotsAvailableException;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
+import de.uni.mannheim.capitalismx.production.product.Product;
+import de.uni.mannheim.capitalismx.production.product.ProductCategory;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import org.junit.Assert;
 import org.slf4j.Logger;

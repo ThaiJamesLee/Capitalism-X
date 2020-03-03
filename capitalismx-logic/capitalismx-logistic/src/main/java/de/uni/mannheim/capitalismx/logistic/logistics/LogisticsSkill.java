@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 /**
  *
  * This class represents the skills that can be unlocked in the Logistics Department when leveling up.
+ *
  * @author sdupper
  *
  * @since 1.0.0

@@ -4,7 +4,7 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentType;
-import de.uni.mannheim.capitalismx.production.ProductCategory;
+import de.uni.mannheim.capitalismx.production.product.ProductCategory;
 import de.uni.mannheim.capitalismx.resdev.skills.ProductCategorySkill;
 import org.junit.Assert;
 import org.slf4j.Logger;

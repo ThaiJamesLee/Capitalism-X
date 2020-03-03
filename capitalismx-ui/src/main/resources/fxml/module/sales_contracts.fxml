@@ -83,7 +83,7 @@
                            <children>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button fx:id="acceptButton" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="btn_standard" text="%sales.contract.accept">
+                                    <Button fx:id="acceptButton" alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="8.0" mnemonicParsing="false" onMouseClicked="#acceptContract" styleClass="btn_standard" text="%sales.contract.accept">
                                        <graphic>
                                           <FontAwesomeIcon iconName="CARET_RIGHT" size="1.3em" />
                                        </graphic>
@@ -92,12 +92,26 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button fx:id="fulfillButton" mnemonicParsing="false" onMouseClicked="#fulfillContract" styleClass="btn_standard" text="%sales.contract.fulfill" />
+                                    <Button fx:id="fulfillButton" contentDisplay="RIGHT" graphicTextGap="8.0" mnemonicParsing="false" onMouseClicked="#fulfillContract" styleClass="btn_standard" text="%sales.contract.fulfill">
+                                       <graphic>
+                                          <FontAwesomeIcon iconName="CHECK_CIRCLE" size="1.2em" />
+                                       </graphic></Button>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button fx:id="terminateButton" mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="btn_standard" text="%sales.contract.terminate" />
+                                    <Button fx:id="terminateButton" contentDisplay="RIGHT" graphicTextGap="8.0" mnemonicParsing="false" onMouseClicked="#terminateContract" styleClass="btn_standard" text="%sales.contract.terminate">
+                                       <graphic>
+                                          <FontAwesomeIcon iconName="LEGAL" size="1.2em" />
+                                       </graphic></Button>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="refreshButton" contentDisplay="RIGHT" graphicTextGap="8.0" mnemonicParsing="false" onMouseClicked="#regenerateAvailableContracts" styleClass="btn_standard" text="%sales.contract.refresh">
+                                       <graphic>
+                                          <FontAwesomeIcon iconName="REFRESH" size="1.2em" />
+                                       </graphic></Button>
                                  </children>
                               </HBox>
                            </children>

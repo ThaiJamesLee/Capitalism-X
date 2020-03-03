@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.logistic.logistics;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 /**
  * This class represents the external logistics partner.
@@ -33,6 +34,10 @@ public class ExternalPartner implements Serializable {
     private double contractualCost;
     private double variableDeliveryCost;
     private double externalLogisticsIndex;
+    private double baseContractualCosts;
+    private double baseVariableDeliveryCosts;
+
+    private static final String DEFAULTS_PROPERTIES_FILE = "logistics-defaults";
 
     /**
      * Constructor
@@ -47,13 +52,25 @@ public class ExternalPartner implements Serializable {
      */
     public ExternalPartner(String name, double ecoIndexPartner, double qualityIndexPartner, double reliabilityIndexPartner, double contractualCostFactor, double variableDeliveryCostFactor){
         this.name = name;
+
+        this.initProperties();
+
         this.ecoIndexPartner = DecimalRound.round(ecoIndexPartner, 2);
         this.qualityIndexPartner = DecimalRound.round(qualityIndexPartner, 2);
         this.reliabilityIndexPartner = DecimalRound.round(reliabilityIndexPartner, 2);
-        this.contractualCost = DecimalRound.round(1000 * contractualCostFactor, 2);
-        this.variableDeliveryCost = DecimalRound.round(5 * variableDeliveryCostFactor, 2);
+        this.contractualCost = DecimalRound.round(this.baseContractualCosts * contractualCostFactor, 2);
+        this.variableDeliveryCost = DecimalRound.round(this.baseVariableDeliveryCosts * variableDeliveryCostFactor, 2);
 
         this.calculateExternalLogisticsIndex();
+    }
+
+    /**
+     * Initializes the external partner values using the corresponding properties file.
+     */
+    private void initProperties(){
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.baseContractualCosts = Double.valueOf(resourceBundle.getString("logistics.external.logistics.partner.base.contractual.costs"));
+        this.baseVariableDeliveryCosts = Double.valueOf(resourceBundle.getString("logistics.external.logistics.partner.base.variable.delivery.costs"));
     }
 
     /**

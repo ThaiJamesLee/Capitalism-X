@@ -1,21 +1,21 @@
 package de.uni.mannheim.capitalismx.gamecontroller.external_events;
 
-import de.uni.mannheim.capitalismx.gamecontroller.GameState;
-import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
-import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
-import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
-import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
-
 import java.io.Serializable;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import de.uni.mannheim.capitalismx.finance.finance.FinanceDepartment;
+import de.uni.mannheim.capitalismx.gamecontroller.ecoindex.CompanyEcoIndex;
+import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
+import de.uni.mannheim.capitalismx.marketing.domain.PressRelease;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
+import de.uni.mannheim.capitalismx.utils.random.RandomNumberGenerator;
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 
 /**
  * This class represents the external events that can occur during the game.
@@ -35,7 +35,13 @@ public class ExternalEvents implements Serializable {
      * List of external events that occurred when checkEvents(LocalDate gameDate) was called.
      */
     private List<ExternalEvent> externalEvents;
-
+    
+    /**
+     * Map with external events that represent press releases countering currently active external events as keys 
+     * and a boolean value ensuring that a pressRelease can only be used once per occurring ExternalEvent
+     */
+    private HashMap<PressRelease, Boolean> pressReleaseEvents;
+    	
     /**
      * specifies if the production technology is currently below the threshold.
      */
@@ -84,6 +90,7 @@ public class ExternalEvents implements Serializable {
      * Map that contains the list of all external events that occurred on a certain date.
      */
     private Map<LocalDate, List<ExternalEvent>> externalEventsHistory;
+    
 
     /**
      * All external events that can occur.
@@ -107,7 +114,13 @@ public class ExternalEvents implements Serializable {
         EVENT_16("Change of power"),
         EVENT_17("Eco activists block roads"),
         EVENT_18("Tensions between our country and others"),
-        EVENT_19("Game Over");
+        
+        EVENT_19("Game Over"),
+        
+        //PressReleases
+        EVENT_99("PressRelease mitigated effects of recent event");
+    	
+    	
 
         private String title;
         private boolean increase;
@@ -135,6 +148,7 @@ public class ExternalEvents implements Serializable {
     private ExternalEvents(){
         this.externalEvents = new ArrayList<>();
         this.externalEventsHistory = new TreeMap<>();
+        this.pressReleaseEvents = new HashMap<PressRelease, Boolean>();
         this.productionTechnologyBelowThreshold = false;
         this.eventCompanyOvertakesMarketShare = false;
         this.changeOfPower = false;
@@ -212,7 +226,7 @@ public class ExternalEvents implements Serializable {
     }
 
     private void checkEventBrandReputationPlunges(){
-        //TODO
+        //TODO also remember to drop the PressRelease from the set after this event expires, see ComputerVirus e.g.
         /**if(Customer.getInstance().checkCustomerSatisfactionBelowThreshold()){
             MarketingDepartment.getInstance().decreaseCompanyImageRel(0.20);
             externalEvents.add(ExternalEvent.EVENT_5);
@@ -225,17 +239,18 @@ public class ExternalEvents implements Serializable {
      * @param gameDate The current date in the game.
      */
     private void checkEventComputerVirusAttacks(LocalDate gameDate){
-        //if((RandomNumberGenerator.getRandomInt(0, 19) == 0) && (gameDate.getYear() > 2000) && (this.eventComputerVirusAttacksDate == null)){
-        if((RandomNumberGenerator.getRandomInt(0, 2000) == 0) && (gameDate.getYear() > 2000) && (this.eventComputerVirusAttacksDate == null)){
+    if((RandomNumberGenerator.getRandomInt(0, 2000) == 0) && (gameDate.getYear() > 2000) && (this.eventComputerVirusAttacksDate == null)){
             ProductionDepartment.getInstance().decreaseProcessAutomationRel(0.50);
             externalEvents.add(ExternalEvent.EVENT_6);
             this.eventComputerVirusAttacksDate = gameDate;
         }else if((this.eventComputerVirusAttacksDate != null) && (Period.between(this.eventComputerVirusAttacksDate, gameDate).getMonths() > 3)){
             this.eventComputerVirusAttacksDate = null;
+            this.pressReleaseEvents.remove(PressRelease.PRIVACY_AND_SECURITY_EFFORTS);
             //TODO add parameter to increaseProcessAutomationRel()
             ProductionDepartment.getInstance().increaseProcessAutomationRel();
         }
     }
+    
 
     /**
      * Checks if the tax changes - the tax rate can either increase or decrease, see p.98
@@ -278,7 +293,7 @@ public class ExternalEvents implements Serializable {
             }else{
                 //TODO use more suitable formula for probability
                 double probability = Math.pow(CompanyEcoIndex.getInstance().getEcoIndex().getIndex(), 0.31) - 1;
-                if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
+                if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) * 1000) == 0){
                     FinanceDepartment.getInstance().nopatFine(gameDate, 0.10);
                     externalEvents.add(ExternalEvent.EVENT_8);
                 }
@@ -326,7 +341,7 @@ public class ExternalEvents implements Serializable {
     }
 
     private void checkEventStrikes(){
-        //TODO
+        //TODO 
         /**
         if(MarketingDepartment.getInstance().checkTotalJobSatisfactionBelowThreshold(0.10)){
             Customer.getInstance().decresePeriodicDemandAmountRel(0.8);
@@ -341,7 +356,7 @@ public class ExternalEvents implements Serializable {
      */
     private void checkEventFlu(LocalDate gameDate){
         //if((RandomNumberGenerator.getRandomInt(0, 9) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
-        if((RandomNumberGenerator.getRandomInt(0, 90) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
+        if((RandomNumberGenerator.getRandomInt(0, 180) == 0) && ((gameDate.getMonthValue() == 12) || (gameDate.getMonthValue() < 3)) && (this.eventFluDate == null)){
             ProductionDepartment.getInstance().decreaseTotalEngineerQualityOfWorkRel(0.10);
             externalEvents.add(ExternalEvent.EVENT_12);
             this.eventFluDate = gameDate;
@@ -351,7 +366,8 @@ public class ExternalEvents implements Serializable {
             ProductionDepartment.getInstance().increaseTotalEngineerQualityOfWorkRel();
         }
     }
-
+    
+    
     /**
      * Checks if hurricanes, tornadoes, or earthquakes occurred, see p.98
      */
@@ -374,11 +390,10 @@ public class ExternalEvents implements Serializable {
             if(probability > 1.0){
                 probability = 1.0;
             }
-            if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) - 1) == 0){
+            if(RandomNumberGenerator.getRandomInt(0, (int)Math.round(1 / probability) * 1000) == 0){
                 WarehousingDepartment.getInstance().decreaseStoredUnitsRel(0.30);
                 externalEvents.add(ExternalEvent.EVENT_14);
             }
-
         }
     }
 
@@ -409,16 +424,71 @@ public class ExternalEvents implements Serializable {
             LogisticsDepartment.getInstance().decreaseCapacityFleetRel(0.70);
             externalEvents.add(ExternalEvent.EVENT_17);
             this.eventEcoActivistsDate = gameDate;
-        }else if((this.eventEcoActivistsDate != null) && (Period.between(this.eventEcoActivistsDate, gameDate).getMonths() > 1)){
+        } else if((this.eventEcoActivistsDate != null) && (Period.between(this.eventEcoActivistsDate, gameDate).getMonths() > 1)){
             this.eventEcoActivistsDate = null;
-            LogisticsDepartment.getInstance().increaseCapacityFleetRel(0.70);
+            
+            LogisticsDepartment.getInstance().increaseCapacityFleetRel(this.pressReleaseEvents.get(PressRelease.GUARANTEED_DELIVERY_TIMES)!=null ? 0.5 : 0.7);
+            this.pressReleaseEvents.remove(PressRelease.GUARANTEED_DELIVERY_TIMES);
         }
     }
-
+    
+    
     //TODO Future work
     private void checkEventTensions(){
 
     }
+    
+    //TODO uncomment check methods once all External Events are implented
+    private void checkPressReleaseEvents() {
+//    	this.checkPressReleaseApology();
+//    	this.checkPressReleaseAffordablePrices();
+    	this.checkPressReleaseGuaranteedTimes();
+    	this.checkPressReleasePrivacyEfforts();
+    	
+    }
+
+   
+    public void addPressReleaseEvent(PressRelease pr) {  	
+    		this.pressReleaseEvents.computeIfAbsent(pr, k -> false);
+    }
+    
+    
+    /**
+     * Checks if PressRelease "Privacy and Security Efforts" was issued and,
+     * if the effect was not already activated for the current event (only applicable once),
+     * counters the effect of an eventually ComputerVirus event
+     */
+    private void checkPressReleasePrivacyEfforts() {
+    	if((this.pressReleaseEvents.containsKey(PressRelease.PRIVACY_AND_SECURITY_EFFORTS) && !this.pressReleaseEvents.get(PressRelease.PRIVACY_AND_SECURITY_EFFORTS)) && this.eventComputerVirusAttacksDate != null){
+    		ProductionDepartment.getInstance().increaseProcessAutomationRel(1.4); 
+    		this.pressReleaseEvents.put(PressRelease.PRIVACY_AND_SECURITY_EFFORTS, true);
+    		this.externalEvents.add(ExternalEvent.EVENT_99);
+    	}
+    }
+    
+    
+    /**
+     * Checks if PressRelease "Guaranteed Delivery Times" was issued and,
+     * if the effect was not already activated for the current event (only applicable once),
+     * counters the effect of an eventually EcoActivits blocked the road event
+     */
+    private void checkPressReleaseGuaranteedTimes() {
+    	if(this.pressReleaseEvents.containsKey(PressRelease.GUARANTEED_DELIVERY_TIMES) && !this.pressReleaseEvents.get(PressRelease.GUARANTEED_DELIVERY_TIMES) && this.eventEcoActivistsDate != null) {
+    		LogisticsDepartment.getInstance().increaseCapacityFleetRel(0.2);
+    		this.pressReleaseEvents.put(PressRelease.GUARANTEED_DELIVERY_TIMES, true);
+    		this.externalEvents.add(ExternalEvent.EVENT_99);
+    	}
+    }
+
+    
+    //TODO add when  EVENT_5 is implemented 
+//  private void checkPressReleaseApology() {
+//  	if(this.pressReleaseEvents.containsKey(PressRelease.APOLOGY) && !this.pressReleaseEvents.get(PressRelease.APOLOGY) && this.eventFluDate != null){
+//  		//ProductionDepartment.getInstance().increaseProcessAutomationRel(1.4); 
+//  		this.pressReleaseEvents.put(PressRelease.APOLOGY, true);
+//  		this.externalEvents.add(ExternalEvent.EVENT_99);
+//  	}
+//  }
 
     /**
      * Checks which external events occurred, adds them to the externalEventsHistory, and returns them, see p.98
@@ -445,6 +515,7 @@ public class ExternalEvents implements Serializable {
         this.checkEventChangeOfPower();
         this.checkEventEcoActivists(gameDate);
         this.checkEventTensions();
+        this.checkPressReleaseEvents();
         this.externalEventsHistory.put(gameDate, this.externalEvents);
         return this.externalEvents;
     }
@@ -452,6 +523,7 @@ public class ExternalEvents implements Serializable {
     public List<ExternalEvent> getExternalEvents() {
         return this.externalEvents;
     }
+    
 
     public Map<LocalDate, List<ExternalEvent>> getExternalEventsHistory() {
         return this.externalEventsHistory;

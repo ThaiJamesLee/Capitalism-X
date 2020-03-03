@@ -1,5 +1,7 @@
 package de.uni.mannheim.capitalismx.production;
 
+import de.uni.mannheim.capitalismx.production.department.ProductionTechnology;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;

@@ -4,13 +4,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.finance.finance.Loan;
+import javafx.application.Platform;
 import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.logistics.TruckListViewCell;
-import de.uni.mannheim.capitalismx.ui.utils.PopOverFactory;
+import de.uni.mannheim.capitalismx.ui.component.logistics.TruckListViewCell;
+import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -78,6 +80,20 @@ public class TruckFleetController implements Initializable {
 	 */
 	private void showPopover() {
 		popover.show(UIManager.getInstance().getStage());
+	}
+
+	/**
+	 * Updates information like resell price of the specified truck.
+	 * @param truck The truck to be updated.
+	 */
+	public void updateTruck(Truck truck){
+		Platform.runLater(new Runnable() {
+			public void run() {
+				int index = truckFleetListView.getItems().indexOf(truck);
+				truckFleetListView.getItems().remove(truck);
+				truckFleetListView.getItems().add(index, truck);
+			}
+		});
 	}
 
 }

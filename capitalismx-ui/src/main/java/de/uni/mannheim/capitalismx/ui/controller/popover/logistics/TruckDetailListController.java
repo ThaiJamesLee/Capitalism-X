@@ -2,12 +2,13 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.logistics;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
-import de.uni.mannheim.capitalismx.ui.components.logistics.TruckDetailListViewCell;
+import de.uni.mannheim.capitalismx.ui.component.logistics.TruckDetailListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -35,7 +36,7 @@ public class TruckDetailListController implements UpdateableController {
         GameController controller = GameController.getInstance();
         truckDetailListView.setCellFactory(truckListView -> new TruckDetailListViewCell(truckListView));
 
-        ArrayList<Truck> trucks = controller.generateTruckSelection(UIManager.getResourceBundle().getLocale());
+        List<Truck> trucks = controller.generateTruckSelection(UIManager.getResourceBundle().getLocale());
 
         for(Truck truck : trucks) {
             truckDetailListView.getItems().add(truck);

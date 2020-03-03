@@ -4,8 +4,8 @@ import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
 import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
 import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
 import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
-import de.uni.mannheim.capitalismx.production.Product;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.product.Product;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.contracts.ContractFactory;
 import de.uni.mannheim.capitalismx.sales.skills.SalesDepartmentSkill;
@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeListener;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -74,6 +75,8 @@ public class SalesDepartment extends DepartmentImpl {
      *  Therefore, this list should add new contracts, when the player was not able to fulfill a contract.
      */
     public static final String FAILED_CONTRACTS_EVENT = "failedContractsListChanged";
+
+    private static final double PENALTY_FACTOR = 0.1;
 
     private static final String SALES_PROPERTY_FILE = "sales-module";
     private static final String MAX_LEVEL_PROPERTY = "sales.department.level.max";
@@ -152,7 +155,7 @@ public class SalesDepartment extends DepartmentImpl {
             Double[] doubleRange = DataFormatter.stringArrayToDoubleArray(stringRange);
             Range priceFactor = new Range(doubleRange[0], doubleRange[1]);
 
-            double penaltyFactor = Double.parseDouble(bundle.getString(PENALTY_FACTOR_PROPERTY_PREFIX + i));
+            double penaltyFactor = Double.parseDouble(bundle.getString(PENALTY_FACTOR_PROPERTY_PREFIX + i)) * PENALTY_FACTOR ;
 
             this.skillMap.put(i, new SalesDepartmentSkill(i, numContract, penaltyFactor, refreshCost, priceFactor));
         }
@@ -251,6 +254,22 @@ public class SalesDepartment extends DepartmentImpl {
         this.activeContracts.remove(contract);
         this.failedContracts.add(contract);
     }
+
+    /**
+     * Iterates over active contracts and checks if they are overdue.
+     *
+     * @param currentDate The current game date.
+     * @return Returns a list of contracts that are in active but already overdue.
+     */
+    public List<Contract> checkContractsOverdue(LocalDate currentDate) {
+        List<Contract> overdueContracts = new ArrayList<>();
+        for(Contract c : activeContracts.getList()) {
+            if(c.contractIsDue(currentDate)) {
+                overdueContracts.add(c);
+            }
+        }
+        return overdueContracts;
+    }
     
 
     /**
@@ -263,38 +282,38 @@ public class SalesDepartment extends DepartmentImpl {
      * @param productionDepartment The {@link ProductionDepartment} instance.
      * @param demandPercentage The products and the corresponding demand percentage.
      *
-     * @throws LevelingRequirementNotFulFilledException Throws this exception, if the department level is smaller than 1. The department must be leveled first.
      */
-    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) throws LevelingRequirementNotFulFilledException{
-        if(getLevel() < 1) {
-            throw new LevelingRequirementNotFulFilledException("The level of the department must be greater than 0!");
-        }
-        SalesDepartmentSkill skill = (SalesDepartmentSkill) skillMap.get(getLevel());
-        int numContracts = skill.getNumContracts();
-        Range factor = skill.getPriceFactor();
-        double penalty = skill.getPenaltyFactor();
+    public void generateContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) {
+        if(getLevel() > 0) {
+            SalesDepartmentSkill skill = (SalesDepartmentSkill) skillMap.get(getLevel());
+            int numContracts = skill.getNumContracts();
+            Range factor = skill.getPriceFactor();
+            double penalty = skill.getPenaltyFactor();
 
-        List<Contract> newContracts = new ArrayList<>();
-        List<Product> products = productionDepartment.getLaunchedProductsChange().getList();
-        ContractFactory contractFactory = new ContractFactory(productionDepartment);
+            List<Contract> newContracts = new ArrayList<>();
+            List<Product> products = productionDepartment.getLaunchedProductsChange().getList();
+            ContractFactory contractFactory = new ContractFactory(productionDepartment);
 
-        if(!(products.isEmpty()) && (productionDepartment.getMonthlyMachineCapacity(date) > 0)) {
-            for(int i = 0; i<numContracts; i++) {
-                int max = Math.max(products.size()-1, 0);
-                Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
+            if(!(products.isEmpty()) && (productionDepartment.getMonthlyMachineCapacity(date) > 0)) {
+                for(int i = 0; i<numContracts; i++) {
+                    int max = Math.max(products.size()-1, 0);
+                    Product p = products.get(RandomNumberGenerator.getRandomInt(0, max));
 
-                double demand = demandPercentage.get(p) != null ? demandPercentage.get(p) : 0.0;
+                    double demand = demandPercentage.get(p) != null ? demandPercentage.get(p) : 0.0;
 
-                if(demand > 0.0) {
-                    Contract c = contractFactory.getContract(p, date, factor);
-                    c.setPenalty(c.getPenalty() * penalty);
-                    c.setNumProducts((int)(c.getNumProducts() * demand));
-                    c.setuId(UUID.randomUUID().toString());
-                    newContracts.add(c);
+                    if(demand > 0.0) {
+                        System.out.println("ContractMaking");
+                        Contract c = contractFactory.getContract(p, date, factor);
+                        c.setPenalty(c.getPenalty() * penalty);
+                        c.setNumProducts((int)(c.getNumProducts() * demand));
+                        c.setuId(UUID.randomUUID().toString());
+                        newContracts.add(c);
+                    }
                 }
             }
+            availableContracts.setList(newContracts);
         }
-        availableContracts.setList(newContracts);
+
     }
 
 
@@ -314,8 +333,19 @@ public class SalesDepartment extends DepartmentImpl {
      * @throws LevelingRequirementNotFulFilledException Throws this exception, if the department level is smaller than 1. The department must be leveled first
      */
     public double refreshAvailableContracts(LocalDate date, ProductionDepartment productionDepartment, Map<Product, Double> demandPercentage) throws LevelingRequirementNotFulFilledException{
+        if(getLevel() < 1) {
+            throw new LevelingRequirementNotFulFilledException("The level of the department must be greater than 0!");
+        }
         generateContracts(date, productionDepartment, demandPercentage);
-        return ((SalesDepartmentSkill) skillMap.get(getLevel())).getRefreshCost();
+        return getRefreshCost();
+    }
+
+    /**
+     * The current refresh cost of the department to get new available contracts.
+     * @return Returns the current refresh cost.
+     */
+    public double getRefreshCost() {
+        return  ((SalesDepartmentSkill) skillMap.get(getLevel())).getRefreshCost();
     }
 
     /**

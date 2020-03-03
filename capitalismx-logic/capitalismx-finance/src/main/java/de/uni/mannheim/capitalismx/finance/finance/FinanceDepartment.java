@@ -1,6 +1,10 @@
 package de.uni.mannheim.capitalismx.finance.finance;
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentImpl;
+import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
+import de.uni.mannheim.capitalismx.domain.department.LevelingMechanism;
+import de.uni.mannheim.capitalismx.domain.exception.InconsistentLevelException;
+import de.uni.mannheim.capitalismx.domain.exception.LevelingRequirementNotFulFilledException;
 import de.uni.mannheim.capitalismx.hr.department.HRDepartment;
 import de.uni.mannheim.capitalismx.logistic.logistics.InternalFleet;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
@@ -8,8 +12,8 @@ import de.uni.mannheim.capitalismx.logistic.logistics.Truck;
 import de.uni.mannheim.capitalismx.logistic.logistics.exception.NotEnoughTruckCapacityException;
 import de.uni.mannheim.capitalismx.logistic.support.ProductSupport;
 import de.uni.mannheim.capitalismx.marketing.department.MarketingDepartment;
-import de.uni.mannheim.capitalismx.production.Machinery;
-import de.uni.mannheim.capitalismx.production.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.machinery.Machinery;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportBoolean;
@@ -17,7 +21,9 @@ import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportDouble;
 import de.uni.mannheim.capitalismx.utils.number.DecimalRound;
 import de.uni.mannheim.capitalismx.warehouse.Warehouse;
 import de.uni.mannheim.capitalismx.warehouse.WarehouseType;
-import de.uni.mannheim.capitalismx.warehouse.WarehousingDepartment;
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
@@ -227,12 +233,12 @@ public class FinanceDepartment extends DepartmentImpl {
     /**
      * Specifies the cash amount at the start of a new game.
      */
-    private double initialCash = 1000000.0;
+    private double initialCash;
 
     /**
      * Specifies the tax rate at the start of a new game.
      */
-    private double taxRate = 0.2;
+    private double taxRate;
 
     /**
      * A list that contains all investments of the company.
@@ -255,6 +261,21 @@ public class FinanceDepartment extends DepartmentImpl {
     private double totalMarketingCosts;
     private double totalSupportCosts;
     private double totalExpenses;
+    private double ecoCosts;
+
+    private double initialTaxReduction;
+
+    private static final Logger logger = LoggerFactory.getLogger(LogisticsDepartment.class);
+
+    private static final String DEFAULTS_PROPERTIES_FILE = "finance-defaults";
+    private static final String LANGUAGE_PROPERTIES_FILE = "finance-module";
+
+    private static final String LEVELING_PROPERTIES = "finance-leveling-definition";
+    private static final String MAX_LEVEL_PROPERTY = "finance.department.max.level";
+    private static final String INITIAL_TAX_REDUCTION_PROPERTY = "finance.department.init.tax.reduction";
+
+    private static final String SKILL_COST_PROPERTY_PREFIX = "finance.skill.cost.";
+    private static final String SKILL_TAX_REDUCTION_PREFIX = "finance.skill.tax.reduction.";
 
     /**
      * Constructor
@@ -262,6 +283,12 @@ public class FinanceDepartment extends DepartmentImpl {
      */
     protected FinanceDepartment(){
         super("Finance");
+
+        this.initProperties();
+        this.initSkills();
+
+        this.ecoCosts = 0.0;
+
         this.gameOver = new PropertyChangeSupportBoolean();
         this.gameOver.setValue(false);
         this.gameOver.setPropertyChangedName("gameOver");
@@ -363,8 +390,6 @@ public class FinanceDepartment extends DepartmentImpl {
         this.investments.add(new Investment(0, Investment.InvestmentType.REAL_ESTATE));
         this.investments.add(new Investment(0, Investment.InvestmentType.STOCKS));
         this.investments.add(new Investment(0, Investment.InvestmentType.VENTURE_CAPITAL));
-        this.decreaseNopatFactor = 0.0;
-        this.decreaseNopatConstant = 0.0;
         this.warehousesSold = new ArrayList<>();
         this.trucksSold = new ArrayList<>();
         this.machinesSold = new ArrayList<>();
@@ -383,13 +408,78 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     /**
+     * Initializes the finance department values using the corresponding properties file.
+     */
+    private void initProperties(){
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.initialCash = Double.valueOf(resourceBundle.getString("finance.initial.cash"));
+        this.taxRate = Double.valueOf(resourceBundle.getString("finance.initial.tax.rate"));
+        this.decreaseNopatFactor = Double.valueOf(resourceBundle.getString("finance.initial.decrease.nopat.factor"));
+        this.decreaseNopatConstant = Double.valueOf(resourceBundle.getString("finance.initial.decrease.nopat.constant"));
+
+        setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
+        this.initialTaxReduction = Double.parseDouble(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_TAX_REDUCTION_PROPERTY));
+        this.taxRate -= this.initialTaxReduction;
+    }
+
+    /**
+     * Initialize Finance Skills.
+     */
+    private void initSkills() {
+        Map<Integer, Double> costMap = initCostMap();
+        try {
+            setLevelingMechanism(new LevelingMechanism(this, costMap));
+        } catch (InconsistentLevelException e) {
+            String error = "The costMap size " + costMap.size() +  " does not match the maximum level " + this.getMaxLevel() + " of this department!";
+            logger.error(error, e);
+        }
+
+        ResourceBundle skillBundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for (int i=1; i <= getMaxLevel(); i++) {
+            double taxReduction = Double.parseDouble(skillBundle.getString(SKILL_TAX_REDUCTION_PREFIX + i));
+            skillMap.put(i, new FinanceSkill(i, taxReduction));
+        }
+    }
+
+    /**
+     * Initializes the cost map. This is used for the {@link LevelingMechanism}.
+     */
+    private Map<Integer, Double> initCostMap() {
+        // init cost map
+        /* TODO BALANCING NEEDED*/
+        Map<Integer, Double> costMap = new HashMap<>();
+
+        ResourceBundle bundle = ResourceBundle.getBundle(LEVELING_PROPERTIES);
+        for(int i = 1; i <= getMaxLevel(); i++) {
+            double cost = Integer.parseInt(bundle.getString(SKILL_COST_PROPERTY_PREFIX + i));
+            costMap.put(i, cost);
+        }
+
+        return costMap;
+    }
+
+    /**
+     * Calculates the current tax reduction and updates the variable.
+     */
+    private void updateTaxReduction() {
+        FinanceSkill skill = (FinanceSkill) skillMap.get(getLevel());
+        double newTaxReduction = skill.getNewTaxReduction();
+        this.taxRate -= newTaxReduction;
+    }
+
+    @Override
+    public void setLevel(int level) throws LevelingRequirementNotFulFilledException {
+        super.setLevel(level);
+        updateTaxReduction();
+    }
+
+    /**
      * Calculates the net worth based on the cash, assets, and liabilities according to p.70 and adds it to the
      * respective history.
      * @param gameDate The current date in the game.
      * @return Returns the net worth.
      */
     public double calculateNetWorth(LocalDate gameDate){
-        //TODO maybe getCash() instead of calculateCash(), because calculateCash() only once per day?
         this.netWorth.setValue(this.calculateCash(gameDate) + this.calculateAssets(gameDate) - this.calculateLiabilities(gameDate));
         this.netWorthHistory.put(gameDate, this.netWorth.getValue());
         return this.netWorth.getValue();
@@ -413,14 +503,16 @@ public class FinanceDepartment extends DepartmentImpl {
 
     /**
      * Calculates the company's cash based on the previous cash amount, the current nopat, and the assets sold similarly
-     * to p.71 (here, monthly loan rate is deducted from the cash amount) and adds it to the respective history.
-     * Moreover, ends the game if cash < 0.
+     * to p.71 (here, monthly loan rate and eco costs are additionally deducted from the cash amount) and adds it to the
+     * respective history. Moreover, ends the game if cash < 0.
      * @param gameDate The current date in the game.
      * @return Returns the cash amount.
      */
     protected double calculateCash(LocalDate gameDate){
         double cash = this.cash.getValue() +  this.calculateNopat(gameDate) + this.calculateAssetsSold(gameDate);
         cash -= BankingSystem.getInstance().calculateMonthlyLoanRate(gameDate);
+        //subtract eco costs from cash
+        cash -= (this.ecoCosts / gameDate.lengthOfYear());
         if(cash < 0){
             this.gameOver.setValue(true);
         }else{
@@ -478,9 +570,12 @@ public class FinanceDepartment extends DepartmentImpl {
     protected double calculateTotalTruckValues(LocalDate gameDate){
         this.totalTruckValues = 0;
         ArrayList<Truck> trucks = InternalFleet.getInstance().getTrucks();
+        double truckValue;
         for(Truck truck : trucks){
-            this.totalTruckValues += this.calculateResellPrice(truck.getPurchasePrice(),
+            truckValue = this.calculateResellPrice(truck.getPurchasePrice(),
                     truck.getUsefulLife(), truck.calculateTimeUsed(gameDate));
+            truck.setResellPrice(truckValue);
+            this.totalTruckValues += truckValue;
         }
         return this.totalTruckValues;
     }
@@ -647,6 +742,9 @@ public class FinanceDepartment extends DepartmentImpl {
                 dailyRevenue += c.getRevenue();
             }
         }
+
+        LogisticsDepartment.getInstance().setDeliveredProducts((int) dailyRevenue);
+
         this.totalRevenue = dailyRevenue;
         this.salesHistory.put(gameDate, this.totalRevenue);
         return this.totalRevenue;
@@ -777,7 +875,7 @@ public class FinanceDepartment extends DepartmentImpl {
      * @param locale The Locale object of the desired language.
      * @return Returns a list of three loans with different characteristics.
      */
-    public ArrayList<BankingSystem.Loan> generateLoanSelection(double desiredLoanAmount, LocalDate gameDate, Locale locale){
+    public ArrayList<Loan> generateLoanSelection(double desiredLoanAmount, LocalDate gameDate, Locale locale){
         if(this.cash.getValue() == 0.0){
             //TODO popup
             return null;
@@ -797,7 +895,7 @@ public class FinanceDepartment extends DepartmentImpl {
      * @param loan The loan to be added.
      * @param gameDate The current date in the game.
      */
-    public void addLoan(BankingSystem.Loan loan, LocalDate gameDate){
+    public void addLoan(Loan loan, LocalDate gameDate){
         BankingSystem.getInstance().addLoan(loan, gameDate);
         this.increaseCash(gameDate, loan.getLoanAmount());
         this.increaseLiabilities(gameDate, loan.getLoanAmount());
@@ -1059,7 +1157,7 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.netWorth.getValue();
     }
 
-    public ArrayList<BankingSystem.Loan> getLoans(){
+    public ArrayList<Loan> getLoans(){
         return BankingSystem.getInstance().getLoans();
     }
 
@@ -1324,6 +1422,10 @@ public class FinanceDepartment extends DepartmentImpl {
         return this.cashDifference.getValue();
     }
 
+    public void setEcoCosts(double ecoCosts) {
+        this.ecoCosts = ecoCosts;
+    }
+
     /**
      * Register a change listener that notifies, if a property has changed.
      *
@@ -1351,7 +1453,7 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     public String getLocalisedString(String text, Locale locale) {
-        ResourceBundle langBundle = ResourceBundle.getBundle("finance-module", locale);
+        ResourceBundle langBundle = ResourceBundle.getBundle(LANGUAGE_PROPERTIES_FILE, locale);
         return langBundle.getString(text);
     }
 }

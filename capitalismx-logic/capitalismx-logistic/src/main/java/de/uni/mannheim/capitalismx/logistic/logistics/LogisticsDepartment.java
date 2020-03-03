@@ -64,6 +64,10 @@ public class LogisticsDepartment extends DepartmentImpl {
     private double totalDeliveryCosts;
     private double costsExternalDelivery;
     private double totalLogisticsCosts;
+    private int truckCapacity;
+
+    private static final String LANGUAGE_PROPERTIES_FILE = "logistics-module";
+    private static final String DEFAULTS_PROPERTIES_FILE = "logistics-defaults";
 
     private static final String LEVELING_PROPERTIES = "logistics-leveling-definition";
     private static final String MAX_LEVEL_PROPERTY = "logistics.department.max.level";
@@ -78,11 +82,12 @@ public class LogisticsDepartment extends DepartmentImpl {
      */
     private LogisticsDepartment(){
         super("Logistics");
-        this.shippingFee = 15;
-        this.deliveredProducts = 0;
-        this.calculateAll(LocalDate.now());
+
         this.initProperties();
         this.initSkills();
+
+        this.deliveredProducts = 0;
+        this.calculateAll(LocalDate.now());
     }
 
     /**
@@ -103,6 +108,10 @@ public class LogisticsDepartment extends DepartmentImpl {
         setMaxLevel(Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(MAX_LEVEL_PROPERTY)));
         this.initialLogisticsCapacity = Integer.parseInt(ResourceBundle.getBundle(LEVELING_PROPERTIES).getString(INITIAL_CAPACITY_PROPERTY));
         this.logisticsCapacity = initialLogisticsCapacity;
+
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.shippingFee = Double.valueOf(resourceBundle.getString("logistics.department.shipping.fee"));
+        this.truckCapacity = Integer.valueOf(resourceBundle.getString("logistics.truck.capacity"));
     }
 
     /**
@@ -176,7 +185,7 @@ public class LogisticsDepartment extends DepartmentImpl {
      * partner according to p.52.
      * @return Returns the costs for logistics.
      */
-    private double calculateCostsLogistics(){
+    protected double calculateCostsLogistics(){
         if(externalPartner == null){
             this.costLogistics = InternalFleet.getInstance().getTotalTruckCost();
         }else{
@@ -194,7 +203,7 @@ public class LogisticsDepartment extends DepartmentImpl {
      * the internal fleet does not have enough capacity.
      * @return Returns the logistics index of the company.
      */
-    private double calculateLogisticsIndex(){
+    public double calculateLogisticsIndex(){
         if(externalPartner == null){
             return this.logisticsIndex = -1.0;
         }
@@ -216,19 +225,17 @@ public class LogisticsDepartment extends DepartmentImpl {
      * are sent by post.
      * @return Returns the total delivery costs.
      */
-    private double calculateTotalDeliveryCosts(){
+    protected double calculateTotalDeliveryCosts(){
         if(this.deliveredProducts <= InternalFleet.getInstance().getCapacityFleet()){
-            this.totalDeliveryCosts = (Math.ceil(this.deliveredProducts / 1000.0) * InternalFleet.getInstance().getFixCostsDelivery())
+            this.totalDeliveryCosts = (Math.ceil(this.deliveredProducts / Double.valueOf(this.truckCapacity)) * InternalFleet.getInstance().getFixCostsDelivery())
                     + (this.deliveredProducts * InternalFleet.getInstance().getVariableCostsDelivery());
         } else{
             //TODO
             this.totalDeliveryCosts = (InternalFleet.getInstance().getTrucks().size() * InternalFleet.getInstance().getFixCostsDelivery())
-                    + (InternalFleet.getInstance().getTrucks().size() * 1000 * InternalFleet.getInstance().getVariableCostsDelivery()) + this.calculateCostsExternalDelivery();
+                    + (InternalFleet.getInstance().getTrucks().size() * Double.valueOf(this.truckCapacity) * InternalFleet.getInstance().getVariableCostsDelivery()) + this.calculateCostsExternalDelivery();
         }
         return this.totalDeliveryCosts;
     }
-
-    //TODO possibility to select logistics approach (e.g., only external partner, although internal fleet exists)
 
     /**
      * Calculates the costs for external deliveries according to p.52. If an external logistics partner is hired, the
@@ -446,7 +453,7 @@ public class LogisticsDepartment extends DepartmentImpl {
     }
 
     public String getLocalisedString(String text, Locale locale) {
-        ResourceBundle langBundle = ResourceBundle.getBundle("logistics-module", locale);
+        ResourceBundle langBundle = ResourceBundle.getBundle(LANGUAGE_PROPERTIES_FILE, locale);
         return langBundle.getString(text);
     }
 }

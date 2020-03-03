@@ -3,11 +3,12 @@ package de.uni.mannheim.capitalismx.ui.controller.popover.logistics;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.logistic.logistics.ExternalPartner;
-import de.uni.mannheim.capitalismx.ui.components.logistics.LogisticsPartnerDetailListViewCell;
+import de.uni.mannheim.capitalismx.ui.component.logistics.LogisticsPartnerDetailListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -36,7 +37,7 @@ public class LogisticsPartnerDetailListController implements UpdateableControlle
         GameController controller = GameController.getInstance();
         logisticsPartnerDetailListView.setCellFactory(truckListView -> new LogisticsPartnerDetailListViewCell(logisticsPartnerDetailListView));
 
-        ArrayList<ExternalPartner> externalPartners = controller.generateExternalPartnerSelection();
+        List<ExternalPartner> externalPartners = controller.generateExternalPartnerSelection();
         /*if(controller.getExternalPartnerSelection() == null){
             externalPartners = controller.generateExternalPartnerSelection();
         }else{
