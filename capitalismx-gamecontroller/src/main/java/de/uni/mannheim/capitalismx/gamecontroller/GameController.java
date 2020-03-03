@@ -458,6 +458,47 @@ public class GameController {
 		return  GameState.getInstance().getExternalEvents().getExternalEventsHistory();
 	}
 
+	public Sales getSales() {
+		return new Sales();
+	}
+
+	/*
+	 * SALES
+	 */
+	public static class Sales {
+
+		public void fulfillContract(int index) {
+			SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+			WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
+			Contract c = salesDep.getActiveContracts().get(index);
+			Product p = c.getProduct();
+			int productCount = c.getNumProducts();
+			Map<Unit, Integer> inventory = warehouse.getInventory();
+			if(inventory.containsKey(p) && inventory.get(p)>=productCount) {
+				Map<Unit, Integer> productMap = new HashMap<>();
+				productMap.put(p, productCount);
+				double revenue = 0;
+				for(Map.Entry<Unit, Integer> entry : productMap.entrySet()){
+					warehouse.sellProduct(entry);
+				}
+				revenue = c.getRevenue();
+				GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), revenue);
+				salesDep.contractDone(salesDep.getActiveContracts().get(index), GameState.getInstance().getGameDate());
+			}
+		}
+
+		public void terminateContract(int index) {
+			SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+			GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), salesDep.getActiveContracts().get(index).getPenalty());
+			salesDep.terminateContract(salesDep.getActiveContracts().get(index), GameState.getInstance().getGameDate());
+		}
+
+		public void acceptContract(int index) {
+			SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+			salesDep.addContractToActive(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
+		}
+	}
+
 
 	/*
 	 * FINANCE
@@ -2137,7 +2178,7 @@ public class GameController {
 
 	/**
 	 * Hire the employee. He will be added to your team.
-	 * 
+	 *
 	 * @param e the employee you want to hire.
 	 */
 	public void hireEmployee(Employee e) {
@@ -2147,7 +2188,7 @@ public class GameController {
 
 	/**
 	 * Fire the employee. He will be removed from the team.
-	 * 
+	 *
 	 * @param e the employee you want to fire.
 	 */
 	public void fireEmployee(Employee e) {
@@ -2155,29 +2196,39 @@ public class GameController {
 		this.updateNumberOfProductionWorkers();
 	}
 
-	/**
-	 *
-	 * @return Returns the engineer team.
-	 */
-	public Team getEngineerTeam() {
-		return GameState.getInstance().getHrDepartment().getEngineerTeam();
+	public static class HumanResources {
+
+		/**
+		 *
+		 * @return Returns the engineer team.
+		 */
+		public Team getEngineerTeam() {
+			return GameState.getInstance().getHrDepartment().getEngineerTeam();
+		}
+
+		/**
+		 *
+		 * @return Returns the sales people team.
+		 */
+		public Team getSalesPeopleTeam() {
+			return GameState.getInstance().getHrDepartment().getSalesTeam();
+		}
+
+		/**
+		 *
+		 * @return Returns all pre defined trainings for your employee.
+		 */
+		public Training[] getAllEmployeeTraining() {
+			return GameState.getInstance().getHrDepartment().getAllTrainings();
+		}
+
 	}
 
-	/**
-	 *
-	 * @return Returns the sales people team.
-	 */
-	public Team getSalesPeopleTeam() {
-		return GameState.getInstance().getHrDepartment().getSalesTeam();
+	public HumanResources getHumanResources() {
+		return new HumanResources();
 	}
 
-	/**
-	 *
-	 * @return Returns all pre defined trainings for your employee.
-	 */
-	public Training[] getAllEmployeeTraining() {
-		return GameState.getInstance().getHrDepartment().getAllTrainings();
-	}
+
 
 
 	public double getTotalQualityOfWorkByEmployeeType(EmployeeType employeeType) {

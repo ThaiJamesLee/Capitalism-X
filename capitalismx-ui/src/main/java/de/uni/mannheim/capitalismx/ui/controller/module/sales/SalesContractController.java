@@ -73,10 +73,9 @@ public class SalesContractController implements Initializable {
      */
     @FXML
     public void acceptContract(){
-        if(availableContractsList.getSelectionModel().getSelectedIndices().size() > 0) {
+        if(!availableContractsList.getSelectionModel().getSelectedIndices().isEmpty()) {
             int index = availableContractsList.getSelectionModel().getSelectedIndex();
-            SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
-            salesDep.addContractToActive(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
+            GameController.getInstance().getSales().acceptContract(index);
             refreshAllContracts();
         }
     }
@@ -87,28 +86,11 @@ public class SalesContractController implements Initializable {
      */
     @FXML
     public void fulfillContract(){
-        if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0){
+        if(!acceptedContractsList.getSelectionModel().getSelectedIndices().isEmpty()){
             int index = acceptedContractsList.getSelectionModel().getSelectedIndex();
-            SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
-            WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
-            Contract c = salesDep.getActiveContracts().get(index);
-            Product p = c.getProduct();
-            int productCount = c.getNumProducts();
-            if(warehouse.getInventory().containsKey(p)){
-                if(warehouse.getInventory().get(p)>=productCount){
-                    HashMap<Unit, Integer> productMap = new HashMap<Unit, Integer>();
-                    productMap.put(p, productCount);
-                    double revenue = 0;
-                    for(Map.Entry<Unit, Integer> entry : productMap.entrySet()){
-                        warehouse.sellProduct(entry);
-                    }
-                    revenue = c.getRevenue();
-                    GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), revenue);
-                    salesDep.contractDone(salesDep.getActiveContracts().get(index), GameState.getInstance().getGameDate());
-                }
-            }
+            GameController.getInstance().getSales().fulfillContract(index);
             refreshAcceptedContracts();
-            System.out.println("Active Contract Number: " + salesDep.getActiveContracts().size());
+            // System.out.println("Active Contract Number: " + salesDep.getActiveContracts().size());
         }
     }
 
@@ -117,11 +99,9 @@ public class SalesContractController implements Initializable {
      */
     @FXML
     public void terminateContract(){
-        if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0) {
+        if(!acceptedContractsList.getSelectionModel().getSelectedIndices().isEmpty()) {
             int index = acceptedContractsList.getSelectionModel().getSelectedIndex();
-            SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
-            GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), salesDep.getActiveContracts().get(index).getPenalty());
-            salesDep.terminateContract(salesDep.getActiveContracts().get(index), GameState.getInstance().getGameDate());
+            GameController.getInstance().getSales().terminateContract(index);
             refreshAcceptedContracts();
         }
     }
