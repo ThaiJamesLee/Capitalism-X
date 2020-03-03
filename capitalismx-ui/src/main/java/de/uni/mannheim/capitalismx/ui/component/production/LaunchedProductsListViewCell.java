@@ -85,7 +85,7 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
 			setText(null);
 			setGraphic(gridPane);
 			productLabel.setText(product.getProductName());
-			priceLabel.setText("Sales Price: " + CapCoinFormatter.getCapCoins(product.getSalesPrice()));
+			priceLabel.setText(CapCoinFormatter.getCapCoins(product.getSalesPrice()));
 			componentsVBox.getChildren().clear();
 			for (Component component : product.getComponents()) {
 				componentsVBox.getChildren()

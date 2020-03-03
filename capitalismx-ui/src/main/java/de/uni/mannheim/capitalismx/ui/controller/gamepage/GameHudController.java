@@ -398,6 +398,7 @@ public class GameHudController implements UpdateableController {
 		UIManager.getInstance().setGameHudController(this);
 		playPause();
 		updateLevelUpDropdown(GameViewType.OVERVIEW);
+		update();
 	}
 
 	/**

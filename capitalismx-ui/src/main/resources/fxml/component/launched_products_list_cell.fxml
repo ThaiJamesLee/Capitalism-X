@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -14,14 +15,14 @@
 
 <GridPane fx:id="gridPane" hgap="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="20.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="30.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="20.0" />
-      <ColumnConstraints hgrow="SOMETIMES" percentWidth="15.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="75.0" percentWidth="10.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="15.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
       <RowConstraints />
    </rowConstraints>
    <children>
@@ -30,7 +31,10 @@
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="produceButton" layoutX="161.0" layoutY="13.0" mnemonicParsing="false" onAction="#produceProduct" style="-fx-background-color: green;" text="%product.produce.produceButton" GridPane.columnIndex="4" GridPane.rowSpan="2" />
+      <Button fx:id="produceButton" graphicTextGap="8.0" layoutX="161.0" layoutY="13.0" mnemonicParsing="false" onAction="#produceProduct" style="-fx-background-color: -fx-green;" styleClass="btn_standard" text="%product.produce.produceButton" GridPane.columnIndex="4" GridPane.rowSpan="2">
+         <graphic>
+            <FontAwesomeIcon iconName="WRENCH" size="1.2em" />
+         </graphic></Button>
       <Accordion fx:id="componentsAccordion" GridPane.columnIndex="1">
         <panes>
           <TitledPane animated="false" text="%product.produce.components">
@@ -41,10 +45,13 @@
         </panes>
       </Accordion>
       <TextField fx:id="quantityTextField" alignment="CENTER_RIGHT" text="%product.produce.promptQuantity" GridPane.columnIndex="3" />
-      <Label fx:id="priceLabel" styleClass="list-label" text="Label" GridPane.columnIndex="2">
+      <Label fx:id="priceLabel" graphicTextGap="8.0" styleClass="list-label" text="Label" GridPane.columnIndex="2">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
+         <graphic>
+            <FontAwesomeIcon iconName="TAG" size="1.2em" />
+         </graphic>
       </Label>
    </children>
    <padding>

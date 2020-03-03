@@ -10,6 +10,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
+/**
+ * Controller for the ingame menu which allows saving and loading.
+ * 
+ * @author Jonathan
+ *
+ */
 public class IngameMenuController implements Initializable {
 
 	@FXML

@@ -431,7 +431,15 @@ public class UIManager {
 					// start the game once everything is loaded
 					startGame();
 					initDepartments();
-					GameController.getInstance().nextDay();
+					//GameController.getInstance().nextDay();
+
+					//if a new game is started, calculate the initial net worth and thus the other data in the finance department
+					if(GameController.getInstance().getMonthlyData().size() == 0){
+						GameController.getInstance().calculateNetWorth(GameState.getInstance().getGameDate());
+					}
+					//Initiate finance data that requires gameDate
+					GameController.getInstance().updateQuarterlyData(GameState.getInstance().getGameDate());
+					GameController.getInstance().updateMonthlyData(GameState.getInstance().getGameDate());
 
 					if (newGame) {
 						gameHudController.initTutorialCheck();
