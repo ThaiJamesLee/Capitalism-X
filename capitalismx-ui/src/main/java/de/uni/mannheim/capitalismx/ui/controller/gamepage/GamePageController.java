@@ -153,17 +153,14 @@ public class GamePageController implements Initializable {
 			FXMLLoader loaderMessageWindow = new FXMLLoader(
 					getClass().getClassLoader().getResource("fxml/message/message_pane.fxml"),
 					UIManager.getResourceBundle());
-			Parent rootC = loaderMessageWindow.load();
-			AnchorPaneHelper.snapNodeToAnchorPane(rootC, 500);
+			Parent rootMessage = loaderMessageWindow.load();
+			AnchorPane.setLeftAnchor(rootMessage, 500.0);
+			AnchorPane.setTopAnchor(rootMessage, 250.0);
+			AnchorPane.setBottomAnchor(rootMessage, 250.0);
+			AnchorPane.setRightAnchor(rootMessage, 500.0);
 			messageController = loaderMessageWindow.getController();
-			messageLayer.getChildren().add(rootC);
+			messageLayer.getChildren().add(rootMessage);
 			messageLayer.toBack();
-
-			MessageObject m1 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 0); // TODO
-																													// remove
-			MessageObject m2 = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event2", true, 5);
-			messageController.addMessage(m1);
-			messageController.addMessage(m2);
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
