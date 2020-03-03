@@ -90,7 +90,7 @@ public class MessageController implements Initializable {
                 //System.out.println("Message Object loading exception" + e.getClass());
                 //class java.util.MissingResourceException
 			    msc.setSubjectSender(m.getSender());
-			    msc.setSubjectSubject(m.getSender());
+			    msc.setSubjectSubject(m.getSubject());
             }
 
 
