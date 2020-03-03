@@ -661,6 +661,27 @@ public class GameController {
 		return GameState.getInstance().getFinanceDepartment().getCashDifference();
 	}
 
+	/**
+	 * Updates the quarterly data (of the 4 most recent quarters) for the operations table in the finance ui, e.g., HR
+	 * costs. For each of the histories represented in the operations table, the daily data in the relevant time frame
+	 * (4 quarters) is extracted and added up for each quarter. Lastly, the GUI is notified about the changes.
+	 * @param gameDate The current date in the game.
+	 */
+	public void updateQuarterlyData(LocalDate gameDate){
+		GameState.getInstance().getFinanceDepartment().updateQuarterlyData(gameDate);
+	}
+
+	/**
+	 * Updates the monthly data (of the 12 most recent months) for the charts in the finance ui, e.g., cash. For each
+	 * of the histories in the finance charts, the data of the last day of each month in the relevant time frame
+	 * (12 months) is extracted. For the current month, the most recent value is used. Lastly, the GUI is notified
+	 * about the changes.
+	 * @param gameDate The current date in the game.
+	 */
+	public void updateMonthlyData(LocalDate gameDate){
+		GameState.getInstance().getFinanceDepartment().updateMonthlyData(gameDate);
+	}
+
 	/*
 	 * LOGISTICS
 	 */
