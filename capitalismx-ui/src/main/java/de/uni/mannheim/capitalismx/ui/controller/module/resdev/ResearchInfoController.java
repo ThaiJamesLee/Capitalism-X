@@ -37,6 +37,9 @@ public class ResearchInfoController implements Initializable {
     @FXML
     GridPane tvGrid, consoleGrid, notebookGrid, phoneGrid;
 
+    /**
+     * Called when the up arrow of the TV category is clicked.
+     */
     public void tvUp(){
         if(Integer.parseInt(yearTV.getText()) < 2017) {
             yearTV.setText(String.valueOf(Integer.parseInt(yearTV.getText()) + 1));
@@ -44,6 +47,9 @@ public class ResearchInfoController implements Initializable {
         }
     }
 
+    /**
+     * Called when the down arrow of the TV category is clicked.
+     */
     public void tvDown() {
         if (Integer.parseInt(yearTV.getText()) > 1990) {
             yearTV.setText(String.valueOf(Integer.parseInt(yearTV.getText()) - 1));
@@ -51,6 +57,9 @@ public class ResearchInfoController implements Initializable {
         }
     }
 
+    /**
+     * Called when the up arrow of the console category is clicked.
+     */
     public void consoleUp(){
         if(Integer.parseInt(yearConsole.getText()) < 2017) {
             yearConsole.setText(String.valueOf(Integer.parseInt(yearConsole.getText()) + 1));
@@ -58,6 +67,9 @@ public class ResearchInfoController implements Initializable {
         }
     }
 
+    /**
+     * Called when the down arrow of the console category is clicked.
+     */
     public void consoleDown(){
         if (Integer.parseInt(yearConsole.getText()) > 1990) {
             yearConsole.setText(String.valueOf(Integer.parseInt(yearConsole.getText()) - 1));
@@ -65,6 +77,9 @@ public class ResearchInfoController implements Initializable {
         }
     }
 
+    /**
+     * Called when the up arrow of the notebook category is clicked.
+     */
     public void notebookUp(){
         if(Integer.parseInt(yearNotebook.getText()) < 2017) {
             yearNotebook.setText(String.valueOf(Integer.parseInt(yearNotebook.getText()) + 1));
@@ -72,6 +87,9 @@ public class ResearchInfoController implements Initializable {
         }
     }
 
+    /**
+     * Called when the down arrow of the notebook category is clicked.
+     */
     public void notebookDown(){
         if (Integer.parseInt(yearNotebook.getText()) > 1990) {
             yearNotebook.setText(String.valueOf(Integer.parseInt(yearNotebook.getText()) - 1));
@@ -79,6 +97,9 @@ public class ResearchInfoController implements Initializable {
         }
     }
 
+    /**
+     * Called when the up arrow of the phone category is clicked.
+     */
     public void phoneUp(){
         if(Integer.parseInt(yearPhone.getText()) < 2017) {
             yearPhone.setText(String.valueOf(Integer.parseInt(yearPhone.getText()) + 1));
@@ -86,6 +107,9 @@ public class ResearchInfoController implements Initializable {
         }
     }
 
+    /**
+     * Called when the down arrow of the phone category is clicked.
+     */
     public void phoneDown(){
         if (Integer.parseInt(yearPhone.getText()) > 1990) {
             yearPhone.setText(String.valueOf(Integer.parseInt(yearPhone.getText()) - 1));
@@ -93,6 +117,11 @@ public class ResearchInfoController implements Initializable {
         }
     }
 
+    /**
+     * This Method is called by the up and down methods and uses their parameters to prepare all components in arrays and lists.
+     * It the removes all unwanted labels by calling {@link #removeInfoLabels(GridPane)} and adding new wanted labels in.
+     * @param category the category that should be updated
+     */
     public void updateInfo(char category){
         ArrayList<ComponentType>[] list;
         Label yearSave;
@@ -160,6 +189,10 @@ public class ResearchInfoController implements Initializable {
 
     }
 
+    /**
+     * Removes all unwanted component Labels.
+     * @param gridPane the gridPane of the category that should be updated.
+     */
     public void removeInfoLabels(GridPane gridPane) {
         ObservableList<Node> childrens = gridPane.getChildren();
         Iterator<Node> i = childrens.iterator();

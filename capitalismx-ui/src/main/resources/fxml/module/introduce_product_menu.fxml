@@ -207,7 +207,7 @@
 									<children>
 										<AnchorPane GridPane.rowIndex="3">
 											<children>
-												<Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchConsole" styleClass="btn_standard" text="%product.console.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+												<Button fx:id="launchConsoleButton" layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchConsole" styleClass="btn_standard" text="%product.console.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 											</children>
 										</AnchorPane>
                               <AnchorPane GridPane.rowIndex="1">
@@ -392,7 +392,7 @@
 									<children>
 										<AnchorPane GridPane.rowIndex="3">
 											<children>
-												<Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchNotebook" styleClass="btn_standard" text="%product.notebook.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+												<Button fx:id="launchNotebookButton" layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchNotebook" styleClass="btn_standard" text="%product.notebook.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 											</children>
 										</AnchorPane>
 										<GridPane hgap="10.0" GridPane.rowIndex="2">
@@ -583,7 +583,7 @@
 									<children>
 										<AnchorPane GridPane.rowIndex="3">
 											<children>
-												<Button layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchPhone" styleClass="btn_standard" text="%product.phone.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+												<Button fx:id="launchPhoneButton" layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchPhone" styleClass="btn_standard" text="%product.phone.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 											</children>
 										</AnchorPane>
                               <AnchorPane GridPane.rowIndex="1">

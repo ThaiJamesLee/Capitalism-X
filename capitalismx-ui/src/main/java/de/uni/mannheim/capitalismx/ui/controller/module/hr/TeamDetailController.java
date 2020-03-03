@@ -14,7 +14,6 @@ import de.uni.mannheim.capitalismx.hr.domain.employee.Team;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.GameModule;
 import de.uni.mannheim.capitalismx.ui.component.hr.TeamDetails;
-import de.uni.mannheim.capitalismx.ui.eventlistener.HREventListener;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;

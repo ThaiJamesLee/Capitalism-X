@@ -60,7 +60,7 @@ import javafx.util.Duration;
  * Controller for the hud on the GamePage. The hud consists of various elements
  * on the borders of the Screen, that provide the user with useful information
  * and functionalities.
- * 
+ *
  * @author Jonathan
  *
  */
@@ -123,7 +123,7 @@ public class GameHudController implements UpdateableController {
 	 * Display a {@link GameNotification} on the GamePage, if another one is
 	 * currently being displayed, it will be added to a queue and displayed
 	 * afterwards. Notification will be displayed 4.5 seconds.
-	 * 
+	 *
 	 * @param notification The {@link GameNotification} to display.
 	 */
 	public void addNotification(GameNotification notification) {
@@ -135,34 +135,34 @@ public class GameHudController implements UpdateableController {
 
 	/**
 	 * Changes the speed of the game to the given {@link Speed}.
-	 * 
+	 *
 	 * @param The {@link Speed} to set the game to.
 	 */
 	public void changeSpeed(GameThread.Speed speed) {
 		GameController contr = GameController.getInstance();
 		contr.setSpeed(speed);
 		switch (speed) {
-		case SLOW:
-			speedIcon2.setOpacity(0.5);
-			speedIcon3.setOpacity(0.5);
-			break;
-		case MEDIUM:
-			speedIcon2.setOpacity(1);
-			speedIcon3.setOpacity(0.5);
-			break;
-		case FAST:
-			speedIcon2.setOpacity(1);
-			speedIcon3.setOpacity(1);
-			break;
-		default:
-			break;
+			case SLOW:
+				speedIcon2.setOpacity(0.5);
+				speedIcon3.setOpacity(0.5);
+				break;
+			case MEDIUM:
+				speedIcon2.setOpacity(1);
+				speedIcon3.setOpacity(0.5);
+				break;
+			case FAST:
+				speedIcon2.setOpacity(1);
+				speedIcon3.setOpacity(1);
+				break;
+			default:
+				break;
 		}
 	}
 
 	/**
 	 * Colors a label either green, red or yellow, depending on the difference
 	 * provided.
-	 * 
+	 *
 	 * @param diff  The difference in the displayed value. (< 0 -> red, 0 -> yellow,
 	 *              > 0 -> green)
 	 * @param label The label to change the color of.
@@ -219,7 +219,7 @@ public class GameHudController implements UpdateableController {
 
 	/**
 	 * Display the notification by sliding it in from below.
-	 * 
+	 *
 	 * @param notification
 	 */
 	private void displayNextNotification() {
@@ -261,7 +261,7 @@ public class GameHudController implements UpdateableController {
 	/**
 	 * returns List of Nodes (UI-Elements) that will be highlighted in this tutorial
 	 * chapter in the given order.
-	 * 
+	 *
 	 * @return List<Nodes>
 	 */
 	public List<Node> getTimeControlTutorialNodes() {
@@ -284,7 +284,7 @@ public class GameHudController implements UpdateableController {
 	/**
 	 * Handles the ESC-Input from the user. Tries to close the department
 	 * Level-Up-Dropdown.
-	 * 
+	 *
 	 * @return true if the Dropdown could be closed, else otherwise.
 	 */
 	public boolean handleEscapeInput() {
@@ -297,7 +297,7 @@ public class GameHudController implements UpdateableController {
 
 	/**
 	 * Initiates the department buttons by adding the necessary EventHandlers.
-	 * 
+	 *
 	 * @param button     The {@link ToggleButton} to initiate.
 	 * @param department The {@link GameViewType} to create EventHandlers for.
 	 */
@@ -349,7 +349,7 @@ public class GameHudController implements UpdateableController {
 		cashChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
 		netWorthChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
 		employeeChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
-		
+
 		// Set the actions for the buttons that switch the views of the departments.
 		departmentButtonMap = new HashMap<GameViewType, ToggleButton>();
 		initDepartmentButton(btnOverview, GameViewType.OVERVIEW);
@@ -434,7 +434,7 @@ public class GameHudController implements UpdateableController {
 	/**
 	 * Remove the notification with an animation and display the next one waiting in
 	 * the queue.
-	 * 
+	 *
 	 * @param notification The {@link GameNotification} to remove.
 	 */
 	private void removeNotification(GameNotification notification) {
@@ -466,7 +466,7 @@ public class GameHudController implements UpdateableController {
 	/**
 	 * Switches to the given type of view, by calling the method in the
 	 * {@link GamePageController}.
-	 * 
+	 *
 	 * @param viewType The {@link GameViewType} to display on the GamePage.
 	 */
 	private void switchView(GameViewType viewType) {
@@ -515,7 +515,7 @@ public class GameHudController implements UpdateableController {
 			colorHudLabel(diff, employeeChangeLabel);
 			String diffText = ((diff >= 0) ? "+" : "") + diff;
 			employeeChangeLabel.setText(diffText);
-			
+
 			//update eco index
 			updateEcoIndexIcon(GameState.getInstance().getCompanyEcoIndex().getEcoIndex());
 		});
@@ -544,7 +544,7 @@ public class GameHudController implements UpdateableController {
 
 	/**
 	 * This method updates the icon displaying the company's {@link EcoIndex}.
-	 * 
+	 *
 	 * @param index The {@link EcoIndex} of the current {@link CompanyEcoIndex}.
 	 */
 	public void updateEcoIndexIcon(EcoIndex index) {
@@ -552,37 +552,37 @@ public class GameHudController implements UpdateableController {
 			// TODO Create and use actual localised name
 			ecoTooltip.setText(index.name());
 			switch (index) {
-			case GOOD:
-				ecoIcon.getStyleClass().clear();
-				ecoIcon.getStyleClass().add("icon_green");
-				break;
-			case MODERATE:
-				ecoIcon.getStyleClass().clear();
-				ecoIcon.getStyleClass().add("icon_light");
-				break;
-			case UNHEALTHY:
-				ecoIcon.getStyleClass().clear();
-				ecoIcon.getStyleClass().add("icon_orange");
-				break;
-			case VERY_UNHEALTHY:
-				ecoIcon.getStyleClass().clear();
-				ecoIcon.getStyleClass().add("icon_red");
-				break;
-			case HAZARDOUS:
-				ecoIcon.getStyleClass().clear();
-				ecoIcon.getStyleClass().add("icon_red");
+				case GOOD:
+					ecoIcon.getStyleClass().clear();
+					ecoIcon.getStyleClass().add("icon_green");
+					break;
+				case MODERATE:
+					ecoIcon.getStyleClass().clear();
+					ecoIcon.getStyleClass().add("icon_light");
+					break;
+				case UNHEALTHY:
+					ecoIcon.getStyleClass().clear();
+					ecoIcon.getStyleClass().add("icon_orange");
+					break;
+				case VERY_UNHEALTHY:
+					ecoIcon.getStyleClass().clear();
+					ecoIcon.getStyleClass().add("icon_red");
+					break;
+				case HAZARDOUS:
+					ecoIcon.getStyleClass().clear();
+					ecoIcon.getStyleClass().add("icon_red");
 
-				FadeTransition hazard = new FadeTransition();
-				hazard.setCycleCount(FadeTransition.INDEFINITE);
-				hazard.setAutoReverse(true);
-				hazard.setFromValue(1.0);
-				hazard.setToValue(0.6);
-				hazard.setDuration(Duration.millis(800));
-				hazard.setNode(ecoIcon);
-				hazard.play();
-				break;
-			default:
-				break;
+					FadeTransition hazard = new FadeTransition();
+					hazard.setCycleCount(FadeTransition.INDEFINITE);
+					hazard.setAutoReverse(true);
+					hazard.setFromValue(1.0);
+					hazard.setToValue(0.6);
+					hazard.setDuration(Duration.millis(800));
+					hazard.setNode(ecoIcon);
+					hazard.play();
+					break;
+				default:
+					break;
 			}
 		});
 	}
@@ -590,7 +590,7 @@ public class GameHudController implements UpdateableController {
 	/**
 	 * Updates the {@link Label} displaying the currently active
 	 * {@link GameViewType}.
-	 * 
+	 *
 	 * @param viewType The {@link GameViewType}, thats title should be displayed.
 	 */
 	public void updateGameViewLabel(GameViewType viewType) {
@@ -602,7 +602,7 @@ public class GameHudController implements UpdateableController {
 
 	/**
 	 * Update the department level-up dropdown for the given {@link GameViewType}.
-	 * 
+	 *
 	 * @param viewType {@link GameViewType} being displayed.
 	 */
 	private void updateLevelUpDropdown(GameViewType viewType) {
@@ -613,30 +613,33 @@ public class GameHudController implements UpdateableController {
 		} else {
 			DepartmentImpl dep;
 			switch (viewType) {
-			case HR:
-				dep = GameState.getInstance().getHrDepartment();
-				break;
-			case R_AND_D:
-				dep = GameState.getInstance().getResearchAndDevelopmentDepartment();
-				break;
-			case WAREHOUSE:
-				dep = GameState.getInstance().getWarehousingDepartment();
-				break;
-			case SALES:
-				dep = GameState.getInstance().getSalesDepartment();
-				break;
-			case PRODUCTION:
-				dep = GameState.getInstance().getProductionDepartment();
-				break;
-			case MARKETING:
-				dep = GameState.getInstance().getMarketingDepartment();
-				break;
-			case LOGISTIC:
-				dep = GameState.getInstance().getLogisticsDepartment();
-				break;
-			default:
-				departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
-				return;
+				case HR:
+					dep = GameState.getInstance().getHrDepartment();
+					break;
+				case R_AND_D:
+					dep = GameState.getInstance().getResearchAndDevelopmentDepartment();
+					break;
+				case WAREHOUSE:
+					dep = GameState.getInstance().getWarehousingDepartment();
+					break;
+				case SALES:
+					dep = GameState.getInstance().getSalesDepartment();
+					break;
+				case PRODUCTION:
+					dep = GameState.getInstance().getProductionDepartment();
+					break;
+				case MARKETING:
+					dep = GameState.getInstance().getMarketingDepartment();
+					break;
+				case LOGISTIC:
+					dep = GameState.getInstance().getLogisticsDepartment();
+					break;
+				case FINANCES:
+					dep = GameState.getInstance().getFinanceDepartment();
+					break;
+				default:
+					departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
+					return;
 			}
 			upgradeController.setDepartment(dep);
 
@@ -674,7 +677,7 @@ public class GameHudController implements UpdateableController {
 
 	/**
 	 * Updates all hud elements for the given {@link GameViewType}.
-	 * 
+	 *
 	 * @param viewType The {@link GameViewType} to update for.
 	 */
 	protected void updateView(GameViewType viewType) {

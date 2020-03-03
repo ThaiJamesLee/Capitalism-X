@@ -1,8 +1,11 @@
 package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 
+import de.uni.mannheim.capitalismx.department.WarehousingDepartment;
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Unit;
+import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
+import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
@@ -12,8 +15,7 @@ import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -30,7 +32,6 @@ import javafx.scene.layout.AnchorPane;
 import javax.tools.Tool;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -82,17 +83,32 @@ public class SalesContractController implements Initializable {
 
     /**
      * Calls {@link de.uni.mannheim.capitalismx.sales.department.SalesDepartment#contractDone(Contract, LocalDate)} to fulfill a selected accepted contract before the deadline.
+     * The product that is specified in the contract must be in stock with the correct quantity in order to function.
      */
     @FXML
     public void fulfillContract(){
         if(acceptedContractsList.getSelectionModel().getSelectedIndices().size() > 0){
-            int index = availableContractsList.getSelectionModel().getSelectedIndex();
+            int index = acceptedContractsList.getSelectionModel().getSelectedIndex();
             SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
-            Map<Unit, Integer> map = GameState.getInstance().getWarehousingDepartment().getInventory();
-
-            GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), salesDep.getAvailableContracts().get(index).getRevenue());
-            salesDep.contractDone(salesDep.getAvailableContracts().get(index), GameState.getInstance().getGameDate());
+            WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
+            Contract c = salesDep.getActiveContracts().get(index);
+            Product p = c.getProduct();
+            int productCount = c.getNumProducts();
+            if(warehouse.getInventory().containsKey(p)){
+                if(warehouse.getInventory().get(p)>=productCount){
+                    HashMap<Unit, Integer> productMap = new HashMap<Unit, Integer>();
+                    productMap.put(p, productCount);
+                    double revenue = 0;
+                    for(Map.Entry<Unit, Integer> entry : productMap.entrySet()){
+                        warehouse.sellProduct(entry);
+                    }
+                    revenue = c.getRevenue();
+                    GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), revenue);
+                    salesDep.contractDone(salesDep.getActiveContracts().get(index), GameState.getInstance().getGameDate());
+                }
+            }
             refreshAcceptedContracts();
+            System.out.println("Active Contract Number: " + salesDep.getActiveContracts().size());
         }
     }
 
@@ -153,7 +169,7 @@ public class SalesContractController implements Initializable {
      * @param ID ID of contract whose info should be displayed
      */
     public void showInfoPanel(String ID){
-        System.out.println("showInfoPanel  Check");
+        System.out.println("showInfoPanel Check");
         //GameState.getInstance().getSalesDepartment().getAvailableContracts().getList().contains();
         SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
         for(Contract c : salesDep.getAvailableContracts().getList()){
@@ -177,6 +193,10 @@ public class SalesContractController implements Initializable {
          */
     }
 
+    /**
+     * This method is called by {@link #showInfoPanel(String ID)} and loads the ino panels FXML file the first time it is called and sets the information afterwards.
+     * @param c the contract whose information should be displayed.
+     */
     public void infoPanelHandler(Contract c){
         Parent infoPane;
         if(firstClick){
@@ -190,6 +210,7 @@ public class SalesContractController implements Initializable {
                 infoPane = infoLoader.load();
                 infoPaneController = infoLoader.getController();
                 contractInfoPane.getChildren().add(infoPane);
+                System.out.println("Info Panel should show now");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -206,6 +227,7 @@ public class SalesContractController implements Initializable {
                 "" + c.getContractDoneDate(),
                 "" + CapCoinFormatter.getCapCoins(c.getPenalty())
         );
+        System.out.println("Info for: " + c.getContractor());
     }
 
     /**
@@ -242,9 +264,12 @@ public class SalesContractController implements Initializable {
      * refreshes the list of accepted contracts.
      */
     public void refreshAcceptedContracts(){
+        /*
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+
+         */
                 removeAllAcceptedContracts();
                 if(GameState.getInstance() == null || GameState.getInstance().getSalesDepartment() == null){
 
@@ -256,27 +281,30 @@ public class SalesContractController implements Initializable {
                         }
                     }
                 }
+                /*
             }
         });
+
+                 */
     }
 
     /**
-     *
+     * Removes all available contracts and generates new ones for a fee. It works by calling {@link de.uni.mannheim.capitalismx.sales.department.SalesDepartment#refreshAvailableContracts(LocalDate, ProductionDepartment, Map)}
      */
+    @FXML
     public void regenerateAvailableContracts(){
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        System.out.println("Create new Contracts");
                 removeAllAvailableContracts();
                 SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+                System.out.println("Create new Contraaaaaaaacts");
                 try{
                     double cost = salesDep.refreshAvailableContracts(GameState.getInstance().getGameDate(), GameState.getInstance().getProductionDepartment(), GameState.getInstance().getCustomerDemand().getDemandPercentage());
                     GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), cost);
+                    refreshAvailableContracts();
+                    System.out.println("Create new Contraaaaaaaaaaaaaaaaaaaaacts");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        });
     }
 
     /**

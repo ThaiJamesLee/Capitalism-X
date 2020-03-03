@@ -1,4 +1,4 @@
-package de.uni.mannheim.capitalismx.logistic.logistics;
+package de.uni.mannheim.capitalismx.finance.finance;
 
 
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
@@ -8,32 +8,30 @@ import java.util.ResourceBundle;
 
 /**
  *
- * This class represents the skills that can be unlocked in the Logistics Department when leveling up.
+ * This class represents the skills that can be unlocked in the Finance Department when leveling up.
  *
  * @author sdupper
- *
- * @since 1.0.0
  */
-public class LogisticsSkill implements DepartmentSkill {
+public class FinanceSkill implements DepartmentSkill {
 
     /* The level requirement for this skill. */
     private int level;
 
-    /* The new capacity for trucks in the internal fleet. */
-    private int newFleetCapacity;
+    /* The new additional tax reduction. */
+    private double newTaxReduction;
 
-    private static final String LANG_PROPERTIES = "logistics-module";
-    private static final String DESCRIPTION_PROPERTY_PREFIX = "logistics.skill.description.";
+    private static final String LANG_PROPERTIES = "finance-module";
+    private static final String DESCRIPTION_PROPERTY_PREFIX = "finance.skill.description.";
 
     /**
      * Constructor
-     * Initializes the level and new fleet capacity.
+     * Initializes the level and new tax reduction.
      * @param level The required level for this skill.
-     * @param newFleetCapacity The new capacity for trucks in the internal fleet.
+     * @param newTaxReduction The new tax reduction.
      */
-    public LogisticsSkill(int level, int newFleetCapacity) {
+    public FinanceSkill(int level, double newTaxReduction) {
         this.level = level;
-        this.newFleetCapacity = newFleetCapacity;
+        this.newTaxReduction = newTaxReduction;
     }
 
     /**
@@ -44,8 +42,8 @@ public class LogisticsSkill implements DepartmentSkill {
         return level;
     }
 
-    public int getNewFleetCapacity() {
-        return newFleetCapacity;
+    public double getNewTaxReduction() {
+        return newTaxReduction;
     }
 
     @Override

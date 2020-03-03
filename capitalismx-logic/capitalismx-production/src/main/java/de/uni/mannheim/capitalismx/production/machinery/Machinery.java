@@ -161,7 +161,6 @@ public class Machinery implements Serializable {
      * @param gameDate the game date
      * @return the costs of the upgrade if it can still be further upgraded, otherwise return 0
      */
-    /* costs 5,000cc */
     public double upgradeMachinery(LocalDate gameDate) {
         if (this.level < MAX_LEVEL) {
             this.level += 1;

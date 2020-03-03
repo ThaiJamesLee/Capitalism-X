@@ -296,11 +296,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
         if (this.inventory.get(soldProduct.getKey()) != null && this.inventory.get(soldProduct.getKey()) >= soldProduct.getValue()) {
             int newInventoryUnits = this.inventory.get(soldProduct.getKey()) - soldProduct.getValue();
-            if (newInventoryUnits == 0) {
-                this.inventoryChange.removeOne(soldProduct.getKey());
-            } else {
-                this.inventoryChange.putOne(soldProduct.getKey(), newInventoryUnits);
-            }
+            this.inventoryChange.putOne(soldProduct.getKey(), newInventoryUnits);
         }
         return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
     }
@@ -308,7 +304,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     /**
      * Builds warehouse.
      * Adds warehouse to the list of warehouses and add its relevant properties to the warehousing department.
-     * Checks whether there are still warehouse slots available before building one
+     * Checks whether there are still warehouse slots available before building one.
      *
      * @param gameDate the game date
      * @return the costs of building a warehouse
@@ -334,7 +330,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     /**
      * Rents warehouse.
      * Adds warehouse to the list of warehouses and add its relevant properties to the warehousing department.
-     * Checks whether there are still warehouse slots available before building one
+     * Checks whether there are still warehouse slots available before building one.
      *
      * @param gameDate the game date
      * @return the cost of renting a warehouse

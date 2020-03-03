@@ -237,8 +237,6 @@ public class LogisticsDepartment extends DepartmentImpl {
         return this.totalDeliveryCosts;
     }
 
-    //TODO possibility to select logistics approach (e.g., only external partner, although internal fleet exists)
-
     /**
      * Calculates the costs for external deliveries according to p.52. If an external logistics partner is hired, the
      * products are delivered by the partner. Otherwise, the products are sent by post.

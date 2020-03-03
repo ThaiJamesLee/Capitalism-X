@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeListener;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -285,6 +286,7 @@ public class SalesDepartment extends DepartmentImpl {
                     double demand = demandPercentage.get(p) != null ? demandPercentage.get(p) : 0.0;
 
                     if(demand > 0.0) {
+                        System.out.println("ContractMaking");
                         Contract c = contractFactory.getContract(p, date, factor);
                         c.setPenalty(c.getPenalty() * penalty);
                         c.setNumProducts((int)(c.getNumProducts() * demand));

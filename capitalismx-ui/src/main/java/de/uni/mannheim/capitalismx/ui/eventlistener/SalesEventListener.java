@@ -24,16 +24,17 @@ public class SalesEventListener implements PropertyChangeListener {
         //evt.getPropertyName()
         SalesContractController salesController = (SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController();
         if(evt.getPropertyName().equals(SalesDepartment.AVAILABLE_CONTRACTS_EVENT)){
+            System.out.println("AVAILABLE_CONTRACTS_EVENT");
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();
 
         } else if(evt.getPropertyName().equals(SalesDepartment.ACTIVE_CONTRACTS_EVENT)){
-            System.out.println(evt.getPropertyName());
+            System.out.println("ACTIVE_CONTRACTS_EVENT");
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAcceptedContracts();
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();
             //((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFailedKPIs();
 
         } else if(evt.getPropertyName().equals(SalesDepartment.DONE_CONTRACTS_EVENT)){
-            System.out.println(evt.getPropertyName());
+            System.out.println("DONE_CONTRACTS_EVENT");
             ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAcceptedContracts();
             ((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFulfilledKPIs();
             //((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).refreshAvailableContracts();

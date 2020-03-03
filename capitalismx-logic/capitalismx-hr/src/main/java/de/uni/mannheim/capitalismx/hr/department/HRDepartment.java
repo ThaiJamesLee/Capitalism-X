@@ -296,13 +296,13 @@ public class HRDepartment extends DepartmentImpl {
 	/**
 	 * Update JSS and QoW for each employee.
 	 * Since it was stated that the jss depends on the skill level, but is not defined,
-	 * we define it as (1 - skillLevel/100) * totalJSS.
+	 * we define it as (skillLevel/100) * totalJSS.
 	 */
 	public void calculateAndUpdateEmployeesMeta() {
 		double totalJSS = getTotalJSS();
 		for (Map.Entry<EmployeeType, Team> entry : teams.entrySet()) {
 			for (Employee e : entry.getValue().getTeam()) {
-				e.setJobSatisfaction(totalJSS * (1.0 - e.getSkillLevel()/100.0));
+				e.setJobSatisfaction(totalJSS * (e.getSkillLevel()/100.0));
 				e.setQualityOfWork(e.getJobSatisfaction() * 0.5 + e.getSkillLevel() * 0.5);
 			}
 		}
@@ -310,6 +310,9 @@ public class HRDepartment extends DepartmentImpl {
 
 	/**
 	 * Iterates over all employees and calculate the avg. jss.
+	 * We use this as the total job satisfaction score, since it
+	 * also accounts for the skill level of the employees.
+	 *
 	 * @return Returns the average jss.
 	 */
 	private double getAverageJSS() {

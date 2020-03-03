@@ -60,6 +60,7 @@ public class TeamDetails {
 
 		try {
 			this.root = loader.load();
+			AnchorPaneHelper.snapNodeToAnchorPane(root);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

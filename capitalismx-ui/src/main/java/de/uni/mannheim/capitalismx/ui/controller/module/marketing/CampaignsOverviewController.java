@@ -46,7 +46,7 @@ public class CampaignsOverviewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
-		
+		campaignsList.setMouseTransparent(true);
 		campaignsList.setCellFactory(campaignList -> new CampaignsCell());
 		
 		updateList();

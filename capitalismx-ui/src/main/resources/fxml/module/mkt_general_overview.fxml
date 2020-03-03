@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -53,7 +54,10 @@
       						<Label fx:id="consTitleLbl" styleClass="label_large" text="%marketing.overview.consultancyTitle" />
       						<Label fx:id="consTextLbl" styleClass="label_large" text="Explanation Consultancies" GridPane.rowIndex="1" />
       						<Label fx:id="consCurrentLbl" styleClass="label_large" text="None" GridPane.columnIndex="1" />
-      						<Button fx:id="consChangeBtn" mnemonicParsing="false" styleClass="btn_standard" text="%marketing.overview.consChangeBtn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      						<Button fx:id="consChangeBtn" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" text="%marketing.overview.consChangeBtn" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <graphic>
+                        <FontAwesomeIcon iconName="LIFE_BOUY" size="1.2em" />
+                     </graphic></Button>
       					</children>
       				</GridPane>
          </children>

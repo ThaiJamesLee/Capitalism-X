@@ -9,6 +9,7 @@ import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughMachineCapacit
 import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.util.TextFieldHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,12 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * View cell of launched products.
+ * Allows the user to see the components of the product and to produce the product.
+ *
+ * @author dzhao
+ */
 public class LaunchedProductsListViewCell extends ListCell<Product> {
 
 
@@ -31,6 +38,9 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
 	private Button produceButton;
 
 	@FXML
+	private Label priceLabel;
+
+	@FXML
 	private VBox componentsVBox;
 
 	@FXML
@@ -40,12 +50,18 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
 
 	private ListView<Product> launchedProductsListView;
 
+	/**
+	 * Instantiates a new Launched products list view cell.
+	 *
+	 * @param launchProductsListView the launch products list view
+	 */
 	public LaunchedProductsListViewCell(ListView<Product> launchProductsListView) {
 		this.launchedProductsListView = launchProductsListView;
 	}
 
 	private Product product;
 
+	@Override
 	protected void updateItem(Product product, boolean empty) {
 		super.updateItem(product, empty);
 		this.product = product;
@@ -69,6 +85,7 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
 			setText(null);
 			setGraphic(gridPane);
 			productLabel.setText(product.getProductName());
+			priceLabel.setText("Sales Price: " + CapCoinFormatter.getCapCoins(product.getSalesPrice()));
 			componentsVBox.getChildren().clear();
 			for (Component component : product.getComponents()) {
 				componentsVBox.getChildren()
@@ -78,6 +95,10 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
 		}
 	}
 
+	/**
+	 * Produces products.
+	 * If an exception is caught a game alert is shown with the option to produce less products.
+	 */
 	public void produceProduct() {
 		int quantity = 0;
 		if (!quantityTextField.getText().equals("")) {
