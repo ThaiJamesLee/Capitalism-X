@@ -69,7 +69,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     /**
      * The storage cost of a single unit.
      */
-    private static final double VARIABLE_STORAGE_COST = 5;
+    private static final double VARIABLE_STORAGE_COST = 0.05;
 
     /**
      * Flag whether there are any more warehouse slots available for additional warehouses.
