@@ -8,13 +8,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.popover.logistics.LogisticsPartnerDetailListController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.popover.logistics.LogisticsPartnerDetailListController">
     <children>
       <VBox alignment="CENTER" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label styleClass="header" text="%logistics.partner.hireTitle">
+            <Label graphicTextGap="8.0" styleClass="header" text="%logistics.partner.hireTitle">
                <graphic>
-                  <FontAwesomeIcon iconName="SHIP" />
+                  <FontAwesomeIcon iconName="SHIP" size="1.4em" styleClass="icon_primary" />
                </graphic></Label>
               <ListView fx:id="logisticsPartnerDetailListView" prefWidth="700.0" />
          </children>
