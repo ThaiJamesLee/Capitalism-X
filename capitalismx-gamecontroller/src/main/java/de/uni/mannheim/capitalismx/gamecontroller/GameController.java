@@ -18,6 +18,7 @@ import de.uni.mannheim.capitalismx.production.investment.ProductionInvestmentLev
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.production.product.ProductCategory;
+import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.warehouse.*;
 import de.uni.mannheim.capitalismx.warehouse.exceptions.NoWarehouseSlotsAvailableException;
 import de.uni.mannheim.capitalismx.warehouse.exceptions.StorageCapacityUsedException;
@@ -135,6 +136,7 @@ public class GameController {
 		this.updateWarehouse();
 		this.updateProcurement();
 		this.updateProduction();
+		this.updateContracts();
 	}
 
 	/**
@@ -316,6 +318,20 @@ public class GameController {
 		SalesDepartment salesDepartment = state.getSalesDepartment();
 		salesDepartment.generateContracts(state.getGameDate(), state.getProductionDepartment(), state.getCustomerDemand().getDemandPercentage());
 
+	}
+
+	/**
+	 * Check for 
+	 */
+	private void updateContracts() {
+		GameState state = GameState.getInstance();
+		SalesDepartment salesDepartment = state.getSalesDepartment();
+		List<Contract>  overdueContracts = salesDepartment.checkContractsOverdue(state.getGameDate());
+
+		for(Contract c : overdueContracts) {
+			decreaseCash(state.getGameDate(), c.getPenalty());
+			salesDepartment.terminateContract(c, state.getGameDate());
+		}
 	}
 
 	/**

@@ -254,6 +254,22 @@ public class SalesDepartment extends DepartmentImpl {
         this.activeContracts.remove(contract);
         this.failedContracts.add(contract);
     }
+
+    /**
+     * Iterates over active contracts and checks if they are overdue.
+     *
+     * @param currentDate The current game date.
+     * @return Returns a list of contracts that are in active but already overdue.
+     */
+    public List<Contract> checkContractsOverdue(LocalDate currentDate) {
+        List<Contract> overdueContracts = new ArrayList<>();
+        for(Contract c : activeContracts.getList()) {
+            if(c.contractIsDue(currentDate)) {
+                overdueContracts.add(c);
+            }
+        }
+        return overdueContracts;
+    }
     
 
     /**
