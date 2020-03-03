@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" styleClass="rootPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.message.MessageController">
+<AnchorPane fx:id="root" styleClass="rootPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.message.MessageController">
    <children>
       <VBox layoutX="40.0" layoutY="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane styleClass="headerPane">
+            <AnchorPane styleClass="headerPane" VBox.vgrow="ALWAYS">
                <children>
                   <Label id="title" text="Messsages" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
@@ -22,7 +22,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane styleClass="contentPane">
+            <AnchorPane styleClass="contentPane" VBox.vgrow="ALWAYS">
                <children>
                   <HBox styleClass="messageTabBackground">
                      <children>
