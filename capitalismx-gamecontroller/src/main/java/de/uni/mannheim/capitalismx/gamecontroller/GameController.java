@@ -321,13 +321,22 @@ public class GameController {
 	}
 
 	/**
-	 * Check for 
+	 * Check for overdue contracts.
+	 * Fulfill if possible, otherwise terminate the contract.
+	 * This is done in a first come, first serve.
 	 */
 	private void updateContracts() {
 		GameState state = GameState.getInstance();
 		SalesDepartment salesDepartment = state.getSalesDepartment();
 		List<Contract>  overdueContracts = salesDepartment.checkContractsOverdue(state.getGameDate());
 
+		// fulfill all contracts if possible
+		for(Contract c : overdueContracts) {
+			getSales().fulfillContract(c);
+		}
+
+		// terminate the contracts that were not possible to fulfill.
+		overdueContracts = salesDepartment.checkContractsOverdue(state.getGameDate());
 		for(Contract c : overdueContracts) {
 			decreaseCash(state.getGameDate(), c.getPenalty());
 			salesDepartment.terminateContract(c, state.getGameDate());
@@ -484,6 +493,25 @@ public class GameController {
 				revenue = c.getRevenue();
 				GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), revenue);
 				salesDep.contractDone(salesDep.getActiveContracts().get(index), GameState.getInstance().getGameDate());
+			}
+		}
+
+		public void fulfillContract(Contract c) {
+			SalesDepartment salesDep = GameState.getInstance().getSalesDepartment();
+			WarehousingDepartment warehouse = GameState.getInstance().getWarehousingDepartment();
+			Product p = c.getProduct();
+			int productCount = c.getNumProducts();
+			Map<Unit, Integer> inventory = warehouse.getInventory();
+			if(inventory.containsKey(p) && inventory.get(p)>=productCount) {
+				Map<Unit, Integer> productMap = new HashMap<>();
+				productMap.put(p, productCount);
+				double revenue = 0;
+				for(Map.Entry<Unit, Integer> entry : productMap.entrySet()){
+					warehouse.sellProduct(entry);
+				}
+				revenue = c.getRevenue();
+				GameController.getInstance().increaseCash(GameState.getInstance().getGameDate(), revenue);
+				salesDep.contractDone(c, GameState.getInstance().getGameDate());
 			}
 		}
 
