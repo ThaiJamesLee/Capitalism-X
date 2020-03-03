@@ -72,13 +72,26 @@ public class SalesContractController implements Initializable {
     }
 
     /**
+     * Testing Methods
+     * @param min
+     * @param max
+     * @return
+     */
+    private static int getRandomNumberInRange(int min, int max) {
+
+        Random r = new Random();
+        return r.ints(min, (max + 1)).limit(1).findFirst().getAsInt();
+
+    }
+
+    /**
      * This method is called when clicking on the "Accept Contract" button. A offered contract needs to be selected.
      * It calls {@link de.uni.mannheim.capitalismx.sales.department.SalesDepartment#addContractToActive(Contract, LocalDate)} with the selected contract and current game date.
      */
     @FXML
     public void acceptContract(){
         if(GameState.getInstance().getSalesDepartment().getDoneContracts().size() < 1){
-            MessageObject m = new MessageObject("Your Friend Joe", "" + GameState.getInstance().getGameDate(), "Congratulations to your first contract!", "Hi!\n\n it's me your friend Joe! I just wanted to tell you how cool it is that you got your first contract!\n\nGood luck with that!\nJoe\n\nP.S.: Chek out this cool jumpy feature!", true, 2);
+            MessageObject m = new MessageObject("Your Friend Joe", "" + GameState.getInstance().getGameDate(), "Congratulations to your first contract!", "Hi!\n\n it's me your friend Joe! I just wanted to tell you how cool it is that you got your first contract!\n\nGood luck with that!\nJoe\n\nP.S.: Chek out this cool jumpy feature!", true, getRandomNumberInRange(1,9));
             GameState.getInstance().getMessages().add(m);
         }
         if(!availableContractsList.getSelectionModel().getSelectedIndices().isEmpty()) {
