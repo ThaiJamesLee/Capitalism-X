@@ -17,6 +17,7 @@ import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,7 +32,7 @@ import javafx.util.Duration;
  * @author Jonathan
  *
  */
-public class GamePageController implements UpdateableController {
+public class GamePageController implements Initializable {
 
 	/**
 	 * Menu elements
@@ -278,10 +279,6 @@ public class GamePageController implements UpdateableController {
 			openMessagePane = false;
 		}
 
-	}
-
-	@Override
-	public void update() {
 	}
 
 	/**
