@@ -28,7 +28,7 @@ jobs:
     - name: Publish Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "capitalismx-main/target/capitalismx-main-*.jar,capitalismx-docs.zip"
+        artifacts: "capitalismx-main/target/capitalismx-main-*.jar,capitalismx.exe,capitalismx-docs.zip"
         draft: true
         token: ${{ secrets.GITHUB_TOKEN }}
       
