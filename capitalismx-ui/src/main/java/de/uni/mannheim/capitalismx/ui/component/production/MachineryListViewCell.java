@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.util.TooltipFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -90,6 +91,11 @@ public class MachineryListViewCell extends ListCell<Machinery> {
                 controller.sellMachinery(machinery, GameState.getInstance().getGameDate());
                 this.machineryListView.getItems().remove(machinery);
             });
+            
+            TooltipFactory tooltipFactory = new TooltipFactory();
+            upgradeButton.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("machinery.btn.upgrade")));
+            maintainAndRepairButton.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("machinery.btn.maintain")));
+            
             maintainAndRepairButton.setOnAction(e -> {
             	LocalDate date =  GameState.getInstance().getGameDate();
             	double oldPrice = machinery.calculateResellPrice();

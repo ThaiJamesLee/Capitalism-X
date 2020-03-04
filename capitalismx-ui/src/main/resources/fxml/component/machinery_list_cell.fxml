@@ -12,12 +12,12 @@
 
 <GridPane fx:id="gridPane" hgap="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
-        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="15.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="15.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="15.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="30.0" />
-        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="15.0" />
-        <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="17.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="17.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="17.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="14.0" />
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="20.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="15.0" />
     </columnConstraints>
     <rowConstraints>
         <RowConstraints />
@@ -38,35 +38,40 @@
             <FontAwesomeIcon iconName="COG" size="1.5em" />
          </graphic>
         </Label>
-      <Button fx:id="sellButton" graphicTextGap="8.0" layoutX="161.0" layoutY="13.0" mnemonicParsing="false" style="-fx-background-color: -fx-red;" styleClass="btn_standard" text="%truck.btnSell" GridPane.columnIndex="5" GridPane.rowIndex="1" GridPane.rowSpan="2">
-         <graphic>
-            <FontAwesomeIcon iconName="TIMES_CIRCLE" size="1.2em" />
-         </graphic></Button>
+      <AnchorPane GridPane.columnIndex="5" GridPane.rowIndex="1" GridPane.rowSpan="2">
+         <children>
+            <Button fx:id="sellButton" graphicTextGap="8.0" mnemonicParsing="false" style="-fx-background-color: -fx-red;" styleClass="btn_standard" text="%truck.btnSell" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <graphic>
+                  <FontAwesomeIcon iconName="TIMES_CIRCLE" size="1.2em" />
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
       <Label fx:id="capacityLabel" styleClass="list-label" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Label>
-      <GridPane hgap="4.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+      <GridPane GridPane.columnIndex="3" GridPane.rowIndex="1">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" />
+          <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane>
                <children>
-                  <Button fx:id="maintainAndRepairButton" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" text="%machinery.btn.maintain" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Button fx:id="maintainAndRepairButton" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <graphic>
                         <FontAwesomeIcon iconName="WRENCH" size="1.2em" />
                      </graphic></Button>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <AnchorPane GridPane.columnIndex="1">
                <children>
-                  <Button fx:id="upgradeButton" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" text="%machinery.btn.upgrade" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Button fx:id="upgradeButton" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <graphic>
                         <FontAwesomeIcon iconName="ARROW_CIRCLE_UP" size="1.2em" />
                      </graphic></Button>
