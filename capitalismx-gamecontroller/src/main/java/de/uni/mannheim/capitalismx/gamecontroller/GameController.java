@@ -1027,6 +1027,14 @@ public class GameController {
 				.getAvailableComponentsOfComponentCategory(GameState.getInstance().getGameDate(), componentCategory);
 	}
 
+	/**
+	 * Gets the delivery time of component orders in days.
+	 *
+	 * @return the delivery time
+	 */
+	public int getDeliveryTime() {
+		return GameState.getInstance().getProcurementDepartment().getDeliveryTime();
+	}
 
 	/**
 	 * Buy (order) components.

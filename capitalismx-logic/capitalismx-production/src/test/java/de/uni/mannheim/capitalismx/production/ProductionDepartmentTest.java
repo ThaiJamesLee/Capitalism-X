@@ -90,23 +90,22 @@ public class ProductionDepartmentTest {
     @Test
     public void launchProductTest() {
         try {
-            Product notebook = new Product("Notebook", ProductCategory.NOTEBOOK, this.components);
+            Product notebook = new Product("NotebookTest", ProductCategory.NOTEBOOK, this.components);
             Assert.assertEquals(ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true), 5000.0);
             ProductionDepartment.getInstance().launchProduct(notebook, LocalDate.of(1990, 1, 1), true);
         } catch(Exception e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 
     @Test
     public void produceProductTest() {
-        Map<Product, Integer> products = ProductionDepartment.getInstance().getNumberProducedProducts();
+        List<Product> products = ProductionDepartment.getInstance().getLaunchedProducts();
         try {
-            for (HashMap.Entry<Product, Integer> p : products.entrySet()) {
-                ProductionDepartment.getInstance().produceProduct(p.getKey(), 10, 10, true);
+            for (Product p : products) {
+                ProductionDepartment.getInstance().produceProduct(p, 10, 10, true);
             }
-            //Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 10);
+            Assert.assertEquals(ProductionDepartment.getInstance().getNumberUnitsProducedPerMonth(), 10);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

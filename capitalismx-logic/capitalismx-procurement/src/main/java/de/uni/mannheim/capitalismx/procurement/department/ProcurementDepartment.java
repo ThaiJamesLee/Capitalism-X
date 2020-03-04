@@ -44,6 +44,8 @@ public class ProcurementDepartment extends DepartmentImpl {
      */
     private Map<Component, Integer> receivedComponents;
 
+    private static final int DELIVERY_TIME = 3;
+
     /**
      * Notifies the GUI about updates to the component orders.
      */
@@ -125,7 +127,7 @@ public class ProcurementDepartment extends DepartmentImpl {
      */
     public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
         if (freeStorage >= (quantity + this.getQuantityOfOrderedComponents())) {
-            ComponentOrder componentOrder = new ComponentOrder(gameDate, component, quantity);
+            ComponentOrder componentOrder = new ComponentOrder(gameDate, component, quantity, DELIVERY_TIME);
             this.componentOrders.add(componentOrder);
         }
         return quantity * component.getBaseCost();
@@ -188,6 +190,15 @@ public class ProcurementDepartment extends DepartmentImpl {
      */
     public List<ComponentOrder> getComponentOrders() {
         return this.componentOrders;
+    }
+
+    /**
+     * Gets the delivery time of component orders in days.
+     *
+     * @return the delivery time
+     */
+    public int getDeliveryTime() {
+        return DELIVERY_TIME;
     }
 
     /**
