@@ -14,6 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 /**
  * A machinery view cell.
@@ -84,19 +85,28 @@ public class MachineryListViewCell extends ListCell<Machinery> {
             }
 
             GameController controller = GameController.getInstance();
-            //TODO
-            //indexLabel.setText(controller.getMachines().indexOf(machinery) + "");
             this.updateLabels(machinery);
             sellButton.setOnAction(e -> {
                 controller.sellMachinery(machinery, GameState.getInstance().getGameDate());
                 this.machineryListView.getItems().remove(machinery);
             });
             maintainAndRepairButton.setOnAction(e -> {
-                controller.maintainAndRepairMachinery(machinery);
+            	LocalDate date =  GameState.getInstance().getGameDate();
+            	double oldPrice = machinery.calculateResellPrice();
+            	double amount = controller.maintainAndRepairMachinery(machinery);
+            	double worthDifference = machinery.calculateResellPrice() - oldPrice;
+                GameController.getInstance().decreaseCash(date, amount);
+                GameController.getInstance().decreaseNetWorth(date, amount - worthDifference);
+                
                 this.updateLabels(machinery);
             });
             upgradeButton.setOnAction(e -> {
-                controller.upgradeMachinery(machinery);
+            	LocalDate date =  GameState.getInstance().getGameDate();
+            	double oldPrice = machinery.calculateResellPrice();
+            	double amount = controller.upgradeMachinery(machinery);
+            	double worthDifference = machinery.calculateResellPrice() - oldPrice;
+                GameController.getInstance().decreaseCash(date, amount);
+                GameController.getInstance().decreaseNetWorth(date, amount - worthDifference);
                 this.updateLabels(machinery);
                 if (!machinery.isUpgradeable()) {
                     this.upgradeButton.setDisable(true);
