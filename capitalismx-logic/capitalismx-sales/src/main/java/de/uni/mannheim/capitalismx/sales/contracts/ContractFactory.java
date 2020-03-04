@@ -115,7 +115,7 @@ public class ContractFactory {
 
         int monthlyAvailableCapacity = productionDepartment.getMonthlyMachineCapacity(date);
 
-        int numProd = (int) (monthlyAvailableCapacity * timeToFinish * generateRandomFactor());
+        int numProd = (int) (monthlyAvailableCapacity * generateRandomFactor());
 
         double productProductionCost = product.getProductCosts(date);
 
