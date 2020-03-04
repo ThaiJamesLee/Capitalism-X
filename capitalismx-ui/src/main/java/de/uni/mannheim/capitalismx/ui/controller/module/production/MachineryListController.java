@@ -67,6 +67,8 @@ public class MachineryListController implements UpdateableController {
 
 
         machineryListView.setCellFactory(machineryListView -> new MachineryListViewCell(machineryListView));
+
+        this.update();
     }
 
 }
