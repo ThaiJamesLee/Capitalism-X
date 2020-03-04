@@ -79,7 +79,8 @@ public class ProduceProductController implements UpdateableController {
 		factory.createStandardOverlay("fxml/module/introduce_product_menu.fxml");
 		introduceProductPopover = factory.getPopover();
 		popoverController = (IntroduceProductController) factory.getPopoverController();
-		
+
+		this.update();
 	}
 
 	/**
