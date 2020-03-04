@@ -12,19 +12,19 @@ public class ComponentTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ComponentType.class);
 
     private LocalDate gameDate;
-    private ComponentType c;
+    private Component c;
 
     @BeforeTest
     public void setUp() {
         this.gameDate = LocalDate.of(1990, 1, 1);
-        this.c = ComponentType.N_CPU_LEVEL_1;
+        this.c = new Component(ComponentType.N_CPU_LEVEL_1);
     }
 
-    // TODO NEW COMPONENTTEST
-    /*
+
+
     @Test
     public void setSupplierCategoryTest() {
-        this.c.setSupplierCategory(SupplierCategory.PREMIUM);
+        this.c.setSupplierCategory(SupplierCategory.PREMIUM, LocalDate.of(1990, 1, 1));
         Assert.assertTrue(c.getSupplierCostMultiplicator() >= 1.1);
         Assert.assertTrue(c.getSupplierCostMultiplicator() <= 1.5);
         Assert.assertTrue(c.getSupplierQuality() >= 80);
@@ -35,11 +35,11 @@ public class ComponentTest {
 
     @Test
     public void calculateBaseCostTest() {
-        this.c.setSupplierCategory(SupplierCategory.PREMIUM);
-        double baseCost = c.calculateBaseCost(gameDate);
+        this.c.setSupplierCategory(SupplierCategory.PREMIUM, LocalDate.of(1990, 1, 1));
+        double baseCost = c.calculateRandomizedBaseCost(gameDate);
         Assert.assertTrue(baseCost <= 549.8779000000001 * 1.5);
         Assert.assertTrue(baseCost >= 549.8779000000001 * 1.1);
-    }*/
+    }
 
 
 }
