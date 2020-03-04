@@ -46,8 +46,7 @@
 }
 
 .hud_background:hover {
-	-fx-border-width: 1.0;
-	-fx-border-color: -fx-primary;
+	-fx-effect: dropshadow(gaussian, -fx-primary-dark-transparent, 10.0, 0.7, 0.0, 0.0);
 }
 
 .hud_background .title_label {
