@@ -561,10 +561,10 @@ public class WarehousingDepartment extends DepartmentImpl {
 
 
     /**
-     * Sell products double.
+     * Sell products.
      *
      * @param sales the sales
-     * @return the double
+     * @return the revenue
      */
     public double sellProducts(Map<Unit, Integer> sales) {
         double earnedMoney = 0;
