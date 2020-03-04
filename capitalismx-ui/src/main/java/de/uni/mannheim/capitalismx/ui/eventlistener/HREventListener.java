@@ -13,6 +13,12 @@ import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.HrStatisticsController;
 import de.uni.mannheim.capitalismx.ui.controller.module.hr.TeamDetailController;
 
+/**
+ * {@link PropertyChangeListener} for HR-related events.
+ * 
+ * @author Jonathan
+ *
+ */
 public class HREventListener implements PropertyChangeListener {
 
 	@SuppressWarnings("unchecked")
@@ -31,8 +37,8 @@ public class HREventListener implements PropertyChangeListener {
 				UIManager.getInstance().getGameHudController().updateNumOfEmployees();
 
 				// Update Statistics Module
-				HrStatisticsController statsController = (HrStatisticsController) hrView.getModule(GameModuleType.HR_STATISTICS)
-						.getController();
+				HrStatisticsController statsController = (HrStatisticsController) hrView
+						.getModule(GameModuleType.HR_STATISTICS).getController();
 				statsController.update();
 			}
 		}

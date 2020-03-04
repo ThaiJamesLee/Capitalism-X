@@ -7,6 +7,7 @@ import org.controlsfx.control.PopOver;
 
 import de.uni.mannheim.capitalismx.hr.domain.employee.Employee;
 import de.uni.mannheim.capitalismx.hr.domain.employee.training.Training;
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
@@ -84,7 +85,9 @@ public class TrainingPopoverController implements Initializable {
 	 * Initiates a workshop for the Employee of the Popover.
 	 */
 	public void trainEmployeeWorkshop() {
-		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP, GameState.getInstance().getGameDate());
+		double amount = GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP, GameState.getInstance().getGameDate());
+		GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), amount);
+		GameController.getInstance().decreaseNetWorth(GameState.getInstance().getGameDate(), amount);
 		parentController.update();
 		popover.hide();
 	}
@@ -94,7 +97,9 @@ public class TrainingPopoverController implements Initializable {
 	 * Initiates a course for the Employee of the Popover.
 	 */
 	public void trainEmployeeCourse() {
-		GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP, GameState.getInstance().getGameDate());
+		double amount = GameState.getInstance().getHrDepartment().trainEmployee(employee, Training.WORKSHOP, GameState.getInstance().getGameDate());
+		GameController.getInstance().decreaseCash(GameState.getInstance().getGameDate(), amount);
+		GameController.getInstance().decreaseNetWorth(GameState.getInstance().getGameDate(), amount);
 		parentController.update();
 		popover.hide();
 	}

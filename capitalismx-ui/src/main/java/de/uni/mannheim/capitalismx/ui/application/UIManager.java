@@ -90,9 +90,7 @@ public class UIManager {
 	private GameScene sceneMenuMain;
 	private GameScene sceneGamePage;
 	private GameScene sceneLoadingScreen;
-
 	private GameScene sceneCreditsPage;
-
 	private GameScene sceneLostPage;
 	private GameScene sceneWonPage;
 
