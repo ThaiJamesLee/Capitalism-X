@@ -248,5 +248,9 @@ public class MessageController implements Initializable {
 			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleMessageWindow();
 		});
 		*/
+		
+		for(MessageObject m : GameState.getInstance().getMessages().getList()) {
+			addMessage(m);
+		}
 	}
 }
