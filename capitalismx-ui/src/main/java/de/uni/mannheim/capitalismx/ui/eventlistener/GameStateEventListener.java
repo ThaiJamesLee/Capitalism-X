@@ -21,7 +21,7 @@ import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.application.Platform;
 
 /**
- * Ein GameState Event Listener.
+ * {@link PropertyChangeListener} for events occuring in the GameState.
  * 
  * @author duly
  */
@@ -34,10 +34,11 @@ public class GameStateEventListener implements PropertyChangeListener {
 		}
 
 		if (evt.getPropertyName().equals("gameDate")) {
-			((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).setRefreshCostTooltip();
+			((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES)
+					.getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).setRefreshCostTooltip();
 			GameHudController hudController = UIManager.getInstance().getGameHudController();
 			hudController.update();
-			
+
 			LocalDate date = (LocalDate) evt.getNewValue();
 			StockManagementController stockController = ((StockManagementController) UIManager.getInstance()
 					.getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController());
@@ -46,13 +47,15 @@ public class GameStateEventListener implements PropertyChangeListener {
 					.getExternalEvents(date.minusDays(1));
 			// TODO display on the same day -> create propertyChangeAttribute for External
 			// Events to update them
-			// issue here is that the list is not yet updated when the gamedate is updated
+			// The issue here is that the list is not yet updated at the point, the gamedate
+			// is updated
 			if (events != null) {
 				for (ExternalEvent event : events) {
-					GameState.getInstance().getMessages()
-							.add(new MessageObject("Your assistant", ((LocalDate) evt.getNewValue()).toString(),
-									event.getTitle(), "This is a more detailed description of the event ...", false));
-				
+					GameState.getInstance().getMessages().add(new MessageObject("Your assistant",
+							((LocalDate) evt.getNewValue()).toString(), event.getTitle(),
+							"This is a more detailed description of the event ... TODO replace with actual content and localize the text",
+							false));
+
 					// handle special events
 					switch (event) {
 					case EVENT_19: // GAME LOST
@@ -77,8 +80,10 @@ public class GameStateEventListener implements PropertyChangeListener {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFailedKPIs();
-						((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFulfilledKPIs();
+						((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES)
+								.getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFailedKPIs();
+						((SalesKPIController) UIManager.getInstance().getGameView(GameViewType.SALES)
+								.getModule(GameModuleType.SALES_KPI_OVERVIEW).getController()).updateFulfilledKPIs();
 					}
 				});
 			}

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.popover.production.IntroduceProductController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.popover.production.IntroduceProductController">
 	<children>
 		<TabPane layoutX="79.0" layoutY="70.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<tabs>
@@ -25,15 +25,14 @@
 					<content>
 						<AnchorPane>
 							<children>
-								<GridPane layoutX="-1.0" vgap="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+								<GridPane layoutX="-1.0" vgap="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 									<columnConstraints>
 										<ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
 									</columnConstraints>
 									<rowConstraints>
-										<RowConstraints percentHeight="15.0" vgrow="SOMETIMES" />
-										<RowConstraints percentHeight="65.0" vgrow="SOMETIMES" />
 										<RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
 										<RowConstraints vgrow="SOMETIMES" />
+										<RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
 									</rowConstraints>
 									<children>
 										<GridPane>
@@ -154,31 +153,26 @@
       										</GridPane>
                                  </children>
                               </AnchorPane>
-										<AnchorPane GridPane.rowIndex="3">
-											<children>
-												<Button fx:id="launchTvButton" mnemonicParsing="false" onAction="#launchTv" styleClass="btn_standard" text="%product.tv.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-											</children>
-										</AnchorPane>
-                              <GridPane hgap="10.0" GridPane.rowIndex="2">
+                              <GridPane hgap="16.0" GridPane.rowIndex="2">
                                  <columnConstraints>
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="20.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
-                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
-                                    <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="3.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="15.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label styleClass="label_large" text="%product.price" GridPane.columnIndex="2" />
-                                    <Label text="CC" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label styleClass="label_large" text="%product.name" />
       										<TextField fx:id="tvProductNameTextField" promptText="%product.tv.promptName" GridPane.columnIndex="1" />
-                                    <TextField fx:id="tvSalesPriceTextField" alignment="CENTER_RIGHT" promptText="0" GridPane.columnIndex="3" />
+      										<AnchorPane GridPane.columnIndex="2">
+      											<children>
+      												<Button fx:id="launchTvButton" mnemonicParsing="false" onAction="#launchTv" styleClass="btn_standard" text="%product.tv.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      											</children>
+      										</AnchorPane>
                                  </children>
                                  <GridPane.margin>
-                                    <Insets top="15.0" />
+                                    <Insets top="12.0" />
                                  </GridPane.margin>
                               </GridPane>
 									</children>
@@ -199,20 +193,14 @@
 										<ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
 									</columnConstraints>
 									<rowConstraints>
-										<RowConstraints percentHeight="15.0" vgrow="SOMETIMES" />
-										<RowConstraints percentHeight="65.0" vgrow="SOMETIMES" />
 										<RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
 										<RowConstraints vgrow="SOMETIMES" />
+										<RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
 									</rowConstraints>
 									<children>
-										<AnchorPane GridPane.rowIndex="3">
-											<children>
-												<Button fx:id="launchConsoleButton" layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchConsole" styleClass="btn_standard" text="%product.console.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-											</children>
-										</AnchorPane>
                               <AnchorPane GridPane.rowIndex="1">
                                  <children>
-      										<GridPane hgap="10.0" vgap="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      										<GridPane hgap="10.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       											<columnConstraints>
       												<ColumnConstraints hgrow="SOMETIMES" percentWidth="3.0" />
       												<ColumnConstraints hgrow="SOMETIMES" percentWidth="7.0" />
@@ -344,23 +332,23 @@
                                     <Insets />
                                  </GridPane.margin>
 										</GridPane>
-                              <GridPane hgap="10.0" GridPane.rowIndex="2">
+                              <GridPane hgap="16.0" GridPane.rowIndex="2">
                                  <columnConstraints>
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="20.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
-                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
-                                    <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="3.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="15.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label styleClass="label_large" text="%product.price" GridPane.columnIndex="2" />
-                                    <Label text="CC" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label styleClass="label_large" text="%product.name" />
-												<TextField fx:id="consoleSalesPriceTextField" alignment="CENTER_RIGHT" promptText="0" GridPane.columnIndex="3" />
       										<TextField fx:id="consoleProductNameTextField" promptText="%product.console.promptName" GridPane.columnIndex="1" />
+      										<AnchorPane GridPane.columnIndex="2">
+      											<children>
+      												<Button fx:id="launchConsoleButton" layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchConsole" styleClass="btn_standard" text="%product.console.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      											</children>
+      										</AnchorPane>
                                  </children>
                                  <GridPane.margin>
                                     <Insets top="15.0" />
@@ -384,24 +372,16 @@
 										<ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
 									</columnConstraints>
 									<rowConstraints>
-										<RowConstraints percentHeight="15.0" vgrow="SOMETIMES" />
-										<RowConstraints percentHeight="65.0" vgrow="SOMETIMES" />
 										<RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
 										<RowConstraints vgrow="SOMETIMES" />
+										<RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
 									</rowConstraints>
 									<children>
-										<AnchorPane GridPane.rowIndex="3">
-											<children>
-												<Button fx:id="launchNotebookButton" layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchNotebook" styleClass="btn_standard" text="%product.notebook.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-											</children>
-										</AnchorPane>
-										<GridPane hgap="10.0" GridPane.rowIndex="2">
+										<GridPane hgap="16.0" GridPane.rowIndex="2">
 											<columnConstraints>
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="20.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
-												<ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
-												<ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
-												<ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="3.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="15.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" />
 											</columnConstraints>
 											<rowConstraints>
 												<RowConstraints vgrow="SOMETIMES" />
@@ -412,13 +392,12 @@
                                           <Insets right="15.0" />
                                        </GridPane.margin>
                                     </TextField>
-												<TextField fx:id="notebookSalesPriceTextField" alignment="CENTER_RIGHT" promptText="0" GridPane.columnIndex="3">
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin></TextField>
-												<Label styleClass="label_large" text="%product.price" GridPane.columnIndex="2" />
-												<Label text="CC" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label styleClass="label_large" text="%product.name" />
+      										<AnchorPane GridPane.columnIndex="2">
+      											<children>
+      												<Button fx:id="launchNotebookButton" layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchNotebook" styleClass="btn_standard" text="%product.notebook.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      											</children>
+      										</AnchorPane>
 											</children>
                                  <GridPane.margin>
                                     <Insets top="15.0" />
@@ -575,17 +554,11 @@
 										<ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
 									</columnConstraints>
 									<rowConstraints>
-										<RowConstraints percentHeight="15.0" vgrow="SOMETIMES" />
-										<RowConstraints percentHeight="65.0" vgrow="SOMETIMES" />
 										<RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
 										<RowConstraints vgrow="SOMETIMES" />
+										<RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
 									</rowConstraints>
 									<children>
-										<AnchorPane GridPane.rowIndex="3">
-											<children>
-												<Button fx:id="launchPhoneButton" layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchPhone" styleClass="btn_standard" text="%product.phone.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-											</children>
-										</AnchorPane>
                               <AnchorPane GridPane.rowIndex="1">
                                  <children>
       										<GridPane hgap="10.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -739,21 +712,21 @@
 										</GridPane>
                               <GridPane hgap="10.0" GridPane.rowIndex="2">
                                  <columnConstraints>
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="20.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
-                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
-                                    <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="3.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="15.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label styleClass="label_large" text="%product.price" GridPane.columnIndex="2" />
-                                    <Label text="CC" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label styleClass="label_large" text="%product.name" />
       										<TextField fx:id="phoneProductNameTextField" promptText="%product.phone.promptName" GridPane.columnIndex="1" />
-												<TextField fx:id="phoneSalesPriceTextField" alignment="CENTER_RIGHT" promptText="0" GridPane.columnIndex="3" />
+      										<AnchorPane GridPane.columnIndex="2">
+      											<children>
+      												<Button fx:id="launchPhoneButton" layoutX="156.0" layoutY="42.0" mnemonicParsing="false" onAction="#launchPhone" styleClass="btn_standard" text="%product.phone.btnLaunch" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      											</children>
+      										</AnchorPane>
                                  </children>
                                  <GridPane.margin>
                                     <Insets top="15.0" />

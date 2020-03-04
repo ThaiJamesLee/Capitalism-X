@@ -51,7 +51,6 @@ public class IntroduceProductController implements Initializable {
 		List<Node> nodes = new ArrayList<Node>();
 		nodes.add(tutorialPane);
 		nodes.add(tvProductNameTextField);
-		nodes.add(tvSalesPriceTextField);
 		nodes.add(launchTvButton);
 		return nodes;
 	}
@@ -72,10 +71,6 @@ public class IntroduceProductController implements Initializable {
 	/****** Product Name Text Fields ******/
     @FXML
     private TextField tvProductNameTextField, consoleProductNameTextField, notebookProductNameTextField, phoneProductNameTextField;
-
-    /****** Product Sales Price Text Fields ******/
-    @FXML
-    private TextField tvSalesPriceTextField, consoleSalesPriceTextField, notebookSalesPriceTextField, phoneSalesPriceTextField;
 
     /****** Supplier Options ******/
     @FXML
@@ -419,11 +414,6 @@ public class IntroduceProductController implements Initializable {
         this.launchConsoleButton.setText("Launch (" + CapCoinFormatter.getCapCoins(GameController.getInstance().getProductLaunchCosts()) + ")");
         this.launchNotebookButton.setText("Launch (" + CapCoinFormatter.getCapCoins(GameController.getInstance().getProductLaunchCosts()) + ")");
         this.launchPhoneButton.setText("Launch (" + CapCoinFormatter.getCapCoins(GameController.getInstance().getProductLaunchCosts()) + ")");
-
-		TextFieldHelper.makeTextFieldNumeric(tvSalesPriceTextField);
-		TextFieldHelper.makeTextFieldNumeric(notebookSalesPriceTextField);
-		TextFieldHelper.makeTextFieldNumeric(consoleSalesPriceTextField);
-		TextFieldHelper.makeTextFieldNumeric(phoneSalesPriceTextField);
 
 		/* Put all buttons and their respective components into a HashMap for each component category*/
         this.tvScreens = new HashMap<>();
@@ -1310,13 +1300,6 @@ public class IntroduceProductController implements Initializable {
         }
         try {
             this.tv = new Product(productName, ProductCategory.TELEVISION, components);
-            double salesPrice = 0;
-            if (this.tvSalesPriceTextField.getText().equals("")) {
-                salesPrice = 400;
-            } else {
-                salesPrice = Double.valueOf(this.tvSalesPriceTextField.getText());
-            }
-            this.tv.setSalesPrice(salesPrice);
             GameController.getInstance().launchProduct(this.tv);
         } catch (Exception e) {
             GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
@@ -1340,19 +1323,12 @@ public class IntroduceProductController implements Initializable {
         if (GameState.getInstance().getGameDate().getYear() >= ComponentType.G_CAMERA_LEVEL_1.getAvailabilityDate()) {
             components.add(this.consoleCamerasChoiceBox.getValue());
         }
-        String productName = this.consoleSalesPriceTextField.getText();
+        String productName = this.consoleProductNameTextField.getText();
         if (productName.equals("")) {
             productName = "capConsole";
         }
         try {
             this.console = new Product(productName, ProductCategory.GAME_BOY, components);
-            double salesPrice = 0;
-            if (this.consoleSalesPriceTextField.getText().equals("")) {
-                salesPrice = 600;
-            } else {
-                salesPrice = Double.valueOf(this.consoleSalesPriceTextField.getText());
-            }
-            this.console.setSalesPrice(salesPrice);
             GameController.getInstance().launchProduct(this.console);
         } catch (Exception e) {
             GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
@@ -1374,19 +1350,12 @@ public class IntroduceProductController implements Initializable {
         components.add(this.notebookStoragesChoiceBox.getValue());
         components.add(this.notebookSoftwaresChoiceBox.getValue());
         components.add(this.notebookPowersuppliesChoiceBox.getValue());
-        String productName = this.notebookSalesPriceTextField.getText();
+        String productName = this.notebookProductNameTextField.getText();
         if (productName.equals("")) {
             productName = "capBook";
         }
         try {
             this.notebook = new Product(productName, ProductCategory.NOTEBOOK, components);
-            double salesPrice = 0;
-            if (this.notebookSalesPriceTextField.getText().equals("")) {
-                salesPrice = 1500;
-            } else {
-                salesPrice = Double.valueOf(this.notebookSalesPriceTextField.getText());
-            }
-            this.notebook.setSalesPrice(salesPrice);
             GameController.getInstance().launchProduct(this.notebook);
         } catch (Exception e) {
             GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());
@@ -1411,19 +1380,12 @@ public class IntroduceProductController implements Initializable {
             components.add(this.phoneCamerasChoiceBox.getValue());
         }
         components.add(this.phoneKeypadsChoiceBox.getValue());
-        String productName = this.phoneSalesPriceTextField.getText();
+        String productName = this.phoneProductNameTextField.getText();
         if (productName.equals("")) {
             productName = "capPhone";
         }
         try {
             this.phone = new Product(productName, ProductCategory.PHONE, components);
-            double salesPrice = 0;
-            if (this.phoneSalesPriceTextField.getText().equals("")) {
-                salesPrice = 700;
-            } else {
-                salesPrice = Double.valueOf(this.phoneSalesPriceTextField.getText());
-            }
-            this.phone.setSalesPrice(Double.valueOf(salesPrice));
             GameController.getInstance().launchProduct(this.phone);
         } catch (Exception e) {
             GameAlert error = new GameAlert(Alert.AlertType.WARNING, "Product cannot be launched.", e.getMessage());

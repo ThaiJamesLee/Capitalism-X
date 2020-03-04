@@ -42,7 +42,6 @@ public class HREventListener implements PropertyChangeListener {
 				statsController.update();
 			}
 		}
-
 	}
 
 }
