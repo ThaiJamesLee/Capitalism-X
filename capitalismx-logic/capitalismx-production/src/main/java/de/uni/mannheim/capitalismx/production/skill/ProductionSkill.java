@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.production.skill;
 import de.uni.mannheim.capitalismx.domain.department.DepartmentSkill;
 
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * The type production skill used for the leveling mechanism of the production department.
@@ -16,8 +17,8 @@ public class ProductionSkill implements DepartmentSkill {
     private int newProductionSlots;
     private int productionWorkersNeeded;
 
-    //TODO
-    private String description;
+    private static final String LANG_PROPERTIES = "production-module";
+    private static final String DESCRIPTION_PROPERTY_PREFIX = "production.skill.description.";
 
     /**
      * Instantiates a new production skill.
@@ -56,11 +57,12 @@ public class ProductionSkill implements DepartmentSkill {
 
     @Override
     public String getDescription() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public String getDescription(Locale l) {
-        return null;
+        ResourceBundle langBundle = ResourceBundle.getBundle(LANG_PROPERTIES, l);
+        return langBundle.getString(DESCRIPTION_PROPERTY_PREFIX + level);
     }
 }
