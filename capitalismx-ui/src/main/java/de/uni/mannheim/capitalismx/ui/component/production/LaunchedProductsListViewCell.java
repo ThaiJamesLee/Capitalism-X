@@ -1,5 +1,8 @@
 package de.uni.mannheim.capitalismx.ui.component.production;
 
+import java.io.IOException;
+import java.util.Optional;
+
 import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.production.exceptions.ComponentLockedException;
@@ -9,16 +12,18 @@ import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughMachineCapacit
 import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
-import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import de.uni.mannheim.capitalismx.ui.util.TextFieldHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
-import java.io.IOException;
-import java.util.Optional;
 
 /**
  * View cell of launched products.
@@ -36,9 +41,6 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
 
 	@FXML
 	private Button produceButton;
-
-	@FXML
-	private Label priceLabel;
 
 	@FXML
 	private VBox componentsVBox;
@@ -85,7 +87,6 @@ public class LaunchedProductsListViewCell extends ListCell<Product> {
 			setText(null);
 			setGraphic(gridPane);
 			productLabel.setText(product.getProductName());
-			priceLabel.setText(CapCoinFormatter.getCapCoins(product.getSalesPrice()));
 			componentsVBox.getChildren().clear();
 			for (Component component : product.getComponents()) {
 				componentsVBox.getChildren()
