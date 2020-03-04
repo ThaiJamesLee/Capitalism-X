@@ -302,7 +302,6 @@ public class SalesDepartment extends DepartmentImpl {
                     double demand = demandPercentage.get(p) != null ? demandPercentage.get(p) : 0.0;
 
                     if(demand > 0.0) {
-                        System.out.println("ContractMaking");
                         Contract c = contractFactory.getContract(p, date, factor);
                         c.setPenalty(c.getPenalty() * penalty);
                         c.setNumProducts((int)(c.getNumProducts() * demand));
