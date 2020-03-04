@@ -9,6 +9,7 @@ import de.uni.mannheim.capitalismx.production.product.Product;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.eventlistener.SalesEventListener;
 import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 
@@ -19,12 +20,15 @@ import java.util.*;
 
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
@@ -46,10 +50,10 @@ public class SalesContractController implements Initializable {
     private boolean firstClick;
 
     @FXML
-    private ListView availableContractsList;
+    private ListView<Parent> availableContractsList;
     private ObservableList<Parent> availableContracts = FXCollections.observableArrayList();
     @FXML
-    private ListView acceptedContractsList;
+    private ListView<Parent> acceptedContractsList;
     private ObservableList<Parent> acceptedContracts = FXCollections.observableArrayList();
 
     @FXML
@@ -236,8 +240,13 @@ public class SalesContractController implements Initializable {
      * Refreshes the List of offered and accepted contracts.
      */
     public void refreshAllContracts(){
+    	resetInfoPanel();
         refreshAvailableContracts();
         refreshAcceptedContracts();
+    }
+    
+    private void resetInfoPanel() {
+    	infoPaneController.setInfoPanel("", "", "", "", "", "", "", "", "");
     }
 
     /**
@@ -256,8 +265,9 @@ public class SalesContractController implements Initializable {
                         for (int i = 0; i < contractList.size(); i++) {
                             addContractOffer(contractList.get(i), i, false);
                         }
-                    }
+                    } 
                 }
+                
             }
         });
     }
@@ -298,6 +308,8 @@ public class SalesContractController implements Initializable {
                     refreshAvailableContracts();
                     System.out.println("Create new Contraaaaaaaaaaaaaaaaaaaaacts");
                 } catch (Exception e) {
+                	GameAlert alert = new GameAlert(AlertType.WARNING, "Could not generate contracts.", "Make sure that all conditions to generate contracts are fulfilled and wait a few days.");
+                	alert.show();
                     e.printStackTrace();
                 }
     }
@@ -345,6 +357,30 @@ public class SalesContractController implements Initializable {
         firstClick = true;
         //infoPaneController = new SalesContractInfoController();
 
+        //prepare dynamic disabling of buttons
+        acceptButton.setDisable(true);
+        terminateButton.setDisable(true);
+        fulfillButton.setDisable(true);
+        acceptedContractsList.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
+        	if(newValue == null) {
+        		terminateButton.setDisable(true);
+        		fulfillButton.setDisable(true);
+        	} else {
+        		availableContractsList.getSelectionModel().clearSelection();
+        		terminateButton.setDisable(false);
+        		fulfillButton.setDisable(false);
+        	}
+        });
+        availableContractsList.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
+        	if(newValue == null) {
+        		acceptButton.setDisable(true);
+        	} else {
+        		acceptButton.setDisable(false);
+        		acceptedContractsList.getSelectionModel().clearSelection();
+        	}
+        });
+        
+        
         acceptButton.setTooltip(
                 new Tooltip("Accepts a selected contract from the list of offered contracts.")
         );
