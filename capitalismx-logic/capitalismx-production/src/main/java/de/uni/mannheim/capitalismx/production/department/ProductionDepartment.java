@@ -1028,18 +1028,22 @@ public class ProductionDepartment extends DepartmentImpl {
      * @return the average eco index of launched products
      */
     public double calculateAverageEcoIndexOfLaunchedProducts() {
-        double accumulatedExoIndex = 0;
-        int numberOfComponents = 0;
-        for (Product product : this.launchedProducts) {
-            for (Component component : product.getComponents()) {
-                accumulatedExoIndex += component.getSupplierEcoIndex();
-                numberOfComponents++;
+        if (this.launchedProducts.size() > 0) {
+            double accumulatedExoIndex = 0;
+            int numberOfComponents = 0;
+            for (Product product : this.launchedProducts) {
+                for (Component component : product.getComponents()) {
+                    accumulatedExoIndex += component.getSupplierEcoIndex();
+                    numberOfComponents++;
+                }
             }
-        }
-        if (numberOfComponents > 0) {
-            return (accumulatedExoIndex / numberOfComponents) / 100;
+            if (numberOfComponents > 0) {
+                return (accumulatedExoIndex / numberOfComponents) / 100;
+            } else {
+                return 0;
+            }
         } else {
-            return 0;
+            return 1;
         }
     }
 
