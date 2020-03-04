@@ -48,6 +48,7 @@ public class MessageController implements Initializable {
 	@FXML
 	private ListView messageList;
 
+
 	private ObservableList<Parent> messages = FXCollections.observableArrayList();
 	@FXML
 	private ScrollPane messageContentPane;
@@ -228,6 +229,11 @@ public class MessageController implements Initializable {
 		messageList.getSelectionModel().select(index);
 		setContent(messageSubjectSave.get(index).getIndex());
 	}
+
+	public ArrayList<MessageObject> getMessageSave() {
+		return messageSave;
+	}
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

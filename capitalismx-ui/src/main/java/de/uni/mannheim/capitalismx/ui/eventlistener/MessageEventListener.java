@@ -28,8 +28,12 @@ public class MessageEventListener implements PropertyChangeListener {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        if(UIManager.getInstance().getGamePageController().getMessageController().getMessageSave().contains(m)){
 
-                        UIManager.getInstance().getGamePageController().getMessageController().addMessage(m);
+                        }else{
+                            UIManager.getInstance().getGamePageController().getMessageController().addMessage(m);
+                        }
+
 
                     }
                 });
