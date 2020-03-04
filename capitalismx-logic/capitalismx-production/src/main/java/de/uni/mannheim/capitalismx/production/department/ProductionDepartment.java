@@ -732,31 +732,35 @@ public class ProductionDepartment extends DepartmentImpl {
      * @return the production technology
      */
     public ProductionTechnology calculateProductionTechnology() {
-        this.productionTechnology = ProductionTechnology.DEPRECIATED;
-        double averageProductionTechnologyRange = 0;
-        for(Machinery machinery : this.machines) {
-            averageProductionTechnologyRange += machinery.getProductionTechnology().getRange();
+        if (this.machines.size() > 0) {
+            this.productionTechnology = ProductionTechnology.DEPRECIATED;
+            double averageProductionTechnologyRange = 0;
+            for (Machinery machinery : this.machines) {
+                averageProductionTechnologyRange += machinery.getProductionTechnology().getRange();
+            }
+            averageProductionTechnologyRange /= this.machines.size();
+            switch ((int) Math.round(averageProductionTechnologyRange)) {
+                case 1:
+                    this.productionTechnology = ProductionTechnology.DEPRECIATED;
+                    break;
+                case 2:
+                    this.productionTechnology = ProductionTechnology.OLD;
+                    break;
+                case 3:
+                    this.productionTechnology = ProductionTechnology.GOOD_CONDITIONS;
+                    break;
+                case 4:
+                    this.productionTechnology = ProductionTechnology.PURCHASED_MORE_THAN_FIVE_YEARS_AGO;
+                    break;
+                case 5:
+                    this.productionTechnology = ProductionTechnology.BRANDNEW;
+                    break;
+                default: // Do nothing
+            }
+            return this.productionTechnology;
+        } else {
+            return this.productionTechnology;
         }
-        averageProductionTechnologyRange /= this.machines.size();
-        switch((int) Math.round(averageProductionTechnologyRange)) {
-            case 1:
-                this.productionTechnology = ProductionTechnology.DEPRECIATED;
-                break;
-            case 2:
-                this.productionTechnology = ProductionTechnology.OLD;
-                break;
-            case 3:
-                this.productionTechnology = ProductionTechnology.GOOD_CONDITIONS;
-                break;
-            case 4:
-                this.productionTechnology = ProductionTechnology.PURCHASED_MORE_THAN_FIVE_YEARS_AGO;
-                break;
-            case 5:
-                this.productionTechnology = ProductionTechnology.BRANDNEW;
-                break;
-            default: // Do nothing
-        }
-        return this.productionTechnology;
     }
 
     /**
