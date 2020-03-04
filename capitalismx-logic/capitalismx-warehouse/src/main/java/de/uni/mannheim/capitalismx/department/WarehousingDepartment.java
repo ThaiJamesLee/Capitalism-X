@@ -291,14 +291,12 @@ public class WarehousingDepartment extends DepartmentImpl {
      * Used to fulfill contracts.
      *
      * @param soldProduct the sold product
-     * @return the revenue of the products
      */
-    public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
+    public void sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
         if (this.inventory.get(soldProduct.getKey()) != null && this.inventory.get(soldProduct.getKey()) >= soldProduct.getValue()) {
             int newInventoryUnits = this.inventory.get(soldProduct.getKey()) - soldProduct.getValue();
             this.inventoryChange.putOne(soldProduct.getKey(), newInventoryUnits);
         }
-        return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
     }
 
     /**
@@ -564,17 +562,14 @@ public class WarehousingDepartment extends DepartmentImpl {
      * Sell products.
      *
      * @param sales the sales
-     * @return the revenue
      */
-    public double sellProducts(Map<Unit, Integer> sales) {
+    public void sellProducts(Map<Unit, Integer> sales) {
         double earnedMoney = 0;
         for (Map.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
             if (entry.getKey().getUnitType() == UnitType.PRODUCT_UNIT) {
                 this.inventoryChange.putOne(entry.getKey(), entry.getValue() - sales.get(entry.getKey()));
-                earnedMoney += entry.getKey().getSalesPrice() * sales.get(entry.getKey());
             }
         }
-        return earnedMoney;
     }
 
     /**

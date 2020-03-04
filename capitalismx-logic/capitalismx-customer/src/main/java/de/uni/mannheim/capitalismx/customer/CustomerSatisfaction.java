@@ -148,7 +148,8 @@ public class CustomerSatisfaction implements Serializable {
             for(Component component : product.getComponents()) {
                 proxyPrice += component.getTimeBasedComponentCost(gameDate);
             }
-            priceAppeal.put(product, proxyPrice / product.getSalesPrice());
+            /* TODO 1.3 as placeholder, future refactoring necessary */
+            priceAppeal.put(product, proxyPrice / product.getProductCosts(gameDate) * 1.3);
         }
         this.priceAppeal = priceAppeal;
         return this.priceAppeal;
