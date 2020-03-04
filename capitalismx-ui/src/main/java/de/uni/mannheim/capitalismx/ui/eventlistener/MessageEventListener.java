@@ -6,6 +6,7 @@ import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
 import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import de.uni.mannheim.capitalismx.utils.data.PropertyChangeSupportList;
+import javafx.application.Platform;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -22,12 +23,22 @@ public class MessageEventListener implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(GameState.MESSAGE_LIST_CHANGED_EVENT)) {
-            PropertyChangeSupportList<MessageObject> changedList = (PropertyChangeSupportList) evt.getSource();
             CopyOnWriteArrayList<MessageObject> newMessage = ((CopyOnWriteArrayList<MessageObject>) evt.getNewValue());
+            for(MessageObject m : newMessage) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(UIManager.getInstance().getGamePageController().getMessageController().getMessageSave().contains(m)){
 
-            for(MessageObject m : newMessage){
-                UIManager.getInstance().getGamePageController().getMessageController().addMessage(m);
+                        }else{
+                            UIManager.getInstance().getGamePageController().getMessageController().addMessage(m);
+                        }
+
+
+                    }
+                });
             }
+
             //MessageObject newMessage = new MessageObject("sen.event1", "01.01.1990", "sub.event1", "con.event1", true, 2);
             /*
             System.out.println(evt.getNewValue().getClass().toString());

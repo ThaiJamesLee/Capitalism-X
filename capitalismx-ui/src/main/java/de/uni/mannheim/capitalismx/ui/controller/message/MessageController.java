@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
+import de.uni.mannheim.capitalismx.ui.component.GameViewType;
 import de.uni.mannheim.capitalismx.ui.component.general.GameNotification;
 import de.uni.mannheim.capitalismx.ui.controller.gamepage.GamePageController;
 import de.uni.mannheim.capitalismx.ui.eventlistener.MessageEventListener;
@@ -21,14 +22,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 public class MessageController implements Initializable {
 	
 	private static final String LangFILE = "properties.messages";
-	
+
+	private GameViewType viewID;
+
+	private int index = 0;
+
+	Locale lang = UIManager.getInstance().getLanguage();
+	ResourceBundle bundle = ResourceBundle.getBundle(LangFILE, lang);
+
 	@FXML
 	private AnchorPane root;
 	
@@ -38,9 +48,23 @@ public class MessageController implements Initializable {
 	@FXML
 	private ListView messageList;
 
+
 	private ObservableList<Parent> messages = FXCollections.observableArrayList();
 	@FXML
 	private ScrollPane messageContentPane;
+
+	@FXML
+	private Label contentSender;
+	@FXML
+	private Label contentDate;
+	@FXML
+	private Label contentSubject;
+	@FXML
+	private Label contentContent;
+	@FXML
+	private VBox contentVBox;
+	@FXML
+	private Button jumpButton;
 
 	private GamePageController controllerReference;
 	private ArrayList<MessageObject> messageSave;
@@ -73,12 +97,11 @@ public class MessageController implements Initializable {
 		Parent messageContent;
 		MessageSubjectController msc;
 		MessageContentController mcc;
-		Locale lang = UIManager.getInstance().getLanguage();
 
-		ResourceBundle bundle = ResourceBundle.getBundle(LangFILE, lang);
+
 
 		FXMLLoader subjectLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/message/message_pane_subject.fxml"));
-		FXMLLoader contentLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/message/message_pane_content.fxml"));
+		//FXMLLoader contentLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/message/message_pane_content.fxml"));
 
 		try {
 			messageSubject = subjectLoader.load();
@@ -90,50 +113,79 @@ public class MessageController implements Initializable {
                 //System.out.println("Message Object loading exception" + e.getClass());
                 //class java.util.MissingResourceException
 			    msc.setSubjectSender(m.getSender());
-			    msc.setSubjectSubject(m.getSender());
+			    msc.setSubjectSubject(m.getSubject());
             }
 
 
 			msc.setSubjectDate(m.getDate());
+			/*
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    messages.add(0, messageSubject);
-                    messageList.setItems(messages);
-                    messageSubjectSave.add(0, msc);
+
+			 */
+			messages.add(0, messageSubject);
+			messageList.setItems(messages);
+			messageSubjectSave.add(0, msc);
+                    /*
                 }
             });
 
+                     */
 
-			messageContent = contentLoader.load();
-			mcc = contentLoader.getController();
+
+			//messageContent = contentLoader.load();
+			//mcc = contentLoader.getController();
 			try {
+				/*
                 mcc.setContentSender(bundle.getString(m.getSender()));
                 mcc.setContentSubject(bundle.getString(m.getSubject()));
                 mcc.setContentContent(bundle.getString(m.getContent()));
+				 */
+				contentSender.setText(bundle.getString(m.getSender()));
+				contentSubject.setText(bundle.getString(m.getSubject()));
+				contentContent.setText(bundle.getString(m.getContent()));
             } catch (Exception e) {
                 //System.out.println("Message Object loading exception" + e.getClass());
                 //class java.util.MissingResourceException
+				/*
                 mcc.setContentSender(m.getSender());
                 mcc.setContentSubject(m.getSubject());
                 mcc.setContentContent(m.getContent());
+
+				 */
+				contentSender.setText(m.getSender());
+				contentSubject.setText(m.getSubject());
+				contentContent.setText(m.getContent());
+
             }
-            mcc.setContentDate(m.getDate());
+            contentDate.setText(m.getDate());
 			if(m.getJumpTo()!=0){
-				mcc.addJumpButton(m.getJumpTo());
+				viewID = GameViewType.getTypeById(m.getJumpTo());
+				jumpButton.setDisable(false);
+				jumpButton.setOpacity(1);
+				/*
+				GameViewType viewID = GameViewType.getTypeById(m.getJumpTo());
+				Button btn = new Button("Jump to Menu");
+				btn.getStyleClass().add("btn_standard");
+				btn.setOnAction(action -> {
+					UIManager.getInstance().getGamePageController().switchView(viewID);
+					UIManager.getInstance().getGamePageController().toggleMessageWindow();
+				});
+				contentVBox.getChildren().add(btn);
+
+				 */
+			} else {
+				jumpButton.setDisable(true);
+				jumpButton.setOpacity(0);
 			}
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    messageContentPane.setContent(messageContent);
-                }
-            });
 
 
 			//m.setSubjectPanel(messageSubject);
 			//m.setMessageContent(messageContent);
-			messageSave.add(0, m);
-			msc.setMessageContent(messageContent);
+			messageSave.add(m);
+			msc.setIndex(index);
+			index++;
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -143,18 +195,45 @@ public class MessageController implements Initializable {
 		UIManager.getInstance().getGameHudController().addNotification(notification);
 	}
 
-	public void setContent(Parent message){
-		messageContentPane.setContent(message);
+	public void jumpView(){
+		UIManager.getInstance().getGamePageController().switchView(viewID);
+		UIManager.getInstance().getGamePageController().toggleMessageWindow();
+	}
 
+	public void setContent(int index){
+		MessageObject m = messageSave.get(index);
+		try {
+			contentSender.setText(bundle.getString(m.getSender()));
+			contentSubject.setText(bundle.getString(m.getSubject()));
+			contentContent.setText(bundle.getString(m.getContent()));
+		} catch (Exception e) {
+			contentSender.setText(m.getSender());
+			contentSubject.setText(m.getSubject());
+			contentContent.setText(m.getContent());
 
+		}
+		contentDate.setText(m.getDate());
+		if(m.getJumpTo()!=0){
+			viewID = GameViewType.getTypeById(m.getJumpTo());
+			jumpButton.setDisable(false);
+			jumpButton.setOpacity(1);
+		} else {
+			jumpButton.setDisable(true);
+			jumpButton.setOpacity(0);
+		}
 	}
 
 	//todo:
 	public void showMessage(MessageObject messageToShow){
 		int index = messageSave.indexOf(messageToShow);
 		messageList.getSelectionModel().select(index);
-		setContent(messageSubjectSave.get(index).getMessageContent());
+		setContent(messageSubjectSave.get(index).getIndex());
 	}
+
+	public ArrayList<MessageObject> getMessageSave() {
+		return messageSave;
+	}
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -162,7 +241,8 @@ public class MessageController implements Initializable {
 		GameState state = GameState.getInstance();
 		state.addPropertyChangeListener(new MessageEventListener());
 
-
+		jumpButton.setDisable(true);
+		jumpButton.setOpacity(0);
 		/*
 		messageClose.setOnAction(e -> {
 			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleMessageWindow();

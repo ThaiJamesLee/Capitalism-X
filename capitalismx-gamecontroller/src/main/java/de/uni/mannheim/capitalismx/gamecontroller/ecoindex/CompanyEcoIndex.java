@@ -166,11 +166,11 @@ public class CompanyEcoIndex implements Serializable {
     }
 
     /**
-     * Calculates the yearly eco costs according to p.30.
+     * Calculates the yearly eco costs similarly to p.30.
      * @return Returns the yearly eco costs.
      */
     private double calculateEcoCosts(){
-        this.ecoCosts = this.calculateEcoTax() - (ProductionDepartment.getInstance().getProductionTechnology().getRange() + ProductionDepartment.getInstance().calculateAverageEcoIndexOfLaunchedProducts()) * 1000;
+        this.ecoCosts = this.calculateEcoTax() - (ProductionDepartment.getInstance().getProductionTechnology().getRange() + ProductionDepartment.getInstance().calculateAverageEcoIndexOfLaunchedProducts() * 5) * 1100;
         return this.ecoCosts;
     }
 

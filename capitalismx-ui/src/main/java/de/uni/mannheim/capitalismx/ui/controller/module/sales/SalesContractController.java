@@ -17,6 +17,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
 
+import de.uni.mannheim.capitalismx.utils.data.MessageObject;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,7 +64,23 @@ public class SalesContractController implements Initializable {
     @FXML
     private Button terminateButton;
 
+    @FXML
+    private Button refreshButton;
+
     public SalesContractController(){
+
+    }
+
+    /**
+     * Testing Methods
+     * @param min
+     * @param max
+     * @return
+     */
+    private static int getRandomNumberInRange(int min, int max) {
+
+        Random r = new Random();
+        return r.ints(min, (max + 1)).limit(1).findFirst().getAsInt();
 
     }
 
@@ -73,6 +90,10 @@ public class SalesContractController implements Initializable {
      */
     @FXML
     public void acceptContract(){
+        if(GameState.getInstance().getSalesDepartment().getDoneContracts().size() < 1){
+            MessageObject m = new MessageObject("Your Friend Joe", "" + GameState.getInstance().getGameDate(), "Congratulations to your first contract!", "Hi!\n\n it's me your friend Joe! I just wanted to tell you how cool it is that you got your first contract!\n\nGood luck with that!\nJoe\n\nP.S.: Chek out this cool jumpy feature!", true, getRandomNumberInRange(1,9));
+            GameState.getInstance().getMessages().add(m);
+        }
         if(!availableContractsList.getSelectionModel().getSelectedIndices().isEmpty()) {
             int index = availableContractsList.getSelectionModel().getSelectedIndex();
             GameController.getInstance().getSales().acceptContract(index);
@@ -99,6 +120,7 @@ public class SalesContractController implements Initializable {
      */
     @FXML
     public void terminateContract(){
+        System.out.println("Call terminateContract()");
         if(!acceptedContractsList.getSelectionModel().getSelectedIndices().isEmpty()) {
             int index = acceptedContractsList.getSelectionModel().getSelectedIndex();
             GameController.getInstance().getSales().terminateContract(index);
@@ -244,12 +266,9 @@ public class SalesContractController implements Initializable {
      * refreshes the list of accepted contracts.
      */
     public void refreshAcceptedContracts(){
-        /*
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-
-         */
                 removeAllAcceptedContracts();
                 if(GameState.getInstance() == null || GameState.getInstance().getSalesDepartment() == null){
 
@@ -261,11 +280,9 @@ public class SalesContractController implements Initializable {
                         }
                     }
                 }
-                /*
             }
         });
 
-                 */
     }
 
     /**
@@ -308,6 +325,21 @@ public class SalesContractController implements Initializable {
 
     }
 
+    /**
+     * Sets the tooltip that shows how much it costs to refresh
+     */
+    public void setRefreshCostTooltip(){
+        try {
+            refreshButton.setTooltip(
+                    new Tooltip("Deletes current Contract offers and generates new ones for " + GameController.getInstance().getSales().getRefreshCost() + "CC")
+            );
+        } catch (NullPointerException e) {
+            refreshButton.setTooltip(
+                    new Tooltip("Deletes current Contract offers and generates new ones")
+            );
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         firstClick = true;
@@ -324,6 +356,8 @@ public class SalesContractController implements Initializable {
         terminateButton.setTooltip(
                 new Tooltip("Terminates an already accepted contract.")
         );
+
+        setRefreshCostTooltip();
 
 /*
         FXMLLoader cellLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/component/sales_list_cell.fxml"));

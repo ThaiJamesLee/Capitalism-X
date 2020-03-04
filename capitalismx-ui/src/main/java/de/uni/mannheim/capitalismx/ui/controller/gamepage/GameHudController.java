@@ -142,20 +142,20 @@ public class GameHudController implements UpdateableController {
 		GameController contr = GameController.getInstance();
 		contr.setSpeed(speed);
 		switch (speed) {
-			case SLOW:
-				speedIcon2.setOpacity(0.5);
-				speedIcon3.setOpacity(0.5);
-				break;
-			case MEDIUM:
-				speedIcon2.setOpacity(1);
-				speedIcon3.setOpacity(0.5);
-				break;
-			case FAST:
-				speedIcon2.setOpacity(1);
-				speedIcon3.setOpacity(1);
-				break;
-			default:
-				break;
+		case SLOW:
+			speedIcon2.setOpacity(0.5);
+			speedIcon3.setOpacity(0.5);
+			break;
+		case MEDIUM:
+			speedIcon2.setOpacity(1);
+			speedIcon3.setOpacity(0.5);
+			break;
+		case FAST:
+			speedIcon2.setOpacity(1);
+			speedIcon3.setOpacity(1);
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -213,6 +213,11 @@ public class GameHudController implements UpdateableController {
 		});
 	}
 
+	/**
+	 * Deselect the DepartmentButton of the given {@link GameViewType}.
+	 * 
+	 * @param type The {@link GameViewType} to deselect the button for.
+	 */
 	public void deselectDepartmentButton(GameViewType type) {
 		getDepartmentButton(type).setSelected(false);
 	}
@@ -347,8 +352,10 @@ public class GameHudController implements UpdateableController {
 		updateEcoIndexIcon(gameState.getCompanyEcoIndex().getEcoIndex());
 
 		cashChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
-		netWorthChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
-		employeeChangeLabel.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
+		netWorthChangeLabel
+				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
+		employeeChangeLabel
+				.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("hud.change.tooltip")));
 
 		// Set the actions for the buttons that switch the views of the departments.
 		departmentButtonMap = new HashMap<GameViewType, ToggleButton>();
@@ -455,6 +462,11 @@ public class GameHudController implements UpdateableController {
 		moveOut.play();
 	}
 
+	/**
+	 * Select the DepartmentButton of the given {@link GameViewType}.
+	 * 
+	 * @param type GameViewType whose button to select.
+	 */
 	public void selectDepartmentButton(GameViewType type) {
 		getDepartmentButton(type).setSelected(true);
 	}
@@ -490,12 +502,24 @@ public class GameHudController implements UpdateableController {
 	}
 
 	@FXML
+	/**
+	 * Pause the game if necessary and toggle the ingame menu.
+	 */
 	private void toggleMenu() {
-		GameController.getInstance().pauseGame();
-		UIManager.getInstance().getGamePageController().toggleIngameMenu();
+		GamePageController pageController = UIManager.getInstance().getGamePageController();
+		if (GameController.getInstance().isGamePaused()) {
+			pageController.getIngameMenuController().setWasPausedBefore(true);
+		} else {
+			pageController.getIngameMenuController().setWasPausedBefore(false);
+			GameController.getInstance().pauseGame();
+		}
+		pageController.toggleIngameMenu();
 	}
 
 	@FXML
+	/**
+	 * Toggle the Message window.
+	 */
 	private void toggleMessageWindow() {
 		UIManager.getInstance().getGamePageController().toggleMessageWindow();
 	}
@@ -517,7 +541,7 @@ public class GameHudController implements UpdateableController {
 			String diffText = ((diff >= 0) ? "+" : "") + diff;
 			employeeChangeLabel.setText(diffText);
 
-			//update eco index
+			// update eco index
 			updateEcoIndexIcon(GameState.getInstance().getCompanyEcoIndex().getEcoIndex());
 		});
 	}
@@ -553,37 +577,37 @@ public class GameHudController implements UpdateableController {
 			// TODO Create and use actual localised name
 			ecoTooltip.setText(index.name());
 			switch (index) {
-				case GOOD:
-					ecoIcon.getStyleClass().clear();
-					ecoIcon.getStyleClass().add("icon_green");
-					break;
-				case MODERATE:
-					ecoIcon.getStyleClass().clear();
-					ecoIcon.getStyleClass().add("icon_light");
-					break;
-				case UNHEALTHY:
-					ecoIcon.getStyleClass().clear();
-					ecoIcon.getStyleClass().add("icon_orange");
-					break;
-				case VERY_UNHEALTHY:
-					ecoIcon.getStyleClass().clear();
-					ecoIcon.getStyleClass().add("icon_red");
-					break;
-				case HAZARDOUS:
-					ecoIcon.getStyleClass().clear();
-					ecoIcon.getStyleClass().add("icon_red");
+			case GOOD:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_green");
+				break;
+			case MODERATE:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_light");
+				break;
+			case UNHEALTHY:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_orange");
+				break;
+			case VERY_UNHEALTHY:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_red");
+				break;
+			case HAZARDOUS:
+				ecoIcon.getStyleClass().clear();
+				ecoIcon.getStyleClass().add("icon_red");
 
-					FadeTransition hazard = new FadeTransition();
-					hazard.setCycleCount(FadeTransition.INDEFINITE);
-					hazard.setAutoReverse(true);
-					hazard.setFromValue(1.0);
-					hazard.setToValue(0.6);
-					hazard.setDuration(Duration.millis(800));
-					hazard.setNode(ecoIcon);
-					hazard.play();
-					break;
-				default:
-					break;
+				FadeTransition hazard = new FadeTransition();
+				hazard.setCycleCount(FadeTransition.INDEFINITE);
+				hazard.setAutoReverse(true);
+				hazard.setFromValue(1.0);
+				hazard.setToValue(0.6);
+				hazard.setDuration(Duration.millis(800));
+				hazard.setNode(ecoIcon);
+				hazard.play();
+				break;
+			default:
+				break;
 			}
 		});
 	}
@@ -614,33 +638,33 @@ public class GameHudController implements UpdateableController {
 		} else {
 			DepartmentImpl dep;
 			switch (viewType) {
-				case HR:
-					dep = GameState.getInstance().getHrDepartment();
-					break;
-				case R_AND_D:
-					dep = GameState.getInstance().getResearchAndDevelopmentDepartment();
-					break;
-				case WAREHOUSE:
-					dep = GameState.getInstance().getWarehousingDepartment();
-					break;
-				case SALES:
-					dep = GameState.getInstance().getSalesDepartment();
-					break;
-				case PRODUCTION:
-					dep = GameState.getInstance().getProductionDepartment();
-					break;
-				case MARKETING:
-					dep = GameState.getInstance().getMarketingDepartment();
-					break;
-				case LOGISTIC:
-					dep = GameState.getInstance().getLogisticsDepartment();
-					break;
-				case FINANCES:
-					dep = GameState.getInstance().getFinanceDepartment();
-					break;
-				default:
-					departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
-					return;
+			case HR:
+				dep = GameState.getInstance().getHrDepartment();
+				break;
+			case R_AND_D:
+				dep = GameState.getInstance().getResearchAndDevelopmentDepartment();
+				break;
+			case WAREHOUSE:
+				dep = GameState.getInstance().getWarehousingDepartment();
+				break;
+			case SALES:
+				dep = GameState.getInstance().getSalesDepartment();
+				break;
+			case PRODUCTION:
+				dep = GameState.getInstance().getProductionDepartment();
+				break;
+			case MARKETING:
+				dep = GameState.getInstance().getMarketingDepartment();
+				break;
+			case LOGISTIC:
+				dep = GameState.getInstance().getLogisticsDepartment();
+				break;
+			case FINANCES:
+				dep = GameState.getInstance().getFinanceDepartment();
+				break;
+			default:
+				departmentDropdownIcon.getStyleClass().remove("hud_icon_button");
+				return;
 			}
 			upgradeController.setDepartment(dep);
 

@@ -51,7 +51,7 @@ public enum GameModuleDefinition {
 
     // The modules for Sales
     SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(1, 15, 6, 14) , true),
-	SALES_KPI_OVERVIEW("sales_kpi.fxml", GameModuleType.SALES_KPI_OVERVIEW, new GridPosition(1, 14, 0, 6), true);
+	SALES_KPI_OVERVIEW("sales_kpi.fxml", GameModuleType.SALES_KPI_OVERVIEW, new GridPosition(1, 15, 0, 6), true);
 	;
 
 	// The name of the fxml-file defining this type.

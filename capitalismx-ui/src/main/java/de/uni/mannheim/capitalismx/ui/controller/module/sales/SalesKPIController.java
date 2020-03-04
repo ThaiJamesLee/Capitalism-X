@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -65,14 +66,15 @@ public class SalesKPIController implements Initializable {
                 }
             }
         }
-        
+
         fulfilledAll.setText("" + doneContractCounter);
         fulfilledYear.setText("" + yearContractCounter);
         fulfilledQuarter.setText("" + quarterContractCounter);
-        
+
         this.revenueAll.setText("" + revenueAll);
         this.revenueYear.setText("" + revenueYear);
         this.revenueQuarter.setText("" + revenueQuarter);
+
     }
 
     /**

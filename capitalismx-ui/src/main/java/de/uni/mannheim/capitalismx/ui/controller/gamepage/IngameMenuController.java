@@ -19,26 +19,35 @@ import javafx.scene.control.Button;
 public class IngameMenuController implements Initializable {
 
 	@FXML
-	public Button ingameContinue;
+	private Button ingameContinue;
 
 	@FXML
-	public Button ingameSave;
+	private Button ingameSave;
 
 	@FXML
-	public Button ingameLoad;
+	private Button ingameLoad;
 
 	@FXML
-	public Button ingameSettings;
+	private Button ingameSettings;
 
 	@FXML
-	public Button ingameQuit;
+	private Button ingameQuit;
+	
+	private boolean wasPausedBefore;
 
+	public void setWasPausedBefore(boolean pausedBefore) {
+		this.wasPausedBefore = pausedBefore;
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		ingameContinue.setOnAction(e -> {
-			GameController.getInstance().resumeGame();
+			if(!wasPausedBefore) {
+				GameController.getInstance().resumeGame();
+			}
 			((GamePageController) (UIManager.getInstance().getSceneGame().getController())).toggleIngameMenu();
+			wasPausedBefore = false;
 		});
 
 		ingameSave.setOnAction(e -> {

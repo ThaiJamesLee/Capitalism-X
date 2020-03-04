@@ -17,23 +17,23 @@ public class MessageSubjectController implements Initializable {
     private Label subjectDate;
     @FXML
     private Label subjectSubject;
-    private Parent messageContent;
+    private int index;
 
     @FXML
     public void showContent(){
-        UIManager.getInstance().getGamePageController().getMessageController().setContent(messageContent);
+        UIManager.getInstance().getGamePageController().getMessageController().setContent(this.index);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    public Parent getMessageContent() {
-        return messageContent;
+    public int getIndex() {
+        return this.index;
     }
 
-    public void setMessageContent(Parent messageContent) {
-        this.messageContent = messageContent;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public void setSubjectSender(String sender){

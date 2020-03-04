@@ -71,6 +71,7 @@ public class GamePageController implements Initializable {
 	// flag to know whether message Pane is open or not: true=open false=closed.
 	private boolean openMessagePane = false;
 
+	private IngameMenuController ingameMenuController;
 	// flag to know whether menu Pane is open or not: true=open false=closed.
 	private boolean openMenuPane = false;
 
@@ -80,6 +81,10 @@ public class GamePageController implements Initializable {
 
 	public MessageController getMessageController() {
 		return messageController;
+	}
+	
+	public IngameMenuController getIngameMenuController() {
+		return ingameMenuController;
 	}
 
 	public boolean isMapControlsEnabled() {
@@ -161,7 +166,6 @@ public class GamePageController implements Initializable {
 			messageController = loaderMessageWindow.getController();
 			messageLayer.getChildren().add(rootMessage);
 			messageLayer.toBack();
-
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -170,6 +174,7 @@ public class GamePageController implements Initializable {
 			FXMLLoader loaderIngameMenu = new FXMLLoader(
 					getClass().getClassLoader().getResource("fxml/ingame_menu.fxml"), UIManager.getResourceBundle());
 			Parent root = loaderIngameMenu.load();
+			ingameMenuController = loaderIngameMenu.getController();
 			CssHelper.replaceStylesheets(root.getStylesheets());
 			AnchorPaneHelper.snapNodeToAnchorPane(root);
 			menuLayer.getChildren().add(root);

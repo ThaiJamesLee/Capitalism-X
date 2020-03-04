@@ -58,7 +58,7 @@ public class Product extends Unit implements Serializable {
                 this.totalComponentCosts += c.getBaseCost();
             }
             /* placeholder for ecoCost TODO*/
-            int ecoCostPerProduct = 3000;
+            int ecoCostPerProduct = 30;
             this.totalProductVariableCosts = this.totalComponentCosts + ecoCostPerProduct;
             this.salesPrice = 1;
         } else {
@@ -326,7 +326,7 @@ public class Product extends Unit implements Serializable {
     public double getProductCosts(LocalDate gameDate) {
         double productCosts = 0;
         for (Component component : this.components) {
-            productCosts += component.getBaseCost();
+            productCosts += component.getTimeBasedComponentCost(gameDate);
         }
         return productCosts;
     }
