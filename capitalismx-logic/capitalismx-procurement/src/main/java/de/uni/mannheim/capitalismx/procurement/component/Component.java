@@ -356,16 +356,6 @@ public class Component extends Unit implements Serializable {
         return this.warehouseSalesPrice;
     }
 
-    /**
-     * Gets sales price.
-     * It returns the same value as getWarehouseSalesPrice(), it is not further used but it has to be implemented for
-     * a unit.
-     *
-     * @return the warehouse sales price
-     */
-    public double getSalesPrice() {
-        return this.warehouseSalesPrice;
-    }
 
     /**
      * Compares this component to an other component.

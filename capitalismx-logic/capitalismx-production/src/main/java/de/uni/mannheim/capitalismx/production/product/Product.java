@@ -60,7 +60,7 @@ public class Product extends Unit implements Serializable {
             /* placeholder for ecoCost TODO*/
             int ecoCostPerProduct = 30;
             this.totalProductVariableCosts = this.totalComponentCosts + ecoCostPerProduct;
-            this.salesPrice = 1;
+            this.salesPrice = 0;
         } else {
             throw new InvalidSetOfComponentsException("Set of Components is not valid for this Type of Product.");
         }
@@ -211,6 +211,7 @@ public class Product extends Unit implements Serializable {
         this.totalProductCosts = totalProductCosts;
     }
 
+    @Deprecated
     public double getSalesPrice() {
         return this.salesPrice;
     }
@@ -220,6 +221,7 @@ public class Product extends Unit implements Serializable {
      *
      * @param salesPrice the sales price
      */
+    @Deprecated
     public void setSalesPrice(double salesPrice) {
         this.salesPrice = salesPrice;
     }

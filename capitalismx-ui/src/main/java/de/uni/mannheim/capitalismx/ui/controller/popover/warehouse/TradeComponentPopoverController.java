@@ -158,7 +158,7 @@ public class TradeComponentPopoverController implements Initializable {
 
 		double cost = componentPrice * amount;
 		priceLabelSell.setText(UIManager.getLocalisedString("component.price.sell")
-				+ CapCoinFormatter.getCapCoins(component.getSalesPrice() * amount));
+				+ CapCoinFormatter.getCapCoins(component.getWarehouseSalesPrice() * amount));
 		priceLabelBuy.setText(UIManager.getLocalisedString("component.price.buy") + CapCoinFormatter.getCapCoins(cost));
 	}
 }
