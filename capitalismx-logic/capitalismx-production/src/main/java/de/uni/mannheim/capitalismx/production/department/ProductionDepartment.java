@@ -142,7 +142,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.productionVariableCosts = 0.0;
         this.launchedProducts = new CopyOnWriteArrayList<>();
         this.machineSlotsAvailable = true;
-        this.productionTechnology = ProductionTechnology.DEPRECIATED;
+        this.productionTechnology = ProductionTechnology.BRANDNEW;
         this.storedComponents = new HashMap<>();
         this.numberOfProductionWorkers = 0;
         this.totalWarehouseCapacity = 0;
