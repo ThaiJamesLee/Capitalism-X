@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughTrainedEngineersException;
 import de.uni.mannheim.capitalismx.production.investment.ProductionInvestment;
 import de.uni.mannheim.capitalismx.production.investment.ProductionInvestmentLevel;
+import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
 import javafx.collections.FXCollections;
@@ -67,9 +68,9 @@ public class ProductionInvestmentMenuController implements UpdateableController 
 
     @Override
     public void update() {
-        qualityAssuranceInvestmentLabel.setText(GameController.getInstance().getQualityAssurance().toString());
-        systemSecurityInvestmentLabel.setText(GameController.getInstance().getSystemSecurity().toString());
-        processAutomationInvestmentLabel.setText(GameController.getInstance().getProcessAutomation().toString());
+        qualityAssuranceInvestmentLabel.setText(GameController.getInstance().getQualityAssurance().getName(UIManager.getInstance().getLanguage()));
+        systemSecurityInvestmentLabel.setText(GameController.getInstance().getSystemSecurity().getName(UIManager.getInstance().getLanguage()));
+        processAutomationInvestmentLabel.setText(GameController.getInstance().getProcessAutomation().getName(UIManager.getInstance().getLanguage()));
     }
 
     /**
