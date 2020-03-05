@@ -147,7 +147,7 @@ public class SalesContractController implements Initializable {
 			contract = contractLoader.load();
 			cellController = contractLoader.getController();
 			cellController.setContractName(c.getProduct().toString());
-			cellController.setContractDeadline(String.valueOf(c.getTimeToFinish() + " Months"));
+			cellController.setContractDeadline(c.getTimeToFinish() + " Months");
 			cellController.setID(c.getuId());
 
 			if (isAccepted) {
@@ -155,6 +155,7 @@ public class SalesContractController implements Initializable {
 				acceptedContracts.add(i, contract);
 				acceptedContractsList.setItems(acceptedContracts);
 			} else {
+				cellController.setContractDeadline(c.getTimeToFinish() + " Months");
 				availableIDlist.add(i, c.getuId());
 				availableContracts.add(i, contract);
 				availableContractsList.setItems(availableContracts);
@@ -219,10 +220,22 @@ public class SalesContractController implements Initializable {
 			}
 
 		}
+		String deadlineDate;
+		String contractStart;
+		try{
+			deadlineDate = "" + c.getContractStart().plusMonths(c.getTimeToFinish());
+		} catch (Exception e){
+			deadlineDate = "";
+		}
+		if(c.getContractStart() == null){
+			contractStart = "";
+		} else {
+			contractStart = ""+c.getContractStart();
+		}
 		infoPaneController.setInfoPanel("" + c.getProduct(), "" + c.getContractor(), "" + c.getNumProducts(),
 				"" + CapCoinFormatter.getCapCoins(c.getNumProducts() * c.getPricePerProd()),
 				"" + CapCoinFormatter.getCapCoins(c.getPricePerProd()), "" + c.getTimeToFinish() + " Months",
-				"" + c.getContractStart(), "" + c.getContractDoneDate(),
+				"" + contractStart, "" + deadlineDate,
 				"" + CapCoinFormatter.getCapCoins(c.getPenalty()));
 	}
 
