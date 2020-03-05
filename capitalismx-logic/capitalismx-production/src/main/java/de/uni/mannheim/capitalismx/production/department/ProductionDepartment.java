@@ -55,6 +55,11 @@ public class ProductionDepartment extends DepartmentImpl {
     private int numberUnitsProducedPerMonth;
 
     /**
+     * How much machine capacity is still unused on this day.
+     */
+    private int dailyCapacityLeft;
+
+    /**
      * The accumulated daily available machine capacity during this month.
      */
     private double monthlyAvailableMachineCapacity;
@@ -150,6 +155,7 @@ public class ProductionDepartment extends DepartmentImpl {
         this.decreasedProcessAutomationLevel = 0;
         this.totalEngineerQualityOfWorkDecreasePercentage = 0;
         this.initialTotalEngineerQualityOfWork = 0;
+        this.dailyCapacityLeft = 0;
 
         ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
         this.productLaunchCosts = Double.valueOf(resourceBundle.getString("production.launch.costs"));
@@ -395,6 +401,7 @@ public class ProductionDepartment extends DepartmentImpl {
             if (this.productionSlots == this.machines.size()) {
                 this.machineSlotsAvailable = false;
             }
+            this.dailyCapacityLeft += machinery.getMachineryCapacity();
             return machinery.calculatePurchasePrice();
         }
         this.machineSlotsAvailable = false;
@@ -529,11 +536,6 @@ public class ProductionDepartment extends DepartmentImpl {
             throw new ComponentLockedException("At least on of the components is not unlocked yet. You might need to do some research first.");
         }
 
-        int totalMachineCapacity = 0;
-        for (Machinery machinery : this.machines) {
-            totalMachineCapacity += machinery.getMachineryCapacity();
-        }
-
         if (quantity > 0) {
             int maximumProducable = this.totalWarehouseCapacity;
             for (Component component : product.getComponents()) {
@@ -553,8 +555,8 @@ public class ProductionDepartment extends DepartmentImpl {
             }
 
             int minQuantity = 0;
-            if (maximumProducable < quantity || totalMachineCapacity < quantity || freeStorage < quantity) {
-                minQuantity = Math.min(maximumProducable, Math.min(totalMachineCapacity, freeStorage));
+            if (maximumProducable < quantity || this.dailyCapacityLeft < quantity || freeStorage < quantity) {
+                minQuantity = Math.min(maximumProducable, Math.min(this.dailyCapacityLeft, freeStorage));
                 if (minQuantity == freeStorage) {
                     throw new NotEnoughFreeStorageException("There is not enough warehouse capacity available to produce " + quantity + " unit(s).", minQuantity);
                 }
@@ -562,8 +564,8 @@ public class ProductionDepartment extends DepartmentImpl {
                     throw new NotEnoughComponentsException("There are not enough components available to produce " + quantity + " unit(s).", minQuantity);
                 }
 
-                if (minQuantity == totalMachineCapacity) {
-                    throw new NotEnoughMachineCapacityException("There is not enough machine capacity available to produce " + quantity + " unit(s).", minQuantity);
+                if (minQuantity == this.dailyCapacityLeft) {
+                    throw new NotEnoughMachineCapacityException("There is not enough machine capacity available for today to produce " + quantity + " unit(s).", minQuantity);
                 }
             }
 
@@ -586,6 +588,7 @@ public class ProductionDepartment extends DepartmentImpl {
             }
             this.numberProducedProducts.put(product, newQuantity);
             this.numberUnitsProducedPerMonth += quantity;
+            this.dailyCapacityLeft -= quantity;
             variableProductCosts = product.calculateTotalVariableCosts() * quantity;
             return variableProductCosts;
             }
@@ -1099,6 +1102,14 @@ public class ProductionDepartment extends DepartmentImpl {
         this.calculateManufactureEfficiency();
         this.calculateProductionProcessProductivity();
         this.calculateNormalizedProductionProcessProductivity();
+        this.resetDailyCapacityLeft();
+    }
+
+    /**
+     * Reset the daily capacity left to the daily machine capacity.
+     */
+    public void resetDailyCapacityLeft() {
+        this.dailyCapacityLeft = this.getDailyMachineCapacity();
     }
 
     /**
