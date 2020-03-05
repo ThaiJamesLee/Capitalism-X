@@ -34,7 +34,7 @@ public class HudControlsChapter extends TutorialChapter {
 		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(7)).setMessageKey("chapter.controls.hud.speed").setEndTrigger(NextPageTrigger.CLICK).build());
 		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(8)).setMessageKey("chapter.controls.hud.skip").setEndTrigger(NextPageTrigger.CLICK).build());		
 		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(9)).setMessageKey("chapter.controls.hud.messages").setArrowLocation(ArrowLocation.TOP_RIGHT).build());
-		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(10)).setMessageKey("chapter.controls.hud.settings").build());
+		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(10)).setMessageKey("chapter.controls.hud.settings").setArrowLocation(ArrowLocation.TOP_RIGHT).build());
 	}
 	
 }
