@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.PopOver.ArrowLocation;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentCategory;
@@ -24,9 +25,8 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.warehouse.ComponentStockCell;
 import de.uni.mannheim.capitalismx.ui.component.warehouse.ProductStockCell;
 import de.uni.mannheim.capitalismx.ui.controller.popover.warehouse.ProductStockPopoverController;
-import de.uni.mannheim.capitalismx.ui.controller.popover.warehouse.TradeComponentPopoverController;
 import de.uni.mannheim.capitalismx.ui.controller.popover.warehouse.ProductStockPopoverController.TradeMode;
-import de.uni.mannheim.capitalismx.ui.eventlistener.WarehouseEventlistener;
+import de.uni.mannheim.capitalismx.ui.controller.popover.warehouse.TradeComponentPopoverController;
 import de.uni.mannheim.capitalismx.ui.util.AnchorPaneHelper;
 import de.uni.mannheim.capitalismx.ui.util.PopOverFactory;
 import javafx.application.Platform;
@@ -111,7 +111,7 @@ public class StockManagementController implements Initializable {
 		tradeProductUnitPopoverController = (ProductStockPopoverController) factory.getPopoverController();
 
 		/**
-		 * // Prepare a gird with labels that functions as a title row for the 'list of
+		 * // Prepare a grid with labels that functions as a title row for the 'list of
 		 * products' GridPane titleGrid = new GridPane(); ColumnConstraints cTitle = new
 		 * ColumnConstraints(); cTitle.setPercentWidth(35); ColumnConstraints cStock =
 		 * new ColumnConstraints(); cStock.setPercentWidth(15);
@@ -130,6 +130,12 @@ public class StockManagementController implements Initializable {
 		AnchorPaneHelper.snapNodeToAnchorPane(productBox, 4);
 		productTab.setContent(anchor);
 
+		List<Product> launchedProducts = GameController.getInstance().getLaunchedProducts();
+		if (launchedProducts != null) {
+			for (Product product : launchedProducts) {
+				updateProduct(product);
+			}
+		}
 		return productTab;
 	}
 
@@ -278,7 +284,7 @@ public class StockManagementController implements Initializable {
 		if (productCells.containsKey(product)) {
 			productCells.get(product).updateStock();
 		} else {
-			ProductStockCell stockCell = new ProductStockCell(product);
+			ProductStockCell stockCell = new ProductStockCell(product, this);
 			productCells.put(product, stockCell);
 			productBox.getChildren().add(stockCell.getRoot());
 		}
