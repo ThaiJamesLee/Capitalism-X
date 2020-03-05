@@ -34,11 +34,10 @@ public class ComponentTest {
     }
 
     @Test
-    public void calculateBaseCostTest() {
+    public void getTimeBasedComponentCost() {
         this.c.setSupplierCategory(SupplierCategory.PREMIUM, LocalDate.of(1990, 1, 1));
-        double baseCost = c.calculateRandomizedBaseCost(gameDate);
-        Assert.assertTrue(baseCost <= 549.8779000000001 * 1.5);
-        Assert.assertTrue(baseCost >= 549.8779000000001 * 1.1);
+        double baseCost = c.getTimeBasedComponentCost(gameDate);
+        Assert.assertTrue(baseCost == 552.94592034);
     }
 
 
