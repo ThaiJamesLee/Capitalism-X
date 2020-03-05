@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.uni.mannheim</groupId>
   <artifactId>capitalismx</artifactId>
-  <version>0.0.6</version>
+  <version>1.0.0-alpha</version>
   <packaging>pom</packaging>
 
   <!-- modules -->

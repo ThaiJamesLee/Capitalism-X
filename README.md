@@ -22,6 +22,7 @@ Afterwards, you can find the Jar in *Capitalism-X/capitalismx-main/target/capita
 
 # Releases
 Here you can download the latest releases. 
+[Version 1.0.0-alpha](https://github.com/ThaiJamesLee/Capitalism-X/releases/tag/v1.0.0-alpha)
 
 ## Pre-Releases
 These are milestones that are not in a fully functional state. 
