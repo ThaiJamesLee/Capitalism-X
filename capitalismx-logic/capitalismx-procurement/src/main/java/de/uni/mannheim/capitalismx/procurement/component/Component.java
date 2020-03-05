@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 /**
  * This is a unit which is used for the of a production of a product, a component.
@@ -65,6 +66,32 @@ public class Component extends Unit implements Serializable {
      */
     private boolean baseCostInitialized;
 
+    private double componentSupplierCostMultiplicatorLowerBoundCheap;
+    private double componentSupplierCostMultiplicatorLowerBoundRegular;
+    private double componentSupplierCostMultiplicatorLowerBoundPremium;
+
+    private double componentSupplierCostMultiplicatorUpperBoundCheap;
+    private double componentSupplierCostMultiplicatorUpperBoundRegular;
+    private double componentSupplierCostMultiplicatorUpperBoundPremium;
+
+    private int componentSupplierQualityLowerBoundCheap;
+    private int componentSupplierQualityLowerBoundRegular;
+    private int componentSupplierQualityLowerBoundPremium;
+
+    private int componentSupplierQualityUpperBoundCheap;
+    private int componentSupplierQualityUpperBoundRegular;
+    private int componentSupplierQualityUpperBoundPremium;
+
+    private int componentSupplierEcoIndexLowerBoundCheap;
+    private int componentSupplierEcoIndexLowerBoundRegular;
+    private int componentSupplierEcoIndexLowerBoundPremium;
+
+    private int componentSupplierEcoIndexUpperBoundCheap;
+    private int componentSupplierEcoIndexUpperBoundRegular;
+    private int componentSupplierEcoIndexUpperBoundPremium;
+
+    private static final String DEFAULTS_PROPERTIES_FILE= "procurement-defaults";
+
     /**
      * Instantiates a new component independent from a supplier.
      *
@@ -80,6 +107,25 @@ public class Component extends Unit implements Serializable {
         this.availabilityDate = componentType.getAvailabilityDate();
         this.componentType = componentType;
         this.baseCostInitialized = false;
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.componentSupplierCostMultiplicatorLowerBoundCheap = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.lowerbound.cheap"));
+        this.componentSupplierCostMultiplicatorLowerBoundRegular = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.lowerbound.regular"));
+        this.componentSupplierCostMultiplicatorLowerBoundPremium = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.lowerbound.premium"));
+        this.componentSupplierCostMultiplicatorUpperBoundCheap = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.upperbound.cheap"));
+        this.componentSupplierCostMultiplicatorUpperBoundRegular = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.upperbound.regular"));
+        this.componentSupplierCostMultiplicatorUpperBoundPremium = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.upperbound.premium"));
+        this.componentSupplierQualityLowerBoundCheap = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.lowerbound.cheap"));
+        this.componentSupplierQualityLowerBoundRegular = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.lowerbound.regular"));
+        this.componentSupplierQualityLowerBoundPremium = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.lowerbound.premium"));
+        this.componentSupplierQualityUpperBoundCheap = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.upperbound.cheap"));
+        this.componentSupplierQualityUpperBoundRegular = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.upperbound.regular"));
+        this.componentSupplierQualityUpperBoundPremium = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.upperbound.premium"));
+        this.componentSupplierEcoIndexLowerBoundCheap = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.lowerbound.cheap"));
+        this.componentSupplierEcoIndexLowerBoundRegular = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.lowerbound.regular"));
+        this.componentSupplierEcoIndexLowerBoundPremium = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.lowerbound.premium"));
+        this.componentSupplierEcoIndexUpperBoundCheap = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.upperbound.cheap"));
+        this.componentSupplierEcoIndexUpperBoundRegular = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.upperbound.regular"));
+        this.componentSupplierEcoIndexUpperBoundPremium = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.upperbound.premium"));
     }
 
     /**
@@ -102,24 +148,44 @@ public class Component extends Unit implements Serializable {
         this.baseCostInitialized = false;
         this.supplierCategory = supplierCategory;
         this.lastPriceCalculationDate = gameDate;
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.componentSupplierCostMultiplicatorLowerBoundCheap = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.lowerbound.cheap"));
+        this.componentSupplierCostMultiplicatorLowerBoundRegular = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.lowerbound.regular"));
+        this.componentSupplierCostMultiplicatorLowerBoundPremium = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.lowerbound.premium"));
+        this.componentSupplierCostMultiplicatorUpperBoundCheap = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.upperbound.cheap"));
+        this.componentSupplierCostMultiplicatorUpperBoundRegular = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.upperbound.regular"));
+        this.componentSupplierCostMultiplicatorUpperBoundPremium = Double.valueOf(resourceBundle.getString("procurement.component.supplier.cost.multiplicator.upperbound.premium"));
+        this.componentSupplierQualityLowerBoundCheap = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.lowerbound.cheap"));
+        this.componentSupplierQualityLowerBoundRegular = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.lowerbound.regular"));
+        this.componentSupplierQualityLowerBoundPremium = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.lowerbound.premium"));
+        this.componentSupplierQualityUpperBoundCheap = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.upperbound.cheap"));
+        this.componentSupplierQualityUpperBoundRegular = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.upperbound.regular"));
+        this.componentSupplierQualityUpperBoundPremium = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.quality.upperbound.premium"));
+        this.componentSupplierEcoIndexLowerBoundCheap = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.lowerbound.cheap"));
+        this.componentSupplierEcoIndexLowerBoundRegular = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.lowerbound.regular"));
+        this.componentSupplierEcoIndexLowerBoundPremium = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.lowerbound.premium"));
+        this.componentSupplierEcoIndexUpperBoundCheap = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.upperbound.cheap"));
+        this.componentSupplierEcoIndexUpperBoundRegular = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.upperbound.regular"));
+        this.componentSupplierEcoIndexUpperBoundPremium = Integer.valueOf(resourceBundle.getString("procurement.component.supplier.eco.index.upperbound.premium"));
         switch (supplierCategory) {
             case CHEAP:
-                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(0.7, 1.0);
-                this.supplierQuality = RandomNumberGenerator.getRandomInt(80, 100);
-                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(80, 100);
+                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(this.componentSupplierCostMultiplicatorLowerBoundCheap, this.componentSupplierCostMultiplicatorUpperBoundCheap);
+                this.supplierQuality = RandomNumberGenerator.getRandomInt(this.componentSupplierQualityLowerBoundCheap, this.componentSupplierQualityUpperBoundCheap);
+                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(this.componentSupplierEcoIndexLowerBoundCheap, this.componentSupplierEcoIndexUpperBoundCheap);
                 this.warehouseSalesPrice = 0.7 * this.componentType.getInitialSalesPrice();
                 break;
             case REGULAR:
-                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(0.85, 1.2);
-                this.supplierQuality = RandomNumberGenerator.getRandomInt(55, 85);
-                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(55, 85);
+                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(this.componentSupplierCostMultiplicatorLowerBoundRegular, this.componentSupplierCostMultiplicatorUpperBoundRegular);
+                this.supplierQuality = RandomNumberGenerator.getRandomInt(this.componentSupplierQualityLowerBoundRegular, this.componentSupplierQualityUpperBoundRegular);
+                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(this.componentSupplierEcoIndexLowerBoundRegular, this.componentSupplierEcoIndexUpperBoundRegular);
                 this.warehouseSalesPrice = 0.85 * this.componentType.getInitialSalesPrice();
                 break;
             case PREMIUM:
-                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(1.1, 1.5);
-                this.supplierQuality = RandomNumberGenerator.getRandomInt(10, 60);
-                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(10, 60);
+                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(this.componentSupplierCostMultiplicatorLowerBoundPremium, this.componentSupplierCostMultiplicatorUpperBoundPremium);
+                this.supplierQuality = RandomNumberGenerator.getRandomInt(this.componentSupplierQualityLowerBoundPremium, this.componentSupplierQualityUpperBoundPremium);
+                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(this.componentSupplierEcoIndexLowerBoundPremium, this.componentSupplierEcoIndexUpperBoundPremium);
                 this.warehouseSalesPrice = 1.1 * this.componentType.getInitialSalesPrice();
+                break;
         }
         this.calculateRandomizedBaseCost(gameDate);
     }
@@ -135,23 +201,24 @@ public class Component extends Unit implements Serializable {
         this.supplierCategory = supplierCategory;
         this.lastPriceCalculationDate = gameDate;
         switch (supplierCategory) {
-            case PREMIUM:
-                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(1.1, 1.5);
-                this.supplierQuality = RandomNumberGenerator.getRandomInt(80, 100);
-                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(80, 100);
+            case CHEAP:
+                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(this.componentSupplierCostMultiplicatorLowerBoundCheap, this.componentSupplierCostMultiplicatorUpperBoundCheap);
+                this.supplierQuality = RandomNumberGenerator.getRandomInt(this.componentSupplierQualityLowerBoundCheap, this.componentSupplierQualityUpperBoundCheap);
+                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(this.componentSupplierEcoIndexLowerBoundCheap, this.componentSupplierEcoIndexUpperBoundCheap);
                 this.warehouseSalesPrice = 0.7 * this.componentType.getInitialSalesPrice();
                 break;
             case REGULAR:
-                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(0.85, 1.2);
-                this.supplierQuality = RandomNumberGenerator.getRandomInt(55, 85);
-                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(55, 85);
+                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(this.componentSupplierCostMultiplicatorLowerBoundRegular, this.componentSupplierCostMultiplicatorUpperBoundRegular);
+                this.supplierQuality = RandomNumberGenerator.getRandomInt(this.componentSupplierQualityLowerBoundRegular, this.componentSupplierQualityUpperBoundRegular);
+                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(this.componentSupplierEcoIndexLowerBoundRegular, this.componentSupplierEcoIndexUpperBoundRegular);
                 this.warehouseSalesPrice = 0.85 * this.componentType.getInitialSalesPrice();
                 break;
-            case CHEAP:
-                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(0.7, 1.0);
-                this.supplierQuality = RandomNumberGenerator.getRandomInt(10, 60);
-                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(10, 60);
+            case PREMIUM:
+                this.supplierCostMultiplicator = RandomNumberGenerator.getRandomDouble(this.componentSupplierCostMultiplicatorLowerBoundPremium, this.componentSupplierCostMultiplicatorUpperBoundPremium);
+                this.supplierQuality = RandomNumberGenerator.getRandomInt(this.componentSupplierQualityLowerBoundPremium, this.componentSupplierQualityUpperBoundPremium);
+                this.supplierEcoIndex = RandomNumberGenerator.getRandomInt(this.componentSupplierEcoIndexLowerBoundPremium, this.componentSupplierEcoIndexUpperBoundPremium);
                 this.warehouseSalesPrice = 1.1 * this.componentType.getInitialSalesPrice();
+                break;
         }
         this.calculateRandomizedBaseCost(gameDate);
     }

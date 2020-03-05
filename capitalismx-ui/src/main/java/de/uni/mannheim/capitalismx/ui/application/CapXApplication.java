@@ -58,7 +58,7 @@ public class CapXApplication extends Application {
 		window.setHeight(primaryScreenBounds.getHeight());
 		// disable exiting the fullscreen with ESCAPE, set it to shift + escape for the
 		// Main menu
-		window.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.F12, ModifierValue.ANY,
+		window.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.F12, ModifierValue.DOWN,
 				ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY, ModifierValue.ANY));
 //		window.setMaximized(true);
 		window.setResizable(false);

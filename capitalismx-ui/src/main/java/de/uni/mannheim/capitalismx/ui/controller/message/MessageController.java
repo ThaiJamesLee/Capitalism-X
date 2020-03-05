@@ -251,6 +251,10 @@ public class MessageController implements Initializable {
 		GameState state = GameState.getInstance();
 		state.addPropertyChangeListener(new MessageEventListener());
 
+		//prevents the message window from closing, when clicking on it
+		root.setOnMouseClicked(e -> {
+			e.consume();
+		});
 		jumpButton.setDisable(true);
 		jumpButton.setOpacity(0);
 		/*
@@ -259,8 +263,11 @@ public class MessageController implements Initializable {
 		});
 		*/
 		
+		// load messages when loading a savegame
 		for(MessageObject m : GameState.getInstance().getMessages().getList()) {
 			addMessage(m);
 		}
 	}
+	
+	
 }

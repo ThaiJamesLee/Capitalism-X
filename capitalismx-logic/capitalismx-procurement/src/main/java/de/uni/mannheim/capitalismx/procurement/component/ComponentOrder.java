@@ -75,7 +75,7 @@ public class ComponentOrder implements Serializable {
     /**
      * Gets the delivery time of the order in days.
      *
-     * @return the delviery time
+     * @return the delivery time
      */
     public int getDeliveryTime() {
         return this.deliveryTime;

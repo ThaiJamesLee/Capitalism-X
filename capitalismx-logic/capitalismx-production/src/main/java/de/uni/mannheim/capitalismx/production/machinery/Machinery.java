@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.production.department.ProductionTechnology;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ResourceBundle;
 
 /**
  * A machinery of the production.
@@ -42,10 +43,12 @@ public class Machinery implements Serializable {
     /**
      * Maximum level, defines how often a machine can get upgraded.
      */
-    private static final int MAX_LEVEL = 5;
+    private int maxLevel;
 
-    private static final double MAINTAIN_AND_REPAIR_COSTS = 2000;
-    private static final double UPGRADE_COSTS = 5000;
+    private double maintainAndRepairCosts;
+    private double upgradeCosts;
+
+    private static final String DEFAULTS_PROPERTIES_FILE= "production-defaults";
 
     /**
      * Instantiates a new Machinery.
@@ -54,11 +57,15 @@ public class Machinery implements Serializable {
      * @param gameDate the game date
      */
     public Machinery(LocalDate gameDate) {
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
         this.productionTechnology = ProductionTechnology.BRANDNEW;
-        this.machineryPrice = 100000;
-        this.levelPricePerProductionTechnologyLevel = 20000;
-        this.usefulLife = 20;
-        this.machineryCapacity = 25;
+        this.machineryPrice = Double.valueOf(resourceBundle.getString("production.machinery.price"));
+        this.levelPricePerProductionTechnologyLevel = Double.valueOf(resourceBundle.getString("production.machinery.level.price.per.production.technology.level"));;
+        this.usefulLife = Integer.valueOf(resourceBundle.getString("production.machinery.useful.life"));
+        this.machineryCapacity = Integer.valueOf(resourceBundle.getString("production.machinery.capacity"));
+        this.maxLevel = Integer.valueOf(resourceBundle.getString("production.machinery.max.level"));
+        this.maintainAndRepairCosts = Double.valueOf(resourceBundle.getString("production.machinery.maintain.and.repair.costs"));
+        this.upgradeCosts = Double.valueOf(resourceBundle.getString("production.machinery.upgrade.costs"));
         this.lastInvestmentDate = gameDate;
         this.yearsSinceLastInvestment = 0;
         this.level = 1;
@@ -151,7 +158,7 @@ public class Machinery implements Serializable {
                 break;
         }
         this.lastInvestmentDate = gameDate;
-        return MAINTAIN_AND_REPAIR_COSTS;
+        return this.maintainAndRepairCosts;
     }
 
     /**
@@ -162,7 +169,7 @@ public class Machinery implements Serializable {
      * @return the costs of the upgrade if it can still be further upgraded, otherwise return 0
      */
     public double upgradeMachinery(LocalDate gameDate) {
-        if (this.level < MAX_LEVEL) {
+        if (this.level < this.maxLevel) {
             this.level += 1;
             this.machineryCapacity *= 1.2;
             switch (this.productionTechnology) {
@@ -184,11 +191,11 @@ public class Machinery implements Serializable {
                 default: // Do nothing
                     break;
             }
-            if (this.level == MAX_LEVEL) {
+            if (this.level == this.maxLevel) {
                 this.upgradeable = false;
             }
             this.lastInvestmentDate = gameDate;
-            return UPGRADE_COSTS;
+            return this.upgradeCosts;
         }
         this.upgradeable = false;
         return 0;

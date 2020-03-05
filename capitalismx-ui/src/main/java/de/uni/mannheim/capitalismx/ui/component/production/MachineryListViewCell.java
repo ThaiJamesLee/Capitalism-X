@@ -133,6 +133,6 @@ public class MachineryListViewCell extends ListCell<Machinery> {
         valueLabel.setText(CapCoinFormatter.getCapCoins(machinery.calculateResellPrice()));
         dateLabel.setText(machinery.getPurchaseDate() + "");
         capacityLabel.setText(machinery.getMachineryCapacity() + " Capacity");
-        productionTechnologyLabel.setText(machinery.getProductionTechnology().toString());
+        productionTechnologyLabel.setText(machinery.getProductionTechnology().getName(UIManager.getInstance().getLanguage()));
     }
 }

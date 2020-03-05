@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane fx:id="root" styleClass="rootPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.message.MessageController">
    <children>
       <VBox layoutX="40.0" layoutY="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -46,9 +47,9 @@
                            <children>
                               <ScrollPane fx:id="messageContentPane" hbarPolicy="NEVER" maxHeight="434.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane minWidth="400.0">
+                                    <AnchorPane>
                                        <children>
-                                          <VBox fx:id="contentVBox" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <VBox fx:id="contentVBox" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
                                                 <GridPane>
                                                    <columnConstraints>
@@ -68,10 +69,13 @@
                                                          <padding>
                                                             <Insets left="5.0" right="5.0" />
                                                          </padding>
+                                                         <GridPane.margin>
+                                                            <Insets />
+                                                         </GridPane.margin>
                                                       </Label>
                                                    </children>
                                                 </GridPane>
-                                                <Label id="subject" fx:id="contentSubject" maxHeight="25.0">
+                                                <Label id="subject" fx:id="contentSubject" maxHeight="25.0" styleClass="label_large" wrapText="true">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -92,7 +96,8 @@
                                           </VBox>
                                        </children>
                                     </AnchorPane>
-                                 </content></ScrollPane>
+                                 </content>
+                              </ScrollPane>
                            </children>
                         </AnchorPane>
                      </children>
