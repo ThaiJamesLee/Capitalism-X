@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -44,7 +45,12 @@ public class ProcurementDepartment extends DepartmentImpl {
      */
     private Map<Component, Integer> receivedComponents;
 
-    private static final int DELIVERY_TIME = 3;
+    /**
+     * The delivery time of component orders in days.
+     */
+    private int deliveryTime;
+
+    private static final String DEFAULTS_PROPERTIES_FILE= "procurement-defaults";
 
     /**
      * Notifies the GUI about updates to the component orders.
@@ -61,6 +67,8 @@ public class ProcurementDepartment extends DepartmentImpl {
         this.allAvailableComponents = new CopyOnWriteArrayList<>();
         this.componentOrders = new CopyOnWriteArrayList<>();
         this.receivedComponents = new ConcurrentHashMap<>();
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.deliveryTime = Integer.valueOf(resourceBundle.getString("procurement.component.order.delivery.time"));
 
         this.componentOrdersChange = new PropertyChangeSupportList();
         this.componentOrdersChange.setList(this.componentOrders);
@@ -127,7 +135,7 @@ public class ProcurementDepartment extends DepartmentImpl {
      */
     public double buyComponents(LocalDate gameDate, Component component, int quantity, int freeStorage) {
         if (freeStorage >= (quantity + this.getQuantityOfOrderedComponents())) {
-            ComponentOrder componentOrder = new ComponentOrder(gameDate, component, quantity, DELIVERY_TIME);
+            ComponentOrder componentOrder = new ComponentOrder(gameDate, component, quantity, this.deliveryTime);
             this.componentOrders.add(componentOrder);
         }
         return quantity * component.getBaseCost();
@@ -198,7 +206,7 @@ public class ProcurementDepartment extends DepartmentImpl {
      * @return the delivery time
      */
     public int getDeliveryTime() {
-        return DELIVERY_TIME;
+        return this.deliveryTime;
     }
 
     /**
