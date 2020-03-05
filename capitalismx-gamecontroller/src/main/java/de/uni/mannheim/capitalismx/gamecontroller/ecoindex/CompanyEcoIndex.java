@@ -3,11 +3,11 @@ package de.uni.mannheim.capitalismx.gamecontroller.ecoindex;
 import de.uni.mannheim.capitalismx.logistic.logistics.LogisticsDepartment;
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.production.department.ProductionDepartment;
-import de.uni.mannheim.capitalismx.production.product.Product;
 
 import java.io.Serializable;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
 
 /**
  * This class represents the company ecoIndex.
@@ -31,7 +31,7 @@ public class CompanyEcoIndex implements Serializable {
     /**
      * The ecoFlatTax is a fixed tax required to calculate the ecoTax.
      */
-    private final int ECO_FLAT_TAX = 10000;
+    private int ecoFlatTax;
 
     
     /**
@@ -40,7 +40,16 @@ public class CompanyEcoIndex implements Serializable {
     private int extraLevelsFromCampaigns = 0;
 
     private double ecoCosts;
-    
+    private int machineryYearsThreshold;
+    private int fleetEcoIndexThreshold;
+    private double ecoIndexFactor2;
+    private double ecoIndexFactor3;
+    private double ecoIndexFactor4;
+    private int ecoIndexThreshold;
+    private int gameOverThreshold;
+
+    private static final String DEFAULTS_PROPERTIES_FILE = "company-eco-index-defaults";
+
     /**
      * All possible values of the company ecoIndex, see p.28
      */
@@ -89,10 +98,25 @@ public class CompanyEcoIndex implements Serializable {
      * Initializes ecoIndex and calculates ecoTax and ecoCosts.
      */
     protected CompanyEcoIndex(){
-        //TODO determine initial values
+        this.initProperties();
         this.ecoIndex = EcoIndex.GOOD;
         this.ecoIndex.setPoints(100);
         this.calculateAll();
+    }
+
+    /**
+     * Initializes the company eco index values using the corresponding properties file.
+     */
+    private void initProperties(){
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.ecoFlatTax = Integer.valueOf(resourceBundle.getString("company.eco.index.flat.tax"));
+        this.machineryYearsThreshold = Integer.valueOf(resourceBundle.getString("company.eco.index.machinery.years.threshold"));
+        this.fleetEcoIndexThreshold = Integer.valueOf(resourceBundle.getString("company.eco.index.fleet.eco.index.threshold"));
+        this.ecoIndexFactor2 = Double.valueOf(resourceBundle.getString("company.eco.index.factor.2"));
+        this.ecoIndexFactor3 = Double.valueOf(resourceBundle.getString("company.eco.index.factor.3"));
+        this.ecoIndexFactor4 = Double.valueOf(resourceBundle.getString("company.eco.index.factor.4"));
+        this.ecoIndexThreshold = Integer.valueOf(resourceBundle.getString("company.eco.index.threshold"));
+        this.gameOverThreshold = Integer.valueOf(resourceBundle.getString("company.eco.index.game.over.threshold"));
     }
 
     /**
@@ -121,7 +145,7 @@ public class CompanyEcoIndex implements Serializable {
     public void checkMachinery(LocalDate gameDate){
         List<Machinery> machines = ProductionDepartment.getInstance().getMachines();
         for(Machinery machinery : machines){
-            if((machinery.getYearsSinceLastInvestment() > 5) && (!machinery.hasDecreasedEcoIndex())){
+            if((machinery.getYearsSinceLastInvestment() > this.machineryYearsThreshold) && (!machinery.hasDecreasedEcoIndex())){
                 this.decreaseEcoIndex(1);
                 machinery.setDecreasedEcoIndex(true);
             }
@@ -132,7 +156,7 @@ public class CompanyEcoIndex implements Serializable {
      * Checks the eco index of the fleet and decreases the eco index similar to p.29.
      */
     public void checkVehicles(){
-        if(LogisticsDepartment.getInstance().getInternalFleet().calculateEcoIndexFleet() < 60){
+        if(LogisticsDepartment.getInstance().getInternalFleet().calculateEcoIndexFleet() < this.fleetEcoIndexThreshold){
             this.decreaseEcoIndex(1);
         }
     }
@@ -155,14 +179,14 @@ public class CompanyEcoIndex implements Serializable {
     //TODO Determine suitable additionalEcoTax values
     private double calculateEcoTax(){
         double additionalEcoTax = 0;
-        if(this.ecoIndex.getIndex() ==4){
-            additionalEcoTax = this.ECO_FLAT_TAX * 0.01;
+        if(this.ecoIndex.getIndex() == 4){
+            additionalEcoTax = this.ecoFlatTax * this.ecoIndexFactor4;
         }else if(this.ecoIndex.getIndex() == 3){
-            additionalEcoTax = this.ECO_FLAT_TAX * 0.03;
+            additionalEcoTax = this.ecoFlatTax * this.ecoIndexFactor3;
         }else if(this.ecoIndex.getIndex() == 2){
-            additionalEcoTax = this.ECO_FLAT_TAX * 0.06;
+            additionalEcoTax = this.ecoFlatTax * this.ecoIndexFactor2;
         }
-        return this.ECO_FLAT_TAX + additionalEcoTax;
+        return this.ecoFlatTax + additionalEcoTax;
     }
 
     /**
@@ -217,7 +241,7 @@ public class CompanyEcoIndex implements Serializable {
      */
     //TODO unclear if points or index should be used according to documentation
     public boolean checkEcoIndexBelowThreshold(){
-        if(this.ecoIndex.getPoints() < 40){
+        if(this.ecoIndex.getPoints() < this.ecoIndexThreshold){
             return true;
         }else{
             return false;
@@ -229,7 +253,7 @@ public class CompanyEcoIndex implements Serializable {
      * @return Returns true if the ecoIndex is below or equal to 10 points. Returns false otherwise.
      */
     public boolean checkGameOver(){
-        if(this.ecoIndex.getPoints() <= 10){
+        if(this.ecoIndex.getPoints() <= this.gameOverThreshold){
             return true;
         }else{
             return false;
