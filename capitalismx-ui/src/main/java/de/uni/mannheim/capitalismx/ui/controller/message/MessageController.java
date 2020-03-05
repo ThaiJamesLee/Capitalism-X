@@ -253,4 +253,6 @@ public class MessageController implements Initializable {
 			addMessage(m);
 		}
 	}
+	
+	
 }

@@ -18,11 +18,13 @@ import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
@@ -159,12 +161,13 @@ public class GamePageController implements Initializable {
 					getClass().getClassLoader().getResource("fxml/message/message_pane.fxml"),
 					UIManager.getResourceBundle());
 			Parent rootMessage = loaderMessageWindow.load();
-			AnchorPane.setLeftAnchor(rootMessage, 500.0);
-			AnchorPane.setTopAnchor(rootMessage, 250.0);
-			AnchorPane.setBottomAnchor(rootMessage, 250.0);
-			AnchorPane.setRightAnchor(rootMessage, 500.0);
+
 			messageController = loaderMessageWindow.getController();
-			messageLayer.getChildren().add(rootMessage);
+			GridPane grid = new GridPane();
+			AnchorPaneHelper.snapNodeToAnchorPane(grid);
+			grid.setAlignment(Pos.CENTER);
+			grid.getChildren().add(rootMessage);
+			messageLayer.getChildren().add(grid);
 			messageLayer.toBack();
 		} catch (IOException e1) {
 			e1.printStackTrace();
