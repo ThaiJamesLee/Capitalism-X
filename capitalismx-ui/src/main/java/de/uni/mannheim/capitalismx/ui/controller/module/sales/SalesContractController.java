@@ -261,7 +261,7 @@ public class SalesContractController implements Initializable {
 			@Override
 			public void run() {
 				removeAllAvailableContracts();
-				if (GameState.getInstance() == null || GameState.getInstance().getSalesDepartment() == null) {
+				if (GameState.getInstance() == null || GameState.getInstance().getSalesDepartment() == null || GameState.getInstance().getSalesDepartment().getAvailableContracts().getList().isEmpty()) {
 
 				} else {
 					if (((ArrayList<Contract>) GameState.getInstance().getSalesDepartment().getAvailableContracts()
