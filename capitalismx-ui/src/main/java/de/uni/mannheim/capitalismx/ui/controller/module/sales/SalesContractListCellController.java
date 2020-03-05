@@ -33,7 +33,6 @@ public class SalesContractListCellController implements Initializable {
      */
     @FXML
     public void showInfoPanel(){
-        System.out.println("ShowInfo");
         ((SalesContractController) UIManager.getInstance().getGameView(GameViewType.SALES).getModule(GameModuleType.SALES_CONTRACT_OVERVIEW).getController()).showInfoPanel(ID);
     }
 

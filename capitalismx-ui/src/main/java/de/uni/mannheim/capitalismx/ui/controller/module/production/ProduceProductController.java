@@ -76,10 +76,11 @@ public class ProduceProductController implements UpdateableController {
 		productionDepartment.getLaunchedProductsChange().addPropertyChangeListener(eventListener);
 
 		PopOverFactory factory = new PopOverFactory();
-		factory.createStandardOverlay("fxml/module/introduce_product_menu.fxml");
+		factory.createStandardOverlay("fxml/popover/introduce_product_menu.fxml");
 		introduceProductPopover = factory.getPopover();
 		popoverController = (IntroduceProductController) factory.getPopoverController();
-		
+
+		this.update();
 	}
 
 	/**

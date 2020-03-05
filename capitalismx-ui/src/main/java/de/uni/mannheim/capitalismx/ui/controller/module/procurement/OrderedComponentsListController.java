@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import de.uni.mannheim.capitalismx.gamecontroller.GameController;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.procurement.component.Component;
 import de.uni.mannheim.capitalismx.procurement.component.ComponentOrder;
@@ -36,7 +37,7 @@ public class OrderedComponentsListController implements UpdateableController {
         /**
          * Test the list view with a manually added component order.
          */
-        ComponentOrder componentOrder = new ComponentOrder(GameState.getInstance().getGameDate(), new Component(ComponentType.T_CASE_LEVEL_1, SupplierCategory.CHEAP, GameState.getInstance().getGameDate()), 2);
+        ComponentOrder componentOrder = new ComponentOrder(GameState.getInstance().getGameDate(), new Component(ComponentType.T_CASE_LEVEL_1, SupplierCategory.CHEAP, GameState.getInstance().getGameDate()), 2, GameController.getInstance().getDeliveryTime());
         orderedComponentsListView.getItems().add(componentOrder);
     }
 

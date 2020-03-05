@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.production.exceptions.NotEnoughTrainedEnginee
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Locale;
 
 /**
  * The type Production investment.
@@ -165,6 +166,16 @@ public class ProductionInvestment implements Serializable {
     @Override
     public String toString() {
         return this.name + ": " + this.productionInvestmentLevel.toString();
+    }
+
+    /**
+     * Gets localized String representation of the production investment.
+     *
+     * @param locale the language
+     * @return the localized String representation of the production investment
+     */
+    public String getName(Locale locale) {
+        return this.name + ": " + this.productionInvestmentLevel.getName(locale);
     }
 
     /**

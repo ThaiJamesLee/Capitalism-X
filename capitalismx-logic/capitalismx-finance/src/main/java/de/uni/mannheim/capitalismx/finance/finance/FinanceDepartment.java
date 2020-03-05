@@ -751,14 +751,13 @@ public class FinanceDepartment extends DepartmentImpl {
     }
 
     /**
-     * Calculates the total expenses of the company by adding up the total HR, warehousing, logistics, production,
+     * Calculates the total expenses of the company by adding up the total HR, warehousing, logistics,
      * marketing, and support costs according to p.76.
      * @param gameDate The current date in the game.
      * @return Returns the total expenses of the company
      */
     private double calculateTotalExpenses(LocalDate gameDate){
         this.totalExpenses = this.calculateTotalHRCosts(gameDate) + this.calculateTotalWarehouseCosts(gameDate)
-                + this.calculateTotalLogisticsCosts(gameDate) + this.calculateTotalProductionCosts(gameDate)
                 + this.calculateTotalMarketingCosts(gameDate) + this.calculateTotalSupportCosts(gameDate);
         return this.totalExpenses;
     }
@@ -1229,7 +1228,6 @@ public class FinanceDepartment extends DepartmentImpl {
                 if(amount > investment.getAmount()){
                     //return false;
                     //TODO popup/notification
-                    System.out.println("Using max possible amount");
                     amount = investment.getAmount();
                 }
                 investment.decreaseAmount(amount);

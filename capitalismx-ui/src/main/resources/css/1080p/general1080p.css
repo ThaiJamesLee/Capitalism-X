@@ -84,7 +84,7 @@ FontAwesomeIcon {
 	-fx-background-radius: 0.0;
 	-fx-text-fill: -fx-primary;
 	-fx-border-width: 0 0 1 0;
-	-fx-border-insets: 3 0 2 0;
+	-fx-border-insets: 4 4 3 0;
 	-fx-font-family: "Prime";
 	-fx-font-size: 14.0;	
 }

@@ -89,7 +89,7 @@ public class MessageController implements Initializable {
 
     /**
      * Receives a @MessageObject and adds it's content as components to the message window.
-     *
+     * This method also maintains messageSave to remember which messages are already added to the UI
      * @param m
      */
 	public void addMessage(MessageObject m) {
@@ -195,11 +195,18 @@ public class MessageController implements Initializable {
 		UIManager.getInstance().getGameHudController().addNotification(notification);
 	}
 
+	/**
+	 * This method is called when the Jump to Menu button in the message window is clicked. It switches to the Game View that is defined in the corresponding message
+	 */
 	public void jumpView(){
 		UIManager.getInstance().getGamePageController().switchView(viewID);
 		UIManager.getInstance().getGamePageController().toggleMessageWindow();
 	}
 
+	/**
+	 * This method is called when another message is chosen. It displays the corresponding content of the message.
+	 * @param index
+	 */
 	public void setContent(int index){
 		MessageObject m = messageSave.get(index);
 		try {
@@ -223,7 +230,10 @@ public class MessageController implements Initializable {
 		}
 	}
 
-	//todo:
+	/**
+	 * This method is called when a notification is clicked. prepares to open the message window and display the correct message
+	 * @param messageToShow
+	 */
 	public void showMessage(MessageObject messageToShow){
 		int index = messageSave.indexOf(messageToShow);
 		messageList.getSelectionModel().select(index);
@@ -241,6 +251,10 @@ public class MessageController implements Initializable {
 		GameState state = GameState.getInstance();
 		state.addPropertyChangeListener(new MessageEventListener());
 
+		//prevents the message window from closing, when clicking on it
+		root.setOnMouseClicked(e -> {
+			e.consume();
+		});
 		jumpButton.setDisable(true);
 		jumpButton.setOpacity(0);
 		/*
@@ -248,5 +262,12 @@ public class MessageController implements Initializable {
 			((GamePageController)(UIManager.getInstance().getSceneGame().getController())).toggleMessageWindow();
 		});
 		*/
+		
+		// load messages when loading a savegame
+		for(MessageObject m : GameState.getInstance().getMessages().getList()) {
+			addMessage(m);
+		}
 	}
+	
+	
 }

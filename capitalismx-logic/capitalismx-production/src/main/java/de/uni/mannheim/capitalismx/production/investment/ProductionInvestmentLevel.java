@@ -1,6 +1,8 @@
 package de.uni.mannheim.capitalismx.production.investment;
 
 import java.io.Serializable;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * The enum Production investment level.
@@ -36,6 +38,17 @@ public enum ProductionInvestmentLevel implements Serializable {
     @Override
     public String toString() {
         return this.description;
+    }
+
+    /**
+     * Gets localized name of the production investment level
+     *
+     * @param locale the language
+     * @return the production investment level in either English or German
+     */
+    public String getName(Locale locale) {
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("production-module", locale);
+        return resourceBundle.getString("production.investment.level." + this.level);
     }
 
     /**

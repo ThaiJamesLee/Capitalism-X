@@ -47,6 +47,16 @@
 												<Label alignment="CENTER" contentDisplay="CENTER" styleClass="label_large" text="%main.credits.names1" textAlignment="CENTER" wrapText="true" />
 												<Label alignment="CENTER" contentDisplay="CENTER" styleClass="label_large" text="%main.credits3" textAlignment="CENTER" wrapText="true" />
 												<Label alignment="CENTER" contentDisplay="CENTER" styleClass="label_large" text="%main.credits.names2" textAlignment="CENTER" wrapText="true" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label_large" text="%main.credits.icons" textAlignment="CENTER" wrapText="true">
+                                       <padding>
+                                          <Insets top="12.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label_large" text="%main.credits.fonts" textAlignment="CENTER" wrapText="true">
+                                       <padding>
+                                          <Insets top="8.0" />
+                                       </padding>
+                                    </Label>
 
 											</children>
 											<padding>

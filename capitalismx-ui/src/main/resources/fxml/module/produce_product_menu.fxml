@@ -11,7 +11,7 @@
     <children>
       <VBox alignment="CENTER" spacing="12.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-                <ListView fx:id="launchedProductsListView" />
+                <ListView fx:id="launchedProductsListView" VBox.vgrow="ALWAYS" />
             <Button fx:id="introduceProductButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#introduceProduct" styleClass="btn_standard" text="%production.introduce">
                <graphic>
                   <FontAwesomeIcon iconName="ROCKET" size="1.2em" />

@@ -5,6 +5,7 @@ import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.production.machinery.Machinery;
 import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
+import de.uni.mannheim.capitalismx.ui.util.TooltipFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 /**
  * A machinery view cell.
@@ -84,19 +86,33 @@ public class MachineryListViewCell extends ListCell<Machinery> {
             }
 
             GameController controller = GameController.getInstance();
-            //TODO
-            //indexLabel.setText(controller.getMachines().indexOf(machinery) + "");
             this.updateLabels(machinery);
             sellButton.setOnAction(e -> {
                 controller.sellMachinery(machinery, GameState.getInstance().getGameDate());
                 this.machineryListView.getItems().remove(machinery);
             });
+            
+            TooltipFactory tooltipFactory = new TooltipFactory();
+            upgradeButton.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("machinery.btn.upgrade")));
+            maintainAndRepairButton.setTooltip(tooltipFactory.createTooltip(UIManager.getLocalisedString("machinery.btn.maintain")));
+            
             maintainAndRepairButton.setOnAction(e -> {
-                controller.maintainAndRepairMachinery(machinery);
+            	LocalDate date =  GameState.getInstance().getGameDate();
+            	double oldPrice = machinery.calculateResellPrice();
+            	double amount = controller.maintainAndRepairMachinery(machinery);
+            	double worthDifference = machinery.calculateResellPrice() - oldPrice;
+                GameController.getInstance().decreaseCash(date, amount);
+                GameController.getInstance().decreaseNetWorth(date, amount - worthDifference);
+                
                 this.updateLabels(machinery);
             });
             upgradeButton.setOnAction(e -> {
-                controller.upgradeMachinery(machinery);
+            	LocalDate date =  GameState.getInstance().getGameDate();
+            	double oldPrice = machinery.calculateResellPrice();
+            	double amount = controller.upgradeMachinery(machinery);
+            	double worthDifference = machinery.calculateResellPrice() - oldPrice;
+                GameController.getInstance().decreaseCash(date, amount);
+                GameController.getInstance().decreaseNetWorth(date, amount - worthDifference);
                 this.updateLabels(machinery);
                 if (!machinery.isUpgradeable()) {
                     this.upgradeButton.setDisable(true);
@@ -117,6 +133,6 @@ public class MachineryListViewCell extends ListCell<Machinery> {
         valueLabel.setText(CapCoinFormatter.getCapCoins(machinery.calculateResellPrice()));
         dateLabel.setText(machinery.getPurchaseDate() + "");
         capacityLabel.setText(machinery.getMachineryCapacity() + " Capacity");
-        productionTechnologyLabel.setText(machinery.getProductionTechnology().toString());
+        productionTechnologyLabel.setText(machinery.getProductionTechnology().getName(UIManager.getInstance().getLanguage()));
     }
 }

@@ -1,6 +1,8 @@
 package de.uni.mannheim.capitalismx.production.department;
 
 import java.io.Serializable;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * The enum Production technology.
@@ -33,6 +35,17 @@ public enum ProductionTechnology implements Serializable {
     @Override
     public String toString() {
         return this.description;
+    }
+
+    /**
+     * Reads the properties file.
+     *
+     * @param locale the locale of the properties file (English or German).
+     * @return the name of the production technology
+     */
+    public String getName(Locale locale) {
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("production-module", locale);
+        return resourceBundle.getString("production.technology.range." + range);
     }
 
     /**

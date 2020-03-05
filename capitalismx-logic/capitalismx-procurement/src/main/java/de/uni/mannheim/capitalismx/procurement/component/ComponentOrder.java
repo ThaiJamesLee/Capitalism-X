@@ -17,11 +17,7 @@ public class ComponentOrder implements Serializable {
     private LocalDate arrivalDate;
     private Component orderedComponent;
     private int orderedQuantity;
-
-    /**
-     * The time it takes for an order to be delivered.
-     */
-    public static final int DELIVERY_TIME = 3;
+    private int deliveryTime;
 
     /**
      * Instantiates a new component order.
@@ -31,9 +27,10 @@ public class ComponentOrder implements Serializable {
      * @param orderedComponent the ordered component
      * @param orderedQuantity  the ordered quantity
      */
-    public ComponentOrder(LocalDate orderDate, Component orderedComponent, int orderedQuantity) {
+    public ComponentOrder(LocalDate orderDate, Component orderedComponent, int orderedQuantity, int deliveryTime) {
         this.orderDate = orderDate;
-        this.arrivalDate = orderDate.plusDays(DELIVERY_TIME);
+        this.deliveryTime = deliveryTime;
+        this.arrivalDate = orderDate.plusDays(deliveryTime);
         this.orderedComponent = orderedComponent;
         this.orderedQuantity = orderedQuantity;
     }
@@ -72,5 +69,15 @@ public class ComponentOrder implements Serializable {
      */
     public int getOrderedQuantity() {
         return this.orderedQuantity;
+    }
+
+
+    /**
+     * Gets the delivery time of the order in days.
+     *
+     * @return the delivery time
+     */
+    public int getDeliveryTime() {
+        return this.deliveryTime;
     }
 }

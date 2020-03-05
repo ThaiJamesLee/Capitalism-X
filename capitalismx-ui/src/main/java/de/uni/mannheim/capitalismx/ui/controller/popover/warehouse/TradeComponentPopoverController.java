@@ -1,6 +1,7 @@
 package de.uni.mannheim.capitalismx.ui.controller.popover.warehouse;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -58,9 +59,11 @@ public class TradeComponentPopoverController implements Initializable {
 	@FXML
 	private void buyComponent() {
 		String input = amountField.getText();
+		LocalDate date = GameState.getInstance().getGameDate();
+		GameController gc = GameController.getInstance();
 		try {
 			int amount = Integer.parseInt(input);
-			int freeStorage = GameController.getInstance().getFreeStorage();
+			int freeStorage = gc.getFreeStorage();
 			if (amount > freeStorage) {
 				// Handle if not enough free storage in the warehouse
 				if (freeStorage != 0) {
@@ -72,7 +75,7 @@ public class TradeComponentPopoverController implements Initializable {
 					alert.getButtonTypes().add(ButtonType.NO);
 					Optional<ButtonType> response = alert.showAndWait();
 					if (response.isPresent() && response.get().equals(ButtonType.YES)) {
-						GameController.getInstance().buyComponents(component, freeStorage);
+						gc.decreaseCash(date, gc.buyComponents(component, freeStorage));
 					}
 				} else {
 					GameAlert alert = new GameAlert(AlertType.INFORMATION,
@@ -80,8 +83,8 @@ public class TradeComponentPopoverController implements Initializable {
 							UIManager.getLocalisedString("warehouse.alert.capacity.description.full"));
 					alert.showAndWait();
 				}
-			} else { // TODO costs for component
-				GameController.getInstance().buyComponents(component, amount);
+			} else {
+				gc.decreaseCash(date, gc.buyComponents(component, amount));
 			}
 			((StockManagementController) UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT)
 					.getController()).hideTradePopover();
@@ -151,14 +154,17 @@ public class TradeComponentPopoverController implements Initializable {
 	/**
 	 * Update the price given the value in the {@link TextField}.
 	 */
-	private void updatePrice() {
-		if (amountField.getText() == "")
-			return;
-		int amount = Integer.parseInt(amountField.getText());
+	private void updatePrice() throws NumberFormatException {
+		try {
+			int amount = Integer.parseInt(amountField.getText());
 
-		double cost = componentPrice * amount;
-		priceLabelSell.setText(UIManager.getLocalisedString("component.price.sell")
-				+ CapCoinFormatter.getCapCoins(component.getSalesPrice() * amount));
-		priceLabelBuy.setText(UIManager.getLocalisedString("component.price.buy") + CapCoinFormatter.getCapCoins(cost));
+			double cost = componentPrice * amount;
+			priceLabelSell.setText(UIManager.getLocalisedString("component.price.sell")
+					+ CapCoinFormatter.getCapCoins(component.getWarehouseSalesPrice() * amount));
+			priceLabelBuy
+					.setText(UIManager.getLocalisedString("component.price.buy") + CapCoinFormatter.getCapCoins(cost));
+		} catch (NumberFormatException e) {
+			amountField.setText("0");
+		}
 	}
 }

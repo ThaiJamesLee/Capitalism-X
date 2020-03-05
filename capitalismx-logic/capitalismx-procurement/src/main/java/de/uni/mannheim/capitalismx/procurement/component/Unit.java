@@ -24,11 +24,4 @@ public abstract class Unit implements Serializable {
      * @return the warehouse sales price
      */
     public abstract double getWarehouseSalesPrice();
-
-    /**
-     * Gets sales price.
-     *
-     * @return the sales price
-     */
-    public abstract double getSalesPrice();
 }

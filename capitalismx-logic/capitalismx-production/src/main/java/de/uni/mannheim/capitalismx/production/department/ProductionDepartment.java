@@ -55,6 +55,11 @@ public class ProductionDepartment extends DepartmentImpl {
     private int numberUnitsProducedPerMonth;
 
     /**
+     * How much machine capacity is still unused on this day.
+     */
+    private int dailyCapacityLeft;
+
+    /**
      * The accumulated daily available machine capacity during this month.
      */
     private double monthlyAvailableMachineCapacity;
@@ -91,12 +96,12 @@ public class ProductionDepartment extends DepartmentImpl {
     /**
      * The costs of launching a product.
      */
-    private static final double PRODUCT_LAUNCH_COSTS = 5000.0;
+    private double productLaunchCosts;
 
     /**
      * The cost per ProductionInvestment level
      */
-    private static final double PRODUCTION_INVESTMENT_LEVEL_COST = 5000.0;
+    private double productionInvestmentLevelCost;
 
     /**
      * PropertyChangeSupportList used for notifying the GUI of changes to launchedProducts.
@@ -123,6 +128,7 @@ public class ProductionDepartment extends DepartmentImpl {
     private static final String SKILL_SLOTS_PREFIX = "production.skill.slots.";
     private static final String SKILL_WORKERS_NEEDED_PREFIX = "production.skill.workers.";
 
+    private static final String DEFAULTS_PROPERTIES_FILE= "production-defaults";
 
     /**
      * Constructor of the production department.
@@ -149,6 +155,11 @@ public class ProductionDepartment extends DepartmentImpl {
         this.decreasedProcessAutomationLevel = 0;
         this.totalEngineerQualityOfWorkDecreasePercentage = 0;
         this.initialTotalEngineerQualityOfWork = 0;
+        this.dailyCapacityLeft = 0;
+
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.productLaunchCosts = Double.valueOf(resourceBundle.getString("production.launch.costs"));
+        this.productionInvestmentLevelCost = Double.valueOf(resourceBundle.getString("production.investment.level.cost"));
 
         this.launchedProductsChange = new PropertyChangeSupportList<>();
         this.launchedProductsChange.setList(this.launchedProducts);
@@ -390,6 +401,7 @@ public class ProductionDepartment extends DepartmentImpl {
             if (this.productionSlots == this.machines.size()) {
                 this.machineSlotsAvailable = false;
             }
+            this.dailyCapacityLeft += machinery.getMachineryCapacity();
             return machinery.calculatePurchasePrice();
         }
         this.machineSlotsAvailable = false;
@@ -482,7 +494,7 @@ public class ProductionDepartment extends DepartmentImpl {
         } else {
             throw new ProductCategoryNotUnlockedException("The product category " +  product.getProductCategory() + " is not unlocked yet.", product.getProductCategory());
         }
-        return PRODUCT_LAUNCH_COSTS;
+        return this.productLaunchCosts;
     }
 
     /**
@@ -524,11 +536,6 @@ public class ProductionDepartment extends DepartmentImpl {
             throw new ComponentLockedException("At least on of the components is not unlocked yet. You might need to do some research first.");
         }
 
-        int totalMachineCapacity = 0;
-        for (Machinery machinery : this.machines) {
-            totalMachineCapacity += machinery.getMachineryCapacity();
-        }
-
         if (quantity > 0) {
             int maximumProducable = this.totalWarehouseCapacity;
             for (Component component : product.getComponents()) {
@@ -548,8 +555,8 @@ public class ProductionDepartment extends DepartmentImpl {
             }
 
             int minQuantity = 0;
-            if (maximumProducable < quantity || totalMachineCapacity < quantity || freeStorage < quantity) {
-                minQuantity = Math.min(maximumProducable, Math.min(totalMachineCapacity, freeStorage));
+            if (maximumProducable < quantity || this.dailyCapacityLeft < quantity || freeStorage < quantity) {
+                minQuantity = Math.min(maximumProducable, Math.min(this.dailyCapacityLeft, freeStorage));
                 if (minQuantity == freeStorage) {
                     throw new NotEnoughFreeStorageException("There is not enough warehouse capacity available to produce " + quantity + " unit(s).", minQuantity);
                 }
@@ -557,8 +564,8 @@ public class ProductionDepartment extends DepartmentImpl {
                     throw new NotEnoughComponentsException("There are not enough components available to produce " + quantity + " unit(s).", minQuantity);
                 }
 
-                if (minQuantity == totalMachineCapacity) {
-                    throw new NotEnoughMachineCapacityException("There is not enough machine capacity available to produce " + quantity + " unit(s).", minQuantity);
+                if (minQuantity == this.dailyCapacityLeft) {
+                    throw new NotEnoughMachineCapacityException("There is not enough machine capacity available for today to produce " + quantity + " unit(s).", minQuantity);
                 }
             }
 
@@ -581,6 +588,7 @@ public class ProductionDepartment extends DepartmentImpl {
             }
             this.numberProducedProducts.put(product, newQuantity);
             this.numberUnitsProducedPerMonth += quantity;
+            this.dailyCapacityLeft -= quantity;
             variableProductCosts = product.calculateTotalVariableCosts() * quantity;
             return variableProductCosts;
             }
@@ -732,31 +740,35 @@ public class ProductionDepartment extends DepartmentImpl {
      * @return the production technology
      */
     public ProductionTechnology calculateProductionTechnology() {
-        this.productionTechnology = ProductionTechnology.DEPRECIATED;
-        double averageProductionTechnologyRange = 0;
-        for(Machinery machinery : this.machines) {
-            averageProductionTechnologyRange += machinery.getProductionTechnology().getRange();
+        if (this.machines.size() > 0) {
+            this.productionTechnology = ProductionTechnology.DEPRECIATED;
+            double averageProductionTechnologyRange = 0;
+            for (Machinery machinery : this.machines) {
+                averageProductionTechnologyRange += machinery.getProductionTechnology().getRange();
+            }
+            averageProductionTechnologyRange /= this.machines.size();
+            switch ((int) Math.round(averageProductionTechnologyRange)) {
+                case 1:
+                    this.productionTechnology = ProductionTechnology.DEPRECIATED;
+                    break;
+                case 2:
+                    this.productionTechnology = ProductionTechnology.OLD;
+                    break;
+                case 3:
+                    this.productionTechnology = ProductionTechnology.GOOD_CONDITIONS;
+                    break;
+                case 4:
+                    this.productionTechnology = ProductionTechnology.PURCHASED_MORE_THAN_FIVE_YEARS_AGO;
+                    break;
+                case 5:
+                    this.productionTechnology = ProductionTechnology.BRANDNEW;
+                    break;
+                default: // Do nothing
+            }
+            return this.productionTechnology;
+        } else {
+            return this.productionTechnology;
         }
-        averageProductionTechnologyRange /= this.machines.size();
-        switch((int) Math.round(averageProductionTechnologyRange)) {
-            case 1:
-                this.productionTechnology = ProductionTechnology.DEPRECIATED;
-                break;
-            case 2:
-                this.productionTechnology = ProductionTechnology.OLD;
-                break;
-            case 3:
-                this.productionTechnology = ProductionTechnology.GOOD_CONDITIONS;
-                break;
-            case 4:
-                this.productionTechnology = ProductionTechnology.PURCHASED_MORE_THAN_FIVE_YEARS_AGO;
-                break;
-            case 5:
-                this.productionTechnology = ProductionTechnology.BRANDNEW;
-                break;
-            default: // Do nothing
-        }
-        return this.productionTechnology;
     }
 
     /**
@@ -876,7 +888,7 @@ public class ProductionDepartment extends DepartmentImpl {
      * Returns the costs for the investment level.
      */
     public double getProductionInvestmentPrice(ProductionInvestmentLevel productionInvestmentLevel) {
-        return PRODUCTION_INVESTMENT_LEVEL_COST * productionInvestmentLevel.getLevel();
+        return this.productionInvestmentLevelCost * productionInvestmentLevel.getLevel();
     }
 
     /**
@@ -889,7 +901,7 @@ public class ProductionDepartment extends DepartmentImpl {
     public double investInSystemSecurity(int level, LocalDate gameDate, int numberOfTrainedEngineers) throws NotEnoughTrainedEngineersException {
         try {
             this.systemSecurity = systemSecurity.invest(level, gameDate, numberOfTrainedEngineers);
-            return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+            return this.productionInvestmentLevelCost * level;
         } catch (NotEnoughTrainedEngineersException e) {
             throw e;
         }
@@ -905,7 +917,7 @@ public class ProductionDepartment extends DepartmentImpl {
     public double investInQualityAssurance(int level, LocalDate gameDate, int numberOfTrainedEngineers) throws NotEnoughTrainedEngineersException {
         try {
             this.qualityAssurance = qualityAssurance.invest(level, gameDate, numberOfTrainedEngineers);
-            return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+            return this.productionInvestmentLevelCost * level;
         } catch (NotEnoughTrainedEngineersException e) {
             throw e;
         }
@@ -922,7 +934,7 @@ public class ProductionDepartment extends DepartmentImpl {
     public double investInProcessAutomation(int level, LocalDate gameDate, int numberOfTrainedEngineers) throws NotEnoughTrainedEngineersException {
         try {
             this.processAutomation = processAutomation.invest(level, gameDate, numberOfTrainedEngineers);
-            return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+            return this.productionInvestmentLevelCost * level;
         } catch (NotEnoughTrainedEngineersException e) {
             throw e;
         }
@@ -1028,18 +1040,22 @@ public class ProductionDepartment extends DepartmentImpl {
      * @return the average eco index of launched products
      */
     public double calculateAverageEcoIndexOfLaunchedProducts() {
-        double accumulatedExoIndex = 0;
-        int numberOfComponents = 0;
-        for (Product product : this.launchedProducts) {
-            for (Component component : product.getComponents()) {
-                accumulatedExoIndex += component.getSupplierEcoIndex();
-                numberOfComponents++;
+        if (this.launchedProducts.size() > 0) {
+            double accumulatedExoIndex = 0;
+            int numberOfComponents = 0;
+            for (Product product : this.launchedProducts) {
+                for (Component component : product.getComponents()) {
+                    accumulatedExoIndex += component.getSupplierEcoIndex();
+                    numberOfComponents++;
+                }
             }
-        }
-        if (numberOfComponents > 0) {
-            return (accumulatedExoIndex / numberOfComponents) / 100;
+            if (numberOfComponents > 0) {
+                return (accumulatedExoIndex / numberOfComponents) / 100;
+            } else {
+                return 0;
+            }
         } else {
-            return 0;
+            return 1;
         }
     }
 
@@ -1086,6 +1102,14 @@ public class ProductionDepartment extends DepartmentImpl {
         this.calculateManufactureEfficiency();
         this.calculateProductionProcessProductivity();
         this.calculateNormalizedProductionProcessProductivity();
+        this.resetDailyCapacityLeft();
+    }
+
+    /**
+     * Reset the daily capacity left to the daily machine capacity.
+     */
+    public void resetDailyCapacityLeft() {
+        this.dailyCapacityLeft = this.getDailyMachineCapacity();
     }
 
     /**
@@ -1311,7 +1335,7 @@ public class ProductionDepartment extends DepartmentImpl {
      * @return the product launch costs
      */
     public double getProductLaunchCosts() {
-        return PRODUCT_LAUNCH_COSTS;
+        return this.productLaunchCosts;
     }
 
     /**

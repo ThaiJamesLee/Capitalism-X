@@ -69,7 +69,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     /**
      * The storage cost of a single unit.
      */
-    private static final double VARIABLE_STORAGE_COST = 0.05;
+    private double variableStorageCost;
 
     /**
      * Flag whether there are any more warehouse slots available for additional warehouses.
@@ -105,6 +105,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     private static final String SKILL_COST_PROPERTY_PREFIX = "warehouse.skill.cost.";
     private static final String SKILL_SLOTS_PREFIX = "warehouse.skill.slots.";
 
+    private static final String DEFAULTS_PROPERTIES_FILE= "warehouse-defaults";
 
     /**
      * Constructor of warehousing department.
@@ -124,6 +125,8 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.monthlyTotalCostWarehousing = 0;
         this.daysSinceFreeStorageThreshold = 0;
         this.warehouseSlotsAvailable = true;
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.variableStorageCost = Double.valueOf(resourceBundle.getString("warehouse.variable.cost"));
 
         this.inventoryChange = new PropertyChangeSupportMap();
         this.inventoryChange.setMap(this.inventory);
@@ -291,14 +294,12 @@ public class WarehousingDepartment extends DepartmentImpl {
      * Used to fulfill contracts.
      *
      * @param soldProduct the sold product
-     * @return the revenue of the products
      */
-    public double sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
+    public void sellProduct (HashMap.Entry<Unit, Integer> soldProduct) {
         if (this.inventory.get(soldProduct.getKey()) != null && this.inventory.get(soldProduct.getKey()) >= soldProduct.getValue()) {
             int newInventoryUnits = this.inventory.get(soldProduct.getKey()) - soldProduct.getValue();
             this.inventoryChange.putOne(soldProduct.getKey(), newInventoryUnits);
         }
-        return soldProduct.getKey().getSalesPrice() * soldProduct.getValue();
     }
 
     /**
@@ -443,7 +444,7 @@ public class WarehousingDepartment extends DepartmentImpl {
      */
     public double calculateDailyStorageCost() {
 
-        this.dailyStorageCost = VARIABLE_STORAGE_COST * this.calculateStoredUnits();
+        this.dailyStorageCost = this.variableStorageCost * this.calculateStoredUnits();
         this.monthlyStorageCost += this.dailyStorageCost;
         return this.dailyStorageCost;
     }
@@ -475,7 +476,7 @@ public class WarehousingDepartment extends DepartmentImpl {
      */
     public double getMonthlyWarehouseCost(LocalDate gameDate) {
         double monthlyCostWarehousing = this.calculateMonthlyCostWarehousing();
-        double dailyStorageCost = VARIABLE_STORAGE_COST * this.calculateStoredUnits();
+        double dailyStorageCost = this.variableStorageCost * this.calculateStoredUnits();
         return monthlyCostWarehousing + dailyStorageCost * gameDate.lengthOfMonth();
     }
 
@@ -564,17 +565,14 @@ public class WarehousingDepartment extends DepartmentImpl {
      * Sell products.
      *
      * @param sales the sales
-     * @return the revenue
      */
-    public double sellProducts(Map<Unit, Integer> sales) {
+    public void sellProducts(Map<Unit, Integer> sales) {
         double earnedMoney = 0;
         for (Map.Entry<Unit, Integer> entry : this.inventory.entrySet()) {
             if (entry.getKey().getUnitType() == UnitType.PRODUCT_UNIT) {
                 this.inventoryChange.putOne(entry.getKey(), entry.getValue() - sales.get(entry.getKey()));
-                earnedMoney += entry.getKey().getSalesPrice() * sales.get(entry.getKey());
             }
         }
-        return earnedMoney;
     }
 
     /**

@@ -9,17 +9,14 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.uni.mannheim.capitalismx.ui.controller.module.production.MachineryListController">
     <children>
-        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <ListView fx:id="machineryListView" />
-                <AnchorPane>
-                    <children>
-                        <Button fx:id="buyButton" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" text="%machinery.list.buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <graphic>
-                        <FontAwesomeIcon iconName="SHOPPING_CART" size="1.2em" />
-                     </graphic></Button>
-                    </children>
-                </AnchorPane>
+                <ListView fx:id="machineryListView" VBox.vgrow="ALWAYS" />
+                  <Button fx:id="buyButton" graphicTextGap="8.0" mnemonicParsing="false" styleClass="btn_standard" text="%machinery.list.buy">
+               <graphic>
+                  <FontAwesomeIcon iconName="SHOPPING_CART" size="1.2em" />
+               </graphic>
+            </Button>
             </children>
         </VBox>
     </children>

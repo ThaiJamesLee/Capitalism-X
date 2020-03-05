@@ -40,14 +40,14 @@ public enum GameModuleDefinition {
 	FINANCE_INVESTMENTS("finance_investments.fxml",  GameModuleType.FINANCE_INVESTMENTS, new GridPosition(0, 5, 7, 13), true),
 
 	//	//The modules for Marketing
-	MARKETING_PRESSRELEASE_LIST("mkt_pressReleases_list.fxml",  GameModuleType.MARKETING_PRESSRELEASE, new GridPosition(0, 6, 7, 11), true),
-	MARKETING_CAMPAIGNS_LIST("mkt_campaigns_overview.fxml",  GameModuleType.MARKETING_CAMPAIGNS, new GridPosition(6, 7, 7, 11), true),
-	MARKETING_MARKETRESEARCH_LIST("mkt_marketResearch_list.fxml",  GameModuleType.MARKETING_MARKETRESEARCH, new GridPosition(13, 7, 7, 11), true),
-	MARKETING_OVERVIEW("mkt_general_overview.fxml",  GameModuleType.MARKETING_OVERVIEW, new GridPosition(5, 10, 2, 3), true),
+	MARKETING_PRESSRELEASE_LIST("mkt_pressReleases_list.fxml",  GameModuleType.MARKETING_PRESSRELEASE, new GridPosition(2, 7, 7, 11), true),
+	MARKETING_CAMPAIGNS_LIST("mkt_campaigns_overview.fxml",  GameModuleType.MARKETING_CAMPAIGNS, new GridPosition(11, 7, 7, 11), true),
+	MARKETING_MARKETRESEARCH_LIST("mkt_marketResearch_list.fxml",  GameModuleType.MARKETING_MARKETRESEARCH, new GridPosition(13, 7, 7, 11), false),
+	MARKETING_OVERVIEW("mkt_general_overview.fxml",  GameModuleType.MARKETING_OVERVIEW, new GridPosition(5, 10, 2, 4), true),
 
     //The modules for Research and Development.
-    RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameModuleType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(0, 20, 0, 10),true),
-	RESDEV_COMPONENT_INFO("resdev_info.fxml", GameModuleType.RESDEV_COMPONENT_INFO, new GridPosition(0, 20, 10, 10), true),
+    RESDEV_CATEGORY_UNLOCKER("resdev_category_unlocker.fxml", GameModuleType.RESDEV_CATEGORY_UNLOCKER, new GridPosition(1, 18, 1, 8),true),
+	RESDEV_COMPONENT_INFO("resdev_info.fxml", GameModuleType.RESDEV_COMPONENT_INFO, new GridPosition(1, 18, 11, 8), true),
 
     // The modules for Sales
     SALES_CONTRACT_MANAGEMENT("sales_contracts.fxml",  GameModuleType.SALES_CONTRACT_OVERVIEW, new GridPosition(1, 15, 6, 14) , true),

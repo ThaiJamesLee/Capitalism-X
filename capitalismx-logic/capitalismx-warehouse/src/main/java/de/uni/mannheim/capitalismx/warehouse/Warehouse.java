@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.warehouse;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ResourceBundle;
 
 /**
  * Represents a warehouse.
@@ -24,6 +25,8 @@ public class Warehouse implements Serializable {
     private double depreciationRateWarehouse;
     private int usefulLife;
 
+    private static final String DEFAULTS_PROPERTIES_FILE= "warehouse-defaults";
+
     /**
      * Instantiates a new Warehouse.
      * Initializes all variables.
@@ -31,20 +34,21 @@ public class Warehouse implements Serializable {
      * @param warehouseType the warehouse type
      */
     public Warehouse(WarehouseType warehouseType) {
-        this.capacity = 2500;
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.capacity = Integer.valueOf(resourceBundle.getString("warehouse.capacity"));
         this.warehouseType = warehouseType;
-        this.variableStorageCost = 5;
-        this.monthlyFixCostWarehouse = 1000;
-        this.usefulLife = 14;
+        this.variableStorageCost = Double.valueOf(resourceBundle.getString("warehouse.variable.cost"));
+        this.monthlyFixCostWarehouse = Double.valueOf(resourceBundle.getString("warehouse.monthly.fix.cost"));
+        this.usefulLife = Integer.valueOf(resourceBundle.getString("warehouse.useful.life"));
         this.depreciationRateWarehouse = 1 / this.usefulLife;
         if (this.warehouseType == WarehouseType.BUILT) {
-            this.buildingCost = 250000;
-            this.monthlyRentalCost = 0;
-            this.resaleValue = 250000;
+            this.buildingCost = Double.valueOf(resourceBundle.getString("warehouse.building.cost.built"));
+            this.monthlyRentalCost = Double.valueOf(resourceBundle.getString("warehouse.monthly.rental.cost.built"));
+            this.resaleValue = Double.valueOf(resourceBundle.getString("warehouse.resaleValue.built"));
         } else {
-            this.buildingCost = 0;
-            this.monthlyRentalCost = 10000;
-            this.resaleValue = 0;
+            this.buildingCost = Double.valueOf(resourceBundle.getString("warehouse.building.cost.rented"));
+            this.monthlyRentalCost = Double.valueOf(resourceBundle.getString("warehouse.monthly.rental.cost.rented"));
+            this.resaleValue = Double.valueOf(resourceBundle.getString("warehouse.resaleValue.rented"));
         }
     }
 

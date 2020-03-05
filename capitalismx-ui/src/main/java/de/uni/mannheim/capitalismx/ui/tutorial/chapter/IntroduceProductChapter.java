@@ -42,10 +42,6 @@ public class IntroduceProductChapter extends TutorialChapter {
 				.setPropertyToCheck(((TextField) nodes.get(2)).textProperty()).setPropertyValue("CommunismX").build());
 
 		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(3))
-				.setMessageKey("chapter.product.introduce.price").setEndTrigger(NextPageTrigger.PROPERTY_CONDITION)
-				.setPropertyToCheck(((TextField) nodes.get(3)).textProperty()).setPropertyValue("500").build());
-
-		pages.add(new TutorialPageBuilder(this).setTargetNode(nodes.get(4))
 				.setMessageKey("chapter.product.introduce.launch").setEndTrigger(NextPageTrigger.CLICK).build());
 
 	}
