@@ -15,11 +15,11 @@ public class ProcurementDepartmentTest {
 
     private Component component;
     private LocalDate orderDate;
-    ProcurementDepartment procurementDepartment;
+    private ProcurementDepartment procurementDepartment;
 
     @BeforeTest
     public void setUp() {
-        this.procurementDepartment = ProcurementDepartment.getInstance();
+        this.procurementDepartment = ProcurementDepartment.createInstance();
         this.component = new Component(ComponentType.T_CASE_LEVEL_1, SupplierCategory.CHEAP, LocalDate.of(1990, 1 , 1));
     }
 

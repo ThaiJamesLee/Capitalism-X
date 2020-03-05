@@ -69,7 +69,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     /**
      * The storage cost of a single unit.
      */
-    private static final double VARIABLE_STORAGE_COST = 0.05;
+    private double variableStorageCost;
 
     /**
      * Flag whether there are any more warehouse slots available for additional warehouses.
@@ -105,6 +105,7 @@ public class WarehousingDepartment extends DepartmentImpl {
     private static final String SKILL_COST_PROPERTY_PREFIX = "warehouse.skill.cost.";
     private static final String SKILL_SLOTS_PREFIX = "warehouse.skill.slots.";
 
+    private static final String DEFAULTS_PROPERTIES_FILE= "warehouse-defaults";
 
     /**
      * Constructor of warehousing department.
@@ -124,6 +125,8 @@ public class WarehousingDepartment extends DepartmentImpl {
         this.monthlyTotalCostWarehousing = 0;
         this.daysSinceFreeStorageThreshold = 0;
         this.warehouseSlotsAvailable = true;
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.variableStorageCost = Double.valueOf(resourceBundle.getString("warehouse.variable.cost"));
 
         this.inventoryChange = new PropertyChangeSupportMap();
         this.inventoryChange.setMap(this.inventory);
@@ -441,7 +444,7 @@ public class WarehousingDepartment extends DepartmentImpl {
      */
     public double calculateDailyStorageCost() {
 
-        this.dailyStorageCost = VARIABLE_STORAGE_COST * this.calculateStoredUnits();
+        this.dailyStorageCost = this.variableStorageCost * this.calculateStoredUnits();
         this.monthlyStorageCost += this.dailyStorageCost;
         return this.dailyStorageCost;
     }
@@ -473,7 +476,7 @@ public class WarehousingDepartment extends DepartmentImpl {
      */
     public double getMonthlyWarehouseCost(LocalDate gameDate) {
         double monthlyCostWarehousing = this.calculateMonthlyCostWarehousing();
-        double dailyStorageCost = VARIABLE_STORAGE_COST * this.calculateStoredUnits();
+        double dailyStorageCost = this.variableStorageCost * this.calculateStoredUnits();
         return monthlyCostWarehousing + dailyStorageCost * gameDate.lengthOfMonth();
     }
 
