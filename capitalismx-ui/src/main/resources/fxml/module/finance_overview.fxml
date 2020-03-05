@@ -84,7 +84,7 @@
                                         </Label>
                                     </children>
                                 </Group>
-                                <LineChart fx:id="cashChart" alternativeRowFillVisible="false" GridPane.columnIndex="1">
+                                <LineChart fx:id="cashChart" alternativeRowFillVisible="false" legendVisible="false" GridPane.columnIndex="1">
                                     <xAxis>
                                         <NumberAxis side="BOTTOM" fx:id="xAxisCash" />
                                     </xAxis>
@@ -112,7 +112,7 @@
                                         </Label>
                                     </children>
                                 </Group>
-                                <LineChart fx:id="assetsChart" alternativeRowFillVisible="false" GridPane.columnIndex="1">
+                                <LineChart fx:id="assetsChart" alternativeRowFillVisible="false" legendVisible="false" GridPane.columnIndex="1">
                                     <xAxis>
                                         <NumberAxis side="BOTTOM" fx:id="xAxisAssets" />
                                     </xAxis>
@@ -140,7 +140,7 @@
                                         </Label>
                                     </children>
                                 </Group>
-                                <LineChart fx:id="liabilitiesChart" alternativeRowFillVisible="false" GridPane.columnIndex="1">
+                                <LineChart fx:id="liabilitiesChart" alternativeRowFillVisible="false" legendVisible="false" GridPane.columnIndex="1">
                                     <xAxis>
                                         <NumberAxis side="BOTTOM" fx:id="xAxisLiabilities" />
                                     </xAxis>
@@ -171,7 +171,7 @@
                                         <Insets />
                                     </GridPane.margin>
                                 </Group>
-                                <LineChart fx:id="netWorthChart" alternativeRowFillVisible="false" GridPane.columnIndex="1">
+                                <LineChart fx:id="netWorthChart" alternativeRowFillVisible="false" legendVisible="false" GridPane.columnIndex="1">
                                     <xAxis>
                                         <NumberAxis side="BOTTOM" fx:id="xAxisNetWorth" />
                                     </xAxis>

@@ -237,6 +237,9 @@ public class UIManager {
 			@Override
 			public void handle(KeyEvent event) {
 				switch (event.getCode()) {
+				case M:
+					gamePageController.toggleMessageWindow();
+					break;
 				case P:
 					gameHudController.playPause();
 					break;

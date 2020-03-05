@@ -3,6 +3,7 @@ package de.uni.mannheim.capitalismx.ui.controller.module.sales;
 import de.uni.mannheim.capitalismx.gamecontroller.GameState;
 import de.uni.mannheim.capitalismx.sales.contracts.Contract;
 import de.uni.mannheim.capitalismx.sales.department.SalesDepartment;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -71,9 +72,9 @@ public class SalesKPIController implements Initializable {
         fulfilledYear.setText("" + yearContractCounter);
         fulfilledQuarter.setText("" + quarterContractCounter);
 
-        this.revenueAll.setText("" + revenueAll);
-        this.revenueYear.setText("" + revenueYear);
-        this.revenueQuarter.setText("" + revenueQuarter);
+        this.revenueAll.setText("" + CapCoinFormatter.getCapCoins(revenueAll));
+        this.revenueYear.setText("" + CapCoinFormatter.getCapCoins(revenueYear));
+        this.revenueQuarter.setText("" + CapCoinFormatter.getCapCoins(revenueQuarter));
 
     }
 
@@ -104,9 +105,9 @@ public class SalesKPIController implements Initializable {
         failedYear.setText("" + yearFailedCounter);
         failedQuarter.setText("" + quarterFailedCounter);
 
-        this.penaltyAll.setText("" + penaltyAll);
-        this.penaltyYear.setText("" + penaltyYear);
-        this.penaltyQuarter.setText("" + penaltyQuarter);
+        this.penaltyAll.setText("" + CapCoinFormatter.getCapCoins(penaltyAll));
+        this.penaltyYear.setText("" + CapCoinFormatter.getCapCoins(penaltyYear));
+        this.penaltyQuarter.setText("" + CapCoinFormatter.getCapCoins(penaltyQuarter));
 
     }
 

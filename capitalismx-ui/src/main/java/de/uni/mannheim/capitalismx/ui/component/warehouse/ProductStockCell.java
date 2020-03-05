@@ -43,9 +43,9 @@ public class ProductStockCell {
 	 * 
 	 * @param product The {@link Product} to create a cell for.
 	 */
-	public ProductStockCell(Product product) {
+	public ProductStockCell(Product product, StockManagementController controller) {
 		warehouse = GameState.getInstance().getWarehousingDepartment();
-		StockManagementController stockController = (StockManagementController)UIManager.getInstance().getModule(GameModuleType.WAREHOUSE_STOCK_MANAGEMENT).getController();
+		StockManagementController stockController = controller;
 		this.product = product;
 
 		// load fxml
