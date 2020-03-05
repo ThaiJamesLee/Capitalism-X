@@ -91,12 +91,12 @@ public class ProductionDepartment extends DepartmentImpl {
     /**
      * The costs of launching a product.
      */
-    private static final double PRODUCT_LAUNCH_COSTS = 5000.0;
+    private double productLaunchCosts;
 
     /**
      * The cost per ProductionInvestment level
      */
-    private static final double PRODUCTION_INVESTMENT_LEVEL_COST = 5000.0;
+    private double productionInvestmentLevelCost;
 
     /**
      * PropertyChangeSupportList used for notifying the GUI of changes to launchedProducts.
@@ -123,6 +123,7 @@ public class ProductionDepartment extends DepartmentImpl {
     private static final String SKILL_SLOTS_PREFIX = "production.skill.slots.";
     private static final String SKILL_WORKERS_NEEDED_PREFIX = "production.skill.workers.";
 
+    private static final String DEFAULTS_PROPERTIES_FILE= "production-defaults";
 
     /**
      * Constructor of the production department.
@@ -149,6 +150,10 @@ public class ProductionDepartment extends DepartmentImpl {
         this.decreasedProcessAutomationLevel = 0;
         this.totalEngineerQualityOfWorkDecreasePercentage = 0;
         this.initialTotalEngineerQualityOfWork = 0;
+
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(DEFAULTS_PROPERTIES_FILE);
+        this.productLaunchCosts = Double.valueOf(resourceBundle.getString("production.launch.costs"));
+        this.productionInvestmentLevelCost = Double.valueOf(resourceBundle.getString("production.investment.level.cost"));
 
         this.launchedProductsChange = new PropertyChangeSupportList<>();
         this.launchedProductsChange.setList(this.launchedProducts);
@@ -482,7 +487,7 @@ public class ProductionDepartment extends DepartmentImpl {
         } else {
             throw new ProductCategoryNotUnlockedException("The product category " +  product.getProductCategory() + " is not unlocked yet.", product.getProductCategory());
         }
-        return PRODUCT_LAUNCH_COSTS;
+        return this.productLaunchCosts;
     }
 
     /**
@@ -880,7 +885,7 @@ public class ProductionDepartment extends DepartmentImpl {
      * Returns the costs for the investment level.
      */
     public double getProductionInvestmentPrice(ProductionInvestmentLevel productionInvestmentLevel) {
-        return PRODUCTION_INVESTMENT_LEVEL_COST * productionInvestmentLevel.getLevel();
+        return this.productionInvestmentLevelCost * productionInvestmentLevel.getLevel();
     }
 
     /**
@@ -893,7 +898,7 @@ public class ProductionDepartment extends DepartmentImpl {
     public double investInSystemSecurity(int level, LocalDate gameDate, int numberOfTrainedEngineers) throws NotEnoughTrainedEngineersException {
         try {
             this.systemSecurity = systemSecurity.invest(level, gameDate, numberOfTrainedEngineers);
-            return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+            return this.productionInvestmentLevelCost * level;
         } catch (NotEnoughTrainedEngineersException e) {
             throw e;
         }
@@ -909,7 +914,7 @@ public class ProductionDepartment extends DepartmentImpl {
     public double investInQualityAssurance(int level, LocalDate gameDate, int numberOfTrainedEngineers) throws NotEnoughTrainedEngineersException {
         try {
             this.qualityAssurance = qualityAssurance.invest(level, gameDate, numberOfTrainedEngineers);
-            return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+            return this.productionInvestmentLevelCost * level;
         } catch (NotEnoughTrainedEngineersException e) {
             throw e;
         }
@@ -926,7 +931,7 @@ public class ProductionDepartment extends DepartmentImpl {
     public double investInProcessAutomation(int level, LocalDate gameDate, int numberOfTrainedEngineers) throws NotEnoughTrainedEngineersException {
         try {
             this.processAutomation = processAutomation.invest(level, gameDate, numberOfTrainedEngineers);
-            return PRODUCTION_INVESTMENT_LEVEL_COST * level;
+            return this.productionInvestmentLevelCost * level;
         } catch (NotEnoughTrainedEngineersException e) {
             throw e;
         }
@@ -1319,7 +1324,7 @@ public class ProductionDepartment extends DepartmentImpl {
      * @return the product launch costs
      */
     public double getProductLaunchCosts() {
-        return PRODUCT_LAUNCH_COSTS;
+        return this.productLaunchCosts;
     }
 
     /**
