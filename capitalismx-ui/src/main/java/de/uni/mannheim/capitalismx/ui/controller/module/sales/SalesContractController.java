@@ -387,6 +387,10 @@ public class SalesContractController implements Initializable {
 					}
 				});
 
+		// load from gamestate when loading a game
+		refreshAcceptedContracts();
+		refreshAvailableContracts();
+
 		acceptButton.setTooltip(new Tooltip("Accepts a selected contract from the list of offered contracts."));
 
 		fulfillButton.setTooltip(new Tooltip(
