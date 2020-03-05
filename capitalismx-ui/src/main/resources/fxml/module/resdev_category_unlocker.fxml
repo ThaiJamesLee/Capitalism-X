@@ -14,14 +14,14 @@
    <children>
       <GridPane fx:id="categoryGrid" alignment="CENTER" hgap="16.0" layoutX="168.0" layoutY="129.0" vgap="12.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="50.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label alignment="CENTER" styleClass="label_very_large" text="%resdev.category.tv">

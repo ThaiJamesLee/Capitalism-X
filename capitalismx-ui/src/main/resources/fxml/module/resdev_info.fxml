@@ -20,7 +20,7 @@
             <content>
               <AnchorPane>
                      <children>
-                        <GridPane fx:id="tvGrid" hgap="10.0">
+                        <GridPane fx:id="tvGrid" hgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
@@ -66,7 +66,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GridPane fx:id="consoleGrid" hgap="10.0">
+                        <GridPane fx:id="consoleGrid" hgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
@@ -113,7 +113,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GridPane fx:id="notebookGrid" hgap="10.0">
+                        <GridPane fx:id="notebookGrid" hgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
@@ -160,7 +160,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GridPane fx:id="phoneGrid" hgap="10.0">
+                        <GridPane fx:id="phoneGrid" hgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />

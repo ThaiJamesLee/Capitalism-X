@@ -14,6 +14,7 @@ import de.uni.mannheim.capitalismx.ui.application.UIManager;
 import de.uni.mannheim.capitalismx.ui.component.general.GameAlert;
 import de.uni.mannheim.capitalismx.ui.component.production.MachineryListViewCell;
 import de.uni.mannheim.capitalismx.ui.controller.general.UpdateableController;
+import de.uni.mannheim.capitalismx.ui.util.CapCoinFormatter;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -49,8 +50,8 @@ public class MachineryListController implements UpdateableController {
     public void initialize(URL location, ResourceBundle resources) {
         GameController controller = GameController.getInstance();
 
-        String buyButtonText = UIManager.getLocalisedString("machinery.list.buy");
-        buyButtonText = buyButtonText.replace("XXX", String.valueOf(controller.getMachineryPurchasePrice()));
+        String buyButtonText = UIManager.getLocalisedString("machinery.list.buy") + " ";
+        buyButtonText += CapCoinFormatter.getCapCoins(controller.getMachineryPurchasePrice());
         buyButton.setText(buyButtonText);
 
         buyButton.setOnAction(e -> {

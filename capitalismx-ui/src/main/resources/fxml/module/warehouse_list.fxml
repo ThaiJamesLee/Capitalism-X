@@ -137,7 +137,7 @@
                   </Region>
                </children>
             </GridPane>
-                <ListView fx:id="warehouseListView">
+                <ListView fx:id="warehouseListView" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin></ListView>
